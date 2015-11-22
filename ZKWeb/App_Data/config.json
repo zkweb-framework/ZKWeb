@@ -1,0 +1,18 @@
+﻿{
+	"ConnectionString": "",
+	"Plugins": [
+		"Common.Base",
+		"Common.Admin",
+		"Common.User",
+		"Finance.Accounting",
+		"Finance.Deposit",
+		"Finance.Payment",
+		"Finance.Payment.Alipay",
+		"Finance.Payment.Tenpay",
+		"Finance.Settlement",
+		"SMS.Base",
+		"SMS.GuangXin",
+		"ZKShop.Order",
+		"ZKShop.Product"
+	]
+}

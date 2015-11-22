@@ -43,11 +43,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSScriptLibrary">
+      <HintPath>..\packages\CS-Script.3.9.17.0\lib\net45\CSScriptLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.CSharp">
+      <HintPath>..\packages\CS-Script.3.9.17.0\lib\net45\Mono.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -66,6 +75,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\config.json" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -79,12 +89,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ConfigManager.cs" />
+    <Compile Include="Core\Model\WebsiteConfig.cs" />
+    <Compile Include="Scripting.cs" />
     <Content Include="App_Code\Common.Admin\Plugin.cs" />
     <Compile Include="Core\Model\ModelBase.cs" />
-    <Compile Include="Core\Plugin\PluginBase.cs" />
-    <Compile Include="Core\Plugin\IEventHandler.cs" />
-    <Compile Include="Core\Plugin\PluginManager.cs" />
-    <Compile Include="Core\Web\ControllerBase.cs" />
+    <Compile Include="Core\Model\PluginBase.cs" />
+    <Compile Include="Core\Model\IEventHandler.cs" />
+    <Compile Include="Core\PluginManager.cs" />
+    <Compile Include="Core\Model\ControllerBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -103,8 +116,12 @@
     <Folder Include="App_Code\SMS.GuangXin\" />
     <Folder Include="App_Code\ZKShop.Order\" />
     <Folder Include="App_Code\ZKShop.Product\" />
-    <Folder Include="App_Data\" />
-    <Folder Include="Core\Database\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">
+      <Project>{acd957d1-2e27-4879-8e31-0c36f5ff2713}</Project>
+      <Name>ZKWeb.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

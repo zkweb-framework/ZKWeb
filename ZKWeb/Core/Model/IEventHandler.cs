@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ZKWeb.Core.Plugin {
+namespace ZKWeb.Core.Model {
 	/// <summary>
 	/// 事件处理器的接口
 	/// </summary>

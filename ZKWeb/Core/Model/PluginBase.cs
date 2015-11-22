@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ZKWeb.Core.Plugin {
+namespace ZKWeb.Core.Model {
 	/// <summary>
 	/// 插件的基本类
 	/// 如何使用这个类

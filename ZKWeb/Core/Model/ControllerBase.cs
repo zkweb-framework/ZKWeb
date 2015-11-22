@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ZKWeb.Core.Plugin;
 
-namespace ZKWeb.Core.Web {
+namespace ZKWeb.Core.Model {
 	/// <summary>
 	/// 控制器的基本类
 	/// 如何使用这个类
@@ -22,7 +21,7 @@ namespace ZKWeb.Core.Web {
 		/// <param name="arg"></param>
 		/// <param name="stop"></param>
 		public void Handle(object arg, ref bool stop) {
-			var app = (HttpApplication)arg;
+			var app = (Application)arg;
 			var path = app.Request.Path;
 			var method = app.Request.HttpMethod;
 			if (method == "GET") {

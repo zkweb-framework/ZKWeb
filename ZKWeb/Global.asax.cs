@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using ZKWeb.Core.Plugin;
-using ZKWeb.Core.Web;
+using ZKWeb.Core;
+using ZKWeb.Core.Model;
 
 namespace ZKWeb {
 	/// <summary>
 	/// 网站的入口点
 	/// TODO:
+	/// log monitor
 	/// database migrate
 	/// plugin break point test
 	/// template engine
@@ -25,14 +26,14 @@ namespace ZKWeb {
 		/// <summary>
 		/// 插件管理器
 		/// </summary>
-		protected PluginManager pluginManager { get; set; }
+		public PluginManager PluginManager { get; protected set; }
 
 		/// <summary>
 		/// 网站启动时的处理
 		/// 初始化插件管理器
 		/// </summary>
 		public void Application_Start() {
-			pluginManager = new PluginManager();
+			PluginManager = new PluginManager();
 		}
 
 		/// <summary>
@@ -42,7 +43,7 @@ namespace ZKWeb {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
-			pluginManager.Trigger<ControllerBase>(this);
+			PluginManager.TriggerReversed<ControllerBase>(this);
 		}
 
 		/// <summary>
