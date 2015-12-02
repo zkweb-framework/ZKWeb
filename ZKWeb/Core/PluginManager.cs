@@ -20,18 +20,19 @@ namespace ZKWeb.Core {
 		/// <summary>
 		/// 插件列表
 		/// </summary>
-		protected List<PluginBase> plugins { get; set; } = new List<PluginBase>();
+		public IEnumerable<PluginBase> Plugins { get; protected set; } =
+			new List<PluginBase>();
 		/// <summary>
-		/// 插件列表，公开的属性
+		/// 插件列表的线程锁
 		/// </summary>
-		public IEnumerable<PluginBase> Plugins { get { return plugins; } }
+		public ReaderWriterLockSlim PluginsLock { get; protected set; } =
+			new ReaderWriterLockSlim();
 
 		/// <summary>
 		/// 载入所有插件并启动对插件文件的监控
 		/// </summary>
 		public PluginManager() {
-			var config = ConfigManager.GetWebsiteConfig();
-			plugins = config.Plugins.Select(name => LoadSinglePlugin(name)).ToList();
+			Reload();
 			var reloader = new Thread(Reloader);
 			reloader.IsBackground = true;
 			reloader.Start();
@@ -45,13 +46,17 @@ namespace ZKWeb.Core {
 		/// <param name="args">参数</param>
 		public virtual void Trigger<T>(object args)
 			where T : IEventHandler {
-			var plugins_copy = plugins;
-			bool stop = false;
-			foreach (var plugin in plugins_copy) {
-				plugin.Trigger<T>(args, ref stop);
-				if (stop) {
-					break;
+			PluginsLock.EnterReadLock();
+			try {
+				bool stop = false;
+				foreach (var plugin in Plugins) {
+					plugin.Trigger<T>(args, ref stop);
+					if (stop) {
+						break;
+					}
 				}
+			} finally {
+				PluginsLock.ExitReadLock();
 			}
 		}
 
@@ -63,35 +68,37 @@ namespace ZKWeb.Core {
 		/// <param name="args"></param>
 		public virtual void TriggerReversed<T>(object args)
 			where T : IEventHandler {
-			var plugins_copy = plugins;
-			bool stop = false;
-			foreach (var plugin in Enumerable.Reverse(plugins_copy)) {
-				plugin.Trigger<T>(args, ref stop);
-				if (stop) {
-					break;
+			PluginsLock.EnterReadLock();
+			try {
+				bool stop = false;
+				foreach (var plugin in Enumerable.Reverse(Plugins)) {
+					plugin.Trigger<T>(args, ref stop);
+					if (stop) {
+						break;
+					}
 				}
+			} finally {
+				PluginsLock.ExitReadLock();
 			}
 		}
 
 		/// <summary>
-		/// 载入单个插件
-		/// 路径是~/App_Code/{name}/Plugin.cs
+		/// 重新加载所有插件
 		/// </summary>
-		/// <param name="name">插件文件夹的名称</param>
-		/// <returns></returns>
-		protected virtual PluginBase LoadSinglePlugin(string name) {
-			var pluginDir = PathUtils.SecureCombine(PathUtils.WebRoot.Value, "App_Code", name);
-			var pluginPath = PathUtils.SecureCombine(pluginDir, "Plugin.cs");
-			throw new NotImplementedException();
-
+		protected virtual void Reload() {
+			PluginsLock.EnterWriteLock();
+			try {
+				throw new NotImplementedException();
+			} finally {
+				PluginsLock.ExitWriteLock();
+			}
 		}
 
 		/// <summary>
 		/// 在独立线程中监控插件文件，发生变化时重新加载
 		/// </summary>
 		protected virtual void Reloader() {
-			var plugins_new = new List<PluginBase>();
-			plugins = plugins_new;
+			throw new NotImplementedException();
 		}
 	}
 }

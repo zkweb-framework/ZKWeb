@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\Model\WebsiteConfig.cs" />
+    <Compile Include="Core\Reloader.cs" />
     <Compile Include="Scripting.cs" />
     <Content Include="App_Code\Common.Admin\Plugin.cs" />
     <Compile Include="Core\Model\ModelBase.cs" />

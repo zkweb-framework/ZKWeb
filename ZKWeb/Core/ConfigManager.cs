@@ -13,15 +13,26 @@ namespace ZKWeb.Core {
 	/// 配置文件位于
 	///		App_Data/config.json
 	/// </summary>
-	public static class ConfigManager {
+	public class ConfigManager {
 		/// <summary>
-		/// 获取网站配置
+		/// 网站配置
 		/// </summary>
-		/// <returns></returns>
-		public static WebsiteConfig GetWebsiteConfig() {
+		public WebsiteConfig WebsiteConfig { get; protected set; }
+
+		/// <summary>
+		/// 载入所有配置
+		/// </summary>
+		public ConfigManager() {
+			Reload();
+		}
+
+		/// <summary>
+		/// 重新载入所有配置
+		/// </summary>
+		public void Reload() {
 			var path = PathUtils.SecureCombine(PathUtils.WebRoot.Value, "App_Data", "config.json");
 			var text = File.ReadAllText(path);
-			return JsonConvert.DeserializeObject<WebsiteConfig>(text);
+			WebsiteConfig = JsonConvert.DeserializeObject<WebsiteConfig>(text);
 		}
 	}
 }

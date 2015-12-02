@@ -24,14 +24,14 @@ namespace ZKWeb.Core.Model {
 		/// <summary>
 		/// 载入插件时的处理
 		/// </summary>
-		/// <param name="manager">插件管理器</param>
-		public virtual void Load(PluginManager manager) { }
+		/// <param name="manager">网站程序</param>
+		public virtual void Load(Application manager) { }
 
 		/// <summary>
 		/// 卸载插件时的处理
 		/// </summary>
-		/// <param name="manager">插件管理器</param>
-		public virtual void Unload(PluginManager manager) { }
+		/// <param name="manager">网站程序</param>
+		public virtual void Unload(Application manager) { }
 
 		/// <summary>
 		/// 注册事件处理器
