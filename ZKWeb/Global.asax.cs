@@ -43,7 +43,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
 			Ioc.Resolve<PluginManager>();
-			Reloader.Start(this);
+			Reloader.Start();
 		}
 
 		/// <summary>
