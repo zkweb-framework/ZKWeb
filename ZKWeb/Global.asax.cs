@@ -14,8 +14,8 @@ using ZKWeb.Properties;
 
 namespace ZKWeb {
 	/// <summary>
-	/// ÍøÕ¾³ÌĞò
-	/// ÓÃÓÚ³õÊ¼»¯ÍøÕ¾ºÍ±£´æÈ«¾ÖÊı¾İ
+	/// ç½‘ç«™ç¨‹åº
+	/// ç”¨äºåˆå§‹åŒ–ç½‘ç«™å’Œä¿å­˜å…¨å±€æ•°æ®
 	/// 
 	/// TODO:
 	/// log monitor
@@ -26,43 +26,43 @@ namespace ZKWeb {
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
-		/// È«¾ÖÊ¹ÓÃµÄIocÈİÆ÷
+		/// å…¨å±€ä½¿ç”¨çš„Iocå®¹å™¨
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
 		
 		/// <summary>
-		/// ÍøÕ¾Æô¶¯Ê±µÄ´¦Àí
+		/// ç½‘ç«™å¯åŠ¨æ—¶çš„å¤„ç†
 		/// </summary>
 		public void Application_Start() {
-			// ×¢²á¹ÜÀíÆ÷ÀàĞÍ
+			// æ³¨å†Œç®¡ç†å™¨ç±»å‹
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			// ³õÊ¼»¯²å¼ş¹ÜÀíÆ÷
+			// åˆå§‹åŒ–æ’ä»¶ç®¡ç†å™¨
 			Ioc.Resolve<PluginManager>();
-			// ×Ô¶¯ÖØĞÂÔØÈë²å¼şºÍÍøÕ¾ÅäÖÃ
+			// è‡ªåŠ¨é‡æ–°è½½å…¥æ’ä»¶å’Œç½‘ç«™é…ç½®
 			Reloader.Start();
 		}
 
 		/// <summary>
-		/// ÊÕµ½HttpÇëÇóÊ±µÄ´¦Àí
+		/// æ”¶åˆ°Httpè¯·æ±‚æ—¶çš„å¤„ç†
 		/// </summary>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
 			var handlers = Ioc.ResolveMany<IApplicationRequestHandler>();
-			handlers.Reverse().ForEach(h => h.OnRequest()); // ºóÃæ×¢²áµÄ¿ÉÒÔÔÚÇ°Ãæ´¦Àí
+			handlers.Reverse().ForEach(h => h.OnRequest()); // åé¢æ³¨å†Œçš„å¯ä»¥åœ¨å‰é¢å¤„ç†
 			throw new HttpException(404, "404 Not Found");
 		}
 
 		/// <summary>
-		/// ²¶»ñµ½ÀıÍâÊ±µÄ´¦Àí
-		/// ×¢ÒâÕâ¸öº¯ÊıÖ´ĞĞÊ±Ê¹ÓÃµÄApplication¿ÉÄÜºÍ³õÊ¼»¯µÄ²»Ò»Ñù
-		/// »ñÈ¡Ioc³ÉÔ±Ê±Ó¦¸ÃÍ¨¹ıCurrent.Ioc
+		/// æ•è·åˆ°ä¾‹å¤–æ—¶çš„å¤„ç†
+		/// æ³¨æ„è¿™ä¸ªå‡½æ•°æ‰§è¡Œæ—¶ä½¿ç”¨çš„Applicationå¯èƒ½å’Œåˆå§‹åŒ–çš„ä¸ä¸€æ ·
+		/// è·å–Iocæˆå‘˜æ—¶åº”è¯¥é€šè¿‡Current.Ioc
 		/// </summary>
 		protected void Application_Error(object sender, EventArgs e) {
-			// »ñÈ¡²¢ÇåÀí×îºóÅ×³öµÄÀıÍâ
-			// ¶ÔÓÚApplication_StartÅ×³öµÄÀıÍâ·ÃÎÊResponseÊ±»á³ö´í£¬ÕâÊ±ĞèÒª¼ÇÂ¼µ½´íÎóÈÕÖ¾ÖĞ²¢µÈ´ıÖØÊÔ
+			// è·å–å¹¶æ¸…ç†æœ€åæŠ›å‡ºçš„ä¾‹å¤–
+			// å¯¹äºApplication_StartæŠ›å‡ºçš„ä¾‹å¤–è®¿é—®Responseæ—¶ä¼šå‡ºé”™ï¼Œè¿™æ—¶éœ€è¦è®°å½•åˆ°é”™è¯¯æ—¥å¿—ä¸­å¹¶ç­‰å¾…é‡è¯•
 			var ex = Server.GetLastError();
 			if (ex is HttpUnhandledException && ex.InnerException != null) {
 				ex = ex.InnerException;
@@ -75,21 +75,21 @@ namespace ZKWeb {
 				HttpRuntime.UnloadAppDomain();
 				return;
 			}
-			// ¼ÇÂ¼µ½ÈÕÖ¾
-			// ²»¼ÇÂ¼404£¨ÕÒ²»µ½£©ºÍ403£¨È¨ÏŞ²»×ã£©´íÎó
+			// è®°å½•åˆ°æ—¥å¿—
+			// ä¸è®°å½•404ï¼ˆæ‰¾ä¸åˆ°ï¼‰å’Œ403ï¼ˆæƒé™ä¸è¶³ï¼‰é”™è¯¯
 			var logManager = Ioc.Resolve<LogManager>();
 			var httpException = ex as HttpException;
 			if (!(httpException?.GetHttpCode() == 404 ||
 				httpException?.GetHttpCode() == 403)) {
 				logManager.LogError(ex.ToString());
 			}
-			// µ÷ÓÃ»Øµ÷´¦Àí´íÎóĞÅÏ¢
-			// Èç»Øµ÷ÖĞÖØ¶¨Ïò»ò½áÊøÇëÇóµÄ´¦Àí£¬»áÅ×³öThreadAbortException
+			// è°ƒç”¨å›è°ƒå¤„ç†é”™è¯¯ä¿¡æ¯
+			// å¦‚å›è°ƒä¸­é‡å®šå‘æˆ–ç»“æŸè¯·æ±‚çš„å¤„ç†ï¼Œä¼šæŠ›å‡ºThreadAbortException
 			var handlers = Ioc.ResolveMany<IApplicationErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
-			// »Øµ÷Ã»ÓĞ½áÊø´¦ÀíÊÇ£¬ÏÔÊ¾Ä¬ÈÏµÄĞÅÏ¢
-			// ´íÎóÊÇ³ÌĞò´íÎó£¬ÇÒÇëÇóÀ´Ô´ÊÇ±¾µØÊ±ÏÔÊ¾¾ßÌåµÄĞÅÏ¢
-			// ÈÃIEÏÔÊ¾×Ô¶¨Òå´íÎóĞèÒªÓĞ×ã¹»µÄ³¤¶È£¬ÕâÀïÖ»ÄÜÔÚºóÃæÌî³ä¿Õ°×ÄÚÈİ
+			// å›è°ƒæ²¡æœ‰ç»“æŸå¤„ç†æ˜¯ï¼Œæ˜¾ç¤ºé»˜è®¤çš„ä¿¡æ¯
+			// é”™è¯¯æ˜¯ç¨‹åºé”™è¯¯ï¼Œä¸”è¯·æ±‚æ¥æºæ˜¯æœ¬åœ°æ—¶æ˜¾ç¤ºå…·ä½“çš„ä¿¡æ¯
+			// è®©IEæ˜¾ç¤ºè‡ªå®šä¹‰é”™è¯¯éœ€è¦æœ‰è¶³å¤Ÿçš„é•¿åº¦ï¼Œè¿™é‡Œåªèƒ½åœ¨åé¢å¡«å……ç©ºç™½å†…å®¹
 			bool isAjaxRequest = Request.IsAjaxRequest();
 			if (httpException?.GetHttpCode() == 404) {
 				Response.StatusCode = 404;
