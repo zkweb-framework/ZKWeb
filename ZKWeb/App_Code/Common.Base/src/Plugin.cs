@@ -12,15 +12,9 @@ namespace ZKWeb.App_Code.Common.Base.src {
 	/// </summary>
 	public class Plugin {
 		public Plugin() {
-			Application.Ioc.RegisterMany<ApplicationRequestHandler>();
-		}
-	}
-
-	public class ApplicationRequestHandler : IApplicationRequestHandler {
-		public void OnRequest() {
-			var context = HttpContext.Current;
-			context.Response.Write("hello world path = " + context.Request.Path);
-			context.Response.End();
+			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+			controllerManager.RegisterController<TestController>();
+			controllerManager.RegisterController<AdminController>();
 		}
 	}
 }

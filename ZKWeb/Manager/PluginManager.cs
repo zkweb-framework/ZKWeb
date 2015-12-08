@@ -53,7 +53,7 @@ namespace ZKWeb.Manager {
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
 					var assembly = Assembly.LoadFile(assemblyPath);
-					var pluginType = assembly.GetTypes().First(p => p.Name == "Plugin");
+					var pluginType = assembly.ExportedTypes.First(t => t.Name == "Plugin");
 					Activator.CreateInstance(pluginType);
 				}
 			}

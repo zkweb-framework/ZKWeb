@@ -26,7 +26,7 @@ namespace ZKWeb {
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
-		/// Ioc容器
+		/// 全局使用的Ioc容器
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
 		
@@ -34,10 +34,15 @@ namespace ZKWeb {
 		/// 网站启动时的处理
 		/// </summary>
 		public void Application_Start() {
+			// 注册管理器类型
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
+			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
+			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
+			// 初始化插件管理器
 			Ioc.Resolve<PluginManager>();
+			// 自动重新载入插件和网站配置
 			Reloader.Start();
 		}
 
@@ -45,7 +50,8 @@ namespace ZKWeb {
 		/// 收到Http请求时的处理
 		/// </summary>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
-			Ioc.ResolveMany<IApplicationRequestHandler>().ForEach(h => h.OnRequest());
+			var handlers = Ioc.ResolveMany<IApplicationRequestHandler>();
+			handlers.Reverse().ForEach(h => h.OnRequest()); // 后面注册的可以在前面处理
 			throw new HttpException(404, "404 Not Found");
 		}
 
@@ -80,7 +86,7 @@ namespace ZKWeb {
 			// 调用回调处理错误信息
 			// 如回调中重定向或结束请求的处理，会抛出ThreadAbortException
 			var handlers = Ioc.ResolveMany<IApplicationErrorHandler>();
-			handlers.ForEach(h => h.OnError(ex));
+			handlers.Reverse().ForEach(h => h.OnError(ex));
 			// 回调没有结束处理是，显示默认的信息
 			// 错误是程序错误，且请求来源是本地时显示具体的信息
 			// 让IE显示自定义错误需要有足够的长度，这里只能在后面填充空白内容
