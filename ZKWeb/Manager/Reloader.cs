@@ -19,8 +19,6 @@ namespace ZKWeb.Manager {
 		/// 启用重载器
 		/// </summary>
 		public static void Start() {
-			var pluginFilesWatcher = new FileSystemWatcher();
-			var websiteConfigWatcher = new FileSystemWatcher();
 			// 指定文件改变时卸载程序域
 			// 这里有可能会卸载多次，无法避免
 			Action<string> onFileChanged = (path) => {
@@ -39,10 +37,12 @@ namespace ZKWeb.Manager {
 				watcher.EnableRaisingEvents = true;
 			};
 			// 监视插件目录
+			var pluginFilesWatcher = new FileSystemWatcher();
 			pluginFilesWatcher.Path = PathConfig.PluginsRootDirectory;
 			pluginFilesWatcher.IncludeSubdirectories = true;
 			startWatcher(pluginFilesWatcher);
 			// 监视网站配置文件
+			var websiteConfigWatcher = new FileSystemWatcher();
 			websiteConfigWatcher.Path = PathConfig.AppDataDirectory;
 			websiteConfigWatcher.Filter = "*.json";
 			startWatcher(websiteConfigWatcher);

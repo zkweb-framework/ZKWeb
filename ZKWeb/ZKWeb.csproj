@@ -111,6 +111,7 @@
     <Compile Include="Manager\PathManager.cs" />
     <Compile Include="Model\ControllerBase.cs" />
     <Compile Include="Model\IApplicationErrorHandler.cs" />
+    <Compile Include="Model\IApplicationRequestHandler.cs" />
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Model\WebsiteConfig.cs" />
     <Compile Include="Manager\PluginManager.cs" />

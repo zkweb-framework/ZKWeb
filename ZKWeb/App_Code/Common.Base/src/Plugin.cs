@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ZKWeb.Manager;
+using ZKWeb.Model;
 
 namespace ZKWeb.App_Code.Common.Base.src {
 	/// <summary>
@@ -11,7 +12,15 @@ namespace ZKWeb.App_Code.Common.Base.src {
 	/// </summary>
 	public class Plugin {
 		public Plugin() {
-			Application.Current.Ioc.Resolve<LogManager>().LogDebug("plugin loaded");
+			Application.Ioc.RegisterMany<ApplicationRequestHandler>();
+		}
+	}
+
+	public class ApplicationRequestHandler : IApplicationRequestHandler {
+		public void OnRequest() {
+			var context = HttpContext.Current;
+			context.Response.Write("hello world path = " + context.Request.Path);
+			context.Response.End();
 		}
 	}
 }

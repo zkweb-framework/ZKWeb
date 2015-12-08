@@ -26,19 +26,14 @@ namespace ZKWeb {
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
-		/// 当前使用的网站程序对象
-		/// </summary>
-		public static Application Current { get; set; }
-		/// <summary>
 		/// Ioc容器
 		/// </summary>
-		public Container Ioc { get; set; } = new Container();
-
+		public static Container Ioc { get; set; } = new Container();
+		
 		/// <summary>
 		/// 网站启动时的处理
 		/// </summary>
 		public void Application_Start() {
-			Current = this;
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
@@ -50,12 +45,14 @@ namespace ZKWeb {
 		/// 收到Http请求时的处理
 		/// </summary>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
-			Response.Write("hello world");
-			Response.End();
+			Ioc.ResolveMany<IApplicationRequestHandler>().ForEach(h => h.OnRequest());
+			throw new HttpException(404, "404 Not Found");
 		}
 
 		/// <summary>
 		/// 捕获到例外时的处理
+		/// 注意这个函数执行时使用的Application可能和初始化的不一样
+		/// 获取Ioc成员时应该通过Current.Ioc
 		/// </summary>
 		protected void Application_Error(object sender, EventArgs e) {
 			// 获取并清理最后抛出的例外

@@ -34,8 +34,8 @@ namespace ZKWeb.Manager {
 		/// </summary>
 		public PluginManager() {
 			// 获取网站配置中的插件列表
-			var configManager = Application.Current.Ioc.Resolve<ConfigManager>();
-			var logManager = Application.Current.Ioc.Resolve<LogManager>();
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var logManager = Application.Ioc.Resolve<LogManager>();
 			// 载入所有插件信息
 			foreach (var pluginName in configManager.WebsiteConfig.Plugins) {
 				var dir = PathUtils.SecureCombine(PathConfig.PluginsRootDirectory, pluginName);
