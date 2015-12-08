@@ -108,6 +108,7 @@
   <ItemGroup>
     <Content Include="App_Code\Common.Base\src\Plugin.cs" />
     <Content Include="App_Code\Common.Base\src\TestController.cs" />
+    <Content Include="App_Code\Common.Base\src\AdminController.cs" />
     <Compile Include="Manager\ConfigManager.cs" />
     <Compile Include="Manager\ControllerManager.cs" />
     <Compile Include="Manager\LogManager.cs" />
