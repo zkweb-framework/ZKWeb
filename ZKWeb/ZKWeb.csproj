@@ -80,6 +80,17 @@
   <ItemGroup>
     <Content Include="App_Code\Common.Admin\plugin.json" />
     <Content Include="App_Code\Common.Base\plugin.json" />
+    <Content Include="App_Code\Common.User\plugin.json" />
+    <Content Include="App_Code\Finance.Accounting\plugin.json" />
+    <Content Include="App_Code\Finance.Deposit\plugin.json" />
+    <Content Include="App_Code\Finance.Payment\plugin.json" />
+    <Content Include="App_Code\Finance.Payment.Alipay\plugin.json" />
+    <Content Include="App_Code\Finance.Payment.Tenpay\plugin.json" />
+    <Content Include="App_Code\Finance.Settlement\plugin.json" />
+    <Content Include="App_Code\SMS.Base\plugin.json" />
+    <Content Include="App_Code\SMS.GuangXin\plugin.json" />
+    <Content Include="App_Code\ZKShop.Order\plugin.json" />
+    <Content Include="App_Code\ZKShop.Product\plugin.json" />
     <None Include="App_Data\config.json" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
@@ -94,6 +105,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Common.Base\src\Plugin.cs" />
     <Compile Include="Manager\ConfigManager.cs" />
     <Compile Include="Manager\LogManager.cs" />
     <Compile Include="Manager\PathManager.cs" />
@@ -117,20 +129,8 @@
   <ItemGroup>
     <Folder Include="App_Code\Common.Base\references\" />
     <Folder Include="App_Code\Common.Base\resources\" />
-    <Folder Include="App_Code\Common.Base\src\" />
     <Folder Include="App_Code\Common.Base\static\" />
     <Folder Include="App_Code\Common.Base\templates\" />
-    <Folder Include="App_Code\Common.User\" />
-    <Folder Include="App_Code\Finance.Accounting\" />
-    <Folder Include="App_Code\Finance.Deposit\" />
-    <Folder Include="App_Code\Finance.Payment.Alipay\" />
-    <Folder Include="App_Code\Finance.Payment.Tenpay\" />
-    <Folder Include="App_Code\Finance.Payment\" />
-    <Folder Include="App_Code\Finance.Settlement\" />
-    <Folder Include="App_Code\SMS.Base\" />
-    <Folder Include="App_Code\SMS.GuangXin\" />
-    <Folder Include="App_Code\ZKShop.Order\" />
-    <Folder Include="App_Code\ZKShop.Product\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">
