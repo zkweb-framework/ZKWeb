@@ -46,6 +46,9 @@
     <Reference Include="CSScriptLibrary">
       <HintPath>..\packages\CS-Script.3.9.17.0\lib\net45\CSScriptLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="DryIoc">
+      <HintPath>..\packages\DryIoc.dll.2.1.0\lib\net45\DryIoc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +78,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\Common.Admin\plugin.json" />
+    <Content Include="App_Code\Common.Base\plugin.json" />
     <None Include="App_Data\config.json" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
@@ -89,23 +94,32 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ConfigManager.cs" />
-    <Compile Include="Core\Model\WebsiteConfig.cs" />
-    <Compile Include="Core\Reloader.cs" />
+    <Compile Include="Manager\ConfigManager.cs" />
+    <Compile Include="Manager\LogManager.cs" />
+    <Compile Include="Manager\PathManager.cs" />
+    <Compile Include="Model\ControllerBase.cs" />
+    <Compile Include="Model\IApplicationErrorHandler.cs" />
+    <Compile Include="Model\PluginInfo.cs" />
+    <Compile Include="Model\WebsiteConfig.cs" />
+    <Compile Include="Manager\PluginManager.cs" />
+    <Compile Include="Manager\Reloader.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Scripting.cs" />
-    <Content Include="App_Code\Common.Admin\Plugin.cs" />
-    <Compile Include="Core\Model\ModelBase.cs" />
-    <Compile Include="Core\Model\PluginBase.cs" />
-    <Compile Include="Core\Model\IEventHandler.cs" />
-    <Compile Include="Core\PluginManager.cs" />
-    <Compile Include="Core\Model\ControllerBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\Common.Base\" />
+    <Folder Include="App_Code\Common.Base\references\" />
+    <Folder Include="App_Code\Common.Base\resources\" />
+    <Folder Include="App_Code\Common.Base\src\" />
+    <Folder Include="App_Code\Common.Base\static\" />
+    <Folder Include="App_Code\Common.Base\templates\" />
     <Folder Include="App_Code\Common.User\" />
     <Folder Include="App_Code\Finance.Accounting\" />
     <Folder Include="App_Code\Finance.Deposit\" />
@@ -123,6 +137,12 @@
       <Project>{acd957d1-2e27-4879-8e31-0c36f5ff2713}</Project>
       <Name>ZKWeb.Utils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

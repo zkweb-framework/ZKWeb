@@ -1,0 +1,112 @@
+Application
+	EventManager
+
+	PluginManager
+
+	ConfigManager
+	
+Reloader
+
+class ControllerFactor { }
+
+class TestController : IController {
+	[Get("/")]
+	[Get("index")]	
+	string Index() { }
+
+	[Get("test_json")]
+	JsonResult TestJson() { }
+
+	[Get("test_xml")]
+	XmlResult TestXml() { }
+}
+
+class JsonResult : IActionResult {
+	void Response(app) {
+		app.Response.ContentType = "text/json";
+		app.Response.Write(JsonSerializer.Serialize(Obj));
+		app.Response.End();
+	}
+}
+
+app.Register<IController>(new CustomController());
+app.Register<IController>(() => new CustomController());
+app.RegisterWithTag<ITransactionHandler>("TestTransaction", new TransactionHandler());
+
+app.Trigger<IController>(c => c.OnRequest(app));
+
+var context = app.GetDbContext();
+app.TrigerWithTag<IController>("TestTransaction",
+	h => h.BeforeTransactionAdded(app, transaction),
+	() => { context.Add(transaction); },
+	h => h.AfterTransactionAdded(app, transaction));
+context.SaveChanges();
+
+throw StopEventChainException();
+
+-------------------------------------------------------------------------------------------
+
+app.RegisterModel
+
+class TestModel : Model {
+	string Name { get; set; }
+	DateTime CreateTime { get; set; }
+}
+
+__MigrateHistory
+TableName		LastModifiedOfPluginFiles £¨or use marshal file last modify time)
+TestPlugin_TestModel	Plugin.cs {modify time } TestModel.cs { modify time }
+
+if (LastModifiedOfPluginFiles != ...) {
+	Model.Migrate(); // create table, check column type and change, add column ... (or find a automatic solution)
+}
+
+using (var context = DatabaseManager.StartContext())
+using (var transaction = context.BeginTransaction()) {
+	context.BeginTransaction();
+	context.Add(...);
+	context.AddOrUpdate(...);
+	context.Update(...);
+	context.BatchAdd(...);
+	context.BatchDelete(...);
+	context.SaveChanges();
+	transaction.Commit();
+}
+
+------------------------------------------------------------------------------------------------
+
+/api/testmodel/search
+/api/testmodel/add
+/api/testmodel/edit
+/api/testmodel/update
+/api/testmodel/remove
+
+class TestScaffold : Scaffold<TestModel> {
+	TestScaffold(Application app) {
+		Columns.Add(Resorces.Name, m => m.Name);
+		Columns.Add(Resources.CreateTime, m => m.CreateTime);
+		Sortable.Add(Resources.CreateTime, m => m.CreateTime);
+		Editable.Add(Resources.Name, m => m.Name);
+		KeywordFilters.Add((models, keyword) => models.Where(m => m.Name.Contains(keyword));
+		SearchConditions.AddTextCondition(Resources.Name, (models, value) => models.Where(m => m.Name == value));
+		SearchConditions.AddEnumCondition(...);
+		SearchConditions.AddDropdownCondition(...);
+		app.Trigger<IOnScaffoldInit<TestModel>>(m => m(this));
+	}
+}
+
+Scaffold<T> => (abs) AutoForm, AutoAPI, AutoCRUD
+
+-------------------------------------------------------------------------------------------
+
+api
+/api_gateway?url=/user/reg&params={encoded}&sign={sha1}
+able to pass csrf and security check
+
+-------------------------------------------------------------------------------------------
+
+http://www.codeproject.com/Articles/26528/C-Application-to-Watch-a-File-or-Directory-using-F
+
+dryloc
+https://bitbucket.org/dadhi/dryioc
+

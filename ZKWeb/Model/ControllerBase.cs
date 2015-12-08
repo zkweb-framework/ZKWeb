@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ZKWeb.Core.Model {
+namespace ZKWeb.Model {
 	/// <summary>
 	/// 控制器的基本类
 	/// 如何使用这个类
@@ -14,7 +14,7 @@ namespace ZKWeb.Core.Model {
 	///		}
 	/// }
 	/// </summary>
-	public abstract class ControllerBase : IEventHandler {
+	public abstract class ControllerBase {
 		/// <summary>
 		/// 处理Http请求
 		/// </summary>

@@ -24,5 +24,19 @@ namespace ZKWeb.Utils.Extensions {
 			}
 			return elements;
 		}
+
+		/// <summary>
+		/// 对序列中的每一个元素执行指定的函数
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="elements">序列</param>
+		/// <param name="action">执行的函数</param>
+		/// <returns></returns>
+		public static void ForEach<T>(
+			this IEnumerable<T> elements, Action<T> action) {
+			foreach (var element in elements) {
+				action(element);
+			}
+		}
 	}
 }

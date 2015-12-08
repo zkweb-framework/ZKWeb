@@ -161,6 +161,8 @@ public class HostApp
                                                   public HostApp Host { get; set; }");
             calc.Host = host;
             int result = calc.Sum(1, 2);
+
+            CSScript.CompileFiles(new[] { "a.cs" }, "a.dll", false, new[] { "ref.dll" });
         }
     }
 
