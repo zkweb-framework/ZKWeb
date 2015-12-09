@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using ZKWeb.Core.Model;
+using ZKWeb.Model;
 using ZKWeb.Utils.Functions;
 
-namespace ZKWeb.Manager {
+namespace ZKWeb.Core {
 	/// <summary>
 	/// 网站配置管理器
 	/// </summary>

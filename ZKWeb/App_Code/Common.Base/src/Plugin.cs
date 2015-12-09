@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ZKWeb.Manager;
+using ZKWeb.Core;
 using ZKWeb.Model;
 
 namespace ZKWeb.App_Code.Common.Base.src {

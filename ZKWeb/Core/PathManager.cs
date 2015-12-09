@@ -6,7 +6,7 @@ using System.Web;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Utils.Functions;
 
-namespace ZKWeb.Manager {
+namespace ZKWeb.Core {
 	/// <summary>
 	/// 路径管理器
 	/// </summary>
@@ -51,5 +51,11 @@ namespace ZKWeb.Manager {
 		public static string WebsiteConfigPath {
 			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data", "config.json"); }
 		}
+
+		/// <summary>
+		/// 模板文件夹的名称
+		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
+		/// </summary>
+		public static string TemplateDirectoryName { get; } = "templates";
 	}
 }

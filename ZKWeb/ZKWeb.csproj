@@ -47,6 +47,10 @@
     <Reference Include="CSScriptLibrary">
       <HintPath>..\packages\CS-Script.3.9.17.0\lib\net45\CSScriptLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="DotLiquid, Version=1.8.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages.custom\DotLiquid\DotLiquid.dll</HintPath>
+    </Reference>
     <Reference Include="DryIoc">
       <HintPath>..\packages\DryIoc.dll.2.1.0\lib\net45\DryIoc.dll</HintPath>
     </Reference>
@@ -80,7 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Common.Admin\plugin.json" />
+    <Content Include="App_Code\Common.Admin\templates\test_include.html" />
     <Content Include="App_Code\Common.Base\plugin.json" />
+    <Content Include="App_Code\Common.Base\templates\test.html" />
     <Content Include="App_Code\Common.User\plugin.json" />
     <Content Include="App_Code\Finance.Accounting\plugin.json" />
     <Content Include="App_Code\Finance.Deposit\plugin.json" />
@@ -109,10 +115,12 @@
     <Content Include="App_Code\Common.Base\src\Plugin.cs" />
     <Content Include="App_Code\Common.Base\src\TestController.cs" />
     <Content Include="App_Code\Common.Base\src\AdminController.cs" />
-    <Compile Include="Manager\ConfigManager.cs" />
-    <Compile Include="Manager\ControllerManager.cs" />
-    <Compile Include="Manager\LogManager.cs" />
-    <Compile Include="Manager\PathManager.cs" />
+    <Compile Include="Core\ConfigManager.cs" />
+    <Compile Include="Core\ControllerManager.cs" />
+    <Compile Include="Core\LogManager.cs" />
+    <Compile Include="Core\PathManager.cs" />
+    <Compile Include="Core\TemplateManager.cs" />
+    <Compile Include="Core\TemplateTags\RawHtml.cs" />
     <Compile Include="Model\ActionResults\FileResult.cs" />
     <Compile Include="Model\ActionResults\JsonResult.cs" />
     <Compile Include="Model\ActionResults\TemplateResult.cs" />
@@ -122,8 +130,8 @@
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Model\ActionResults\PlainResult.cs" />
     <Compile Include="Model\WebsiteConfig.cs" />
-    <Compile Include="Manager\PluginManager.cs" />
-    <Compile Include="Manager\Reloader.cs" />
+    <Compile Include="Core\PluginManager.cs" />
+    <Compile Include="Core\Reloader.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,7 +146,6 @@
     <Folder Include="App_Code\Common.Base\references\" />
     <Folder Include="App_Code\Common.Base\resources\" />
     <Folder Include="App_Code\Common.Base\static\" />
-    <Folder Include="App_Code\Common.Base\templates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">

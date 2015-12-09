@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ using ZKWeb.Model;
 using ZKWeb.Model.ActionResults;
 using ZKWeb.Utils.Extensions;
 
-namespace ZKWeb.Manager {
+namespace ZKWeb.Core {
 	/// <summary>
 	/// 控制器管理器
 	/// </summary>
@@ -16,9 +17,9 @@ namespace ZKWeb.Manager {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		private Dictionary<Tuple<string, string>, Func<IActionResult>>
+		private IDictionary<Tuple<string, string>, Func<IActionResult>>
 			Actions { get; set; } =
-			new Dictionary<Tuple<string, string>, Func<IActionResult>>();
+			new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
 
 		/// <summary>
 		/// 处理http请求

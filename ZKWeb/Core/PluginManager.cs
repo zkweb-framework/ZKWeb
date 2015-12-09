@@ -8,12 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Web;
-using ZKWeb.Core.Model;
 using ZKWeb.Model;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Utils.Functions;
 
-namespace ZKWeb.Manager {
+namespace ZKWeb.Core {
 	/// <summary>
 	/// 插件管理器
 	/// 载入插件的流程

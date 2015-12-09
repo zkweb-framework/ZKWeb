@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 
-namespace ZKWeb.Manager {
+namespace ZKWeb.Core {
 	/// <summary>
 	/// 获取日志管理器
 	/// </summary>

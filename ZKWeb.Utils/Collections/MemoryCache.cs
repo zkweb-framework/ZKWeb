@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace ZKWeb.Utils.Collections {
 		/// 结构 { 键, (对象, 过期时间) }
 		/// </summary>
 		internal IDictionary<TKey, Tuple<TValue, DateTime>> Cache { get; }
-		= new Dictionary<TKey, Tuple<TValue, DateTime>>();
+		= new ConcurrentDictionary<TKey, Tuple<TValue, DateTime>>();
 		/// <summary>
 		/// 缓存数据的线程锁
 		/// </summary>

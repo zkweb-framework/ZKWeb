@@ -5,9 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using ZKWeb.Core;
-using ZKWeb.Core.Model;
 using DryIoc;
-using ZKWeb.Manager;
 using ZKWeb.Model;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Properties;
@@ -40,7 +38,9 @@ namespace ZKWeb {
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			// 初始化插件管理器
+			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
+			// 初始化管理器
+			Ioc.Resolve<TemplateManager>();
 			Ioc.Resolve<PluginManager>();
 			// 自动重新载入插件和网站配置
 			Reloader.Start();

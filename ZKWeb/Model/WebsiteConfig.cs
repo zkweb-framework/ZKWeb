@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ZKWeb.Core.Model {
+namespace ZKWeb.Model {
 	/// <summary>
 	/// 网站配置
 	/// </summary>
