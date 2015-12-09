@@ -1,51 +1,3 @@
-Application
-	EventManager
-
-	PluginManager
-
-	ConfigManager
-	
-Reloader
-
-class ControllerFactor { }
-
-class TestController : IController {
-	[Get("/")]
-	[Get("index")]	
-	string Index() { }
-
-	[Get("test_json")]
-	JsonResult TestJson() { }
-
-	[Get("test_xml")]
-	XmlResult TestXml() { }
-}
-
-class JsonResult : IActionResult {
-	void Response(app) {
-		app.Response.ContentType = "text/json";
-		app.Response.Write(JsonSerializer.Serialize(Obj));
-		app.Response.End();
-	}
-}
-
-app.Register<IController>(new CustomController());
-app.Register<IController>(() => new CustomController());
-app.RegisterWithTag<ITransactionHandler>("TestTransaction", new TransactionHandler());
-
-app.Trigger<IController>(c => c.OnRequest(app));
-
-var context = app.GetDbContext();
-app.TrigerWithTag<IController>("TestTransaction",
-	h => h.BeforeTransactionAdded(app, transaction),
-	() => { context.Add(transaction); },
-	h => h.AfterTransactionAdded(app, transaction));
-context.SaveChanges();
-
-throw StopEventChainException();
-
--------------------------------------------------------------------------------------------
-
 app.RegisterModel
 
 class TestModel : Model {
@@ -105,8 +57,4 @@ able to pass csrf and security check
 
 -------------------------------------------------------------------------------------------
 
-http://www.codeproject.com/Articles/26528/C-Application-to-Watch-a-File-or-Directory-using-F
-
-dryloc
-https://bitbucket.org/dadhi/dryioc
-
+dotliquid

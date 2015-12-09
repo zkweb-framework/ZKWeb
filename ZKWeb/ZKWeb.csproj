@@ -120,7 +120,7 @@
     <Compile Include="Model\IApplicationErrorHandler.cs" />
     <Compile Include="Model\IApplicationRequestHandler.cs" />
     <Compile Include="Model\PluginInfo.cs" />
-    <Compile Include="Model\ActionResults\StringResult.cs" />
+    <Compile Include="Model\ActionResults\PlainResult.cs" />
     <Compile Include="Model\WebsiteConfig.cs" />
     <Compile Include="Manager\PluginManager.cs" />
     <Compile Include="Manager\Reloader.cs" />

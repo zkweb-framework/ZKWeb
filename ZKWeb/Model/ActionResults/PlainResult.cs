@@ -9,7 +9,7 @@ namespace ZKWeb.Model.ActionResults {
 	/// </summary>
 	public class PlainResult : IActionResult {
 		/// <summary>
-		/// 返回的字符串
+		/// 写入的文本
 		/// </summary>
 		public string Text { get; set; }
 
