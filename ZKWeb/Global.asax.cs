@@ -27,7 +27,7 @@ namespace ZKWeb {
 		/// 全局使用的Ioc容器
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
-		
+
 		/// <summary>
 		/// 网站启动时的处理
 		/// </summary>
@@ -35,6 +35,7 @@ namespace ZKWeb {
 			// 注册管理器类型
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
+			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);

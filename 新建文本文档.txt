@@ -1,3 +1,8 @@
+﻿单元测试
+如果功能移植完成，且DIY已经做了基础的部分则可以开始写单元测试
+
+------------------------------------------------------------------------------------------------
+
 app.RegisterModel
 
 class TestModel : Model {
@@ -6,7 +11,7 @@ class TestModel : Model {
 }
 
 __MigrateHistory
-TableName		LastModifiedOfPluginFiles ��or use marshal file last modify time)
+TableName		LastModifiedOfPluginFiles （or use marshal file last modify time)
 TestPlugin_TestModel	Plugin.cs {modify time } TestModel.cs { modify time }
 
 if (LastModifiedOfPluginFiles != ...) {
@@ -57,4 +62,43 @@ able to pass csrf and security check
 
 -------------------------------------------------------------------------------------------
 
-dotliquid
+{% area test_area %}
+	{% default_widgets %}
+{% endarea %}
+
+转换成
+
+{% area test_area %}
+	{% widget ??? %}
+	{% widget ??? %}
+	{% widget ??? %}
+{% endarea %}
+
+html
+	<div class='diy_area' area_id='test_area' file='include/header.html'>
+		<div class='diy_widget' widget_id='random_123123123'></div>
+		<div class='diy_widget' widget_id='random_123123122'></div>
+		<div class='diy_widget' widget_id='random_123123121'></div>
+	</div>
+
+diy流程
+	转换动态内容到固定内容
+		把整个模板中area找出来
+		把area中动态导入的所有widget，转换成静态的widget标签
+		保存到App_Data/templates下
+	编辑和保存
+		让用户直接编辑html插入area标签
+		让用户添加和拖动widget
+		保存编辑后的结构到html中
+
+动态注册widget
+	diyManager.RegisterWidget("LOGO", ???);
+	diyManager.GetArea("test_area") // DiyArea
+		.AddDefaultWidget("LOGO", ???)
+		.AddDefaultWidget("Test", ???)
+		.AddDefaultWidgetAfter(???)
+		.AddDefaultWidgetBefore(???);
+	diyManager.GetArea("test_area").DefaultWidgets(); // List<DiyWidget>
+
+widget的格式和参数
+	???

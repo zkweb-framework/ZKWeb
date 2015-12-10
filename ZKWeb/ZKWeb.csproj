@@ -117,9 +117,13 @@
     <Content Include="App_Code\Common.Base\src\AdminController.cs" />
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\ControllerManager.cs" />
+    <Compile Include="Core\DiyManager.cs" />
     <Compile Include="Core\LogManager.cs" />
     <Compile Include="Core\PathManager.cs" />
     <Compile Include="Core\TemplateManager.cs" />
+    <Compile Include="Core\TemplateTags\Area.cs" />
+    <Compile Include="Core\TemplateTags\DefaultWidgets.cs" />
+    <Compile Include="Core\TemplateTags\IncludeWrapper.cs" />
     <Compile Include="Core\TemplateTags\RawHtml.cs" />
     <Compile Include="Model\ActionResults\FileResult.cs" />
     <Compile Include="Model\ActionResults\JsonResult.cs" />

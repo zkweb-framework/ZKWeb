@@ -25,8 +25,15 @@ namespace ZKWeb.Core {
 			// 默认所有文本和对象经过html编码
 			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
+			// 初始化DotLiquid
+			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
+			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
+			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			// 注册自定义标签
+			Template.RegisterTag<Area>("area");
+			Template.RegisterTag<DefaultWidgets>("default_widgets");
 			Template.RegisterTag<RawHtml>("raw_html");
+			Template.RegisterTag<IncludeWrapper>("include");
 			// 设置使用的文件系统
 			Template.FileSystem = new TemplateFileSystem();
 		}
