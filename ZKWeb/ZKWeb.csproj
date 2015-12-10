@@ -87,17 +87,6 @@
     <Content Include="App_Code\Common.Admin\templates\test_include.html" />
     <Content Include="App_Code\Common.Base\plugin.json" />
     <Content Include="App_Code\Common.Base\templates\test.html" />
-    <Content Include="App_Code\Common.User\plugin.json" />
-    <Content Include="App_Code\Finance.Accounting\plugin.json" />
-    <Content Include="App_Code\Finance.Deposit\plugin.json" />
-    <Content Include="App_Code\Finance.Payment\plugin.json" />
-    <Content Include="App_Code\Finance.Payment.Alipay\plugin.json" />
-    <Content Include="App_Code\Finance.Payment.Tenpay\plugin.json" />
-    <Content Include="App_Code\Finance.Settlement\plugin.json" />
-    <Content Include="App_Code\SMS.Base\plugin.json" />
-    <Content Include="App_Code\SMS.GuangXin\plugin.json" />
-    <Content Include="App_Code\ZKShop.Order\plugin.json" />
-    <Content Include="App_Code\ZKShop.Product\plugin.json" />
     <None Include="App_Data\config.json" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
@@ -131,6 +120,7 @@
     <Compile Include="Model\IActionResult.cs" />
     <Compile Include="Model\IApplicationErrorHandler.cs" />
     <Compile Include="Model\IApplicationRequestHandler.cs" />
+    <Compile Include="Model\PathConfig.cs" />
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Model\ActionResults\PlainResult.cs" />
     <Compile Include="Model\WebsiteConfig.cs" />
@@ -150,6 +140,17 @@
     <Folder Include="App_Code\Common.Base\references\" />
     <Folder Include="App_Code\Common.Base\resources\" />
     <Folder Include="App_Code\Common.Base\static\" />
+    <Folder Include="App_Code\Common.User\" />
+    <Folder Include="App_Code\Finance.Accounting\" />
+    <Folder Include="App_Code\Finance.Deposit\" />
+    <Folder Include="App_Code\Finance.Payment.Alipay\" />
+    <Folder Include="App_Code\Finance.Payment.Tenpay\" />
+    <Folder Include="App_Code\Finance.Payment\" />
+    <Folder Include="App_Code\Finance.Settlement\" />
+    <Folder Include="App_Code\SMS.Base\" />
+    <Folder Include="App_Code\SMS.GuangXin\" />
+    <Folder Include="App_Code\ZKShop.Order\" />
+    <Folder Include="App_Code\ZKShop.Product\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">

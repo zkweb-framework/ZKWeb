@@ -48,12 +48,14 @@ namespace ZKWeb.Core {
 				// 编译带源代码的插件
 				plugin.Compile();
 				// 载入插件程序集，注意部分插件只有资源文件没有程序集
-				// 查找类名为Plugin的类并生成实例
+				// 查找类名为Plugin的类并生成实例，没有定义时跳过生成
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
 					var assembly = Assembly.LoadFile(assemblyPath);
 					var pluginType = assembly.ExportedTypes.First(t => t.Name == "Plugin");
-					Activator.CreateInstance(pluginType);
+					if (pluginType != null) {
+						Activator.CreateInstance(pluginType);
+					}
 				}
 			}
 		}

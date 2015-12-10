@@ -13,13 +13,19 @@ namespace ZKWeb.Model.ActionResults {
 		/// 写入的对象
 		/// </summary>
 		public object Object { get; set; }
+		/// <summary>
+		/// 序列化时使用的格式
+		/// </summary>
+		public Formatting SerializeFormatting { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
-		/// <param name="obj"></param>
-		public JsonResult(object obj) {
+		/// <param name="obj">写入的对象</param>
+		/// <param name="formatting">序列化时使用的格式</param>
+		public JsonResult(object obj, Formatting formatting = Formatting.None) {
 			Object = obj;
+			SerializeFormatting = formatting;
 		}
 
 		/// <summary>
@@ -28,7 +34,7 @@ namespace ZKWeb.Model.ActionResults {
 		/// <param name="response"></param>
 		public void WriteResponse(HttpResponse response) {
 			response.ContentType = "application/json";
-			response.Write(JsonConvert.SerializeObject(Object));
+			response.Write(JsonConvert.SerializeObject(Object, SerializeFormatting));
 		}
 	}
 }

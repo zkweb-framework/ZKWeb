@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using ZKWeb.Model;
 
 namespace ZKWeb.Core {
 	/// <summary>
@@ -22,7 +23,6 @@ namespace ZKWeb.Core {
 			Directory.CreateDirectory(logsDirectory);
 			// 写入到控制台
 			Console.Write(message);
-			Trace.Write(message);
 			// 写入到日志文件
 			// 有可能因为多个进程同时打开失败，最多重试100次
 			var now = DateTime.UtcNow.ToLocalTime();
@@ -36,7 +36,7 @@ namespace ZKWeb.Core {
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// 记录除错级别的日志
 		/// </summary>

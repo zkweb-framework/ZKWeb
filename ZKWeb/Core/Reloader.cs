@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using ZKWeb.Model;
 using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Core {

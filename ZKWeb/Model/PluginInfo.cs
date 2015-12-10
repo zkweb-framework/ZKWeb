@@ -37,7 +37,9 @@ namespace ZKWeb.Model {
 		/// <param name="dir"></param>
 		/// <returns></returns>
 		public static PluginInfo FromDirectory(string dir) {
-			var json = File.ReadAllText(Path.Combine(dir, "plugin.json"));
+			// 从json文件中读取插件信息，不存在时生成空的信息
+			var jsonPath = Path.Combine(dir, PathConfig.PluginInfoFilename);
+			var json = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "{}";
 			var info = JsonConvert.DeserializeObject<PluginInfo>(json);
 			info.Directory = dir;
 			info.Name = info.Name ?? new Dictionary<string, string>();
