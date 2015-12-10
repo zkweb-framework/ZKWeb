@@ -112,7 +112,6 @@
     <Compile Include="Core\TemplateManager.cs" />
     <Compile Include="Core\TemplateTags\Area.cs" />
     <Compile Include="Core\TemplateTags\DefaultWidgets.cs" />
-    <Compile Include="Core\TemplateTags\IncludeWrapper.cs" />
     <Compile Include="Core\TemplateTags\RawHtml.cs" />
     <Compile Include="Model\ActionResults\FileResult.cs" />
     <Compile Include="Model\ActionResults\JsonResult.cs" />

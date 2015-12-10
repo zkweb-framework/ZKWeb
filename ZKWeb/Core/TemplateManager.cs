@@ -34,7 +34,6 @@ namespace ZKWeb.Core {
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<DefaultWidgets>("default_widgets");
 			Template.RegisterTag<RawHtml>("raw_html");
-			Template.RegisterTag<IncludeWrapper>("include");
 			// 设置使用的文件系统
 			Template.FileSystem = new TemplateFileSystem();
 		}

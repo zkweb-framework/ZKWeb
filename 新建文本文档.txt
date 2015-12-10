@@ -75,7 +75,7 @@ able to pass csrf and security check
 {% endarea %}
 
 html
-	<div class='diy_area' area_id='test_area' file='include/header.html'>
+	<div class='diy_area' area_id='test_area'>
 		<div class='diy_widget' widget_id='random_123123123'></div>
 		<div class='diy_widget' widget_id='random_123123122'></div>
 		<div class='diy_widget' widget_id='random_123123121'></div>
@@ -90,6 +90,8 @@ diy流程
 		让用户直接编辑html插入area标签
 		让用户添加和拖动widget
 		保存编辑后的结构到html中
+			构成的html可能有多个，要找出所有用extend和include引入的html
+			根据area id查找并保存到对应的html
 
 动态注册widget
 	diyManager.RegisterWidget("LOGO", ???);
@@ -102,3 +104,63 @@ diy流程
 
 widget的格式和参数
 	???
+
+规则
+	include里面可以有include
+	area里面不能有area
+
+-----------------------------------------------------------------------------------------
+
+自动管理数据库
+DatabaseManager
+	RegisterTable<User>();
+	RegisterTable<Admin>();
+
+如何更新数据库
+	使用NHibanate的SchemeUpdate
+	生成所有注册的数据表的结构数据，按类型名称排序
+		Admin: int Id; string Name; [PasswordAttribute] string password;
+		User: int Id; [A, B] string Name; DateTime CreateTime;
+	判断结构数据是否和App_Data/scheme.txt一致
+		不一致时执行数据库更新并保存到该文件中
+		这样可以减少每次启动网站需要的时间
+
+-----------------------------------------------------------------------------------------
+
+后台管理
+AppManager
+	RegisterApp<UserScaffold>() // 可以继承
+	RegisterApp<Scaffold<Admin>>() // 也可以用默认的
+	RegisterApp(() => new CustomApp());
+
+class CustomApp:
+	Name = "测试应用";
+	Url = "/admin/custom_app";
+	Icon = "css class";
+
+class UserScaffold : Scaffold<User>
+	UserScaffold()
+		Column = ["Name", "CreateTime"]
+		Sortable = ["CreateTime"]
+		AddForm = typeof(Form)
+		EditForm = typeof(Form)
+
+	class Form : ScaffoldForm<User>
+		[TextBox]
+		string Name
+		[Label]
+		string CreateTime
+
+		override void Dump(User user) { }
+		override void Bind(User user) { }
+
+继承
+	<= ScaffoldForm<T> <= AutoForm <= IForm
+
+
+
+
+
+
+
+

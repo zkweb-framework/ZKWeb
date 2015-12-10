@@ -42,9 +42,12 @@ namespace ZKWeb.Core.TemplateTags {
 		/// <param name="result"></param>
 		public override void Render(Context context, TextWriter result) {
 			var areaId = this.Markup.Trim();
-			var file = context[IncludeWrapper.CurrentFilePathKey];
+			// 区域不能嵌套
+			if (context[CurrentAreaIdKey] != null) {
+				throw new FormatException("area tag can't be nested");
+			}
 			// 添加div的开头
-			result.Write($"<div class='diy_area' area_id='{areaId}' file='{file}' >");
+			result.Write($"<div class='diy_area' area_id='{areaId}' >");
 			// 添加当前区域Id的变量
 			context.Push(Hash.FromDictionary(new Dictionary<string, object>() {
 				{ CurrentAreaIdKey, areaId }
