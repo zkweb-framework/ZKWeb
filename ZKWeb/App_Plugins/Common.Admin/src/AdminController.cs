@@ -1,20 +1,23 @@
 ﻿using DryIoc;
+using DryIocAttributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ZKWeb;
 using ZKWeb.Core;
 using ZKWeb.Model;
 using ZKWeb.Model.ActionResults;
 
-namespace ZKWeb.App_Code.Common.Base.src {
-	public class AdminController {
+namespace Common.Admin {
+	[ExportMany]
+	public class AdminController : IController {
 		[Action("admin")]
 		[Action("admin.html")]
 		[Action("admin.aspx")]
 		public string Admin() {
-			return "here is admin";
+			return "here is admin\r\n" + new Base.Database.Session().ToString();
 		}
 
 		[Action("admin/info")]

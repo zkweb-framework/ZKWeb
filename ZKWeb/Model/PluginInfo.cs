@@ -25,11 +25,11 @@ namespace ZKWeb.Model {
 		/// <summary>
 		/// 依赖的其他插件
 		/// </summary>
-		public string[] Dependencies { get; set; }
+		public List<string> Dependencies { get; set; }
 		/// <summary>
-		/// 依赖的程序集列表
+		/// 引用的程序集列表
 		/// </summary>
-		public string[] References { get; set; }
+		public List<string> References { get; set; }
 
 		/// <summary>
 		/// 从插件目录生成插件信息
@@ -44,8 +44,8 @@ namespace ZKWeb.Model {
 			info.Directory = dir;
 			info.Name = info.Name ?? new Dictionary<string, string>();
 			info.Description = info.Description ?? new Dictionary<string, string>();
-			info.Dependencies = info.Dependencies ?? new string[0];
-			info.References = info.References ?? new string[0];
+			info.Dependencies = info.Dependencies ?? new List<string>();
+			info.References = info.References ?? new List<string>();
 			return info;
 		}
 	}

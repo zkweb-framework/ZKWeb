@@ -14,13 +14,6 @@ namespace ZKWeb {
 	/// <summary>
 	/// 网站程序
 	/// 用于初始化网站和保存全局数据
-	/// 
-	/// TODO:
-	/// log monitor
-	/// database migrate
-	/// plugin break point test
-	/// template engine
-	/// session, cookies, csrf manager
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
@@ -35,14 +28,19 @@ namespace ZKWeb {
 			// 注册管理器类型
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
+			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
 			// 初始化管理器
-			Ioc.Resolve<TemplateManager>();
 			Ioc.Resolve<PluginManager>();
+			Ioc.Resolve<TemplateManager>();
+			Ioc.Resolve<ControllerManager>();
+			Ioc.Resolve<DatabaseManager>();
+			// 初始化所有插件
+			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			// 自动重新载入插件和网站配置
 			Reloader.Start();
 		}

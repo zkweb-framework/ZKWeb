@@ -1,5 +1,6 @@
 ﻿using CSScriptLibrary;
 using DryIoc;
+using DryIoc.MefAttributedModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,18 +16,22 @@ using ZKWeb.Utils.Functions;
 namespace ZKWeb.Core {
 	/// <summary>
 	/// 插件管理器
+	/// 创建时会载入所有插件
 	/// 载入插件的流程
 	///		枚举配置文件中的Plugins
 	///		载入Plugins.json中的插件信息
 	///		使用Csscript编译插件目录下的源代码到dll
-	///		载入编译好的dll并查找Plugin类名
-	///		创建这个类型的对象以初始化插件
+	///		载入编译好的dll
+	///		注册dll中的类型到Ioc中
+	/// 注意
+	///		载入插件后因为需要继续初始化数据库等，所以不会立刻执行IPlugin中的处理
+	///		IPlugin中的处理需要在创建这个管理器后手动执行
 	/// </summary>
 	public class PluginManager {
 		/// <summary>
 		/// 插件列表
 		/// </summary>
-		public List<PluginInfo> Plugins { get; private set; } = new List<PluginInfo>();
+		public List<PluginInfo> Plugins { get; } = new List<PluginInfo>();
 
 		/// <summary>
 		/// 载入所有插件
@@ -44,20 +49,22 @@ namespace ZKWeb.Core {
 			// 注册解决程序集依赖的函数
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
 			// 载入插件
+			var assemblies = new List<Assembly>();
 			foreach (var plugin in Plugins) {
 				// 编译带源代码的插件
 				plugin.Compile();
 				// 载入插件程序集，注意部分插件只有资源文件没有程序集
-				// 查找类名为Plugin的类并生成实例，没有定义时跳过生成
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
-					var assembly = Assembly.LoadFile(assemblyPath);
-					var pluginType = assembly.ExportedTypes.First(t => t.Name == "Plugin");
-					if (pluginType != null) {
-						Activator.CreateInstance(pluginType);
-					}
+					assemblies.Add(Assembly.LoadFile(assemblyPath));
 				}
 			}
+			// 注册程序集中的类型到Ioc中
+			// 为什么要枚举所有类型注册
+			//	开始时是让插件手动注册所有类型的
+			//	但是涉及到初始化插件时无论如何都要枚举所有类型比较，因为GetType(名称)是O(N)（见coreclr）
+			//	这里在原来的基础上牺牲一点性能，可以节省下手动注册类型的代码
+			Application.Ioc.RegisterExports(assemblies);
 		}
 
 		/// <summary>
@@ -91,6 +98,12 @@ namespace ZKWeb.Core {
 	/// </summary>
 	public static class PluginInfoExtensions {
 		/// <summary>
+		/// 编译插件时的默认引用程序集
+		/// </summary>
+		public static List<string> DefaultReferences { get; } =
+			new List<string>() { "NHibernate", "FluentNHibernate" };
+
+		/// <summary>
 		/// 编译插件
 		/// </summary>
 		/// <param name="info">插件信息</param>
@@ -118,8 +131,11 @@ namespace ZKWeb.Core {
 					File.Move(assemblyPdbPath, $"{assemblyPdbPath}.{DateTime.UtcNow.Ticks}.old");
 				}
 				// 编译，debug = true可以生成pdb文件以支持断点
+				var references = info.References.Concat(DefaultReferences);
+				var referenceLocations = references.Select(
+					r => Assembly.Load(r).Location).ToArray();
 				Directory.CreateDirectory(info.BinDirectory());
-				CSScript.CompileFiles(sourceFiles, assemblyPath, true, info.References);
+				CSScript.CompileFiles(sourceFiles, assemblyPath, true, referenceLocations);
 				// 保存编译信息
 				File.WriteAllText(compileInfoPath, compileInfo);
 				// 删除old文件

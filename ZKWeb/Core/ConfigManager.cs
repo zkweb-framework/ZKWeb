@@ -21,8 +21,7 @@ namespace ZKWeb.Core {
 		/// 载入所有配置
 		/// </summary>
 		public ConfigManager() {
-			var text = File.ReadAllText(PathConfig.WebsiteConfigPath);
-			WebsiteConfig = JsonConvert.DeserializeObject<WebsiteConfig>(text);
+			WebsiteConfig = WebsiteConfig.FromFile(PathConfig.WebsiteConfigPath);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DryIoc;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ using ZKWeb.Utils.Extensions;
 namespace ZKWeb.Core {
 	/// <summary>
 	/// 控制器管理器
+	/// 这个管理器创建前需要先创建以下管理器
+	///		插件管理器
 	/// </summary>
 	public class ControllerManager : IApplicationRequestHandler {
 		/// <summary>
@@ -20,6 +23,16 @@ namespace ZKWeb.Core {
 		private IDictionary<Tuple<string, string>, Func<IActionResult>>
 			Actions { get; set; } =
 			new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public ControllerManager() {
+			// 自动注册控制器类型
+			Application.Ioc.ResolveMany<IController>()
+				.Select(c => c.GetType())
+				.ForEach(t => RegisterController(t));
+		}
 
 		/// <summary>
 		/// 处理http请求
@@ -56,73 +69,32 @@ namespace ZKWeb.Core {
 					// 预先编译好函数，提高实际调用时的性能
 					var makeInstance = method.IsStatic ? null :
 						Expression.New(type.GetConstructors()[0]);
-					Func<IActionResult> function;
+					Func<IActionResult> action;
 					if (typeof(IActionResult).IsAssignableFrom(method.ReturnType)) {
-						function = Expression.Lambda<Func<IActionResult>>(
+						action = Expression.Lambda<Func<IActionResult>>(
 							Expression.Call(makeInstance, method)).Compile();
 					} else {
-						function = Expression.Lambda<Func<IActionResult>>(
+						action = Expression.Lambda<Func<IActionResult>>(
 							Expression.New(typeof(PlainResult).GetConstructors()[0],
 							Expression.Call(makeInstance, method))).Compile();
 					}
 					// 添加函数
 					foreach (var attribute in attributes) {
-						var key = Tuple.Create(attribute.Path, attribute.Method);
-						Actions[key] = function;
+						RegisterAction(attribute.Path, attribute.Method, action);
 					}
 				}
 			}
 		}
-	}
-
-	/// <summary>
-	/// 标记函数可以处理指定路径的http请求
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-	public class ActionAttribute : Attribute {
-		/// <summary>
-		/// 路径
-		/// </summary>
-		public string Path { get; set; }
-		/// <summary>
-		/// 请求类型
-		/// </summary>
-		public string Method { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// 注册单个http请求的处理函数
 		/// </summary>
-		/// <param name="path">路径，前面没有/时会自动添加</param>
-		/// <param name="method">请求类型，默认是GET</param>
-		public ActionAttribute(string path, string method = ActionMethods.GET) {
-			Path = path.StartsWith("/") ? path : ("/" + path);
-			Method = method;
+		/// <param name="path">路径</param>
+		/// <param name="method">请求类型</param>
+		/// <param name="action">处理函数</param>
+		public void RegisterAction(string path, string method, Func<IActionResult> action) {
+			var key = Tuple.Create(path, method);
+			Actions[key] = action;
 		}
-	}
-
-	/// <summary>
-	/// 常用的http的请求类型定义
-	/// </summary>
-	public static class ActionMethods {
-		/// <summary>
-		/// GET
-		/// </summary>
-		public const string GET = "GET";
-		/// <summary>
-		/// POST
-		/// </summary>
-		public const string POST = "POST";
-		/// <summary>
-		/// PUT
-		/// </summary>
-		public const string PUT = "PUT";
-		/// <summary>
-		/// DELETE
-		/// </summary>
-		public const string DELETE = "DELETE";
-		/// <summary>
-		/// PATCH
-		/// </summary>
-		public const string PATCH = "PATCH";
 	}
 }

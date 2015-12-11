@@ -1,5 +1,6 @@
 ﻿{
-	"ConnectionString": "",
+	"Database": "postgresql",
+	"ConnectionString": "Server=127.0.0.1;Port=5432;Database=zkweb;User Id=postgres;Password=123456;",
 	"Plugins": [
 		"Common.Base",
 		"Common.Admin",

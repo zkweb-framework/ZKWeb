@@ -1,5 +1,5 @@
 ﻿{
 	"Name": { "zh": "管理员模块" },
 	"Description": { "zh": "提供管理员开通，登录和面板功能" },
-	"Dependencies": [ "Common.Base", "Common.User" ]
+	"Dependencies": [ "Common.Base" ]
 }

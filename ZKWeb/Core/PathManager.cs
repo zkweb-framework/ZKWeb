@@ -20,7 +20,7 @@ namespace ZKWeb.Core {
 		///		"所在插件:模板路径"
 		///		例 "Common.Base:include/header.html"
 		///		模板路径
-		///			App_Code\插件目录\templates\模板路径
+		///			插件目录\templates\模板路径
 		///		显式指定插件通常用于模板的继承
 		/// 不指定插件，允许其他插件或App_Data重载模板
 		///		"模板路径"
@@ -28,7 +28,7 @@ namespace ZKWeb.Core {
 		///		查找模板路径的顺序
 		///			App_Data\templates\模板路径
 		///			按载入顺序反向枚举插件
-		///				App_Code\插件目录\templates\模板路径
+		///				插件目录\templates\模板路径
 		///			同一模板路径可以在其他插件或在App_Data下重载
 		/// 路径对应的文件不存在时返回null
 		/// </summary>

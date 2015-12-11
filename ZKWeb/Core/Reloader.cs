@@ -11,8 +11,8 @@ namespace ZKWeb.Core {
 	/// <summary>
 	/// 自动重新载入插件和网站配置
 	/// 检测网站目录的以下文件是否有改变，有改变时卸载当前程序域来让下次打开网站时重新载入
-	///		App_Code/*.cs
-	///		App_Code/*.json
+	///		App_Plugins/*.cs
+	///		App_Plugins/*.json
 	///		App_Data/*.json (仅根目录)
 	/// </summary>
 	public static class Reloader {
@@ -21,7 +21,6 @@ namespace ZKWeb.Core {
 		/// </summary>
 		public static void Start() {
 			// 指定文件改变时卸载程序域
-			// 这里有可能会卸载多次，无法避免
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();
 				if (ext == ".cs" || ext == ".json") {

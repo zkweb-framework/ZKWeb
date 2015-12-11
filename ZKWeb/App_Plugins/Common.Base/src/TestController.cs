@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DryIocAttributes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,8 +9,9 @@ using ZKWeb.Core;
 using ZKWeb.Model;
 using ZKWeb.Model.ActionResults;
 
-namespace ZKWeb.App_Code.Common.Base.src {
-	public class TestController {
+namespace Common.Base {
+	[ExportMany]
+	public class TestController : IController {
 		[Action("/")]
 		public string Index() {
 			return "test index";
