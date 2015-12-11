@@ -41,7 +41,7 @@ namespace Common.Base {
 		public IActionResult Template() {
 			return new TemplateResult("test.html",
 				new {
-					a = "<p>test encode</p>",
+					a = "<p>test encode a</p>",
 					b = "<b>test html</b>",
 					c = typeof(TestController).Assembly.Location
 				});
