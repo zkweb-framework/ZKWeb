@@ -20,11 +20,7 @@ namespace ZKWeb {
 		/// 全局使用的Ioc容器
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
-
-		public Application() {
-
-		}
-
+		
 		/// <summary>
 		/// 网站启动时的处理
 		/// </summary>
@@ -84,7 +80,7 @@ namespace ZKWeb {
 				HttpRuntime.UnloadAppDomain();
 				return;
 			}
-			// 调用回调处理错误信息
+			// 调用回调处理错误
 			// 如回调中重定向或结束请求的处理，会抛出ThreadAbortException
 			var handlers = Ioc.ResolveMany<IApplicationErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
