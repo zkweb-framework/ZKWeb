@@ -16,14 +16,7 @@ namespace ZKWeb.Model {
 		public static string AppDataDirectory {
 			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data"); }
 		}
-
-		/// <summary>
-		/// 插件根目录
-		/// </summary>
-		public static string PluginsRootDirectory {
-			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Plugins"); }
-		}
-
+		
 		/// <summary>
 		/// 数据文件根目录
 		/// </summary>

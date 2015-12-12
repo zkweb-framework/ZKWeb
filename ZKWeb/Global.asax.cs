@@ -21,6 +21,10 @@ namespace ZKWeb {
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
 
+		public Application() {
+
+		}
+
 		/// <summary>
 		/// 网站启动时的处理
 		/// </summary>
@@ -60,19 +64,10 @@ namespace ZKWeb {
 		/// 获取Ioc成员时应该通过Current.Ioc
 		/// </summary>
 		protected void Application_Error(object sender, EventArgs e) {
-			// 获取并清理最后抛出的例外
-			// 对于Application_Start抛出的例外访问Response时会出错，这时需要记录到错误日志中并等待重试
+			// 获取最后抛出的例外并记录到日志
 			var ex = Server.GetLastError();
 			if (ex is HttpUnhandledException && ex.InnerException != null) {
 				ex = ex.InnerException;
-			}
-			Server.ClearError();
-			try {
-				Response.Clear();
-			} catch {
-				new LogManager().LogError(ex.ToString());
-				HttpRuntime.UnloadAppDomain();
-				return;
 			}
 			// 记录到日志
 			// 不记录404（找不到）和403（权限不足）错误
@@ -82,42 +77,17 @@ namespace ZKWeb {
 				httpException?.GetHttpCode() == 403)) {
 				logManager.LogError(ex.ToString());
 			}
+			// 判断是否启动程序时抛出的错误，如果是则卸载程序域等待重试
+			try {
+				Response.StatusCode = Response.StatusCode;
+			} catch {
+				HttpRuntime.UnloadAppDomain();
+				return;
+			}
 			// 调用回调处理错误信息
 			// 如回调中重定向或结束请求的处理，会抛出ThreadAbortException
 			var handlers = Ioc.ResolveMany<IApplicationErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
-			// 回调没有结束处理是，显示默认的信息
-			// 错误是程序错误，且请求来源是本地时显示具体的信息
-			// 让IE显示自定义错误需要有足够的长度，这里只能在后面填充空白内容
-			bool isAjaxRequest = Request.IsAjaxRequest();
-			if (httpException?.GetHttpCode() == 404) {
-				Response.StatusCode = 404;
-				Response.ContentType = "text/html";
-				Response.Write(Resources._404NotFound);
-				if (!isAjaxRequest) {
-					Response.Write(Resources.HistoryBackScript);
-				}
-				Response.Write(string.Concat(Enumerable.Repeat("<div></div>", 100)));
-			} else if (httpException?.GetHttpCode() == 403) {
-				Response.StatusCode = 403;
-				Response.ContentType = "text/html";
-				Response.Write(httpException.Message);
-				if (!isAjaxRequest) {
-					Response.Write(Resources.HistoryBackScript);
-				}
-				Response.Write(string.Concat(Enumerable.Repeat("<div></div>", 100)));
-			} else {
-				Response.StatusCode = 500;
-				Response.ContentType = "text/plain";
-				Response.Write(Resources._500ServerInternalError);
-				if (Request.IsLocal) {
-					Response.Write($"\r\n{Resources.DisplayApplicationErrorDetails}\r\n\r\n");
-					Response.Write(ex.ToString());
-				} else {
-					Response.Write(string.Concat(Enumerable.Repeat("\r\n", 100)));
-				}
-			}
-			Response.End();
 		}
 	}
 }

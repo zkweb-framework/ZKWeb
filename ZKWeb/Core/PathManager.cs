@@ -14,6 +14,17 @@ namespace ZKWeb.Core {
 	/// </summary>
 	public class PathManager {
 		/// <summary>
+		/// 获取插件根目录的绝对路径
+		/// 网站目录 + 网站配置中定义的插件根目录的相对路径
+		/// </summary>
+		/// <returns></returns>
+		public string GetPluginsRootDirectory() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			return Path.GetFullPath(
+				Path.Combine(PathUtils.WebRoot.Value, configManager.WebsiteConfig.PluginsRoot));
+		}
+
+		/// <summary>
 		/// 获取模板的完整路径
 		/// 模板路径规则
 		///	显式指定插件，这时不允许从其他插件或App_Data重载模板
@@ -46,7 +57,8 @@ namespace ZKWeb.Core {
 			if (explictPlugin != null) {
 				// 显式指定插件时
 				var fullPath = PathUtils.SecureCombine(
-					PathConfig.PluginsRootDirectory, explictPlugin, PathConfig.TemplateDirectoryName, path);
+					GetPluginsRootDirectory(), explictPlugin,
+					PathConfig.TemplateDirectoryName, path);
 				return File.Exists(fullPath) ? fullPath : null;
 			} else {
 				// 不指定插件时，先从App_Data获取

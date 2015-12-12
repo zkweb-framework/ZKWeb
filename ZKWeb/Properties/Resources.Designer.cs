@@ -59,50 +59,5 @@ namespace ZKWeb.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 请求的页面不存在.
-        /// </summary>
-        public static string _404NotFound {
-            get {
-                return ResourceManager.GetString("_404NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 程序内部发生了一个错误，请联系技术解决.
-        /// </summary>
-        public static string _500ServerInternalError {
-            get {
-                return ResourceManager.GetString("_500ServerInternalError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 以下是错误的详细信息，这些信息仅在请求来源是本地时显示。.
-        /// </summary>
-        public static string DisplayApplicationErrorDetails {
-            get {
-                return ResourceManager.GetString("DisplayApplicationErrorDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;/br&gt;&lt;span&gt;即将返回上一页&lt;/span&gt;&lt;script type=&quot;text/javascript&quot;&gt;setTimeout(function() { history.back(); }, 3000)&lt;/script&gt;.
-        /// </summary>
-        public static string HistoryBackScript {
-            get {
-                return ResourceManager.GetString("HistoryBackScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 此页面只有本地连接可以查看.
-        /// </summary>
-        public static string OnlyLocalAccessAreAllowedForThisPage {
-            get {
-                return ResourceManager.GetString("OnlyLocalAccessAreAllowedForThisPage", resourceCulture);
-            }
-        }
     }
 }

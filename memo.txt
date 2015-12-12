@@ -111,22 +111,6 @@ widget的格式和参数
 
 -----------------------------------------------------------------------------------------
 
-自动管理数据库
-DatabaseManager
-	RegisterTable<User>();
-	RegisterTable<Admin>();
-
-如何更新数据库
-	使用NHibanate的SchemeUpdate
-	生成所有注册的数据表的结构数据，按类型名称排序
-		Admin: int Id; string Name; [PasswordAttribute] string password;
-		User: int Id; [A, B] string Name; DateTime CreateTime;
-	判断结构数据是否和App_Data/scheme.txt一致
-		不一致时执行数据库更新并保存到该文件中
-		这样可以减少每次启动网站需要的时间
-
------------------------------------------------------------------------------------------
-
 后台管理
 AppManager
 	RegisterApp<UserScaffold>() // 可以继承

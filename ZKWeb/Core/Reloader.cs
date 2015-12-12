@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DryIoc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,10 +38,14 @@ namespace ZKWeb.Core {
 				watcher.EnableRaisingEvents = true;
 			};
 			// 监视插件目录
-			var pluginFilesWatcher = new FileSystemWatcher();
-			pluginFilesWatcher.Path = PathConfig.PluginsRootDirectory;
-			pluginFilesWatcher.IncludeSubdirectories = true;
-			startWatcher(pluginFilesWatcher);
+			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var pluginsRoot = pathManager.GetPluginsRootDirectory();
+			if (Directory.Exists(pluginsRoot)) {
+				var pluginFilesWatcher = new FileSystemWatcher();
+				pluginFilesWatcher.Path = pluginsRoot;
+				pluginFilesWatcher.IncludeSubdirectories = true;
+				startWatcher(pluginFilesWatcher);
+			}
 			// 监视网站配置文件
 			var websiteConfigWatcher = new FileSystemWatcher();
 			websiteConfigWatcher.Path = PathConfig.AppDataDirectory;

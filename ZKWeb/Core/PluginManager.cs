@@ -39,10 +39,11 @@ namespace ZKWeb.Core {
 		public PluginManager() {
 			// 获取网站配置中的插件列表
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			var logManager = Application.Ioc.Resolve<LogManager>();
+			var pathManager = Application.Ioc.Resolve<PathManager>();
 			// 载入所有插件信息
 			foreach (var pluginName in configManager.WebsiteConfig.Plugins) {
-				var dir = PathUtils.SecureCombine(PathConfig.PluginsRootDirectory, pluginName);
+				var dir = PathUtils.SecureCombine(
+					pathManager.GetPluginsRootDirectory(), pluginName);
 				var info = PluginInfo.FromDirectory(dir);
 				Plugins.Add(info);
 			}

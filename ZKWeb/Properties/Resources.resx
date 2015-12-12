@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DisplayApplicationErrorDetails" xml:space="preserve">
-    <value>以下是错误的详细信息，这些信息仅在请求来源是本地时显示。</value>
-  </data>
-  <data name="HistoryBackScript" xml:space="preserve">
-    <value>&lt;/br&gt;&lt;span&gt;即将返回上一页&lt;/span&gt;&lt;script type="text/javascript"&gt;setTimeout(function() { history.back(); }, 3000)&lt;/script&gt;</value>
-  </data>
-  <data name="OnlyLocalAccessAreAllowedForThisPage" xml:space="preserve">
-    <value>此页面只有本地连接可以查看</value>
-  </data>
-  <data name="_404NotFound" xml:space="preserve">
-    <value>请求的页面不存在</value>
-  </data>
-  <data name="_500ServerInternalError" xml:space="preserve">
-    <value>程序内部发生了一个错误，请联系技术解决</value>
-  </data>
 </root>
