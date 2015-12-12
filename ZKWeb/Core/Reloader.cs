@@ -12,8 +12,8 @@ namespace ZKWeb.Core {
 	/// <summary>
 	/// 自动重新载入插件和网站配置
 	/// 检测网站目录的以下文件是否有改变，有改变时卸载当前程序域来让下次打开网站时重新载入
-	///		App_Plugins/*.cs
-	///		App_Plugins/*.json
+	///		插件根目录/*.cs
+	///		插件根目录/*.json
 	///		App_Data/*.json (仅根目录)
 	/// </summary>
 	public static class Reloader {

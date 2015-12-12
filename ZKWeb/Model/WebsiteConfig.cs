@@ -22,7 +22,8 @@ namespace ZKWeb.Model {
 		public string ConnectionString { get; set; }
 		/// <summary>
 		/// 插件根目录
-		/// 必须是相对于网站程序的路径，例如"App_Data/Plugins"
+		/// 必须是相对于网站程序的路径
+		/// 如果没有指定则使用"App_Data/Plugins"
 		/// </summary>
 		public string PluginsRoot { get; set; }
 		/// <summary>
