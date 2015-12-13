@@ -141,10 +141,17 @@ class UserScaffold : Scaffold<User>
 继承
 	<= ScaffoldForm<T> <= AutoForm <= IForm
 
+-----------------------------------------------------------------------------------------
 
-
-
-
-
-
-
+开发任务
+	测试数据库增删查改和事件绑定（NHibernate支持事件）
+	把原有ZKWebFramework中的所有功能移植过来
+	实现static控制器
+	添加后台页面
+	实现从类生成表单html（AutoForm）
+	实现从类生成CRUD操作和权限（Scaffold）
+	实现对管理员的管理
+	实现对用户的管理
+	移植原有Common中的所有功能（Preset的通用分类和提醒和站内信息等）
+	移植原有Finance中的所有功能（支付和结算和预存款）
+	移植原有ZKShop中的所有功能（商品订单购物车）
