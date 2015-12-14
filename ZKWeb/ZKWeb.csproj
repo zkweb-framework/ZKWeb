@@ -133,11 +133,11 @@
     <Compile Include="Model\ActionResults\JsonResult.cs" />
     <Compile Include="Model\ActionResults\TemplateResult.cs" />
     <Compile Include="Model\IActionResult.cs" />
-    <Compile Include="Model\IApplicationErrorHandler.cs" />
-    <Compile Include="Model\IApplicationRequestHandler.cs" />
     <Compile Include="Model\IController.cs" />
     <Compile Include="Model\IDataSaveCallback.cs" />
     <Compile Include="Model\IDataDeleteCallback.cs" />
+    <Compile Include="Model\IHttpErrorHandler.cs" />
+    <Compile Include="Model\IHttpRequestHandler.cs" />
     <Compile Include="Model\IPlugin.cs" />
     <Compile Include="Model\PathConfig.cs" />
     <Compile Include="Model\PluginInfo.cs" />

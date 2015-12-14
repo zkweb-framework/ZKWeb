@@ -49,7 +49,7 @@ namespace ZKWeb {
 		/// 收到Http请求时的处理
 		/// </summary>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
-			var handlers = Ioc.ResolveMany<IApplicationRequestHandler>();
+			var handlers = Ioc.ResolveMany<IHttpRequestHandler>();
 			handlers.Reverse().ForEach(h => h.OnRequest()); // 后面注册的可以在前面处理
 			throw new HttpException(404, "404 Not Found");
 		}
@@ -82,7 +82,7 @@ namespace ZKWeb {
 			}
 			// 调用回调处理错误
 			// 如回调中重定向或结束请求的处理，会抛出ThreadAbortException
-			var handlers = Ioc.ResolveMany<IApplicationErrorHandler>();
+			var handlers = Ioc.ResolveMany<IHttpErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
 		}
 	}

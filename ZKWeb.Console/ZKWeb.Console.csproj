@@ -73,6 +73,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Tests\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">

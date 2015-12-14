@@ -16,7 +16,7 @@ namespace ZKWeb.Core {
 	/// 这个管理器创建前需要先创建以下管理器
 	///		插件管理器
 	/// </summary>
-	public class ControllerManager : IApplicationRequestHandler {
+	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>

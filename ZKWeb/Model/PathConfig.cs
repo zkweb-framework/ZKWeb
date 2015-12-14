@@ -42,7 +42,7 @@ namespace ZKWeb.Model {
 		/// 储存插件信息的文件名称
 		/// 这个文件会在插件目录下
 		/// </summary>
-		public static string PluginInfoFilename { get; set; } = "plugin.json";
+		public static string PluginInfoFilename { get; } = "plugin.json";
 
 		/// <summary>
 		/// 模板文件夹的名称

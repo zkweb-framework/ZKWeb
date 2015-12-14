@@ -8,7 +8,7 @@ namespace ZKWeb.Model {
 	/// <summary>
 	/// 网站程序错误的处理器接口
 	/// </summary>
-	public interface IApplicationErrorHandler {
+	public interface IHttpErrorHandler {
 		/// <summary>
 		/// 网站程序出错时的处理
 		/// </summary>

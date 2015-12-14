@@ -1,9 +1,4 @@
-﻿单元测试
-如果功能移植完成，且DIY已经做了基础的部分则可以开始写单元测试
-
-------------------------------------------------------------------------------------------------
-
-app.RegisterModel
+﻿app.RegisterModel
 
 class TestModel : Model {
 	string Name { get; set; }

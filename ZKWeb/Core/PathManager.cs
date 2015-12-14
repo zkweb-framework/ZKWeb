@@ -26,7 +26,7 @@ namespace ZKWeb.Core {
 
 		/// <summary>
 		/// 获取模板的完整路径
-		/// 模板路径规则
+		/// 路径规则
 		///	显式指定插件，这时不允许从其他插件或App_Data重载模板
 		///		"所在插件:模板路径"
 		///		例 "Common.Base:include/header.html"
@@ -40,7 +40,7 @@ namespace ZKWeb.Core {
 		///			App_Data\templates\模板路径
 		///			按载入顺序反向枚举插件
 		///				插件目录\templates\模板路径
-		///			同一模板路径可以在其他插件或在App_Data下重载
+		///		模板文件可以在其他插件或在App_Data下重载
 		/// 路径对应的文件不存在时返回null
 		/// </summary>
 		/// <param name="path">模板路径</param>
@@ -78,6 +78,47 @@ namespace ZKWeb.Core {
 				}
 				return null;
 			}
+		}
+
+		/// <summary>
+		/// 获取资源文件的完整路径
+		///	查找路径的顺序
+		///		App_Data\文件路径
+		///		按载入顺序反向枚举插件
+		///			插件目录\文件路径
+		///		资源文件可以在其他插件或在App_Data下重载
+		/// 路径对应的文件不存在时返回null
+		/// </summary>
+		/// <param name="pathParts">路径</param>
+		/// <returns></returns>
+		public string GetResourceFullPath(params string[] pathParts) {
+			// 先从App_Data获取
+			var path = PathUtils.SecureCombine(pathParts);
+			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
+			if (File.Exists(fullPath)) {
+				return fullPath;
+			}
+			// 从各个插件目录获取，按载入顺序反向枚举
+			var pluginManager = Application.Ioc.Resolve<PluginManager>();
+			foreach (var plugin in pluginManager.Plugins) {
+				fullPath = PathUtils.SecureCombine(plugin.Directory, path);
+				if (File.Exists(fullPath)) {
+					return fullPath;
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 获取储存文件的完整路径
+		/// 无论文件是否存在，返回App_Data\文件路径
+		/// </summary>
+		/// <param name="pathParts">路径</param>
+		/// <returns></returns>
+		public string GetStorageFullPath(params string[] pathParts) {
+			var path = PathUtils.SecureCombine(pathParts);
+			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
+			return fullPath;
 		}
 	}
 }
