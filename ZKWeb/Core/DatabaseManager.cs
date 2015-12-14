@@ -72,15 +72,11 @@ namespace ZKWeb.Core {
 		}
 
 		/// <summary>
-		/// 生成数据库会话
+		/// 获取数据库上下文
 		/// </summary>
 		/// <returns></returns>
-		public ISession OpenSession() {
-			if (SessionFactory == null) {
-				throw new InvalidOperationException(
-					"SessionFactory is not ready for use, please waiting until all table registered");
-			}
-			return SessionFactory.OpenSession();
+		public DatabaseContext GetContext() {
+			return new DatabaseContext(SessionFactory);
 		}
 	}
 }

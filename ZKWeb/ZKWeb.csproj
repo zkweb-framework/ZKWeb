@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Core\ConfigManager.cs" />
     <Compile Include="Core\ControllerManager.cs" />
+    <Compile Include="Core\DatabaseContext.cs" />
     <Compile Include="Core\DatabaseManager.cs" />
     <Compile Include="Core\DiyManager.cs" />
     <Compile Include="Core\LogManager.cs" />
@@ -135,6 +136,8 @@
     <Compile Include="Model\IApplicationErrorHandler.cs" />
     <Compile Include="Model\IApplicationRequestHandler.cs" />
     <Compile Include="Model\IController.cs" />
+    <Compile Include="Model\IDataSaveCallback.cs" />
+    <Compile Include="Model\IDataDeleteCallback.cs" />
     <Compile Include="Model\IPlugin.cs" />
     <Compile Include="Model\PathConfig.cs" />
     <Compile Include="Model\PluginInfo.cs" />
