@@ -8,6 +8,7 @@ using NHibernate.Linq;
 using DryIoc;
 using ZKWeb.Model;
 using ZKWeb.Utils.Extensions;
+using System.Data;
 
 namespace ZKWeb.Core {
 	/// <summary>
@@ -57,7 +58,7 @@ namespace ZKWeb.Core {
 		/// <param name="sessionFactory">数据库会话生成器</param>
 		public DatabaseContext(ISessionFactory sessionFactory) {
 			Session = sessionFactory.OpenSession();
-			Transaction = Session.BeginTransaction();
+			Transaction = Session.BeginTransaction(IsolationLevel.Serializable);
 		}
 
 		/// <summary>
@@ -137,23 +138,29 @@ namespace ZKWeb.Core {
 
 		/// <summary>
 		/// 批量更新
+		/// 返回更新的数量
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">更新条件</param>
 		/// <param name="update">更新函数</param>
-		public void UpdateWhere<T>(Expression<Func<T, bool>> expression, Action<T> update)
+		public long UpdateWhere<T>(Expression<Func<T, bool>> expression, Action<T> update)
 			where T : class {
-			Query<T>().Where(expression).ForEach(d => Save(ref d, update));
+			long count = 0;
+			Query<T>().Where(expression).ForEach(d => { Save(ref d, update); ++count; });
+			return count;
 		}
 
 		/// <summary>
 		/// 批量删除
+		/// 返回删除的数量
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">删除条件</param>
-		public void DeleteWhere<T>(Expression<Func<T, bool>> expression)
+		public long DeleteWhere<T>(Expression<Func<T, bool>> expression)
 			where T : class {
-			Query<T>().Where(expression).ForEach(d => Delete(d));
+			long count = 0;
+			Query<T>().Where(expression).ForEach(d => { Delete(d); ++count; });
+			return count;
 		}
 
 		/// <summary>
