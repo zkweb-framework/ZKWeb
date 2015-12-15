@@ -18,7 +18,7 @@ namespace ZKWeb.Core.TemplateTags {
 	/// 固定的模块，可以手动或在可视化编辑中修改
 	/// {% area test_area %}
 	///		{% widget logo %}
-	///		{% widget test_widget %}
+	///		{% widget test_widget { arg: 1 } %}
 	/// {% endarea %}
 	/// 
 	/// 生成的Html例子（使用[]代替）

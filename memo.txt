@@ -67,10 +67,14 @@ able to pass csrf and security check
 转换成
 
 {% area test_area %}
-	{% widget ??? %}
-	{% widget ??? %}
-	{% widget ??? %}
+	{% widget logo %}
+	{% widget login_info %}
+	{% widget test_params { a: 1, b: 2, c: 3 } %}
 {% endarea %}
+
+文件
+	templates/login_info.widget { "Name": { "zh": "登录信息" }, "Params": "参数信息???" }
+	templates/login_info.html
 
 html
 	<div class='diy_area' area_id='test_area'>
@@ -92,16 +96,13 @@ diy流程
 			根据area id查找并保存到对应的html
 
 动态注册widget
-	diyManager.RegisterWidget("LOGO", ???);
+	diyManager.RegisterWidget("logo");
 	diyManager.GetArea("test_area") // DiyArea
-		.AddDefaultWidget("LOGO", ???)
-		.AddDefaultWidget("Test", ???)
-		.AddDefaultWidgetAfter(???)
-		.AddDefaultWidgetBefore(???);
+		.AddDefaultWidget("logo")
+		.AddDefaultWidget("test_params", new { a: 1, b: 2, c: 3 })
+		.AddDefaultWidgetAfter("logo", "login_info")
+		.AddDefaultWidgetBefore("logo", "test_params", new { a: 1, b: 2, c: 3 });
 	diyManager.GetArea("test_area").DefaultWidgets(); // List<DiyWidget>
-
-widget的格式和参数
-	???
 
 规则
 	include里面可以有include
@@ -138,6 +139,29 @@ class UserScaffold : Scaffold<User>
 
 继承
 	<= ScaffoldForm<T> <= AutoForm <= IForm
+
+-----------------------------------------------------------------------------------------
+
+fetch api from widget
+
+DataApiManager
+	DataApiManager
+		ResolveMany<IDataApi>()
+	AddApi
+		Apis[api.Address] = api
+		if (api.IsPublic)
+			controllerManager.AddAction(api.Address, ...)
+
+IDataApi
+	Address "/api/login_info"
+	IsPublic = true
+	GetData {
+		// check privilege
+		return new { ... };
+	}
+
+{% fetch_api /api/login_info > login_info %}
+{{ login_info.username }}
 
 -----------------------------------------------------------------------------------------
 
