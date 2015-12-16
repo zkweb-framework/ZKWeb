@@ -68,6 +68,7 @@
     <Compile Include="Extensions\ImageExtensions.cs" />
     <Compile Include="Extensions\ITreeNodeExtensions.cs" />
     <Compile Include="Extensions\LambdaExpressionExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Functions\FileUtils.cs" />

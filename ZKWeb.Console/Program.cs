@@ -12,11 +12,13 @@
 	using System.Web;
 	using Core;
 	using NHibernate.Linq;
+	using Model;
+	using Newtonsoft.Json;
 
 	class Program {
 		static void Main(string[] args) {
 			new Application().Application_Start();
-
+			
 			Console.WriteLine("done");
 			Console.ReadLine();
 		}

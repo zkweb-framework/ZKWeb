@@ -11,6 +11,7 @@ using ZKWeb.Core.TemplateTags;
 using ZKWeb.Utils.Functions;
 using DryIoc;
 using ZKWeb.Model;
+using ZKWeb.Core.TemplateFilters;
 
 namespace ZKWeb.Core {
 	/// <summary>
@@ -34,6 +35,9 @@ namespace ZKWeb.Core {
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<DefaultWidgets>("default_widgets");
 			Template.RegisterTag<RawHtml>("raw_html");
+			Template.RegisterTag<Widget>("widget");
+			// 注册自定义过滤器
+			Template.RegisterFilter(typeof(Filters));
 			// 设置使用的文件系统
 			Template.FileSystem = new TemplateFileSystem();
 		}

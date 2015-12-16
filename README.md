@@ -10,10 +10,8 @@ Web framework based on System.Web supports
 * scaffold (planned)
 * visual page editor (planned)
 
-This framework is inspired by django (not that same although).<br />
+This framework is inspired by django.<br />
 All comments are written in chinese at this moment because main developers are chinese.
-
-
 
 License<br />
 Unspecified, don't release or fork it until I choose the license.

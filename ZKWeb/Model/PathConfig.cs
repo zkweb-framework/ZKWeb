@@ -49,7 +49,7 @@ namespace ZKWeb.Model {
 		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
 		/// </summary>
 		public static string TemplateDirectoryName { get; } = "templates";
-
+		
 		/// <summary>
 		/// 保存数据表生成脚本的文件路径
 		/// 里面的脚本仅用于检测是否需要更新，不会实际执行

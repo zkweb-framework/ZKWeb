@@ -96,7 +96,6 @@ diy流程
 			根据area id查找并保存到对应的html
 
 动态注册widget
-	diyManager.RegisterWidget("logo");
 	diyManager.GetArea("test_area") // DiyArea
 		.AddDefaultWidget("logo")
 		.AddDefaultWidget("test_params", new { a: 1, b: 2, c: 3 })
@@ -162,6 +161,47 @@ IDataApi
 
 {% fetch_api /api/login_info > login_info %}
 {{ login_info.username }}
+
+-----------------------------------------------------------------------------------------
+
+auto form
+
+AdminLoginForm : AutoForm
+	[TextBox]
+	public string Username { get; set; }
+	[Password]
+	public string Password { get; set; }
+	[Captcha]
+	public string Captcha { get; set; }	
+
+	Bind() {
+		Username = "";
+		Password = "";
+		Captcha = "";
+	}
+	
+	Save() {
+		if (!LoadValues()) {
+			return LoadError;	
+		}
+		// login
+		return { success = true; }
+	}
+	
+	ToString() {
+		return html;
+	}
+
+AdminController
+	Login() {
+		var form = AdminLoginForm();
+		if (IsPost()) {
+			return form.Save();
+		}
+		return new TemplateResult("admin_login.html", new { form = form });
+	}
+
+{% raw_html form %}
 
 -----------------------------------------------------------------------------------------
 

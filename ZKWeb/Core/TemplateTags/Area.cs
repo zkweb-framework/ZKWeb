@@ -48,18 +48,13 @@ namespace ZKWeb.Core.TemplateTags {
 			}
 			// 添加div的开头
 			result.Write($"<div class='diy_area' area_id='{areaId}' >");
-			// 添加当前区域Id的变量
-			context.Push(Hash.FromDictionary(new Dictionary<string, object>() {
+			// 描画子元素
+			var scope = Hash.FromDictionary(new Dictionary<string, object>() {
 				{ CurrentAreaIdKey, areaId }
-			}));
-			context.Stack(() => {
-				// 描画子元素
-				RenderAll(NodeList, context, result);
-				// 删除当前区域Id的变量
-				context.Pop();
-				// 添加div的末尾
-				result.Write("</div>");
 			});
+			context.Stack(scope, () => RenderAll(NodeList, context, result));
+			// 添加div的末尾
+			result.Write("</div>");
 		}
 	}
 }
