@@ -34,6 +34,7 @@ namespace ZKWeb.Core {
 			// 注册自定义标签
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<DefaultWidgets>("default_widgets");
+			Template.RegisterTag<HtmlLang>("html_lang");
 			Template.RegisterTag<RawHtml>("raw_html");
 			Template.RegisterTag<Widget>("widget");
 			// 注册自定义过滤器

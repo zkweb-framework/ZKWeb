@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ZKWeb.Core.TemplateFilters {
 	/// <summary>
-	/// 用于定义模板系统的过滤器
+	/// 模板系统的过滤器
 	/// </summary>
 	public static class Filters {
 		/// <summary>

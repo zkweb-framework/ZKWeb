@@ -102,7 +102,7 @@ namespace ZKWeb.Core {
 		/// 编译插件时的默认引用程序集
 		/// </summary>
 		public static List<string> DefaultReferences { get; } =
-			new List<string>() { "NHibernate", "FluentNHibernate" };
+			new List<string>() { "NHibernate", "FluentNHibernate", "DotLiquid" };
 
 		/// <summary>
 		/// 编译插件

@@ -206,9 +206,9 @@ AdminController
 -----------------------------------------------------------------------------------------
 
 开发任务
-	测试数据库增删查改和事件绑定（NHibernate支持事件）
-	把原有ZKWebFramework中的所有功能移植过来
-	实现static控制器
+ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
+ok	把原有ZKWebFramework中的所有功能移植过来
+ok	实现static控制器
 	添加后台页面
 	实现从类生成表单html（AutoForm）
 	实现从类生成CRUD操作和权限（Scaffold）
