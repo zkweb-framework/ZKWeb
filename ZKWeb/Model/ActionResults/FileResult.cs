@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Model.ActionResults {
 	/// <summary>
@@ -13,13 +14,19 @@ namespace ZKWeb.Model.ActionResults {
 		/// 文件路径
 		/// </summary>
 		public string FilePath { get; set; }
+		/// <summary>
+		/// 客户端传入的文件修改时间
+		/// </summary>
+		public DateTime? IfModifiedSince { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		/// <param name="path">文件路径</param>
-		public FileResult(string path) {
+		/// <param name="ifModifiedSince">客户端传入的文件修改时间</param>
+		public FileResult(string path, DateTime? ifModifiedSince = null) {
 			FilePath = path;
+			IfModifiedSince = ifModifiedSince;
 		}
 
 		/// <summary>
@@ -27,6 +34,16 @@ namespace ZKWeb.Model.ActionResults {
 		/// </summary>
 		/// <param name="response"></param>
 		public void WriteResponse(HttpResponse response) {
+			// 设置文件的最后修改时间
+			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
+			response.Cache.SetLastModified(lastModified);
+			// 文件没有修改时返回304
+			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
+				response.StatusCode = 304;
+				response.SuppressContent = true;
+				return;
+			}
+			// 写入文件到http回应中
 			response.ContentType = MimeMapping.GetMimeMapping(FilePath);
 			response.WriteFile(FilePath);
 		}
