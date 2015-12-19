@@ -34,7 +34,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <param name="key">参数名称</param>
 		/// <param name="defaultValue">获取失败时的默认值</param>
 		/// <returns></returns>
-		public static T GetParam<T>(this HttpRequest request, string key, T defaultValue) {
+		public static T GetParam<T>(this HttpRequest request, string key, T defaultValue = default(T)) {
 			var value = request.Params[key];
 			if (string.IsNullOrEmpty(value)) {
 				return defaultValue;

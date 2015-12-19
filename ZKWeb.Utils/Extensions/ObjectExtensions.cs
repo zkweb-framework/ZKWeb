@@ -23,6 +23,10 @@ namespace ZKWeb.Utils.Extensions {
 		/// <param name="default_value">默认值</param>
 		/// <returns></returns>
 		public static T ConvertOrDefault<T>(this object obj, T default_value = default(T)) {
+			// 类型相同时直接返回，不需要转换
+			if (obj is T) {
+				return (T)obj;
+			}
 			// 使用Convert转换
 			Type type = typeof(T);
 			try {
