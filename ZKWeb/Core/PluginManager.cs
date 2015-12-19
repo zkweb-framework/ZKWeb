@@ -110,6 +110,7 @@ namespace ZKWeb.Core {
 		/// <param name="info">插件信息</param>
 		public static void Compile(this PluginInfo info) {
 			// 获取插件的源代码文件列表和各个路径
+			var sourceDirectory = info.SourceDirectory();
 			var sourceFiles = info.SourceFiles();
 			var assemblyPath = info.AssemblyPath();
 			var assemblyPdbPath = info.AssemblyPdbPath();
@@ -121,8 +122,13 @@ namespace ZKWeb.Core {
 			if (File.Exists(compileInfoPath)) {
 				existCompileInfo = File.ReadAllText(compileInfoPath);
 			}
-			var compileInfo = string.Join("\r\n",
-				sourceFiles.OrderBy(s => s).Select(s => $"{s} {File.GetLastWriteTime(s)}"));
+			var compileInfo = string.Join("\r\n", sourceFiles
+				.Select(s => new {
+					path = s.Substring(sourceDirectory.Length + 1),
+					time = File.GetLastWriteTime(s)
+				}) // 相对路径和修改时间
+				.OrderBy(s => s.path) // 固定排序
+				.Select(s => $"{s.path} {s.time}")); // 生成文本
 			if (sourceFiles.Length > 0 && compileInfo != existCompileInfo) {
 				// 重新编译前把原来的文件重命名为old文件
 				if (File.Exists(assemblyPath)) {
