@@ -56,9 +56,10 @@ namespace ZKWeb.Core {
 		/// 初始化
 		/// </summary>
 		/// <param name="sessionFactory">数据库会话生成器</param>
-		public DatabaseContext(ISessionFactory sessionFactory) {
+		/// <param name="isolationLevel">事务的隔离等级</param>
+		public DatabaseContext(ISessionFactory sessionFactory, IsolationLevel isolationLevel) {
 			Session = sessionFactory.OpenSession();
-			Transaction = Session.BeginTransaction(IsolationLevel.Serializable);
+			Transaction = Session.BeginTransaction(isolationLevel);
 		}
 
 		/// <summary>

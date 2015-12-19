@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -73,10 +74,20 @@ namespace ZKWeb.Core {
 
 		/// <summary>
 		/// 获取数据库上下文
+		/// 事务的隔离等级默认是IsolationLevel.ReadCommitted
 		/// </summary>
 		/// <returns></returns>
 		public DatabaseContext GetContext() {
-			return new DatabaseContext(SessionFactory);
+			return GetContext(IsolationLevel.ReadCommitted);
+		}
+
+		/// <summary>
+		/// 获取数据库上下文
+		/// </summary>
+		/// <param name="isolationLevel">事务的隔离等级</param>
+		/// <returns></returns>
+		public DatabaseContext GetContext(IsolationLevel isolationLevel) {
+			return new DatabaseContext(SessionFactory, isolationLevel);
 		}
 	}
 }
