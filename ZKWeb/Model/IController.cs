@@ -35,7 +35,7 @@ namespace ZKWeb.Model {
 		/// </summary>
 		/// <param name="path">路径，前面没有/时会自动添加</param>
 		/// <param name="method">请求类型，默认是GET</param>
-		public ActionAttribute(string path, string method = ActionMethods.GET) {
+		public ActionAttribute(string path, string method = HttpMethods.GET) {
 			Path = path.StartsWith("/") ? path : ("/" + path);
 			Method = method;
 		}
@@ -44,7 +44,7 @@ namespace ZKWeb.Model {
 	/// <summary>
 	/// 常用的http的请求类型定义
 	/// </summary>
-	public static class ActionMethods {
+	public static class HttpMethods {
 		/// <summary>
 		/// GET
 		/// </summary>

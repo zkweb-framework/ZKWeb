@@ -1,10 +1,10 @@
 Web framework based on System.Web supports
 * dynamic plugins (supported, csscript + codedom)
-* database auto migration (supported, nhibernate)
+* code first database auto migration (supported, nhibernate)
 * ioc container (supported, dryioc)
 * simple and extendable template sysetm (supported, dotliquid)
-* multi language support (planned)
-* multi timezone support (planned)
+* multi language support (supported)
+* multi timezone support (supported)
 * auto api generation (planned)
 * auto form generation (planned)
 * scaffold (planned)
