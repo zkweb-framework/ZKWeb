@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using ZKWeb.Model;
+using ZKWeb.Utils.Extensions;
 using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Core {
@@ -39,13 +40,12 @@ namespace ZKWeb.Core {
 			};
 			// 监视插件目录
 			var pathManager = Application.Ioc.Resolve<PathManager>();
-			var pluginsRoot = pathManager.GetPluginsRootDirectory();
-			if (Directory.Exists(pluginsRoot)) {
+			pathManager.GetPluginDirectories().Where(p => Directory.Exists(p)).ForEach(p => {
 				var pluginFilesWatcher = new FileSystemWatcher();
-				pluginFilesWatcher.Path = pluginsRoot;
+				pluginFilesWatcher.Path = p;
 				pluginFilesWatcher.IncludeSubdirectories = true;
 				startWatcher(pluginFilesWatcher);
-			}
+			});
 			// 监视网站配置文件
 			var websiteConfigWatcher = new FileSystemWatcher();
 			websiteConfigWatcher.Path = PathConfig.AppDataDirectory;

@@ -41,9 +41,14 @@ namespace ZKWeb.Core {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			// 载入所有插件信息
+			var pluginDirectories = pathManager.GetPluginDirectories();
 			foreach (var pluginName in configManager.WebsiteConfig.Plugins) {
-				var dir = PathUtils.SecureCombine(
-					pathManager.GetPluginsRootDirectory(), pluginName);
+				var dir = pluginDirectories
+					.Select(p => PathUtils.SecureCombine(p, pluginName))
+					.FirstOrDefault(p => Directory.Exists(p));
+				if (dir == null) {
+					throw new DirectoryNotFoundException($"Plugin directory of {pluginName} not found");
+				}
 				var info = PluginInfo.FromDirectory(dir);
 				Plugins.Add(info);
 			}

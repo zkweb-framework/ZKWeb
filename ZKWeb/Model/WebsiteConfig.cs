@@ -21,11 +21,11 @@ namespace ZKWeb.Model {
 		/// </summary>
 		public string ConnectionString { get; set; }
 		/// <summary>
-		/// 插件根目录
+		/// 插件目录列表
 		/// 必须是相对于网站程序的路径
 		/// 如果没有指定则使用"App_Data/Plugins"
 		/// </summary>
-		public string PluginsRoot { get; set; }
+		public List<string> PluginDirectories { get; set; }
 		/// <summary>
 		/// 使用的插件列表
 		/// </summary>
@@ -43,7 +43,10 @@ namespace ZKWeb.Model {
 		public static WebsiteConfig FromFile(string path) {
 			var json = File.ReadAllText(path);
 			var config = JsonConvert.DeserializeObject<WebsiteConfig>(json);
-			config.PluginsRoot = config.PluginsRoot ?? "App_Data/Plugins";
+			config.PluginDirectories = config.PluginDirectories ?? new List<string>();
+			if (!config.PluginDirectories.Any()) {
+				config.PluginDirectories.Add("App_Data/Plugins");
+			}
 			config.Plugins = config.Plugins ?? new List<string>();
 			config.Extra = config.Extra ?? new Dictionary<string, object>();
 			return config;

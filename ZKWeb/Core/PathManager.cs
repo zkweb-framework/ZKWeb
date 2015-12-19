@@ -18,10 +18,10 @@ namespace ZKWeb.Core {
 		/// 网站目录 + 网站配置中定义的插件根目录的相对路径
 		/// </summary>
 		/// <returns></returns>
-		public string GetPluginsRootDirectory() {
+		public List<string> GetPluginDirectories() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			return Path.GetFullPath(
-				Path.Combine(PathUtils.WebRoot.Value, configManager.WebsiteConfig.PluginsRoot));
+			return configManager.WebsiteConfig.PluginDirectories.Select(p =>
+				Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, p))).ToList();
 		}
 
 		/// <summary>
@@ -56,10 +56,10 @@ namespace ZKWeb.Core {
 			// 获取完整路径
 			if (explictPlugin != null) {
 				// 显式指定插件时
-				var fullPath = PathUtils.SecureCombine(
-					GetPluginsRootDirectory(), explictPlugin,
-					PathConfig.TemplateDirectoryName, path);
-				return File.Exists(fullPath) ? fullPath : null;
+				return GetPluginDirectories()
+					.Select(p => PathUtils.SecureCombine(
+						path, explictPlugin, PathConfig.TemplateDirectoryName, p))
+					.FirstOrDefault(p => File.Exists(p));
 			} else {
 				// 不指定插件时，先从App_Data获取
 				var fullPath = PathUtils.SecureCombine(

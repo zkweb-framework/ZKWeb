@@ -1,20 +1,20 @@
 ﻿{
 	"Database": "postgresql",
 	"ConnectionString": "Server=127.0.0.1;Port=5432;Database=zkweb;User Id=postgres;Password=123456;",
-	"PluginsRoot": "../../ZKWeb.Plugins",
+	"PluginDirectories": [ "../../ZKWeb.Plugins" ],
 	"Plugins": [
 		"Common.Base",
-		"Common.Admin",
-		"Common.User",
-		"Finance.Accounting",
-		"Finance.Deposit",
-		"Finance.Payment",
-		"Finance.Payment.Alipay",
-		"Finance.Payment.Tenpay",
-		"Finance.Settlement",
-		"SMS.Base",
-		"SMS.GuangXin",
-		"ZKShop.Order",
-		"ZKShop.Product"
+		"Common.Admin" //,
+		// "Common.User",
+		// "Finance.Accounting",
+		// "Finance.Deposit",
+		// "Finance.Payment",
+		// "Finance.Payment.Alipay",
+		// "Finance.Payment.Tenpay",
+		// "Finance.Settlement",
+		// "SMS.Base",
+		// "SMS.GuangXin",
+		// "ZKShop.Order",
+		// "ZKShop.Product"
 	]
 }
