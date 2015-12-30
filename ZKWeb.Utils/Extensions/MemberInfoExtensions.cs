@@ -22,5 +22,16 @@ namespace ZKWeb.Utils.Extensions {
 			return info.GetCustomAttributes(
 				typeof(TAttribute), true).FirstOrDefault() as TAttribute;
 		}
+
+		/// <summary>
+		/// 获取指定类型的属性列表
+		/// </summary>
+		/// <typeparam name="TAttribute">属性类型</typeparam>
+		/// <param name="info">成员信息</param>
+		/// <returns></returns>
+		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info)
+			where TAttribute : Attribute {
+			return info.GetCustomAttributes(typeof(TAttribute), true).OfType<TAttribute>();
+		}
 	}
 }
