@@ -6,12 +6,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Utils.Functions {
 	/// <summary>
 	/// 语言和时区的工具类
 	/// </summary>
 	public static class LocaleUtils {
+		/// <summary>
+		/// 储存当前请求使用语言的键名
+		/// </summary>
+		public const string LanguageKey = "ZKWeb.Language";
+		/// <summary>
+		/// 储存当前页面使用时区的键名
+		/// </summary>
+		public const string TimeZoneKey = "ZKWeb.TimeZone";
+
 		/// <summary>
 		/// 设置当前线程使用的语言，返回是否成功
 		/// </summary>
@@ -42,7 +52,7 @@ namespace ZKWeb.Utils.Functions {
 			}
 			try {
 				var timezoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-				HttpContextUtils.PutData("ZKWeb", "Timezone", timezoneInfo);
+				HttpContextUtils.PutData(TimeZoneKey, timezoneInfo);
 				return true;
 			} catch (TimeZoneNotFoundException) {
 				return false;
@@ -62,7 +72,7 @@ namespace ZKWeb.Utils.Functions {
 		public static bool SetThreadLanguageAutomatic(
 			bool allowDetectLanguageFromBrowser, string defaultLanguage) {
 			// 获取Cookies中指定的语言，设置成功时返回
-			var languageFromCookies = HttpContextUtils.GetCookie("ZKWeb", "Language");
+			var languageFromCookies = HttpContextUtils.GetCookie(LanguageKey);
 			if (SetThreadLanguage(languageFromCookies)) {
 				return true;
 			}
@@ -90,7 +100,7 @@ namespace ZKWeb.Utils.Functions {
 		/// <returns></returns>
 		public static bool SetThreadTimezoneAutomatic(string defaultTimezone) {
 			// 获取Cookies中指定的时区，设置成功时返回
-			var timezoneFromCookies = HttpContextUtils.GetCookie("ZKWeb", "Timezone");
+			var timezoneFromCookies = HttpContextUtils.GetCookie(TimeZoneKey);
 			if (SetThreadTimezone(timezoneFromCookies)) {
 				return true;
 			}

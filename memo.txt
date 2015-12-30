@@ -205,14 +205,14 @@ AdminController
 
 -----------------------------------------------------------------------------------------
 
-static需要支持返回304
+实现csrf验证
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
 ok	把原有ZKWebFramework中的所有功能移植过来
 ok	实现static控制器
 	添加后台页面
-	实现从类生成表单html（AutoForm）
+	实现从类生成表单html（FormBuilder）
 	实现从类生成CRUD操作和权限（Scaffold）
 	实现对管理员的管理
 	实现对用户的管理

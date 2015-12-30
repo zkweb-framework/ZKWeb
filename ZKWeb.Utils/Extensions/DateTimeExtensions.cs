@@ -10,6 +10,7 @@ namespace ZKWeb.Utils.Extensions {
 	/// 时间的扩展函数
 	/// </summary>
 	public static class DateTimeExtensions {
+
 		/// <summary>
 		/// 把UTC时间转换到客户端的本地时间
 		/// </summary>
@@ -17,7 +18,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <returns></returns>
 		public static DateTime ToClientTime(this DateTime time) {
 			// 获取时区设置，指定了时区时使用时区转换
-			var timezone = HttpContextUtils.GetData<TimeZoneInfo>("ZKWeb", "Timezone");
+			var timezone = HttpContextUtils.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Utc);
 				return TimeZoneInfo.ConvertTimeFromUtc(time, timezone);
@@ -44,7 +45,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <returns></returns>
 		public static DateTime FromClientTime(this DateTime time) {
 			// 获取时区设置，指定了时区时使用时区转换
-			var timezone = HttpContextUtils.GetData<TimeZoneInfo>("ZKWeb", "Timezone");
+			var timezone = HttpContextUtils.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Unspecified);
 				return TimeZoneInfo.ConvertTimeToUtc(time, timezone);

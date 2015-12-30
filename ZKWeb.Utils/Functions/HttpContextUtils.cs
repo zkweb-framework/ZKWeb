@@ -29,10 +29,9 @@ namespace ZKWeb.Utils.Functions {
 		/// 储存在一个Http请求中通用的数据
 		/// 用于代替ViewData，因为ViewData每次描画分视图时都会复制一遍耗费性能
 		/// </summary>
-		public static void PutData<T>(string plugin, string name, T data)
+		public static void PutData<T>(string key, T data)
 			where T : class {
 			var context = HttpContext.Current;
-			var key = $"{plugin}.{name}";
 			if (context == null) {
 				ItemsFallback.Value[key] = data;
 			} else {
@@ -43,28 +42,25 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 获取在一个Http请求中通用的数据
 		/// </summary>
-		public static T GetData<T>(
-			string plugin, string name, T defaultValue = default(T))
+		public static T GetData<T>(string key, T defaultValue = default(T))
 			where T : class {
 			var context = HttpContext.Current;
-			var key = $"{plugin}.{name}";
 			if (context == null) {
 				return (ItemsFallback.Value.GetOrDefault(key) as T) ?? defaultValue;
 			} else {
-				return (context.Items[$"{plugin}.{name}"] as T) ?? defaultValue;
+				return (context.Items[key] as T) ?? defaultValue;
 			}
 		}
 
 		/// <summary>
 		/// 获取在一个Http请求中通用的数据，不存在时创建
 		/// </summary>
-		public static T GetOrCreateData<T>(
-			string plugin, string name, Func<T> defaultCreater)
+		public static T GetOrCreateData<T>(string key, Func<T> defaultCreater)
 			where T : class {
-			var value = GetData<T>(plugin, name);
+			var value = GetData<T>(key);
 			if (value == null) {
 				value = defaultCreater();
-				PutData(plugin, name, value);
+				PutData(key, value);
 			}
 			return value;
 		}
@@ -72,9 +68,8 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 删除在一个Http请求中通用的数据
 		/// </summary>
-		public static void RemoveData(string plugin, string name) {
+		public static void RemoveData(string key) {
 			var context = HttpContext.Current;
-			var key = $"{plugin}.{name}";
 			if (context == null) {
 				ItemsFallback.Value.Remove(key);
 			} else {
@@ -106,10 +101,9 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 获取Cookie值
 		/// </summary>
-		public static string GetCookie(string plugin, string name) {
+		public static string GetCookie(string key) {
 			// HttpContext.Current等于null时使用备用Cookies储存
 			var context = HttpContext.Current;
-			var key = $"{plugin}.{name}";
 			if (context == null) {
 				return CookiesFallback.Value.GetOrDefault(key);
 			}
@@ -130,11 +124,10 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 设置Cookie值
 		/// </summary>
-		public static bool PutCookie(string plugin, string name, string value,
+		public static bool PutCookie(string key, string value,
 			DateTime? expired = default(DateTime?), bool httpOnly = false) {
 			// HttpContext.Current等于null时使用备用Cookies储存
 			var context = HttpContext.Current;
-			var key = $"{plugin}.{name}";
 			if (context == null) {
 				if (expired.HasValue && expired.Value.Year <= 1970) {
 					CookiesFallback.Value.Remove(key);
@@ -168,8 +161,8 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 删除Cookie值
 		/// </summary>
-		public static bool RemoveCookie(string plugin, string name) {
-			return PutCookie(plugin, name, "", new DateTime(1970, 1, 1));
+		public static bool RemoveCookie(string key) {
+			return PutCookie(key, "", new DateTime(1970, 1, 1));
 		}
 	}
 }
