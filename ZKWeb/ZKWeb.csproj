@@ -127,6 +127,8 @@
     <Compile Include="Core\DatabaseContext.cs" />
     <Compile Include="Core\DatabaseManager.cs" />
     <Compile Include="Core\DiyManager.cs" />
+    <Compile Include="Core\JsonConverters\TJsonConverter.cs" />
+    <Compile Include="Core\InitJsonSettings.cs" />
     <Compile Include="Core\LogManager.cs" />
     <Compile Include="Core\PathManager.cs" />
     <Compile Include="Core\T.cs" />

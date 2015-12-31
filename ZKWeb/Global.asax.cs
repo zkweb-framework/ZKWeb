@@ -30,6 +30,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
+			Ioc.RegisterMany<InitJsonSettings>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
@@ -38,6 +39,7 @@ namespace ZKWeb {
 			Ioc.Resolve<PluginManager>();
 			Ioc.Resolve<TemplateManager>();
 			Ioc.Resolve<ControllerManager>();
+			Ioc.Resolve<InitJsonSettings>();
 			Ioc.Resolve<DatabaseManager>();
 			// 初始化所有插件
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
