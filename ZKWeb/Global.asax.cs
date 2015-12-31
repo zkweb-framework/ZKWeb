@@ -20,7 +20,7 @@ namespace ZKWeb {
 		/// 全局使用的Ioc容器
 		/// </summary>
 		public static Container Ioc { get; set; } = new Container();
-		
+
 		/// <summary>
 		/// 网站启动时的处理
 		/// </summary>
@@ -68,11 +68,10 @@ namespace ZKWeb {
 				ex = ex.InnerException;
 			}
 			// 记录到日志
-			// 不记录404（找不到）和403（权限不足）错误
+			// 不记录400, 404, 403错误
 			var logManager = Ioc.Resolve<LogManager>();
-			var httpException = ex as HttpException;
-			if (!(httpException?.GetHttpCode() == 404 ||
-				httpException?.GetHttpCode() == 403)) {
+			var httpCode = (ex as HttpException)?.GetHttpCode();
+			if (!(httpCode == 400 || httpCode == 404 || httpCode == 403)) {
 				logManager.LogError(ex.ToString());
 			}
 			// 判断是否启动程序时抛出的错误，如果是则卸载程序域等待重试
@@ -86,6 +85,12 @@ namespace ZKWeb {
 			// 如回调中重定向或结束请求的处理，会抛出ThreadAbortException
 			var handlers = Ioc.ResolveMany<IHttpErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
+			// 如果是ajax请求则只返回例外消息
+			if (Request.IsAjaxRequest()) {
+				Response.StatusCode = httpCode ?? 500;
+				Response.Write(ex.Message);
+				Response.End();
+			}
 		}
 	}
 }

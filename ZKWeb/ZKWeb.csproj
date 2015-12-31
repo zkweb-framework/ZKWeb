@@ -140,6 +140,7 @@
     <Compile Include="Core\TemplateTags\RawHtml.cs" />
     <Compile Include="Core\TemplateTags\Widget.cs" />
     <Compile Include="Model\ActionResults\FileResult.cs" />
+    <Compile Include="Model\ActionResults\ImageResult.cs" />
     <Compile Include="Model\ActionResults\JsonResult.cs" />
     <Compile Include="Model\ActionResults\RedirectResult.cs" />
     <Compile Include="Model\ActionResults\TemplateResult.cs" />

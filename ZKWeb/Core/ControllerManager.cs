@@ -43,7 +43,14 @@ namespace ZKWeb.Core {
 			var action = Actions.GetOrDefault(
 				Tuple.Create(context.Request.Path, context.Request.HttpMethod));
 			if (action != null) {
-				action().WriteResponse(context.Response);
+				var result = action();
+				// 写入回应
+				result.WriteResponse(context.Response);
+				// 清理资源
+				if (result is IDisposable) {
+					((IDisposable)result).Dispose();
+				}
+				// 结束回应
 				context.Response.End();
 			}
 		}
