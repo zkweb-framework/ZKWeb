@@ -17,11 +17,11 @@ namespace ZKWeb.Model {
 		/// <summary>
 		/// 插件名称
 		/// </summary>
-		public Dictionary<string, string> Name { get; set; }
+		public string Name { get; set; }
 		/// <summary>
 		/// 插件描述
 		/// </summary>
-		public Dictionary<string, string> Description { get; set; }
+		public string Description { get; set; }
 		/// <summary>
 		/// 依赖的其他插件
 		/// </summary>
@@ -42,8 +42,8 @@ namespace ZKWeb.Model {
 			var json = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "{}";
 			var info = JsonConvert.DeserializeObject<PluginInfo>(json);
 			info.Directory = dir;
-			info.Name = info.Name ?? new Dictionary<string, string>();
-			info.Description = info.Description ?? new Dictionary<string, string>();
+			info.Name = info.Name ?? Path.GetFileName(dir);
+			info.Description = info.Description ?? info.Name;
 			info.Dependencies = info.Dependencies ?? new List<string>();
 			info.References = info.References ?? new List<string>();
 			return info;

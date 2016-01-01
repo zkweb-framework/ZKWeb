@@ -52,7 +52,7 @@ namespace ZKWeb.Model {
 		/// <summary>
 		/// 模块名称
 		/// </summary>
-		public Dictionary<string, string> Name { get; set; }
+		public string Name { get; set; }
 
 		/// <summary>
 		/// 从路径读取模块信息
@@ -69,7 +69,7 @@ namespace ZKWeb.Model {
 			var json = File.ReadAllText(fullPath);
 			var widgetInfo = JsonConvert.DeserializeObject<DiyWidgetInfo>(json);
 			widgetInfo.WidgetPath = path;
-			widgetInfo.Name = widgetInfo.Name ?? new Dictionary<string, string>();
+			widgetInfo.Name = widgetInfo.Name ?? Path.GetFileNameWithoutExtension(path);
 			return widgetInfo;
 		}
 	}

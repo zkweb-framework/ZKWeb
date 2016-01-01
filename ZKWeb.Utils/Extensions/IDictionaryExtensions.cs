@@ -50,29 +50,6 @@ namespace ZKWeb.Utils.Extensions {
 		}
 
 		/// <summary>
-		/// 获取词典中对应当前语言区域的值
-		/// 例子
-		/// 词典 { zh: '中文', en: '英文' }
-		/// 在当前语言区域是英文是会返回英文，否则返回中文
-		/// 找不到时默认返回zh对应的值
-		/// </summary>
-		/// <param name="dict">包含了语言对应的值的词典</param>
-		/// <returns></returns>
-		public static string GetLocalizedValue(
-			this IDictionary<string, string> dict) {
-			var locale = Thread.CurrentThread.CurrentCulture.Name;
-			// 语言，例如zh-CN时这里是zh，en-US时这里是en
-			var language = locale.Split('-')[0];
-			// 按语言-地区获取
-			var value = dict.GetOrDefault(locale, null);
-			// 按语言获取
-			value = value ?? dict.GetOrDefault(language, null);
-			// 默认返回中文
-			value = value ?? dict.GetOrDefault("zh", null);
-			return value;
-		}
-
-		/// <summary>
 		/// 尝试获取并转换值，值不存在或转换失败时返回默认值
 		/// 转换使用object.ConvertOrDefault
 		/// </summary>
