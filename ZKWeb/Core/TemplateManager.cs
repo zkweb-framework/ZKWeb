@@ -12,6 +12,7 @@ using ZKWeb.Utils.Functions;
 using DryIoc;
 using ZKWeb.Model;
 using ZKWeb.Core.TemplateFilters;
+using System.Text.RegularExpressions;
 
 namespace ZKWeb.Core {
 	/// <summary>
@@ -31,9 +32,12 @@ namespace ZKWeb.Core {
 			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
+			// 修改正则表达式的缓存大小，默认缓存只有15
+			Regex.CacheSize = 0xffff;
 			// 注册自定义标签
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<DefaultWidgets>("default_widgets");
+			Template.RegisterTag<Fetch>("fetch");
 			Template.RegisterTag<HtmlLang>("html_lang");
 			Template.RegisterTag<RawHtml>("raw_html");
 			Template.RegisterTag<Widget>("widget");

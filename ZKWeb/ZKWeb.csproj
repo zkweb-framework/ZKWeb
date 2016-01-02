@@ -136,6 +136,7 @@
     <Compile Include="Core\TemplateManager.cs" />
     <Compile Include="Core\TemplateTags\Area.cs" />
     <Compile Include="Core\TemplateTags\DefaultWidgets.cs" />
+    <Compile Include="Core\TemplateTags\Fetch.cs" />
     <Compile Include="Core\TemplateTags\HtmlLang.cs" />
     <Compile Include="Core\TemplateTags\RawHtml.cs" />
     <Compile Include="Core\TemplateTags\Widget.cs" />

@@ -20,8 +20,7 @@ namespace ZKWeb.Core {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		private IDictionary<Tuple<string, string>, Func<IActionResult>>
-			Actions { get; set; } =
+		private IDictionary<Tuple<string, string>, Func<IActionResult>> Actions =
 			new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
 
 		/// <summary>
@@ -40,8 +39,7 @@ namespace ZKWeb.Core {
 		/// </summary>
 		public void OnRequest() {
 			var context = HttpContext.Current;
-			var action = Actions.GetOrDefault(
-				Tuple.Create(context.Request.Path, context.Request.HttpMethod));
+			var action = GetAction(context.Request.Path, context.Request.HttpMethod);
 			if (action != null) {
 				var result = action();
 				// 写入回应
@@ -102,6 +100,16 @@ namespace ZKWeb.Core {
 		public void RegisterAction(string path, string method, Func<IActionResult> action) {
 			var key = Tuple.Create(path, method);
 			Actions[key] = action;
+		}
+
+		/// <summary>
+		/// 获取路径和请求类型对应的处理函数
+		/// 找不到时返回null
+		/// </summary>
+		/// <param name="path">路径</param>
+		/// <param name="method">请求类型</param>
+		public Func<IActionResult> GetAction(string path, string method) {
+			return Actions.GetOrDefault(Tuple.Create(path, method));
 		}
 	}
 }

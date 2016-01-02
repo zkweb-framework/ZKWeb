@@ -41,7 +41,7 @@ namespace ZKWeb.Core.TemplateTags {
 			result.Write($"<div class='diy_widget' path='{widgetPath}' args='{widgetArgs}' >");
 			// 描画模块的内容
 			var scope = widgetArgs == null ? new Hash() : Hash.FromDictionary(
-				JsonConvert.DeserializeObject<Dictionary<string, object>>(widgetArgs));
+				JsonConvert.DeserializeObject<IDictionary<string, object>>(widgetArgs));
 			context.Stack(scope, () => {
 				var includeTag = new Include();
 				var htmlPath = widgetPath + DiyWidgetInfo.HtmlExtension;

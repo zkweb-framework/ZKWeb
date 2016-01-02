@@ -1,11 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Utils.Functions {
@@ -163,6 +168,64 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		public static bool RemoveCookie(string key) {
 			return PutCookie(key, "", new DateTime(1970, 1, 1));
+		}
+
+		/// <summary>
+		/// HttpRequest的私有成员的设置器
+		/// </summary>
+		internal static class HttpRequestSetters {
+			internal static Lazy<Action<HttpRequest, string>> HttpMethod =
+				new Lazy<Action<HttpRequest, string>>(() =>
+				ReflectionUtils.MakeSetter<HttpRequest, string>("_httpMethod"));
+			internal static Lazy<Action<HttpRequest, NameValueCollection>> Form =
+				new Lazy<Action<HttpRequest, NameValueCollection>>(() =>
+				ReflectionUtils.MakeSetter<HttpRequest, NameValueCollection>("_form"));
+			internal static Lazy<Action<HttpRequest, HttpCookieCollection>> Cookies =
+				new Lazy<Action<HttpRequest, HttpCookieCollection>>(() =>
+				ReflectionUtils.MakeSetter<HttpRequest, HttpCookieCollection>("_cookies"));
+		}
+
+		/// <summary>
+		/// 临时使用指定的http上下文
+		/// 结束后恢复原有的上下文
+		/// </summary>
+		/// <param name="uri">请求的uri</param>
+		/// <param name="method">请求类型，GET或POST</param>
+		/// <returns></returns>
+		public static IDisposable UseContext(Uri uri, string method) {
+			// 创建http请求
+			HttpRequest request;
+			if (method == "GET") {
+				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, uri.Query);
+			} else if (method == "POST") {
+				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, "");
+				HttpRequestSetters.HttpMethod.Value(request, method);
+				HttpRequestSetters.Form.Value(request, HttpUtility.ParseQueryString(uri.Query));
+			} else {
+				throw new NotSupportedException($"Unsupported http method {method}");
+			}
+			// 复制当前请求的cookies
+			var original = HttpContext.Current;
+			if (original != null) {
+				HttpRequestSetters.Cookies.Value(request, original.Request.Cookies);
+			}
+			// 创建http回应
+			var response = new HttpResponse(new StringWriter());
+			// 创建http上下文
+			var context = new HttpContext(request, response);
+			return UseContext(context);
+		}
+
+		/// <summary>
+		/// 临时使用指定的http上下文
+		/// 结束后恢复原有的上下文
+		/// </summary>
+		/// <param name="context">指定的http上下文</param>
+		/// <returns></returns>
+		public static IDisposable UseContext(HttpContext context) {
+			var original = HttpContext.Current;
+			HttpContext.Current = context;
+			return new SimpleDisposable(() => HttpContext.Current = original);
 		}
 	}
 }

@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\MemoryCache.cs" />
+    <Compile Include="Collections\SimpleDisposable.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\DataExceptionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Functions\PasswordUtils.cs" />
     <Compile Include="Functions\PathUtils.cs" />
     <Compile Include="Functions\RandomUtils.cs" />
+    <Compile Include="Functions\ReflectionUtils.cs" />
     <Compile Include="Functions\RegexUtils.cs" />
     <Compile Include="Functions\TreeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
