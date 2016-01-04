@@ -1,36 +1,4 @@
-﻿
-------------------------------------------------------------------------------------------------
-
-app.RegisterModel
-
-class TestModel : Model {
-	string Name { get; set; }
-	DateTime CreateTime { get; set; }
-}
-
-__MigrateHistory
-TableName		LastModifiedOfPluginFiles （or use marshal file last modify time)
-TestPlugin_TestModel	Plugin.cs {modify time } TestModel.cs { modify time }
-
-if (LastModifiedOfPluginFiles != ...) {
-	Model.Migrate(); // create table, check column type and change, add column ... (or find a automatic solution)
-}
-
-using (var context = DatabaseManager.StartContext())
-using (var transaction = context.BeginTransaction()) {
-	context.BeginTransaction();
-	context.Add(...);
-	context.AddOrUpdate(...);
-	context.Update(...);
-	context.BatchAdd(...);
-	context.BatchDelete(...);
-	context.SaveChanges();
-	transaction.Commit();
-}
-
-------------------------------------------------------------------------------------------------
-
-/api/testmodel/search
+﻿/api/testmodel/search
 /api/testmodel/add
 /api/testmodel/edit
 /api/testmodel/update
@@ -109,110 +77,70 @@ diy流程
 
 -----------------------------------------------------------------------------------------
 
-后台管理
-AppManager
-	RegisterApp<UserScaffold>() // 可以继承
-	RegisterApp<Scaffold<Admin>>() // 也可以用默认的
-	RegisterApp(() => new CustomApp());
+AjaxTableSearchRequest
+AjaxTableSearchResponse
+IAjaxTableSearchHandler
+	GetConditions
+	OnQuery
+	OnSort
+	OnSelect
+	OnResponse
 
-class CustomApp:
-	Name = "测试应用";
-	Url = "/admin/custom_app";
-	Icon = "css class";
+AdminAppBuilder<T> : AdminApp, IAdminAppBuilder
+	Require Information
+		Basic
+			BaseUrl
+			AppName
+		ForSearch
+			List<Func<IAjaxTableSearchHandler>> SearchHandlers
+		ForAdd
+			Func<ModelFormBuilder> AddForm
+		ForEdit
+			Func<ModelFormBuilder> EditForm
+		ForBatch
+			Dictionary<string, Action> BatchHandlers
+	
+	Implement Actions
+		List
+			Action GET {BaseUrl}
+		Search
+			Action POST {BaseUrl}/search
+		Add, SaveAdd
+			Action GET, POST {BaseUrl}/add
+		Edit, SaveEdit
+			Action GET, POST {BaseUrl}/edit?id={id}
+		Batch
+			Action POST {BaseUrl}/batch?action={...}&id_list={...}
+	
+	How to add actions on website start
+		Application.Ioc.ResolveMany<IAdminAppBuilder>().Each(b => b.OnWebsiteStart());
 
-class UserScaffold : Scaffold<User>
-	UserScaffold()
-		Column = ["Name", "CreateTime"]
-		Sortable = ["CreateTime"]
-		AddForm = typeof(Form)
-		EditForm = typeof(Form)
-
-	class Form : ScaffoldForm<User>
-		[TextBox]
-		string Name
-		[Label]
-		string CreateTime
-
-		override void Dump(User user) { }
-		override void Bind(User user) { }
-
-继承
-	<= ScaffoldForm<T> <= AutoForm <= IForm
-
------------------------------------------------------------------------------------------
-
-fetch api from widget
-
-DataApiManager
-	DataApiManager
-		ResolveMany<IDataApi>()
-	AddApi
-		Apis[api.Address] = api
-		if (api.IsPublic)
-			controllerManager.AddAction(api.Address, ...)
-
-IDataApi
-	Address "/api/login_info"
-	IsPublic = true
-	GetData {
-		// check privilege
-		return new { ... };
-	}
-
-{% fetch_api /api/login_info > login_info %}
-{{ login_info.username }}
-
------------------------------------------------------------------------------------------
-
-auto form
-
-AdminLoginForm : AutoForm
-	[TextBox]
-	public string Username { get; set; }
-	[Password]
-	public string Password { get; set; }
-	[Captcha]
-	public string Captcha { get; set; }	
-
-	Bind() {
-		Username = "";
-		Password = "";
-		Captcha = "";
+[ExportMany]
+UserApp : AdminAppBuilder<User>
+	UserApp() {
+		BaseUrl = "/admin/users"
+		AppName = "User Manage"
+		SearchHandlers.Add(() => new SearchHandler())
+		AddForm = () => new Form()
+		EditForm = () => new Form()
+		EnableRecyleBin (Extension Method?)
+			BatchHandlers["delete"] = ???
+			BatchHandlers["delete_forever"] = ???
+			BatchHandlers["recover"] = ???
 	}
 	
-	Save() {
-		if (!LoadValues()) {
-			return LoadError;	
-		}
-		// login
-		return { success = true; }
-	}
+	SearchHandler
+		...
 	
-	ToString() {
-		return html;
-	}
-
-AdminController
-	Login() {
-		var form = AdminLoginForm();
-		if (IsPost()) {
-			return form.Save();
-		}
-		return new TemplateResult("admin_login.html", new { form = form });
-	}
-
-{% raw_html form %}
-
------------------------------------------------------------------------------------------
-
-实现csrf验证
+	Form
+		...
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
 ok	把原有ZKWebFramework中的所有功能移植过来
 ok	实现static控制器
-	添加后台页面
-	实现从类生成表单html（FormBuilder）
+ok	添加后台页面
+ok	实现从类生成表单html（FormBuilder）
 	实现从类生成CRUD操作和权限（Scaffold）
 	实现对管理员的管理
 	实现对用户的管理
