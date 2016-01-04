@@ -6,7 +6,7 @@ Web framework based on System.Web supports
 * multi language support (supported)
 * multi timezone support (supported)
 * auto api generation (planned)
-* auto form generation (planned)
+* auto form generation (supported)
 * scaffold (planned)
 * visual page editor (planned)
 

@@ -129,11 +129,33 @@ UserApp : AdminAppBuilder<User>
 			BatchHandlers["recover"] = ???
 	}
 	
-	SearchHandler
-		...
+	SearchHandler : IAjaxTableSearchHandler<User>
 	
-	Form
-		...
+	Form : ModelFormBuilder
+		OnBind
+			var user = __GetData<User>("id", u => u.Id)
+			Username = user.Username
+			__OnBindCallback(user)
+		OnSubmit
+			var user = __GetData<User>("id", u => u.Id);
+			user.Username = Username
+			__OnSubmitCallback(user)
+			__SaveData(user)
+
+-----------------------------------------------------------------------------------------
+
+How to modify data list and edit form from other plugin
+
+AdminAppBuilderCallback<T>
+	OnInit(app)
+		add search handler
+		modify form
+	OnBind(form, data)
+		data => form
+	OnSubmit(form, data)
+		form => data
+
+-----------------------------------------------------------------------------------------
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
