@@ -19,5 +19,26 @@ namespace ZKWeb.Core.TemplateFilters {
 		public static string Trans(string text) {
 			return new T(text);
 		}
+
+		/// <summary>
+		/// 格式化字符串
+		/// 最多可支持8个参数
+		/// 例子
+		/// {{ "name is [0], age is [1]" | format: name, age }}
+		/// </summary>
+		/// <returns></returns>
+		public static string Format(string text,
+			object arg_0 = null, object arg_1 = null, object arg_2 = null, object arg_3 = null,
+			object arg_4 = null, object arg_5 = null, object arg_6 = null, object arg_7 = null) {
+			text = text.Replace("[0]", arg_0?.ToString());
+			text = text.Replace("[1]", arg_1?.ToString());
+			text = text.Replace("[2]", arg_2?.ToString());
+			text = text.Replace("[3]", arg_3?.ToString());
+			text = text.Replace("[4]", arg_4?.ToString());
+			text = text.Replace("[5]", arg_5?.ToString());
+			text = text.Replace("[6]", arg_6?.ToString());
+			text = text.Replace("[7]", arg_7?.ToString());
+			return text;
+		}
 	}
 }

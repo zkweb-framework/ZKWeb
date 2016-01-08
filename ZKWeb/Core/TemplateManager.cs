@@ -28,6 +28,8 @@ namespace ZKWeb.Core {
 			// 默认所有文本和对象经过html编码
 			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
+			// 允许描画HtmlString
+			Template.RegisterSafeType(typeof(HtmlString), s => s);
 			// 初始化DotLiquid
 			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
@@ -52,7 +54,7 @@ namespace ZKWeb.Core {
 		/// </summary>
 		/// <param name="path">模板路径</param>
 		/// <param name="argument">传给模板的参数</param>
-		/// <param name="stream"></param>
+		/// <param name="stream">数据流</param>
 		public void RenderTemplate(string path, object argument, Stream stream) {
 			// 构建模板的参数
 			var parameters = new RenderParameters();
@@ -72,6 +74,21 @@ namespace ZKWeb.Core {
 			}
 			// 使用模板描画到数据流中
 			template.Render(stream, parameters);
+		}
+
+		/// <summary>
+		/// 描画指定的模板到字符串
+		/// </summary>
+		/// <param name="path">模板路径</param>
+		/// <param name="argument">传给模板的参数</param>
+		public string RenderTemplate(string path, object argument) {
+			using (var stream = new MemoryStream()) {
+				RenderTemplate(path, argument, stream);
+				stream.Seek(0, SeekOrigin.Begin);
+				using (var reader = new StreamReader(stream)) {
+					return reader.ReadToEnd();
+				}
+			}
 		}
 	}
 

@@ -41,6 +41,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DryIoc.dll.2.1.0\lib\net45\DryIoc.dll</HintPath>
     </Reference>
+    <Reference Include="DryIoc.MefAttributedModel, Version=2.0.0.356, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DryIoc.MefAttributedModel.dll.2.0.0\lib\net45\DryIoc.MefAttributedModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DryIocAttributes, Version=2.0.0.356, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DryIocAttributes.dll.2.0.0\lib\net45\DryIocAttributes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
@@ -61,6 +69,7 @@
       <HintPath>..\packages\Npgsql.3.0.4\lib\net45\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />

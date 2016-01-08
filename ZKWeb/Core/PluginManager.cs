@@ -1,6 +1,7 @@
 ﻿using CSScriptLibrary;
 using DryIoc;
 using DryIoc.MefAttributedModel;
+using DryIocAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,6 +66,9 @@ namespace ZKWeb.Core {
 					assemblies.Add(Assembly.LoadFile(assemblyPath));
 				}
 			}
+			// 设置默认的重复利用规则为不重复利用
+			// 因为dryioc本身的默认规则是不重复利用，而且可节省内存
+			AttributedModel.DefaultReuse = ReuseType.Transient;
 			// 注册程序集中的类型到Ioc中
 			// 为什么要枚举所有类型注册
 			//	开始时是让插件手动注册所有类型的

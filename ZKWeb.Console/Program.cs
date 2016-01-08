@@ -14,6 +14,8 @@
 	using NHibernate.Linq;
 	using Model;
 	using Newtonsoft.Json;
+	using DryIocAttributes;
+	using DryIoc.MefAttributedModel;
 
 	class Program {
 		static void Main(string[] args) {
