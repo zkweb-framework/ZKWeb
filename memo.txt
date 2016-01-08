@@ -157,6 +157,38 @@ AdminAppBuilderCallback<T>
 
 -----------------------------------------------------------------------------------------
 
+list
+	var table = Application.Ioc.Resolve<AjaxTableBuilder>()
+	table.Id = "AdminList";
+	table.addMenu(...);
+	table.addMenu(...);
+
+	new searchBar = Application.Ioc.Resolve<AjaxTableSearchBarBuilder>();
+	searchBar.TableId = "AdminList";
+	searchBar.AddMenu(...);
+	searchBar.AddMenu(...);
+	searchBar.AddConditionsFromHandler(new TestHandler());
+
+	return new TemplateResult("test.html", new { table, searchBar });
+
+	<div id="AdminList" class="context-area ajax-table"
+		 data-toggle="context" data-target="#AdminListMenu" ajax-table-target="/admin/list/search">
+	</div>
+	<div id="AdminListMenu" class="ajax-table-menu" ajax-table="#AdminList">
+		<ul class="dropdown-menu" role="menu">
+			<li><a class="refresh"><i class="fa fa-refresh"></i>{{ "Refresh" | trans }}</a></li>
+			<li><a class="fullscreen"><i class="fa fa-arrows-alt"></i>{{ "Fullscreen" | trans }}</a></li>
+		</ul>
+	</div>
+
+search
+	var json = HttpContext.Current.Request.GetParam<string>("json");
+	var request = AjaxTableRequest.FromJson(json);
+	var response = request.GetResponse(new TestHandler());
+	return new JsonResult(response);
+
+-------------------------------------------------------------------------------------------
+
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
 ok	把原有ZKWebFramework中的所有功能移植过来
