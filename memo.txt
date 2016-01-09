@@ -142,11 +142,23 @@ UserApp : AdminAppBuilder<User>
 			__OnSubmitCallback(user)
 			__SaveData(user)
 
+or
+
+ModelFormBuilder<TData, TForm> {
+	virtual T GetData() { ... }
+	protected override void OnBind() {
+	
+	}
+	protected override void OnSubmit() {
+	
+	}
+}
+
 -----------------------------------------------------------------------------------------
 
 How to modify data list and edit form from other plugin
 
-AdminAppBuilderCallback<T>
+IAdminAppBuilderCallback<T>
 	OnInit(app)
 		add search handler
 		modify form
@@ -188,6 +200,9 @@ search
 	return new JsonResult(response);
 
 -------------------------------------------------------------------------------------------
+
+支持 ModelFormBuilder<TData>
+支持 扩展IAjaxTableSearchHandler
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
