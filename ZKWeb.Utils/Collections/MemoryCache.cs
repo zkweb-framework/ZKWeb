@@ -15,11 +15,16 @@ namespace ZKWeb.Utils.Collections {
 	/// <typeparam name="TValue"></typeparam>
 	public class MemoryCache<TKey, TValue> {
 		/// <summary>
+		/// 定期删除过期数据的间隔时间，秒
+		/// </summary>
+		public const int RevokeExpiresInteval = 180;
+		/// <summary>
 		/// 缓存数据
 		/// 结构 { 键, (对象, 过期时间) }
+		/// 使用了线程锁所以这里只需要普通的Dictionary
 		/// </summary>
 		internal IDictionary<TKey, Tuple<TValue, DateTime>> Cache { get; }
-		= new ConcurrentDictionary<TKey, Tuple<TValue, DateTime>>();
+		= new Dictionary<TKey, Tuple<TValue, DateTime>>();
 		/// <summary>
 		/// 缓存数据的线程锁
 		/// </summary>
@@ -36,7 +41,7 @@ namespace ZKWeb.Utils.Collections {
 		void RevokeExpires() {
 			lock (this.CacheLock) {
 				var now = DateTime.UtcNow;
-				if ((now - this.LastRevokeExpires).TotalSeconds < 180) {
+				if ((now - this.LastRevokeExpires).TotalSeconds < RevokeExpiresInteval) {
 					return;
 				}
 				this.LastRevokeExpires = now;
