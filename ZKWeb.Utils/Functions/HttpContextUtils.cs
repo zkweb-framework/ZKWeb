@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -171,15 +172,18 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
-		/// HttpRequest的私有成员的设置器
+		/// 私有成员的设置器
 		/// </summary>
-		internal static class HttpRequestSetters {
+		internal static class FieldSetters {
 			internal static Lazy<Action<HttpRequest, string>> HttpMethod =
 				new Lazy<Action<HttpRequest, string>>(() =>
 				ReflectionUtils.MakeSetter<HttpRequest, string>("_httpMethod"));
 			internal static Lazy<Action<HttpRequest, NameValueCollection>> Form =
 				new Lazy<Action<HttpRequest, NameValueCollection>>(() =>
 				ReflectionUtils.MakeSetter<HttpRequest, NameValueCollection>("_form"));
+			internal static Lazy<Action<HttpContext, IDictionary>> Items =
+				new Lazy<Action<HttpContext, IDictionary>>(() =>
+				ReflectionUtils.MakeSetter<HttpContext, IDictionary>("_items"));
 			internal static Lazy<Action<HttpRequest, HttpCookieCollection>> Cookies =
 				new Lazy<Action<HttpRequest, HttpCookieCollection>>(() =>
 				ReflectionUtils.MakeSetter<HttpRequest, HttpCookieCollection>("_cookies"));
@@ -199,20 +203,21 @@ namespace ZKWeb.Utils.Functions {
 				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, uri.Query);
 			} else if (method == "POST") {
 				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, "");
-				HttpRequestSetters.HttpMethod.Value(request, method);
-				HttpRequestSetters.Form.Value(request, HttpUtility.ParseQueryString(uri.Query));
+				FieldSetters.HttpMethod.Value(request, method);
+				FieldSetters.Form.Value(request, HttpUtility.ParseQueryString(uri.Query));
 			} else {
 				throw new NotSupportedException($"Unsupported http method {method}");
-			}
-			// 复制当前请求的cookies
-			var original = HttpContext.Current;
-			if (original != null) {
-				HttpRequestSetters.Cookies.Value(request, original.Request.Cookies);
 			}
 			// 创建http回应
 			var response = new HttpResponse(new StringWriter());
 			// 创建http上下文
 			var context = new HttpContext(request, response);
+			// 继承当前请求的Items和Cookies
+			var original = HttpContext.Current;
+			if (original != null) {
+				FieldSetters.Items.Value(context, original.Items);
+				FieldSetters.Cookies.Value(context.Request, original.Request.Cookies);
+			}
 			return UseContext(context);
 		}
 
