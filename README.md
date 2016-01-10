@@ -13,8 +13,9 @@ Web framework based on System.Web supports
 This framework is inspired by django.<br />
 All comments are written in chinese at this moment because main developers are chinese.
 
-License<br />
-Unspecified, don't release or fork it until I choose the license.
+MIT License<br />
+Copyright © 2016 303248153@github<br />
+If you have any license issue please contact 303248153@qq.com.
 
 Fast Help:
 

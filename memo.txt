@@ -145,7 +145,8 @@ UserApp : AdminAppBuilder<User>
 or
 
 ModelFormBuilder<TData, TForm> {
-	virtual T GetData() { ... }
+	virtual TData GetDataForBind() { ... }
+	virtual TData GetDataForSubmit() { ... }
 	protected override void OnBind() {
 	
 	}
