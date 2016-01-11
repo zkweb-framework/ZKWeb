@@ -66,10 +66,10 @@ namespace ZKWeb.Core {
 			// 查找模板，找不到时写入错误信息
 			var template = Template.FileSystem.ReadTemplateFile(null, path) as Template;
 			if (template == null) {
-				using (var writer = new StreamWriter(stream)) {
-					writer.WriteLine($"template file {path} not found");
-					writer.Flush();
-				}
+				// 这里不能调用Dispose，见http://stackoverflow.com/questions/2666888
+				var writer = new StreamWriter(stream);
+				writer.WriteLine($"template file {path} not found");
+				writer.Flush();
 				return;
 			}
 			// 使用模板描画到数据流中
@@ -85,9 +85,8 @@ namespace ZKWeb.Core {
 			using (var stream = new MemoryStream()) {
 				RenderTemplate(path, argument, stream);
 				stream.Seek(0, SeekOrigin.Begin);
-				using (var reader = new StreamReader(stream)) {
-					return reader.ReadToEnd();
-				}
+				var reader = new StreamReader(stream);
+				return reader.ReadToEnd();
 			}
 		}
 	}
