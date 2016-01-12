@@ -9,9 +9,9 @@ using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Utils.Extensions {
 	/// <summary>
-	/// Lambda表达式的扩展函数
+	/// Linq表达式的扩展函数
 	/// </summary>
-	public static class LambdaExpressionExtensions {
+	public static class ExpressionExtensions {
 		/// <summary>
 		/// 获取成员表达式中的成员信息
 		/// </summary>

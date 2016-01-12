@@ -26,7 +26,7 @@ namespace ZKWeb.Utils.Functions {
 			var body = Expression.Assign(memberExp, Expression.Convert(memberParam, memberExp.Type));
 			return Expression.Lambda<Action<T, M>>(body, objParam, memberParam).Compile();
 		}
-		
+
 		/// <summary>
 		/// 生成属性或字段的获取函数
 		/// 可以用于私有的属性或字段
@@ -37,7 +37,7 @@ namespace ZKWeb.Utils.Functions {
 		/// <returns></returns>
 		public static Func<T, M> MakeGetter<T, M>(string memberName) {
 			var objParam = Expression.Parameter(typeof(T), "obj");
-			var body = Expression.PropertyOrField(objParam, memberName);
+			var body = Expression.Convert(Expression.PropertyOrField(objParam, memberName), typeof(M));
 			return Expression.Lambda<Func<T, M>>(body, objParam).Compile();
 		}
 	}

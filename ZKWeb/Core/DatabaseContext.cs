@@ -71,7 +71,7 @@ namespace ZKWeb.Core {
 		}
 
 		/// <summary>
-		/// 从数据库中获取满足条件的单个对象
+		/// 从数据库中获取满足条件的单个对象，找不到时返回null
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">表达式</param>

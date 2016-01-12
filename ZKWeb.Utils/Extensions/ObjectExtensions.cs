@@ -13,32 +13,47 @@ namespace ZKWeb.Utils.Extensions {
 	public static class ObjectExtensions {
 		/// <summary>
 		/// 转换对象到指定类型，失败时返回默认值
+		/// </summary>
+		/// <typeparam name="T">需要转换到的类型</typeparam>
+		/// <param name="obj">转换的对象</param>
+		/// <param name="default_value">默认值</param>
+		/// <returns></returns>
+		public static T ConvertOrDefault<T>(this object obj, T default_value = default(T)) {
+			return (T)obj.ConvertOrDefault(typeof(T), default_value);
+		}
+
+		/// <summary>
+		/// 转换对象到指定类型，失败时返回默认值
 		/// 转换过程
 		///		类型是枚举类型时先把值转换到int再转换到枚举类型
 		///		使用Convert.ChangeType转换
 		///		使用JsonConvert转换
 		/// </summary>
-		/// <typeparam name="T">x需要转换到的类型</typeparam>
+		/// <typeparam name="T">需要转换到的类型</typeparam>
 		/// <param name="obj">转换的对象</param>
 		/// <param name="default_value">默认值</param>
 		/// <returns></returns>
-		public static T ConvertOrDefault<T>(this object obj, T default_value = default(T)) {
+		public static object ConvertOrDefault(this object obj, Type type, object default_value) {
+			// 对象是null时直接返回默认值
+			if (obj == null) {
+				return default_value;
+			}
 			// 类型相同时直接返回，不需要转换
-			if (obj is T) {
-				return (T)obj;
+			var objType = obj.GetType();
+			if (type.IsAssignableFrom(objType)) {
+				return obj;
 			}
 			// 使用Convert转换
-			Type type = typeof(T);
 			try {
-				if (type.IsEnum) {
-					return (T)(object)Convert.ToInt32(obj);
+				if (objType.IsEnum) {
+					return Convert.ToInt32(obj);
 				}
-				return (T)Convert.ChangeType(obj, type);
+				return Convert.ChangeType(obj, type);
 			} catch {
 			}
 			// 使用JsonConvert转换
 			try {
-				return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+				return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(obj), type);
 			} catch {
 			}
 			return default_value;
