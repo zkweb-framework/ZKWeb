@@ -58,6 +58,7 @@ ok	实现下拉菜单
 	实现回收站
 ok	实现提交后自动关闭模态框并刷新表格
 	实现TabFormBuilder
+	实现FileUploader, Json, Label, RadioButtons, RegularExpression
 
 编写教程
 	使用入门
@@ -67,6 +68,7 @@ ok	实现提交后自动关闭模态框并刷新表格
 	自动生成表单
 	管理员后台
 	自动生成增删查改
+	定时任务
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）

@@ -55,6 +55,7 @@
     <Compile Include="Extensions\DataExceptionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions.cs" />
     <Compile Include="Extensions\HttpRequestExtensions.cs" />
     <Compile Include="Extensions\HttpResponseExtensions.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
