@@ -68,10 +68,10 @@ namespace ZKWeb {
 				ex = ex.InnerException;
 			}
 			// 记录到日志
-			// 不记录400, 404, 403错误
+			// 不记录400~499之间的错误（客户端错误）
 			var logManager = Ioc.Resolve<LogManager>();
 			var httpCode = (ex as HttpException)?.GetHttpCode();
-			if (!(httpCode == 400 || httpCode == 404 || httpCode == 403)) {
+			if (!(httpCode >= 400 && httpCode < 500)) {
 				logManager.LogError(ex.ToString());
 			}
 			// 判断是否启动程序时抛出的错误，如果是则卸载程序域等待重试
