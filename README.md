@@ -7,7 +7,7 @@ Web framework based on System.Web supports
 * multi timezone support (supported)
 * auto api generation (planned)
 * auto form generation (supported)
-* scaffold (planned)
+* scaffold (supported)
 * visual page editor (planned)
 
 This framework is inspired by django.<br />

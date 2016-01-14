@@ -52,10 +52,10 @@ ListItemsWithOptional<ListItemFromDataNotDeleted<UserRole>>>
 近期任务
 ok	权限提供器
 ok	实现各项权限的自动检查
-	实现角色的权限编辑
+ok	实现角色的权限编辑
 ok	实现下拉菜单
-	实现批量操作
-	实现回收站
+ok	实现批量操作
+ok	实现回收站
 ok	实现提交后自动关闭模态框并刷新表格
 	实现TabFormBuilder
 	实现FileUploader, Json, Label, RadioButtons, RegularExpression
