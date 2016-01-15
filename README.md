@@ -17,6 +17,9 @@ MIT License<br />
 Copyright © 2016 303248153@github<br />
 If you have any license issue please contact 303248153@qq.com.
 
+Guide (Chinese):
+http://blog.csdn.net/q303248153/article/details/50519538
+
 Fast Help:
 
 a. How to run this project?

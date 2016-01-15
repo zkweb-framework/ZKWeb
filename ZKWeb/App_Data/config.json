@@ -5,8 +5,6 @@
 	"Plugins": [
 		"Common.Base",
 		"Common.Admin",
-		"CMS.Article",
-		"CMS.Article.Tests",
 		// "Common.User",
 		// "Finance.Accounting",
 		// "Finance.Deposit",
