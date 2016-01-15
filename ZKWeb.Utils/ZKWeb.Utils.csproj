@@ -75,6 +75,7 @@
     <Compile Include="Functions\RandomUtils.cs" />
     <Compile Include="Functions\ReflectionUtils.cs" />
     <Compile Include="Functions\RegexUtils.cs" />
+    <Compile Include="Functions\TestUtils.cs" />
     <Compile Include="Functions\TreeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

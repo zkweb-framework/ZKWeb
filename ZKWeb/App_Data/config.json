@@ -1,10 +1,12 @@
 ﻿{
 	"Database": "postgresql",
 	"ConnectionString": "Server=127.0.0.1;Port=5432;Database=zkweb;User Id=postgres;Password=123456;",
-	"PluginDirectories": [ "../../ZKWeb.Plugins" ],
+	"PluginDirectories": [ "../../ZKWeb.Plugins", "../../ZKWeb.CMS" ],
 	"Plugins": [
 		"Common.Base",
-		"Common.Admin" //,
+		"Common.Admin",
+		"CMS.Article",
+		"CMS.Article.Tests",
 		// "Common.User",
 		// "Finance.Accounting",
 		// "Finance.Deposit",

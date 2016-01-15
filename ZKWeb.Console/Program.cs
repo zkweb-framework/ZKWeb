@@ -16,11 +16,11 @@
 	using Newtonsoft.Json;
 	using DryIocAttributes;
 	using DryIoc.MefAttributedModel;
-
+	using Utils.Functions;
 	class Program {
 		static void Main(string[] args) {
 			new Application().Application_Start();
-			
+			TestUtils.RunAllTests();
 			Console.WriteLine("done");
 			Console.ReadLine();
 		}
