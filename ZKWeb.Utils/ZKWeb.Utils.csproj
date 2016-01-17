@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\HttpPostedFileMock.cs" />
+    <Compile Include="Collections\HttpPostedFileWrapper.cs" />
     <Compile Include="Collections\MemoryCache.cs" />
     <Compile Include="Collections\SimpleDisposable.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />

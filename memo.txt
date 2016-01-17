@@ -47,8 +47,6 @@ diy流程
 
 -----------------------------------------------------------------------------------------
 
-ListItemsWithOptional<ListItemFromDataNotDeleted<UserRole>>>
-
 近期任务
 ok	权限提供器
 ok	实现各项权限的自动检查
@@ -58,17 +56,12 @@ ok	实现批量操作
 ok	实现回收站
 ok	实现提交后自动关闭模态框并刷新表格
 	实现TabFormBuilder
-	实现FileUploader, Json, Label, RadioButtons, RegularExpression
-
-编写教程
-	使用入门
-	插件系统
-	控制器和模板系统
-	数据库管理
-	管理员后台
-	自动生成增删查改
-	通用配置和定时任务
-	单元测试
+	实现FileUploader
+		Json
+		Label
+		RadioButtons
+		RegularExpression
+	修改用户编辑页
 
 开发任务
 ok	测试数据库增删查改和事件绑定（NHibernate支持事件）
@@ -76,8 +69,8 @@ ok	把原有ZKWebFramework中的所有功能移植过来
 ok	实现static控制器
 ok	添加后台页面
 ok	实现从类生成表单html（FormBuilder）
-	实现从类生成CRUD操作和权限（Scaffold）
-	实现对管理员的管理
+ok	实现从类生成CRUD操作和权限（Scaffold）
+ok	实现对管理员的管理
 	实现对用户的管理
 	移植原有Common中的所有功能（Preset的通用分类和提醒和站内信息等）
 	移植原有Finance中的所有功能（支付和结算和预存款）
