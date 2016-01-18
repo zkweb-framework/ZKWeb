@@ -55,8 +55,8 @@ ok	实现下拉菜单
 ok	实现批量操作
 ok	实现回收站
 ok	实现提交后自动关闭模态框并刷新表格
-	实现TabFormBuilder
-	实现FileUploader
+ok	实现TabFormBuilder
+ok	实现FileUploader
 		Json
 		Label
 		RadioButtons
@@ -75,3 +75,4 @@ ok	实现对管理员的管理
 	移植原有Common中的所有功能（Preset的通用分类和提醒和站内信息等）
 	移植原有Finance中的所有功能（支付和结算和预存款）
 	移植原有ZKShop中的所有功能（商品订单购物车）
+	DIY模块支持分别定义缓存时间

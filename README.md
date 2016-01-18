@@ -18,7 +18,7 @@ Copyright © 2016 303248153@github<br />
 If you have any license issue please contact 303248153@qq.com.
 
 Guide (Chinese):
-http://blog.csdn.net/q303248153/article/details/50519538
+http://www.cnblogs.com/zkweb/p/5133439.html
 
 Fast Help:
 
