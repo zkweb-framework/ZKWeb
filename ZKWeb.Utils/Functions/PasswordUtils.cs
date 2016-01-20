@@ -66,9 +66,9 @@ namespace ZKWeb.Utils.Functions {
 			if (string.IsNullOrEmpty(password)) {
 				return false;
 			}
-			var slat = this.Slat == null ? null : Convert.FromBase64String(this.Slat);
-			var info = FromPassword(password, slat, this.Type);
-			return (this.Hash == info.Hash);
+			var slat = Slat == null ? null : Convert.FromBase64String(Slat);
+			var info = FromPassword(password, slat, Type);
+			return (Hash == info.Hash);
 		}
 
 		/// <summary>

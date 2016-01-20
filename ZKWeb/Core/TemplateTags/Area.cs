@@ -41,7 +41,7 @@ namespace ZKWeb.Core.TemplateTags {
 		/// <param name="context"></param>
 		/// <param name="result"></param>
 		public override void Render(Context context, TextWriter result) {
-			var areaId = this.Markup.Trim();
+			var areaId = Markup.Trim();
 			// 区域不能嵌套
 			if (context[CurrentAreaIdKey] != null) {
 				throw new FormatException("area tag can't be nested");

@@ -57,7 +57,7 @@ namespace ZKWeb.Utils.Functions {
 			/// 下级节点的列表，不能修改
 			/// </summary>
 			public IEnumerable<ITreeNode<T>> Childs {
-				get { return this.ChildList; }
+				get { return ChildList; }
 			}
 
 			/// <summary>
@@ -65,9 +65,9 @@ namespace ZKWeb.Utils.Functions {
 			/// </summary>
 			/// <param name="value"></param>
 			public TreeNode(T value) {
-				this.Value = value;
-				this.Parent = null;
-				this.ChildList = new List<ITreeNode<T>>();
+				Value = value;
+				Parent = null;
+				ChildList = new List<ITreeNode<T>>();
 			}
 
 			/// <summary>
@@ -83,7 +83,7 @@ namespace ZKWeb.Utils.Functions {
 				} else if (node.Parent != null) {
 					throw new ArgumentException("node already has a parent");
 				}
-				this.ChildList.Add(node);
+				ChildList.Add(node);
 				node.Parent = this;
 			}
 
@@ -92,7 +92,7 @@ namespace ZKWeb.Utils.Functions {
 			/// </summary>
 			public void RemoveChildNode(ITreeNode<T> node) {
 				if (node.Parent == this) {
-					this.ChildList.Remove(node);
+					ChildList.Remove(node);
 					node.Parent = null;
 				}
 			}

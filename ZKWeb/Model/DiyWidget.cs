@@ -53,6 +53,10 @@ namespace ZKWeb.Model {
 		/// 模块名称
 		/// </summary>
 		public string Name { get; set; }
+		/// <summary>
+		/// 缓存时间，单位是秒
+		/// </summary>
+		public int CacheTime { get; set; }
 
 		/// <summary>
 		/// 从路径读取模块信息

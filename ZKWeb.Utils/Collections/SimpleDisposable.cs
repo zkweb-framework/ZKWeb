@@ -26,15 +26,15 @@ namespace ZKWeb.Utils.Collections {
 		/// 初始化
 		/// </summary>
 		public SimpleDisposable(Action onDispose) {
-			this.OnDispose = onDispose;
+			OnDispose = onDispose;
 		}
 
 		/// <summary>
 		/// 释放函数
 		/// </summary>
 		public void Dispose() {
-			if (Interlocked.Exchange(ref this.Disposed, 1) == 0) {
-				this.OnDispose();
+			if (Interlocked.Exchange(ref Disposed, 1) == 0) {
+				OnDispose();
 			}
 		}
 	}

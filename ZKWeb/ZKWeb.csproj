@@ -148,6 +148,7 @@
     <Compile Include="Model\DiyArea.cs" />
     <Compile Include="Model\DiyWidget.cs" />
     <Compile Include="Model\IActionResult.cs" />
+    <Compile Include="Model\ICacheCleaner.cs" />
     <Compile Include="Model\IController.cs" />
     <Compile Include="Model\IDataSaveCallback.cs" />
     <Compile Include="Model\IDataDeleteCallback.cs" />

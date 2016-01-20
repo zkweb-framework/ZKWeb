@@ -46,7 +46,7 @@ namespace ZKWeb.Core {
 			// 注册自定义过滤器
 			Template.RegisterFilter(typeof(Filters));
 			// 设置使用的文件系统
-			Template.FileSystem = new TemplateFileSystem();
+			Template.FileSystem = Application.Ioc.Resolve<TemplateFileSystem>();
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace ZKWeb.Core {
 	/// 模板系统使用的文件系统
 	/// 使用PathManager.GetTemplateFullPath获取路径
 	/// </summary>
-	public class TemplateFileSystem : IFileSystem {
+	public class TemplateFileSystem : IFileSystem, ICacheCleaner {
 		/// <summary>
 		/// 模板缓存时间
 		/// 这里的缓存时间是防止内存占用过多而设置的
@@ -105,7 +105,6 @@ namespace ZKWeb.Core {
 		/// <summary>
 		/// 模板路径缓存时间
 		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
-		/// 以后实现用户diy时应该提供清理函数
 		/// </summary>
 		public TimeSpan TemplatePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
 		/// <summary>
@@ -150,6 +149,14 @@ namespace ZKWeb.Core {
 			var template = Template.Parse(sources);
 			TemplateCache.Put(fullPath, Tuple.Create(lastWriteTime, template), TemplateCacheTime);
 			return template;
+		}
+
+		/// <summary>
+		/// 清理缓存
+		/// </summary>
+		public void ClearCache() {
+			TemplateCache.Clear();
+			TemplatePathCache.Clear();
 		}
 	}
 }

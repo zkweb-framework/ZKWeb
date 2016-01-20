@@ -39,15 +39,15 @@ namespace ZKWeb.Utils.Collections {
 		/// 固定每180秒一次
 		/// </summary>
 		void RevokeExpires() {
-			lock (this.CacheLock) {
+			lock (CacheLock) {
 				var now = DateTime.UtcNow;
-				if ((now - this.LastRevokeExpires).TotalSeconds < RevokeExpiresInteval) {
+				if ((now - LastRevokeExpires).TotalSeconds < RevokeExpiresInteval) {
 					return;
 				}
-				this.LastRevokeExpires = now;
+				LastRevokeExpires = now;
 				var expireKeys = Cache.Where(c => c.Value.Item2 < now).Select(c => c.Key).ToList();
 				foreach (var key in expireKeys) {
-					this.Cache.Remove(key);
+					Cache.Remove(key);
 				}
 			}
 		}
@@ -59,10 +59,10 @@ namespace ZKWeb.Utils.Collections {
 		/// <param name="value">缓存值</param>
 		/// <param name="keepTime">保留时间</param>
 		public void Put(TKey key, TValue value, TimeSpan keepTime) {
-			this.RevokeExpires();
-			lock (this.CacheLock) {
+			RevokeExpires();
+			lock (CacheLock) {
 				var now = DateTime.UtcNow;
-				this.Cache[key] = Tuple.Create(value, now + keepTime);
+				Cache[key] = Tuple.Create(value, now + keepTime);
 			}
 		}
 
@@ -74,10 +74,10 @@ namespace ZKWeb.Utils.Collections {
 		/// <param name="defaultValue">默认值</param>
 		/// <returns></returns>
 		public TValue GetOrDefault(TKey key, TValue defaultValue = default(TValue)) {
-			this.RevokeExpires();
-			lock (this.CacheLock) {
+			RevokeExpires();
+			lock (CacheLock) {
 				var now = DateTime.UtcNow;
-				var value = this.Cache.GetOrDefault(key);
+				var value = Cache.GetOrDefault(key);
 				if (value != null && value.Item2 > now) {
 					return value.Item1;
 				}
@@ -90,9 +90,18 @@ namespace ZKWeb.Utils.Collections {
 		/// </summary>
 		/// <param name="key">缓存键</param>
 		public void Remove(TKey key) {
-			this.RevokeExpires();
-			lock (this.CacheLock) {
-				this.Cache.Remove(key);
+			RevokeExpires();
+			lock (CacheLock) {
+				Cache.Remove(key);
+			}
+		}
+
+		/// <summary>
+		/// 清空缓存数据
+		/// </summary>
+		public void Clear() {
+			lock (CacheLock) {
+				Cache.Clear();
 			}
 		}
 	}

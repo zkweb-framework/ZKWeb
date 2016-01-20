@@ -1,5 +1,6 @@
 ﻿using DotLiquid;
 using DotLiquid.Tags;
+using DryIoc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace ZKWeb.Core.TemplateTags {
 				throw new FormatException("widget must use inside area");
 			}
 			// 获取模块名称和参数
-			var markup = this.Markup.Trim();
+			var markup = Markup.Trim();
 			string widgetPath = null;
 			string widgetArgs = null;
 			var index = markup.IndexOf(' ');
@@ -37,19 +38,30 @@ namespace ZKWeb.Core.TemplateTags {
 			} else {
 				widgetPath = markup;
 			}
-			// 添加div的开头
-			result.Write($"<div class='diy_widget' path='{widgetPath}' args='{widgetArgs}' >");
 			// 描画模块的内容
-			var scope = widgetArgs == null ? new Hash() : Hash.FromDictionary(
-				JsonConvert.DeserializeObject<IDictionary<string, object>>(widgetArgs));
-			context.Stack(scope, () => {
-				var includeTag = new Include();
-				var htmlPath = widgetPath + DiyWidgetInfo.HtmlExtension;
-				includeTag.Initialize("include", htmlPath, null);
-				includeTag.Render(context, result);
-			});
-			// 添加div的末尾
-			result.Write("</div>");
+			var diyManager = Application.Ioc.Resolve<DiyManager>();
+			var renderResult = diyManager.GetWidgetRenderCache(widgetPath, widgetArgs);
+			if (renderResult == null) {
+				// 没有缓存，需要重新描画
+				// 添加div的开头
+				var writer = new StringWriter();
+				writer.Write($"<div class='diy_widget' path='{widgetPath}' args='{widgetArgs}'>");
+				// 重新描画模块内容
+				var scope = widgetArgs == null ? new Hash() : Hash.FromDictionary(
+					JsonConvert.DeserializeObject<IDictionary<string, object>>(widgetArgs));
+				context.Stack(scope, () => {
+					var includeTag = new Include();
+					var htmlPath = widgetPath + DiyWidgetInfo.HtmlExtension;
+					includeTag.Initialize("include", htmlPath, null);
+					includeTag.Render(context, writer);
+				});
+				// 添加div的末尾
+				writer.Write("</div>");
+				// 保存到缓存中
+				renderResult = writer.ToString();
+				diyManager.PutWidgetRenderCache(widgetPath, widgetArgs, renderResult);
+			}
+			result.Write(renderResult);
 		}
 	}
 }

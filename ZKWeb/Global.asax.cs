@@ -35,6 +35,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
+			Ioc.RegisterMany<TemplateFileSystem>(Reuse.Singleton);
 			// 初始化管理器
 			Ioc.Resolve<PluginManager>();
 			Ioc.Resolve<TemplateManager>();
