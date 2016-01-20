@@ -71,7 +71,9 @@ namespace ZKWeb.Core {
 				info = DiyWidgetInfo.FromPath(widgetPath);
 				WidgetInfoCache.Put(widgetPath, info, WidgetInfoCacheTime);
 			}
-			WidgetRenderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));
+			if (info.CacheTime > 0) {
+				WidgetRenderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));
+			}
 		}
 
 		/// <summary>
