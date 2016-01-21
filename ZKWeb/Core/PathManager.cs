@@ -69,7 +69,7 @@ namespace ZKWeb.Core {
 				}
 				// 从各个插件目录获取，按载入顺序反向枚举
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
-				foreach (var plugin in pluginManager.Plugins) {
+				foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
 					fullPath = PathUtils.SecureCombine(
 						plugin.Directory, PathConfig.TemplateDirectoryName, path);
 					if (File.Exists(fullPath)) {
@@ -100,7 +100,7 @@ namespace ZKWeb.Core {
 			}
 			// 从各个插件目录获取，按载入顺序反向枚举
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
-			foreach (var plugin in pluginManager.Plugins) {
+			foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
 				fullPath = PathUtils.SecureCombine(plugin.Directory, path);
 				if (File.Exists(fullPath)) {
 					return fullPath;
