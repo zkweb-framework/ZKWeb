@@ -57,7 +57,7 @@ ok	实现回收站
 ok	实现提交后自动关闭模态框并刷新表格
 ok	实现TabFormBuilder
 ok	实现FileUploader
-		Json
+ok		Json
 ok		Label
 		RadioButtons
 		RegularExpression
@@ -67,7 +67,7 @@ ok		修改密码需要超级管理员
 ok		支持修改头像
 	后台未完成页面
 		工作间（空页面+区域）
-		关于我
+ok		关于我
 		关于网站
 	底部copyright
 
@@ -93,6 +93,10 @@ ok		修改密码
 	Common.UserMessage
 	Common.UserNotification
 	Common.AdminSettings
+		网站设置
+			基本设置
+			语言设置
+		...
 	Common.GenericClass
 	Common.GenericTag
 	Common.GenericRecord
