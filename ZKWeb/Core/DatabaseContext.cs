@@ -169,6 +169,7 @@ namespace ZKWeb.Core {
 		/// 如数据库上下文在删除前没有调用此函数则所有修改都不会被提交
 		/// </summary>
 		public void SaveChanges() {
+			Session.Flush();
 			Transaction.Commit();
 		}
 	}

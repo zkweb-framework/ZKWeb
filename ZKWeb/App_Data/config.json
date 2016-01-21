@@ -5,7 +5,7 @@
 	"Plugins": [
 		"Common.Base",
 		"Common.Admin",
-		"Common.UserCenter",
+		"Common.UserPanel",
 		"Common.UserContact"
 	]
 }

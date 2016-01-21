@@ -81,9 +81,9 @@ ok	实现从类生成CRUD操作和权限（Scaffold）
 ok	实现对管理员的管理
 ok	实现对用户的管理
 ok	DIY模块支持分别定义缓存时间（支持集中管理缓存内容）
-	Common.UserCenter
-		更改头像
-		修改密码
+ok	Common.UserCenter
+ok		更改头像
+ok		修改密码
 	Common.UserContact
 		手机
 		电话
