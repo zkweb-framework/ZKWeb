@@ -75,7 +75,7 @@ namespace ZKWeb.Core.TemplateTags {
 				if (actionResult is PlainResult) {
 					context[variable] = ((PlainResult)actionResult).Text;
 				} else if (actionResult is JsonResult) {
-					context[variable] = Hash.FromAnonymousObject(((JsonResult)actionResult).Object);
+					context[variable] = ((JsonResult)actionResult).Object;
 				} else {
 					var writer = new StringWriter();
 					var response = new HttpResponse(writer);
