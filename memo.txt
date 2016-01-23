@@ -94,11 +94,10 @@ ok		邮箱
 ok		地址
 	Common.UserMessage
 	Common.UserNotification
-	Common.AdminSettings
-		网站设置
-			基本设置
-			语言设置
-		...
+ok	Common.AdminSettings
+ok		网站设置
+ok			基本设置
+ok			语言设置
 	Common.GenericClass
 	Common.GenericTag
 	Common.GenericRecord
