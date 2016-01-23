@@ -5,6 +5,8 @@
 	"Plugins": [
 		"Common.Base",
 		"Common.Admin",
+		"Common.MenuPageBase",
+		"Common.AdminSettings",
 		"Common.UserPanel",
 		"Common.UserContact"
 	]

@@ -50,6 +50,10 @@ namespace ZKWeb.Core {
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString() {
+			// 文本是空白时不需要翻译
+			if (string.IsNullOrEmpty(Text)) {
+				return Text ?? "";
+			}
 			// 获取当前线程的语言
 			var cluture = Thread.CurrentThread.CurrentCulture;
 			// 获取翻译提供器并进行翻译
@@ -64,7 +68,7 @@ namespace ZKWeb.Core {
 				}
 			}
 			// 没有找到翻译，返回原有的文本
-			return Text;
+			return Text ?? "";
 		}
 	}
 }

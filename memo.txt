@@ -60,7 +60,7 @@ ok	实现FileUploader
 ok		Json
 ok		Label
 		RadioButtons
-		RegularExpression
+ok		RegularExpression
 ok	修改用户编辑页
 ok		不能修改用户名
 ok		修改密码需要超级管理员
@@ -86,12 +86,12 @@ ok	DIY模块支持分别定义缓存时间（支持集中管理缓存内容）
 ok	Common.UserCenter
 ok		更改头像
 ok		修改密码
-	Common.UserContact
-		手机
-		电话
-		QQ
-		邮箱
-		地址
+ok	Common.UserContact
+ok		手机
+ok		电话
+ok		QQ
+ok		邮箱
+ok		地址
 	Common.UserMessage
 	Common.UserNotification
 	Common.AdminSettings
@@ -105,6 +105,7 @@ ok		修改密码
 	Common.Region
 	Common.Currency
 	Common.UserLoginRecord
+	Common.CustomTranslator
 	Finance.Accounting
 	Finance.Deposit
 	Finance.Payment

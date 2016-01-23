@@ -132,6 +132,7 @@
     <Compile Include="Core\LogManager.cs" />
     <Compile Include="Core\PathManager.cs" />
     <Compile Include="Core\T.cs" />
+    <Compile Include="Core\TemplateFileSystem.cs" />
     <Compile Include="Core\TemplateFilters\Filters.cs" />
     <Compile Include="Core\TemplateManager.cs" />
     <Compile Include="Core\TemplateTags\Area.cs" />
