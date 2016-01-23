@@ -16,6 +16,7 @@ namespace ZKWeb.Core {
 	///		插件根目录/*.cs
 	///		插件根目录/*.json
 	///		App_Data/*.json (仅根目录)
+	///		App_Data/DatabaseScript.txt (仅删除)
 	/// </summary>
 	public static class Reloader {
 		/// <summary>
@@ -51,6 +52,12 @@ namespace ZKWeb.Core {
 			websiteConfigWatcher.Path = PathConfig.AppDataDirectory;
 			websiteConfigWatcher.Filter = "*.json";
 			startWatcher(websiteConfigWatcher);
+			// 监视DatabaseScriptPath，仅监视删除
+			var databaseScriptWatcher = new FileSystemWatcher();
+			databaseScriptWatcher.Path = Path.GetDirectoryName(PathConfig.DatabaseScriptPath);
+			databaseScriptWatcher.Filter = Path.GetFileName(PathConfig.DatabaseScriptPath);
+			databaseScriptWatcher.Deleted += (sender, e) => HttpRuntime.UnloadAppDomain();
+			databaseScriptWatcher.EnableRaisingEvents = true;
 		}
 	}
 }
