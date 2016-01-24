@@ -164,3 +164,6 @@ $RECYCLE.BIN/
 # nuget packages
 packages/
 
+# publish files
+*.pubxml
+*.pubxml.user
