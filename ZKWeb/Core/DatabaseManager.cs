@@ -38,7 +38,8 @@ namespace ZKWeb.Core {
 			if (string.Compare(config.Database, DatabaseTypes.PostgreSQL, true) == 0) {
 				db = PostgreSQLConfiguration.Standard.ConnectionString(config.ConnectionString);
 			} else if (string.Compare(config.Database, DatabaseTypes.SQLite, true) == 0) {
-				db = SQLiteConfiguration.Standard.ConnectionString(config.ConnectionString);
+				db = SQLiteConfiguration.Standard.ConnectionString(
+					config.ConnectionString.Replace("{{App_Data}}", PathConfig.AppDataDirectory));
 			} else if (string.Compare(config.Database, DatabaseTypes.MySQL, true) == 0) {
 				db = MySQLConfiguration.Standard.ConnectionString(config.ConnectionString);
 			} else if (string.Compare(config.Database, DatabaseTypes.MSSQL, true) == 0) {
@@ -50,6 +51,7 @@ namespace ZKWeb.Core {
 			var tableTypes = Application.Ioc.ResolveMany<IMappingProvider>()
 				.Select(p => p.GetType()).OrderBy(t => t.FullName).ToList();
 			// 创建数据库会话生成器
+			Action onFactorySuccess = () => { };
 			SessionFactory = Fluently.Configure()
 				.Database(db)
 				.Mappings(m => tableTypes.ForEach(t => m.FluentMappings.Add(t)))
@@ -59,17 +61,21 @@ namespace ZKWeb.Core {
 					//	判断是否和App_Data/DatabaseScript.txt一致
 					//	不一致时执行数据库更新并保存到该文件中
 					// 检测是否需要自动更新的原因是为了优化启动网站时的性能
+					// 保存文件的处理要放到BuildSessionFactory后面，
+					// 否则会出现数据库没有初始化成功但仍然保存了该文件的问题。
 					var scriptBuilder = new StringBuilder(
 						"/* this file is generated for checking database should update or not, don't execute */\r\n");
+					scriptBuilder.AppendFormat("/* {0} {1} */\r\n", config.Database, config.ConnectionString);
 					var path = PathConfig.DatabaseScriptPath;
 					new SchemaExport(c).Create(s => scriptBuilder.Append(s).Append("\r\n"), false);
 					var script = scriptBuilder.ToString();
 					if (!File.Exists(path) || script != File.ReadAllText(path)) {
 						new SchemaUpdate(c).Execute(false, true);
-						File.WriteAllText(path, script); // 成功后再写入
+						onFactorySuccess = () => File.WriteAllText(path, script);
 					}
 				})
 				.BuildSessionFactory();
+			onFactorySuccess();
 		}
 
 		/// <summary>
