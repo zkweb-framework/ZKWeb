@@ -98,13 +98,13 @@ ok	Common.AdminSettings
 ok		网站设置
 ok			基本设置
 ok			语言设置
-	Common.GenericClass
-	Common.GenericTag
+--	Common.GenericClass
+--	Common.GenericTag
 	Common.GenericRecord
 	Common.Region
 	Common.Currency
 	Common.UserLoginRecord
-	Common.CustomTranslator
+--	Common.CustomTranslator
 	Finance.Accounting
 	Finance.Deposit
 	Finance.Payment

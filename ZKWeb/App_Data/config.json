@@ -8,6 +8,8 @@
 		"Common.MenuPageBase",
 		"Common.AdminSettings",
 		"Common.UserPanel",
-		"Common.UserContact"
+		"Common.UserContact",
+		"Common.GenericClass",
+		"Common.GenericTag"
 	]
 }
