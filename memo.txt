@@ -98,8 +98,8 @@ ok	Common.AdminSettings
 ok		网站设置
 ok			基本设置
 ok			语言设置
---	Common.GenericClass
---	Common.GenericTag
+ok	Common.GenericClass
+ok	Common.GenericTag
 	Common.GenericRecord
 	Common.Region
 	Common.Currency
