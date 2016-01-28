@@ -10,6 +10,9 @@
 		"Common.UserPanel",
 		"Common.UserContact",
 		"Common.GenericClass",
-		"Common.GenericTag"
+		"Common.GenericTag",
+		"Common.Currency",
+		"Common.Region",
+		"Common.CustomTranslator"
 	]
 }

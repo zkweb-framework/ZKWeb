@@ -101,13 +101,13 @@ ok			语言设置
 ok	Common.GenericClass
 ok	Common.GenericTag
 	Common.GenericRecord
-	Common.Region
-	Common.Currency
+--	Common.Region
+ok	Common.Currency
 	Common.UserLoginRecord
 --	Common.CustomTranslator
 	Finance.Accounting
 	Finance.Deposit
-	Finance.Payment
+--	Finance.Payment
 	Finance.Payment.Alipay
 	Finance.Payment.Tenpay
 	Finance.Settlement
