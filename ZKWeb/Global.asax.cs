@@ -42,8 +42,9 @@ namespace ZKWeb {
 			Ioc.Resolve<ControllerManager>();
 			Ioc.Resolve<InitJsonSettings>();
 			Ioc.Resolve<DatabaseManager>();
-			// 初始化所有插件
+			// 初始化所有插件并调用网站启动时的处理
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
+			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			// 自动重新载入插件和网站配置
 			Reloader.Start();
 		}

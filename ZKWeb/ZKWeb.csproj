@@ -196,6 +196,7 @@
     <Compile Include="Model\IHttpRequestHandler.cs" />
     <Compile Include="Model\IPlugin.cs" />
     <Compile Include="Model\ITranslateProvider.cs" />
+    <Compile Include="Model\IWebsiteStartHandler.cs" />
     <Compile Include="Model\PathConfig.cs" />
     <Compile Include="Model\PluginInfo.cs" />
     <Compile Include="Model\ActionResults\PlainResult.cs" />

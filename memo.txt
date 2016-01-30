@@ -101,7 +101,7 @@ ok			语言设置
 ok	Common.GenericClass
 ok	Common.GenericTag
 	Common.GenericRecord
---	Common.Region
+ok	Common.Region
 ok	Common.Currency
 	Common.UserLoginRecord
 --	Common.CustomTranslator
