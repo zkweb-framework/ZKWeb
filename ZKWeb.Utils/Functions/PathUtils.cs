@@ -33,7 +33,7 @@ namespace ZKWeb.Utils.Functions {
 		/// 安全的组合路径列表
 		/// 检查参数是否为空或包含..
 		/// </summary>
-		/// <param name="paths"></param>
+		/// <param name="paths">路径列表</param>
 		/// <returns></returns>
 		public static string SecureCombine(params string[] paths) {
 			foreach (var path in paths) {
@@ -44,6 +44,17 @@ namespace ZKWeb.Utils.Functions {
 				}
 			}
 			return Path.Combine(paths);
+		}
+
+		/// <summary>
+		/// 检查路径的上一级路径是否存在，不存在时创建
+		/// </summary>
+		/// <param name="path">路径</param>
+		public static void EnsureParentDirectory(string path) {
+			var parentDirectory = Path.GetDirectoryName(path);
+			if (!Directory.Exists(parentDirectory)) {
+				Directory.CreateDirectory(parentDirectory);
+			}
 		}
 	}
 }
