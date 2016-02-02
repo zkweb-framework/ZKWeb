@@ -13,6 +13,8 @@
 		"Common.GenericTag",
 		"Common.Currency",
 		"Common.Region",
+		"Common.SerialGenerate",
+		"Finance.Payment",
 		"Common.CustomTranslate"
 	]
 }

@@ -104,7 +104,8 @@ ok	Common.GenericTag
 ok	Common.Region
 ok	Common.Currency
 	Common.UserLoginRecord
---	Common.CustomTranslate
+ok	Common.CustomTranslate
+--	Common.SerialGenerate
 	Finance.Accounting
 	Finance.Deposit
 --	Finance.Payment
