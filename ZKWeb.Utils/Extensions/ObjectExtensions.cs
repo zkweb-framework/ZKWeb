@@ -71,5 +71,29 @@ namespace ZKWeb.Utils.Extensions {
 			var objClone = JsonConvert.DeserializeObject<T>(json);
 			return objClone;
 		}
+
+		/// <summary>
+		/// 复制成员到另外一个对象
+		/// </summary>
+		/// <param name="from">复制来源</param>
+		/// <param name="to">复制目标</param>
+		public static void CopyMembersTo(this object from, object to) {
+			var fromType = from.GetType();
+			var toType = to.GetType();
+			foreach (var fromProperty in fromType.GetProperties()) {
+				var value = fromProperty.GetValue(from);
+				var toProperty = toType.GetProperty(fromProperty.Name);
+				if (toProperty != null) {
+					toProperty.SetValue(to, value);
+				}
+			}
+			foreach (var fromField in fromType.GetFields()) {
+				var value = fromField.GetValue(from);
+				var toField = toType.GetField(fromField.Name);
+				if (toField != null) {
+					toField.SetValue(to, value);
+				}
+			}
+		}
 	}
 }
