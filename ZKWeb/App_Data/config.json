@@ -15,6 +15,9 @@
 		"Common.Region",
 		"Common.SerialGenerate",
 		"Finance.Payment",
+		"Finance.Payment.Alipay",
+		"Finance.Payment.Tenpay",
+		"Finance.Payment.WeChat",
 		"Common.CustomTranslate"
 	]
 }
