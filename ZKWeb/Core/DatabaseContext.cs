@@ -111,7 +111,7 @@ namespace ZKWeb.Core {
 		/// <returns></returns>
 		public void Save<T>(ref T data, Action<T> update = null)
 			where T : class {
-			var callbacks = Application.Ioc.ResolveMany<IDataSaveCallback<T>>();
+			var callbacks = Application.Ioc.ResolveMany<IDataSaveCallback<T>>().ToList();
 			var dataLocal = data; // lambda中不能使用ref参数
 			callbacks.ForEach(c => c.BeforeSave(this, dataLocal));
 			if (update != null) {
@@ -130,7 +130,7 @@ namespace ZKWeb.Core {
 		/// <param name="data">删除的数据</param>
 		public void Delete<T>(T data)
 			where T : class {
-			var callbacks = Application.Ioc.ResolveMany<IDataDeleteCallback<T>>();
+			var callbacks = Application.Ioc.ResolveMany<IDataDeleteCallback<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, data));
 			Session.Delete(data);
 			Session.Flush();
