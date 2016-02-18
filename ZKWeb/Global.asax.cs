@@ -4,11 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using ZKWeb.Core;
 using DryIoc;
-using ZKWeb.Model;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Properties;
+using ZKWeb.Database;
+using ZKWeb.Web.Interfaces;
+using ZKWeb.Plugin;
+using ZKWeb.Logging;
+using ZKWeb.Plugin.Interfaces;
+using ZKWeb.Templating;
+using ZKWeb.Serialize;
+using ZKWeb.Web;
+using ZKWeb.Server;
+using ZKWeb.Templating.Diy;
+using ZKWeb.Localize.JsonConverters;
 
 namespace ZKWeb {
 	/// <summary>
@@ -26,27 +35,28 @@ namespace ZKWeb {
 		/// </summary>
 		public void Application_Start() {
 			// 注册管理器类型
-			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
-			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
-			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
-			Ioc.RegisterMany<InitJsonSettings>(Reuse.Singleton);
+			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
-			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
+			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton);
+			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
+			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
+			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(Reuse.Singleton);
+			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
+			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			// 初始化管理器
 			Ioc.Resolve<PluginManager>();
 			Ioc.Resolve<TemplateManager>();
 			Ioc.Resolve<ControllerManager>();
-			Ioc.Resolve<InitJsonSettings>();
+			Ioc.Resolve<InitializeJsonNet>();
 			Ioc.Resolve<DatabaseManager>();
 			// 初始化所有插件并调用网站启动时的处理
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			// 自动重新载入插件和网站配置
-			Reloader.Start();
+			PluginReloader.Start();
 		}
 
 		/// <summary>

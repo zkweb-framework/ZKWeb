@@ -10,9 +10,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using System.Web;
-	using Core;
 	using NHibernate.Linq;
-	using Model;
 	using Newtonsoft.Json;
 	using DryIocAttributes;
 	using DryIoc.MefAttributedModel;
