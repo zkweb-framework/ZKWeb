@@ -83,6 +83,7 @@ ok	实现从类生成CRUD操作和权限（Scaffold）
 ok	实现对管理员的管理
 ok	实现对用户的管理
 ok	DIY模块支持分别定义缓存时间（支持集中管理缓存内容）
+	修改单元测试，允许在别的插件中覆盖原有的测试（例如覆盖用户注册的测试）
 ok	Common.UserCenter
 ok		更改头像
 ok		修改密码
@@ -100,17 +101,18 @@ ok			基本设置
 ok			语言设置
 ok	Common.GenericClass
 ok	Common.GenericTag
-	Common.GenericRecord
+--	Common.GenericRecord
 ok	Common.Region
 ok	Common.Currency
 	Common.UserLoginRecord
 ok	Common.CustomTranslate
---	Common.SerialGenerate
+ok	Common.SerialGenerate
 	Finance.Accounting
 	Finance.Deposit
 --	Finance.Payment
-	Finance.Payment.Alipay
-	Finance.Payment.Tenpay
+--	Finance.Payment.Alipay
+--	Finance.Payment.Tenpay
+--	Finance.Payment.WeChat
 	Finance.Settlement
 	Shopping.Aftersales
 	Shopping.Order
