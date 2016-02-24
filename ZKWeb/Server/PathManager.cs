@@ -58,7 +58,7 @@ namespace ZKWeb.Server {
 				// 显式指定插件时
 				return GetPluginDirectories()
 					.Select(p => PathUtils.SecureCombine(
-						path, explictPlugin, PathConfig.TemplateDirectoryName, p))
+						p, explictPlugin, PathConfig.TemplateDirectoryName, path))
 					.FirstOrDefault(p => File.Exists(p));
 			} else {
 				// 不指定插件时，先从App_Data获取
