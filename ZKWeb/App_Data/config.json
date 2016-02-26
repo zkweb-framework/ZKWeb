@@ -12,6 +12,7 @@
 		"Common.GenericClass",
 		"Common.GenericTag",
 		"Common.GenericRecord",
+		"Common.LanguageSwitcher",
 		"Common.Currency",
 		"Common.Region",
 		"Common.SerialGenerate",
