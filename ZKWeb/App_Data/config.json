@@ -20,6 +20,11 @@
 		"Finance.Payment.Alipay",
 		"Finance.Payment.Tenpay",
 		"Finance.Payment.WeChat",
+		"UI.CKEditor",
+		"CMS.Article",
+		"Shopping.Product",
+		"Shopping.Order",
+		"Shopping.AfterSales",
 		"Common.CustomTranslate"
 	]
 }
