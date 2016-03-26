@@ -14,8 +14,7 @@ namespace ZKWeb.Database {
 	/// <summary>
 	/// 数据库上下文
 	/// 这个类用于包装对数据库的操作和触发以下事件
-	///		IDataAddCallback
-	///		IDataUpdateCallback
+	///		IDataSaveCallback
 	///		IDataDeleteCallback
 	/// NHibernate本身支持事件但不适合使用（修改数据需要同时改状态，需要绑定的事件较多等）
 	/// 例子（查询，[]要替换）

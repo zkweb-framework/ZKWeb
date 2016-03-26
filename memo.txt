@@ -109,14 +109,13 @@ ok	Common.CustomTranslate
 ok	Common.SerialGenerate
 	Finance.Accounting
 	Finance.Deposit
---	Finance.Payment
+ok	Finance.Payment
 --	Finance.Payment.Alipay
 --	Finance.Payment.Tenpay
 --	Finance.Payment.WeChat
 	Finance.Settlement
-	Shopping.Aftersales
-	Shopping.Order
-	Shopping.Product
-	Shopping.Seller
+--	Shopping.Aftersales
+--	Shopping.Order
+--	Shopping.Product
 	SMS.Base
 	SMS.GuangXin
