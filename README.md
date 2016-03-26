@@ -10,19 +10,19 @@ Web framework based on System.Web supports
 * api generation (planned)
 * visual page editor (planned)
 
-<p>State: 0.9 alpha</p>
-<p>Plugins: http://github.com/303248153/ZKWeb.Plugins</p>
+State: 0.9 alpha<br/>
+Plugins: http://github.com/303248153/ZKWeb.Plugins<br/>
 
-<p>This framework is inspired by django</p>
-<p>All comments are written in chinese at this moment because main developers are chinese.</p>
+This framework is inspired by django<br/>
+All comments are written in chinese at this moment because main developers are chinese.<br/>
 
-<p>MIT License</p>
-<p>Copyright © 2016 303248153@github</p>
-<p>If you have any license issue please contact 303248153@qq.com.</p>
+MIT License<br/>
+Copyright © 2016 303248153@github<br/>
+If you have any license issue please contact 303248153@qq.com.<br/>
 
 --------------------------------------------------------------------
 
-Guide (Chinese):
+Guide (Chinese):<br/>
 http://www.cnblogs.com/zkweb/p/5133439.html
 
 I did some break changes at 2016-02-18, you may need read this guide again for updated information. 
