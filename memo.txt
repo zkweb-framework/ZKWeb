@@ -84,6 +84,7 @@ ok	实现对管理员的管理
 ok	实现对用户的管理
 ok	DIY模块支持分别定义缓存时间（支持集中管理缓存内容）
 	修改单元测试，允许在别的插件中覆盖原有的测试（例如覆盖用户注册的测试）
+	修改单元测试，允许从网页执行测试并返回测试结果
 ok	Common.UserCenter
 ok		更改头像
 ok		修改密码
@@ -119,3 +120,4 @@ ok	Finance.Payment
 --	Shopping.Product
 	SMS.Base
 	SMS.GuangXin
+	UnitTest.WebTester
