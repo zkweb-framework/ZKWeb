@@ -37,7 +37,11 @@ namespace ZKWeb.Utils.Functions {
 		/// <returns></returns>
 		public static string SecureCombine(params string[] paths) {
 			foreach (var path in paths) {
-				if (string.IsNullOrEmpty(path)) {
+				if (path.StartsWith("/")) {
+					throw new ArgumentException($"path startswith '/'");
+				} else if (path.StartsWith("\\")) {
+					throw new ArgumentException($"path startswith '\'");
+				} else if (string.IsNullOrEmpty(path)) {
 					throw new ArgumentException($"path {path} is null or empty");
 				} else if (path.Contains("..")) {
 					throw new ArgumentException($"path {path} contains '..'");
