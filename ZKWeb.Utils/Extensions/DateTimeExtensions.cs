@@ -10,7 +10,6 @@ namespace ZKWeb.Utils.Extensions {
 	/// 时间的扩展函数
 	/// </summary>
 	public static class DateTimeExtensions {
-
 		/// <summary>
 		/// 把UTC时间转换到客户端的本地时间
 		/// </summary>
