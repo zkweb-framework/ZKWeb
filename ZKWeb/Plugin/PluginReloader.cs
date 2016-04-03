@@ -15,6 +15,7 @@ namespace ZKWeb.Plugin {
 	/// 检测网站目录的以下文件是否有改变，有改变时卸载当前程序域来让下次打开网站时重新载入
 	///		插件根目录/*.cs
 	///		插件根目录/*.json
+	///		插件根目录/*.dll
 	///		App_Data/*.json (仅根目录)
 	///		App_Data/DatabaseScript.txt (仅删除)
 	/// </summary>
@@ -26,7 +27,7 @@ namespace ZKWeb.Plugin {
 			// 指定文件改变时卸载程序域
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();
-				if (ext == ".cs" || ext == ".json") {
+				if (ext == ".cs" || ext == ".json" || ext == ".dll") {
 					HttpRuntime.UnloadAppDomain();
 				}
 			};
