@@ -23,6 +23,7 @@
 		"UI.CKEditor",
 		"CMS.Article",
 		"Shopping.Product",
+		"Shopping.Logistics",
 		"Shopping.Order",
 		"Shopping.AfterSales",
 		"Common.CustomTranslate"
