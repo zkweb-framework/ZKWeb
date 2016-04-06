@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using ZKWeb.Plugin;
+using ZKWeb.Plugin.Interfaces;
+using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Utils.Functions;
 
@@ -12,7 +14,30 @@ namespace ZKWeb.Server {
 	/// <summary>
 	/// 路径管理器
 	/// </summary>
-	public class PathManager {
+	public class PathManager : ICacheCleaner {
+		/// <summary>
+		/// 模板路径的缓存
+		/// { 模板名称: 模板的绝对路径 }
+		/// </summary>
+		private MemoryCache<string, string> TemplatePathCache { get; set; } =
+			new MemoryCache<string, string>();
+		/// <summary>
+		/// 资源路径的缓存
+		/// { 资源路径: 资源的绝对路径 }
+		/// </summary>
+		private MemoryCache<string, string> ResourcePathCache { get; set; } =
+			new MemoryCache<string, string>();
+		/// <summary>
+		/// 模板路径缓存时间
+		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// </summary>
+		public TimeSpan TemplatePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+		/// <summary>
+		/// 资源路径的缓存时间
+		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// </summary>
+		public TimeSpan ResourcePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+
 		/// <summary>
 		/// 获取插件根目录的绝对路径
 		/// 网站目录 + 网站配置中定义的插件根目录的相对路径
@@ -45,7 +70,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="path">模板路径</param>
 		/// <returns></returns>
-		public string GetTemplateFullPath(string path) {
+		public string GetTemplateFullPathWithoutCache(string path) {
 			// 获取显式指定的插件，没有时explictPlugin会等于null
 			var index = path.IndexOf(':');
 			string explictPlugin = null;
@@ -81,6 +106,25 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
+		/// 获取模板的完整路径
+		/// 使用缓存用于提高获取性能
+		/// 详细说明请见GetTemplateFullPathWithoutCache
+		/// </summary>
+		/// <param name="path">模板路径</param>
+		/// <returns></returns>
+		public string GetTemplateFullPath(string path) {
+			var fullPath = TemplatePathCache.GetOrDefault(path);
+			if (fullPath == null) {
+				fullPath = GetTemplateFullPathWithoutCache(path);
+				if (fullPath == null) {
+					return null;
+				}
+				TemplatePathCache.Put(path, fullPath, TemplatePathCacheTime);
+			}
+			return fullPath;
+		}
+
+		/// <summary>
 		/// 获取资源文件的完整路径
 		///	查找路径的顺序
 		///		App_Data\文件路径
@@ -91,7 +135,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="pathParts">路径</param>
 		/// <returns></returns>
-		public string GetResourceFullPath(params string[] pathParts) {
+		public string GetResourceFullPathWithoutCache(params string[] pathParts) {
 			// 先从App_Data获取
 			var path = PathUtils.SecureCombine(pathParts);
 			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
@@ -110,6 +154,26 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
+		/// 获取资源文件的完整路径
+		/// 使用缓存用于提高获取性能
+		/// 详细说明请见GetResourceFullPathWithoutCache
+		/// </summary>
+		/// <param name="pathParts">路径</param>
+		/// <returns></returns>
+		public string GetResourceFullPath(params string[] pathParts) {
+			var key = string.Join("/", pathParts);
+			var fullPath = ResourcePathCache.GetOrDefault(key);
+			if (fullPath == null) {
+				fullPath = GetResourceFullPathWithoutCache(pathParts);
+				if (fullPath == null) {
+					return null;
+				}
+				ResourcePathCache.Put(key, fullPath, TemplatePathCacheTime);
+			}
+			return fullPath;
+		}
+
+		/// <summary>
 		/// 获取储存文件的完整路径
 		/// 无论文件是否存在，返回App_Data\文件路径
 		/// </summary>
@@ -119,6 +183,14 @@ namespace ZKWeb.Server {
 			var path = PathUtils.SecureCombine(pathParts);
 			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
 			return fullPath;
+		}
+
+		/// <summary>
+		/// 清理缓存
+		/// </summary>
+		public void ClearCache() {
+			TemplatePathCache.Clear();
+			ResourcePathCache.Clear();
 		}
 	}
 }

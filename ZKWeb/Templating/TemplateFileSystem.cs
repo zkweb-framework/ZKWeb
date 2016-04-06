@@ -23,22 +23,11 @@ namespace ZKWeb.Templating {
 		/// </summary>
 		public TimeSpan TemplateCacheTime { get; set; } = TimeSpan.FromMinutes(15);
 		/// <summary>
-		/// 模板路径缓存时间
-		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
-		/// </summary>
-		public TimeSpan TemplatePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
-		/// <summary>
 		/// 模板的缓存
 		/// { 模板的绝对路径: (文件修改时间, 模板对象) }
 		/// </summary>
 		private MemoryCache<string, Tuple<DateTime, Template>> TemplateCache { get; set; } =
 			new MemoryCache<string, Tuple<DateTime, Template>>();
-		/// <summary>
-		/// 模板路径的缓存
-		/// { 模板名称: 模板的绝对路径 }
-		/// </summary>
-		private MemoryCache<string, string> TemplatePathCache { get; set; } =
-			new MemoryCache<string, string>();
 
 		/// <summary>
 		/// 从模板路径读取模板
@@ -47,17 +36,9 @@ namespace ZKWeb.Templating {
 		/// <param name="templateName">模板路径</param>
 		/// <returns></returns>
 		public object ReadTemplateFile(Context context, string templateName) {
-			// 从缓存获取模板的绝对路径
-			// 没有时重新获取并设置到缓存
-			var fullPath = TemplatePathCache.GetOrDefault(templateName);
-			if (fullPath == null) {
-				var pathManager = Application.Ioc.Resolve<PathManager>();
-				fullPath = pathManager.GetTemplateFullPath(templateName);
-				if (fullPath == null) {
-					return null;
-				}
-				TemplatePathCache.Put(templateName, fullPath, TemplatePathCacheTime);
-			}
+			// 获取模板的绝对路径
+			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var fullPath = pathManager.GetTemplateFullPath(templateName);
 			// 从缓存获取模板
 			var lastWriteTime = File.GetLastWriteTimeUtc(fullPath);
 			var cache = TemplateCache.GetOrDefault(fullPath);
@@ -76,7 +57,6 @@ namespace ZKWeb.Templating {
 		/// </summary>
 		public void ClearCache() {
 			TemplateCache.Clear();
-			TemplatePathCache.Clear();
 		}
 	}
 }
