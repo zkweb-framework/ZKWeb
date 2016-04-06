@@ -1,45 +1,27 @@
-﻿{% area test_area %}
-	{% default_widgets %}
-{% endarea %}
-
-转换成
+﻿-----------------------------------------------------------------------------------------
+区域和模块系统
 
 {% area test_area %}
-	{% widget logo %}
-	{% widget login_info %}
-	{% widget test_params { a: 1, b: 2, c: 3 } %}
-{% endarea %}
 
 文件
-	templates/login_info.widget { "Name": { "zh": "登录信息" }, "Params": "参数信息???" }
+	templates/login_info.widget
 	templates/login_info.html
+	App_Data/areas/test_area.widgets
 
 html
-	<div class='diy_area' area_id='test_area'>
-		<div class='diy_widget' widget_id='random_123123123'></div>
-		<div class='diy_widget' widget_id='random_123123122'></div>
-		<div class='diy_widget' widget_id='random_123123121'></div>
+	<div class='template_area' area_id='test_area'>
+		<div class='template_widget' widget_id='random_123123123'></div>
+		<div class='template_widget' widget_id='random_123123122'></div>
+		<div class='template_widget' widget_id='random_123123121'></div>
 	</div>
 
-diy流程
-	转换动态内容到固定内容
-		把整个模板中area找出来
-		把area中动态导入的所有widget，转换成静态的widget标签
-		保存到App_Data/templates下
+流程
+	获取区域和区域下的所有模块
 	编辑和保存
 		让用户直接编辑html插入area标签
 		让用户添加和拖动widget
-		保存编辑后的结构到html中
-			构成的html可能有多个，要找出所有用extend和include引入的html
-			根据area id查找并保存到对应的html
-
-动态注册widget
-	diyManager.GetArea("test_area") // DiyArea
-		.AddDefaultWidget("logo")
-		.AddDefaultWidget("test_params", new { a: 1, b: 2, c: 3 })
-		.AddDefaultWidgetAfter("logo", "login_info")
-		.AddDefaultWidgetBefore("logo", "test_params", new { a: 1, b: 2, c: 3 });
-	diyManager.GetArea("test_area").DefaultWidgets(); // List<DiyWidget>
+		保存编辑后的模块列表到{areaId}.widgets文件中
+	这里要求Area的Id全局唯一
 
 规则
 	include里面可以有include
@@ -82,7 +64,7 @@ ok	实现从类生成表单html（FormBuilder）
 ok	实现从类生成CRUD操作和权限（Scaffold）
 ok	实现对管理员的管理
 ok	实现对用户的管理
-ok	DIY模块支持分别定义缓存时间（支持集中管理缓存内容）
+ok	模板模块支持分别定义缓存时间（支持集中管理缓存内容）
 	修改单元测试，允许在别的插件中覆盖原有的测试（例如覆盖用户注册的测试）
 	修改单元测试，允许从网页执行测试并返回测试结果
 ok	Common.UserCenter

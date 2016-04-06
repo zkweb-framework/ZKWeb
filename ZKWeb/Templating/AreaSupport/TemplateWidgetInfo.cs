@@ -7,36 +7,12 @@ using System.Linq;
 using System.Web;
 using ZKWeb.Server;
 
-namespace ZKWeb.Templating.Diy {
+namespace ZKWeb.Templating.AreaSupport {
 	/// <summary>
-	/// 支持可视化编辑的模块
-	/// </summary>
-	public class DiyWidget {
-		/// <summary>
-		/// 模块信息
-		/// </summary>
-		public DiyWidgetInfo Info { get; set; }
-		/// <summary>
-		/// 模块参数
-		/// </summary>
-		public object Args { get; set; }
-
-		/// <summary>
-		/// 初始化
-		/// </summary>
-		/// <param name="path">模块路径，注意不能带后缀</param>
-		/// <param name="args">模块参数</param>
-		public DiyWidget(string path, object args = null) {
-			Info = DiyWidgetInfo.FromPath(path);
-			Args = args;
-		}
-	}
-
-	/// <summary>
-	/// 支持可视化编辑的模块信息
+	/// 模板模块的信息
 	/// 由{模块路径}.widget文件反序列化生成
 	/// </summary>
-	public class DiyWidgetInfo {
+	public class TemplateWidgetInfo {
 		/// <summary>
 		/// 模块信息的后缀名
 		/// </summary>
@@ -63,7 +39,7 @@ namespace ZKWeb.Templating.Diy {
 		/// </summary>
 		/// <param name="path">模块路径，注意不能带后缀</param>
 		/// <returns></returns>
-		public static DiyWidgetInfo FromPath(string path) {
+		public static TemplateWidgetInfo FromPath(string path) {
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			var fullPath = pathManager.GetResourceFullPath(
 				PathConfig.TemplateDirectoryName, path + InfoExtension);
@@ -71,7 +47,7 @@ namespace ZKWeb.Templating.Diy {
 				throw new FileNotFoundException($"widget {path} not exist");
 			}
 			var json = File.ReadAllText(fullPath);
-			var widgetInfo = JsonConvert.DeserializeObject<DiyWidgetInfo>(json);
+			var widgetInfo = JsonConvert.DeserializeObject<TemplateWidgetInfo>(json);
 			widgetInfo.WidgetPath = path;
 			widgetInfo.Name = widgetInfo.Name ?? Path.GetFileNameWithoutExtension(path);
 			return widgetInfo;

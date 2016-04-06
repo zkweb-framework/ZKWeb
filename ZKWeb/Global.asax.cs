@@ -16,7 +16,7 @@ using ZKWeb.Templating;
 using ZKWeb.Serialize;
 using ZKWeb.Web;
 using ZKWeb.Server;
-using ZKWeb.Templating.Diy;
+using ZKWeb.Templating.AreaSupport;
 using ZKWeb.Localize.JsonConverters;
 
 namespace ZKWeb {
@@ -42,7 +42,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton);
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
-			Ioc.RegisterMany<DiyManager>(Reuse.Singleton);
+			Ioc.RegisterMany<TemplateAreaManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);

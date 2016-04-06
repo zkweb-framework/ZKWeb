@@ -48,11 +48,9 @@ namespace ZKWeb.Templating {
 				.Extra.GetOrDefault<bool?>(DisplayFullExceptionForTemplateKey) ?? true;
 			// 注册自定义标签
 			Template.RegisterTag<Area>("area");
-			Template.RegisterTag<DefaultWidgets>("default_widgets");
 			Template.RegisterTag<Fetch>("fetch");
 			Template.RegisterTag<HtmlLang>("html_lang");
 			Template.RegisterTag<RawHtml>("raw_html");
-			Template.RegisterTag<Widget>("widget");
 			// 注册自定义过滤器
 			Template.RegisterFilter(typeof(Filters));
 			// 设置使用的文件系统

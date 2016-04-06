@@ -162,10 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\ConfigManager.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
     <Compile Include="Web\ControllerManager.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
-    <Compile Include="Templating\Diy\DiyManager.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateAreaManager.cs" />
     <Compile Include="Localize\JsonConverters\TJsonConverter.cs" />
     <Compile Include="Serialize\InitializeJsonNet.cs" />
     <Compile Include="Logging\LogManager.cs" />
@@ -175,18 +177,16 @@
     <Compile Include="Templating\TemplateFilters\Filters.cs" />
     <Compile Include="Templating\TemplateManager.cs" />
     <Compile Include="Templating\TemplateTags\Area.cs" />
-    <Compile Include="Templating\TemplateTags\DefaultWidgets.cs" />
     <Compile Include="Templating\TemplateTags\Fetch.cs" />
     <Compile Include="Templating\TemplateTags\HtmlLang.cs" />
     <Compile Include="Templating\TemplateTags\RawHtml.cs" />
-    <Compile Include="Templating\TemplateTags\Widget.cs" />
     <Compile Include="Web\ActionResults\FileResult.cs" />
     <Compile Include="Web\ActionResults\ImageResult.cs" />
     <Compile Include="Web\ActionResults\JsonResult.cs" />
     <Compile Include="Web\ActionResults\RedirectResult.cs" />
     <Compile Include="Web\ActionResults\TemplateResult.cs" />
-    <Compile Include="Templating\Diy\DiyArea.cs" />
-    <Compile Include="Templating\Diy\DiyWidget.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateArea.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateWidget.cs" />
     <Compile Include="Web\Interfaces\IActionResult.cs" />
     <Compile Include="Plugin\Interfaces\ICacheCleaner.cs" />
     <Compile Include="Web\Interfaces\IController.cs" />

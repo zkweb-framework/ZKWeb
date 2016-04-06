@@ -4,32 +4,28 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using DotLiquid;
+using DryIoc;
+using ZKWeb.Templating.AreaSupport;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 用于提供动态内容的区域
+	/// 区域Id要求全局唯一
 	/// 例子
-	/// 内容可以在插件中动态注册，见DiyManager
 	/// {% area test_area %}
-	///		{% default_widgets %}
-	/// {% endarea %}
 	/// 
-	/// 例子
-	/// 固定的模块，可以手动或在可视化编辑中修改
-	/// {% area test_area %}
-	///		{% widget logo %}
-	///		{% widget test_widget { arg: 1 } %}
-	/// {% endarea %}
+	/// 描画流程
+	/// - 读取自定义模块列表，存在时描画这个列表
+	/// - 描画默认的模块列表
 	/// 
 	/// 生成的Html例子（使用[]代替）
-	/// 这里的diy_area和area_id都会作为可视化编辑时判断是否区域的依据
-	/// [div class='diy_area' area_id='test_area' file='include/header.html']
-	///		[div class='diy_widget' widget_id='random_123123123'][/div]
-	///		[div class='diy_widget' widget_id='random_123123122'][/div]
-	///		[div class='diy_widget' widget_id='random_123123121'][/div]
+	/// [div class='template_area' area_id='test_area']
+	///		[div class='template_widget'][/div]
+	///		[div class='template_widget'][/div]
+	///		[div class='template_widget'][/div]
 	/// [/div]
 	/// </summary>
-	public class Area : Block {
+	public class Area : Tag {
 		/// <summary>
 		/// 保存当前区域Id时使用的键名
 		/// </summary>
@@ -46,13 +42,21 @@ namespace ZKWeb.Templating.TemplateTags {
 			if (context[CurrentAreaIdKey] != null) {
 				throw new FormatException("area tag can't be nested");
 			}
+			// 获取模块列表
+			var areaManager = Application.Ioc.Resolve<TemplateAreaManager>();
+			var widgets = areaManager.GetCustomWidgets(areaId) ??
+				areaManager.GetArea(areaId).DefaultWidgets;
 			// 添加div的开头
-			result.Write($"<div class='diy_area' area_id='{areaId}' >");
+			result.Write($"<div class='template_area' area_id='{areaId}' >");
 			// 描画子元素
 			var scope = Hash.FromDictionary(new Dictionary<string, object>() {
 				{ CurrentAreaIdKey, areaId }
 			});
-			context.Stack(scope, () => RenderAll(NodeList, context, result));
+			context.Stack(scope, () => {
+				foreach (var widget in widgets) {
+					result.Write(areaManager.RenderWidget(context, widget));
+				}
+			});
 			// 添加div的末尾
 			result.Write("</div>");
 		}
