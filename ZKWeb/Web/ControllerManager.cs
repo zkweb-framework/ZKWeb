@@ -37,7 +37,7 @@ namespace ZKWeb.Web {
 		/// 处理http请求
 		/// 查找路径对应的处理函数，存在时使用该函数否则跳过处理
 		/// </summary>
-		public void OnRequest() {
+		public virtual void OnRequest() {
 			var context = HttpContext.Current;
 			var action = GetAction(context.Request.Path, context.Request.HttpMethod);
 			if (action != null) {
@@ -57,7 +57,7 @@ namespace ZKWeb.Web {
 		/// 注册控制器类型
 		/// </summary>
 		/// <typeparam name="T">控制器类型</typeparam>
-		public void RegisterController<T>() {
+		public virtual void RegisterController<T>() {
 			RegisterController(typeof(T));
 		}
 
@@ -65,7 +65,7 @@ namespace ZKWeb.Web {
 		/// 注册控制器类型
 		/// </summary>
 		/// <param name="type">控制器类型</param>
-		public void RegisterController(Type type) {
+		public virtual void RegisterController(Type type) {
 			// 枚举所有带ActionAttribute的属性的公开函数
 			foreach (var method in type.GetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
@@ -90,14 +90,29 @@ namespace ZKWeb.Web {
 				}
 			}
 		}
-
+		
+		/// <summary>
+		/// 正规化路径
+		/// 路径前没有/时添加/
+		/// 路径后有/时去除/
+		/// </summary>
+		/// <param name="path">路径</param>
+		/// <returns></returns>
+		public virtual string NormalizePath(string path) {
+			if (!path.StartsWith("/")) {
+				path = "/" + path;
+			}
+			return path.TrimEnd('/');
+		}
+		
 		/// <summary>
 		/// 注册单个http请求的处理函数
 		/// </summary>
 		/// <param name="path">路径</param>
 		/// <param name="method">请求类型</param>
 		/// <param name="action">处理函数</param>
-		public void RegisterAction(string path, string method, Func<IActionResult> action) {
+		public virtual void RegisterAction(string path, string method, Func<IActionResult> action) {
+			path = NormalizePath(path);
 			var key = Tuple.Create(path, method);
 			Actions[key] = action;
 		}
@@ -108,7 +123,8 @@ namespace ZKWeb.Web {
 		/// </summary>
 		/// <param name="path">路径</param>
 		/// <param name="method">请求类型</param>
-		public Func<IActionResult> GetAction(string path, string method) {
+		public virtual Func<IActionResult> GetAction(string path, string method) {
+			path = NormalizePath(path);
 			return Actions.GetOrDefault(Tuple.Create(path, method));
 		}
 	}
