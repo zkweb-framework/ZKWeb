@@ -18,6 +18,7 @@ using ZKWeb.Web;
 using ZKWeb.Server;
 using ZKWeb.Templating.AreaSupport;
 using ZKWeb.Localize.JsonConverters;
+using ZKWeb.Localize;
 
 namespace ZKWeb {
 	/// <summary>
@@ -37,6 +38,7 @@ namespace ZKWeb {
 			// 注册管理器类型
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
+			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
 			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton);

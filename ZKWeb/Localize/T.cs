@@ -50,25 +50,8 @@ namespace ZKWeb.Localize {
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString() {
-			// 文本是空白时不需要翻译
-			if (string.IsNullOrEmpty(Text)) {
-				return Text ?? "";
-			}
-			// 获取当前线程的语言
-			var cluture = Thread.CurrentThread.CurrentCulture;
-			// 获取翻译提供器并进行翻译
-			// 传入 {语言}-{地区}
-			var providers = Application.Ioc.ResolveMany<ITranslateProvider>()
-				.Where(p => p.CanTranslate(cluture.Name));
-			// 翻译文本，先注册的后翻译
-			foreach (var provider in providers.Reverse()) {
-				var translated = provider.Translate(Text);
-				if (translated != null) {
-					return translated;
-				}
-			}
-			// 没有找到翻译，返回原有的文本
-			return Text ?? "";
+			var translateManager = Application.Ioc.Resolve<TranslateManager>();
+			return translateManager.Translate(Text);
 		}
 	}
 }
