@@ -90,7 +90,7 @@ namespace ZKWeb.Web {
 				}
 			}
 		}
-		
+
 		/// <summary>
 		/// 正规化路径
 		/// 路径前没有/时添加/
@@ -99,12 +99,15 @@ namespace ZKWeb.Web {
 		/// <param name="path">路径</param>
 		/// <returns></returns>
 		public virtual string NormalizePath(string path) {
+			if (path.Length > 1 && path.EndsWith("/")) {
+				path = path.TrimEnd('/');
+			}
 			if (!path.StartsWith("/")) {
 				path = "/" + path;
 			}
-			return path.TrimEnd('/');
+			return path;
 		}
-		
+
 		/// <summary>
 		/// 注册单个http请求的处理函数
 		/// </summary>
