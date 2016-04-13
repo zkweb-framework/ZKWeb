@@ -18,8 +18,12 @@ namespace ZKWeb.Serialize {
 		public InitializeJsonNet() {
 			JsonConvert.DefaultSettings = () => {
 				var settings = new JsonSerializerSettings();
+				// 添加自定义的转换器
 				var converters = Application.Ioc.ResolveMany<JsonConverter>();
 				converters.ForEach(c => settings.Converters.Add(c));
+				// 防止反序列化时使用原来的对象，导致元素重复
+				// http://stackoverflow.com/questions/24835262/repeated-serialization-and-deserialization-creates-duplicate-items
+				settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
 				return settings;
 			};
 		}
