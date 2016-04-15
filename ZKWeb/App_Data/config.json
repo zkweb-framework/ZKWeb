@@ -4,6 +4,7 @@
 	"PluginDirectories": [ "../../ZKWeb.Plugins" ],
 	"Plugins": [
 		"Common.Base",
+		"Common.Captcha",
 		"Common.Admin",
 		"Common.MenuPageBase",
 		"Common.AdminSettings",

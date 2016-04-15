@@ -165,6 +165,7 @@
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
+    <Compile Include="Web\ActionResults\StreamResult.cs" />
     <Compile Include="Web\ControllerManager.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
