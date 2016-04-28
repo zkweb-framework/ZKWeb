@@ -33,6 +33,10 @@ namespace ZKWeb.Plugin {
 		/// 插件列表
 		/// </summary>
 		public List<PluginInfo> Plugins { get; } = new List<PluginInfo>();
+		/// <summary>
+		/// 插件程序集列表
+		/// </summary>
+		public List<Assembly> PluginAssemblies { get; } = new List<Assembly>();
 
 		/// <summary>
 		/// 载入所有插件
@@ -56,14 +60,13 @@ namespace ZKWeb.Plugin {
 			// 注册解决程序集依赖的函数
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
 			// 载入插件
-			var assemblies = new List<Assembly>();
 			foreach (var plugin in Plugins) {
 				// 编译带源代码的插件
 				plugin.Compile();
 				// 载入插件程序集，注意部分插件只有资源文件没有程序集
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
-					assemblies.Add(Assembly.LoadFile(assemblyPath));
+					PluginAssemblies.Add(Assembly.LoadFile(assemblyPath));
 				}
 			}
 			// 设置默认的重复利用规则为不重复利用
@@ -74,7 +77,7 @@ namespace ZKWeb.Plugin {
 			//	开始时是让插件手动注册所有类型的
 			//	但是涉及到初始化插件时无论如何都要枚举所有类型比较，因为GetType(名称)是O(N)（见coreclr）
 			//	这里在原来的基础上牺牲一点性能，可以节省下手动注册类型的代码
-			Application.Ioc.RegisterExports(assemblies);
+			Application.Ioc.RegisterExports(PluginAssemblies);
 		}
 
 		/// <summary>

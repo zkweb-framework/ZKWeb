@@ -29,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="CSScriptLibrary, Version=3.11.0.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <HintPath>..\packages\CS-Script.bin.3.11.0.1\lib\net45\CSScriptLibrary.dll</HintPath>
@@ -116,6 +117,7 @@
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Functions\FileUtils.cs" />
     <Compile Include="Functions\HttpContextUtils.cs" />
@@ -126,14 +128,30 @@
     <Compile Include="Functions\RandomUtils.cs" />
     <Compile Include="Functions\ReflectionUtils.cs" />
     <Compile Include="Functions\RegexUtils.cs" />
-    <Compile Include="Functions\TestUtils.cs" />
     <Compile Include="Functions\TreeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\MyTest.cs" />
+    <Compile Include="UnitTest\Assert.cs" />
+    <Compile Include="UnitTest\AssertException.cs" />
+    <Compile Include="UnitTest\AssertPassedException.cs" />
+    <Compile Include="UnitTest\AssertSkipedException.cs" />
+    <Compile Include="UnitTest\Event\DebugMessageInfo.cs" />
+    <Compile Include="UnitTest\Event\ErrorMessageInfo.cs" />
+    <Compile Include="UnitTest\Event\IUnitTestEventHandler.cs" />
+    <Compile Include="UnitTest\Event\AllTestCompletedInfo.cs" />
+    <Compile Include="UnitTest\Event\AllTestStartingInfo.cs" />
+    <Compile Include="UnitTest\Event\TestFailedInfo.cs" />
+    <Compile Include="UnitTest\Event\TestPassedInfo.cs" />
+    <Compile Include="UnitTest\Event\TestSkippedInfo.cs" />
+    <Compile Include="UnitTest\Event\TestStartingInfo.cs" />
+    <Compile Include="UnitTest\UnitTestAttribute.cs" />
+    <Compile Include="UnitTest\UnitTestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

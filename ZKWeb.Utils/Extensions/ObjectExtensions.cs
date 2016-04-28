@@ -12,6 +12,24 @@ namespace ZKWeb.Utils.Extensions {
 	/// </summary>
 	public static class ObjectExtensions {
 		/// <summary>
+		/// 对比对象是否相等
+		/// 对象等于null也可以进行比较
+		/// </summary>
+		/// <param name="obj">对象</param>
+		/// <param name="target">目标对象</param>
+		/// <returns></returns>
+		public static bool EqualsSupportsNull(this object obj, object target) {
+			if (obj == null && target == null) {
+				return true;
+			} else if (obj == null && target != null) {
+				return false;
+			} else if (obj != null && target == null) {
+				return false;
+			}
+			return obj.Equals(target);
+		}
+
+		/// <summary>
 		/// 转换对象到指定类型，失败时返回默认值
 		/// </summary>
 		/// <typeparam name="T">需要转换到的类型</typeparam>

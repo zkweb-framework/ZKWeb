@@ -129,11 +129,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestConsoleEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Tests\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZKWeb.Utils\ZKWeb.Utils.csproj">

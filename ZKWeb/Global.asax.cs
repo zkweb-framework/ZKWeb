@@ -19,6 +19,7 @@ using ZKWeb.Server;
 using ZKWeb.Templating.AreaSupport;
 using ZKWeb.Localize.JsonConverters;
 using ZKWeb.Localize;
+using ZKWeb.UnitTest;
 
 namespace ZKWeb {
 	/// <summary>
@@ -47,6 +48,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateAreaManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
+			Ioc.RegisterMany<UnitTestManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
 			// 初始化管理器
 			Ioc.Resolve<PluginManager>();
