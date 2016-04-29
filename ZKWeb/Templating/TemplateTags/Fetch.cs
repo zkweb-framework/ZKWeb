@@ -14,15 +14,15 @@ using ZKWeb.Web.Interfaces;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
-	/// 把指定url的执行结果设置到变量
-	/// 指定的url可以是get也可以是post，会自动检测
+	/// 把指定路径的执行结果设置到变量
+	/// 指定的路径可以是get也可以是post，会自动检测
 	/// 例子
 	///		{% fetch /api/login_info > login_info %}
 	///		{{ login_info }}
 	///	例子，url支持变量
 	///		{% fetch /api/product_info?id={id} > product_info %}
 	///		{{ product_info }}
-	///	url中的变量的获取顺序
+	///	路径中的变量的获取顺序
 	///		当前模板上下文中的变量
 	///		当前http上下文中的参数
 	///	执行结果
@@ -39,39 +39,36 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// 把指定url的执行结果设置到变量
 		/// </summary>
 		public override void Render(Context context, TextWriter result) {
-			// 获取url和变量
+			// 获取路径和变量
 			var index = Markup.LastIndexOf('>');
 			if (index <= 0 || index + 1 == Markup.Length) {
-				throw new FormatException("incorrect format, please use {% fetch url > variable %}");
+				throw new FormatException("incorrect format, please use {% fetch path > variable %}");
 			}
-			var url = Markup.Substring(0, index).Trim();
+			var path = Markup.Substring(0, index).Trim();
 			var variable = Markup.Substring(index + 1).Trim();
-			// 设置url中的变量
-			var matches = VariableInUrlExpression.Matches(url);
+			// 设置路径中的变量
+			var matches = VariableInUrlExpression.Matches(path);
 			foreach (Match match in matches) {
 				var name = match.Value.Substring(1, match.Value.Length - 2);
 				var value = context[name].ConvertOrDefault<string>();
 				if (value == null) {
 					value = HttpContext.Current.Request.GetParam<string>(name);
 				}
-				url = url.Replace(match.Value, value);
+				path = path.Replace(match.Value, value);
 			}
-			// 补充完整url，否则无法使用Uri类
-			url = "http://localhost" + (url.StartsWith("/") ? "" : "/") + url;
 			// 查找对应的处理函数
-			var uri = new Uri(url);
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 			var method = HttpMethods.GET;
-			var action = controllerManager.GetAction(uri.AbsolutePath, method);
+			var action = controllerManager.GetAction(path, method);
 			if (action == null) {
 				method = HttpMethods.POST;
-				action = controllerManager.GetAction(uri.AbsolutePath, method);
+				action = controllerManager.GetAction(path, method);
 			}
 			if (action == null) {
-				throw new KeyNotFoundException($"action {uri.AbsolutePath} not found");
+				throw new KeyNotFoundException($"action {path} not found");
 			}
 			// 执行处理函数
-			using (HttpContextUtils.UseContext(uri, method)) {
+			using (HttpContextUtils.UseContext(path, method)) {
 				var actionResult = action();
 				if (actionResult is PlainResult) {
 					context[variable] = ((PlainResult)actionResult).Text;

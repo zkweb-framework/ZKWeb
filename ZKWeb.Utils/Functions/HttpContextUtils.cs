@@ -193,6 +193,18 @@ namespace ZKWeb.Utils.Functions {
 		/// 临时使用指定的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
+		/// <param name="context">指定的http上下文</param>
+		/// <returns></returns>
+		public static IDisposable UseContext(HttpContext context) {
+			var original = HttpContext.Current;
+			HttpContext.Current = context;
+			return new SimpleDisposable(() => HttpContext.Current = original);
+		}
+
+		/// <summary>
+		/// 临时使用指定的http上下文
+		/// 结束后恢复原有的上下文
+		/// </summary>
 		/// <param name="uri">请求的uri</param>
 		/// <param name="method">请求类型，GET或POST</param>
 		/// <returns></returns>
@@ -212,7 +224,7 @@ namespace ZKWeb.Utils.Functions {
 			var response = new HttpResponse(new StringWriter());
 			// 创建http上下文
 			var context = new HttpContext(request, response);
-			// 继承当前请求的Items和Cookies
+			// 当前请求存在时，继承Items, Cookies, Headers
 			var original = HttpContext.Current;
 			if (original != null) {
 				FieldSetters.Items.Value(context, original.Items);
@@ -225,12 +237,12 @@ namespace ZKWeb.Utils.Functions {
 		/// 临时使用指定的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
-		/// <param name="context">指定的http上下文</param>
+		/// <param name="path">请求的路径，不需要带域名</param>
+		/// <param name="method">请求类型，GET或POST</param>
 		/// <returns></returns>
-		public static IDisposable UseContext(HttpContext context) {
-			var original = HttpContext.Current;
-			HttpContext.Current = context;
-			return new SimpleDisposable(() => HttpContext.Current = original);
+		public static IDisposable UseContext(string path, string method) {
+			var url = "http://localhost" + (path.StartsWith("/") ? "" : "/") + path;
+			return UseContext(new Uri(url), method);
 		}
 	}
 }

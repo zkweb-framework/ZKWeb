@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ZKWeb.Utils.UnitTest;
 
 namespace ZKWeb.Utils.Extensions {
 	/// <summary>
@@ -18,10 +19,11 @@ namespace ZKWeb.Utils.Extensions {
 		public static bool IsAjaxRequest(this HttpRequest request) {
 			if (request == null) {
 				return false;
-			} else if (request["X-Requested-With"] == "XMLHttpRequest") {
-				return true;
 			} else if (request.Headers != null && request.Headers["X-Requested-With"] == "XMLHttpRequest") {
 				return true;
+			} else if (UnitTestRunner.CurrentRunner != null &&
+				request.GetParam<string>("X-Requested-With") == "XMLHttpRequest") {
+				return true; // 仅在单元测试时可以通过参数指定ajax请求
 			}
 			return false;
 		}
