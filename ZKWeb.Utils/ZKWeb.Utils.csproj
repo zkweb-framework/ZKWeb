@@ -98,7 +98,7 @@
     <Compile Include="Tests\Extensions\EnumExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ExpressionExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\HtmlTextWriterExtensionsTest.cs" />
-    <Compile Include="Tests\Extensions\HttpRequestExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\HttpRequestBaseExtensionsTest.cs" />
     <Compile Include="UnitTest\Assert.cs" />
     <Compile Include="UnitTest\AssertException.cs" />
     <Compile Include="UnitTest\AssertPassedException.cs" />
