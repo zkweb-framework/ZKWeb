@@ -27,7 +27,7 @@ namespace ZKWeb.Web.ActionResults {
 		/// 写入到http回应
 		/// </summary>
 		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponse response) {
+		public void WriteResponse(HttpResponseBase response) {
 			response.ContentType = "text/plain";
 			response.Write(Text);
 		}

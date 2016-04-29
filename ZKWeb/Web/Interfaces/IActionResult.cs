@@ -12,6 +12,6 @@ namespace ZKWeb.Web.Interfaces {
 		/// 把数据写到http回应
 		/// </summary>
 		/// <param name="response">http回应</param>
-		void WriteResponse(HttpResponse response);
+		void WriteResponse(HttpResponseBase response);
 	}
 }

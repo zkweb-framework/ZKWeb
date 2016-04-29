@@ -16,19 +16,39 @@ using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Utils.Functions {
 	/// <summary>
-	/// HttpContext的工具类
+	/// http上下文的工具类
+	/// 功能
+	///		提供返回HttpContextBase的CurrentContext
+	///		提供获取和储存数据到当前http上下文的Items的函数，如果上下文不存在则储存到线程本地的集合中
+	///		提供获取和储存数据到当前http上下文的Cookies的函数，如果上下文不存在则储存到线程本地的集合中
 	/// </summary>
 	public static class HttpContextUtils {
 		/// <summary>
-		/// HttpContext.Current等于null时的备用数据储存
+		/// 当前的http上下文
 		/// </summary>
-		internal static ThreadLocal<Dictionary<string, object>> ItemsFallback { get; set; }
-		= new ThreadLocal<Dictionary<string, object>>(() => new Dictionary<string, object>());
-
+		public static HttpContextBase CurrentContext {
+			get {
+				if (_overrideContext.Value != null) {
+					return _overrideContext.Value;
+				} else if (HttpContext.Current != null) {
+					return new HttpContextWrapper(HttpContext.Current);
+				}
+				return null;
+			}
+		}
 		/// <summary>
-		/// HttpContext.Current等于null时的备用Cookies储存
+		/// 重载当前的http上下文
 		/// </summary>
-		internal static ThreadLocal<Dictionary<string, string>> CookiesFallback { get; set; }
+		private static ThreadLocal<HttpContextBase> _overrideContext = new ThreadLocal<HttpContextBase>();
+		/// <summary>
+		/// 当前的http上下文等于null时的备用数据储存
+		/// </summary>
+		private static ThreadLocal<Dictionary<string, object>> ItemsFallback { get; set; }
+		= new ThreadLocal<Dictionary<string, object>>(() => new Dictionary<string, object>());
+		/// <summary>
+		/// 当前的http上下文等于null时的备用Cookies储存
+		/// </summary>
+		private static ThreadLocal<Dictionary<string, string>> CookiesFallback { get; set; }
 		= new ThreadLocal<Dictionary<string, string>>(() => new Dictionary<string, string>());
 
 		/// <summary>
@@ -37,7 +57,7 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		public static void PutData<T>(string key, T data)
 			where T : class {
-			var context = HttpContext.Current;
+			var context = CurrentContext;
 			if (context == null) {
 				ItemsFallback.Value[key] = data;
 			} else {
@@ -50,7 +70,7 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		public static T GetData<T>(string key, T defaultValue = default(T))
 			where T : class {
-			var context = HttpContext.Current;
+			var context = CurrentContext;
 			if (context == null) {
 				return (ItemsFallback.Value.GetOrDefault(key) as T) ?? defaultValue;
 			} else {
@@ -75,7 +95,7 @@ namespace ZKWeb.Utils.Functions {
 		/// 删除在一个Http请求中通用的数据
 		/// </summary>
 		public static void RemoveData(string key) {
-			var context = HttpContext.Current;
+			var context = CurrentContext;
 			if (context == null) {
 				ItemsFallback.Value.Remove(key);
 			} else {
@@ -88,7 +108,7 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		/// <returns></returns>
 		public static string GetClientIpAddress() {
-			return HttpContext.Current?.Request?.UserHostAddress ?? "::1";
+			return CurrentContext?.Request?.UserHostAddress ?? "::1";
 		}
 
 		/// <summary>
@@ -97,7 +117,7 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		/// <returns></returns>
 		public static string GetRequestHostUrl() {
-			var context = HttpContext.Current;
+			var context = CurrentContext;
 			if (context == null) {
 				return "http://localhost";
 			}
@@ -108,8 +128,8 @@ namespace ZKWeb.Utils.Functions {
 		/// 获取Cookie值
 		/// </summary>
 		public static string GetCookie(string key) {
-			// HttpContext.Current等于null时使用备用Cookies储存
-			var context = HttpContext.Current;
+			// 当前上下文不存在时使用备用Cookies储存
+			var context = CurrentContext;
 			if (context == null) {
 				return CookiesFallback.Value.GetOrDefault(key);
 			}
@@ -132,8 +152,8 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		public static bool PutCookie(string key, string value,
 			DateTime? expired = default(DateTime?), bool httpOnly = false) {
-			// HttpContext.Current等于null时使用备用Cookies储存
-			var context = HttpContext.Current;
+			// 当前上下文不存在时使用备用Cookies储存
+			var context = CurrentContext;
 			if (context == null) {
 				if (expired.HasValue && expired.Value.Year <= 1970) {
 					CookiesFallback.Value.Remove(key);
@@ -172,33 +192,15 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
-		/// 私有成员的设置器
-		/// </summary>
-		internal static class FieldSetters {
-			internal static Lazy<Action<HttpRequest, string>> HttpMethod =
-				new Lazy<Action<HttpRequest, string>>(() =>
-				ReflectionUtils.MakeSetter<HttpRequest, string>("_httpMethod"));
-			internal static Lazy<Action<HttpRequest, NameValueCollection>> Form =
-				new Lazy<Action<HttpRequest, NameValueCollection>>(() =>
-				ReflectionUtils.MakeSetter<HttpRequest, NameValueCollection>("_form"));
-			internal static Lazy<Action<HttpContext, IDictionary>> Items =
-				new Lazy<Action<HttpContext, IDictionary>>(() =>
-				ReflectionUtils.MakeSetter<HttpContext, IDictionary>("_items"));
-			internal static Lazy<Action<HttpRequest, HttpCookieCollection>> Cookies =
-				new Lazy<Action<HttpRequest, HttpCookieCollection>>(() =>
-				ReflectionUtils.MakeSetter<HttpRequest, HttpCookieCollection>("_cookies"));
-		}
-
-		/// <summary>
 		/// 临时使用指定的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
 		/// <param name="context">指定的http上下文</param>
 		/// <returns></returns>
-		public static IDisposable UseContext(HttpContext context) {
-			var original = HttpContext.Current;
-			HttpContext.Current = context;
-			return new SimpleDisposable(() => HttpContext.Current = original);
+		public static IDisposable UseContext(HttpContextBase context) {
+			var original = _overrideContext.Value;
+			_overrideContext.Value = context;
+			return new SimpleDisposable(() => _overrideContext.Value = original);
 		}
 
 		/// <summary>
@@ -206,31 +208,31 @@ namespace ZKWeb.Utils.Functions {
 		/// 结束后恢复原有的上下文
 		/// </summary>
 		/// <param name="uri">请求的uri</param>
-		/// <param name="method">请求类型，GET或POST</param>
+		/// <param name="method">请求类型，GET或POST等</param>
 		/// <returns></returns>
 		public static IDisposable UseContext(Uri uri, string method) {
-			// 创建http请求
-			HttpRequest request;
+			var mockContext = new HttpContextMock();
+			var mockRequest = new HttpRequestMock();
+			var mockResponse = new HttpResponseMock();
+			mockContext.request = mockRequest;
+			mockContext.response = mockResponse;
+			// 设置请求参数
+			mockRequest.url = uri;
+			mockRequest.path = uri.AbsolutePath;
+			mockRequest.httpMethod = method;
 			if (method == "GET") {
-				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, uri.Query);
+				mockRequest.queryString = HttpUtility.ParseQueryString(uri.Query);
 			} else if (method == "POST") {
-				request = new HttpRequest(uri.AbsolutePath, uri.OriginalString, "");
-				FieldSetters.HttpMethod.Value(request, method);
-				FieldSetters.Form.Value(request, HttpUtility.ParseQueryString(uri.Query));
-			} else {
-				throw new NotSupportedException($"Unsupported http method {method}");
+				mockRequest.form = HttpUtility.ParseQueryString(uri.Query);
 			}
-			// 创建http回应
-			var response = new HttpResponse(new StringWriter());
-			// 创建http上下文
-			var context = new HttpContext(request, response);
 			// 当前请求存在时，继承Items, Cookies, Headers
-			var original = HttpContext.Current;
-			if (original != null) {
-				FieldSetters.Items.Value(context, original.Items);
-				FieldSetters.Cookies.Value(context.Request, original.Request.Cookies);
+			var exists = CurrentContext;
+			if (exists != null) {
+				mockContext.items = exists.Items;
+				mockRequest.cookies = exists.Request.Cookies;
+				mockRequest.headers = exists.Request.Headers;
 			}
-			return UseContext(context);
+			return UseContext(mockContext);
 		}
 
 		/// <summary>

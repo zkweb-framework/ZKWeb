@@ -20,6 +20,7 @@ using ZKWeb.Templating.AreaSupport;
 using ZKWeb.Localize.JsonConverters;
 using ZKWeb.Localize;
 using ZKWeb.UnitTest;
+using ZKWeb.Utils.Functions;
 
 namespace ZKWeb {
 	/// <summary>
@@ -102,7 +103,8 @@ namespace ZKWeb {
 			var handlers = Ioc.ResolveMany<IHttpErrorHandler>();
 			handlers.Reverse().ForEach(h => h.OnError(ex));
 			// 如果是ajax请求则只返回例外消息
-			if (Request.IsAjaxRequest()) {
+			var requestBase = new HttpRequestWrapper(Request);
+			if (requestBase.IsAjaxRequest()) {
 				Response.StatusCode = httpCode ?? 500;
 				Response.Write(ex.Message);
 				Response.End();

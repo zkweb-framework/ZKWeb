@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ZKWeb.Utils.Collections {
 	/// <summary>
-	/// HttpPostedFileBase的虚拟实现类
+	/// http上传文件的模拟类
 	/// </summary>
 	public class HttpPostedFileMock : HttpPostedFileBase {
 		/// <summary>

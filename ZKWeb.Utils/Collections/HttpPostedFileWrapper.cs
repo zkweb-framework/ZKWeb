@@ -8,8 +8,7 @@ using System.Web;
 
 namespace ZKWeb.Utils.Collections {
 	/// <summary>
-	/// HttpPostedFile的包装类
-	/// 用于转换HttpPostedFile到HttpPostedFileBase
+	/// http上传文件的包装类
 	/// </summary>
 	public class HttpPostedFileWrapper : HttpPostedFileBase {
 		/// <summary>

@@ -55,8 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\HttpContextMock.cs" />
     <Compile Include="Collections\HttpPostedFileMock.cs" />
     <Compile Include="Collections\HttpPostedFileWrapper.cs" />
+    <Compile Include="Collections\HttpRequestMock.cs" />
+    <Compile Include="Collections\HttpResponseMock.cs" />
     <Compile Include="Collections\LazyCache.cs" />
     <Compile Include="Collections\MemoryCache.cs" />
     <Compile Include="Collections\SimpleDisposable.cs" />
@@ -64,8 +67,8 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\HtmlTextWriterExtensions.cs" />
-    <Compile Include="Extensions\HttpRequestExtensions.cs" />
-    <Compile Include="Extensions\HttpResponseExtensions.cs" />
+    <Compile Include="Extensions\HttpRequestBaseExtensions.cs" />
+    <Compile Include="Extensions\HttpResponseBaseExtensions.cs" />
     <Compile Include="Extensions\IDictionaryExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ImageExtensions.cs" />

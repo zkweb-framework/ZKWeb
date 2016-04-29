@@ -11,6 +11,7 @@ using DryIoc;
 using ZKWeb.Web.ActionResults;
 using ZKWeb.Web;
 using ZKWeb.Web.Interfaces;
+using ZKWeb.Utils.Collections;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
@@ -52,7 +53,7 @@ namespace ZKWeb.Templating.TemplateTags {
 				var name = match.Value.Substring(1, match.Value.Length - 2);
 				var value = context[name].ConvertOrDefault<string>();
 				if (value == null) {
-					value = HttpContext.Current.Request.GetParam<string>(name);
+					value = HttpContextUtils.CurrentContext.Request.Get<string>(name);
 				}
 				path = path.Replace(match.Value, value);
 			}
@@ -75,10 +76,11 @@ namespace ZKWeb.Templating.TemplateTags {
 				} else if (actionResult is JsonResult) {
 					context[variable] = ((JsonResult)actionResult).Object;
 				} else {
-					var writer = new StringWriter();
-					var response = new HttpResponse(writer);
+					var response = new HttpResponseMock();
+					response.outputStream = new MemoryStream();
 					actionResult.WriteResponse(response);
-					context[variable] = writer.ToString();
+					response.outputStream.Seek(0, SeekOrigin.Begin);
+					context[variable] = new StreamReader(response.outputStream).ReadToEnd();
 				}
 			}
 		}

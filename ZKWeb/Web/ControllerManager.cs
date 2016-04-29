@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web;
 using ZKWeb.Utils.Extensions;
+using ZKWeb.Utils.Functions;
 using ZKWeb.Web.ActionResults;
 using ZKWeb.Web.Interfaces;
 
@@ -38,7 +39,7 @@ namespace ZKWeb.Web {
 		/// 查找路径对应的处理函数，存在时使用该函数否则跳过处理
 		/// </summary>
 		public virtual void OnRequest() {
-			var context = HttpContext.Current;
+			var context = HttpContextUtils.CurrentContext;
 			var action = GetAction(context.Request.Path, context.Request.HttpMethod);
 			if (action != null) {
 				var result = action();

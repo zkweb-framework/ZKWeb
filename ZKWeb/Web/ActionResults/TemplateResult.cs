@@ -38,7 +38,7 @@ namespace ZKWeb.Web.ActionResults {
 		/// 写入到http回应中
 		/// </summary>
 		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponse response) {
+		public void WriteResponse(HttpResponseBase response) {
 			var templateManager = Application.Ioc.Resolve<TemplateManager>();
 			response.ContentType = "text/html";
 			templateManager.RenderTemplate(TemplatePath, TemplateArgument, response.OutputStream);

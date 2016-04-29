@@ -77,7 +77,7 @@ namespace ZKWeb.Utils.Functions {
 				return true;
 			}
 			// 允许检测浏览器语言时使用浏览器指定的语言，设置成功时返回
-			var context = HttpContext.Current;
+			var context = HttpContextUtils.CurrentContext;
 			if (allowDetectLanguageFromBrowser &&
 				context != null && context.Request.UserLanguages != null) {
 				foreach (var languageFromBrowser in context.Request.UserLanguages) {

@@ -34,7 +34,7 @@ namespace ZKWeb.Web.ActionResults {
 		/// 写入文件到http回应中
 		/// </summary>
 		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponse response) {
+		public void WriteResponse(HttpResponseBase response) {
 			// 设置文件的最后修改时间
 			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
 			response.Cache.SetLastModified(lastModified);

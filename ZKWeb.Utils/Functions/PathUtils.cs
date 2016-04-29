@@ -14,19 +14,19 @@ namespace ZKWeb.Utils.Functions {
 	public static class PathUtils {
 		/// <summary>
 		/// 获取网站根目录的路径
-		/// 如当前运行的是网站则使用HttpContext.Current.Server.MapPath
+		/// 如当前运行的是网站则使用HttpServerUtilityBase.MapPath
 		/// 如当前运行的是控制台则使用ZKWeb.Utils程序集的路径查找ZKWeb目录
 		/// </summary>
 		/// <returns></returns>
 		public static Lazy<string> WebRoot { get; }
 		= new Lazy<string>(() => {
-			var context = HttpContext.Current;
-			if (context != null) {
-				return context.Server.MapPath("~/");
+			var webPath = HttpContextUtils.CurrentContext?.Server?.MapPath("~/");
+			if (webPath != null) {
+				return webPath;
 			}
-			var path = Path.GetDirectoryName(
+			var consolePath = Path.GetDirectoryName(
 				Assembly.GetAssembly(typeof(PathUtils)).Location);
-			return Path.GetFullPath(Path.Combine(path, "../../../ZKWeb/"));
+			return Path.GetFullPath(Path.Combine(consolePath, "../../../ZKWeb/"));
 		});
 
 		/// <summary>

@@ -13,11 +13,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 	[UnitTest]
 	class HttpRequestExtensionsTest {
 		public void IsAjaxRequest() {
-			var requestMock = new Mock<HttpRequest>();
-			requestMock.Setup(r => r.Headers)
-				.Returns(HttpUtility.ParseQueryString("X-Requested-With=XMLHttpRequest"));
-			var request = requestMock.Object;
-			Assert.IsTrue(request.IsAjaxRequest());
+			
 		}
 	}
 }

@@ -34,7 +34,7 @@ namespace ZKWeb.Web.ActionResults {
 		/// 写入json到http回应中
 		/// </summary>
 		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponse response) {
+		public void WriteResponse(HttpResponseBase response) {
 			response.ContentType = "application/json";
 			response.Write(JsonConvert.SerializeObject(Object, SerializeFormatting));
 		}

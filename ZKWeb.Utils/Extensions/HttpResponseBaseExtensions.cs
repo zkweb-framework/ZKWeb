@@ -11,14 +11,14 @@ namespace ZKWeb.Utils.Extensions {
 	/// <summary>
 	/// Http回应类的扩展函数
 	/// </summary>
-	public static class HttpResponseExtensions {
+	public static class HttpResponseBaseExtensions {
 		/// <summary>
 		/// 通过脚本跳转到指定url
 		/// 用这个代替301跳转可以保留referer
 		/// </summary>
 		/// <param name="response">Http回应</param>
 		/// <param name="url">跳转到的url地址</param>
-		public static void RedirectByScript(this HttpResponse response, string url) {
+		public static void RedirectByScript(this HttpResponseBase response, string url) {
 			var urlJson = JsonConvert.SerializeObject(url);
 			response.Clear();
 			response.ContentType = "text/html";
