@@ -99,6 +99,17 @@
     <Compile Include="Tests\Extensions\ExpressionExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\HtmlTextWriterExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\HttpRequestBaseExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\HttpResponseBaseExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IDictionaryExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IEnumerableExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ImageExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ISetExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ITreeNodeExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ListExtensions.cs" />
+    <Compile Include="Tests\Extensions\MemberInfoExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\MethodInfoExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ObjectExtensionsTest.cs" />
+    <Compile Include="Tests\Functions\FileUtilsTest.cs" />
     <Compile Include="UnitTest\Assert.cs" />
     <Compile Include="UnitTest\AssertException.cs" />
     <Compile Include="UnitTest\AssertPassedException.cs" />

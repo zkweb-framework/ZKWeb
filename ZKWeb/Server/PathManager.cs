@@ -43,7 +43,7 @@ namespace ZKWeb.Server {
 		/// 网站目录 + 网站配置中定义的插件根目录的相对路径
 		/// </summary>
 		/// <returns></returns>
-		public List<string> GetPluginDirectories() {
+		public virtual List<string> GetPluginDirectories() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			return configManager.WebsiteConfig.PluginDirectories.Select(p =>
 				Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, p))).ToList();
@@ -70,7 +70,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="path">模板路径</param>
 		/// <returns></returns>
-		public string GetTemplateFullPathWithoutCache(string path) {
+		public virtual string GetTemplateFullPathWithoutCache(string path) {
 			// 获取显式指定的插件，没有时explictPlugin会等于null
 			var index = path.IndexOf(':');
 			string explictPlugin = null;
@@ -112,7 +112,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="path">模板路径</param>
 		/// <returns></returns>
-		public string GetTemplateFullPath(string path) {
+		public virtual string GetTemplateFullPath(string path) {
 			var fullPath = TemplatePathCache.GetOrDefault(path);
 			if (fullPath == null) {
 				fullPath = GetTemplateFullPathWithoutCache(path);
@@ -135,7 +135,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="pathParts">路径</param>
 		/// <returns></returns>
-		public string GetResourceFullPathWithoutCache(params string[] pathParts) {
+		public virtual string GetResourceFullPathWithoutCache(params string[] pathParts) {
 			// 先从App_Data获取
 			var path = PathUtils.SecureCombine(pathParts);
 			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
@@ -160,7 +160,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="pathParts">路径</param>
 		/// <returns></returns>
-		public string GetResourceFullPath(params string[] pathParts) {
+		public virtual string GetResourceFullPath(params string[] pathParts) {
 			var key = string.Join("/", pathParts);
 			var fullPath = ResourcePathCache.GetOrDefault(key);
 			if (fullPath == null) {
@@ -179,7 +179,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <param name="pathParts">路径</param>
 		/// <returns></returns>
-		public string GetStorageFullPath(params string[] pathParts) {
+		public virtual string GetStorageFullPath(params string[] pathParts) {
 			var path = PathUtils.SecureCombine(pathParts);
 			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
 			return fullPath;
@@ -188,7 +188,7 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// 清理缓存
 		/// </summary>
-		public void ClearCache() {
+		public virtual void ClearCache() {
 			TemplatePathCache.Clear();
 			ResourcePathCache.Clear();
 		}

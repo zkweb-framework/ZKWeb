@@ -63,7 +63,7 @@ namespace ZKWeb.Templating {
 		/// <param name="path">模板路径</param>
 		/// <param name="argument">传给模板的参数</param>
 		/// <param name="stream">数据流</param>
-		public void RenderTemplate(string path, object argument, Stream stream) {
+		public virtual void RenderTemplate(string path, object argument, Stream stream) {
 			// 构建模板的参数
 			var parameters = new RenderParameters();
 			if (argument is IDictionary<string, object>) {
@@ -89,7 +89,7 @@ namespace ZKWeb.Templating {
 		/// </summary>
 		/// <param name="path">模板路径</param>
 		/// <param name="argument">传给模板的参数</param>
-		public string RenderTemplate(string path, object argument) {
+		public virtual string RenderTemplate(string path, object argument) {
 			using (var stream = new MemoryStream()) {
 				RenderTemplate(path, argument, stream);
 				stream.Seek(0, SeekOrigin.Begin);

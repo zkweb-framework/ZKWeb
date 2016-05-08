@@ -17,7 +17,7 @@ namespace ZKWeb.Logging {
 		/// <summary>
 		/// 记录日志
 		/// </summary>
-		public static void Log(string filename, string message) {
+		public virtual void Log(string filename, string message) {
 			// 创建日志文件夹
 			var logsDirectory = PathConfig.LogsDirectory;
 			Directory.CreateDirectory(logsDirectory);
@@ -40,7 +40,7 @@ namespace ZKWeb.Logging {
 		/// <summary>
 		/// 记录除错级别的日志
 		/// </summary>
-		public void LogDebug(string message,
+		public virtual void LogDebug(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
 			var filename = $"Debug.{now.ToString("yyyyMMdd")}.log";
@@ -50,7 +50,7 @@ namespace ZKWeb.Logging {
 		/// <summary>
 		/// 记录消息级别的日志
 		/// </summary>
-		public void LogInfo(string message,
+		public virtual void LogInfo(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
 			var filename = $"Info.{now.ToString("yyyyMMdd")}.log";
@@ -60,7 +60,7 @@ namespace ZKWeb.Logging {
 		/// <summary>
 		/// 记录错误级别的日志
 		/// </summary>
-		public void LogError(string message,
+		public virtual void LogError(string message,
 			[CallerMemberName] string memberName = null,
 			[CallerFilePath] string filePath = null,
 			[CallerLineNumber] int lineNumber = 0) {
@@ -72,7 +72,7 @@ namespace ZKWeb.Logging {
 		/// <summary>
 		/// 记录交易日志
 		/// </summary>
-		public void LogTransaction(string message,
+		public virtual void LogTransaction(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
 			var filename = $"Transaction.{now.ToString("yyyyMMdd")}.log";

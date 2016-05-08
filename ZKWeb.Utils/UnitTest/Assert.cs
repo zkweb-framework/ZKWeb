@@ -39,11 +39,11 @@ namespace ZKWeb.Utils.UnitTest {
 					$"assert is true failed: obj is {objJson}, {filePath}:{lineNumber} {memberName}");
 			}
 		}
-
+		
 		/// <summary>
 		/// 测试对象是否相等
 		/// </summary>
-		public static void Equals(object a, object b,
+		public static void Equals<T>(T a, T b,
 			[CallerMemberName] string memberName = null,
 			[CallerFilePath] string filePath = null,
 			[CallerLineNumber] int lineNumber = 0) {
@@ -51,6 +51,17 @@ namespace ZKWeb.Utils.UnitTest {
 				throw new AssertException(
 					$"assert equals failed: {a} != {b}, {filePath}:{lineNumber} {memberName}");
 			}
+		}
+		
+		/// <summary>
+		/// 测试对象是否相等
+		/// 对象版本，提供这个函数用于防止object.Equals被调用
+		/// </summary>
+		public static void Equals(object a, object b,
+			[CallerMemberName] string memberName = null,
+			[CallerFilePath] string filePath = null,
+			[CallerLineNumber] int lineNumber = 0) {
+			Equals<object>(a, b, memberName, filePath, lineNumber);
 		}
 
 		/// <summary>
