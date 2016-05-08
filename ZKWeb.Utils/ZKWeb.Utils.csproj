@@ -81,7 +81,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Functions\FileUtils.cs" />
     <Compile Include="Functions\HttpContextUtils.cs" />
-    <Compile Include="Functions\LambdaExpressionUtils.cs" />
+    <Compile Include="Functions\ExpressionUtils.cs" />
     <Compile Include="Functions\LocaleUtils.cs" />
     <Compile Include="Functions\PasswordUtils.cs" />
     <Compile Include="Functions\PathUtils.cs" />
@@ -110,6 +110,15 @@
     <Compile Include="Tests\Extensions\MethodInfoExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ObjectExtensionsTest.cs" />
     <Compile Include="Tests\Functions\FileUtilsTest.cs" />
+    <Compile Include="Tests\Functions\HttpContextUtilsTest.cs" />
+    <Compile Include="Tests\Functions\ExpressionUtilsTest.cs" />
+    <Compile Include="Tests\Functions\LocaleUtilsTest.cs" />
+    <Compile Include="Tests\Functions\PasswordUtilsTest.cs" />
+    <Compile Include="Tests\Functions\PathUtilsTest.cs" />
+    <Compile Include="Tests\Functions\RandomUtilsTest.cs" />
+    <Compile Include="Tests\Functions\ReflectionUtilsTest.cs" />
+    <Compile Include="Tests\Functions\RegexUtilsTest.cs" />
+    <Compile Include="Tests\Functions\TreeUtilsTest.cs" />
     <Compile Include="UnitTest\Assert.cs" />
     <Compile Include="UnitTest\AssertException.cs" />
     <Compile Include="UnitTest\AssertPassedException.cs" />

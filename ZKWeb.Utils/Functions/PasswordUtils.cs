@@ -102,10 +102,6 @@ namespace ZKWeb.Utils.Functions {
 	/// </summary>
 	public enum PasswordHashType {
 		/// <summary>
-		/// 默认，等于PBKDF2
-		/// </summary>
-		Default = PBKDF2,
-		/// <summary>
 		/// PBKDF2
 		/// </summary>
 		PBKDF2 = 0,
