@@ -27,6 +27,7 @@
 		"Shopping.Logistics",
 		"Shopping.Order",
 		"Shopping.AfterSales",
+		"UnitTest.WebTester",
 		"Common.CustomTranslate"
 	]
 }
