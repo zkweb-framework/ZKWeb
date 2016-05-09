@@ -68,3 +68,4 @@ html
 	底部copyright
 	支持统一处理表名
 	修复ajax请求时切换页面导致toast提示错误
+	减少Application.Ioc.Resolve，需要延迟可用Lazy

@@ -50,9 +50,9 @@ namespace ZKWeb.Utils.UnitTest {
 		/// 触发指定事件
 		/// 调用事件处理器处理
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="getAction"></param>
-		/// <param name="info"></param>
+		/// <typeparam name="T">事件信息的类型</typeparam>
+		/// <param name="getAction">事件通知函数</param>
+		/// <param name="info">事件信息</param>
 		public void TriggerEvent<T>(Func<IUnitTestEventHandler, Action<T>> getAction, T info) {
 			EventHandlers.ForEach(h => getAction(h)(info));
 		}
@@ -63,7 +63,7 @@ namespace ZKWeb.Utils.UnitTest {
 		/// </summary>
 		/// <param name="message">错误信息</param>
 		public void WriteErrorMessage(string message) {
-			TriggerEvent(h => h.OnErrorMessage, new ErrorMessageInfo(message));
+			TriggerEvent(h => h.OnErrorMessage, new ErrorMessageInfo(this, message));
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace ZKWeb.Utils.UnitTest {
 		/// </summary>
 		/// <param name="message"></param>
 		public void WriteDebugMessage(string message) {
-			TriggerEvent(h => h.OnDebugMessage, new DebugMessageInfo(message));
+			TriggerEvent(h => h.OnDebugMessage, new DebugMessageInfo(this, message));
 		}
 
 		/// <summary>
@@ -107,21 +107,21 @@ namespace ZKWeb.Utils.UnitTest {
 					foreach (var method in type.GetMethods(
 						BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)) {
 						try {
-							TriggerEvent(h => h.OnTestStarting, new TestStartingInfo(method, instance));
+							TriggerEvent(h => h.OnTestStarting, new TestStartingInfo(this, method, instance));
 							((Action)Delegate.CreateDelegate(typeof(Action), instance, method))();
 							throw new AssertPassedException();
 						} catch (AssertPassedException) {
 							// 测试通过
 							passed += 1;
-							TriggerEvent(h => h.OnTestPassed, new TestPassedInfo(method, instance));
+							TriggerEvent(h => h.OnTestPassed, new TestPassedInfo(this, method, instance));
 						} catch (AssertSkipedException ex) {
 							// 测试跳过
 							skiped += 1;
-							TriggerEvent(h => h.OnTestSkipped, new TestSkippedInfo(method, instance, ex));
+							TriggerEvent(h => h.OnTestSkipped, new TestSkippedInfo(this, method, instance, ex));
 						} catch (Exception ex) {
 							// 测试失败
 							failed += 1;
-							TriggerEvent(h => h.OnTestFailed, new TestFailedInfo(method, instance, ex));
+							TriggerEvent(h => h.OnTestFailed, new TestFailedInfo(this, method, instance, ex));
 						}
 					}
 					// 如果测试类继承了IDisposable，则释放类

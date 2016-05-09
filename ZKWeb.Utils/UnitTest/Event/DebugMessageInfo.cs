@@ -10,6 +10,10 @@ namespace ZKWeb.Utils.UnitTest.Event {
 	/// </summary>
 	public class DebugMessageInfo {
 		/// <summary>
+		/// 单元测试运行器
+		/// </summary>
+		public UnitTestRunner Runner { get; private set; }
+		/// <summary>
 		/// 除错信息
 		/// </summary>
 		public string Message { get; private set; }
@@ -17,8 +21,10 @@ namespace ZKWeb.Utils.UnitTest.Event {
 		/// <summary>
 		/// 初始化
 		/// </summary>
+		/// <param name="runner">单元测试运行器</param>
 		/// <param name="message">除错信息</param>
-		public DebugMessageInfo(string message) {
+		public DebugMessageInfo(UnitTestRunner runner, string message) {
+			Runner = runner;
 			Message = message;
 		}
 	}

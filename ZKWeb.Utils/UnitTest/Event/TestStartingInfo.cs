@@ -11,6 +11,10 @@ namespace ZKWeb.Utils.UnitTest.Event {
 	/// </summary>
 	public class TestStartingInfo {
 		/// <summary>
+		/// 单元测试运行器
+		/// </summary>
+		public UnitTestRunner Runner { get; private set; }
+		/// <summary>
 		/// 测试函数
 		/// </summary>
 		public MethodInfo Method { get; private set; }
@@ -22,9 +26,11 @@ namespace ZKWeb.Utils.UnitTest.Event {
 		/// <summary>
 		/// 初始化
 		/// </summary>
+		/// <param name="runner">单元测试运行器</param>
 		/// <param name="method">测试函数</param>
 		/// <param name="instance">测试类的实例</param>
-		public TestStartingInfo(MethodInfo method, object instance) {
+		public TestStartingInfo(UnitTestRunner runner, MethodInfo method, object instance) {
+			Runner = runner;
 			Method = method;
 			Instance = instance;
 		}

@@ -11,6 +11,10 @@ namespace ZKWeb.Utils.UnitTest.Event {
 	/// </summary>
 	public class TestSkippedInfo {
 		/// <summary>
+		/// 单元测试运行器
+		/// </summary>
+		public UnitTestRunner Runner { get; private set; }
+		/// <summary>
 		/// 测试函数
 		/// </summary>
 		public MethodInfo Method { get; private set; }
@@ -26,10 +30,13 @@ namespace ZKWeb.Utils.UnitTest.Event {
 		/// <summary>
 		/// 初始化
 		/// </summary>
+		/// <param name="runner">单元测试运行器</param>
 		/// <param name="method">测试函数</param>
 		/// <param name="instance">测试类的实例</param>
 		/// <param name="exception">导致测试跳过的例外信息</param>
-		public TestSkippedInfo(MethodInfo method, object instance, AssertSkipedException exception) {
+		public TestSkippedInfo(
+			UnitTestRunner runner, MethodInfo method, object instance, AssertSkipedException exception) {
+			Runner = runner;
 			Method = method;
 			Instance = instance;
 			Exception = exception;
