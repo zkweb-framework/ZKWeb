@@ -35,7 +35,7 @@ namespace ZKWeb.Templating {
 		/// <param name="context">上下文</param>
 		/// <param name="templateName">模板路径</param>
 		/// <returns></returns>
-		public object ReadTemplateFile(Context context, string templateName) {
+		public virtual object ReadTemplateFile(Context context, string templateName) {
 			// 获取模板的绝对路径
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			var fullPath = pathManager.GetTemplateFullPath(templateName);
@@ -55,7 +55,7 @@ namespace ZKWeb.Templating {
 		/// <summary>
 		/// 清理缓存
 		/// </summary>
-		public void ClearCache() {
+		public virtual void ClearCache() {
 			TemplateCache.Clear();
 		}
 	}

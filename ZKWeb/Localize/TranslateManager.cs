@@ -21,13 +21,13 @@ namespace ZKWeb.Localize {
 		/// 翻译缓存
 		/// { (文本, 语言): 翻译, ... }
 		/// </summary>
-		private MemoryCache<KeyValuePair<string, string>, string> TranslateCache
+		protected MemoryCache<KeyValuePair<string, string>, string> TranslateCache
 			= new MemoryCache<KeyValuePair<string, string>, string>();
 		/// <summary>
 		/// 翻译提供器的缓存
 		/// { 语言: 提供器列表, ... }
 		/// </summary>
-		private MemoryCache<string, List<ITranslateProvider>> TranslateProvidersCache
+		protected MemoryCache<string, List<ITranslateProvider>> TranslateProvidersCache
 			= new MemoryCache<string, List<ITranslateProvider>>();
 
 		/// <summary>

@@ -59,14 +59,15 @@ namespace ZKWeb.Templating.TemplateTags {
 			}
 			// 查找对应的处理函数
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+			var pathWithoutQuery = path.Split('?')[0];
 			var method = HttpMethods.GET;
-			var action = controllerManager.GetAction(path, method);
+			var action = controllerManager.GetAction(pathWithoutQuery, method);
 			if (action == null) {
 				method = HttpMethods.POST;
-				action = controllerManager.GetAction(path, method);
+				action = controllerManager.GetAction(pathWithoutQuery, method);
 			}
 			if (action == null) {
-				throw new KeyNotFoundException($"action {path} not found");
+				throw new KeyNotFoundException($"action {pathWithoutQuery} not found");
 			}
 			// 执行处理函数
 			using (HttpContextUtils.OverrideContext(path, method)) {

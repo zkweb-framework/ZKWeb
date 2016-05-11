@@ -34,8 +34,8 @@ html
 		ok 实现单元测试
 		ok 支持单元测试相关的事件
 		ok 修改所有直接使用HttpContext, HttpRequest, HttpResponse的部分
-		实现网页上执行测试并返回测试结果
-		UnitTest.WebTester
+		ok 实现网页上执行测试并返回测试结果
+		ok UnitTest.WebTester
 	订单功能
 		实现前台商品详情页
 		实现购物车
@@ -69,3 +69,4 @@ html
 	支持统一处理表名
 	修复ajax请求时切换页面导致toast提示错误
 	收集并补充国外的地区信息
+	逐步补充框架和插件的单元测试

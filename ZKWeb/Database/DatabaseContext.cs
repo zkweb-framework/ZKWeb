@@ -64,7 +64,7 @@ namespace ZKWeb.Database {
 		/// <summary>
 		/// 释放创建的数据库会话和事务
 		/// </summary>
-		public void Dispose() {
+		public virtual void Dispose() {
 			Transaction.Dispose();
 			Session.Dispose();
 		}
@@ -75,7 +75,7 @@ namespace ZKWeb.Database {
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">表达式</param>
 		/// <returns></returns>
-		public T Get<T>(Expression<Func<T, bool>> expression)
+		public virtual T Get<T>(Expression<Func<T, bool>> expression)
 			where T : class {
 			return Session.Query<T>().FirstOrDefault(expression);
 		}
@@ -86,7 +86,7 @@ namespace ZKWeb.Database {
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">表达式</param>
 		/// <returns></returns>
-		public long Count<T>(Expression<Func<T, bool>> expression)
+		public virtual long Count<T>(Expression<Func<T, bool>> expression)
 			where T : class {
 			return Session.Query<T>().LongCount(expression);
 		}
@@ -96,7 +96,7 @@ namespace ZKWeb.Database {
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <returns></returns>
-		public IQueryable<T> Query<T>()
+		public virtual IQueryable<T> Query<T>()
 			where T : class {
 			return Session.Query<T>();
 		}
@@ -108,14 +108,12 @@ namespace ZKWeb.Database {
 		/// <param name="data">数据</param>
 		/// <param name="update">更新函数，这里的修改可以在回调的BeforeSave和AfterSave之间对比</param>
 		/// <returns></returns>
-		public void Save<T>(ref T data, Action<T> update = null)
+		public virtual void Save<T>(ref T data, Action<T> update = null)
 			where T : class {
 			var callbacks = Application.Ioc.ResolveMany<IDataSaveCallback<T>>().ToList();
 			var dataLocal = data; // lambda中不能使用ref参数
 			callbacks.ForEach(c => c.BeforeSave(this, dataLocal));
-			if (update != null) {
-				update(dataLocal);
-			}
+			update?.Invoke(dataLocal);
 			dataLocal = Session.Merge(dataLocal); // 如果数据不在会话中会重新创建并返回
 			Session.Flush();
 			callbacks.ForEach(c => c.AfterSave(this, dataLocal));
@@ -127,7 +125,7 @@ namespace ZKWeb.Database {
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="data">删除的数据</param>
-		public void Delete<T>(T data)
+		public virtual void Delete<T>(T data)
 			where T : class {
 			var callbacks = Application.Ioc.ResolveMany<IDataDeleteCallback<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, data));
@@ -143,7 +141,7 @@ namespace ZKWeb.Database {
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">更新条件</param>
 		/// <param name="update">更新函数</param>
-		public long UpdateWhere<T>(Expression<Func<T, bool>> expression, Action<T> update)
+		public virtual long UpdateWhere<T>(Expression<Func<T, bool>> expression, Action<T> update)
 			where T : class {
 			long count = 0;
 			Query<T>().Where(expression).ForEach(d => { Save(ref d, update); ++count; });
@@ -156,7 +154,7 @@ namespace ZKWeb.Database {
 		/// </summary>
 		/// <typeparam name="T">数据类型</typeparam>
 		/// <param name="expression">删除条件</param>
-		public long DeleteWhere<T>(Expression<Func<T, bool>> expression)
+		public virtual long DeleteWhere<T>(Expression<Func<T, bool>> expression)
 			where T : class {
 			long count = 0;
 			Query<T>().Where(expression).ForEach(d => { Delete(d); ++count; });
@@ -167,7 +165,7 @@ namespace ZKWeb.Database {
 		/// 提交所有修改
 		/// 如数据库上下文在删除前没有调用此函数则所有修改都不会被提交
 		/// </summary>
-		public void SaveChanges() {
+		public virtual void SaveChanges() {
 			Session.Flush();
 			Transaction.Commit();
 		}

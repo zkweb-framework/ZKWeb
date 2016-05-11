@@ -30,25 +30,25 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <summary>
 		/// 已知的区域列表
 		/// </summary>
-		private Dictionary<string, TemplateArea> Areas =
+		protected Dictionary<string, TemplateArea> Areas =
 			new Dictionary<string, TemplateArea>();
 		/// <summary>
 		/// 模块描画结果的缓存
 		/// { 模块名称和参数: 描画结果, ... }
 		/// </summary>
-		private MemoryCache<string, string> WidgetRenderCache =
+		protected MemoryCache<string, string> WidgetRenderCache =
 			new MemoryCache<string, string>();
 		/// <summary>
 		/// 模块信息的缓存
 		/// { 模块名称: 模块信息, ... }
 		/// </summary>
-		private MemoryCache<string, TemplateWidgetInfo> WidgetInfoCache =
+		protected MemoryCache<string, TemplateWidgetInfo> WidgetInfoCache =
 			new MemoryCache<string, TemplateWidgetInfo>();
 		/// <summary>
 		/// 自定义模块列表的缓存
 		/// { 区域Id: 自定义模块列表, ... }
 		/// </summary>
-		private MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache =
+		protected MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache =
 			new MemoryCache<string, List<TemplateWidget>>();
 
 		/// <summary>
@@ -164,7 +164,7 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <summary>
 		/// 清理缓存
 		/// </summary>
-		public void ClearCache() {
+		public virtual void ClearCache() {
 			WidgetInfoCache.Clear();
 			WidgetRenderCache.Clear();
 			CustomWidgetsCache.Clear();

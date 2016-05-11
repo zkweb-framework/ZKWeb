@@ -25,7 +25,7 @@ namespace ZKWeb.Database {
 		/// <summary>
 		/// 数据库会话生成器
 		/// </summary>
-		public ISessionFactory SessionFactory { get; set; }
+		public ISessionFactory SessionFactory { get; protected set; }
 
 		/// <summary>
 		/// 初始化
@@ -83,7 +83,7 @@ namespace ZKWeb.Database {
 		/// 事务的隔离等级默认是IsolationLevel.ReadCommitted
 		/// </summary>
 		/// <returns></returns>
-		public DatabaseContext GetContext() {
+		public virtual DatabaseContext GetContext() {
 			return GetContext(IsolationLevel.ReadCommitted);
 		}
 
@@ -92,7 +92,7 @@ namespace ZKWeb.Database {
 		/// </summary>
 		/// <param name="isolationLevel">事务的隔离等级</param>
 		/// <returns></returns>
-		public DatabaseContext GetContext(IsolationLevel isolationLevel) {
+		public virtual DatabaseContext GetContext(IsolationLevel isolationLevel) {
 			return new DatabaseContext(SessionFactory, isolationLevel);
 		}
 	}
