@@ -10,7 +10,7 @@ Web framework based on System.Web supports
 * api generation (planned)
 * visual page editor (planned)
 
-State: 0.9 alpha<br/>
+State: 0.9.1 alpha<br/>
 Plugins: http://github.com/303248153/ZKWeb.Plugins<br/>
 
 This framework is inspired by django<br/>
