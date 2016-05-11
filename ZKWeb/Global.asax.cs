@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Web;
 using DryIoc;
 using ZKWeb.Utils.Extensions;
-using ZKWeb.Properties;
 using ZKWeb.Database;
 using ZKWeb.Web.Interfaces;
 using ZKWeb.Plugin;
@@ -20,18 +19,35 @@ using ZKWeb.Templating.AreaSupport;
 using ZKWeb.Localize.JsonConverters;
 using ZKWeb.Localize;
 using ZKWeb.UnitTest;
-using ZKWeb.Utils.Functions;
+using System.Threading;
+using ZKWeb.Utils.Collections;
 
 namespace ZKWeb {
 	/// <summary>
 	/// 网站程序
-	/// 用于初始化网站和保存全局数据
+	/// 用于初始化网站和提供当前使用的容器
+	/// 
+	/// 目前组件的依赖都不通过构造函数注入，尽管DryIoC本身支持多种注入（Func和Lazy等）。
+	/// 通过构造函数注入的优缺点有
+	/// 优点
+	///		在注册时可以确认所有依赖的生成函数，创建对象的性能会比手动获取快30%以上（实测）
+	///		单元测试时不需要依赖全局对象，可以使用xunit和nunit等工具单独测试
+	///		单元测试时可以手动指定依赖的所有组件
+	///	缺点
+	///		需要编写大量多余的代码，继承时需要重新把所有注入项复制一遍
+	///		单例的组件会把依赖保存到成员中，单例创建后无法影响这些依赖项（使用Func可解决，但需要预见这种情况）
+	///		对泛型支持不好，例如Context.GetTable[T]这种函数无法预先注入依赖项，只能先注入整个容器
+	/// 目前整个项目和插件项目都使用了手动获取而不是自动注入，
+	/// 原因是可以减少代码量，并且单元测试时可以通过OverrideIoc统一处理。
+	/// 单元测试时使用OverrideIoc可以单独替换指定的依赖项，不需要手动注入所有的依赖项。
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
-		/// 全局使用的Ioc容器
+		/// 当前使用的Ioc容器
 		/// </summary>
-		public static Container Ioc { get; set; } = new Container();
+		public static IContainer Ioc { get { return _overrideIoc.Value ?? _globalIoc; } }
+		private static IContainer _globalIoc = new Container();
+		private static ThreadLocal<IContainer> _overrideIoc = new ThreadLocal<IContainer>();
 
 		/// <summary>
 		/// 网站启动时的处理
@@ -43,6 +59,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
+			Ioc.RegisterMany<PluginReloader>(Reuse.Singleton);
 			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton);
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
@@ -61,7 +78,7 @@ namespace ZKWeb {
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			// 自动重新载入插件和网站配置
-			PluginReloader.Start();
+			Ioc.Resolve<PluginReloader>();
 		}
 
 		/// <summary>
@@ -109,6 +126,17 @@ namespace ZKWeb {
 				Response.Write(ex.Message);
 				Response.End();
 			}
+		}
+
+		/// <summary>
+		/// 重载当前使用的Ioc容器，在当前线程中有效
+		/// 重载后的容器会继承原有的容器，但不会对原有的容器做出修改
+		/// </summary>
+		/// <returns></returns>
+		public static IDisposable OverrideIoc() {
+			var original = _overrideIoc.Value;
+			_overrideIoc.Value = Ioc.CreateFacade();
+			return new SimpleDisposable(() => _overrideIoc.Value = original);
 		}
 	}
 }

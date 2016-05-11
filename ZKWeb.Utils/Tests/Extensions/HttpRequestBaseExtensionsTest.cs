@@ -13,7 +13,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 	[UnitTest]
 	class HttpRequestBaseExtensionsTest {
 		public void IsAjaxRequest() {
-			using (HttpContextUtils.UseContext("", "POST")) {
+			using (HttpContextUtils.OverrideContext("", "POST")) {
 				var request = HttpContextUtils.CurrentContext.Request;
 				Assert.IsTrue(!request.IsAjaxRequest());
 				request.Headers["X-Requested-With"] = "XMLHttpRequest";
@@ -22,7 +22,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 		}
 
 		public void Get() {
-			using (HttpContextUtils.UseContext("/?a=1&b=2", "POST")) {
+			using (HttpContextUtils.OverrideContext("/?a=1&b=2", "POST")) {
 				var request = HttpContextUtils.CurrentContext.Request;
 				Assert.Equals(request.Get<string>("a"), "1");
 				Assert.Equals(request.Get<int>("b"), 2);
@@ -31,7 +31,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 		}
 
 		public void GetAll() {
-			using (HttpContextUtils.UseContext("/?a=1&b=2", "POST")) {
+			using (HttpContextUtils.OverrideContext("/?a=1&b=2", "POST")) {
 				var request = HttpContextUtils.CurrentContext.Request;
 				var allParams = request.GetAll();
 				Assert.Equals(allParams.GetOrDefault("a"), "1");

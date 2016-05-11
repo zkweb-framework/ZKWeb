@@ -197,7 +197,7 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		/// <param name="context">指定的http上下文</param>
 		/// <returns></returns>
-		public static IDisposable UseContext(HttpContextBase context) {
+		public static IDisposable OverrideContext(HttpContextBase context) {
 			var original = _overrideContext.Value;
 			_overrideContext.Value = context;
 			return new SimpleDisposable(() => _overrideContext.Value = original);
@@ -210,7 +210,7 @@ namespace ZKWeb.Utils.Functions {
 		/// <param name="uri">请求的uri</param>
 		/// <param name="method">请求类型，GET或POST等</param>
 		/// <returns></returns>
-		public static IDisposable UseContext(Uri uri, string method) {
+		public static IDisposable OverrideContext(Uri uri, string method) {
 			var mockContext = new HttpContextMock();
 			var mockRequest = new HttpRequestMock();
 			var mockResponse = new HttpResponseMock();
@@ -232,7 +232,7 @@ namespace ZKWeb.Utils.Functions {
 				mockRequest.cookies = exists.Request.Cookies;
 				mockRequest.headers = exists.Request.Headers;
 			}
-			return UseContext(mockContext);
+			return OverrideContext(mockContext);
 		}
 
 		/// <summary>
@@ -242,9 +242,9 @@ namespace ZKWeb.Utils.Functions {
 		/// <param name="path">请求的路径，不需要带域名</param>
 		/// <param name="method">请求类型，GET或POST</param>
 		/// <returns></returns>
-		public static IDisposable UseContext(string path, string method) {
+		public static IDisposable OverrideContext(string path, string method) {
 			var url = "http://localhost" + (path.StartsWith("/") ? "" : "/") + path;
-			return UseContext(new Uri(url), method);
+			return OverrideContext(new Uri(url), method);
 		}
 	}
 }

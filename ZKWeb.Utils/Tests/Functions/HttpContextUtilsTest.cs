@@ -36,7 +36,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 
 		public void GetClientIpAddress() {
 			Assert.Equals(HttpContextUtils.GetClientIpAddress(), "::1");
-			using (HttpContextUtils.UseContext("", "GET")) {
+			using (HttpContextUtils.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
 				request.userHostAddress = "192.168.168.168";
 				Assert.Equals(HttpContextUtils.GetClientIpAddress(), "192.168.168.168");
@@ -45,7 +45,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 
 		public void GetRequestHostUrl() {
 			Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://localhost");
-			using (HttpContextUtils.UseContext(new Uri("http://www.abc.com/admin"), "GET")) {
+			using (HttpContextUtils.OverrideContext(new Uri("http://www.abc.com/admin"), "GET")) {
 				Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://www.abc.com");
 			}
 		}
@@ -68,8 +68,8 @@ namespace ZKWeb.Utils.Tests.Functions {
 
 		public void UseContext() {
 			Assert.Equals(HttpContextUtils.CurrentContext, null);
-			using (HttpContextUtils.UseContext("a", "GET")) {
-				using (HttpContextUtils.UseContext("b", "GET")) {
+			using (HttpContextUtils.OverrideContext("a", "GET")) {
+				using (HttpContextUtils.OverrideContext("b", "GET")) {
 					Assert.Equals(HttpContextUtils.CurrentContext.Request.Url.AbsolutePath, "/b");
 				}
 				Assert.Equals(HttpContextUtils.CurrentContext.Request.Url.AbsolutePath, "/a");

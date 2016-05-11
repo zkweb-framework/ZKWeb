@@ -170,6 +170,7 @@
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
+    <Compile Include="Tests\ApplicationTest.cs" />
     <Compile Include="UnitTest\UnitTestManager.cs" />
     <Compile Include="Web\ActionResults\StreamResult.cs" />
     <Compile Include="Web\ControllerManager.cs" />

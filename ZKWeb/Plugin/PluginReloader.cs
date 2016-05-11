@@ -19,11 +19,11 @@ namespace ZKWeb.Plugin {
 	///		App_Data/*.json (仅根目录)
 	///		App_Data/DatabaseScript.txt (仅删除)
 	/// </summary>
-	public static class PluginReloader {
+	public class PluginReloader {
 		/// <summary>
 		/// 启用重载器
 		/// </summary>
-		public static void Start() {
+		public PluginReloader() {
 			// 指定文件改变时卸载程序域
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();

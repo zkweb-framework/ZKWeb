@@ -69,7 +69,7 @@ namespace ZKWeb.Templating.TemplateTags {
 				throw new KeyNotFoundException($"action {path} not found");
 			}
 			// 执行处理函数
-			using (HttpContextUtils.UseContext(path, method)) {
+			using (HttpContextUtils.OverrideContext(path, method)) {
 				var actionResult = action();
 				if (actionResult is PlainResult) {
 					context[variable] = ((PlainResult)actionResult).Text;

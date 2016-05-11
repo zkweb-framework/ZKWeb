@@ -49,7 +49,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
 			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
 			// 无cookies, 有浏览器语言但不启用，不传入默认语言
-			using (HttpContextUtils.UseContext("", "GET")) {
+			using (HttpContextUtils.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
 				request.userLanguages = new [] { "NotExist", "zh-CN" };
 				Assert.IsTrue(!LocaleUtils.SetThreadLanguageAutomatic(false, null));
@@ -57,7 +57,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 				Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
 			}
 			// 无cookies, 有浏览器语言且启用，不传入默认语言
-			using (HttpContextUtils.UseContext("", "GET")) {
+			using (HttpContextUtils.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
 				request.userLanguages = new[] { "NotExist", "zh-CN" };
 				Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(true, null));
