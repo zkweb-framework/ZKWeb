@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using ZKWeb.Database.Interfaces;
 using ZKWeb.Server;
 using ZKWeb.Utils.Extensions;
 
@@ -47,34 +48,40 @@ namespace ZKWeb.Database {
 			} else {
 				throw new ArgumentException($"unknow database type {config.Database}");
 			}
-			// 获取插件中注册的所有数据表类型
+			// 初始化数据库
+			var configuration = Fluently.Configure();
+			configuration.Database(db);
+			// 注册数据表类型
 			var tableTypes = Application.Ioc.ResolveMany<IMappingProvider>()
 				.Select(p => p.GetType()).OrderBy(t => t.FullName).ToList();
-			// 创建数据库会话生成器
+			configuration.Mappings(m => tableTypes.ForEach(t => m.FluentMappings.Add(t)));
+			// 调用数据库初始化处理器
+			// 可以在这里全局处理表名和字段名
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			handlers.ForEach(h => h.OnInitialize(configuration));
+			// 自动更新数据库
+			// 流程
+			// - 生成当前数据库表的sql脚本，不会实际执行
+			// - 判断是否和App_Data/DatabaseScript.txt一致
+			// - 不一致时执行数据库更新并保存到该文件中
+			// 检测是否需要自动更新的原因是为了优化启动网站时的性能
+			// 保存文件的处理要放到BuildSessionFactory后面，
+			// 否则会出现数据库没有初始化成功但仍然保存了该文件的问题。
 			Action onFactorySuccess = () => { };
-			SessionFactory = Fluently.Configure()
-				.Database(db)
-				.Mappings(m => tableTypes.ForEach(t => m.FluentMappings.Add(t)))
-				.ExposeConfiguration(c => {
-					// 自动更新数据库流程
-					//	生成当前数据库表的sql脚本，不会实际执行
-					//	判断是否和App_Data/DatabaseScript.txt一致
-					//	不一致时执行数据库更新并保存到该文件中
-					// 检测是否需要自动更新的原因是为了优化启动网站时的性能
-					// 保存文件的处理要放到BuildSessionFactory后面，
-					// 否则会出现数据库没有初始化成功但仍然保存了该文件的问题。
-					var scriptBuilder = new StringBuilder(
-						"/* this file is generated for checking database should update or not, don't execute */\r\n");
-					scriptBuilder.AppendFormat("/* {0} {1} */\r\n", config.Database, config.ConnectionString);
-					var path = PathConfig.DatabaseScriptPath;
-					new SchemaExport(c).Create(s => scriptBuilder.Append(s).Append("\r\n"), false);
-					var script = scriptBuilder.ToString();
-					if (!File.Exists(path) || script != File.ReadAllText(path)) {
-						new SchemaUpdate(c).Execute(false, true);
-						onFactorySuccess = () => File.WriteAllText(path, script);
-					}
-				})
-				.BuildSessionFactory();
+			configuration.ExposeConfiguration(c => {
+				var scriptBuilder = new StringBuilder(
+					"/* this file is generated for checking database should update or not, don't execute */\r\n");
+				scriptBuilder.AppendFormat("/* {0} {1} */\r\n", config.Database, config.ConnectionString);
+				var path = PathConfig.DatabaseScriptPath;
+				new SchemaExport(c).Create(s => scriptBuilder.Append(s).Append("\r\n"), false);
+				var script = scriptBuilder.ToString();
+				if (!File.Exists(path) || script != File.ReadAllText(path)) {
+					new SchemaUpdate(c).Execute(false, true);
+					onFactorySuccess = () => File.WriteAllText(path, script);
+				}
+			});
+			// 应用更新并创建数据库会话生成器
+			SessionFactory = configuration.BuildSessionFactory();
 			onFactorySuccess();
 		}
 

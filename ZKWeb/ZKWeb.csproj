@@ -166,6 +166,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Interfaces\IDatabaseInitializeHandler.cs" />
     <Compile Include="Localize\TranslateManager.cs" />
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
