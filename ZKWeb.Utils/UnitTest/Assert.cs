@@ -93,7 +93,7 @@ namespace ZKWeb.Utils.UnitTest {
 		/// <summary>
 		/// 把当前测试作为跳过处理
 		/// </summary>
-		public static void Skiped(string reason) {
+		public static void Skipped(string reason) {
 			throw new AssertSkipedException(reason);
 		}
 	}

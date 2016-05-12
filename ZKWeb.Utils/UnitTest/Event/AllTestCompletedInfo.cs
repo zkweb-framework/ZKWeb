@@ -24,7 +24,7 @@ namespace ZKWeb.Utils.UnitTest.Event {
 		/// <summary>
 		/// 跳过的测试数量
 		/// </summary>
-		public ulong Skiped { get; private set; }
+		public ulong Skipped { get; private set; }
 
 		/// <summary>
 		/// 初始化
@@ -37,7 +37,7 @@ namespace ZKWeb.Utils.UnitTest.Event {
 			Runner = runner;
 			Passed = passed;
 			Failed = failed;
-			Skiped = skiped;
+			Skipped = skiped;
 		}
 	}
 }

@@ -13,7 +13,7 @@
 
 		public void OnAllTestCompleted(AllTestCompletedInfo info) {
 			Console.WriteLine($"complete {info.Runner.Assembly.GetName().Name} tests: " +
-				$"{info.Passed} passed, {info.Failed} failed, {info.Skiped} skiped.");
+				$"{info.Passed} passed, {info.Failed} failed, {info.Skipped} skiped.");
 			Console.WriteLine();
 		}
 
