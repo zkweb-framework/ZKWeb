@@ -79,6 +79,7 @@
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Functions\FileUtils.cs" />
     <Compile Include="Functions\HttpContextUtils.cs" />
     <Compile Include="Functions\ExpressionUtils.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Tests\Extensions\MemberInfoExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\MethodInfoExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ObjectExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ReaderWriterLockSlimExtensionsTest.cs" />
     <Compile Include="Tests\Functions\FileUtilsTest.cs" />
     <Compile Include="Tests\Functions\HttpContextUtilsTest.cs" />
     <Compile Include="Tests\Functions\ExpressionUtilsTest.cs" />
