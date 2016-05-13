@@ -36,14 +36,17 @@ html
 		ok 修改所有直接使用HttpContext, HttpRequest, HttpResponse的部分
 		ok 实现网页上执行测试并返回测试结果
 		ok UnitTest.WebTester
+	商品功能
+		ok 实现前台商品详情页
+		实现商品列表页
+		实现商品搜索框
+	文章功能
+		支持显示文章
+		支持显示文章列表
 	订单功能
-		实现前台商品详情页
 		实现购物车
 		实现前台订单列表和操作
 		实现后台订单列表和操作
-	商品展示
-		实现商品列表页
-		实现商品搜索框
 	站内消息
 		Common.UserMessage
 	通知功能
