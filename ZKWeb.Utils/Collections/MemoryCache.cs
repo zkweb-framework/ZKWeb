@@ -24,23 +24,23 @@ namespace ZKWeb.Utils.Collections {
 		/// 结构 { 键, (对象, 过期时间) }
 		/// 使用了线程锁所以这里只需要普通的Dictionary
 		/// </summary>
-		internal IDictionary<TKey, Tuple<TValue, DateTime>> Cache { get; }
+		protected IDictionary<TKey, Tuple<TValue, DateTime>> Cache { get; }
 		= new Dictionary<TKey, Tuple<TValue, DateTime>>();
 		/// <summary>
 		/// 缓存数据的线程锁
 		/// </summary>
-		internal ReaderWriterLockSlim CacheLock { get; set; } =
+		protected ReaderWriterLockSlim CacheLock { get; set; } =
 			new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 		/// <summary>
 		/// 最后一次删除过期缓存的时间
 		/// </summary>
-		internal DateTime LastRevokeExpires { get; set; } = DateTime.UtcNow;
+		protected DateTime LastRevokeExpires { get; set; } = DateTime.UtcNow;
 
 		/// <summary>
 		/// 删除过期的缓存数据
 		/// 固定每180秒一次
 		/// </summary>
-		void RevokeExpires() {
+		protected void RevokeExpires() {
 			var now = DateTime.UtcNow;
 			if ((now - LastRevokeExpires).TotalSeconds < RevokeExpiresInterval) {
 				return;
@@ -98,6 +98,16 @@ namespace ZKWeb.Utils.Collections {
 			RevokeExpires();
 			using (CacheLock.WithWriteLock()) {
 				Cache.Remove(key);
+			}
+		}
+
+		/// <summary>
+		/// 返回在缓存中的对象数量
+		/// </summary>
+		/// <returns></returns>
+		public int Count() {
+			using (CacheLock.WithReadLock()) {
+				return Cache.Count;
 			}
 		}
 
