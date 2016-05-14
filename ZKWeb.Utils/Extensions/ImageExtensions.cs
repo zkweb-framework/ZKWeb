@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <summary>
 		/// 保存到Jpeg图片，且可以设置压缩质量
 		/// </summary>
-		/// <param name="image"></param>
+		/// <param name="image">图片对象</param>
 		/// <param name="filename">保存路径</param>
 		/// <param name="quality">压缩质量</param>
 		public static void SaveJpeg(this Image image, string filename, long quality) {
@@ -77,6 +78,35 @@ namespace ZKWeb.Utils.Extensions {
 			var parameters = new EncoderParameters();
 			parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
 			image.Save(filename, encoder, parameters);
+		}
+
+		/// <summary>
+		/// 保存图片，根据文件名自动识别格式
+		/// 压缩质量仅在图片格式是jpeg时有效，其他格式时会忽略这个参数
+		/// </summary>
+		/// <param name="image">图片对象</param>
+		/// <param name="filename">保存路径</param>
+		/// <param name="quality">压缩质量</param>
+		public static void SaveAuto(this Image image, string filename, long quality) {
+			var extension = Path.GetExtension(filename).ToLower();
+			if (extension == ".jpg" || extension == ".jpeg") {
+				SaveJpeg(image, filename, quality);
+			} else if (extension == ".bmp") {
+				image.Save(filename, ImageFormat.Bmp);
+			} else if (extension == ".gif") {
+				image.Save(filename, ImageFormat.Gif);
+			} else if (extension == ".ico") {
+				image.Save(filename, ImageFormat.Icon);
+			} else if (extension == ".png") {
+				image.Save(filename, ImageFormat.Png);
+			} else if (extension == ".tiff") {
+				image.Save(filename, ImageFormat.Tiff);
+			} else if (extension == ".exif") {
+				image.Save(filename, ImageFormat.Exif);
+			} else {
+				throw new NotSupportedException(
+					string.Format("unsupport image extension {0}", extension));
+			}
 		}
 	}
 

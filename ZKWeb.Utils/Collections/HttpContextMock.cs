@@ -11,6 +11,7 @@ using System.Web.Configuration;
 using System.Web.Instrumentation;
 using System.Web.Profile;
 
+#pragma warning disable 1591
 namespace ZKWeb.Utils.Collections {
 	/// <summary>
 	/// http上下文的模拟类
@@ -100,3 +101,4 @@ namespace ZKWeb.Utils.Collections {
 		public override IList<string> WebSocketRequestedProtocols { get { return webSocketRequestedProtocols; } }
 	}
 }
+#pragma warning restore 1591

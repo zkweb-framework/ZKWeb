@@ -47,8 +47,8 @@ namespace ZKWeb.Utils.Extensions {
 		///		使用Convert.ChangeType转换
 		///		使用JsonConvert转换
 		/// </summary>
-		/// <typeparam name="T">需要转换到的类型</typeparam>
 		/// <param name="obj">转换的对象</param>
+		/// <param name="type">需要转换到的类型</param>
 		/// <param name="default_value">默认值</param>
 		/// <returns></returns>
 		public static object ConvertOrDefault(this object obj, Type type, object default_value) {

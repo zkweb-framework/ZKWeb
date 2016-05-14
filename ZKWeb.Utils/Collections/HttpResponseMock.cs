@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
+#pragma warning disable 1591
 namespace ZKWeb.Utils.Collections {
 	/// <summary>
 	/// http回应的模拟类
@@ -136,3 +137,4 @@ namespace ZKWeb.Utils.Collections {
 		}
 	}
 }
+#pragma warning restore 1591

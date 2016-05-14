@@ -30,7 +30,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// 如果没有则添加到最后面
 		/// </summary>
 		/// <param name="items">元素列表</param>
-		/// <param name="before">添加到这个元素的后面</param>
+		/// <param name="after">添加到这个元素的后面</param>
 		/// <param name="obj">添加的元素</param>
 		public static void AddAfter<T>(
 			this List<T> items, Predicate<T> after, T obj) {

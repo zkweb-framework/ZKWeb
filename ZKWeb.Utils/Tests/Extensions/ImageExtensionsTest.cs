@@ -69,5 +69,19 @@ namespace ZKWeb.Utils.Tests.Extensions {
 				File.Delete(path);
 			}
 		}
+
+		public void SaveAuto() {
+			using (var image = new Bitmap(3, 2)) {
+				var path = Path.GetTempFileName() + ".bmp";
+				image.SaveAuto(path, 100);
+				var fileInfo = new FileInfo(path);
+				Assert.IsTrueWith(fileInfo.Length > 0, fileInfo);
+				File.Delete(path);
+
+				path = Path.GetTempFileName() + ".unknown";
+				Assert.Throws<NotSupportedException>(() => image.SaveAuto(path, 100));
+				Assert.IsTrue(!File.Exists(path));
+			}
+		}
 	}
 }

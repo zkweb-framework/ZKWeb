@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Routing;
 using ZKWeb.Utils.Extensions;
 
+#pragma warning disable 1591
 namespace ZKWeb.Utils.Collections {
 	/// <summary>
 	/// http请求的模拟类
@@ -146,3 +147,4 @@ namespace ZKWeb.Utils.Collections {
 		public override string[] UserLanguages { get { return userLanguages; } }
 	}
 }
+#pragma warning restore 1591
