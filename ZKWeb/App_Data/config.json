@@ -21,7 +21,7 @@
 		"Finance.Payment.Alipay",
 		"Finance.Payment.Tenpay",
 		"Finance.Payment.WeChat",
-		"UI.CKEditor",
+		"CMS.CKEditor",
 		"CMS.Article",
 		"Shopping.Product",
 		"Shopping.Logistics",
