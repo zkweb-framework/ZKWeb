@@ -22,6 +22,7 @@
 		"Finance.Payment.Tenpay",
 		"Finance.Payment.WeChat",
 		"CMS.CKEditor",
+		"CMS.ImageBrowser",
 		"CMS.Article",
 		"Shopping.Product",
 		"Shopping.Logistics",
