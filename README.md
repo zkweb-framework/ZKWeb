@@ -14,7 +14,7 @@ State: 0.9.1 alpha<br/>
 Plugins: http://github.com/303248153/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only now)
 
-Demo Website: http://zkwebsite.com/admin
+Demo Website: http://zkwebsite.com/admin<br/>
 Demo Account: demo 123456
 
 This framework is inspired by django<br/>
@@ -24,9 +24,7 @@ MIT License<br/>
 Copyright © 2016 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
 
---------------------------------------------------------------------
-
-Fast Help:
+<h1>Fast Help:</h1>
 
 a. How to run?
 
