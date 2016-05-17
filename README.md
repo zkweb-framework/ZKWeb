@@ -11,7 +11,7 @@ Web framework based on System.Web supports
 * visual page editor (planned)
 
 State: 0.9.1 alpha<br/>
-Plugins: http://github.com/303248153/ZKWeb.Plugins<br/>
+Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only now)
 
 Demo Website: http://zkwebsite.com/admin<br/>
