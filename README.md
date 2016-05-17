@@ -12,6 +12,10 @@ Web framework based on System.Web supports
 
 State: 0.9.1 alpha<br/>
 Plugins: http://github.com/303248153/ZKWeb.Plugins<br/>
+Document: http://zkweb-framework.github.io (Chinese only now)
+
+Demo Website: http://zkwebsite.com/admin
+Demo Account: demo 123456
 
 This framework is inspired by django<br/>
 All comments are written in chinese at this moment because main developers are chinese.<br/>
@@ -19,13 +23,6 @@ All comments are written in chinese at this moment because main developers are c
 MIT License<br/>
 Copyright © 2016 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
-
---------------------------------------------------------------------
-
-Guide (Chinese):<br/>
-http://www.cnblogs.com/zkweb/p/5133439.html
-
-I did some break changes at 2016-02-18, you may need read this guide again for updated information. 
 
 --------------------------------------------------------------------
 
