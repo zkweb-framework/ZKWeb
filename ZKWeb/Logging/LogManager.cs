@@ -11,7 +11,7 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Logging {
 	/// <summary>
-	/// 获取日志管理器
+	/// 日志管理器
 	/// </summary>
 	public class LogManager {
 		/// <summary>
