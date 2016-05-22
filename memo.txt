@@ -68,11 +68,12 @@ html
 		Schedule.Todo
 
 零碎任务
-	底部copyright
 	ok 支持统一处理表名
 	ok 修复ajax请求时切换页面导致toast提示错误
+	ok 添加图片管理
+	ok 支持ckeditor上传保存图片
+	底部copyright
 	收集并补充国外的地区信息
 	逐步补充框架和插件的单元测试
 	修复商品详情页model number过长影响下一行的问题
-	ok 添加图片管理
-	ok 支持ckeditor上传保存图片
+	StaticTableBuilder

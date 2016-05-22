@@ -34,8 +34,9 @@ namespace ZKWeb.Templating {
 			// 默认所有文本和对象经过html编码
 			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
-			// 允许描画HtmlString
+			// 注册允许描画的类型
 			Template.RegisterSafeType(typeof(HtmlString), s => s);
+			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
 			// 初始化DotLiquid
 			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
