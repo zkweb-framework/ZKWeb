@@ -20,7 +20,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 				this.ParentId = parentId;
 				this.Name = name;
 			}
-			
+
 			public static ITreeNode<TestData> GetTestTree() {
 				var elements = new List<TestData>() {
 					new TestData(1, 0, "A"),
@@ -65,12 +65,36 @@ namespace ZKWeb.Utils.Tests.Functions {
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_3_BB[0])); // 添加自身
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[1])); // 添加上级
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[0])); // 已有原上级节点
-			// 测试删除子节点
+																									// 测试删除子节点
 			var node = childsLv_3_BB[0];
 			childsLv_2_B[1].RemoveChildNode(node);
 			Assert.IsTrueWith(!childsLv_2_B[1].Childs.Any(), childsLv_2_B[1].Childs);
 			Assert.Equals(node.Parent, null);
 			childsLv_2_B[1].RemoveChildNode(node);
+		}
+
+		public void Transform() {
+			var tree = TreeUtils.Transform(TestData.GetTestTree(), d => d?.Name);
+			Assert.Equals(tree.Value, null); // 根节点
+			var childsLv_1 = tree.Childs.ToList(); // A, B
+			Assert.Equals(childsLv_1.Count, 2);
+			Assert.Equals(childsLv_1[0].Value, "A");
+			Assert.Equals(childsLv_1[1].Value, "B");
+			var childsLv_2_A = childsLv_1[0].Childs.ToList(); // AA, AB
+			Assert.Equals(childsLv_2_A.Count, 2);
+			Assert.Equals(childsLv_2_A[0].Value, "AA");
+			Assert.IsTrueWith(!childsLv_2_A[0].Childs.Any(), childsLv_2_A[0].Childs);
+			Assert.Equals(childsLv_2_A[1].Value, "AB");
+			Assert.IsTrueWith(!childsLv_2_A[1].Childs.Any(), childsLv_2_A[1].Childs);
+			var childsLv_2_B = childsLv_1[1].Childs.ToList(); // BA, BB
+			Assert.Equals(childsLv_2_B.Count, 2);
+			Assert.Equals(childsLv_2_B[0].Value, "BA");
+			Assert.IsTrueWith(!childsLv_2_B[0].Childs.Any(), childsLv_2_B[0].Childs);
+			Assert.Equals(childsLv_2_B[1].Value, "BB");
+			var childsLv_3_BB = childsLv_2_B[1].Childs.ToList(); // BBB
+			Assert.Equals(childsLv_3_BB.Count, 1);
+			Assert.Equals(childsLv_3_BB[0].Value, "BBB");
+			Assert.IsTrueWith(!childsLv_3_BB[0].Childs.Any(), childsLv_3_BB[0].Childs);
 		}
 	}
 }

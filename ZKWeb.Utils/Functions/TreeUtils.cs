@@ -35,6 +35,23 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
+		/// 转换树形结构
+		/// 传入的节点如果不是根节点，将会丢失上级节点
+		/// </summary>
+		/// <typeparam name="T">原始类型</typeparam>
+		/// <typeparam name="U">目标类型</typeparam>
+		/// <param name="node">节点</param>
+		/// <param name="convertor">值转换函数</param>
+		/// <returns></returns>
+		public static ITreeNode<U> Transform<T, U>(ITreeNode<T> node, Func<T, U> convertor) {
+			var unode = new TreeNode<U>(convertor(node.Value));
+			foreach (var childNode in node.Childs) {
+				unode.AddChildNode(Transform(childNode, convertor));
+			}
+			return unode;
+		}
+
+		/// <summary>
 		/// 树节点
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
