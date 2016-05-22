@@ -65,7 +65,7 @@ namespace ZKWeb.Utils.Tests.Functions {
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_3_BB[0])); // 添加自身
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[1])); // 添加上级
 			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[0])); // 已有原上级节点
-																									// 测试删除子节点
+			// 测试删除子节点
 			var node = childsLv_3_BB[0];
 			childsLv_2_B[1].RemoveChildNode(node);
 			Assert.IsTrueWith(!childsLv_2_B[1].Childs.Any(), childsLv_2_B[1].Childs);
