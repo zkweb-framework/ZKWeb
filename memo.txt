@@ -76,4 +76,6 @@ html
 	收集并补充国外的地区信息
 	逐步补充框架和插件的单元测试
 	修复商品详情页model number过长影响下一行的问题
-	StaticTableBuilder
+	StaticTableBuilder的文档
+	EntityTrait, RecyclableTrait的文档
+	获取更完整的默认商品类目
