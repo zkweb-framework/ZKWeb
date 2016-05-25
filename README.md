@@ -10,7 +10,7 @@ Web framework based on System.Web supports
 * api generation (planned)
 * visual page editor (planned)
 
-State: 0.9.1 alpha<br/>
+State: 0.9.2 alpha<br/>
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
 References: http://zkweb-framework.github.io/cn/references/zkweb/html/annotated.html<br/>
