@@ -70,9 +70,10 @@ namespace ZKWeb.Utils.Extensions {
 		/// 保存到Jpeg图片，且可以设置压缩质量
 		/// </summary>
 		/// <param name="image">图片对象</param>
-		/// <param name="filename">保存路径</param>
+		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
 		/// <param name="quality">压缩质量</param>
 		public static void SaveJpeg(this Image image, string filename, long quality) {
+			Directory.CreateDirectory(Path.GetDirectoryName(filename));
 			var encoder = ImageCodecInfo.GetImageEncoders().First(
 				c => c.FormatID == ImageFormat.Jpeg.Guid);
 			var parameters = new EncoderParameters();
@@ -85,9 +86,10 @@ namespace ZKWeb.Utils.Extensions {
 		/// 压缩质量仅在图片格式是jpeg时有效，其他格式时会忽略这个参数
 		/// </summary>
 		/// <param name="image">图片对象</param>
-		/// <param name="filename">保存路径</param>
+		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
 		/// <param name="quality">压缩质量</param>
 		public static void SaveAuto(this Image image, string filename, long quality) {
+			Directory.CreateDirectory(Path.GetDirectoryName(filename));
 			var extension = Path.GetExtension(filename).ToLower();
 			if (extension == ".jpg" || extension == ".jpeg") {
 				SaveJpeg(image, filename, quality);
