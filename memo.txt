@@ -1,35 +1,4 @@
-﻿-----------------------------------------------------------------------------------------
-区域和模块系统
-
-{% area test_area %}
-
-文件
-	templates/login_info.widget
-	templates/login_info.html
-	App_Data/areas/test_area.widgets
-
-html
-	<div class='template_area' area_id='test_area'>
-		<div class='template_widget' widget_id='random_123123123'></div>
-		<div class='template_widget' widget_id='random_123123122'></div>
-		<div class='template_widget' widget_id='random_123123121'></div>
-	</div>
-
-流程
-	获取区域和区域下的所有模块
-	编辑和保存
-		让用户直接编辑html插入area标签
-		让用户添加和拖动widget
-		保存编辑后的模块列表到{areaId}.widgets文件中
-	这里要求Area的Id全局唯一
-
-规则
-	include里面可以有include
-	area里面不能有area
-
------------------------------------------------------------------------------------------
-
-开发路线
+﻿开发路线
 	单元测试
 		ok 实现单元测试
 		ok 支持单元测试相关的事件
@@ -39,6 +8,7 @@ html
 	商品功能
 		ok 实现前台商品详情页
 		ok 实现商品列表页
+		实现商品导航栏
 		实现商品搜索框
 	文章功能
 		支持显示文章
@@ -66,6 +36,9 @@ html
 		SMS.GuangXin
 	待办事项功能
 		Schedule.Todo
+	商城网站完成后
+		固定abi，提供向后兼容性
+		提供用户手册
 
 零碎任务
 	ok 支持统一处理表名
@@ -73,9 +46,7 @@ html
 	ok 添加图片管理
 	ok 支持ckeditor上传保存图片
 	底部copyright
-	收集并补充国外的地区信息
 	逐步补充框架和插件的单元测试
-	修复商品详情页model number过长影响下一行的问题
-	修复一级商品分类鼠标悬浮时的样式
-	缓存商品列表页搜索结果一定时间（按当前登录用户+区域缓存）
+	收集并补充国外的地区信息
 	获取更完整的默认商品类目
+	使用demo插件更新首页内容
