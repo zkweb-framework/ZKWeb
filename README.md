@@ -59,6 +59,7 @@ b. How to add a new plugin?
 	
 - Add folder "Example" under "ZKWeb.Plugins" 
 - Plugin folder struction:
+
 	```
 	Example
 		bin: compiled assembly
@@ -67,6 +68,7 @@ b. How to add a new plugin?
 		template: html templates
 	```
 - Create "ExampleController.cs" under "Example\src"
+
 	``` csharp
 	[ExportMany]
 	public class ExampleController : IController {
@@ -77,6 +79,7 @@ b. How to add a new plugin?
 	}
 	```
 - Create "test.html" under "Example\template\example"
+
 	``` html
 	<div>{{ message }}</div>
 	```
