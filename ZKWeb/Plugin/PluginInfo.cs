@@ -20,6 +20,11 @@ namespace ZKWeb.Plugin {
 		/// </summary>
 		public string Name { get; set; }
 		/// <summary>
+		/// 版本字符串
+		/// 格式: "major.minor.build 任意字符串"
+		/// </summary>
+		public string Version { get; set; }
+		/// <summary>
 		/// 插件描述
 		/// </summary>
 		public string Description { get; set; }
@@ -31,11 +36,15 @@ namespace ZKWeb.Plugin {
 		/// 引用的程序集列表
 		/// </summary>
 		public List<string> References { get; set; }
+		/// <summary>
+		/// 附加信息
+		/// </summary>
+		public Dictionary<string, object> Extra { get; set; }
 
 		/// <summary>
 		/// 从插件目录生成插件信息
 		/// </summary>
-		/// <param name="dir"></param>
+		/// <param name="dir">插件目录</param>
 		/// <returns></returns>
 		public static PluginInfo FromDirectory(string dir) {
 			// 从json文件中读取插件信息，不存在时生成空的信息
@@ -45,8 +54,10 @@ namespace ZKWeb.Plugin {
 			info.Directory = dir;
 			info.Name = info.Name ?? Path.GetFileName(dir);
 			info.Description = info.Description ?? info.Name;
+			info.Version = info.Version ?? "0";
 			info.Dependencies = info.Dependencies ?? new List<string>();
 			info.References = info.References ?? new List<string>();
+			info.Extra = info.Extra ?? new Dictionary<string, object>();
 			return info;
 		}
 	}

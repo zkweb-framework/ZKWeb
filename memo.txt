@@ -76,8 +76,6 @@ html
 	收集并补充国外的地区信息
 	逐步补充框架和插件的单元测试
 	修复商品详情页model number过长影响下一行的问题
-	StaticTableBuilder的文档
-	EntityTrait, RecyclableTrait的文档
 	修复一级商品分类鼠标悬浮时的样式
 	缓存商品列表页搜索结果一定时间（按当前登录用户+区域缓存）
 	获取更完整的默认商品类目

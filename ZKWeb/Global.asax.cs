@@ -43,6 +43,14 @@ namespace ZKWeb {
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
+		/// 框架的完整版本
+		/// </summary>
+		public static string FullVersion { get { return "0.9.3 testing"; } }
+		/// <summary>
+		/// 框架的数值版本
+		/// </summary>
+		public static Version Version { get { return Version.Parse(FullVersion.Split(' ')[0]); } }
+		/// <summary>
 		/// 当前使用的Ioc容器
 		/// </summary>
 		public static IContainer Ioc { get { return _overrideIoc.Value ?? _globalIoc; } }

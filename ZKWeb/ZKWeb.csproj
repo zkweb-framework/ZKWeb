@@ -169,6 +169,7 @@
     <Compile Include="Database\Interfaces\IDatabaseInitializeHandler.cs" />
     <Compile Include="Localize\Interfaces\ILanguage.cs" />
     <Compile Include="Localize\TranslateManager.cs" />
+    <Compile Include="Plugin\PluginInfoExtensions.cs" />
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
