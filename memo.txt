@@ -38,7 +38,7 @@ html
 		ok UnitTest.WebTester
 	商品功能
 		ok 实现前台商品详情页
-		实现商品列表页
+		ok 实现商品列表页
 		实现商品搜索框
 	文章功能
 		支持显示文章
@@ -78,4 +78,6 @@ html
 	修复商品详情页model number过长影响下一行的问题
 	StaticTableBuilder的文档
 	EntityTrait, RecyclableTrait的文档
+	修复一级商品分类鼠标悬浮时的样式
+	缓存商品列表页搜索结果一定时间（按当前登录用户+区域缓存）
 	获取更完整的默认商品类目

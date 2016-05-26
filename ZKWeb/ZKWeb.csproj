@@ -206,6 +206,7 @@
     <Compile Include="Database\Interfaces\IDataSaveCallback.cs" />
     <Compile Include="Database\Interfaces\IDataDeleteCallback.cs" />
     <Compile Include="Web\Interfaces\IHttpErrorHandler.cs" />
+    <Compile Include="Web\Interfaces\IHttpRequestPreHandler.cs" />
     <Compile Include="Web\Interfaces\IHttpRequestHandler.cs" />
     <Compile Include="Plugin\Interfaces\IPlugin.cs" />
     <Compile Include="Localize\Interfaces\ITranslateProvider.cs" />

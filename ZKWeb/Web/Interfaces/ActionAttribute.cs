@@ -17,6 +17,10 @@ namespace ZKWeb.Web.Interfaces {
 		/// 请求类型
 		/// </summary>
 		public string Method { get; set; }
+		/// <summary>
+		/// 是否重载现有的函数
+		/// </summary>
+		public bool OverrideExists { get; set; }
 
 		/// <summary>
 		/// 初始化
@@ -26,6 +30,7 @@ namespace ZKWeb.Web.Interfaces {
 		public ActionAttribute(string path, string method = HttpMethods.GET) {
 			Path = path;
 			Method = method;
+			OverrideExists = false;
 		}
 	}
 }

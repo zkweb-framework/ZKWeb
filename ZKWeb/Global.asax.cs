@@ -85,8 +85,15 @@ namespace ZKWeb {
 		/// 收到Http请求时的处理
 		/// </summary>
 		protected void Application_BeginRequest(object sender, EventArgs e) {
-			var handlers = Ioc.ResolveMany<IHttpRequestHandler>();
-			handlers.Reverse().ForEach(h => h.OnRequest()); // 后面注册的可以在前面处理
+			// 调用预处理器，先注册的先调用
+			foreach (var handler in Ioc.ResolveMany<IHttpRequestPreHandler>()) {
+				handler.OnRequest();
+			}
+			// 调用处理器，后注册的先调用
+			foreach (var handler in Ioc.ResolveMany<IHttpRequestHandler>().Reverse()) {
+				handler.OnRequest();
+			}
+			// 没有处理时返回404
 			throw new HttpException(404, "404 Not Found");
 		}
 

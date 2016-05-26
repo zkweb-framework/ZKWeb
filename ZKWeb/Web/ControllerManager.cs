@@ -21,7 +21,7 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		private IDictionary<Tuple<string, string>, Func<IActionResult>> Actions =
+		protected IDictionary<Tuple<string, string>, Func<IActionResult>> Actions =
 			new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace ZKWeb.Web {
 					}
 					// 添加函数
 					foreach (var attribute in attributes) {
-						RegisterAction(attribute.Path, attribute.Method, action);
+						RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
 					}
 				}
 			}
@@ -116,9 +116,36 @@ namespace ZKWeb.Web {
 		/// <param name="method">请求类型</param>
 		/// <param name="action">处理函数</param>
 		public virtual void RegisterAction(string path, string method, Func<IActionResult> action) {
+			RegisterAction(path, method, action, false);
+		}
+
+		/// <summary>
+		/// 注册单个http请求的处理函数
+		/// </summary>
+		/// <param name="path">路径</param>
+		/// <param name="method">请求类型</param>
+		/// <param name="action">处理函数</param>
+		/// <param name="overrideExists">是否覆盖相同路径的函数</param>
+		public virtual void RegisterAction(
+			string path, string method, Func<IActionResult> action, bool overrideExists) {
 			path = NormalizePath(path);
 			var key = Tuple.Create(path, method);
+			if (!overrideExists && Actions.ContainsKey(key)) {
+				throw new ArgumentException($"action for {path} already registered, try option `overrideExists`");
+			}
 			Actions[key] = action;
+		}
+
+		/// <summary>
+		/// 注销单个http请求的处理函数
+		/// </summary>
+		/// <param name="path">路径</param>
+		/// <param name="method">请求类型</param>
+		/// <returns></returns>
+		public virtual bool UnregisterAction(string path, string method) {
+			path = NormalizePath(path);
+			var key = Tuple.Create(path, method);
+			return Actions.Remove(key);
 		}
 
 		/// <summary>
@@ -127,9 +154,11 @@ namespace ZKWeb.Web {
 		/// </summary>
 		/// <param name="path">路径</param>
 		/// <param name="method">请求类型</param>
+		/// <returns></returns>
 		public virtual Func<IActionResult> GetAction(string path, string method) {
 			path = NormalizePath(path);
-			return Actions.GetOrDefault(Tuple.Create(path, method));
+			var key = Tuple.Create(path, method);
+			return Actions.GetOrDefault(key);
 		}
 	}
 }
