@@ -3,11 +3,13 @@ using DotLiquid.Tags;
 using DryIoc;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using ZKWeb.Plugin.Interfaces;
+using ZKWeb.Cache;
+using ZKWeb.Cache.Interfaces;
 using ZKWeb.Server;
 using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Extensions;
@@ -33,12 +35,6 @@ namespace ZKWeb.Templating.AreaSupport {
 		protected Dictionary<string, TemplateArea> Areas =
 			new Dictionary<string, TemplateArea>();
 		/// <summary>
-		/// 模块描画结果的缓存
-		/// { 模块名称和参数: 描画结果, ... }
-		/// </summary>
-		protected MemoryCache<string, string> WidgetRenderCache =
-			new MemoryCache<string, string>();
-		/// <summary>
 		/// 模块信息的缓存
 		/// { 模块名称: 模块信息, ... }
 		/// </summary>
@@ -50,6 +46,12 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// </summary>
 		protected MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache =
 			new MemoryCache<string, List<TemplateWidget>>();
+		/// <summary>
+		/// 模块描画结果的缓存
+		/// { 隔离策略: { 模块名称和参数: 描画结果, ...}, ... }
+		/// </summary>
+		protected ConcurrentDictionary<string, IsolatedMemoryCache<string, string>> WidgetRenderCache =
+			new ConcurrentDictionary<string, IsolatedMemoryCache<string, string>>();
 
 		/// <summary>
 		/// 获取区域
@@ -136,10 +138,18 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <returns></returns>
 		public virtual string RenderWidget(Context context, TemplateWidget widget) {
 			// 从缓存获取
-			var key = JsonConvert.SerializeObject(widget);
-			var renderResult = WidgetRenderCache.GetOrDefault(key);
-			if (renderResult != null) {
-				return renderResult;
+			var info = GetWidgetInfo(widget.Path);
+			IsolatedMemoryCache<string, string> renderCache = null;
+			string key = null;
+			string renderResult = null;
+			if (info.CacheTime > 0) {
+				renderCache = WidgetRenderCache.GetOrAdd(
+					info.CacheBy ?? "", name => new IsolatedMemoryCache<string, string>(name));
+				key = JsonConvert.SerializeObject(widget);
+				renderResult = renderCache.GetOrDefault(key);
+				if (renderResult != null) {
+					return renderResult;
+				}
 			}
 			// 描画模块
 			var writer = new StringWriter();
@@ -154,9 +164,8 @@ namespace ZKWeb.Templating.AreaSupport {
 			writer.Write("</div>");
 			renderResult = writer.ToString();
 			// 保存描画结果到缓存中
-			var info = GetWidgetInfo(widget.Path);
 			if (info.CacheTime > 0) {
-				WidgetRenderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));
+				renderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));
 			}
 			return renderResult;
 		}
@@ -166,8 +175,8 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// </summary>
 		public virtual void ClearCache() {
 			WidgetInfoCache.Clear();
-			WidgetRenderCache.Clear();
 			CustomWidgetsCache.Clear();
+			WidgetRenderCache.Clear();
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using ZKWeb.Plugin.Interfaces;
+using ZKWeb.Cache.Interfaces;
 using ZKWeb.Server;
 using ZKWeb.Utils.Collections;
 

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using ZKWeb.Cache.Interfaces;
 using ZKWeb.Localize.Interfaces;
-using ZKWeb.Plugin.Interfaces;
 using ZKWeb.Utils.Collections;
 
 namespace ZKWeb.Localize {

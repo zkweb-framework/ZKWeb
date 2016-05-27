@@ -33,6 +33,10 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// 缓存时间，单位是秒
 		/// </summary>
 		public int CacheTime { get; set; }
+		/// <summary>
+		/// 缓存隔离策略的名称
+		/// </summary>
+		public string CacheBy { get; set; }
 
 		/// <summary>
 		/// 从路径读取模块信息
