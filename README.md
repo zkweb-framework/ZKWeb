@@ -10,7 +10,7 @@ Web framework based on System.Web supports
 * api generation (planned)
 * visual page editor (planned)
 
-Version: 0.9.3 testing (backward compatibility is not provided yet)<br/>
+Version: 0.9.4 testing (backward compatibility is not provided yet)<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
