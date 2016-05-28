@@ -11,7 +11,7 @@ namespace ZKWeb.Serialize {
 	/// <summary>
 	/// 设置Json.Net的默认选项
 	/// </summary>
-	public class InitializeJsonNet {
+	internal class InitializeJsonNet {
 		/// <summary>
 		/// 初始化
 		/// </summary>

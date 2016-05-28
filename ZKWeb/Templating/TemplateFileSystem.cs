@@ -9,25 +9,34 @@ using System.Web;
 using ZKWeb.Cache.Interfaces;
 using ZKWeb.Server;
 using ZKWeb.Utils.Collections;
+using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Templating {
 	/// <summary>
 	/// 模板系统使用的文件系统
-	/// 使用PathManager.GetTemplateFullPath获取路径
+	/// 使用PathManager.GetTemplateFullPath获取模板路径
 	/// </summary>
 	public class TemplateFileSystem : IFileSystem, ICacheCleaner {
 		/// <summary>
 		/// 模板缓存时间
-		/// 这里的缓存时间是防止内存占用过多而设置的
-		/// 无限期缓存也可以正常使用
+		/// 默认是15秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan TemplateCacheTime { get; set; } = TimeSpan.FromMinutes(15);
+		public TimeSpan TemplateCacheTime { get; set; }
 		/// <summary>
 		/// 模板的缓存
 		/// { 模板的绝对路径: (文件修改时间, 模板对象) }
 		/// </summary>
-		private MemoryCache<string, Tuple<DateTime, Template>> TemplateCache { get; set; } =
-			new MemoryCache<string, Tuple<DateTime, Template>>();
+		protected MemoryCache<string, Tuple<DateTime, Template>> TemplateCache { get; set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public TemplateFileSystem() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			TemplateCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplateCacheTime, 15));
+			TemplateCache = new MemoryCache<string, Tuple<DateTime, Template>>();
+		}
 
 		/// <summary>
 		/// 从模板路径读取模板

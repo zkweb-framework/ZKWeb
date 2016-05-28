@@ -6,7 +6,9 @@ using System.Threading;
 using System.Web;
 using ZKWeb.Cache.Interfaces;
 using ZKWeb.Localize.Interfaces;
+using ZKWeb.Server;
 using ZKWeb.Utils.Collections;
+using ZKWeb.Utils.Extensions;
 
 namespace ZKWeb.Localize {
 	/// <summary>
@@ -14,21 +16,31 @@ namespace ZKWeb.Localize {
 	/// </summary>
 	public class TranslateManager : ICacheCleaner {
 		/// <summary>
-		/// 翻译的缓存时间，默认是3秒
+		/// 翻译的缓存时间
+		/// 默认是3秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan TranslateCacheTime { get; set; } = TimeSpan.FromSeconds(3);
+		public TimeSpan TranslateCacheTime { get; set; }
 		/// <summary>
 		/// 翻译缓存
 		/// { (文本, 语言): 翻译, ... }
 		/// </summary>
-		protected MemoryCache<KeyValuePair<string, string>, string> TranslateCache
-			= new MemoryCache<KeyValuePair<string, string>, string>();
+		protected MemoryCache<KeyValuePair<string, string>, string> TranslateCache { get; set; }
 		/// <summary>
 		/// 翻译提供器的缓存
 		/// { 语言: 提供器列表, ... }
 		/// </summary>
-		protected MemoryCache<string, List<ITranslateProvider>> TranslateProvidersCache
-			= new MemoryCache<string, List<ITranslateProvider>>();
+		protected MemoryCache<string, List<ITranslateProvider>> TranslateProvidersCache { get; set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public TranslateManager() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			TranslateCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TranslateCacheTime, 3));
+			TranslateCache = new MemoryCache<KeyValuePair<string, string>, string>();
+			TranslateProvidersCache = new MemoryCache<string, List<ITranslateProvider>>();
+		}
 
 		/// <summary>
 		/// 按当前语言翻译文本

@@ -19,14 +19,9 @@ namespace ZKWeb.Templating {
 	/// <summary>
 	/// 模板管理器
 	/// 当前使用的模板系统是
-	///		DotLiquid http://dotliquidmarkup.org/
+	/// DotLiquid http://dotliquidmarkup.org/
 	/// </summary>
 	public class TemplateManager {
-		/// <summary>
-		/// 设置描画模板时，是否显示完整的例外信息使用的键名
-		/// </summary>
-		public const string DisplayFullExceptionForTemplateKey = "DisplayFullExceptionForTemplate";
-
 		/// <summary>
 		/// 初始化
 		/// </summary>
@@ -45,8 +40,8 @@ namespace ZKWeb.Templating {
 			Regex.CacheSize = 0xffff;
 			// 设置是否显示完整的例外信息
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			Context.DisplayFullException = configManager.WebsiteConfig
-				.Extra.GetOrDefault<bool?>(DisplayFullExceptionForTemplateKey) ?? true;
+			Context.DisplayFullException = (configManager.WebsiteConfig
+				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
 			// 注册自定义标签
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<Fetch>("fetch");

@@ -19,7 +19,7 @@ namespace ZKWeb.Plugin {
 	///		App_Data/*.json (仅根目录)
 	///		App_Data/DatabaseScript.txt (仅删除)
 	/// </summary>
-	public class PluginReloader {
+	internal class PluginReloader {
 		/// <summary>
 		/// 启用重载器
 		/// </summary>

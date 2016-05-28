@@ -21,37 +21,48 @@ namespace ZKWeb.Templating.AreaSupport {
 	public class TemplateAreaManager : ICacheCleaner {
 		/// <summary>
 		/// 模块信息的缓存时间
-		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// 默认是1秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan WidgetInfoCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+		public TimeSpan WidgetInfoCacheTime { get; set; }
 		/// <summary>
 		/// 自定义模块列表的缓存时间
-		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// 默认是1秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan CustomWidgetsCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+		public TimeSpan CustomWidgetsCacheTime { get; set; }
 		/// <summary>
 		/// 已知的区域列表
 		/// </summary>
-		protected Dictionary<string, TemplateArea> Areas =
-			new Dictionary<string, TemplateArea>();
+		protected Dictionary<string, TemplateArea> Areas { get; set; }
 		/// <summary>
 		/// 模块信息的缓存
 		/// { 模块名称: 模块信息, ... }
 		/// </summary>
-		protected MemoryCache<string, TemplateWidgetInfo> WidgetInfoCache =
-			new MemoryCache<string, TemplateWidgetInfo>();
+		protected MemoryCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
 		/// <summary>
 		/// 自定义模块列表的缓存
 		/// { 区域Id: 自定义模块列表, ... }
 		/// </summary>
-		protected MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache =
-			new MemoryCache<string, List<TemplateWidget>>();
+		protected MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache { get; set; }
 		/// <summary>
 		/// 模块描画结果的缓存
 		/// { 隔离策略: { 模块名称和参数: 描画结果, ...}, ... }
 		/// </summary>
-		protected ConcurrentDictionary<string, IsolatedMemoryCache<string, string>> WidgetRenderCache =
-			new ConcurrentDictionary<string, IsolatedMemoryCache<string, string>>();
+		protected ConcurrentDictionary<string, IsolatedMemoryCache<string, string>> WidgetRenderCache { get; set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public TemplateAreaManager() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			WidgetInfoCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.WidgetInfoCacheTime, 1));
+			CustomWidgetsCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.CustomWidgetsCacheTime, 1));
+			Areas = new Dictionary<string, TemplateArea>();
+			WidgetInfoCache = new MemoryCache<string, TemplateWidgetInfo>();
+			CustomWidgetsCache = new MemoryCache<string, List<TemplateWidget>>();
+			WidgetRenderCache = new ConcurrentDictionary<string, IsolatedMemoryCache<string, string>>();
+		}
 
 		/// <summary>
 		/// 获取区域

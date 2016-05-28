@@ -21,14 +21,14 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		protected IDictionary<Tuple<string, string>, Func<IActionResult>> Actions =
-			new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
+		protected IDictionary<Tuple<string, string>, Func<IActionResult>> Actions { get; set; }
 
 		/// <summary>
 		/// 初始化
+		/// 添加在IoC容器中注册的所有控制器
 		/// </summary>
 		public ControllerManager() {
-			// 自动注册控制器类型
+			Actions = new Dictionary<Tuple<string, string>, Func<IActionResult>>();
 			Application.Ioc.ResolveMany<IController>()
 				.Select(c => c.GetType())
 				.ForEach(t => RegisterController(t));

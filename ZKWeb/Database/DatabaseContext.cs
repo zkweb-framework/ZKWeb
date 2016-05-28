@@ -17,29 +17,6 @@ namespace ZKWeb.Database {
 	///		IDataSaveCallback
 	///		IDataDeleteCallback
 	/// NHibernate本身支持事件但不适合使用（修改数据需要同时改状态，需要绑定的事件较多等）
-	/// 例子（查询，[]要替换）
-	///		using (var context = databaseManager.GetContext()) {
-	///			var data = context.Get[T](d => d.Id == id);
-	///			var list = context.Query[t]().Where(d => d.Name.Contains("test")).Take(5).ToList();
-	///		}
-	/// 例子（添加）
-	///		using (var context = databaseManager.GetContext()) {
-	///			context.Save(data);
-	///			context.SaveChanges();
-	///		}
-	///	例子（修改，[]要替换）
-	///		using (var context = databaseManager.GetContext()) {
-	///			var data = context.Get[T](d => d.Id == id);
-	///			if (data != null) {
-	///				context.Save(data, d => d.Remark = "test update");
-	///				context.SaveChanges();
-	///			}
-	///		}
-	/// 例子（删除）
-	///		using (var context = databaseManager.GetContext()) {
-	///			context.DeleteWhere(d => d.Expired);
-	///			context.SaveChanges();
-	///		}
 	/// </summary>
 	public class DatabaseContext : IDisposable {
 		/// <summary>

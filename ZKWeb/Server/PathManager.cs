@@ -17,26 +17,37 @@ namespace ZKWeb.Server {
 	public class PathManager : ICacheCleaner {
 		/// <summary>
 		/// 模板路径缓存时间
-		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// 默认是1秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan TemplatePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+		public TimeSpan TemplatePathCacheTime { get; set; }
 		/// <summary>
 		/// 资源路径的缓存时间
-		/// 缓存用于减少硬盘查询次数，但时间不能超过1秒否则影响修改
+		/// 默认是1秒，可通过网站配置指定
 		/// </summary>
-		public TimeSpan ResourcePathCacheTime { get; set; } = TimeSpan.FromSeconds(1);
+		public TimeSpan ResourcePathCacheTime { get; set; }
 		/// <summary>
 		/// 模板路径的缓存
 		/// { 模板名称: 模板的绝对路径 }
 		/// </summary>
-		protected MemoryCache<string, string> TemplatePathCache { get; set; } =
-			new MemoryCache<string, string>();
+		protected MemoryCache<string, string> TemplatePathCache { get; set; }
 		/// <summary>
 		/// 资源路径的缓存
 		/// { 资源路径: 资源的绝对路径 }
 		/// </summary>
-		protected MemoryCache<string, string> ResourcePathCache { get; set; } =
-			new MemoryCache<string, string>();
+		protected MemoryCache<string, string> ResourcePathCache { get; set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public PathManager() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			TemplatePathCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplatePathCacheTime, 1));
+			ResourcePathCacheTime = TimeSpan.FromSeconds(
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.ResourcePathCacheTime, 1));
+			TemplatePathCache = new MemoryCache<string, string>();
+			ResourcePathCache = new MemoryCache<string, string>();
+		}
 
 		/// <summary>
 		/// 获取插件根目录的绝对路径

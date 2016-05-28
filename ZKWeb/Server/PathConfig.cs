@@ -9,14 +9,14 @@ namespace ZKWeb.Server {
 	/// <summary>
 	/// 路径的默认配置
 	/// </summary>
-	public static class PathConfig {
+	internal static class PathConfig {
 		/// <summary>
 		/// App_Data目录
 		/// </summary>
 		public static string AppDataDirectory {
 			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data"); }
 		}
-		
+
 		/// <summary>
 		/// 数据文件根目录
 		/// </summary>
@@ -49,7 +49,7 @@ namespace ZKWeb.Server {
 		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
 		/// </summary>
 		public static string TemplateDirectoryName { get; } = "templates";
-		
+
 		/// <summary>
 		/// 保存数据表生成脚本的文件路径
 		/// 里面的脚本仅用于检测是否需要更新，不会实际执行

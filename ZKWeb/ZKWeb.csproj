@@ -168,10 +168,12 @@
   <ItemGroup>
     <Compile Include="Cache\Interfaces\ICacheIsolationPolicy.cs" />
     <Compile Include="Cache\IsolatedMemoryCache.cs" />
+    <Compile Include="Database\DatabaseTypes.cs" />
     <Compile Include="Database\Interfaces\IDatabaseInitializeHandler.cs" />
     <Compile Include="Localize\Interfaces\ILanguage.cs" />
     <Compile Include="Localize\TranslateManager.cs" />
     <Compile Include="Plugin\PluginInfoExtensions.cs" />
+    <Compile Include="Server\ExtraConfigKeys.cs" />
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
