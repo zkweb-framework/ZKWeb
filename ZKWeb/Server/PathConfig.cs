@@ -9,7 +9,7 @@ namespace ZKWeb.Server {
 	/// <summary>
 	/// 路径的默认配置
 	/// </summary>
-	internal static class PathConfig {
+	public static class PathConfig {
 		/// <summary>
 		/// App_Data目录
 		/// </summary>
