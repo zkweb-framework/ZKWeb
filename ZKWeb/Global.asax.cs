@@ -67,8 +67,8 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			Ioc.RegisterMany<PluginReloader>(Reuse.Singleton);
-			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton);
+			Ioc.RegisterMany<PluginReloader>(Reuse.Singleton, nonPublicServiceTypes: true);
+			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton, nonPublicServiceTypes: true);
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateAreaManager>(Reuse.Singleton);
