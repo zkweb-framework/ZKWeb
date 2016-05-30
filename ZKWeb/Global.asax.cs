@@ -21,6 +21,7 @@ using ZKWeb.Localize;
 using ZKWeb.UnitTest;
 using System.Threading;
 using ZKWeb.Utils.Collections;
+using ZKWeb.Cache;
 
 namespace ZKWeb {
 	/// <summary>
@@ -61,7 +62,8 @@ namespace ZKWeb {
 		/// 网站启动时的处理
 		/// </summary>
 		public void Application_Start() {
-			// 注册管理器类型
+			// 注册核心组件
+			Ioc.RegisterMany<AutomaticCacheCleaner>(Reuse.Singleton, nonPublicServiceTypes: true);
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
 			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
@@ -76,7 +78,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<UnitTestManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
-			// 初始化管理器
+			// 初始化核心组件
 			Ioc.Resolve<PluginManager>();
 			Ioc.Resolve<TemplateManager>();
 			Ioc.Resolve<ControllerManager>();
@@ -85,8 +87,9 @@ namespace ZKWeb {
 			// 初始化所有插件并调用网站启动时的处理
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
-			// 自动重新载入插件和网站配置
+			// 初始化常驻型的核心组件
 			Ioc.Resolve<PluginReloader>();
+			Ioc.Resolve<AutomaticCacheCleaner>();
 		}
 
 		/// <summary>

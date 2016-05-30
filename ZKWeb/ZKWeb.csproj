@@ -166,6 +166,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\AutomaticCacheCleaner.cs" />
     <Compile Include="Cache\Interfaces\ICacheIsolationPolicy.cs" />
     <Compile Include="Cache\IsolatedMemoryCache.cs" />
     <Compile Include="Database\DatabaseTypes.cs" />
