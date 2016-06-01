@@ -63,7 +63,7 @@ namespace ZKWeb.Utils.Extensions {
 			}
 			// 使用Convert转换
 			try {
-				if (objType.IsEnum) {
+				if (objType.IsEnum && type == typeof(int)) {
 					return Convert.ToInt32(obj);
 				}
 				return Convert.ChangeType(obj, type);
