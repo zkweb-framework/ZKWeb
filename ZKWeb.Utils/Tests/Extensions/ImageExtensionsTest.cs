@@ -70,6 +70,16 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			}
 		}
 
+		public void SaveIcon() {
+			using (var image = new Bitmap(3, 2)) {
+				var path = Path.GetTempFileName();
+				image.SaveIcon(path);
+				var fileInfo = new FileInfo(path);
+				Assert.IsTrueWith(fileInfo.Length > 0, fileInfo);
+				File.Delete(path);
+			}
+		}
+
 		public void SaveAuto() {
 			using (var image = new Bitmap(3, 2)) {
 				var path = Path.GetTempFileName() + ".bmp";

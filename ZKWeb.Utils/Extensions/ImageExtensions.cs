@@ -82,6 +82,44 @@ namespace ZKWeb.Utils.Extensions {
 		}
 
 		/// <summary>
+		/// 保存到Icon图标
+		/// http://stackoverflow.com/questions/11434673/bitmap-save-to-save-an-icon-actually-saves-a-png
+		/// </summary>
+		/// <param name="image">图片对象</param>
+		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
+		public static void SaveIcon(this Image image, string filename) {
+			Directory.CreateDirectory(Path.GetDirectoryName(filename));
+			using (var stream = new FileStream(filename, FileMode.Create)) {
+				// 图标头部 (ico, 1张图片)
+				stream.Write(new byte[] { 0, 0, 1, 0, 1, 0 }, 0, 6);
+				// 图片大小
+				stream.WriteByte(checked((byte)image.Width));
+				stream.WriteByte(checked((byte)image.Height));
+				// 调色板数量
+				stream.WriteByte(0);
+				// 预留
+				stream.WriteByte(0);
+				// 颜色平面数量
+				stream.Write(new byte[] { 0, 0 }, 0, 2);
+				// 每个像素的bit数
+				stream.Write(new byte[] { 32, 0 }, 0, 2);
+				// 图片数据的大小，需要写入后确定
+				stream.Write(new byte[] { 0, 0, 0, 0 }, 0, 4);
+				// 图片数据的偏移值，这里固定22
+				stream.Write(new byte[] { 22, 0, 0, 0 }, 0, 4);
+				// 写入png数据
+				image.Save(stream, ImageFormat.Png);
+				// 写入图片数据的大小
+				long imageSize = stream.Length - 22;
+				stream.Seek(14, SeekOrigin.Begin);
+				stream.WriteByte((byte)(imageSize));
+				stream.WriteByte((byte)(imageSize >> 8));
+				stream.WriteByte((byte)(imageSize >> 16));
+				stream.WriteByte((byte)(imageSize >> 24));
+			}
+		}
+
+		/// <summary>
 		/// 保存图片，根据文件名自动识别格式
 		/// 压缩质量仅在图片格式是jpeg时有效，其他格式时会忽略这个参数
 		/// </summary>
@@ -92,13 +130,13 @@ namespace ZKWeb.Utils.Extensions {
 			Directory.CreateDirectory(Path.GetDirectoryName(filename));
 			var extension = Path.GetExtension(filename).ToLower();
 			if (extension == ".jpg" || extension == ".jpeg") {
-				SaveJpeg(image, filename, quality);
+				image.SaveJpeg(filename, quality);
 			} else if (extension == ".bmp") {
 				image.Save(filename, ImageFormat.Bmp);
 			} else if (extension == ".gif") {
 				image.Save(filename, ImageFormat.Gif);
 			} else if (extension == ".ico") {
-				image.Save(filename, ImageFormat.Icon);
+				image.SaveIcon(filename);
 			} else if (extension == ".png") {
 				image.Save(filename, ImageFormat.Png);
 			} else if (extension == ".tiff") {
