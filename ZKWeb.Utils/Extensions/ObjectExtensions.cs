@@ -71,7 +71,8 @@ namespace ZKWeb.Utils.Extensions {
 			}
 			// 使用JsonConvert转换
 			try {
-				return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(obj), type);
+				return JsonConvert.DeserializeObject(
+					(obj is string) ? (string)obj : JsonConvert.SerializeObject(obj), type);
 			} catch {
 			}
 			return default_value;

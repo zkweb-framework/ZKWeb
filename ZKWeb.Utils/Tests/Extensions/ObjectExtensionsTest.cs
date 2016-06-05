@@ -31,6 +31,9 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			Assert.Equals((1).ConvertOrDefault<TestEnum?>(), TestEnum.One);
 			Assert.Equals(new List<int>().ConvertOrDefault<int?>(), null);
 			Assert.Equals((100).ConvertOrDefault<string>(), "100");
+			Assert.Equals("test".ConvertOrDefault<string>(), "test");
+			var lst = "[1]".ConvertOrDefault<List<int>>();
+			Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
 		}
 
 		public void ConvertOrDefault() {
@@ -43,6 +46,9 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			Assert.Equals((1).ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
 			Assert.Equals(new List<int>().ConvertOrDefault(typeof(int?), null), null);
 			Assert.Equals((100).ConvertOrDefault(typeof(string), null), "100");
+			Assert.Equals("test".ConvertOrDefault(typeof(string), null), "test");
+			var lst = "[1]".ConvertOrDefault(typeof(List<int>), null) as List<int>;
+			Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
 		}
 
 		class TestData {
