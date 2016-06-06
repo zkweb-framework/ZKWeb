@@ -169,6 +169,10 @@
     <Compile Include="Cache\AutomaticCacheCleaner.cs" />
     <Compile Include="Cache\Interfaces\ICacheIsolationPolicy.cs" />
     <Compile Include="Cache\IsolatedMemoryCache.cs" />
+    <Compile Include="Cache\IsolatedMemoryCacheKey.cs" />
+    <Compile Include="Cache\Policies\CacheIsolateByLocale.cs" />
+    <Compile Include="Cache\Policies\CacheIsolateByDevice.cs" />
+    <Compile Include="Cache\Policies\CacheIsolateByUrl.cs" />
     <Compile Include="Database\DatabaseTypes.cs" />
     <Compile Include="Database\Interfaces\IDatabaseInitializeHandler.cs" />
     <Compile Include="Localize\Interfaces\ILanguage.cs" />

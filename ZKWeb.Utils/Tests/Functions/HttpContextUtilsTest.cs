@@ -34,22 +34,6 @@ namespace ZKWeb.Utils.Tests.Functions {
 			Assert.Equals(HttpContextUtils.GetData<string>("TestRemoveData"), null);
 		}
 
-		public void GetClientIpAddress() {
-			Assert.Equals(HttpContextUtils.GetClientIpAddress(), "::1");
-			using (HttpContextUtils.OverrideContext("", "GET")) {
-				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
-				request.userHostAddress = "192.168.168.168";
-				Assert.Equals(HttpContextUtils.GetClientIpAddress(), "192.168.168.168");
-			}
-		}
-
-		public void GetRequestHostUrl() {
-			Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://localhost");
-			using (HttpContextUtils.OverrideContext(new Uri("http://www.abc.com/admin"), "GET")) {
-				Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://www.abc.com");
-			}
-		}
-
 		public void GetCookie() {
 			HttpContextUtils.PutCookie("TestGetCookie", "abc");
 			Assert.Equals(HttpContextUtils.GetCookie("TestGetCookie"), "abc");
@@ -64,6 +48,22 @@ namespace ZKWeb.Utils.Tests.Functions {
 			HttpContextUtils.PutCookie("TestRemoveCookie", "abc");
 			HttpContextUtils.RemoveCookie("TestRemoveCookie");
 			Assert.Equals(HttpContextUtils.GetCookie("TestRemoveCookie"), null);
+		}
+
+		public void GetClientIpAddress() {
+			Assert.Equals(HttpContextUtils.GetClientIpAddress(), "::1");
+			using (HttpContextUtils.OverrideContext("", "GET")) {
+				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
+				request.userHostAddress = "192.168.168.168";
+				Assert.Equals(HttpContextUtils.GetClientIpAddress(), "192.168.168.168");
+			}
+		}
+
+		public void GetRequestHostUrl() {
+			Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://localhost");
+			using (HttpContextUtils.OverrideContext(new Uri("http://www.abc.com/admin"), "GET")) {
+				Assert.Equals(HttpContextUtils.GetRequestHostUrl(), "http://www.abc.com");
+			}
 		}
 
 		public void UseContext() {

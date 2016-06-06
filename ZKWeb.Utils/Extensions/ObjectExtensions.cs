@@ -64,15 +64,21 @@ namespace ZKWeb.Utils.Extensions {
 			// 使用Convert转换
 			try {
 				if (objType.IsEnum && type == typeof(int)) {
+					// enum => int
 					return Convert.ToInt32(obj);
+				} else if (objType == typeof(string) && type.IsEnum) {
+					// string => enum, 下面json也能转换但这里转换性能更快
+					return Enum.Parse(type, (string)obj);
 				}
 				return Convert.ChangeType(obj, type);
 			} catch {
 			}
 			// 使用JsonConvert转换
+			if (obj is string) {
+				try { return JsonConvert.DeserializeObject(obj as string, type); } catch { }
+			}
 			try {
-				return JsonConvert.DeserializeObject(
-					(obj is string) ? (string)obj : JsonConvert.SerializeObject(obj), type);
+				return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(obj), type);
 			} catch {
 			}
 			return default_value;

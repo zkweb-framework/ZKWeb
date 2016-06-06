@@ -34,7 +34,9 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// </summary>
 		public int CacheTime { get; set; }
 		/// <summary>
-		/// 缓存隔离策略的名称
+		/// 缓存隔离策略
+		/// 可以不指定或指定一个或多个，指定多个时使用逗号分隔
+		/// 例: "Locale,Url"
 		/// </summary>
 		public string CacheBy { get; set; }
 

@@ -85,6 +85,7 @@
     <Compile Include="Functions\FileUtils.cs" />
     <Compile Include="Functions\HttpContextUtils.cs" />
     <Compile Include="Functions\ExpressionUtils.cs" />
+    <Compile Include="Functions\HttpDeviceUtils.cs" />
     <Compile Include="Functions\LocaleUtils.cs" />
     <Compile Include="Functions\PasswordUtils.cs" />
     <Compile Include="Functions\PathUtils.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Tests\Functions\FileUtilsTest.cs" />
     <Compile Include="Tests\Functions\HttpContextUtilsTest.cs" />
     <Compile Include="Tests\Functions\ExpressionUtilsTest.cs" />
+    <Compile Include="Tests\Functions\HttpDeviceUtilsTest.cs" />
     <Compile Include="Tests\Functions\LocaleUtilsTest.cs" />
     <Compile Include="Tests\Functions\PasswordUtilsTest.cs" />
     <Compile Include="Tests\Functions\PathUtilsTest.cs" />

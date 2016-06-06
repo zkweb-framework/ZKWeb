@@ -18,9 +18,12 @@ namespace ZKWeb.Utils.Functions {
 	/// <summary>
 	/// http上下文的工具类
 	/// 功能
-	///		提供返回HttpContextBase的CurrentContext
-	///		提供获取和储存数据到当前http上下文的Items的函数，如果上下文不存在则储存到线程本地的集合中
-	///		提供获取和储存数据到当前http上下文的Cookies的函数，如果上下文不存在则储存到线程本地的集合中
+	/// - 提供返回HttpContextBase的CurrentContext
+	/// - 提供获取和储存数据到当前http上下文的Items的函数，如果上下文不存在则储存到线程本地的集合中
+	/// - 提供获取和储存数据到当前http上下文的Cookies的函数，如果上下文不存在则储存到线程本地的集合中
+	/// - 获取客户端的Ip地址
+	/// - 获取请求时使用的域名地址
+	/// - 重载当前使用的http上下文
 	/// </summary>
 	public static class HttpContextUtils {
 		/// <summary>
@@ -53,8 +56,11 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 储存在一个Http请求中通用的数据
-		/// 用于代替ViewData，因为ViewData每次描画分视图时都会复制一遍耗费性能
+		/// 如果上下文不存在则储存到线程本地的集合中
 		/// </summary>
+		/// <typeparam name="T">数据类型</typeparam>
+		/// <param name="key">键值</param>
+		/// <param name="data">数据</param>
 		public static void PutData<T>(string key, T data)
 			where T : class {
 			var context = CurrentContext;
@@ -67,7 +73,12 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 获取在一个Http请求中通用的数据
+		/// 如果上下文不存在则从线程本地的集合中获取
 		/// </summary>
+		/// <typeparam name="T">数据类型</typeparam>
+		/// <param name="key">键值</param>
+		/// <param name="defaultValue">获取不到时返回的默认值</param>
+		/// <returns></returns>
 		public static T GetData<T>(string key, T defaultValue = default(T))
 			where T : class {
 			var context = CurrentContext;
@@ -81,6 +92,10 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 获取在一个Http请求中通用的数据，不存在时创建
 		/// </summary>
+		/// <typeparam name="T">数据类型</typeparam>
+		/// <param name="key">键值</param>
+		/// <param name="defaultCreater">获取不到时创建默认值使用的函数</param>
+		/// <returns></returns>
 		public static T GetOrCreateData<T>(string key, Func<T> defaultCreater)
 			where T : class {
 			var value = GetData<T>(key);
@@ -93,7 +108,9 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 删除在一个Http请求中通用的数据
+		/// 如果上下文不存在则从线程本地的集合中删除
 		/// </summary>
+		/// <param name="key">键值</param>
 		public static void RemoveData(string key) {
 			var context = CurrentContext;
 			if (context == null) {
@@ -104,29 +121,11 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
-		/// 获取客户端的Ip地址
-		/// </summary>
-		/// <returns></returns>
-		public static string GetClientIpAddress() {
-			return CurrentContext?.Request?.UserHostAddress ?? "::1";
-		}
-
-		/// <summary>
-		/// 获取请求时使用的域名地址
-		/// 例 http://localhost 后面不带/
-		/// </summary>
-		/// <returns></returns>
-		public static string GetRequestHostUrl() {
-			var context = CurrentContext;
-			if (context == null) {
-				return "http://localhost";
-			}
-			return context.Request.Url.GetLeftPart(UriPartial.Authority);
-		}
-
-		/// <summary>
 		/// 获取Cookie值
+		/// 如果上下文不存在则从线程本地的集合中获取
 		/// </summary>
+		/// <param name="key">键值</param>
+		/// <returns></returns>
 		public static string GetCookie(string key) {
 			// 当前上下文不存在时使用备用Cookies储存
 			var context = CurrentContext;
@@ -149,9 +148,15 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 设置Cookie值
+		/// 如果上下文不存在则储存到线程本地的集合中
 		/// </summary>
+		/// <param name="key">键值</param>
+		/// <param name="value">数据</param>
+		/// <param name="expired">过期时间，null表示在浏览器关闭时过期</param>
+		/// <param name="httpOnly">是否只能通过http获取（javascript中不能获取）</param>
+		/// <returns></returns>
 		public static bool PutCookie(string key, string value,
-			DateTime? expired = default(DateTime?), bool httpOnly = false) {
+			DateTime? expired = null, bool httpOnly = false) {
 			// 当前上下文不存在时使用备用Cookies储存
 			var context = CurrentContext;
 			if (context == null) {
@@ -186,13 +191,37 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 删除Cookie值
+		/// 如果上下文不存在则从线程本地的集合中删除
 		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
 		public static bool RemoveCookie(string key) {
 			return PutCookie(key, "", new DateTime(1970, 1, 1));
 		}
 
 		/// <summary>
-		/// 临时使用指定的http上下文
+		/// 获取客户端的Ip地址
+		/// </summary>
+		/// <returns></returns>
+		public static string GetClientIpAddress() {
+			return CurrentContext?.Request?.UserHostAddress ?? "::1";
+		}
+
+		/// <summary>
+		/// 获取请求时使用的域名地址
+		/// 例: "http://localhost" 后面不带/
+		/// </summary>
+		/// <returns></returns>
+		public static string GetRequestHostUrl() {
+			var context = CurrentContext;
+			if (context == null) {
+				return "http://localhost";
+			}
+			return context.Request.Url.GetLeftPart(UriPartial.Authority);
+		}
+
+		/// <summary>
+		/// 重载当前使用的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
 		/// <param name="context">指定的http上下文</param>
@@ -204,7 +233,7 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
-		/// 临时使用指定的http上下文
+		/// 重载当前使用的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
 		/// <param name="uri">请求的uri</param>
@@ -236,7 +265,7 @@ namespace ZKWeb.Utils.Functions {
 		}
 
 		/// <summary>
-		/// 临时使用指定的http上下文
+		/// 重载当前使用的http上下文
 		/// 结束后恢复原有的上下文
 		/// </summary>
 		/// <param name="path">请求的路径，不需要带域名</param>

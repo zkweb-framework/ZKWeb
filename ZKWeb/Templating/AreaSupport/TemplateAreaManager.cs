@@ -155,7 +155,7 @@ namespace ZKWeb.Templating.AreaSupport {
 			string renderResult = null;
 			if (info.CacheTime > 0) {
 				renderCache = WidgetRenderCache.GetOrAdd(
-					info.CacheBy ?? "", name => new IsolatedMemoryCache<string, string>(name));
+					info.CacheBy ?? "", name => new IsolatedMemoryCache<string, string>(name.Split(',')));
 				key = JsonConvert.SerializeObject(widget);
 				renderResult = renderCache.GetOrDefault(key);
 				if (renderResult != null) {

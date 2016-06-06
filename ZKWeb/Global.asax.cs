@@ -22,6 +22,7 @@ using ZKWeb.UnitTest;
 using System.Threading;
 using ZKWeb.Utils.Collections;
 using ZKWeb.Cache;
+using ZKWeb.Cache.Policies;
 
 namespace ZKWeb {
 	/// <summary>
@@ -78,6 +79,10 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<UnitTestManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
+			// 注册缓存隔离策略
+			Ioc.RegisterMany<CacheIsolateByDevice>(Reuse.Singleton, serviceKey: "Device");
+			Ioc.RegisterMany<CacheIsolateByLocale>(Reuse.Singleton, serviceKey: "Locale");
+			Ioc.RegisterMany<CacheIsolateByUrl>(Reuse.Singleton, serviceKey: "Url");
 			// 初始化核心组件
 			Ioc.Resolve<PluginManager>();
 			Ioc.Resolve<TemplateManager>();

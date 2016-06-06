@@ -29,6 +29,10 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			Assert.Equals("1.0".ConvertOrDefault<decimal?>(), 1.0M);
 			Assert.Equals("1".ConvertOrDefault<TestEnum?>(), TestEnum.One);
 			Assert.Equals((1).ConvertOrDefault<TestEnum?>(), TestEnum.One);
+			Assert.Equals("One".ConvertOrDefault<TestEnum>(), TestEnum.One);
+			Assert.Equals("One".ConvertOrDefault<TestEnum?>(), TestEnum.One);
+			Assert.Equals(TestEnum.One.ConvertOrDefault<int>(), 1);
+			Assert.Equals(TestEnum.One.ConvertOrDefault<string>(), "One");
 			Assert.Equals(new List<int>().ConvertOrDefault<int?>(), null);
 			Assert.Equals((100).ConvertOrDefault<string>(), "100");
 			Assert.Equals("test".ConvertOrDefault<string>(), "test");
@@ -44,6 +48,10 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			Assert.Equals("1.0".ConvertOrDefault(typeof(decimal?), null), 1.0M);
 			Assert.Equals("1".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
 			Assert.Equals((1).ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
+			Assert.Equals("One".ConvertOrDefault(typeof(TestEnum), null), TestEnum.One);
+			Assert.Equals("One".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
+			Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(int), null), 1);
+			Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(string), null), "One");
 			Assert.Equals(new List<int>().ConvertOrDefault(typeof(int?), null), null);
 			Assert.Equals((100).ConvertOrDefault(typeof(string), null), "100");
 			Assert.Equals("test".ConvertOrDefault(typeof(string), null), "test");

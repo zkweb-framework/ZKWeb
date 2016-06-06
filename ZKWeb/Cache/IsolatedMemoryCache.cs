@@ -14,27 +14,40 @@ namespace ZKWeb.Cache {
 	/// <typeparam name="TKey">键类型</typeparam>
 	/// <typeparam name="TValue">值类型</typeparam>
 	public class IsolatedMemoryCache<TKey, TValue> :
-		MemoryCache<KeyValuePair<TKey, object>, TValue> {
+		MemoryCache<IsolatedMemoryCacheKey<TKey>, TValue> {
 		/// <summary>
-		/// 当前使用的缓存隔离策略
+		/// 当前使用的缓存隔离策略列表
 		/// </summary>
-		public ICacheIsolationPolicy IsolationPolicy { get; protected set; }
+		public IList<ICacheIsolationPolicy> IsolationPolicies { get; protected set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
-		/// <param name="isolationPolicyName">缓存隔离策略的名称，通过容器查找策略对象</param>
-		public IsolatedMemoryCache(string isolationPolicyName) : this(
-			string.IsNullOrEmpty(isolationPolicyName) ? null :
-				Application.Ioc.Resolve<ICacheIsolationPolicy>(serviceKey: isolationPolicyName)) {
-		}
+		/// <param name="isolationPolicyNames">缓存隔离策略的名称列表，通过Ioc容器查找策略对象</param>
+		public IsolatedMemoryCache(params string[] isolationPolicyNames) :
+			this((IEnumerable<string>)isolationPolicyNames) { }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
-		/// <param name="isolationPolicy">缓存隔离策略</param>
-		public IsolatedMemoryCache(ICacheIsolationPolicy isolationPolicy) {
-			IsolationPolicy = isolationPolicy;
+		/// <param name="isolationPolicyNames">缓存隔离策略的名称列表，通过Ioc容器查找策略对象</param>
+		public IsolatedMemoryCache(IEnumerable<string> isolationPolicyNames) :
+			this(isolationPolicyNames.Select(name =>
+				Application.Ioc.Resolve<ICacheIsolationPolicy>(serviceKey: name)).ToList()) { }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		/// <param name="isolationPolicies">缓存隔离策略列表</param>
+		public IsolatedMemoryCache(params ICacheIsolationPolicy[] isolationPolicies) :
+			this((IList<ICacheIsolationPolicy>)isolationPolicies) { }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		/// <param name="isolationPolicies">缓存隔离策略列表</param>
+		public IsolatedMemoryCache(IList<ICacheIsolationPolicy> isolationPolicies) {
+			IsolationPolicies = isolationPolicies;
 		}
 
 		/// <summary>
@@ -42,8 +55,12 @@ namespace ZKWeb.Cache {
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public KeyValuePair<TKey, object> GenerateKey(TKey key) {
-			return new KeyValuePair<TKey, object>(key, IsolationPolicy?.GetIsolationKey());
+		public IsolatedMemoryCacheKey<TKey> GenerateKey(TKey key) {
+			var isolationKeys = new List<object>(IsolationPolicies.Count);
+			foreach (var policy in IsolationPolicies) {
+				isolationKeys.Add(policy.GetIsolationKey());
+			}
+			return new IsolatedMemoryCacheKey<TKey>(key, isolationKeys);
 		}
 
 		/// <summary>
