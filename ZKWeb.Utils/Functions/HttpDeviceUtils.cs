@@ -35,17 +35,22 @@ namespace ZKWeb.Utils.Functions {
 		/// </summary>
 		/// <returns></returns>
 		public static DeviceTypes GetClientDevice() {
-			// 从Cookies获取
+			// 从缓存获取
+			var device = HttpContextUtils.GetData<object>(DeviceKey);
+			if (device != null) {
+				return (DeviceTypes)device;
+			}
+			// 先从Cookies再从UserAgent获取
 			var deviceFromCookies = HttpContextUtils.GetCookie(DeviceKey);
 			if (!string.IsNullOrEmpty(deviceFromCookies)) {
-				return deviceFromCookies.ConvertOrDefault<DeviceTypes>();
+				device = deviceFromCookies.ConvertOrDefault<DeviceTypes>();
+			} else {
+				var userAgent = HttpContextUtils.CurrentContext?.Request?.UserAgent ?? "";
+				device = MobileCheckRegex.IsMatch(userAgent) ? DeviceTypes.Mobile : DeviceTypes.Desktop;
 			}
-			// 从UserAgent获取
-			var userAgent = HttpContextUtils.CurrentContext?.Request?.UserAgent ?? "";
-			if (MobileCheckRegex.IsMatch(userAgent)) {
-				return DeviceTypes.Mobile;
-			}
-			return DeviceTypes.Desktop;
+			// 保存到缓存并返回
+			HttpContextUtils.PutData(DeviceKey, device);
+			return (DeviceTypes)device;
 		}
 
 		/// <summary>

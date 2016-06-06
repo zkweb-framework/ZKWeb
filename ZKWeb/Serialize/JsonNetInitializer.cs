@@ -11,11 +11,11 @@ namespace ZKWeb.Serialize {
 	/// <summary>
 	/// 设置Json.Net的默认选项
 	/// </summary>
-	internal class InitializeJsonNet {
+	internal static class JsonNetInitializer {
 		/// <summary>
-		/// 初始化
+		/// 设置Json.Net的默认选项
 		/// </summary>
-		public InitializeJsonNet() {
+		internal static void Initialize() {
 			JsonConvert.DefaultSettings = () => {
 				var settings = new JsonSerializerSettings();
 				// 添加自定义的转换器

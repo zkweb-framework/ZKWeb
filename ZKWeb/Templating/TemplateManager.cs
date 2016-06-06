@@ -23,37 +23,6 @@ namespace ZKWeb.Templating {
 	/// </summary>
 	public class TemplateManager {
 		/// <summary>
-		/// 初始化
-		/// </summary>
-		public TemplateManager() {
-			// 默认所有文本和对象经过html编码
-			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
-			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
-			// 注册允许描画的类型
-			Template.RegisterSafeType(typeof(HtmlString), s => s);
-			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
-			// 初始化DotLiquid
-			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
-			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
-			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
-			// 修改正则表达式的缓存大小，默认缓存只有15
-			Regex.CacheSize = 0xffff;
-			// 设置是否显示完整的例外信息
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			Context.DisplayFullException = (configManager.WebsiteConfig
-				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
-			// 注册自定义标签
-			Template.RegisterTag<Area>("area");
-			Template.RegisterTag<Fetch>("fetch");
-			Template.RegisterTag<HtmlLang>("html_lang");
-			Template.RegisterTag<RawHtml>("raw_html");
-			// 注册自定义过滤器
-			Template.RegisterFilter(typeof(Filters));
-			// 设置使用的文件系统
-			Template.FileSystem = Application.Ioc.Resolve<TemplateFileSystem>();
-		}
-
-		/// <summary>
 		/// 描画指定的模板到数据流中
 		/// </summary>
 		/// <param name="path">模板路径</param>
@@ -92,6 +61,37 @@ namespace ZKWeb.Templating {
 				var reader = new StreamReader(stream);
 				return reader.ReadToEnd();
 			}
+		}
+
+		/// <summary>
+		/// 初始化模板系统
+		/// </summary>
+		internal static void Initialize() {
+			// 默认所有文本和对象经过html编码
+			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
+			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
+			// 注册允许描画的类型
+			Template.RegisterSafeType(typeof(HtmlString), s => s);
+			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
+			// 初始化DotLiquid
+			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
+			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
+			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
+			// 修改正则表达式的缓存大小，默认缓存只有15
+			Regex.CacheSize = 0xffff;
+			// 设置是否显示完整的例外信息
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			Context.DisplayFullException = (configManager.WebsiteConfig
+				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
+			// 注册自定义标签
+			Template.RegisterTag<Area>("area");
+			Template.RegisterTag<Fetch>("fetch");
+			Template.RegisterTag<HtmlLang>("html_lang");
+			Template.RegisterTag<RawHtml>("raw_html");
+			// 注册自定义过滤器
+			Template.RegisterFilter(typeof(Filters));
+			// 设置使用的文件系统
+			Template.FileSystem = Application.Ioc.Resolve<TemplateFileSystem>();
 		}
 	}
 }

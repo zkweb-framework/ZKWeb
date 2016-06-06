@@ -1,14 +1,31 @@
-Web framework based on System.Web supports
-* dynamic plugins (supported, csscript + codedom)
-* code first database auto migration (supported, nhibernate)
-* ioc container (supported, dryioc)
-* simple and extendable template sysetm (supported, dotliquid)
-* multi language support (supported)
-* multi timezone support (supported)
-* form generation (supported by plugin)
-* scaffolding (supported by plugin)
-* api generation (planned)
-* visual page editor (planned)
+### Extendable .net web framework<br/>
+
+Features:<br/>
+
+- Dynamic plugins
+	- csscript + codedom
+	- Auto compile after modification
+- Code first database auto migration
+	- nhibernate
+	- Auto migration without any commands
+- Ioc container
+	- dryioc (will get replaced on next update)
+- Simple and extendable template sysetm
+	- dotliquid
+	- Mobile specialized templates
+	- Dynamic contents (area + widget pattern)
+	- Per widget render result cache (perform extremely fast rending) 
+- Multi language support
+- Multi timezone support
+- Builtin unit test support
+	- Console and web test runner
+	- Temporary database
+- Form generation
+	- supported by plugin
+- Scaffolding
+	- supported by plugin
+- Visual page editor
+	- prepared and planned
 
 Version: 0.9.4 testing (backward compatibility is not provided yet)<br/>
 
@@ -26,12 +43,12 @@ MIT License<br/>
 Copyright © 2016 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
 
-<h1>Fast Help:</h1>
+### Fast Help:
 
-a. How to run?
+a. How to getting start?
 
-- Download ZKWeb and ZKWeb.Plugins from github,
-- Put ZKWeb and ZKWeb.Plugins in same folder,
+- Download ZKWeb and ZKWeb.Plugins from github
+- Put ZKWeb and ZKWeb.Plugins in same folder
 - Edit config.json under ZKWeb\App_Data change Database and ConnectionString
 	- Example for mssql
 	```
@@ -55,7 +72,7 @@ a. How to run?
 	```
 -	Once database configuration completed, you can run ZKWeb project from visual studio.
 
-b. How to add a new plugin?
+b. How to add my own plugin?
 	
 - Add folder "Example" under "ZKWeb.Plugins" 
 - Plugin folder struction:
@@ -65,7 +82,9 @@ b. How to add a new plugin?
 		bin: compiled assembly
 		src: source files for automatic compilation in developement
 		static: static files
-		template: html templates
+		template: default html templates
+		template.mobile: mobile specialized html templates
+		template.desktop: desktop specialized html templates
 	```
 - Create "ExampleController.cs" under "Example\src"
 

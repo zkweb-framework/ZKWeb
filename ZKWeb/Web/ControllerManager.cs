@@ -14,8 +14,6 @@ using ZKWeb.Web.Interfaces;
 namespace ZKWeb.Web {
 	/// <summary>
 	/// 控制器管理器
-	/// 这个管理器创建前需要先创建以下管理器
-	///		插件管理器
 	/// </summary>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
@@ -25,13 +23,9 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// 初始化
-		/// 添加在IoC容器中注册的所有控制器
 		/// </summary>
 		public ControllerManager() {
-			Actions = new Dictionary<Tuple<string, string>, Func<IActionResult>>();
-			Application.Ioc.ResolveMany<IController>()
-				.Select(c => c.GetType())
-				.ForEach(t => RegisterController(t));
+			Actions = new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
 		}
 
 		/// <summary>
@@ -159,6 +153,17 @@ namespace ZKWeb.Web {
 			path = NormalizePath(path);
 			var key = Tuple.Create(path, method);
 			return Actions.GetOrDefault(key);
+		}
+
+		/// <summary>
+		/// 初始化控制器管理器
+		/// 添加在Ioc容器中注册的控制器下的处理函数
+		/// </summary>
+		internal static void Initialize() {
+			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+			foreach (var controller in Application.Ioc.ResolveMany<IController>()) {
+				controllerManager.RegisterController(controller.GetType());
+			}
 		}
 	}
 }

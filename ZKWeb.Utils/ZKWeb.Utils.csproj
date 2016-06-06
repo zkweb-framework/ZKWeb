@@ -94,6 +94,14 @@
     <Compile Include="Functions\RegexUtils.cs" />
     <Compile Include="Functions\SystemUtils.cs" />
     <Compile Include="Functions\TreeUtils.cs" />
+    <Compile Include="IocContainer\ExportManyAttributes.cs" />
+    <Compile Include="IocContainer\IContainer.cs" />
+    <Compile Include="IocContainer\IfUnresolved.cs" />
+    <Compile Include="IocContainer\IRegistrator.cs" />
+    <Compile Include="IocContainer\IResolver.cs" />
+    <Compile Include="IocContainer\ReuseType.cs" />
+    <Compile Include="IocContainer\ReuseAttribute.cs" />
+    <Compile Include="IocContainer\SingletonReuseAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Collections\LazyCacheTest.cs" />
     <Compile Include="Tests\Collections\MemoryCacheTest.cs" />

@@ -15,11 +15,11 @@ namespace ZKWeb.Cache {
 	/// <summary>
 	/// 自动清理缓存的类
 	/// </summary>
-	internal class AutomaticCacheCleaner {
+	internal static class AutomaticCacheCleaner {
 		/// <summary>
-		/// 初始化
+		/// 启用自动清理缓存
 		/// </summary>
-		public AutomaticCacheCleaner() {
+		internal static void Start() {
 			// 在内存占用超过设置值时自动清理缓存+回收内存
 			// 检查间隔默认是15秒
 			var configManager = Application.Ioc.Resolve<ConfigManager>();

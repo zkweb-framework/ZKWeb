@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using DryIoc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Server {
 	/// <summary>
@@ -14,13 +13,14 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// 网站配置
 		/// </summary>
-		public WebsiteConfig WebsiteConfig { get; protected set; }
+		public virtual WebsiteConfig WebsiteConfig { get; protected set; }
 
 		/// <summary>
-		/// 载入所有配置
+		/// 载入网站配置
 		/// </summary>
-		public ConfigManager() {
-			WebsiteConfig = WebsiteConfig.FromFile(PathConfig.WebsiteConfigPath);
+		internal static void Initialize() {
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			configManager.WebsiteConfig = WebsiteConfig.FromFile(PathConfig.WebsiteConfigPath);
 		}
 	}
 }

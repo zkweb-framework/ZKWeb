@@ -1,10 +1,14 @@
 ﻿using DryIoc;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using ZKWeb.Database;
 using ZKWeb.Plugin;
+using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.UnitTest;
 using ZKWeb.Utils.UnitTest.Event;
 
@@ -53,6 +57,25 @@ namespace ZKWeb.UnitTest {
 			foreach (var assembly in GetAssembliesForTest()) {
 				RunAssemblyTest(assembly, eventHandler);
 			}
+		}
+
+		/// <summary>
+		/// 在指定的范围内启用临时数据库
+		/// </summary>
+		/// <param name="dbPath">数据库文件的路径，不指定时使用临时文件</param>
+		/// <returns></returns>
+		public virtual IDisposable UseTemporaryDatabase(string dbPath = null) {
+			// 创建数据库会话生成器
+			dbPath = dbPath ?? Path.GetTempFileName();
+			var connectionString = string.Format("Data Source={0};Version=3;", dbPath);
+			var sessionFactory = DatabaseManager.BuildSessionFactory("sqlite", connectionString, null);
+			// 重载当前的数据库管理器，使用刚才创建的数据库会话生成器
+			var overrideIoc = Application.OverrideIoc();
+			var databaseManagerMock = new Mock<DatabaseManager>() { CallBase = true };
+			databaseManagerMock.Setup(d => d.SessionFactory).Returns(sessionFactory);
+			Application.Ioc.RegisterInstance(databaseManagerMock.Object);
+			// 区域结束后结束对容器的重载和删除数据库文件
+			return new SimpleDisposable(() => { overrideIoc.Dispose(); File.Delete(dbPath); });
 		}
 	}
 }

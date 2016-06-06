@@ -1,5 +1,6 @@
 ﻿using DryIoc;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -22,9 +23,9 @@ namespace ZKWeb.Localize {
 		public TimeSpan TranslateCacheTime { get; set; }
 		/// <summary>
 		/// 翻译缓存
-		/// { (文本, 语言): 翻译, ... }
+		/// { 语言: { 文本: 翻译, ... } }
 		/// </summary>
-		protected MemoryCache<KeyValuePair<string, string>, string> TranslateCache { get; set; }
+		protected ConcurrentDictionary<string, MemoryCache<string, string>> TranslateCache { get; set; }
 		/// <summary>
 		/// 翻译提供器的缓存
 		/// { 语言: 提供器列表, ... }
@@ -38,7 +39,7 @@ namespace ZKWeb.Localize {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			TranslateCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TranslateCacheTime, 3));
-			TranslateCache = new MemoryCache<KeyValuePair<string, string>, string>();
+			TranslateCache = new ConcurrentDictionary<string, MemoryCache<string, string>>();
 			TranslateProvidersCache = new MemoryCache<string, List<ITranslateProvider>>();
 		}
 
@@ -64,8 +65,8 @@ namespace ZKWeb.Localize {
 				return "";
 			}
 			// 从缓存获取
-			var key = new KeyValuePair<string, string>(text, code);
-			var translated = TranslateCache.GetOrDefault(key);
+			var localizeCache = TranslateCache.GetOrAdd(code, _ => new MemoryCache<string, string>());
+			var translated = localizeCache.GetOrDefault(text);
 			if (translated != null) {
 				return translated;
 			}
@@ -80,7 +81,7 @@ namespace ZKWeb.Localize {
 				}
 			}
 			translated = translated ?? text;
-			TranslateCache.Put(key, translated, TranslateCacheTime);
+			localizeCache.Put(text, translated, TranslateCacheTime);
 			return translated;
 		}
 

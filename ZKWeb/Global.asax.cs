@@ -64,14 +64,11 @@ namespace ZKWeb {
 		/// </summary>
 		public void Application_Start() {
 			// 注册核心组件
-			Ioc.RegisterMany<AutomaticCacheCleaner>(Reuse.Singleton, nonPublicServiceTypes: true);
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
 			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			Ioc.RegisterMany<PluginReloader>(Reuse.Singleton, nonPublicServiceTypes: true);
-			Ioc.RegisterMany<InitializeJsonNet>(Reuse.Singleton, nonPublicServiceTypes: true);
 			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
 			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TemplateAreaManager>(Reuse.Singleton);
@@ -79,22 +76,22 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
 			Ioc.RegisterMany<UnitTestManager>(Reuse.Singleton);
 			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
-			// 注册缓存隔离策略
 			Ioc.RegisterMany<CacheIsolateByDevice>(Reuse.Singleton, serviceKey: "Device");
 			Ioc.RegisterMany<CacheIsolateByLocale>(Reuse.Singleton, serviceKey: "Locale");
 			Ioc.RegisterMany<CacheIsolateByUrl>(Reuse.Singleton, serviceKey: "Url");
 			// 初始化核心组件
-			Ioc.Resolve<PluginManager>();
-			Ioc.Resolve<TemplateManager>();
-			Ioc.Resolve<ControllerManager>();
-			Ioc.Resolve<InitializeJsonNet>();
-			Ioc.Resolve<DatabaseManager>();
+			ConfigManager.Initialize();
+			PluginManager.Initialize();
+			JsonNetInitializer.Initialize();
+			TemplateManager.Initialize();
+			ControllerManager.Initialize();
+			DatabaseManager.Initialize();
 			// 初始化所有插件并调用网站启动时的处理
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			// 初始化常驻型的核心组件
-			Ioc.Resolve<PluginReloader>();
-			Ioc.Resolve<AutomaticCacheCleaner>();
+			PluginReloader.Start();
+			AutomaticCacheCleaner.Start();
 		}
 
 		/// <summary>
@@ -154,6 +151,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// 重载当前使用的Ioc容器，在当前线程中有效
 		/// 重载后的容器会继承原有的容器，但不会对原有的容器做出修改
+		/// TODO: https://bitbucket.org/dadhi/dryioc/issues/247/collection-wrapper-resolved-from-facade
 		/// </summary>
 		/// <returns></returns>
 		public static IDisposable OverrideIoc() {

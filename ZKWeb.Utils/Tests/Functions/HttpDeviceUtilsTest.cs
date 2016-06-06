@@ -16,6 +16,9 @@ namespace ZKWeb.Utils.Tests.Functions {
 				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
 				request.userAgent = "Mozilla/5.0 (Linux; U; Android 2.3; en-us) AppleWebKit/999+";
 				Assert.Equals(HttpDeviceUtils.GetClientDevice(), HttpDeviceUtils.DeviceTypes.Mobile);
+			}
+			using (HttpContextUtils.OverrideContext("", "GET")) {
+				var request = (HttpRequestMock)HttpContextUtils.CurrentContext.Request;
 				request.userAgent = "Mozilla/5.0 (Linux) AppleWebKit/999+";
 				Assert.Equals(HttpDeviceUtils.GetClientDevice(), HttpDeviceUtils.DeviceTypes.Desktop);
 			}
@@ -25,6 +28,8 @@ namespace ZKWeb.Utils.Tests.Functions {
 			using (HttpContextUtils.OverrideContext("", "GET")) {
 				HttpDeviceUtils.SetClientDeviceToCookies(HttpDeviceUtils.DeviceTypes.Desktop);
 				Assert.Equals(HttpDeviceUtils.GetClientDevice(), HttpDeviceUtils.DeviceTypes.Desktop);
+			}
+			using (HttpContextUtils.OverrideContext("", "GET")) {
 				HttpDeviceUtils.SetClientDeviceToCookies(HttpDeviceUtils.DeviceTypes.Mobile);
 				Assert.Equals(HttpDeviceUtils.GetClientDevice(), HttpDeviceUtils.DeviceTypes.Mobile);
 			}
