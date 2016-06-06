@@ -21,12 +21,12 @@ namespace ZKWeb.Templating.AreaSupport {
 	public class TemplateAreaManager : ICacheCleaner {
 		/// <summary>
 		/// 模块信息的缓存时间
-		/// 默认是1秒，可通过网站配置指定
+		/// 默认是2秒，可通过网站配置指定
 		/// </summary>
 		public TimeSpan WidgetInfoCacheTime { get; set; }
 		/// <summary>
 		/// 自定义模块列表的缓存时间
-		/// 默认是1秒，可通过网站配置指定
+		/// 默认是2秒，可通过网站配置指定
 		/// </summary>
 		public TimeSpan CustomWidgetsCacheTime { get; set; }
 		/// <summary>
@@ -35,14 +35,16 @@ namespace ZKWeb.Templating.AreaSupport {
 		protected Dictionary<string, TemplateArea> Areas { get; set; }
 		/// <summary>
 		/// 模块信息的缓存
+		/// 按当前设备隔离
 		/// { 模块名称: 模块信息, ... }
 		/// </summary>
-		protected MemoryCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
+		protected IsolatedMemoryCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
 		/// <summary>
 		/// 自定义模块列表的缓存
+		/// 按当前设备隔离
 		/// { 区域Id: 自定义模块列表, ... }
 		/// </summary>
-		protected MemoryCache<string, List<TemplateWidget>> CustomWidgetsCache { get; set; }
+		protected IsolatedMemoryCache<string, List<TemplateWidget>> CustomWidgetsCache { get; set; }
 		/// <summary>
 		/// 模块描画结果的缓存
 		/// { 隔离策略: { 模块名称和参数: 描画结果, ...}, ... }
@@ -55,12 +57,12 @@ namespace ZKWeb.Templating.AreaSupport {
 		public TemplateAreaManager() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			WidgetInfoCacheTime = TimeSpan.FromSeconds(
-				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.WidgetInfoCacheTime, 1));
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.WidgetInfoCacheTime, 2));
 			CustomWidgetsCacheTime = TimeSpan.FromSeconds(
-				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.CustomWidgetsCacheTime, 1));
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.CustomWidgetsCacheTime, 2));
 			Areas = new Dictionary<string, TemplateArea>();
-			WidgetInfoCache = new MemoryCache<string, TemplateWidgetInfo>();
-			CustomWidgetsCache = new MemoryCache<string, List<TemplateWidget>>();
+			WidgetInfoCache = new IsolatedMemoryCache<string, TemplateWidgetInfo>("Device");
+			CustomWidgetsCache = new IsolatedMemoryCache<string, List<TemplateWidget>>("Device");
 			WidgetRenderCache = new ConcurrentDictionary<string, IsolatedMemoryCache<string, string>>();
 		}
 
@@ -154,9 +156,9 @@ namespace ZKWeb.Templating.AreaSupport {
 			string key = null;
 			string renderResult = null;
 			if (info.CacheTime > 0) {
-				renderCache = WidgetRenderCache.GetOrAdd(
-					info.CacheBy ?? "", name => new IsolatedMemoryCache<string, string>(name.Split(',')));
-				key = JsonConvert.SerializeObject(widget);
+				renderCache = WidgetRenderCache.GetOrAdd(info.CacheBy ?? "",
+					_ => new IsolatedMemoryCache<string, string>(info.GetCacheIsolationPolicyNames()));
+				key = widget.GetCacheKey();
 				renderResult = renderCache.GetOrDefault(key);
 				if (renderResult != null) {
 					return renderResult;

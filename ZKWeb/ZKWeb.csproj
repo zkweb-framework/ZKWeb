@@ -181,7 +181,9 @@
     <Compile Include="Server\ExtraConfigKeys.cs" />
     <Compile Include="Server\ConfigManager.cs" />
     <Compile Include="Templating\AreaSupport\TemplateAreaExtensions.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateWidgetExtensions.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidgetInfo.cs" />
+    <Compile Include="Templating\AreaSupport\TemplateWidgetInfoExtensions.cs" />
     <Compile Include="Tests\ApplicationTest.cs" />
     <Compile Include="UnitTest\UnitTestManager.cs" />
     <Compile Include="Web\ActionResults\StreamResult.cs" />

@@ -19,7 +19,7 @@ namespace ZKWeb.Templating {
 	public class TemplateFileSystem : IFileSystem, ICacheCleaner {
 		/// <summary>
 		/// 模板缓存时间
-		/// 默认是15秒，可通过网站配置指定
+		/// 默认是180秒，可通过网站配置指定
 		/// </summary>
 		public TimeSpan TemplateCacheTime { get; set; }
 		/// <summary>
@@ -34,7 +34,7 @@ namespace ZKWeb.Templating {
 		public TemplateFileSystem() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			TemplateCacheTime = TimeSpan.FromSeconds(
-				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplateCacheTime, 15));
+				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplateCacheTime, 180));
 			TemplateCache = new MemoryCache<string, Tuple<DateTime, Template>>();
 		}
 

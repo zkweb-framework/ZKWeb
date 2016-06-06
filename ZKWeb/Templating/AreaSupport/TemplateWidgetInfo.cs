@@ -47,8 +47,7 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <returns></returns>
 		public static TemplateWidgetInfo FromPath(string path) {
 			var pathManager = Application.Ioc.Resolve<PathManager>();
-			var fullPath = pathManager.GetResourceFullPath(
-				PathConfig.TemplateDirectoryName, path + InfoExtension);
+			var fullPath = pathManager.GetTemplateFullPath(path + InfoExtension);
 			if (fullPath == null) {
 				throw new FileNotFoundException($"widget {path} not exist");
 			}

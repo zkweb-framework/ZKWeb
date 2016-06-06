@@ -51,6 +51,12 @@ namespace ZKWeb.Server {
 		public static string TemplateDirectoryName { get; } = "templates";
 
 		/// <summary>
+		/// 设备专用的模板文件夹的名称
+		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
+		/// </summary>
+		public static string DeviceSpecializedTemplateDirectoryNameFormat { get; } = "templates.{0}";
+
+		/// <summary>
 		/// 保存数据表生成脚本的文件路径
 		/// 里面的脚本仅用于检测是否需要更新，不会实际执行
 		/// </summary>
