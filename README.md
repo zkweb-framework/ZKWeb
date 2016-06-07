@@ -3,29 +3,31 @@
 Features:<br/>
 
 - Dynamic plugins
-	- csscript + codedom
+	- Csscript + Codedom
 	- Auto compile after modification
 - Code first database auto migration
-	- nhibernate
-	- Auto migration without any commands
+	- NHibernate
+	- Auto migration without any handwrite command
 - Ioc container
-	- dryioc (will get replaced on next update)
+	- Dryioc (will get replaced on next update)
 - Simple and extendable template sysetm
-	- dotliquid
+	- DotLiquid
 	- Mobile specialized templates
 	- Dynamic contents (area + widget pattern)
 	- Per widget render result cache (perform extremely fast rending) 
 - Multi language support
 - Multi timezone support
-- Builtin unit test support
+- Unit test support
 	- Console and web test runner
+	- Ioc container overridden
+	- Http context overridden
 	- Temporary database
 - Form generation
-	- supported by plugin
+	- Supported by plugin
 - Scaffolding
-	- supported by plugin
+	- Supported by plugin
 - Visual page editor
-	- prepared and planned
+	- Prepared and planned
 
 Version: 0.9.4 testing (backward compatibility is not provided yet)<br/>
 

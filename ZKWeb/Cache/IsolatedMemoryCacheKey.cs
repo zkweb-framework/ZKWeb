@@ -7,17 +7,20 @@ using ZKWeb.Utils.Extensions;
 namespace ZKWeb.Cache {
 	/// <summary>
 	/// 支持按照指定策略隔离缓存数据使用的键类型
+	/// 性能测试数据
+	/// - struct 储存1.5s/1000000次 读取0.7s/1000000次
+	/// - class 储存2.0s/1000000次 读取0.7s/1000000次
 	/// </summary>
 	/// <typeparam name="TKey">键类型</typeparam>
-	public class IsolatedMemoryCacheKey<TKey> : IEquatable<IsolatedMemoryCacheKey<TKey>> {
+	public struct IsolatedMemoryCacheKey<TKey> : IEquatable<IsolatedMemoryCacheKey<TKey>> {
 		/// <summary>
 		/// 缓存键
 		/// </summary>
-		public TKey Key { get; protected set; }
+		public TKey Key { get; private set; }
 		/// <summary>
 		/// 隔离键列表
 		/// </summary>
-		public IList<object> IsolationKeys { get; protected set; }
+		public IList<object> IsolationKeys { get; private set; }
 
 		/// <summary>
 		/// 初始化
@@ -45,8 +48,8 @@ namespace ZKWeb.Cache {
 		/// <param name="obj">比较的对象</param>
 		/// <returns></returns>
 		public override bool Equals(object obj) {
-			var cacheKey = obj as IsolatedMemoryCacheKey<TKey>;
-			return (cacheKey != null) && Equals(cacheKey);
+			return obj is IsolatedMemoryCacheKey<TKey> &&
+				Equals((IsolatedMemoryCacheKey<TKey>)obj);
 		}
 
 		/// <summary>

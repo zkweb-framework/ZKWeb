@@ -19,13 +19,13 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		protected IDictionary<Tuple<string, string>, Func<IActionResult>> Actions { get; set; }
+		protected IDictionary<KeyValuePair<string, string>, Func<IActionResult>> Actions { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		public ControllerManager() {
-			Actions = new ConcurrentDictionary<Tuple<string, string>, Func<IActionResult>>();
+			Actions = new ConcurrentDictionary<KeyValuePair<string, string>, Func<IActionResult>>();
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace ZKWeb.Web {
 		public virtual void RegisterAction(
 			string path, string method, Func<IActionResult> action, bool overrideExists) {
 			path = NormalizePath(path);
-			var key = Tuple.Create(path, method);
+			var key = new KeyValuePair<string, string>(path, method);
 			if (!overrideExists && Actions.ContainsKey(key)) {
 				throw new ArgumentException($"action for {path} already registered, try option `overrideExists`");
 			}
@@ -138,7 +138,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual bool UnregisterAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = Tuple.Create(path, method);
+			var key = new KeyValuePair<string, string>(path, method);
 			return Actions.Remove(key);
 		}
 
@@ -151,7 +151,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual Func<IActionResult> GetAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = Tuple.Create(path, method);
+			var key = new KeyValuePair<string, string>(path, method);
 			return Actions.GetOrDefault(key);
 		}
 

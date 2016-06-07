@@ -15,7 +15,7 @@ namespace ZKWeb.Cache.Policies {
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {
-			return HttpContextUtils.CurrentContext.Request.Url.PathAndQuery;
+			return HttpContextUtils.CurrentContext?.Request?.Url.PathAndQuery;
 		}
 	}
 }
