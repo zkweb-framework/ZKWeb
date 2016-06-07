@@ -72,6 +72,7 @@ namespace ZKWeb.UnitTest {
 			var overrideIoc = Application.OverrideIoc();
 			var databaseManagerMock = new Mock<DatabaseManager>() { CallBase = true };
 			databaseManagerMock.Setup(d => d.SessionFactory).Returns(sessionFactory);
+			Application.Ioc.Unregister<DatabaseManager>();
 			Application.Ioc.RegisterInstance(databaseManagerMock.Object);
 			// 区域结束后结束对容器的重载和删除数据库文件
 			return new SimpleDisposable(() => { overrideIoc.Dispose(); File.Delete(dbPath); });

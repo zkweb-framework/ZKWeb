@@ -5,6 +5,7 @@ using System.Web;
 using ZKWeb.Localize;
 using ZKWeb.Localize.Interfaces;
 using ZKWeb.Utils.Functions;
+using ZKWeb.Utils.IocContainer;
 using ZKWeb.Utils.UnitTest;
 
 namespace ZKWeb.Tests.Localize {
@@ -12,8 +13,11 @@ namespace ZKWeb.Tests.Localize {
 	class TranslateManagerTest {
 		public void Translate() {
 			using (Application.OverrideIoc()) {
+				Application.Ioc.Unregister<ITranslateProvider>();
+				Application.Ioc.Unregister<TranslateManager>();
 				Application.Ioc.RegisterMany<TestTranslateProviderCN>();
 				Application.Ioc.RegisterMany<TestTranslateProviderUS>();
+				Application.Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
 				var translateManager = Application.Ioc.Resolve<TranslateManager>();
 				Assert.Equals(translateManager.Translate("Original", "zh-CN"), "TranslatedCN");
 				Assert.Equals(translateManager.Translate("Original", "en-US"), "TranslatedUS");
@@ -26,8 +30,11 @@ namespace ZKWeb.Tests.Localize {
 
 		public void GetTranslateProviders() {
 			using (Application.OverrideIoc()) {
+				Application.Ioc.Unregister<ITranslateProvider>();
+				Application.Ioc.Unregister<TranslateManager>();
 				Application.Ioc.RegisterMany<TestTranslateProviderCN>();
 				Application.Ioc.RegisterMany<TestTranslateProviderUS>();
+				Application.Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
 				var translateManager = Application.Ioc.Resolve<TranslateManager>();
 				var providersCN = translateManager.GetTranslateProviders("zh-CN");
 				var providersUS = translateManager.GetTranslateProviders("en-US");

@@ -19,6 +19,7 @@ namespace ZKWeb.Tests.Logging {
 						lastFileName = filename;
 						lastMessage = message;
 					});
+				Application.Ioc.Unregister<LogManager>();
 				Application.Ioc.RegisterInstance(logManagerMock.Object);
 				var logManager = Application.Ioc.Resolve<LogManager>();
 				logManager.LogDebug("Test Debug Message");
