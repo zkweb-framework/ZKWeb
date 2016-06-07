@@ -10,7 +10,7 @@ namespace ZKWeb.Utils.Tests.Collections {
 	[UnitTest]
 	class MemoryCacheTest {
 		class TestCache : MemoryCache<int, string> {
-			public new IDictionary<int, KeyValuePair<string, DateTime>> Cache { get { return base.Cache; } }
+			public new IDictionary<int, Pair<string, DateTime>> Cache { get { return base.Cache; } }
 			public new DateTime LastRevokeExpires {
 				get { return base.LastRevokeExpires; }
 				set { base.LastRevokeExpires = value; }
@@ -25,12 +25,12 @@ namespace ZKWeb.Utils.Tests.Collections {
 			memoryCache.Put(2, "TestDataB", TimeSpan.FromMinutes(2));
 			memoryCache.Put(3, "TestDataC", TimeSpan.FromMinutes(3));
 			Assert.Equals(memoryCache.Count(), 3);
-			Assert.Equals(memoryCache.Cache[1].Key, "TestDataA");
-			Assert.IsTrue(memoryCache.Cache[1].Value >= now.AddMinutes(1));
-			Assert.Equals(memoryCache.Cache[2].Key, "TestDataB");
-			Assert.IsTrue(memoryCache.Cache[2].Value >= now.AddMinutes(2));
-			Assert.Equals(memoryCache.Cache[3].Key, "TestDataC");
-			Assert.IsTrue(memoryCache.Cache[3].Value >= now.AddMinutes(3));
+			Assert.Equals(memoryCache.Cache[1].First, "TestDataA");
+			Assert.IsTrue(memoryCache.Cache[1].Second >= now.AddMinutes(1));
+			Assert.Equals(memoryCache.Cache[2].First, "TestDataB");
+			Assert.IsTrue(memoryCache.Cache[2].Second >= now.AddMinutes(2));
+			Assert.Equals(memoryCache.Cache[3].First, "TestDataC");
+			Assert.IsTrue(memoryCache.Cache[3].Second >= now.AddMinutes(3));
 			// GetOrDefault
 			Assert.Equals(memoryCache.GetOrDefault(1), "TestDataA");
 			Assert.Equals(memoryCache.GetOrDefault(2), "TestDataB");

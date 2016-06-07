@@ -16,25 +16,34 @@ namespace ZKWeb.Utils.Collections {
 	/// <typeparam name="TValue">值类型</typeparam>
 	public class MemoryCache<TKey, TValue> {
 		/// <summary>
-		/// 定期删除过期数据的间隔时间，秒
+		/// 定期删除过期数据的间隔时间
+		/// 默认180秒
 		/// </summary>
-		public const int RevokeExpiresInterval = 180;
+		public TimeSpan RevokeExpiresInterval { get; set; }
 		/// <summary>
 		/// 缓存数据
 		/// 结构 { 键, (对象, 过期时间) }
 		/// 使用了线程锁所以这里只需要普通的Dictionary
 		/// </summary>
-		protected IDictionary<TKey, KeyValuePair<TValue, DateTime>> Cache { get; }
-		= new Dictionary<TKey, KeyValuePair<TValue, DateTime>>();
+		protected IDictionary<TKey, Pair<TValue, DateTime>> Cache { get; set; }
 		/// <summary>
 		/// 缓存数据的线程锁
 		/// </summary>
-		protected ReaderWriterLockSlim CacheLock { get; set; } =
-			new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+		protected ReaderWriterLockSlim CacheLock { get; set; }
 		/// <summary>
 		/// 最后一次删除过期缓存的时间
 		/// </summary>
-		protected DateTime LastRevokeExpires { get; set; } = DateTime.UtcNow;
+		protected DateTime LastRevokeExpires { get; set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public MemoryCache() {
+			RevokeExpiresInterval = TimeSpan.FromSeconds(180);
+			Cache = new Dictionary<TKey, Pair<TValue, DateTime>>();
+			CacheLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+			LastRevokeExpires = DateTime.UtcNow;
+		}
 
 		/// <summary>
 		/// 删除过期的缓存数据
@@ -42,16 +51,16 @@ namespace ZKWeb.Utils.Collections {
 		/// </summary>
 		protected void RevokeExpires() {
 			var now = DateTime.UtcNow;
-			if ((now - LastRevokeExpires).TotalSeconds < RevokeExpiresInterval) {
+			if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
 				return;
 			}
 			CacheLock.EnterWriteLock();
 			try {
-				if ((now - LastRevokeExpires).TotalSeconds < RevokeExpiresInterval) {
+				if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
 					return; // double check
 				}
 				LastRevokeExpires = now;
-				var expireKeys = Cache.Where(c => c.Value.Value < now).Select(c => c.Key).ToList();
+				var expireKeys = Cache.Where(c => c.Value.Second < now).Select(c => c.Key).ToList();
 				foreach (var key in expireKeys) {
 					Cache.Remove(key);
 				}
@@ -71,7 +80,7 @@ namespace ZKWeb.Utils.Collections {
 			var now = DateTime.UtcNow;
 			CacheLock.EnterWriteLock();
 			try {
-				Cache[key] = new KeyValuePair<TValue, DateTime>(value, now + keepTime);
+				Cache[key] = Pair.Create(value, now + keepTime);
 			} finally {
 				CacheLock.ExitWriteLock();
 			}
@@ -89,9 +98,9 @@ namespace ZKWeb.Utils.Collections {
 			var now = DateTime.UtcNow;
 			CacheLock.EnterReadLock();
 			try {
-				KeyValuePair<TValue, DateTime> value;
-				if (Cache.TryGetValue(key, out value) && value.Value > now) {
-					return value.Key;
+				Pair<TValue, DateTime> value;
+				if (Cache.TryGetValue(key, out value) && value.Second > now) {
+					return value.First;
 				}
 				return defaultValue;
 			} finally {

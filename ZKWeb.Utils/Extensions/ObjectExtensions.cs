@@ -26,7 +26,7 @@ namespace ZKWeb.Utils.Extensions {
 			} else if (obj != null && target == null) {
 				return false;
 			}
-			return obj.Equals(target);
+			return object.ReferenceEquals(obj, target) || obj.Equals(target);
 		}
 
 		/// <summary>

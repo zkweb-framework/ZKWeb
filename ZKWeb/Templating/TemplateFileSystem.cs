@@ -25,7 +25,7 @@ namespace ZKWeb.Templating {
 		/// 模板的缓存
 		/// { 模板的绝对路径: (模板对象, 文件修改时间) }
 		/// </summary>
-		protected MemoryCache<string, KeyValuePair<Template, DateTime>> TemplateCache { get; set; }
+		protected MemoryCache<string, Pair<Template, DateTime>> TemplateCache { get; set; }
 
 		/// <summary>
 		/// 初始化
@@ -34,7 +34,7 @@ namespace ZKWeb.Templating {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			TemplateCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplateCacheTime, 180));
-			TemplateCache = new MemoryCache<string, KeyValuePair<Template, DateTime>>();
+			TemplateCache = new MemoryCache<string, Pair<Template, DateTime>>();
 		}
 
 		/// <summary>
@@ -50,13 +50,13 @@ namespace ZKWeb.Templating {
 			// 从缓存获取模板
 			var lastWriteTime = File.GetLastWriteTimeUtc(fullPath);
 			var cache = TemplateCache.GetOrDefault(fullPath);
-			if (cache.Key != null && cache.Value == lastWriteTime) {
-				return cache.Key;
+			if (cache.First != null && cache.Second == lastWriteTime) {
+				return cache.First;
 			}
 			// 解析模板并保存到缓存
 			var sources = File.ReadAllText(fullPath);
 			var template = Template.Parse(sources);
-			cache = new KeyValuePair<Template, DateTime>(template, lastWriteTime);
+			cache = Pair.Create(template, lastWriteTime);
 			TemplateCache.Put(fullPath, cache, TemplateCacheTime);
 			return template;
 		}

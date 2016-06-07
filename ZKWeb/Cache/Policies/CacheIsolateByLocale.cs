@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using ZKWeb.Cache.Interfaces;
+using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Cache.Policies {
@@ -19,7 +20,7 @@ namespace ZKWeb.Cache.Policies {
 		public object GetIsolationKey() {
 			var language = Thread.CurrentThread.CurrentCulture.Name;
 			var timezone = HttpContextUtils.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
-			return new KeyValuePair<string, TimeZoneInfo>(language, timezone);
+			return Pair.Create(language, timezone);
 		}
 	}
 }

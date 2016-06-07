@@ -63,6 +63,7 @@ namespace ZKWeb {
 		/// 网站启动时的处理
 		/// </summary>
 		public void Application_Start() {
+			var a = DateTime.UtcNow;
 			// 注册核心组件
 			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
@@ -92,6 +93,8 @@ namespace ZKWeb {
 			// 初始化常驻型的核心组件
 			PluginReloader.Start();
 			AutomaticCacheCleaner.Start();
+			var logManager = Ioc.Resolve<LogManager>();
+			logManager.LogDebug((DateTime.UtcNow - a).TotalSeconds.ToString());
 		}
 
 		/// <summary>

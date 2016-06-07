@@ -8,8 +8,7 @@ Features:<br/>
 - Code first database auto migration
 	- NHibernate
 	- Auto migration without any handwrite command
-- Ioc container
-	- Dryioc (will get replaced on next update)
+- Simple and high performance Ioc container
 - Simple and extendable template sysetm
 	- DotLiquid
 	- Mobile specialized templates

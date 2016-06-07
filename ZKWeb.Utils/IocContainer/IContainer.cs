@@ -8,5 +8,8 @@ namespace ZKWeb.Utils.IocContainer {
 	/// <summary>
 	/// Ioc容器的接口
 	/// </summary>
-	public interface IContainer : IRegistrator, IResolver, ICloneable, IDisposable { }
+	public interface IContainer :
+		IRegistrator, IGenericRegistrator,
+		IResolver, IGenericResolver,
+		ICloneable, IDisposable { }
 }

@@ -48,8 +48,8 @@ namespace ZKWeb.Cache {
 		/// <param name="obj">比较的对象</param>
 		/// <returns></returns>
 		public override bool Equals(object obj) {
-			return obj is IsolatedMemoryCacheKey<TKey> &&
-				Equals((IsolatedMemoryCacheKey<TKey>)obj);
+			return (obj is IsolatedMemoryCacheKey<TKey> &&
+				Equals((IsolatedMemoryCacheKey<TKey>)obj));
 		}
 
 		/// <summary>

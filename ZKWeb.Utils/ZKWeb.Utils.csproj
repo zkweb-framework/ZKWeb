@@ -64,6 +64,7 @@
     <Compile Include="Collections\HttpResponseMock.cs" />
     <Compile Include="Collections\LazyCache.cs" />
     <Compile Include="Collections\MemoryCache.cs" />
+    <Compile Include="Collections\Pair.cs" />
     <Compile Include="Collections\SimpleDisposable.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -93,9 +94,12 @@
     <Compile Include="Functions\RegexUtils.cs" />
     <Compile Include="Functions\SystemUtils.cs" />
     <Compile Include="Functions\TreeUtils.cs" />
+    <Compile Include="IocContainer\Container.cs" />
     <Compile Include="IocContainer\ExportManyAttributes.cs" />
     <Compile Include="IocContainer\IContainer.cs" />
     <Compile Include="IocContainer\IfUnresolved.cs" />
+    <Compile Include="IocContainer\IGenericRegistrator.cs" />
+    <Compile Include="IocContainer\IGenericResolver.cs" />
     <Compile Include="IocContainer\IRegistrator.cs" />
     <Compile Include="IocContainer\IResolver.cs" />
     <Compile Include="IocContainer\ReuseType.cs" />
@@ -133,6 +137,7 @@
     <Compile Include="Tests\Functions\RegexUtilsTest.cs" />
     <Compile Include="Tests\Functions\SystemUtilsTest.cs" />
     <Compile Include="Tests\Functions\TreeUtilsTest.cs" />
+    <Compile Include="Tests\IocContainer\ContainerTest.cs" />
     <Compile Include="UnitTest\Assert.cs" />
     <Compile Include="UnitTest\AssertException.cs" />
     <Compile Include="UnitTest\AssertPassedException.cs" />

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web;
+using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Utils.Functions;
 using ZKWeb.Web.ActionResults;
@@ -19,13 +20,13 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// { (路径, 类型): 处理函数, ... }
 		/// </summary>
-		protected IDictionary<KeyValuePair<string, string>, Func<IActionResult>> Actions { get; set; }
+		protected IDictionary<Pair<string, string>, Func<IActionResult>> Actions { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		public ControllerManager() {
-			Actions = new ConcurrentDictionary<KeyValuePair<string, string>, Func<IActionResult>>();
+			Actions = new ConcurrentDictionary<Pair<string, string>, Func<IActionResult>>();
 		}
 
 		/// <summary>
@@ -123,7 +124,7 @@ namespace ZKWeb.Web {
 		public virtual void RegisterAction(
 			string path, string method, Func<IActionResult> action, bool overrideExists) {
 			path = NormalizePath(path);
-			var key = new KeyValuePair<string, string>(path, method);
+			var key = Pair.Create(path, method);
 			if (!overrideExists && Actions.ContainsKey(key)) {
 				throw new ArgumentException($"action for {path} already registered, try option `overrideExists`");
 			}
@@ -138,7 +139,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual bool UnregisterAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = new KeyValuePair<string, string>(path, method);
+			var key = Pair.Create(path, method);
 			return Actions.Remove(key);
 		}
 
@@ -151,7 +152,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual Func<IActionResult> GetAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = new KeyValuePair<string, string>(path, method);
+			var key = Pair.Create(path, method);
 			return Actions.GetOrDefault(key);
 		}
 

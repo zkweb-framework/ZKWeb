@@ -8,7 +8,10 @@ namespace ZKWeb.Utils.IocContainer {
 	/// <summary>
 	/// 导出类型到自身类型和继承的类型
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
+	[AttributeUsage(
+		AttributeTargets.Class | AttributeTargets.Struct,
+		Inherited = false,
+		AllowMultiple = false)]
 	public class ExportManyAttributes : Attribute {
 		/// <summary>
 		/// 关联键
