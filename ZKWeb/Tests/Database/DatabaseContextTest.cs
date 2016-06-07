@@ -1,5 +1,4 @@
-﻿using DryIoc;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;

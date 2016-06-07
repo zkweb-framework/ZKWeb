@@ -8,7 +8,6 @@ using ZKWeb.Utils.Collections;
 using System.IO;
 using System.Collections;
 using ZKWeb.Utils.Functions;
-using DryIoc;
 using System.Text.RegularExpressions;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Server;

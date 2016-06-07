@@ -7,7 +7,6 @@ using System.IO;
 using ZKWeb.Utils.Functions;
 using System.Text.RegularExpressions;
 using ZKWeb.Utils.Extensions;
-using DryIoc;
 using ZKWeb.Web.ActionResults;
 using ZKWeb.Web;
 using ZKWeb.Web.Interfaces;

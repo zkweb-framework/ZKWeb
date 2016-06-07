@@ -1,5 +1,4 @@
 ﻿namespace ZKWeb.Console {
-	using DryIoc;
 	using System;
 	using UnitTest;
 

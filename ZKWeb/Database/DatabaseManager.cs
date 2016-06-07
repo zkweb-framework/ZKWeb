@@ -1,5 +1,4 @@
-﻿using DryIoc;
-using FluentNHibernate;
+﻿using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;

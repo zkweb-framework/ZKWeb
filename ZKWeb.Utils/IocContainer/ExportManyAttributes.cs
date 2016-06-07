@@ -12,7 +12,7 @@ namespace ZKWeb.Utils.IocContainer {
 		AttributeTargets.Class | AttributeTargets.Struct,
 		Inherited = false,
 		AllowMultiple = false)]
-	public class ExportManyAttributes : Attribute {
+	public class ExportManyAttribute : Attribute {
 		/// <summary>
 		/// 关联键
 		/// </summary>

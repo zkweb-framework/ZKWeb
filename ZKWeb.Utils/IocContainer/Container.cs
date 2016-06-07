@@ -15,6 +15,9 @@ namespace ZKWeb.Utils.IocContainer {
 	/// Ioc容器
 	/// 容器特性
 	/// - 不支持构造函数注入，添加的类型必须带无参数的构造函数
+	/// - 不支持构造函数注入的原因
+	///   - 减少注册时间
+	///   - 不需要编写大量多余的代码
 	/// 性能测试
 	/// - Register Transient: 1000000/2.3s (DryIoc: 6.1s)
 	/// - Register Singleton: 1000000/2.6s (DryIoc: 5.2s)
@@ -201,7 +204,7 @@ namespace ZKWeb.Utils.IocContainer {
 		/// 注册实例到服务类型，并关联指定的键
 		/// 默认是单例模式
 		/// </summary>
-		public void RegisterInstance<TService>(object instance, object serviceKey) {
+		public void RegisterInstance<TService>(TService instance, object serviceKey) {
 			RegisterInstance(typeof(TService), instance, serviceKey);
 		}
 
@@ -218,8 +221,8 @@ namespace ZKWeb.Utils.IocContainer {
 		/// 注册生成函数到服务类型，并关联指定的键
 		/// </summary>
 		public void RegisterDelegate<TService>(
-			Func<object> factor, ReuseType reuseType, object serviceKey) {
-			RegisterDelegate(typeof(TService), factor, reuseType, serviceKey);
+			Func<TService> factor, ReuseType reuseType, object serviceKey) {
+			RegisterDelegate(typeof(TService), () => factor(), reuseType, serviceKey);
 		}
 
 		/// <summary>
@@ -227,7 +230,7 @@ namespace ZKWeb.Utils.IocContainer {
 		/// </summary>
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
-				var exportManyAttribute = type.GetAttribute<ExportManyAttributes>();
+				var exportManyAttribute = type.GetAttribute<ExportManyAttribute>();
 				var exportAttributes = type.GetAttributes<ExportAttribute>().ToList();
 				if (exportManyAttribute == null && exportAttributes.Count <= 0) {
 					continue;

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using DotLiquid;
-using DryIoc;
 using ZKWeb.Templating.AreaSupport;
 
 namespace ZKWeb.Templating.TemplateTags {

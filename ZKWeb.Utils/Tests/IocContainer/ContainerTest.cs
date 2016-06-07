@@ -202,7 +202,7 @@ namespace ZKWeb.Utils.Tests.IocContainer {
 			public override string GetName() { return Name; }
 		}
 
-		[ExportManyAttributes(ContractKey = "b", Except = new[] { typeof(InterfaceService) })]
+		[ExportManyAttribute(ContractKey = "b", Except = new[] { typeof(InterfaceService) })]
 		[SingletonReuse]
 		public class SingletonImplementation : ClassService, InterfaceService {
 			public string Name { get { return "Singleton"; } }

@@ -1,8 +1,8 @@
-﻿using DryIoc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ZKWeb.Utils.IocContainer;
 using ZKWeb.Utils.UnitTest;
 
 namespace ZKWeb.Tests {
@@ -13,17 +13,18 @@ namespace ZKWeb.Tests {
 		public class B : Base { }
 
 		public void OverrideIoc() {
-			Assert.IsTrue(!Application.Ioc.IsRegistered<Base>());
+			Assert.Equals(Application.Ioc.Resolve<Base>(IfUnresolved.ReturnDefault), null);
 			using (Application.OverrideIoc()) {
 				Application.Ioc.Register<Base, A>();
 				Assert.IsTrue(Application.Ioc.Resolve<Base>() is A);
 				using (Application.OverrideIoc()) {
+					Application.Ioc.Unregister<Base>();
 					Application.Ioc.Register<Base, B>();
 					Assert.IsTrue(Application.Ioc.Resolve<Base>() is B);
 				}
 				Assert.IsTrue(Application.Ioc.Resolve<Base>() is A);
 			}
-			Assert.IsTrue(!Application.Ioc.IsRegistered<Base>());
+			Assert.Equals(Application.Ioc.Resolve<Base>(IfUnresolved.ReturnDefault), null);
 		}
 	}
 }

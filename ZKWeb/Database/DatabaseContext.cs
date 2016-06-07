@@ -5,7 +5,6 @@ using System.Web;
 using NHibernate;
 using System.Linq.Expressions;
 using NHibernate.Linq;
-using DryIoc;
 using ZKWeb.Utils.Extensions;
 using System.Data;
 using ZKWeb.Database.Interfaces;

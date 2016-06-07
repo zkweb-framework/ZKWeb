@@ -1,13 +1,4 @@
 ﻿using DotLiquid;
-using DryIoc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using ZKWeb.Localize.Interfaces;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Localize {
 	/// <summary>

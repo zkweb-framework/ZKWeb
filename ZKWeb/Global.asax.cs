@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using DryIoc;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Database;
 using ZKWeb.Web.Interfaces;
@@ -23,25 +22,11 @@ using System.Threading;
 using ZKWeb.Utils.Collections;
 using ZKWeb.Cache;
 using ZKWeb.Cache.Policies;
+using ZKWeb.Utils.IocContainer;
 
 namespace ZKWeb {
 	/// <summary>
-	/// 网站程序
-	/// 用于初始化网站和提供当前使用的容器
-	/// 
-	/// 目前组件的依赖都不通过构造函数注入，尽管DryIoC本身支持多种注入（Func和Lazy等）。
-	/// 通过构造函数注入的优缺点有
-	/// 优点
-	///		在注册时可以确认所有依赖的生成函数，创建对象的性能会比手动获取快30%以上（实测）
-	///		单元测试时不需要依赖全局对象，可以使用xunit和nunit等工具单独测试
-	///		单元测试时可以手动指定依赖的所有组件
-	///	缺点
-	///		需要编写大量多余的代码，继承时需要重新把所有注入项复制一遍
-	///		单例的组件会把依赖保存到成员中，单例创建后无法影响这些依赖项（使用Func可解决，但需要预见这种情况）
-	///		对泛型支持不好，例如Context.GetTable[T]这种函数无法预先注入依赖项，只能先注入整个容器
-	/// 目前整个项目和插件项目都使用了手动获取而不是自动注入，
-	/// 原因是可以减少代码量，并且单元测试时可以通过OverrideIoc统一处理。
-	/// 单元测试时使用OverrideIoc可以单独替换指定的依赖项，不需要手动注入所有的依赖项。
+	/// 网站主程序
 	/// </summary>
 	public class Application : HttpApplication {
 		/// <summary>
@@ -65,21 +50,21 @@ namespace ZKWeb {
 		public void Application_Start() {
 			var a = DateTime.UtcNow;
 			// 注册核心组件
-			Ioc.RegisterMany<DatabaseManager>(Reuse.Singleton);
-			Ioc.RegisterMany<TJsonConverter>(Reuse.Singleton);
-			Ioc.RegisterMany<TranslateManager>(Reuse.Singleton);
-			Ioc.RegisterMany<LogManager>(Reuse.Singleton);
-			Ioc.RegisterMany<PluginManager>(Reuse.Singleton);
-			Ioc.RegisterMany<ConfigManager>(Reuse.Singleton);
-			Ioc.RegisterMany<PathManager>(Reuse.Singleton);
-			Ioc.RegisterMany<TemplateAreaManager>(Reuse.Singleton);
-			Ioc.RegisterMany<TemplateFileSystem>(Reuse.Singleton);
-			Ioc.RegisterMany<TemplateManager>(Reuse.Singleton);
-			Ioc.RegisterMany<UnitTestManager>(Reuse.Singleton);
-			Ioc.RegisterMany<ControllerManager>(Reuse.Singleton);
-			Ioc.RegisterMany<CacheIsolateByDevice>(Reuse.Singleton, serviceKey: "Device");
-			Ioc.RegisterMany<CacheIsolateByLocale>(Reuse.Singleton, serviceKey: "Locale");
-			Ioc.RegisterMany<CacheIsolateByUrl>(Reuse.Singleton, serviceKey: "Url");
+			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
+			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<ConfigManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
+			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<UnitTestManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
+			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
+			Ioc.RegisterMany<CacheIsolateByUrl>(ReuseType.Singleton, serviceKey: "Url");
 			// 初始化核心组件
 			ConfigManager.Initialize();
 			PluginManager.Initialize();
@@ -154,13 +139,16 @@ namespace ZKWeb {
 		/// <summary>
 		/// 重载当前使用的Ioc容器，在当前线程中有效
 		/// 重载后的容器会继承原有的容器，但不会对原有的容器做出修改
-		/// TODO: https://bitbucket.org/dadhi/dryioc/issues/247/collection-wrapper-resolved-from-facade
 		/// </summary>
 		/// <returns></returns>
 		public static IDisposable OverrideIoc() {
-			var original = _overrideIoc.Value;
-			_overrideIoc.Value = Ioc.CreateFacade();
-			return new SimpleDisposable(() => _overrideIoc.Value = original);
+			var previousOverride = _overrideIoc.Value;
+			_overrideIoc.Value = (IContainer)Ioc.Clone();
+			return new SimpleDisposable(() => {
+				var tmp = _overrideIoc.Value;
+				_overrideIoc.Value = previousOverride;
+				tmp.Dispose();
+			});
 		}
 	}
 }

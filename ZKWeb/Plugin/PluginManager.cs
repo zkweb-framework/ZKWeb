@@ -1,7 +1,4 @@
-﻿using DryIoc;
-using DryIoc.MefAttributedModel;
-using DryIocAttributes;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -101,11 +98,10 @@ namespace ZKWeb.Plugin {
 					pluginManager.PluginAssemblies.Add(Assembly.LoadFile(assemblyPath));
 				}
 			}
-			// 设置默认的重复利用规则为不重复利用
-			// 因为dryioc本身的默认规则是不重复利用，可节省内存
-			AttributedModel.DefaultReuse = ReuseType.Transient;
 			// 注册程序集中的类型到Ioc中
-			Application.Ioc.RegisterExports(pluginManager.PluginAssemblies);
+			foreach (var assembly in pluginManager.PluginAssemblies) {
+				Application.Ioc.RegisterExports(assembly.GetTypes());
+			}
 		}
 	}
 }

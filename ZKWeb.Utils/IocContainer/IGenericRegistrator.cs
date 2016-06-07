@@ -38,7 +38,7 @@ namespace ZKWeb.Utils.IocContainer {
 		/// <typeparam name="TService">服务类型</typeparam>
 		/// <param name="instance">实例</param>
 		/// <param name="serviceKey">关联键</param>
-		void RegisterInstance<TService>(object instance, object serviceKey = null);
+		void RegisterInstance<TService>(TService instance, object serviceKey = null);
 
 		/// <summary>
 		/// 注册生成函数到服务类型，并关联指定的键
@@ -47,7 +47,7 @@ namespace ZKWeb.Utils.IocContainer {
 		/// <param name="factor">生成函数</param>
 		/// <param name="reuseType">重用策略</param>
 		/// <param name="serviceKey">关联键</param>
-		void RegisterDelegate<TService>(Func<object> factor,
+		void RegisterDelegate<TService>(Func<TService> factor,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
