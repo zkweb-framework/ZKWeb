@@ -11,6 +11,7 @@ Features:<br/>
 - Simple and high performance Ioc container
 - Simple and extendable template sysetm
 	- DotLiquid
+	- Template overriding like django
 	- Mobile specialized templates
 	- Dynamic contents (area + widget pattern)
 	- Per widget render result cache (perform extremely fast rending) 
