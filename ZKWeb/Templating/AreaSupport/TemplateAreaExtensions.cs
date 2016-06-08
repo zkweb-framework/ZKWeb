@@ -16,7 +16,7 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <param name="path">模块路径，注意不能带后缀</param>
 		/// <param name="args">模块参数</param>
 		public static void Add(
-			this List<TemplateWidget> widgets, string path, object args = null) {
+			this IList<TemplateWidget> widgets, string path, object args = null) {
 			widgets.Add(new TemplateWidget(path, args));
 		}
 
@@ -29,7 +29,7 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <param name="path">模块路径，注意不能带后缀</param>
 		/// <param name="args">模块参数</param>
 		public static void AddBefore(
-			this List<TemplateWidget> widgets, string beforePath, string path, object args = null) {
+			this IList<TemplateWidget> widgets, string beforePath, string path, object args = null) {
 			widgets.AddBefore(x => x.Path == beforePath, new TemplateWidget(path, args));
 		}
 
@@ -42,7 +42,7 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <param name="path">模块路径，注意不能带前缀</param>
 		/// <param name="args">模块参数</param>
 		public static void AddAfter(
-			this List<TemplateWidget> widgets, string afterPath, string path, object args = null) {
+			this IList<TemplateWidget> widgets, string afterPath, string path, object args = null) {
 			widgets.AddAfter(x => x.Path == afterPath, new TemplateWidget(path, args));
 		}
 	}

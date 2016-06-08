@@ -25,15 +25,15 @@ namespace ZKWeb.Server {
 		/// 必须是相对于网站程序的路径
 		/// 如果没有指定则使用"App_Data/Plugins"
 		/// </summary>
-		public List<string> PluginDirectories { get; set; }
+		public IList<string> PluginDirectories { get; set; }
 		/// <summary>
 		/// 使用的插件列表
 		/// </summary>
-		public List<string> Plugins { get; set; }
+		public IList<string> Plugins { get; set; }
 		/// <summary>
 		/// 其他附加配置
 		/// </summary>
-		public Dictionary<string, object> Extra { get; set; }
+		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
 		/// 从文件读取网站配置

@@ -55,7 +55,7 @@ namespace ZKWeb.Server {
 		/// 网站目录 + 网站配置中定义的插件根目录的相对路径
 		/// </summary>
 		/// <returns></returns>
-		public virtual List<string> GetPluginDirectories() {
+		public virtual IList<string> GetPluginDirectories() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			return configManager.WebsiteConfig.PluginDirectories.Select(p =>
 				Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, p))).ToList();

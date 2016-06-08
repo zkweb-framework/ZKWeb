@@ -20,7 +20,7 @@ namespace ZKWeb.Tests.Serialize {
 		}
 
 		class TestData {
-			public List<int> Array { get; set; }
+			public IList<int> Array { get; set; }
 			public TestData() {
 				Array = new List<int>() { 1, 2, 3 };
 			}

@@ -19,14 +19,15 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// <summary>
 		/// 默认的模块列表
 		/// </summary>
-		public List<TemplateWidget> DefaultWidgets { get; } = new List<TemplateWidget>();
-		
+		public IList<TemplateWidget> DefaultWidgets { get; set; }
+
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		/// <param name="id"></param>
 		public TemplateArea(string id) {
 			Id = id;
+			DefaultWidgets = new List<TemplateWidget>();
 		}
 	}
 }

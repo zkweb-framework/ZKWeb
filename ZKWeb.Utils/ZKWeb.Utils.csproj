@@ -78,7 +78,7 @@
     <Compile Include="Extensions\ISetExtensions.cs" />
     <Compile Include="Extensions\ITreeNodeExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\MemberInfoExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Tests\Extensions\ImageExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ISetExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ITreeNodeExtensionsTest.cs" />
-    <Compile Include="Tests\Extensions\ListExtensions.cs" />
+    <Compile Include="Tests\Extensions\IListExtensions.cs" />
     <Compile Include="Tests\Extensions\MemberInfoExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\MethodInfoExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\ObjectExtensionsTest.cs" />

@@ -31,15 +31,15 @@ namespace ZKWeb.Plugin {
 		/// <summary>
 		/// 依赖的其他插件
 		/// </summary>
-		public List<string> Dependencies { get; set; }
+		public IList<string> Dependencies { get; set; }
 		/// <summary>
 		/// 引用的程序集列表
 		/// </summary>
-		public List<string> References { get; set; }
+		public IList<string> References { get; set; }
 		/// <summary>
 		/// 附加信息
 		/// </summary>
-		public Dictionary<string, object> Extra { get; set; }
+		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
 		/// 从插件目录生成插件信息
