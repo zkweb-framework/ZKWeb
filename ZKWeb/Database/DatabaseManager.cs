@@ -57,8 +57,9 @@ namespace ZKWeb.Database {
 			if (string.Compare(database, DatabaseTypes.PostgreSQL, true) == 0) {
 				db = PostgreSQLConfiguration.Standard.ConnectionString(connectionString);
 			} else if (string.Compare(database, DatabaseTypes.SQLite, true) == 0) {
+				var pathConfig = Application.Ioc.Resolve<PathConfig>();
 				db = SQLiteConfiguration.Standard.ConnectionString(
-					connectionString.Replace("{{App_Data}}", PathConfig.AppDataDirectory));
+					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
 			} else if (string.Compare(database, DatabaseTypes.MySQL, true) == 0) {
 				db = MySQLConfiguration.Standard.ConnectionString(connectionString);
 			} else if (string.Compare(database, DatabaseTypes.MSSQL, true) == 0) {
@@ -106,7 +107,7 @@ namespace ZKWeb.Database {
 			onBuildFactorySuccess?.Invoke();
 			return sessionFactory;
 		}
-		
+
 		/// <summary>
 		/// 初始化数据库管理器
 		/// </summary>
@@ -114,8 +115,9 @@ namespace ZKWeb.Database {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var config = configManager.WebsiteConfig;
 			var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			databaseManager.SessionFactory = BuildSessionFactory(
-				config.Database, config.ConnectionString, PathConfig.DatabaseScriptPath);
+				config.Database, config.ConnectionString, pathConfig.DatabaseScriptPath);
 		}
 	}
 }

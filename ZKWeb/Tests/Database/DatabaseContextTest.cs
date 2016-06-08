@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate;
+using FluentNHibernate.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ZKWeb.Tests.Database {
 		public void All() {
 			var unitTestManager = Application.Ioc.Resolve<UnitTestManager>();
 			using (Application.OverrideIoc()) {
+				Application.Ioc.Unregister<IMappingProvider>();
 				Application.Ioc.RegisterMany<TestTableMap>();
 				using (unitTestManager.UseTemporaryDatabase()) {
 					var databaseManager = Application.Ioc.Resolve<DatabaseManager>();

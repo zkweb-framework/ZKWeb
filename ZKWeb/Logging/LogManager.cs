@@ -19,7 +19,8 @@ namespace ZKWeb.Logging {
 		/// </summary>
 		public virtual void Log(string filename, string message) {
 			// 创建日志文件夹
-			var logsDirectory = PathConfig.LogsDirectory;
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var logsDirectory = pathConfig.LogsDirectory;
 			Directory.CreateDirectory(logsDirectory);
 			// 写入到控制台
 			Console.Write(message);

@@ -55,6 +55,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<ConfigManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<PathConfig>(ReuseType.Singleton);
 			Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);

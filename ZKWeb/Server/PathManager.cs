@@ -86,9 +86,10 @@ namespace ZKWeb.Server {
 		/// <returns></returns>
 		public virtual IEnumerable<string> GetTemplateFullPathCandidates(string path) {
 			// 获取当前设备和设备专用的模板文件夹的名称
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var device = HttpDeviceUtils.GetClientDevice();
 			var deviceSpecializedTemplateDirectoryName = string.Format(
-				PathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLower());
+				pathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLower());
 			// 获取显式指定的插件，没有时explictPlugin会等于null
 			var index = path.IndexOf(':');
 			string explictPlugin = null;
@@ -103,21 +104,21 @@ namespace ZKWeb.Server {
 					yield return PathUtils.SecureCombine(
 						pluginDirectory, explictPlugin, deviceSpecializedTemplateDirectoryName, path);
 					yield return PathUtils.SecureCombine(
-						pluginDirectory, explictPlugin, PathConfig.TemplateDirectoryName, path);
+						pluginDirectory, explictPlugin, pathConfig.TemplateDirectoryName, path);
 				}
 			} else {
 				// 不指定插件时，先从App_Data获取
 				yield return PathUtils.SecureCombine(
-					PathConfig.AppDataDirectory, deviceSpecializedTemplateDirectoryName, path);
+					pathConfig.AppDataDirectory, deviceSpecializedTemplateDirectoryName, path);
 				yield return PathUtils.SecureCombine(
-					PathConfig.AppDataDirectory, PathConfig.TemplateDirectoryName, path);
+					pathConfig.AppDataDirectory, pathConfig.TemplateDirectoryName, path);
 				// 从各个插件目录获取，按载入顺序反向枚举
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
 				foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
 					yield return PathUtils.SecureCombine(
 						plugin.Directory, deviceSpecializedTemplateDirectoryName, path);
 					yield return PathUtils.SecureCombine(
-						plugin.Directory, PathConfig.TemplateDirectoryName, path);
+						plugin.Directory, pathConfig.TemplateDirectoryName, path);
 				}
 			}
 		}
@@ -153,7 +154,8 @@ namespace ZKWeb.Server {
 		public virtual IEnumerable<string> GetResourceFullPathCandidates(params string[] pathParts) {
 			// 先从App_Data获取
 			var path = PathUtils.SecureCombine(pathParts);
-			yield return PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			yield return PathUtils.SecureCombine(pathConfig.AppDataDirectory, path);
 			// 从各个插件目录获取，按载入顺序反向枚举
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
@@ -188,7 +190,8 @@ namespace ZKWeb.Server {
 		/// <returns></returns>
 		public virtual string GetStorageFullPath(params string[] pathParts) {
 			var path = PathUtils.SecureCombine(pathParts);
-			var fullPath = PathUtils.SecureCombine(PathConfig.AppDataDirectory, path);
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var fullPath = PathUtils.SecureCombine(pathConfig.AppDataDirectory, path);
 			return fullPath;
 		}
 

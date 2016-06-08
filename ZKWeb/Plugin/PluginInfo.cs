@@ -48,7 +48,8 @@ namespace ZKWeb.Plugin {
 		/// <returns></returns>
 		public static PluginInfo FromDirectory(string dir) {
 			// 从json文件中读取插件信息，不存在时生成空的信息
-			var jsonPath = Path.Combine(dir, PathConfig.PluginInfoFilename);
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var jsonPath = Path.Combine(dir, pathConfig.PluginInfoFilename);
 			var json = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "{}";
 			var info = JsonConvert.DeserializeObject<PluginInfo>(json);
 			info.Directory = dir;

@@ -7,61 +7,53 @@ using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// 路径的默认配置
+	/// 路径配置
 	/// </summary>
-	public static class PathConfig {
+	public class PathConfig {
 		/// <summary>
 		/// App_Data目录
 		/// </summary>
-		public static string AppDataDirectory {
-			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data"); }
-		}
-
-		/// <summary>
-		/// 数据文件根目录
-		/// </summary>
-		public static string StorageRootDirectory {
-			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data", "Storage"); }
-		}
-
+		public virtual string AppDataDirectory { get; protected set; }
 		/// <summary>
 		/// 日志文件目录
 		/// </summary>
-		public static string LogsDirectory {
-			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data", "Logs"); }
-		}
-
+		public virtual string LogsDirectory { get; protected set; }
 		/// <summary>
 		/// 网站配置文件路径
 		/// </summary>
-		public static string WebsiteConfigPath {
-			get { return Path.Combine(PathUtils.WebRoot.Value, "App_Data", "config.json"); }
-		}
-
+		public virtual string WebsiteConfigPath { get; protected set; }
 		/// <summary>
 		/// 储存插件信息的文件名称
 		/// 这个文件会在插件目录下
 		/// </summary>
-		public static string PluginInfoFilename { get; } = "plugin.json";
-
+		public virtual string PluginInfoFilename { get; protected set; }
 		/// <summary>
 		/// 模板文件夹的名称
 		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
 		/// </summary>
-		public static string TemplateDirectoryName { get; } = "templates";
-
+		public virtual string TemplateDirectoryName { get; protected set; }
 		/// <summary>
 		/// 设备专用的模板文件夹的名称
 		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
 		/// </summary>
-		public static string DeviceSpecializedTemplateDirectoryNameFormat { get; } = "templates.{0}";
-
+		public virtual string DeviceSpecializedTemplateDirectoryNameFormat { get; protected set; }
 		/// <summary>
 		/// 保存数据表生成脚本的文件路径
 		/// 里面的脚本仅用于检测是否需要更新，不会实际执行
 		/// </summary>
-		public static string DatabaseScriptPath {
-			get { return Path.Combine(AppDataDirectory, "DatabaseScript.txt"); }
+		public virtual string DatabaseScriptPath { get; protected set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public PathConfig() {
+			AppDataDirectory = Path.Combine(PathUtils.WebRoot.Value, "App_Data");
+			LogsDirectory = Path.Combine(AppDataDirectory, "Logs");
+			WebsiteConfigPath = Path.Combine(AppDataDirectory, "config.json");
+			PluginInfoFilename = "plugin.json";
+			TemplateDirectoryName = "templates";
+			DeviceSpecializedTemplateDirectoryNameFormat = "templates.{0}";
+			DatabaseScriptPath = Path.Combine(AppDataDirectory, "DatabaseScript.txt");
 		}
 	}
 }

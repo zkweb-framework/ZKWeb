@@ -48,14 +48,15 @@ namespace ZKWeb.Plugin {
 				startWatcher(pluginFilesWatcher);
 			});
 			// 监视网站配置文件
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var websiteConfigWatcher = new FileSystemWatcher();
-			websiteConfigWatcher.Path = PathConfig.AppDataDirectory;
+			websiteConfigWatcher.Path = pathConfig.AppDataDirectory;
 			websiteConfigWatcher.Filter = "*.json";
 			startWatcher(websiteConfigWatcher);
 			// 监视DatabaseScriptPath，仅监视删除
 			var databaseScriptWatcher = new FileSystemWatcher();
-			databaseScriptWatcher.Path = Path.GetDirectoryName(PathConfig.DatabaseScriptPath);
-			databaseScriptWatcher.Filter = Path.GetFileName(PathConfig.DatabaseScriptPath);
+			databaseScriptWatcher.Path = Path.GetDirectoryName(pathConfig.DatabaseScriptPath);
+			databaseScriptWatcher.Filter = Path.GetFileName(pathConfig.DatabaseScriptPath);
 			databaseScriptWatcher.Deleted += (sender, e) => HttpRuntime.UnloadAppDomain();
 			databaseScriptWatcher.EnableRaisingEvents = true;
 		}

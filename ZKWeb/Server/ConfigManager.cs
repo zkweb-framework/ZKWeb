@@ -19,7 +19,8 @@ namespace ZKWeb.Server {
 		/// </summary>
 		internal static void Initialize() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			configManager.WebsiteConfig = WebsiteConfig.FromFile(PathConfig.WebsiteConfigPath);
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			configManager.WebsiteConfig = WebsiteConfig.FromFile(pathConfig.WebsiteConfigPath);
 		}
 	}
 }
