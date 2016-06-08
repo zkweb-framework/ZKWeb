@@ -46,6 +46,10 @@ namespace ZKWeb.Templating {
 			// 获取模板的绝对路径
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			var fullPath = pathManager.GetTemplateFullPath(templateName);
+			if (fullPath == null) {
+				throw new FileNotFoundException(
+					string.Format("template {0} not found", templateName));
+			}
 			// 从缓存获取模板
 			var lastWriteTime = File.GetLastWriteTimeUtc(fullPath);
 			var cache = TemplateCache.GetOrDefault(fullPath);

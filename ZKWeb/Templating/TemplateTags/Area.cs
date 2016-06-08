@@ -46,7 +46,7 @@ namespace ZKWeb.Templating.TemplateTags {
 			var widgets = areaManager.GetCustomWidgets(areaId) ??
 				areaManager.GetArea(areaId).DefaultWidgets;
 			// 添加div的开头
-			result.Write($"<div class='template_area' area_id='{areaId}' >");
+			result.Write($"<div class='template_area' area_id='{areaId}'>");
 			// 描画子元素
 			var scope = Hash.FromDictionary(new Dictionary<string, object>() {
 				{ CurrentAreaIdKey, areaId }

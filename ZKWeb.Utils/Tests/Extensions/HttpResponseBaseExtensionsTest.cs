@@ -21,7 +21,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			responseMock.Setup(r => r.Write(It.Is<string>(t => t.Contains("testurl")))).Verifiable();
 			responseMock.Setup(r => r.End()).Callback(() => { }).Verifiable();
 			responseMock.Object.RedirectByScript("testurl");
-			responseMock.VerifyAll();
+			responseMock.Verify();
 		}
 	}
 }

@@ -135,6 +135,26 @@ namespace ZKWeb.Utils.Collections {
 			get { return trySkipIisCustomErrors; }
 			set { trySkipIisCustomErrors = value; }
 		}
+
+		public override void Write(string s) {
+			var bytes = ContentEncoding.GetBytes(s);
+			OutputStream.Write(bytes, 0, bytes.Length);
+		}
+
+		public override void Write(char[] buffer, int index, int count) {
+			var bytes = ContentEncoding.GetBytes(buffer, index, count);
+			OutputStream.Write(bytes, 0, bytes.Length);
+		}
+
+		public override void Write(object obj) {
+			Write(obj.ToString());
+		}
+
+		public override void Write(char ch) {
+			Write(new[] { ch }, 0, 1);
+		}
+
+		public override void End() { }
 	}
 }
 #pragma warning restore 1591

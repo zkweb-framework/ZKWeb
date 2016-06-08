@@ -18,8 +18,8 @@ namespace ZKWeb.Tests.Templating.AreaSupport {
 				Application.Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
 				var areaManager = Application.Ioc.Resolve<TemplateAreaManager>();
 
-				areaManager.GetArea("__test_area").DefaultWidgets.Add("test");
-				Assert.Equals(areaManager.GetArea("__test_area").DefaultWidgets[0].Path, "test");
+				areaManager.GetArea("__test_area").DefaultWidgets.Add("__test");
+				Assert.Equals(areaManager.GetArea("__test_area").DefaultWidgets[0].Path, "__test");
 
 				layout.WritePluginFile("PluginA", "templates/__test.widget",
 					"{ Name: 'TestWidget', CacheTime: 123, CacheBy: 'Url' }");

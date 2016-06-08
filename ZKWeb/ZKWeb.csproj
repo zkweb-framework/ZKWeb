@@ -187,6 +187,7 @@
     <Compile Include="Tests\Templating\AreaSupport\TemplateAreaManagerTest.cs" />
     <Compile Include="Tests\Templating\AreaSupport\TemplateWidgetExtensionsTest.cs" />
     <Compile Include="Tests\Templating\AreaSupport\TemplateWidgetInfoExtensionsTest.cs" />
+    <Compile Include="Tests\Templating\TemplateFileSystemTest.cs" />
     <Compile Include="Tests\Templating\TemplateFilters\FiltersTest.cs" />
     <Compile Include="Tests\Templating\TemplateManagerTest.cs" />
     <Compile Include="Tests\Templating\TemplateTags\AreaTest.cs" />

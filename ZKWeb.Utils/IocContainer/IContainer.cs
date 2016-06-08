@@ -11,5 +11,6 @@ namespace ZKWeb.Utils.IocContainer {
 	public interface IContainer :
 		IRegistrator, IGenericRegistrator,
 		IResolver, IGenericResolver,
-		ICloneable, IDisposable { }
+		ICloneable, IDisposable {
+	}
 }
