@@ -17,11 +17,11 @@ namespace ZKWeb.Plugin {
 		/// <summary>
 		/// 插件列表
 		/// </summary>
-		public virtual List<PluginInfo> Plugins { get; protected set; }
+		public virtual IList<PluginInfo> Plugins { get; protected set; }
 		/// <summary>
 		/// 插件程序集列表
 		/// </summary>
-		public virtual List<Assembly> PluginAssemblies { get; protected set; }
+		public virtual IList<Assembly> PluginAssemblies { get; protected set; }
 
 		/// <summary>
 		/// 初始化

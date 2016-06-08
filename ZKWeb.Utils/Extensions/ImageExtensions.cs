@@ -73,7 +73,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
 		/// <param name="quality">压缩质量</param>
 		public static void SaveJpeg(this Image image, string filename, long quality) {
-			Directory.CreateDirectory(Path.GetDirectoryName(filename));
+			PathUtils.EnsureParentDirectory(filename);
 			var encoder = ImageCodecInfo.GetImageEncoders().First(
 				c => c.FormatID == ImageFormat.Jpeg.Guid);
 			var parameters = new EncoderParameters();
@@ -88,7 +88,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <param name="image">图片对象</param>
 		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
 		public static void SaveIcon(this Image image, string filename) {
-			Directory.CreateDirectory(Path.GetDirectoryName(filename));
+			PathUtils.EnsureParentDirectory(filename);
 			using (var stream = new FileStream(filename, FileMode.Create)) {
 				// 图标头部 (ico, 1张图片)
 				stream.Write(new byte[] { 0, 0, 1, 0, 1, 0 }, 0, 6);
@@ -127,7 +127,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <param name="filename">保存路径，保存前会自动创建上级目录</param>
 		/// <param name="quality">压缩质量</param>
 		public static void SaveAuto(this Image image, string filename, long quality) {
-			Directory.CreateDirectory(Path.GetDirectoryName(filename));
+			PathUtils.EnsureParentDirectory(filename);
 			var extension = Path.GetExtension(filename).ToLower();
 			if (extension == ".jpg" || extension == ".jpeg") {
 				image.SaveJpeg(filename, quality);

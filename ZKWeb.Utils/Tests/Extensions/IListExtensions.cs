@@ -23,7 +23,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			Assert.Equals(list.FindLastIndex(x => x % 2 == 0), 2);
 			Assert.Equals(list.FindLastIndex(x => x % 4 == 0), 2);
 			Assert.Equals(list.FindLastIndex(x => x % 8 == 0), -1);
-			Assert.Equals(list.FindLastIndex(1, x => x % 2 == 0), 2);
+			Assert.Equals(list.FindLastIndex(1, x => x % 2 == 0), 1);
 			Assert.Equals(list.FindLastIndex(10000, x => x % 2 == 0), 2);
 		}
 

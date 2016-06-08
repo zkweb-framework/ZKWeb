@@ -182,6 +182,7 @@
     <Compile Include="Tests\Serialize\JsonNetTest.cs" />
     <Compile Include="Tests\Server\ConfigManagerTest.cs" />
     <Compile Include="Tests\Server\PathManagerTest.cs" />
+    <Compile Include="Tests\Server\TestDirectoryLayout.cs" />
     <Compile Include="Tests\Templating\AreaSupport\TemplateAreaExtensionsTest.cs" />
     <Compile Include="Tests\Templating\AreaSupport\TemplateAreaManagerTest.cs" />
     <Compile Include="Tests\Templating\AreaSupport\TemplateWidgetExtensionsTest.cs" />
