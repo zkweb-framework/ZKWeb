@@ -19,7 +19,7 @@ namespace ZKWeb.Tests.Server {
 		/// 测试时重载插件文件夹的设置
 		/// 测试完毕后会删除所有插件目录
 		/// </summary>
-		/// <param name="pluginDirectories">插件目录列表，不传入时使用[ "AppData/__TestPlugins" ]</param>
+		/// <param name="pluginDirectories">插件目录列表，不传入时使用[ "App_Data/__TestPlugins" ]</param>
 		/// <param name="plugins">插件列表，不传入时使用[ "PluginA", "PluginB" ]</param>
 		/// <param name="extra">附加数据，不传入时使用空的附加数据</param>
 		/// <param name="pluginDirectoryIndex">创建插件文件夹时，使用的插件目录的序号</param>
@@ -30,7 +30,7 @@ namespace ZKWeb.Tests.Server {
 			int pluginDirectoryIndex = 0) {
 			OverrideIoc = Application.OverrideIoc();
 			WebsiteConfig = new WebsiteConfig() {
-				PluginDirectories = pluginDirectories ?? new List<string>() { "AppData/__TestPlugins" },
+				PluginDirectories = pluginDirectories ?? new List<string>() { "App_Data/__TestPlugins" },
 				Plugins = plugins ?? new List<string>() { "PluginA", "PluginB" },
 				Extra = extra ?? new Dictionary<string, object>()
 			};

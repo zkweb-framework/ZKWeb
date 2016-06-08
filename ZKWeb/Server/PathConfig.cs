@@ -48,7 +48,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		public PathConfig() {
 			AppDataDirectory = Path.Combine(PathUtils.WebRoot.Value, "App_Data");
-			LogsDirectory = Path.Combine(AppDataDirectory, "Logs");
+			LogsDirectory = Path.Combine(AppDataDirectory, "logs");
 			WebsiteConfigPath = Path.Combine(AppDataDirectory, "config.json");
 			PluginInfoFilename = "plugin.json";
 			TemplateDirectoryName = "templates";

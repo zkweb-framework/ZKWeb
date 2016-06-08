@@ -12,6 +12,7 @@ using ZKWeb.Cache.Interfaces;
 using ZKWeb.Server;
 using ZKWeb.Utils.Collections;
 using ZKWeb.Utils.Extensions;
+using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Templating.AreaSupport {
 	/// <summary>
@@ -129,11 +130,12 @@ namespace ZKWeb.Templating.AreaSupport {
 		/// </summary>
 		/// <param name="areaId">区域Id</param>
 		/// <param name="widgets">自定义模块列表，等于null时删除</param>
-		public virtual void SetCustomWidgets(string areaId, List<TemplateWidget> widgets) {
+		public virtual void SetCustomWidgets(string areaId, IList<TemplateWidget> widgets) {
 			// 删除缓存
 			CustomWidgetsCache.Remove(areaId);
 			// 保存到文件
 			var path = GetCustomWidgetsJsonPath(areaId);
+			PathUtils.EnsureParentDirectory(path);
 			if (widgets != null) {
 				File.WriteAllText(path, JsonConvert.SerializeObject(widgets, Formatting.Indented));
 			} else {

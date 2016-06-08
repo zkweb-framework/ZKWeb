@@ -14,7 +14,7 @@ namespace ZKWeb.Tests.Server {
 	[UnitTest]
 	class PathManagerTest {
 		public void GetPluginDirectories() {
-			var pluginDirectoriesConfig = new[] { "AppData/__TestPluginsA", "AppData/__TestPluginsB" };
+			var pluginDirectoriesConfig = new[] { "App_Data/__TestPluginsA", "App_Data/__TestPluginsB" };
 			using (new TestDirectoryLayout(pluginDirectoriesConfig)) {
 				var pathManager = Application.Ioc.Resolve<PathManager>();
 				var pluginDirectories = pathManager.GetPluginDirectories();
