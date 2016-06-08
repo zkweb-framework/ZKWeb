@@ -65,7 +65,7 @@ a. How to getting start?
 	- Example for sqlite
 	```
 	"Database": "sqlite",
-	"ConnectionString": "Data Source={{App_Data}}\test.db;Version=3;New=True;",
+	"ConnectionString": "Data Source={{App_Data}}/test.db;Version=3;",
 	```
 	- Example for mysql
 	```
