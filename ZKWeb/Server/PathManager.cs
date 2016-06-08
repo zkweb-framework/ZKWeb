@@ -76,9 +76,10 @@ namespace ZKWeb.Server {
 		/// - 例 "include/header.html"
 		/// - 查找模板路径的顺序
 		///   - App_Data\templates.{device}\模板路径
-		///   - App_Data\templates\模板路径
 		///   - 按载入顺序反向枚举插件
 		///     - 插件目录\templates.{device}\模板路径
+		///   - App_Data\templates\模板路径
+		///   - 按载入顺序反向枚举插件
 		///     - 插件目录\templates\模板路径
 		/// 这个函数会按以上规则逐条返回路径
 		/// </summary>
@@ -107,16 +108,19 @@ namespace ZKWeb.Server {
 						pluginDirectory, explictPlugin, pathConfig.TemplateDirectoryName, path);
 				}
 			} else {
-				// 不指定插件时，先从App_Data获取
+				// 不指定插件时
+				// 先读取设备专用模板文件夹
 				yield return PathUtils.SecureCombine(
 					pathConfig.AppDataDirectory, deviceSpecializedTemplateDirectoryName, path);
-				yield return PathUtils.SecureCombine(
-					pathConfig.AppDataDirectory, pathConfig.TemplateDirectoryName, path);
-				// 从各个插件目录获取，按载入顺序反向枚举
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
 				foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
 					yield return PathUtils.SecureCombine(
 						plugin.Directory, deviceSpecializedTemplateDirectoryName, path);
+				}
+				// 再读取默认模板文件夹
+				yield return PathUtils.SecureCombine(
+					pathConfig.AppDataDirectory, pathConfig.TemplateDirectoryName, path);
+				foreach (var plugin in pluginManager.Plugins.Reverse<PluginInfo>()) {
 					yield return PathUtils.SecureCombine(
 						plugin.Directory, pathConfig.TemplateDirectoryName, path);
 				}

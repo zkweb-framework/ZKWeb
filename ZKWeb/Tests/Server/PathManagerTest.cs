@@ -31,8 +31,9 @@ namespace ZKWeb.Tests.Server {
 				layout.WritePluginFile("PluginA", "templates/__test_1.html", "test 1 in plugin a");
 				layout.WritePluginFile("PluginB", "templates/__test_2.html", "test 2 in plugin b");
 				layout.WritePluginFile("PluginB", "templates/__test_3.html", "test 3 in plugin b");
+				layout.WritePluginFile("PluginB",
+					"templates.mobile/__test_3.html", "test 3 in plugin b for mobile");
 				layout.WriteAppDataFile("templates/__test_3.html", "test 3 in appdata");
-				layout.WriteAppDataFile("templates.mobile/__test_2.html", "test 2 in appdata for mobile");
 				var pathManager = Application.Ioc.Resolve<PathManager>();
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
 				var pathConfig = Application.Ioc.Resolve<PathConfig>();
@@ -42,13 +43,13 @@ namespace ZKWeb.Tests.Server {
 				Assert.Equals(candidates[0], PathUtils.SecureCombine(
 					pathConfig.AppDataDirectory, "templates.desktop", "__test_1.html"));
 				Assert.Equals(candidates[1], PathUtils.SecureCombine(
-					pathConfig.AppDataDirectory, "templates", "__test_1.html"));
-				Assert.Equals(candidates[2], PathUtils.SecureCombine(
 					pluginManager.Plugins[1].Directory, "templates.desktop", "__test_1.html"));
-				Assert.Equals(candidates[3], PathUtils.SecureCombine(
-					pluginManager.Plugins[1].Directory, "templates", "__test_1.html"));
-				Assert.Equals(candidates[4], PathUtils.SecureCombine(
+				Assert.Equals(candidates[2], PathUtils.SecureCombine(
 					pluginManager.Plugins[0].Directory, "templates.desktop", "__test_1.html"));
+				Assert.Equals(candidates[3], PathUtils.SecureCombine(
+					pathConfig.AppDataDirectory, "templates", "__test_1.html"));
+				Assert.Equals(candidates[4], PathUtils.SecureCombine(
+					pluginManager.Plugins[1].Directory, "templates", "__test_1.html"));
 				Assert.Equals(candidates[5], PathUtils.SecureCombine(
 					pluginManager.Plugins[0].Directory, "templates", "__test_1.html"));
 
@@ -76,8 +77,8 @@ namespace ZKWeb.Tests.Server {
 						File.ReadAllText(pathManager.GetTemplateFullPath("__test_1.html")),
 						"test 1 in plugin a");
 					Assert.Equals(
-						File.ReadAllText(pathManager.GetTemplateFullPath("__test_2.html")),
-						"test 2 in appdata for mobile");
+						File.ReadAllText(pathManager.GetTemplateFullPath("__test_3.html")),
+						"test 3 in plugin b for mobile");
 					Assert.Equals(
 						File.ReadAllText(pathManager.GetTemplateFullPath("PluginB:__test_2.html")),
 						"test 2 in plugin b");
