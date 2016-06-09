@@ -12,8 +12,8 @@ namespace ZKWeb.Templating.TemplateFilters {
 		/// <summary>
 		/// 翻译指定的文本
 		/// 例子
-		/// {% text | trans %}
-		/// {% "fixed text" | trans %}
+		/// {{ text | trans }}
+		/// {{ "fixed text" | trans }}
 		/// </summary>
 		/// <param name="text">需要翻译的文本</param>
 		/// <returns></returns>
@@ -40,6 +40,17 @@ namespace ZKWeb.Templating.TemplateFilters {
 			text = text.Replace("[6]", arg_6?.ToString());
 			text = text.Replace("[7]", arg_7?.ToString());
 			return text;
+		}
+
+		/// <summary>
+		/// 把字符串作为原始html描画
+		/// 例子
+		/// {{ variable | raw_html }}
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public static object RawHtml(string text) {
+			return new HtmlString(text);
 		}
 	}
 }

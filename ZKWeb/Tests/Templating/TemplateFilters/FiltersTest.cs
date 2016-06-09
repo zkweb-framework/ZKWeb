@@ -35,5 +35,12 @@ namespace ZKWeb.Tests.Templating.TemplateFilters {
 					.Render(Hash.FromAnonymousObject(new { name = "John", age = 50 })),
 				"name is John, age is 50");
 		}
+
+		public void RawHtml() {
+			Assert.Equals(
+				Template.Parse("{{ html | raw_html }}{{ html }}").Render(
+					Hash.FromAnonymousObject(new { html = "<a>'\"test</a>" })),
+				"<a>'\"test</a>&lt;a&gt;&#39;&quot;test&lt;/a&gt;");
+		}
 	}
 }

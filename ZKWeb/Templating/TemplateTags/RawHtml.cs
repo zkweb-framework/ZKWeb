@@ -18,7 +18,7 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// <param name="context"></param>
 		/// <param name="result"></param>
 		public override void Render(Context context, TextWriter result) {
-			result.Write(context[Markup]);
+			result.Write(context[Markup.Trim()]);
 		}
 	}
 }
