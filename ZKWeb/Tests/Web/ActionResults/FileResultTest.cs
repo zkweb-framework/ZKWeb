@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,34 +22,28 @@ namespace ZKWeb.Tests.Web.ActionResults {
 				Assert.Equals(File.ReadAllText(resourcePath), "test contents");
 
 				var result = new FileResult(resourcePath);
-				var responseMock = new Mock<HttpResponseBase>();
-				var cacheMock = new Mock<HttpCachePolicyBase>();
-				cacheMock.Setup(
-					c => c.SetLastModified(It.Is<DateTime>(d => d == lastModified))).Verifiable();
-				responseMock.Setup(r => r.Cache).Returns(cacheMock.Object);
-				responseMock.Setup(r => r.WriteFile(It.Is<string>(s => s == resourcePath))).Verifiable();
-				result.WriteResponse(responseMock.Object);
-				responseMock.Verify();
-				cacheMock.Verify();
+				var responseMock = Substitute.For<HttpResponseBase>();
+				var cacheMock = Substitute.For<HttpCachePolicyBase>();
+				responseMock.Cache.Returns(cacheMock);
+				result.WriteResponse(responseMock);
+				responseMock.Received().WriteFile(resourcePath);
+				cacheMock.Received().SetLastModified(lastModified);
 
 				result = new FileResult(resourcePath, DateTime.UtcNow.AddDays(1));
-				cacheMock.ResetCalls();
-				responseMock = new Mock<HttpResponseBase>();
-				responseMock.Setup(r => r.Cache).Returns(cacheMock.Object);
-				responseMock.Setup(r => r.WriteFile(It.Is<string>(s => s == resourcePath))).Verifiable();
-				result.WriteResponse(responseMock.Object);
-				responseMock.Verify();
-				cacheMock.Verify();
+				responseMock.ClearReceivedCalls();
+				cacheMock.ClearReceivedCalls();
+				result.WriteResponse(responseMock);
+				responseMock.Received().WriteFile(resourcePath);
+				cacheMock.Received().SetLastModified(lastModified);
 
 				result = new FileResult(resourcePath, lastModified);
-				cacheMock.ResetCalls();
-				responseMock = new Mock<HttpResponseBase>();
-				responseMock.Setup(r => r.Cache).Returns(cacheMock.Object);
-				responseMock.SetupSet(r => r.StatusCode = 304);
-				responseMock.SetupSet(r => r.SuppressContent = true);
-				result.WriteResponse(responseMock.Object);
-				responseMock.Verify();
-				cacheMock.Verify();
+				responseMock.ClearReceivedCalls();
+				cacheMock.ClearReceivedCalls();
+				result.WriteResponse(responseMock);
+				responseMock.DidNotReceive().WriteFile(Arg.Any<string>());
+				responseMock.Received().StatusCode = 304;
+				responseMock.Received().SuppressContent = true;
+				cacheMock.Received().SetLastModified(lastModified);
 			}
 		}
 	}

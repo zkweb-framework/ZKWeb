@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +11,10 @@ namespace ZKWeb.Tests.Web.ActionResults {
 	class PlainResultTest {
 		public void WriteResponse() {
 			var result = new PlainResult("test contents");
-			var responseMock = new Mock<HttpResponseBase>();
-			var exceptedResult = "test contents";
-			responseMock.SetupSet(r => r.ContentType = "text/plain").Verifiable();
-			responseMock.Setup(r => r.Write(It.Is<string>(s => s == exceptedResult))).Verifiable();
-			result.WriteResponse(responseMock.Object);
-			responseMock.Verify();
+			var responseMock = Substitute.For<HttpResponseBase>();
+			result.WriteResponse(responseMock);
+			responseMock.Received().ContentType = "text/plain";
+			responseMock.Received().Write("test contents");
 		}
 	}
 }

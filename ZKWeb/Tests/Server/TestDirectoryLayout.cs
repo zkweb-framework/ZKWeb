@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,13 +36,13 @@ namespace ZKWeb.Tests.Server {
 			};
 			CleanupPaths = new List<string>();
 			// 重新注册ConfigManager, PathConfig, PathManager, PluginManager
-			var configManagerMock = new Mock<ConfigManager>();
-			configManagerMock.Setup(c => c.WebsiteConfig).Returns(WebsiteConfig);
+			var configManagerMock = Substitute.ForPartsOf<ConfigManager>();
+			configManagerMock.WebsiteConfig.Returns(WebsiteConfig);
 			Application.Ioc.Unregister<ConfigManager>();
 			Application.Ioc.Unregister<PathConfig>();
 			Application.Ioc.Unregister<PathManager>();
 			Application.Ioc.Unregister<PluginManager>();
-			Application.Ioc.RegisterInstance(configManagerMock.Object);
+			Application.Ioc.RegisterInstance(configManagerMock);
 			Application.Ioc.RegisterMany<PathConfig>(ReuseType.Singleton);
 			Application.Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
 			Application.Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);

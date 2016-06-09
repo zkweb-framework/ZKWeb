@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +12,14 @@ namespace ZKWeb.Tests.Web.ActionResults {
 		public void WriteResponse() {
 			var url = "test_url";
 			var result = new RedirectResult(url);
-			var responseMock = new Mock<HttpResponseBase>();
-			responseMock.Setup(r => r.Redirect(It.Is<string>(s => s == url))).Verifiable();
-			result.WriteResponse(responseMock.Object);
-			responseMock.Verify();
+			var responseMock = Substitute.For<HttpResponseBase>();
+			result.WriteResponse(responseMock);
+			responseMock.Received().Redirect(url);
 
 			result = new RedirectResult(url, true);
-			responseMock = new Mock<HttpResponseBase>();
-			responseMock.Setup(r => r.RedirectPermanent(It.Is<string>(s => s == url))).Verifiable();
-			result.WriteResponse(responseMock.Object);
-			responseMock.Verify();
+			responseMock.ClearReceivedCalls();
+			result.WriteResponse(responseMock);
+			responseMock.Received().RedirectPermanent(url);
 		}
 	}
 }

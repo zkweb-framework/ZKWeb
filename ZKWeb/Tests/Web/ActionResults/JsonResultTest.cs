@@ -1,5 +1,5 @@
-﻿using Moq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +13,18 @@ namespace ZKWeb.Tests.Web.ActionResults {
 	class JsonResultTest {
 		public void WriteResponse() {
 			var result = new JsonResult(new { a = 1 });
-			var responseMock = new Mock<HttpResponseBase>();
+			var responseMock = Substitute.For<HttpResponseBase>();
 			var exceptedResult = JsonConvert.SerializeObject(new { a = 1 });
-			responseMock.SetupSet(r => r.ContentType = "application/json").Verifiable();
-			responseMock.Setup(r => r.Write(It.Is<string>(s => s == exceptedResult))).Verifiable();
-			result.WriteResponse(responseMock.Object);
-			responseMock.Verify();
+			result.WriteResponse(responseMock);
+			responseMock.Received().ContentType = "application/json";
+			responseMock.Received().Write(exceptedResult);
 
 			result = new JsonResult(new { a = 1 }, Formatting.Indented);
 			exceptedResult = JsonConvert.SerializeObject(new { a = 1 }, Formatting.Indented);
-			responseMock.ResetCalls();
-			result.WriteResponse(responseMock.Object);
-			responseMock.Verify();
+			responseMock.ClearReceivedCalls();
+			result.WriteResponse(responseMock);
+			responseMock.Received().ContentType = "application/json";
+			responseMock.Received().Write(exceptedResult);
 		}
 	}
 }

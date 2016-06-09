@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,13 +15,12 @@ namespace ZKWeb.Utils.Tests.Extensions {
 	[UnitTest]
 	class HttpResponseBaseExtensionsTest {
 		public void RedirectByScript() {
-			var responseMock = new Mock<HttpResponseBase>();
-			responseMock.Setup(r => r.Clear()).Callback(() => { }).Verifiable();
-			responseMock.SetupSet(r => r.ContentType = It.Is<string>(t => t == "text/html")).Verifiable();
-			responseMock.Setup(r => r.Write(It.Is<string>(t => t.Contains("testurl")))).Verifiable();
-			responseMock.Setup(r => r.End()).Callback(() => { }).Verifiable();
-			responseMock.Object.RedirectByScript("testurl");
-			responseMock.Verify();
+			var responseMock = Substitute.For<HttpResponseBase>();
+			responseMock.RedirectByScript("testurl");
+			responseMock.Received().Clear();
+			responseMock.Received().ContentType = "text/html";
+			responseMock.Received().Write(Arg.Do<string>(t => t.Contains("testurl")));
+			responseMock.Received().End();
 		}
 	}
 }

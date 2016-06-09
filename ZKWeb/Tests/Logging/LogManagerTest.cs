@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +11,17 @@ namespace ZKWeb.Tests.Logging {
 	class LogManagerTest {
 		public void All() {
 			using (Application.OverrideIoc()) {
-				var logManagerMock = new Mock<LogManager>() { CallBase = true };
+				var logManagerMock = Substitute.ForPartsOf<LogManager>();
 				var lastFileName = "";
 				var lastMessage = "";
-				logManagerMock.Setup(l => l.Log(It.IsAny<string>(), It.IsAny<string>()))
-					.Callback((string filename, string message) => {
-						lastFileName = filename;
-						lastMessage = message;
-					});
+				var whenCall = logManagerMock.When(l => l.Log(Arg.Any<string>(), Arg.Any<string>()));
+				whenCall.DoNotCallBase();
+				whenCall.Do(callInfo => {
+					lastFileName = callInfo.ArgAt<string>(0);
+					lastMessage = callInfo.ArgAt<string>(1);
+				});
 				Application.Ioc.Unregister<LogManager>();
-				Application.Ioc.RegisterInstance(logManagerMock.Object);
+				Application.Ioc.RegisterInstance(logManagerMock);
 				var logManager = Application.Ioc.Resolve<LogManager>();
 				logManager.LogDebug("Test Debug Message");
 				Assert.IsTrueWith(lastFileName.Contains("Debug"), lastFileName);
