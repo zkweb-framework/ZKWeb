@@ -235,33 +235,35 @@ namespace ZKWeb.Utils.Functions {
 		/// <summary>
 		/// 重载当前使用的http上下文
 		/// 结束后恢复原有的上下文
+		/// 这里不使用NSubstitute的原因
+		/// - 这个函数在一般情况下也会用到，考虑到性能仍然需要使用自带的类型
 		/// </summary>
 		/// <param name="uri">请求的uri</param>
 		/// <param name="method">请求类型，GET或POST等</param>
 		/// <returns></returns>
 		public static IDisposable OverrideContext(Uri uri, string method) {
-			var mockContext = new HttpContextMock();
-			var mockRequest = new HttpRequestMock();
-			var mockResponse = new HttpResponseMock();
-			mockContext.request = mockRequest;
-			mockContext.response = mockResponse;
+			var contextMock = new HttpContextMock();
+			var requestMock = new HttpRequestMock();
+			var responseMock = new HttpResponseMock();
+			contextMock.request = requestMock;
+			contextMock.response = responseMock;
 			// 设置请求参数
-			mockRequest.url = uri;
-			mockRequest.path = uri.AbsolutePath;
-			mockRequest.httpMethod = method;
+			requestMock.url = uri;
+			requestMock.path = uri.AbsolutePath;
+			requestMock.httpMethod = method;
 			if (method == "GET") {
-				mockRequest.queryString = HttpUtility.ParseQueryString(uri.Query);
+				requestMock.queryString = HttpUtility.ParseQueryString(uri.Query);
 			} else if (method == "POST") {
-				mockRequest.form = HttpUtility.ParseQueryString(uri.Query);
+				requestMock.form = HttpUtility.ParseQueryString(uri.Query);
 			}
 			// 当前请求存在时，继承Items, Cookies, Headers
 			var exists = CurrentContext;
 			if (exists != null) {
-				mockContext.items = exists.Items;
-				mockRequest.cookies = exists.Request.Cookies;
-				mockRequest.headers = exists.Request.Headers;
+				contextMock.items = exists.Items;
+				requestMock.cookies = exists.Request.Cookies;
+				requestMock.headers = exists.Request.Headers;
 			}
-			return OverrideContext(mockContext);
+			return OverrideContext(contextMock);
 		}
 
 		/// <summary>
