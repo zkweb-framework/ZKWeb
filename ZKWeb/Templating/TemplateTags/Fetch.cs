@@ -16,18 +16,19 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 把指定路径的执行结果设置到变量
 	/// 指定的路径可以是get也可以是post，会自动检测
-	/// 例子
-	///		{% fetch /api/login_info > login_info %}
-	///		{{ login_info }}
-	///	例子，url支持变量
-	///		{% fetch /api/product_info?id={id} > product_info %}
-	///		{{ product_info }}
-	///	路径中的变量的获取顺序
-	///		当前模板上下文中的变量
-	///		当前http上下文中的参数
-	///	执行结果
-	///		结果是JsonResult或PlainResult时使用返回的结果
-	///		其他结果时使用描画的内容，但不支持二进制
+	/// <example>
+	/// {% fetch /api/login_info > login_info %}
+	/// {{ login_info }}
+	///	url支持变量
+	/// {% fetch /api/product_info?id={id} > product_info %}
+	/// {{ product_info }}
+	/// </example>
+	/// 路径中的变量的获取顺序
+	/// - 当前模板上下文中的变量
+	/// - 当前http上下文中的参数
+	/// 执行结果
+	/// - 结果是JsonResult或PlainResult时使用返回的结果
+	/// - 其他结果时使用描画的内容，但不支持二进制
 	/// </summary>
 	public class Fetch : Tag {
 		/// <summary>

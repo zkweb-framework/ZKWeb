@@ -10,19 +10,20 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 用于提供动态内容的区域
 	/// 区域Id要求全局唯一
-	/// 例子
+	/// <example>
 	/// {% area test_area %}
-	/// 
+	/// </example>
 	/// 描画流程
 	/// - 读取自定义模块列表，存在时描画这个列表
 	/// - 描画默认的模块列表
-	/// 
-	/// 生成的Html例子（使用[]代替）
+	/// <example>
+	/// 生成的Html（使用[]代替）
 	/// [div class='template_area' area_id='test_area']
 	///		[div class='template_widget'][/div]
 	///		[div class='template_widget'][/div]
 	///		[div class='template_widget'][/div]
 	/// [/div]
+	/// </example>
 	/// </summary>
 	public class Area : Tag {
 		/// <summary>

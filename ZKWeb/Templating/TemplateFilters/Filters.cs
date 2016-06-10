@@ -11,9 +11,10 @@ namespace ZKWeb.Templating.TemplateFilters {
 	public static class Filters {
 		/// <summary>
 		/// 翻译指定的文本
-		/// 例子
+		/// <example>
 		/// {{ text | trans }}
 		/// {{ "fixed text" | trans }}
+		/// </example>
 		/// </summary>
 		/// <param name="text">需要翻译的文本</param>
 		/// <returns></returns>
@@ -24,8 +25,9 @@ namespace ZKWeb.Templating.TemplateFilters {
 		/// <summary>
 		/// 格式化字符串
 		/// 最多可支持8个参数
-		/// 例子
+		/// <example>
 		/// {{ "name is [0], age is [1]" | format: name, age }}
+		/// </example>
 		/// </summary>
 		/// <returns></returns>
 		public static string Format(string text,
@@ -44,8 +46,9 @@ namespace ZKWeb.Templating.TemplateFilters {
 
 		/// <summary>
 		/// 把字符串作为原始html描画
-		/// 例子
+		/// <example>
 		/// {{ variable | raw_html }}
+		/// </example>
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>

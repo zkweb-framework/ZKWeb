@@ -9,8 +9,10 @@ using System.Data;
 namespace ZKWeb.Database.UserTypes {
 	/// <summary>
 	/// 使用Json序列化到数据库的成员类型
-	/// 例: Map(s => s.Items).CustomType[JsonSerializedType[Dictionary[string, object]]]();
-	///	null处理: 反序列化成员时如果结果等于null会自动新建
+	/// null处理: 反序列化成员时如果结果等于null会自动新建
+	/// <example>
+	/// Map(s => s.Items).CustomType[JsonSerializedType[Dictionary[string, object]]]();
+	/// </example>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class JsonSerializedType<T> : IUserType

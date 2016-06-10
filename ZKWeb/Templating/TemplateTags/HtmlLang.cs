@@ -9,8 +9,9 @@ using System.Threading;
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 显示当前的页面语言代号
-	/// 例子
-	///		html lang="{% html_lang %}"
+	/// <example>
+	/// html lang="{% html_lang %}"
+	/// </example>
 	/// </summary>
 	public class HtmlLang : Tag {
 		/// <summary>

@@ -209,7 +209,7 @@ namespace ZKWeb.Utils.Functions {
 
 		/// <summary>
 		/// 获取请求时使用的域名地址
-		/// 例: "http://localhost" 后面不带/
+		/// <example>"http://localhost" 后面不带/</example>
 		/// </summary>
 		/// <returns></returns>
 		public static string GetRequestHostUrl() {
