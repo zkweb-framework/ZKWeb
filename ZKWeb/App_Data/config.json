@@ -6,7 +6,7 @@
 		"Common.Base",
 		"Common.Captcha",
 		"Common.Admin",
-		"Common.MenuPageBase",
+		"Common.MenuPage",
 		"Common.AdminSettings",
 		"Common.UserPanel",
 		"Common.UserContact",
