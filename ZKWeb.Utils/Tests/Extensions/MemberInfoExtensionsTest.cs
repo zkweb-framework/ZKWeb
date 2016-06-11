@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.FastReflection;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 		}
 
 		public void GetAttribute() {
-			var info = typeof(TestData).GetProperty("TestProperty");
+			var info = typeof(TestData).FastGetProperty("TestProperty");
 			var attribute = info.GetAttribute<DescriptionAttribute>();
 			Assert.IsTrue(attribute != null);
 			Assert.Equals(attribute.Description, "TestDescription");
@@ -25,7 +26,7 @@ namespace ZKWeb.Utils.Tests.Extensions {
 		}
 
 		public void GetAttributes() {
-			var info = typeof(TestData).GetProperty("TestProperty");
+			var info = typeof(TestData).FastGetProperty("TestProperty");
 			var attributes = info.GetAttributes<Attribute>();
 			Assert.Equals(attributes.OfType<DescriptionAttribute>().First().Description, "TestDescription");
 		}

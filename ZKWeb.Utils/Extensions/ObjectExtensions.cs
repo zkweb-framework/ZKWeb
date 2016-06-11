@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.FastReflection;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,18 +106,18 @@ namespace ZKWeb.Utils.Extensions {
 		public static void CopyMembersTo(this object from, object to) {
 			var fromType = from.GetType();
 			var toType = to.GetType();
-			foreach (var fromProperty in fromType.GetProperties()) {
-				var value = fromProperty.GetValue(from);
-				var toProperty = toType.GetProperty(fromProperty.Name);
+			foreach (var fromProperty in fromType.FastGetProperties()) {
+				var toProperty = toType.FastGetProperty(fromProperty.Name);
 				if (toProperty != null) {
-					toProperty.SetValue(to, value);
+					var value = fromProperty.FastGetValue(from);
+					toProperty.FastSetValue(to, value);
 				}
 			}
-			foreach (var fromField in fromType.GetFields()) {
-				var value = fromField.GetValue(from);
-				var toField = toType.GetField(fromField.Name);
+			foreach (var fromField in fromType.FastGetFields()) {
+				var toField = toType.FastGetField(fromField.Name);
 				if (toField != null) {
-					toField.SetValue(to, value);
+					var value = fromField.FastGetValue(from);
+					toField.FastSetValue(to, value);
 				}
 			}
 		}

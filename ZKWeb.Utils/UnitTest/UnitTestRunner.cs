@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.FastReflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -104,7 +105,7 @@ namespace ZKWeb.Utils.UnitTest {
 						return;
 					}
 					// 调用所有公开且在类中定义的函数
-					foreach (var method in type.GetMethods(
+					foreach (var method in type.FastGetMethods(
 						BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)) {
 						try {
 							TriggerEvent(h => h.OnTestStarting, new TestStartingInfo(this, method, instance));

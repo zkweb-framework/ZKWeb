@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.FastReflection;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace ZKWeb.Utils.Extensions {
 		public static T GetAttribute<T>(this Enum value)
 			where T : Attribute {
 			Type type = value.GetType();
-			var field = type.GetField(Enum.GetName(type, value));
+			var field = type.FastGetField(Enum.GetName(type, value));
 			return Attribute.GetCustomAttribute(field, typeof(T)) as T;
 		}
 	}

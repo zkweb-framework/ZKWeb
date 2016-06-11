@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.FastReflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -62,7 +63,7 @@ namespace ZKWeb.Web {
 		/// <param name="type">控制器类型</param>
 		public virtual void RegisterController(Type type) {
 			// 枚举所有带ActionAttribute的属性的公开函数
-			foreach (var method in type.GetMethods(
+			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
 				var attributes = method.GetCustomAttributes<ActionAttribute>();
 				if (attributes.Any()) {
