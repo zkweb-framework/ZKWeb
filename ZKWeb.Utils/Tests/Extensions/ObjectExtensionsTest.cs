@@ -75,16 +75,5 @@ namespace ZKWeb.Utils.Tests.Extensions {
 			data.A = 101;
 			Assert.Equals(dataClone.A, 100);
 		}
-
-		public void CopyMembersTo() {
-			var data = new TestData() { A = 100, B = "TestString", C = true };
-			var dataClone = new TestData();
-			data.CopyMembersTo(dataClone);
-			Assert.Equals(dataClone.A, 100);
-			Assert.Equals(dataClone.B, "TestString");
-			Assert.Equals(dataClone.C, true);
-			data.A = 101;
-			Assert.Equals(dataClone.A, 100);
-		}
 	}
 }
