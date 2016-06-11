@@ -15,6 +15,7 @@
 		"Common.GenericRecord",
 		"Common.LanguageSwitcher",
 		"Common.Currency",
+		"Common.PesudoStatic",
 		"Common.Region",
 		"Common.SerialGenerate",
 		"Finance.Payment",
