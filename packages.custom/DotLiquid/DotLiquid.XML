@@ -277,14 +277,14 @@
             <returns></returns>
         </member>
         <member name="T:DotLiquid.Condition">
-            <summary>
-            Container for liquid nodes which conveniently wraps decision making logic
+             <summary>
+             Container for liquid nodes which conveniently wraps decision making logic
             
-            Example:
+             Example:
             
-            c = Condition.new('1', '==', '1')
-            c.evaluate #=> true
-            </summary>
+             c = Condition.new('1', '==', '1')
+             c.evaluate #=> true
+             </summary>
         </member>
         <member name="M:DotLiquid.Context.AddFilters(System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
@@ -312,19 +312,19 @@
             </summary>
         </member>
         <member name="M:DotLiquid.Context.Stack(DotLiquid.Hash,System.Action)">
-            <summary>
-            pushes a new local scope on the stack, pops it at the end of the block
+             <summary>
+             pushes a new local scope on the stack, pops it at the end of the block
             
-            Example:
+             Example:
             
-            context.stack do
-            context['var'] = 'hi'
-            end
-            context['var] #=> nil
-            </summary>
-            <param name="newScope"></param>
-            <param name="callback"></param>
-            <returns></returns>
+             context.stack do
+             context['var'] = 'hi'
+             end
+             context['var] #=> nil
+             </summary>
+             <param name="newScope"></param>
+             <param name="callback"></param>
+             <returns></returns>
         </member>
         <member name="P:DotLiquid.Context.Item(System.String)">
             <summary>
@@ -334,18 +334,18 @@
             <returns></returns>
         </member>
         <member name="M:DotLiquid.Context.Resolve(System.String)">
-            <summary>
-            Look up variable, either resolve directly after considering the name. We can directly handle
-            Strings, digits, floats and booleans (true,false). If no match is made we lookup the variable in the current scope and
-            later move up to the parent blocks to see if we can resolve the variable somewhere up the tree.
-            Some special keywords return symbols. Those symbols are to be called on the rhs object in expressions
+             <summary>
+             Look up variable, either resolve directly after considering the name. We can directly handle
+             Strings, digits, floats and booleans (true,false). If no match is made we lookup the variable in the current scope and
+             later move up to the parent blocks to see if we can resolve the variable somewhere up the tree.
+             Some special keywords return symbols. Those symbols are to be called on the rhs object in expressions
             
-            Example:
+             Example:
             
-            products == empty #=> products.empty?
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
+             products == empty #=> products.empty?
+             </summary>
+             <param name="key"></param>
+             <returns></returns>
         </member>
         <member name="M:DotLiquid.Context.FindVariable(System.String)">
             <summary>
@@ -356,17 +356,17 @@
             <returns></returns>
         </member>
         <member name="M:DotLiquid.Context.Variable(System.String)">
-            <summary>
-            Resolves namespaced queries gracefully.
+             <summary>
+             Resolves namespaced queries gracefully.
             
-            Example
+             Example
             
-            @context['hash'] = {"name" => 'tobi'}
-            assert_equal 'tobi', @context['hash.name']
-            assert_equal 'tobi', @context['hash["name"]']
-            </summary>
-            <param name="markup"></param>
-            <returns></returns>
+             @context['hash'] = {"name" => 'tobi'}
+             assert_equal 'tobi', @context['hash.name']
+             assert_equal 'tobi', @context['hash["name"]']
+             </summary>
+             <param name="markup"></param>
+             <returns></returns>
         </member>
         <member name="M:DotLiquid.Document.Initialize(System.String,System.String,System.Collections.Generic.List{System.String})">
             <summary>
@@ -533,7 +533,7 @@
               Looks up a localized string similar to Variable &apos;{0}&apos; was not properly terminated with regexp: {1}.
             </summary>
         </member>
-        <member name="P:DotLiquid.Properties.Resources.CapureTagSyntaxException">
+        <member name="P:DotLiquid.Properties.Resources.CaptureTagSyntaxException">
             <summary>
               Looks up a localized string similar to Syntax Error in &apos;capture&apos; tag - Valid syntax: capture [var].
             </summary>
@@ -1033,6 +1033,127 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="T:System.FastReflection.StructTuple`2">
+            <summary>
+            Struct type tuple
+            </summary>
+        </member>
+        <member name="T:System.FastReflection.MethodInvoker">
+            <summary>
+            Delegate use to invoke any method
+            </summary>
+        </member>
+        <member name="T:System.FastReflection.MemberGetter">
+            <summary>
+            Delegate use to set get property or field
+            </summary>
+        </member>
+        <member name="T:System.FastReflection.MemberSetter">
+            <summary>
+            Delegate use to set any property or field
+            </summary>
+        </member>
+        <member name="T:System.FastReflection.ReflectionExtensions">
+            <summary>
+            Extension methods for reflection
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.MakeInvoker(System.Reflection.MethodInfo)">
+            <summary>
+            Create dynamic delegate from method info
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.MakeSetter(System.Reflection.MemberInfo)">
+            <summary>
+            Create setter delegate from member info, support property and field
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.MakeGetter(System.Reflection.MemberInfo)">
+            <summary>
+            Create setter delegate from member info, support property and field
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastInvoke(System.Reflection.MethodInfo,System.Object,System.Object[])">
+            <summary>
+            Same as MethodInfo.Invoke, but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastSetValue(System.Reflection.MemberInfo,System.Object,System.Object)">
+            <summary>
+            Same as PropertyInfo.SetValue or FieldInfo.SetValue, but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetValue(System.Reflection.MemberInfo,System.Object)">
+            <summary>
+            Same as PropertyInfo.GetValue or FieldInfo.GetValue, but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetProperties(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetProperties(bindFlags), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetProperties(System.Type)">
+            <summary>
+            Same as Type.GetProperties(), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetFields(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetFields(bindFlags), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetFields(System.Type)">
+            <summary>
+            Same as Type.GetFields(), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetMethods(System.Type,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetMethods(bindingFlags), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetMethods(System.Type)">
+            <summary>
+            Same as Type.GetMethods(), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetProperty(System.Type,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetProperty(name, bindFlags)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetProperty(System.Type,System.String)">
+            <summary>
+            Same as Type.GetProperty(name)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetField(System.Type,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetField(name, bindFlags)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetField(System.Type,System.String)">
+            <summary>
+            Same as Type.GetField(name)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetMethod(System.Type,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Same as Type.GetMethod(name, bindFlags)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetMethod(System.Type,System.String)">
+            <summary>
+            Same as Type.GetMethod(name)
+            Original implemenation is enough fast, here just call the original method
+            </summary>
         </member>
     </members>
 </doc>
