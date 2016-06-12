@@ -30,6 +30,20 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// 保存当前区域Id时使用的键名
 		/// </summary>
 		public static string CurrentAreaIdKey { get; set; } = "__current_area_id";
+		/// <summary>
+		/// 区域Id
+		/// </summary>
+		public string AreaId { get; protected set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public override void Initialize(string tagName, string markup, List<string> tokens) {
+			// 调用基础类的基础
+			base.Initialize(tagName, markup, tokens);
+			// 获取区域Id
+			AreaId = Markup.Trim();
+		}
 
 		/// <summary>
 		/// 描画标签
@@ -37,20 +51,19 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// <param name="context"></param>
 		/// <param name="result"></param>
 		public override void Render(Context context, TextWriter result) {
-			var areaId = Markup.Trim();
 			// 区域不能嵌套
 			if (context[CurrentAreaIdKey] != null) {
 				throw new FormatException("area tag can't be nested");
 			}
 			// 获取模块列表
 			var areaManager = Application.Ioc.Resolve<TemplateAreaManager>();
-			var widgets = areaManager.GetCustomWidgets(areaId) ??
-				areaManager.GetArea(areaId).DefaultWidgets;
+			var widgets = areaManager.GetCustomWidgets(AreaId) ??
+				areaManager.GetArea(AreaId).DefaultWidgets;
 			// 添加div的开头
-			result.Write($"<div class='template_area' area_id='{areaId}'>");
+			result.Write($"<div class='template_area' area_id='{AreaId}'>");
 			// 描画子元素
 			var scope = Hash.FromDictionary(new Dictionary<string, object>() {
-				{ CurrentAreaIdKey, areaId }
+				{ CurrentAreaIdKey, AreaId }
 			});
 			context.Stack(scope, () => {
 				foreach (var widget in widgets) {
