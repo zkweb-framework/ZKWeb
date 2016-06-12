@@ -13,10 +13,10 @@ namespace ZKWeb.Plugin {
 	/// </summary>
 	public static class PluginInfoExtensions {
 		/// <summary>
-		/// 编译插件时的默认引用程序集
+		/// 编译插件时默认引用的程序集
 		/// </summary>
 		public static List<string> DefaultReferences { get; } =
-			new List<string>() { "NHibernate", "FluentNHibernate", "DotLiquid" };
+			new List<string>() { "NHibernate", "FluentNHibernate", "DotLiquid", "NSubstitute" };
 
 		/// <summary>
 		/// 编译插件
