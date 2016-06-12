@@ -230,15 +230,11 @@ namespace ZKWeb.Utils.IocContainer {
 		/// </summary>
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
-				var exportManyAttribute = type.GetAttribute<ExportManyAttribute>();
-				var exportAttributes = type.GetAttributes<ExportAttribute>().ToList();
-				if (exportManyAttribute == null && exportAttributes.Count <= 0) {
-					continue;
-				}
-				var reuseAttribute = type.GetAttribute<ReuseAttribute>();
-				var reuseType = reuseAttribute?.ReuseType ?? default(ReuseType);
-				if (exportManyAttribute != null) {
+				ExportManyAttribute exportManyAttribute = null;
+				IEnumerable<ExportAttribute> exportAttributes = null;
+				if ((exportManyAttribute = type.GetAttribute<ExportManyAttribute>()) != null) {
 					// 按ExportMany属性注册
+					var reuseType = type.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
 					var nonPublic = exportManyAttribute.NonPublic;
 					var except = exportManyAttribute.Except;
 					var contractKey = exportManyAttribute.ContractKey;
@@ -247,8 +243,9 @@ namespace ZKWeb.Utils.IocContainer {
 						serviceTypes = serviceTypes.Where(t => !except.Contains(t));
 					}
 					RegisterMany(serviceTypes.ToList(), type, reuseType, contractKey);
-				} else if (exportAttributes.Count > 0) {
+				} else if ((exportAttributes = type.GetAttributes<ExportAttribute>()).Any()) {
 					// 按Export属性注册，已经有ExportMany时不需要再看这个属性
+					var reuseType = type.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
 					foreach (var exportAttribute in exportAttributes) {
 						Register(exportAttribute.ContractType,
 							type, reuseType, exportAttribute.ContractName);

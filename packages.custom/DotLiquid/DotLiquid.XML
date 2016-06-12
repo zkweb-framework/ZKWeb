@@ -1119,6 +1119,19 @@
             Same as Type.GetMethods(), but work faster
             </summary>
         </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetCustomAttributes(System.Reflection.MemberInfo,System.Type)">
+            <summary>
+            Same as GetCustomAttributes(attributeType, false), but work faster
+            </summary>
+        </member>
+        <member name="M:System.FastReflection.ReflectionExtensions.FastGetInterfaces(System.Type)">
+            <summary>
+            Same as Type.GetInterfaces()
+            Original implemenation is enough fast, here just call the original method
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:System.FastReflection.ReflectionExtensions.FastGetProperty(System.Type,System.String,System.Reflection.BindingFlags)">
             <summary>
             Same as Type.GetProperty(name, bindFlags)

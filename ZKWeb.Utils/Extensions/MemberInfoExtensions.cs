@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ZKWeb.Utils.Functions;
+using System.FastReflection;
 
 namespace ZKWeb.Utils.Extensions {
 	/// <summary>
@@ -19,8 +19,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <returns></returns>
 		public static TAttribute GetAttribute<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
-			return info.GetCustomAttributes(
-				typeof(TAttribute), true).FirstOrDefault() as TAttribute;
+			return info.GetAttributes<TAttribute>().FirstOrDefault();
 		}
 
 		/// <summary>
@@ -31,7 +30,7 @@ namespace ZKWeb.Utils.Extensions {
 		/// <returns></returns>
 		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
-			return info.GetCustomAttributes(typeof(TAttribute), true).OfType<TAttribute>();
+			return info.FastGetCustomAttributes(typeof(TAttribute)).OfType<TAttribute>();
 		}
 	}
 }

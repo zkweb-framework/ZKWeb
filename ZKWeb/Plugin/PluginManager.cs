@@ -98,9 +98,10 @@ namespace ZKWeb.Plugin {
 					pluginManager.PluginAssemblies.Add(Assembly.LoadFile(assemblyPath));
 				}
 			}
-			// 注册程序集中的类型到Ioc中
+			// 注册程序集中的类型到容器中
+			// 只有公开的类型会被注册
 			foreach (var assembly in pluginManager.PluginAssemblies) {
-				Application.Ioc.RegisterExports(assembly.GetTypes());
+				Application.Ioc.RegisterExports(assembly.GetTypes().Where(t => t.IsPublic));
 			}
 		}
 	}
