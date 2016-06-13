@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Web;
 using ZKWeb.Utils.Extensions;
 using ZKWeb.Database;
@@ -23,6 +20,7 @@ using ZKWeb.Utils.Collections;
 using ZKWeb.Cache;
 using ZKWeb.Cache.Policies;
 using ZKWeb.Utils.IocContainer;
+using ZKWeb.Web.HttpRequestHandlers;
 
 namespace ZKWeb {
 	/// <summary>
@@ -61,6 +59,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<UnitTestManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<AddVersionHeaderHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
 			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");

@@ -206,6 +206,7 @@
     <Compile Include="Web\ActionResults\TemplateResult.cs" />
     <Compile Include="Templating\AreaSupport\TemplateArea.cs" />
     <Compile Include="Templating\AreaSupport\TemplateWidget.cs" />
+    <Compile Include="Web\HttpRequestHandlers\AddVersionHeaderHandler.cs" />
     <Compile Include="Web\Interfaces\ActionAttribute.cs" />
     <Compile Include="Web\Interfaces\HttpMethods.cs" />
     <Compile Include="Web\Interfaces\IActionResult.cs" />
