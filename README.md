@@ -26,10 +26,12 @@ Features:<br/>
 	- Supported by plugin
 - Scaffolding
 	- Supported by plugin
+- Pesudo static
+	- Supported by plugin
 - Visual page editor
 	- Prepared and planned
 
-Version: 0.9.5 testing (backward compatibility is not provided yet)<br/>
+Version: 0.9.6 testing (backward compatibility is not provided yet)<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
