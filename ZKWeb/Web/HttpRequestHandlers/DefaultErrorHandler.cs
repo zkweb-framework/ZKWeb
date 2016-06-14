@@ -45,6 +45,8 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 					message += string.Format($"<br /><br /><pre>{0}</pre>", HttpUtils.HtmlEncode(ex));
 				}
 				response.ContentType = "text/html";
+				response.Write(message);
+				response.End();
 			}
 		}
 	}

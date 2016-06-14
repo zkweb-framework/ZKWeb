@@ -16,7 +16,7 @@ namespace ZKWebStandard.Web {
 		/// <param name="statusCode">状态代码</param>
 		/// <param name="message">例外消息</param>
 		public HttpException(int statusCode, string message = null) : base(message) {
-			StatusCode = StatusCode;
+			StatusCode = statusCode;
 		}
 	}
 }

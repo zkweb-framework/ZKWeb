@@ -68,6 +68,7 @@ namespace ZKWeb {
 			ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
 			ioc.RegisterMany<TestManager>(ReuseType.Singleton);
 			ioc.RegisterMany<AddVersionHeaderHandler>(ReuseType.Singleton);
+			ioc.RegisterMany<DefaultErrorHandler>(ReuseType.Singleton);
 			ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
 			ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
 			ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
@@ -120,7 +121,7 @@ namespace ZKWeb {
 							handler.OnRequest();
 						}
 						// 没有处理时返回404
-						throw new HttpException(404, "404 Not Found");
+						throw new HttpException(404, "Not Found");
 					} catch (ThreadAbortException) {
 						// 正常处理完毕
 						// 重置收到的线程终止请求
@@ -135,11 +136,9 @@ namespace ZKWeb {
 							// 错误处理完毕
 							// 重置收到的线程终止请求
 							Thread.ResetAbort();
+						} catch (Exception) {
+							// 错误处理失败
 						}
-					} finally {
-						// 结束回应
-						context.Response.Body.Flush();
-						context.Response.Body.Dispose();
 					}
 				}
 			});
@@ -159,7 +158,7 @@ namespace ZKWeb {
 			var host = new WebHostBuilder()
 				.UseKestrel()
 				.UseIISIntegration()
-				.UseStartup<Application>()
+				.Configure(onConfiguration)
 				.Build();
 			Application.Ioc.RegisterInstance<IWebHost>(host);
 			host.Run();

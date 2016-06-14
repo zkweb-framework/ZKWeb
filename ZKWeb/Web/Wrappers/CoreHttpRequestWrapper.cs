@@ -92,7 +92,11 @@ namespace ZKWeb.Web.Wrappers {
 		}
 		public string GetHeader(string key) {
 			// http://stackoverflow.com/questions/4371328/are-duplicate-http-response-headers-acceptable
-			return string.Join(",", CoreRequest.Headers[key]);
+			IList<string> values = CoreRequest.Headers[key];
+			if (values == null) {
+				return null;
+			}
+			return string.Join(",", values);
 		}
 		public IEnumerable<Pair<string, string>> GetHeaders() {
 			foreach (var pair in CoreRequest.Headers) {

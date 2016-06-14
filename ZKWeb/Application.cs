@@ -7,7 +7,7 @@ namespace ZKWeb {
 	/// <summary>
 	/// 主程序
 	/// </summary>
-	public class Application {
+	public static class Application {
 		/// <summary>
 		/// 框架的完整版本
 		/// </summary>
