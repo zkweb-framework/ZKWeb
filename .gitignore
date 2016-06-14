@@ -167,3 +167,6 @@ packages/
 # publish files
 *.pubxml
 *.pubxml.user
+
+# User-specific files for aspnet core
+*.xproj.user
