@@ -1,16 +1,12 @@
 ﻿using DotLiquid;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using ZKWeb.Templating;
 using ZKWeb.Tests.Server;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating {
-	[UnitTest]
+	[Tests]
 	class TemplateFileSystemTest {
 		public void ReadTemplateFile() {
 			using (var layout = new TestDirectoryLayout()) {

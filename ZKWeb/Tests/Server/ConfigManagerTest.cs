@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Server;
-using ZKWeb.Utils.UnitTest;
+﻿using ZKWeb.Server;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Server {
-	[UnitTest]
+	[Tests]
 	class ConfigManagerTest {
 		public void All() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();

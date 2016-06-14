@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Web;
-using ZKWeb.Cache.Interfaces;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Collections;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Utils;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
@@ -18,7 +16,7 @@ namespace ZKWeb.Cache.Policies {
 		/// <returns></returns>
 		public object GetIsolationKey() {
 			var language = Thread.CurrentThread.CurrentCulture.Name;
-			var timezone = HttpContextUtils.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
+			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			return Pair.Create(language, timezone);
 		}
 	}

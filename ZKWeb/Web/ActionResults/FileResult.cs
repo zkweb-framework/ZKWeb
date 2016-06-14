@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Web.Interfaces;
+using ZKWebStandard.Extensions;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -31,21 +30,23 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入文件到http回应中
+		/// 写入文件到Http回应
 		/// </summary>
-		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
+		/// <param name="response">Http回应</param>
+		public void WriteResponse(IHttpResponse response) {
 			// 设置文件的最后修改时间
 			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
-			response.Cache.SetLastModified(lastModified);
+			response.SetLastModified(lastModified);
 			// 文件没有修改时返回304
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
-				response.SuppressContent = true;
+				response.End();
 				return;
 			}
+			// 设置状态代码和内容类型
+			response.StatusCode = 200;
+			response.ContentType = MimeUtils.GetMimeType(FilePath);
 			// 写入文件到http回应中
-			response.ContentType = MimeMapping.GetMimeMapping(FilePath);
 			response.WriteFile(FilePath);
 		}
 	}

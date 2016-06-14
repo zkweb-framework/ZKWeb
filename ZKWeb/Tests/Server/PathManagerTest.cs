@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Web;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Utils;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Tests.Server {
-	[UnitTest]
+	[Tests]
 	class PathManagerTest {
 		public void GetPluginDirectories() {
 			var pluginDirectoriesConfig = new[] { "App_Data/__TestPluginsA", "App_Data/__TestPluginsB" };
 			using (new TestDirectoryLayout(pluginDirectoriesConfig)) {
+				var pathConfig = Application.Ioc.Resolve<PathConfig>();
 				var pathManager = Application.Ioc.Resolve<PathManager>();
 				var pluginDirectories = pathManager.GetPluginDirectories();
 				Assert.Equals(pluginDirectories.Count, 2);
 				Assert.Equals(pluginDirectories[0],
-					Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, pluginDirectoriesConfig[0])));
+					Path.GetFullPath(Path.Combine(pathConfig.WebsiteRootDirectory, pluginDirectoriesConfig[0])));
 				Assert.Equals(pluginDirectories[1],
-					Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, pluginDirectoriesConfig[1])));
+					Path.GetFullPath(Path.Combine(pathConfig.WebsiteRootDirectory, pluginDirectoriesConfig[1])));
 			}
 		}
 
@@ -70,8 +69,8 @@ namespace ZKWeb.Tests.Server {
 					"test 3 in appdata");
 				Assert.Equals(pathManager.GetTemplateFullPath("__test_4.html"), null);
 
-				using (HttpContextUtils.OverrideContext("", "GET")) {
-					HttpDeviceUtils.SetClientDeviceToCookies(HttpDeviceUtils.DeviceTypes.Mobile);
+				using (HttpManager.OverrideContext("", "GET")) {
+					HttpManager.CurrentContext.SetClientDeviceToCookies(DeviceTypes.Mobile);
 					Assert.Equals(
 						File.ReadAllText(pathManager.GetTemplateFullPath("__test_1.html")),
 						"test 1 in plugin a");

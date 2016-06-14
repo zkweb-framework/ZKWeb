@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+﻿using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests {
-	[UnitTest]
+	[Tests]
 	class ApplicationTest {
 		public abstract class Base { }
 		public class A : Base { }

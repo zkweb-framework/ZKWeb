@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ZKWeb.Localize;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Serialize {
-	[UnitTest]
+	[Tests]
 	class JsonNetTest {
 		public void All() {
 			// 测试序列化T类型

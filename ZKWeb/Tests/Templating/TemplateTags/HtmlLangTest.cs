@@ -1,13 +1,9 @@
 ﻿using DotLiquid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Utils;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating.TemplateTags {
-	[UnitTest]
+	[Tests]
 	class HtmlLangTest {
 		public void Render() {
 			LocaleUtils.SetThreadLanguage("zh-CN");

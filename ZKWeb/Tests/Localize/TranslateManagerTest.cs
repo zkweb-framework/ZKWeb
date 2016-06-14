@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Localize;
-using ZKWeb.Localize.Interfaces;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+﻿using ZKWeb.Localize;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Localize {
-	[UnitTest]
+	[Tests]
 	class TranslateManagerTest {
 		public void Translate() {
 			using (Application.OverrideIoc()) {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Cache.Interfaces;
-using ZKWeb.Utils.Functions;
+﻿using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
@@ -15,7 +10,8 @@ namespace ZKWeb.Cache.Policies {
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {
-			return HttpContextUtils.CurrentContext?.Request?.Url.PathAndQuery;
+			var request = HttpManager.CurrentContext.Request;
+			return request.Path + request.QueryString;
 		}
 	}
 }

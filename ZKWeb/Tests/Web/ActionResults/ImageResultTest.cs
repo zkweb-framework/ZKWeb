@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.UnitTest;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class ImageResultTest {
 		public void WriteResponse() {
 			var image = new Bitmap(123, 456);
 			var result = new ImageResult(image);
-			var responseMock = new HttpResponseMock();
-			responseMock.outputStream = new MemoryStream();
-			result.WriteResponse(responseMock);
-			responseMock.outputStream.Seek(0, SeekOrigin.Begin);
-			var imageVerify = Image.FromStream(responseMock.outputStream);
+			var contextMock = new HttpContextMock();
+			result.WriteResponse(contextMock.response);
+			contextMock.response.body.Seek(0, SeekOrigin.Begin);
+			Assert.Equals(contextMock.response.StatusCode, 200);
+			Assert.Equals(contextMock.response.ContentType, "image/jpeg");
+			var imageVerify = Image.FromStream(contextMock.response.body);
 			Assert.Equals(imageVerify.Width, 123);
 			Assert.Equals(imageVerify.Height, 456);
 		}

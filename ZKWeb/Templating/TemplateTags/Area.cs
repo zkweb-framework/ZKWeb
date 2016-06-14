@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
 using DotLiquid;
-using ZKWeb.Templating.AreaSupport;
+using ZKWeb.Templating.DynamicContents;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 用于提供动态内容的区域
 	/// 区域Id要求全局唯一
-	/// <example>
-	/// {% area test_area %}
-	/// </example>
 	/// 描画流程
 	/// - 读取自定义模块列表，存在时描画这个列表
 	/// - 描画默认的模块列表
+	/// </summary>
 	/// <example>
+	/// {% area test_area %}
 	/// 生成的Html（使用[]代替）
 	/// [div class='template_area' area_id='test_area']
 	///		[div class='template_widget'][/div]
@@ -24,7 +21,6 @@ namespace ZKWeb.Templating.TemplateTags {
 	///		[div class='template_widget'][/div]
 	/// [/div]
 	/// </example>
-	/// </summary>
 	public class Area : Tag {
 		/// <summary>
 		/// 保存当前区域Id时使用的键名

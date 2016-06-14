@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using System.IO;
 using ZKWeb.Templating;
 using ZKWeb.Tests.Server;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating {
-	[UnitTest]
+	[Tests]
 	class TemplateManagerTest {
 		public void RenderTemplate() {
 			using (var layout = new TestDirectoryLayout()) {

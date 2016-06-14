@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ZKWeb.Cache;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Cache {
-	[UnitTest]
+	[Tests]
 	class IsolatedMemoryCacheTest {
 		public void All() {
 			var cache = new IsolatedMemoryCache<string, string>("Locale");

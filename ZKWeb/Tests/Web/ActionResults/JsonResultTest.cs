@@ -1,30 +1,27 @@
 ﻿using Newtonsoft.Json;
-using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.UnitTest;
+using System.IO;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class JsonResultTest {
 		public void WriteResponse() {
 			var result = new JsonResult(new { a = 1 });
-			var responseMock = Substitute.For<HttpResponseBase>();
+			var contextMock = new HttpContextMock();
 			var exceptedResult = JsonConvert.SerializeObject(new { a = 1 });
-			result.WriteResponse(responseMock);
-			responseMock.Received().ContentType = "application/json";
-			responseMock.Received().Write(exceptedResult);
+			Assert.Equals(contextMock.response.StatusCode, 200);
+			Assert.Equals(contextMock.response.ContentType, "application/json");
+			contextMock.response.body.Seek(0, SeekOrigin.Begin);
+			Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), exceptedResult);
 
 			result = new JsonResult(new { a = 1 }, Formatting.Indented);
 			exceptedResult = JsonConvert.SerializeObject(new { a = 1 }, Formatting.Indented);
-			responseMock.ClearReceivedCalls();
-			result.WriteResponse(responseMock);
-			responseMock.Received().ContentType = "application/json";
-			responseMock.Received().Write(exceptedResult);
+			Assert.Equals(contextMock.response.StatusCode, 200);
+			Assert.Equals(contextMock.response.ContentType, "application/json");
+			contextMock.response.body.Seek(0, SeekOrigin.Begin);
+			Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), exceptedResult);
 		}
 	}
 }

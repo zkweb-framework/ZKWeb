@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
-using System.Web;
-using ZKWeb.Cache.Interfaces;
 using ZKWeb.Logging;
 using ZKWeb.Server;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Cache {
 	/// <summary>

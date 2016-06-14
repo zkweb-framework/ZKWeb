@@ -5,12 +5,11 @@ using System.FastReflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Web;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Collections;
+using ZKWebStandard.Extensions;
 using ZKWeb.Web.ActionResults;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
 	/// <summary>
@@ -34,8 +33,8 @@ namespace ZKWeb.Web {
 		/// 查找路径对应的处理函数，存在时使用该函数否则跳过处理
 		/// </summary>
 		public virtual void OnRequest() {
-			var context = HttpContextUtils.CurrentContext;
-			var action = GetAction(context.Request.Path, context.Request.HttpMethod);
+			var context = HttpManager.CurrentContext;
+			var action = GetAction(context.Request.Path, context.Request.Method);
 			if (action != null) {
 				var result = action();
 				// 写入回应

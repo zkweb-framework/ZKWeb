@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using ZKWeb.Templating;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -34,13 +35,17 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入到http回应中
+		/// 描画模板到Http回应
 		/// </summary>
-		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
-			var templateManager = Application.Ioc.Resolve<TemplateManager>();
+		/// <param name="response">Http回应</param>
+		public void WriteResponse(IHttpResponse response) {
+			// 设置状态代码和内容类型
+			response.StatusCode = 200;
 			response.ContentType = "text/html";
-			templateManager.RenderTemplate(TemplatePath, TemplateArgument, response.OutputStream);
+			// 描画模板到Http回应
+			var templateManager = Application.Ioc.Resolve<TemplateManager>();
+			templateManager.RenderTemplate(TemplatePath, TemplateArgument, response.Body);
+			response.Body.Flush();
 		}
 	}
 }

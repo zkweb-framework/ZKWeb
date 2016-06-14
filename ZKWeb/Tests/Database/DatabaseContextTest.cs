@@ -1,25 +1,22 @@
 ﻿using FluentNHibernate;
 using FluentNHibernate.Mapping;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using ZKWeb.Database;
-using ZKWeb.Database.Interfaces;
 using ZKWeb.Database.UserTypes;
-using ZKWeb.UnitTest;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.UnitTest;
+using ZKWeb.Testing;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Database {
-	[UnitTest]
+	[Tests]
 	class DatabaseContextTest {
 		public void All() {
-			var unitTestManager = Application.Ioc.Resolve<UnitTestManager>();
+			var testManager = Application.Ioc.Resolve<TestManager>();
 			using (Application.OverrideIoc()) {
 				Application.Ioc.Unregister<IMappingProvider>();
 				Application.Ioc.RegisterMany<TestTableMap>();
-				using (unitTestManager.UseTemporaryDatabase()) {
+				using (testManager.UseTemporaryDatabase()) {
 					var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
 					var saveCallback = new TestTableSaveCallback();
 					var deleteCallback = new TestTableDeleteCallback();

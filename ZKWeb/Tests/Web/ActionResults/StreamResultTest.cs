@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Web;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.UnitTest;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class StreamResultTest {
 		public void WriteResponse() {
 			var stream = new MemoryStream(Encoding.UTF8.GetBytes("test contents"));
 			using (var result = new StreamResult(stream)) {
-				var responseMock = new HttpResponseMock();
-				responseMock.outputStream = new MemoryStream();
-				result.WriteResponse(responseMock);
-				responseMock.outputStream.Seek(0, SeekOrigin.Begin);
-				Assert.Equals(responseMock.ContentType, "application/octet-stream");
-				Assert.Equals(new StreamReader(responseMock.outputStream).ReadToEnd(), "test contents");
+				var contextMock = new HttpContextMock();
+				result.WriteResponse(contextMock.response);
+				contextMock.response.body.Seek(0, SeekOrigin.Begin);
+				Assert.Equals(contextMock.response.StatusCode, 200);
+				Assert.Equals(contextMock.response.ContentType, "application/octet-stream");
+				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
 			}
 		}
 	}

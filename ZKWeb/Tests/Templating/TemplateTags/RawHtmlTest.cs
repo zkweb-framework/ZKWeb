@@ -1,12 +1,8 @@
 ﻿using DotLiquid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating.TemplateTags {
-	[UnitTest]
+	[Tests]
 	class RawHtmlTest {
 		public void Render() {
 			Assert.Equals(

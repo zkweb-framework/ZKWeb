@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.IocContainer;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Server {
 	class TestDirectoryLayout : IDisposable {

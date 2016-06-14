@@ -1,18 +1,13 @@
-﻿using DotLiquid.FileSystems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using DotLiquid;
-using ZKWeb.Utils.Collections;
 using System.IO;
-using System.Collections;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Utils;
 using System.Text.RegularExpressions;
-using ZKWeb.Utils.Extensions;
+using ZKWebStandard.Extensions;
 using ZKWeb.Server;
 using ZKWeb.Templating.TemplateTags;
 using ZKWeb.Templating.TemplateFilters;
+using ZKWebStandard.Collection;
 
 namespace ZKWeb.Templating {
 	/// <summary>
@@ -67,8 +62,8 @@ namespace ZKWeb.Templating {
 		/// </summary>
 		internal static void Initialize() {
 			// 默认所有文本和对象经过html编码
-			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtility.HtmlEncode(s));
-			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtility.HtmlEncode(s));
+			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtils.HtmlEncode(s));
+			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtils.HtmlEncode(s));
 			// 注册允许描画的类型
 			Template.RegisterSafeType(typeof(HtmlString), s => s);
 			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });

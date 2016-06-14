@@ -1,25 +1,22 @@
 ﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.UnitTest;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class RedirectResultTest {
 		public void WriteResponse() {
 			var url = "test_url";
 			var result = new RedirectResult(url);
-			var responseMock = Substitute.For<HttpResponseBase>();
+			var responseMock = Substitute.For<IHttpResponse>();
 			result.WriteResponse(responseMock);
-			responseMock.Received().Redirect(url);
+			responseMock.Received().Redirect(url, false);
 
 			result = new RedirectResult(url, true);
 			responseMock.ClearReceivedCalls();
 			result.WriteResponse(responseMock);
-			responseMock.Received().RedirectPermanent(url);
+			responseMock.Received().Redirect(url, true);
 		}
 	}
 }

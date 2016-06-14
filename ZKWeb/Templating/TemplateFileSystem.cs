@@ -1,14 +1,11 @@
 ﻿using DotLiquid;
 using DotLiquid.FileSystems;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Cache.Interfaces;
+using ZKWeb.Cache;
 using ZKWeb.Server;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Extensions;
+using ZKWebStandard.Collections;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating {
 	/// <summary>

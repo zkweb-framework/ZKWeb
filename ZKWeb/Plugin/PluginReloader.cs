@@ -1,24 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using ZKWeb.Server;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Ioc;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
 	/// 自动重新载入插件和网站配置
 	/// 检测网站目录的以下文件是否有改变，有改变时卸载当前程序域来让下次打开网站时重新载入
-	///		插件根目录/*.cs
-	///		插件根目录/*.json
-	///		插件根目录/*.dll
-	///		App_Data/*.json (仅根目录)
-	///		App_Data/DatabaseScript.txt (仅删除)
+	/// - 插件根目录/*.cs
+	/// - 插件根目录/*.json
+	/// - 插件根目录/*.dll
+	/// - App_Data/*.json (仅根目录)
+	/// - App_Data/DatabaseScript.txt (仅删除)
 	/// </summary>
 	internal static class PluginReloader {
+		/// <summary>
+		/// 停止网站
+		/// 网站未运行时不做处理
+		/// </summary>
+		internal static void StopWebsite() {
+			var host = Application.Ioc.Resolve<IWebHost>(IfUnresolved.ReturnDefault);
+			if (host != null) {
+				var lifetime = host.Services.GetService<IApplicationLifetime>();
+				lifetime.StopApplication();
+			}
+		}
+
 		/// <summary>
 		/// 启用自动重新载入插件和网站配置
 		/// </summary>
@@ -27,7 +38,7 @@ namespace ZKWeb.Plugin {
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();
 				if (ext == ".cs" || ext == ".json" || ext == ".dll") {
-					HttpRuntime.UnloadAppDomain();
+					StopWebsite();
 				}
 			};
 			// 绑定文件监视器的事件处理函数并启用监视器
@@ -57,7 +68,7 @@ namespace ZKWeb.Plugin {
 			var databaseScriptWatcher = new FileSystemWatcher();
 			databaseScriptWatcher.Path = Path.GetDirectoryName(pathConfig.DatabaseScriptPath);
 			databaseScriptWatcher.Filter = Path.GetFileName(pathConfig.DatabaseScriptPath);
-			databaseScriptWatcher.Deleted += (sender, e) => HttpRuntime.UnloadAppDomain();
+			databaseScriptWatcher.Deleted += (sender, e) => StopWebsite();
 			databaseScriptWatcher.EnableRaisingEvents = true;
 		}
 	}

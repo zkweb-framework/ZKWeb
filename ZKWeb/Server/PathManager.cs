@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using ZKWeb.Cache;
-using ZKWeb.Cache.Interfaces;
 using ZKWeb.Plugin;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.Functions;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Utils;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Server {
 	/// <summary>
@@ -56,9 +55,10 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <returns></returns>
 		public virtual IList<string> GetPluginDirectories() {
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			return configManager.WebsiteConfig.PluginDirectories.Select(p =>
-				Path.GetFullPath(Path.Combine(PathUtils.WebRoot.Value, p))).ToList();
+				Path.GetFullPath(Path.Combine(pathConfig.WebsiteRootDirectory, p))).ToList();
 		}
 
 		/// <summary>
@@ -88,7 +88,7 @@ namespace ZKWeb.Server {
 		public virtual IEnumerable<string> GetTemplateFullPathCandidates(string path) {
 			// 获取当前设备和设备专用的模板文件夹的名称
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
-			var device = HttpDeviceUtils.GetClientDevice();
+			var device = HttpManager.CurrentContext.GetClientDevice();
 			var deviceSpecializedTemplateDirectoryName = string.Format(
 				pathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLower());
 			// 获取显式指定的插件，没有时explictPlugin会等于null

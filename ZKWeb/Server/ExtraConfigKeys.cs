@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ZKWeb.Server {
+﻿namespace ZKWeb.Server {
 	/// <summary>
 	/// 网站附加配置中使用的键值
 	/// 前缀需要添加"ZKWeb."
@@ -37,6 +32,10 @@ namespace ZKWeb.Server {
 		/// 是否在描画模板发生例外时显示完整信息
 		/// </summary>
 		public const string DisplayFullExceptionForTemplate = "ZKWeb.DisplayFullExceptionForTemplate";
+		/// <summary>
+		/// 是否在请求发生例外时显示完整信息
+		/// </summary>
+		public const string DisplayFullExceptionForRequest = "ZKWeb.DisplayFullExceptionForRequest";
 		/// <summary>
 		/// 内存占用超过此数值时自动清理缓存，单位是MB
 		/// </summary>

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Web.Interfaces;
+﻿using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.HttpRequestHandlers {
 	/// <summary>
@@ -14,7 +10,7 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 		/// 处理请求
 		/// </summary>
 		public void OnRequest() {
-			var response = HttpContextUtils.CurrentContext.Response;
+			var response = HttpManager.CurrentContext.Response;
 			response.AddHeader("X-ZKWeb-Version", Application.FullVersion);
 		}
 	}

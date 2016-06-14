@@ -1,19 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.Functions;
-using ZKWeb.Utils.UnitTest;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web {
-	[UnitTest]
+	[Tests]
 	class ControllerManagerTest {
 		public void OnRequest() {
 			using (Application.OverrideIoc()) {
@@ -22,23 +18,21 @@ namespace ZKWeb.Tests.Web {
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				controllerManager.RegisterController<TestController>();
 
-				using (HttpContextUtils.OverrideContext("__test_action_a", HttpMethods.GET)) {
-					var response = (HttpResponseMock)HttpContextUtils.CurrentContext.Response;
-					response.outputStream = new MemoryStream();
+				using (HttpManager.OverrideContext("__test_action_a", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					response.outputStream.Seek(0, SeekOrigin.Begin);
+					response.body.Seek(0, SeekOrigin.Begin);
 					Assert.Equals(response.ContentType, "text/plain");
-					Assert.Equals(new StreamReader(response.outputStream).ReadToEnd(), "test action a");
+					Assert.Equals(new StreamReader(response.body).ReadToEnd(), "test action a");
 				}
 
-				using (HttpContextUtils.OverrideContext("__test_action_b", HttpMethods.POST)) {
-					var response = (HttpResponseMock)HttpContextUtils.CurrentContext.Response;
-					response.outputStream = new MemoryStream();
+				using (HttpManager.OverrideContext("__test_action_b", HttpMethods.POST)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					response.outputStream.Seek(0, SeekOrigin.Begin);
+					response.body.Seek(0, SeekOrigin.Begin);
 					Assert.Equals(response.ContentType, "application/json");
 					Assert.Equals(
-						new StreamReader(response.outputStream).ReadToEnd(),
+						new StreamReader(response.body).ReadToEnd(),
 						JsonConvert.SerializeObject(new { a = 1 }));
 				}
 			}

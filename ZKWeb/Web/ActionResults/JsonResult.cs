@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -31,11 +28,14 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入json到http回应中
+		/// 写入Json到Http回应
 		/// </summary>
-		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
+		/// <param name="response">Http回应</param>
+		public void WriteResponse(IHttpResponse response) {
+			// 设置状态代码和内容类型
+			response.StatusCode = 200;
 			response.ContentType = "application/json";
+			// 写入Json到Http回应
 			response.Write(JsonConvert.SerializeObject(Object, SerializeFormatting));
 		}
 	}

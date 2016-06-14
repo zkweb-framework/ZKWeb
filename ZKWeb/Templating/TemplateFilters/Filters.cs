@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Localize;
+﻿using ZKWeb.Localize;
+using ZKWebStandard.Collection;
 
 namespace ZKWeb.Templating.TemplateFilters {
 	/// <summary>
@@ -11,11 +8,11 @@ namespace ZKWeb.Templating.TemplateFilters {
 	public static class Filters {
 		/// <summary>
 		/// 翻译指定的文本
+		/// </summary>
 		/// <example>
 		/// {{ text | trans }}
 		/// {{ "fixed text" | trans }}
 		/// </example>
-		/// </summary>
 		/// <param name="text">需要翻译的文本</param>
 		/// <returns></returns>
 		public static string Trans(string text) {
@@ -25,10 +22,10 @@ namespace ZKWeb.Templating.TemplateFilters {
 		/// <summary>
 		/// 格式化字符串
 		/// 最多可支持8个参数
+		/// </summary
 		/// <example>
 		/// {{ "name is [0], age is [1]" | format: name, age }}
 		/// </example>
-		/// </summary>
 		/// <returns></returns>
 		public static string Format(string text,
 			object arg_0 = null, object arg_1 = null, object arg_2 = null, object arg_3 = null,
@@ -46,10 +43,10 @@ namespace ZKWeb.Templating.TemplateFilters {
 
 		/// <summary>
 		/// 把字符串作为原始html描画
+		/// </summary>
 		/// <example>
 		/// {{ variable | raw_html }}
 		/// </example>
-		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
 		public static object RawHtml(string text) {

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -32,19 +28,16 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入到http回应中
+		/// 写入数据流到Http回应
 		/// </summary>
 		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
+		public void WriteResponse(IHttpResponse response) {
+			// 设置状态代码和内容类型
+			response.StatusCode = 200;
 			response.ContentType = ContentType;
-			var buffer = new byte[1024];
-			while (true) {
-				var readBytes = Stream.Read(buffer, 0, 1024);
-				if (readBytes <= 0) {
-					break;
-				}
-				response.OutputStream.Write(buffer, 0, readBytes);
-			}
+			// 写入数据流到Http回应
+			Stream.CopyTo(response.Body);
+			response.Body.Flush();
 		}
 
 		/// <summary>

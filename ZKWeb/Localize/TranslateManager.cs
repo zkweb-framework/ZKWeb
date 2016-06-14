@@ -3,12 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web;
-using ZKWeb.Cache.Interfaces;
-using ZKWeb.Localize.Interfaces;
+using ZKWeb.Cache;
 using ZKWeb.Server;
-using ZKWeb.Utils.Collections;
-using ZKWeb.Utils.Extensions;
+using ZKWebStandard.Collections;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Localize {
 	/// <summary>

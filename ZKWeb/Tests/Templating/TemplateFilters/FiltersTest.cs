@@ -1,16 +1,11 @@
 ﻿using DotLiquid;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ZKWeb.Localize;
-using ZKWeb.Localize.Interfaces;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating.TemplateFilters {
-	[UnitTest]
+	[Tests]
 	class FiltersTest {
 		public void Trans() {
 			using (Application.OverrideIoc()) {

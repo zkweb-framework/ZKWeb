@@ -1,29 +1,22 @@
 ﻿using DotLiquid;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
-using ZKWeb.Utils.Functions;
 using System.Text.RegularExpressions;
-using ZKWeb.Utils.Extensions;
+using ZKWebStandard.Extensions;
 using ZKWeb.Web.ActionResults;
 using ZKWeb.Web;
-using ZKWeb.Web.Interfaces;
-using ZKWeb.Utils.Collections;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
+using ZKWebStandard.Web.Mock;
+using ZKWebStandard.Utils;
+using ZKWebStandard.Web.Wrappers;
+using ZKWebStandard.Collections;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
 	/// 把指定路径的执行结果设置到变量
 	/// 指定的路径可以是get也可以是post，会自动检测
-	/// <example>
-	/// {% fetch /api/example_info > example_info %}
-	/// {{ example_info }}
-	///	url支持变量
-	/// {% fetch /api/example_info?id={id} > example_info %}
-	/// {% fetch /api/example_info?{*query} > example_info %}
-	/// {{ example_info }}
-	/// </example>
 	/// 路径中的变量的获取顺序
 	/// - 等于"*query"时使用当前请求的参数
 	/// - 当前模板上下文中的变量
@@ -32,6 +25,14 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// - 结果是JsonResult或PlainResult时使用返回的结果
 	/// - 其他结果时使用描画的内容，但不支持二进制
 	/// </summary>
+	/// <example>
+	/// {% fetch /api/example_info > example_info %}
+	/// {{ example_info }}
+	///	url支持变量
+	/// {% fetch /api/example_info?id={id} > example_info %}
+	/// {% fetch /api/example_info?{*query} > example_info %}
+	/// {{ example_info }}
+	/// </example>
 	public class Fetch : Tag {
 		/// <summary>
 		/// 获取url中的变量使用的正则表达式
@@ -42,9 +43,9 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// </summary>
 		public const string VariableNameForAllQueryParameters = "*query";
 		/// <summary>
-		/// 路径
+		/// 路径和请求参数
 		/// </summary>
-		public string Path { get; protected set; }
+		public string PathAndQuery { get; protected set; }
 		/// <summary>
 		/// 变量
 		/// </summary>
@@ -61,7 +62,7 @@ namespace ZKWeb.Templating.TemplateTags {
 			if (index <= 0 || index + 1 == Markup.Length) {
 				throw new FormatException("incorrect format, please use {% fetch path > variable %}");
 			}
-			Path = Markup.Substring(0, index).Trim();
+			PathAndQuery = Markup.Substring(0, index).Trim();
 			Variable = Markup.Substring(index + 1).Trim();
 		}
 
@@ -70,50 +71,132 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// </summary>
 		public override void Render(Context context, TextWriter result) {
 			// 设置路径中的变量
-			var path = Path;
-			var matches = VariableInUrlExpression.Matches(path);
+			var pathAndQuery = PathAndQuery;
+			var matches = VariableInUrlExpression.Matches(pathAndQuery);
 			foreach (Match match in matches) {
 				var name = match.Value.Substring(1, match.Value.Length - 2);
 				string value = null;
 				if (name == VariableNameForAllQueryParameters) {
-					value = HttpContextUtils.CurrentContext.Request.Url.Query;
+					value = HttpManager.CurrentContext.Request.QueryString;
 					if (value.Length > 0 && value[0] == '?') {
 						value = value.Substring(1);
 					}
 				} else if ((value = context[name].ConvertOrDefault<string>()) != null) {
 				} else {
-					value = HttpContextUtils.CurrentContext.Request.Get<string>(name);
+					value = HttpManager.CurrentContext.Request.Get<string>(name);
 				}
-				path = path.Replace(match.Value, value);
+				pathAndQuery = pathAndQuery.Replace(match.Value, value);
 			}
 			// 查找对应的处理函数
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-			var queryIndex = path.IndexOf('?');
-			var pathWithoutQuery = (queryIndex >= 0) ? path.Substring(0, queryIndex) : path;
+			string path;
+			string queryString;
+			HttpUtils.SplitPathAndQuery(pathAndQuery, out path, out queryString);
 			var method = HttpMethods.GET;
-			var action = controllerManager.GetAction(pathWithoutQuery, method);
+			var action = controllerManager.GetAction(path, method);
 			if (action == null) {
 				method = HttpMethods.POST;
-				action = controllerManager.GetAction(pathWithoutQuery, method);
+				action = controllerManager.GetAction(path, method);
 			}
 			if (action == null) {
-				throw new KeyNotFoundException($"action {pathWithoutQuery} not found");
+				throw new KeyNotFoundException($"action {path} not found");
 			}
 			// 执行处理函数
-			using (HttpContextUtils.OverrideContext(path, method)) {
+			// 使用模拟的Http上下文，继承Items, Cookies, Header
+			var fetchContext = new FetchHttpContext(path, queryString, method);
+			using (HttpManager.OverrideContext(fetchContext)) {
 				var actionResult = action();
 				if (actionResult is PlainResult) {
 					context[Variable] = ((PlainResult)actionResult).Text;
 				} else if (actionResult is JsonResult) {
 					context[Variable] = ((JsonResult)actionResult).Object;
 				} else {
-					var response = new HttpResponseMock();
-					response.outputStream = new MemoryStream();
+					var response = fetchContext.FetchResponse;
 					actionResult.WriteResponse(response);
-					response.outputStream.Seek(0, SeekOrigin.Begin);
-					context[Variable] = new StreamReader(response.outputStream).ReadToEnd();
+					response.body.Seek(0, SeekOrigin.Begin);
+					context[Variable] = new StreamReader(response.body).ReadToEnd();
 				}
 			}
 		}
+
+		/// <summary>
+		/// 抓取数据时使用的Http上下文
+		/// 继承当前上下文的Items
+		/// </summary>
+		internal class FetchHttpContext : IHttpContext {
+			public IHttpContext ParentContext { get; set; }
+			public FetchHttpRequest FetchRequest { get; set; }
+			public HttpResponseMock FetchResponse { get; set; }
+
+			public IDictionary<object, object> Items { get { return ParentContext.Items; } }
+			public IHttpRequest Request { get { return FetchRequest; } }
+			public IHttpResponse Response { get { return FetchResponse; } }
+
+			public FetchHttpContext(string path, string queryString, string method) {
+				ParentContext = HttpManager.CurrentContext;
+				FetchRequest = new FetchHttpRequest(this, path, queryString, method);
+				FetchResponse = new HttpResponseMock(this);
+			}
+		};
+
+		/// <summary>
+		/// 抓取数据时使用的Http请求
+		/// 继承当前上下文的Cookies和Headers
+		/// </summary>
+		internal class FetchHttpRequest : HttpRequestWrapper {
+			public FetchHttpContext FetchContext { get; set; }
+			public string FetchPath { get; set; }
+			public string FetchQueryString { get; set; }
+			public string FetchMethod { get; set; }
+			public IDictionary<string, IList<string>> FetchQuery { get; set; }
+			public IDictionary<string, IList<string>> FetchForm { get; set; }
+
+			public override Stream Body { get { throw new NotSupportedException(); } }
+			public override long? ContentLength { get { throw new NotSupportedException(); } }
+			public override IHttpContext HttpContext { get { return FetchContext; } }
+			public override string Path { get { return FetchPath; } }
+			public override string QueryString { get { return FetchQueryString; } }
+			public override string Method { get { return FetchMethod; } }
+			public override IList<string> GetQueryValue(string key) {
+				return FetchQuery.GetOrDefault(key);
+			}
+			public override IEnumerable<Pair<string, IList<string>>> GetQueryValues() {
+				foreach (var pair in FetchQuery) {
+					yield return Pair.Create(pair.Key, pair.Value);
+				}
+			}
+			public override IList<string> GetFormValue(string key) {
+				return FetchForm.GetOrDefault(key);
+			}
+			public override IEnumerable<Pair<string, IList<string>>> GetFormValues() {
+				foreach (var pair in FetchForm) {
+					yield return Pair.Create(pair.Key, pair.Value);
+				}
+			}
+			public override IHttpPostedFile GetPostedFile(string key) {
+				return null;
+			}
+			public override IEnumerable<Pair<string, IHttpPostedFile>> GetPostedFiles() {
+				yield break;
+			}
+
+			public FetchHttpRequest(
+				FetchHttpContext fetchContext,
+				string path, string queryString, string method) :
+				base(HttpManager.CurrentContext.Request) {
+				FetchContext = fetchContext;
+				FetchPath = path;
+				FetchMethod = method;
+				if (method == "GET") {
+					FetchQueryString = queryString;
+					FetchQuery = HttpUtils.ParseQueryString(queryString);
+					FetchForm = new Dictionary<string, IList<string>>();
+				} else {
+					FetchQueryString = "";
+					FetchQuery = new Dictionary<string, IList<string>>();
+					FetchForm = HttpUtils.ParseQueryString(queryString);
+				}
+			}
+		};
 	}
 }

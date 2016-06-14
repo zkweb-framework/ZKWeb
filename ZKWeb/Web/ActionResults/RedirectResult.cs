@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Web.Interfaces;
+﻿using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -29,15 +26,11 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入到http回应
+		/// 跳转到指定地址
 		/// </summary>
-		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
-			if (Permanent) {
-				response.RedirectPermanent(Url);
-			} else {
-				response.Redirect(Url);
-			}
+		/// <param name="response">Http回应</param>
+		public void WriteResponse(IHttpResponse response) {
+			response.Redirect(Url, Permanent);
 		}
 	}
 }

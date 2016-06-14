@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Web;
-using ZKWeb.Web.Interfaces;
+using ZKWeb.Web.Abstractions;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
@@ -31,10 +29,12 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// 写入到http回应中
+		/// 写入图片到Http回应
 		/// </summary>
-		/// <param name="response">http回应</param>
-		public void WriteResponse(HttpResponseBase response) {
+		/// <param name="response">Http回应</param>
+		public void WriteResponse(IHttpResponse response) {
+			// 设置状态代码和内容类型
+			response.StatusCode = 200;
 			if (Format == ImageFormat.Jpeg) {
 				response.ContentType = "image/jpeg";
 			} else if (Format == ImageFormat.Bmp) {
@@ -46,7 +46,9 @@ namespace ZKWeb.Web.ActionResults {
 			} else if (Format == ImageFormat.Png) {
 				response.ContentType = "image/png";
 			}
-			Image.Save(response.OutputStream, Format);
+			// 写入图片到回应
+			Image.Save(response.Body, Format);
+			response.Body.Flush();
 		}
 
 		/// <summary>

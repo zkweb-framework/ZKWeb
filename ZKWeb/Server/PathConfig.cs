@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.Functions;
 
 namespace ZKWeb.Server {
 	/// <summary>
 	/// 路径配置
 	/// </summary>
 	public class PathConfig {
+		/// <summary>
+		/// 网站根目录
+		/// </summary>
+		public virtual string WebsiteRootDirectory { get; protected set; }
 		/// <summary>
 		/// App_Data目录
 		/// </summary>
@@ -47,7 +47,15 @@ namespace ZKWeb.Server {
 		/// 初始化
 		/// </summary>
 		public PathConfig() {
-			AppDataDirectory = Path.Combine(PathUtils.WebRoot.Value, "App_Data");
+			var websiteRootDirectory = PlatformServices.Default.Application.ApplicationBasePath;
+			while (!File.Exists(Path.Combine(websiteRootDirectory, "web.config"))) {
+				websiteRootDirectory = Path.GetDirectoryName(websiteRootDirectory);
+				if (string.IsNullOrEmpty(websiteRootDirectory)) {
+					throw new DirectoryNotFoundException("find website root directory failed");
+				}
+			}
+			WebsiteRootDirectory = websiteRootDirectory;
+			AppDataDirectory = Path.Combine(WebsiteRootDirectory, "App_Data");
 			LogsDirectory = Path.Combine(AppDataDirectory, "logs");
 			WebsiteConfigPath = Path.Combine(AppDataDirectory, "config.json");
 			PluginInfoFilename = "plugin.json";

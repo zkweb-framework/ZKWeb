@@ -1,15 +1,11 @@
 ﻿using DotLiquid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Templating.AreaSupport;
+using ZKWeb.Templating.DynamicContents;
 using ZKWeb.Tests.Server;
-using ZKWeb.Utils.IocContainer;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Templating.TemplateTags {
-	[UnitTest]
+	[Tests]
 	class AreaTest {
 		public void Render() {
 			using (var layout = new TestDirectoryLayout()) {

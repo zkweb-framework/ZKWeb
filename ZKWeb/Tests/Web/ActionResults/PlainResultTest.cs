@@ -1,20 +1,18 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ZKWeb.Utils.UnitTest;
+﻿using System.IO;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class PlainResultTest {
 		public void WriteResponse() {
 			var result = new PlainResult("test contents");
-			var responseMock = Substitute.For<HttpResponseBase>();
-			result.WriteResponse(responseMock);
-			responseMock.Received().ContentType = "text/plain";
-			responseMock.Received().Write("test contents");
+			var contextMock = new HttpContextMock();
+			Assert.Equals(contextMock.response.StatusCode, 200);
+			Assert.Equals(contextMock.response.ContentType, "text/plain");
+			contextMock.response.body.Seek(0, SeekOrigin.Begin);
+			Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
 		}
 	}
 }

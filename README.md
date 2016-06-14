@@ -1,4 +1,4 @@
-### Extendable .net web framework<br/>
+### Extendable .net web framework based on Asp.Net Core
 
 Features:<br/>
 
@@ -17,7 +17,7 @@ Features:<br/>
 	- Per widget render result cache (perform extremely fast rending) 
 - Multi language support
 - Multi timezone support
-- Unit test support
+- Testing support
 	- Console and web test runner
 	- Ioc container overridden
 	- Http context overridden
@@ -31,7 +31,7 @@ Features:<br/>
 - Visual page editor
 	- Prepared and planned
 
-Version: 0.9.6 testing (backward compatibility is not provided yet)<br/>
+Version: 0.9.7 testing (backward compatibility is not provided yet)<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>

@@ -1,17 +1,14 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Web;
 using ZKWeb.Server;
 using ZKWeb.Tests.Server;
-using ZKWeb.Utils.Extensions;
-using ZKWeb.Utils.UnitTest;
+using ZKWebStandard.Extensions;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Testing;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
-	[UnitTest]
+	[Tests]
 	class FileResultTest {
 		public void WriteResponse() {
 			using (var layout = new TestDirectoryLayout()) {
@@ -22,28 +19,30 @@ namespace ZKWeb.Tests.Web.ActionResults {
 				Assert.Equals(File.ReadAllText(resourcePath), "test contents");
 
 				var result = new FileResult(resourcePath);
-				var responseMock = Substitute.For<HttpResponseBase>();
-				var cacheMock = Substitute.For<HttpCachePolicyBase>();
-				responseMock.Cache.Returns(cacheMock);
-				result.WriteResponse(responseMock);
-				responseMock.Received().WriteFile(resourcePath);
-				cacheMock.Received().SetLastModified(lastModified);
+				var contextMock = new HttpContextMock();
+				result.WriteResponse(contextMock.response);
+				contextMock.response.body.Seek(0, SeekOrigin.Begin);
+				Assert.Equals(contextMock.response.StatusCode, 200);
+				Assert.Equals(contextMock.response.ContentType, "text/plain");
+				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
+				Assert.Equals(DateTime.Parse(contextMock.response.headers["Last-Modified"][0]), lastModified);
 
 				result = new FileResult(resourcePath, DateTime.UtcNow.AddDays(1));
-				responseMock.ClearReceivedCalls();
-				cacheMock.ClearReceivedCalls();
-				result.WriteResponse(responseMock);
-				responseMock.Received().WriteFile(resourcePath);
-				cacheMock.Received().SetLastModified(lastModified);
+				contextMock = new HttpContextMock();
+				result.WriteResponse(contextMock.response);
+				contextMock.response.body.Seek(0, SeekOrigin.Begin);
+				Assert.Equals(contextMock.response.StatusCode, 200);
+				Assert.Equals(contextMock.response.ContentType, "text/plain");
+				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
+				Assert.Equals(DateTime.Parse(contextMock.response.headers["Last-Modified"][0]), lastModified);
 
 				result = new FileResult(resourcePath, lastModified);
-				responseMock.ClearReceivedCalls();
-				cacheMock.ClearReceivedCalls();
-				result.WriteResponse(responseMock);
-				responseMock.DidNotReceive().WriteFile(Arg.Any<string>());
-				responseMock.Received().StatusCode = 304;
-				responseMock.Received().SuppressContent = true;
-				cacheMock.Received().SetLastModified(lastModified);
+				contextMock = new HttpContextMock();
+				result.WriteResponse(contextMock.response);
+				contextMock.response.body.Seek(0, SeekOrigin.Begin);
+				Assert.Equals(contextMock.response.StatusCode, 304);
+				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "");
+				Assert.Equals(DateTime.Parse(contextMock.response.headers["Last-Modified"][0]), lastModified);
 			}
 		}
 	}
