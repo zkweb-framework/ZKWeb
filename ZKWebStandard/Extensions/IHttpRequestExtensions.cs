@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Web;
@@ -41,20 +42,21 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取最后修改的时间
+		/// 获取客户端中缓存的最后修改的时间
 		/// </summary>
 		/// <param name="request">Http请求</param>
 		/// <returns></returns>
-		public static DateTime GetLastModified(this IHttpRequest request) {
-			var value = request.GetHeader("Last-Modified");
+		public static DateTime GetIfModifiedSince(this IHttpRequest request) {
+			var value = request.GetHeader("If-Modified-Since");
 			if (string.IsNullOrEmpty(value)) {
 				return DateTime.MinValue;
 			}
 			DateTime result;
-			if (!DateTime.TryParse(value, out result)) {
+			if (!DateTime.TryParseExact(value, "R",
+				DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AssumeUniversal, out result)) {
 				return DateTime.MinValue;
 			}
-			return DateTime.SpecifyKind(result, DateTimeKind.Utc);
+			return result.ToUniversalTime();
 		}
 
 		/// <summary>

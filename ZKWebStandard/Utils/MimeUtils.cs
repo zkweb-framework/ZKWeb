@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
@@ -577,13 +578,12 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// 根据文件后缀获取MIME类型
 		/// </summary>
-		/// <param name="extension">文件后缀，不以"."开头时自动补上</param>
+		/// <param name="filename">文件名</param>
 		/// <returns></returns>
-		public static string GetMimeType(string extension) {
-			if (!extension.StartsWith(".")) {
-				extension = "." + extension;
-			}
-			return MimeMapping.GetOrDefault(extension);
+		public static string GetMimeType(string filename) {
+			var extension = Path.GetExtension(filename);
+			var mime = MimeMapping.GetOrDefault(extension);
+			return mime ?? "application/octet-stream";
 		}
 	}
 }

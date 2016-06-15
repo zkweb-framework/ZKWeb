@@ -33,7 +33,8 @@
 		"preserveCompilationContext": true,
 		"xmlDoc": true,
 		"optimize": true,
-		"defines": [ "TRACE" ]
+		"defines": [ "TRACE" ],
+		"compile": { "exclude": "App_Data/*" }
 	},
 
 	"publishOptions": {

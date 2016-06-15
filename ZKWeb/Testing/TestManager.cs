@@ -65,7 +65,7 @@ namespace ZKWeb.Testing {
 		public virtual IDisposable UseTemporaryDatabase(string dbPath = null) {
 			// 创建数据库会话生成器
 			dbPath = dbPath ?? Path.GetTempFileName();
-			var connectionString = string.Format("Data Source={0};Version=3;", dbPath);
+			var connectionString = string.Format("Data Source={0};", dbPath);
 			var sessionFactory = DatabaseManager.BuildSessionFactory("sqlite", connectionString, null);
 			// 重载当前的数据库管理器，使用刚才创建的数据库会话生成器
 			var overrideIoc = Application.OverrideIoc();

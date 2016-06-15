@@ -9,6 +9,7 @@ namespace ZKWeb.Tests.Web.ActionResults {
 		public void WriteResponse() {
 			var result = new PlainResult("test contents");
 			var contextMock = new HttpContextMock();
+			result.WriteResponse(contextMock.response);
 			Assert.Equals(contextMock.response.StatusCode, 200);
 			Assert.Equals(contextMock.response.ContentType, "text/plain");
 			contextMock.response.body.Seek(0, SeekOrigin.Begin);

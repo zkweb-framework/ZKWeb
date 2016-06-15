@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.IO;
 using ZKWebStandard.Web;
 
@@ -31,10 +32,7 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="response">回应</param>
 		/// <param name="date">时间</param>
 		public static void SetLastModified(this IHttpResponse response, DateTime date) {
-			if (date.Kind != DateTimeKind.Utc) {
-				date = date.ToUniversalTime();
-			}
-			var value = date.ToString("ddd, dd MMM yyyy HH:mm:ss") + " UTC";
+			var value = date.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo);
 			response.AddHeader("Last-Modified", value);
 		}
 
