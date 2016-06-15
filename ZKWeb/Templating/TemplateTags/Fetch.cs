@@ -92,10 +92,10 @@ namespace ZKWeb.Templating.TemplateTags {
 			string path;
 			string queryString;
 			HttpUtils.SplitPathAndQuery(pathAndQuery, out path, out queryString);
-			var method = HttpMethods.GET;
+			var method = HttpMethods.POST;
 			var action = controllerManager.GetAction(path, method);
 			if (action == null) {
-				method = HttpMethods.POST;
+				method = HttpMethods.GET;
 				action = controllerManager.GetAction(path, method);
 			}
 			if (action == null) {

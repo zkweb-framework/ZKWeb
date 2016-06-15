@@ -81,8 +81,8 @@ namespace ZKWebStandard.Utils {
 					andIndex = queryString.Length;
 				}
 				var key = UrlDecode(queryString.Substring(startIndex, equalIndex - startIndex));
-				var value = UrlDecode(queryString.Substring(equalIndex + 1, andIndex - equalIndex));
-				startIndex = andIndex;
+				var value = UrlDecode(queryString.Substring(equalIndex + 1, andIndex - equalIndex - 1));
+				startIndex = andIndex + 1;
 				if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value)) {
 					result.GetOrCreate(key, () => new List<string>()).Add(value);
 				}
