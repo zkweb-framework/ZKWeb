@@ -165,8 +165,7 @@ $RECYCLE.BIN/
 packages/
 
 # publish files
-*.pubxml
-*.pubxml.user
+PublishProfiles/
 
 # User-specific files for aspnet core
 *.xproj.user
