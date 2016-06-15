@@ -1,4 +1,4 @@
-### Extendable .net web framework based on Asp.Net Core
+### Extendable .net web framework
 
 Features:<br/>
 
@@ -40,16 +40,25 @@ References: http://zkweb-framework.github.io/cn/references/zkweb/html/annotated.
 Demo Website: http://zkwebsite.com/admin<br/>
 Demo Account: demo 123456
 
-This framework is inspired by django<br/>
-All comments are written in chinese at this moment because main developers are chinese.<br/>
+This framework is inspired by django, all comments are written in chinese.<br/>
+
+ZKWeb is running on Asp.Net Core now,<br/>
+but it has it's abstraction layer to make sure plugins are independent from Asp.Net or Asp.Net Core.<br/>
+That make move away from Asp.Net Core in the future without breaking the compatibility is possible.<br/>
+The dependency to the following libraries is still required, but they are stable and solid. <br/>
+
+- DotLiquid
+- FluentNHibernate
+- Newtonsoft.Json
+- NSubstitute
 
 MIT License<br/>
 Copyright © 2016 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
 
-### Fast Help:
+### Getting Started:
 
-a. How to getting start?
+a. How to run this project?
 
 - Download ZKWeb and ZKWeb.Plugins from github
 - Put ZKWeb and ZKWeb.Plugins in same folder
