@@ -33,9 +33,9 @@ namespace ZKWeb.Database {
 		/// <summary>
 		/// 获取数据库上下文
 		/// </summary>
-		/// <param name="isolationLevel">事务的隔离等级</param>
+		/// <param name="isolationLevel">事务的隔离等级，等于null时不开启事务</param>
 		/// <returns></returns>
-		public virtual DatabaseContext GetContext(IsolationLevel isolationLevel) {
+		public virtual DatabaseContext GetContext(IsolationLevel? isolationLevel) {
 			return new DatabaseContext(SessionFactory, isolationLevel);
 		}
 

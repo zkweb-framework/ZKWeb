@@ -34,8 +34,6 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="request">Http请求</param>
 		/// <returns></returns>
 		public static IList<string> GetAcceptLanguages(this IHttpRequest request) {
-			// TODO: 测试
-			// Accept-Language:"en-US,en;q=0.7,zh-CN;q=0.3"
 			var acceptLanguages = request.GetHeader("Accept-Language") ?? "";
 			var result = acceptLanguages.Split(',').Select(s => s.Split(';')[0]).ToList();
 			return result;

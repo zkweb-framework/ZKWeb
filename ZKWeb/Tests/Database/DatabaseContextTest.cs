@@ -73,6 +73,16 @@ namespace ZKWeb.Tests.Database {
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestNameUpdated") == null);
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "OtherName") != null);
 					}
+					// 不使用事务
+					using (var context = databaseManager.GetContext(null)) {
+						var obj = new TestTable() { Name = "TestName" };
+						context.Save(ref obj);
+						context.SaveChanges();
+					}
+					using (var context = databaseManager.GetContext(null)) {
+						var obj = context.Get<TestTable>(t => t.Name == "TestName");
+						Assert.IsTrue(obj != null);
+					}
 				}
 			}
 		}

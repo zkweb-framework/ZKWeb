@@ -18,28 +18,45 @@ namespace ZKWeb.Database {
 		/// <summary>
 		/// 数据库会话
 		/// </summary>
-		public ISession Session { get; private set; }
+		public ISession Session { get; protected set; }
 		/// <summary>
 		/// 数据库事务
+		/// 等于null时表示没有开启
 		/// </summary>
-		public ITransaction Transaction { get; private set; }
+		public ITransaction Transaction { get; protected set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		/// <param name="sessionFactory">数据库会话生成器</param>
-		/// <param name="isolationLevel">事务的隔离等级</param>
-		public DatabaseContext(ISessionFactory sessionFactory, IsolationLevel isolationLevel) {
+		/// <param name="isolationLevel">事务的隔离等级，等于null时不开启事务</param>
+		public DatabaseContext(ISessionFactory sessionFactory, IsolationLevel? isolationLevel) {
 			Session = sessionFactory.OpenSession();
-			Transaction = Session.BeginTransaction(isolationLevel);
+			try {
+				if (isolationLevel != null) {
+					Transaction = Session.BeginTransaction(isolationLevel.Value);
+				}
+			} catch {
+				Dispose();
+				throw;
+			}
 		}
 
 		/// <summary>
 		/// 释放创建的数据库会话和事务
 		/// </summary>
 		public virtual void Dispose() {
-			Transaction.Dispose();
-			Session.Dispose();
+			Transaction?.Dispose();
+			Transaction = null;
+			Session?.Dispose();
+			Session = null;
+		}
+
+		/// <summary>
+		/// 释放创建的数据库会话和事务
+		/// </summary>
+		~DatabaseContext() {
+			Dispose();
 		}
 
 		/// <summary>
@@ -136,11 +153,11 @@ namespace ZKWeb.Database {
 
 		/// <summary>
 		/// 提交所有修改
-		/// 如数据库上下文在删除前没有调用此函数则所有修改都不会被提交
+		/// 如果使用了事务但没有调用此函数，则所有修改都不会被提交
 		/// </summary>
 		public virtual void SaveChanges() {
 			Session.Flush();
-			Transaction.Commit();
+			Transaction?.Commit();
 		}
 	}
 }

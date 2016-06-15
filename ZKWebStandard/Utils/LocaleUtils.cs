@@ -48,7 +48,7 @@ namespace ZKWebStandard.Utils {
 			}
 			try {
 				var timezoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timezone);
-				HttpManager.CurrentContext.SetData(TimeZoneKey, timezoneInfo);
+				HttpManager.CurrentContext.PutData(TimeZoneKey, timezoneInfo);
 				return true;
 			} catch (TimeZoneNotFoundException) {
 				return false;

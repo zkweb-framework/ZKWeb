@@ -1,12 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ZKWebStandard.Testing;
+using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Tests.Web {
 	[Tests]
 	class HttpManagerTest {
-		//TODO: test me
+		public void OverrideContext() {
+			Assert.Equals(HttpManager.CurrentContext.Request.Path, "/");
+			using (HttpManager.OverrideContext("a", "GET")) {
+				using (HttpManager.OverrideContext("b", "GET")) {
+					Assert.Equals(HttpManager.CurrentContext.Request.Path, "/b");
+				}
+				Assert.Equals(HttpManager.CurrentContext.Request.Path, "/a");
+			}
+			Assert.Equals(HttpManager.CurrentContext.Request.Path, "/");
+		}
 	}
 }

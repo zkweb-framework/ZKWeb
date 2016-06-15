@@ -63,7 +63,7 @@ namespace ZKWebStandard.Tests.Functions {
 				Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "zh-CN");
 			}
 			// 有cookies，无浏览器语言，不传入默认语言
-			context.SetCookie(LocaleUtils.LanguageKey, "en-US");
+			context.PutCookie(LocaleUtils.LanguageKey, "en-US");
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, null));
 			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
 			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
@@ -84,7 +84,7 @@ namespace ZKWebStandard.Tests.Functions {
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			Assert.Equals(timezone.StandardName, "GMT Standard Time");
 			// 有cookies, 不传入默认时区
-			context.SetCookie(LocaleUtils.TimeZoneKey, "China Standard Time", new HttpCookieOptions());
+			context.PutCookie(LocaleUtils.TimeZoneKey, "China Standard Time", new HttpCookieOptions());
 			Assert.IsTrue(LocaleUtils.SetThreadTimezoneAutomatic(null));
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			Assert.Equals(timezone.StandardName, "China Standard Time");

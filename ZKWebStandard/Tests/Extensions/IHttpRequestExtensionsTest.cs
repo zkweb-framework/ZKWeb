@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
@@ -17,15 +19,30 @@ namespace ZKWebStandard.Tests.Extensions {
 		}
 
 		public void GetUserAgent() {
-			// TODO: test me
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				request.headers["User-Agent"] = "my custom user agent";
+				Assert.Equals(request.GetUserAgent(), "my custom user agent");
+			}
 		}
 
 		public void GetAcceptLanguages() {
-			// TODO: test me
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				request.headers["Accept-Language"] = "en-US,en;q=0.7,zh-CN;q=0.3";
+				var languages = request.GetAcceptLanguages();
+				Assert.IsTrueWith(languages.SequenceEqual(new[] { "en-US", "en", "zh-CN" }), languages);
+			}
 		}
 
-		public void GetLastModified() {
-			// TODO: test me
+		public void GetIfModifiedSince() {
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				request.headers["If-Modified-Since"] = "Mon, 13 Jun 2016 03:09:22 GMT";
+				Assert.Equals(
+					request.GetIfModifiedSince(),
+					new DateTime(2016, 06, 13, 03, 09, 22, DateTimeKind.Utc));
+			}
 		}
 
 		public void Get() {

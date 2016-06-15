@@ -15,7 +15,7 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="context">Http上下文</param>
 		/// <param name="key">键名</param>
 		/// <param name="data">数据</param>
-		public static void SetData<T>(this IHttpContext context, string key, T data) {
+		public static void PutData<T>(this IHttpContext context, string key, T data) {
 			context.Items[key] = data;
 		}
 
@@ -49,7 +49,7 @@ namespace ZKWebStandard.Extensions {
 			var value = context.GetData<T>(key);
 			if (value == null) {
 				value = defaultCreater();
-				context.SetData(key, value);
+				context.PutData(key, value);
 			}
 			return value;
 		}
@@ -97,11 +97,11 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="value">Cookie值</param>
 		/// <param name="options">使用的选项</param>
 		/// <returns></returns>
-		public static void SetCookie(
+		public static void PutCookie(
 			this IHttpContext context, string key, string value, HttpCookieOptions options = null) {
 			// 储存到数据中
 			var dataKey = SetCookieDataKeyPrefix + key;
-			context.SetData(dataKey, value);
+			context.PutData(dataKey, value);
 			// 设置Cookie值
 			var cookie = HttpUtils.UrlEncode(value);
 			context.Response.SetCookie(key, cookie, options ?? new HttpCookieOptions());
@@ -115,7 +115,7 @@ namespace ZKWebStandard.Extensions {
 		/// <returns></returns>
 		public static void RemoveCookie(this IHttpContext context, string key) {
 			var options = new HttpCookieOptions() { Expires = new DateTime(1970, 1, 1) };
-			context.SetCookie(key, "", options);
+			context.PutCookie(key, "", options);
 		}
 
 		/// <summary>
@@ -157,7 +157,7 @@ namespace ZKWebStandard.Extensions {
 				device = MobileCheckRegex.IsMatch(userAgent) ? DeviceTypes.Mobile : DeviceTypes.Desktop;
 			}
 			// 保存到缓存并返回
-			context.SetData(DeviceKey, device);
+			context.PutData(DeviceKey, device);
 			return (DeviceTypes)device;
 		}
 
@@ -168,7 +168,7 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="context">Http上下文</param>
 		/// <param name="type">设备类型</param>
 		public static void SetClientDeviceToCookies(this IHttpContext context, DeviceTypes type) {
-			context.SetCookie(DeviceKey, type.ToString());
+			context.PutCookie(DeviceKey, type.ToString());
 		}
 	}
 

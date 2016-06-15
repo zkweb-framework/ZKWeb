@@ -12,9 +12,11 @@ namespace ZKWeb.Testing.TestEventHandlers {
 		}
 
 		public void OnAllTestCompleted(AllTestCompletedInfo info) {
+			Console.ForegroundColor = (info.Counter.Failed > 0) ? ConsoleColor.Red : ConsoleColor.Green;
 			Console.WriteLine($"complete {info.Runner.Assembly.GetName().Name} tests: " +
 				$"{info.Counter.Passed} passed, {info.Counter.Failed} failed, {info.Counter.Skipped} skiped.");
 			Console.WriteLine();
+			Console.ResetColor();
 		}
 
 		public void OnDebugMessage(DebugMessageInfo info) {

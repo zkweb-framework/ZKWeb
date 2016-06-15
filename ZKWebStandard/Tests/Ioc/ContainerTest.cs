@@ -111,7 +111,15 @@ namespace ZKWebStandard.Tests.IocContainer {
 		}
 
 		public void UnregisterAll() {
-			// TODO: test me
+			using (var container = new Container()) {
+				container.RegisterExports(new[] {
+					typeof(TransientImplementation),
+					typeof(SingletonImplementation)
+				});
+				container.UnregisterAll();
+				Assert.Equals(container.Resolve<ClassService>(IfUnresolved.ReturnDefault, "a"), null);
+				Assert.Equals(container.Resolve<ClassService>(IfUnresolved.ReturnDefault, "b"), null);
+			}
 		}
 
 		public void Resolve() {
