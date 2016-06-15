@@ -23,14 +23,13 @@ namespace ZKWeb.Tests.Web.ActionResults {
 					var result = new FileResult(resourcePath, ifModifiedSince);
 					var contextMock = new HttpContextMock();
 					result.WriteResponse(contextMock.response);
-					contextMock.response.body.Seek(0, SeekOrigin.Begin);
 					if (ifModifiedSince == lastModified) {
 						Assert.Equals(contextMock.response.StatusCode, 304);
-						Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "");
+						Assert.Equals(contextMock.response.GetContentsFromBody(), "");
 					} else {
 						Assert.Equals(contextMock.response.StatusCode, 200);
 						Assert.Equals(contextMock.response.ContentType, "text/plain");
-						Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
+						Assert.Equals(contextMock.response.GetContentsFromBody(), "test contents");
 					}
 					contextMock.request.headers["If-Modified-Since"] = (
 						contextMock.response.headers["Last-Modified"][0]);

@@ -21,16 +21,14 @@ namespace ZKWeb.Tests.Web.ActionResults {
 				result.WriteResponse(contextMock.response);
 				Assert.Equals(contextMock.response.StatusCode, 200);
 				Assert.Equals(contextMock.response.ContentType, "text/html");
-				contextMock.response.body.Seek(0, SeekOrigin.Begin);
-				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test a asd");
+				Assert.Equals(contextMock.response.GetContentsFromBody(), "test a asd");
 
 				result = new TemplateResult("__test_b.html", new { name = "asd" });
 				contextMock = new HttpContextMock();
 				result.WriteResponse(contextMock.response);
 				Assert.Equals(contextMock.response.StatusCode, 200);
 				Assert.Equals(contextMock.response.ContentType, "text/html");
-				contextMock.response.body.Seek(0, SeekOrigin.Begin);
-				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test b asd");
+				Assert.Equals(contextMock.response.GetContentsFromBody(), "test b asd");
 			}
 		}
 	}

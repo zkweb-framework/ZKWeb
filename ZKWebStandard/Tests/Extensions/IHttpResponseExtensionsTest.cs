@@ -35,8 +35,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			using (HttpManager.OverrideContext("", "POST")) {
 				var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 				response.Write("test contents");
-				response.body.Seek(0, SeekOrigin.Begin);
-				Assert.Equals(new StreamReader(response.body).ReadToEnd(), "test contents");
+				Assert.Equals(response.GetContentsFromBody(), "test contents");
 			}
 		}
 
@@ -47,8 +46,7 @@ namespace ZKWebStandard.Tests.Extensions {
 				try {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					response.WriteFile(path);
-					response.body.Seek(0, SeekOrigin.Begin);
-					Assert.Equals(new StreamReader(response.body).ReadToEnd(), "test file contents");
+					Assert.Equals(response.GetContentsFromBody(), "test file contents");
 				} finally {
 					File.Delete(path);
 				}

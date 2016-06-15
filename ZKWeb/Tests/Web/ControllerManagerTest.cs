@@ -21,19 +21,15 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_a", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					response.body.Seek(0, SeekOrigin.Begin);
 					Assert.Equals(response.ContentType, "text/plain");
-					Assert.Equals(new StreamReader(response.body).ReadToEnd(), "test action a");
+					Assert.Equals(response.GetContentsFromBody(), "test action a");
 				}
 
 				using (HttpManager.OverrideContext("__test_action_b", HttpMethods.POST)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					response.body.Seek(0, SeekOrigin.Begin);
 					Assert.Equals(response.ContentType, "application/json");
-					Assert.Equals(
-						new StreamReader(response.body).ReadToEnd(),
-						JsonConvert.SerializeObject(new { a = 1 }));
+					Assert.Equals(response.GetContentsFromBody(), JsonConvert.SerializeObject(new { a = 1 }));
 				}
 			}
 		}

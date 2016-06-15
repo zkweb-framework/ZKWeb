@@ -12,10 +12,9 @@ namespace ZKWeb.Tests.Web.ActionResults {
 			using (var result = new StreamResult(stream)) {
 				var contextMock = new HttpContextMock();
 				result.WriteResponse(contextMock.response);
-				contextMock.response.body.Seek(0, SeekOrigin.Begin);
 				Assert.Equals(contextMock.response.StatusCode, 200);
 				Assert.Equals(contextMock.response.ContentType, "application/octet-stream");
-				Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
+				Assert.Equals(contextMock.response.GetContentsFromBody(), "test contents");
 			}
 		}
 	}

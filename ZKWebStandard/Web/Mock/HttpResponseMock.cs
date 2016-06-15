@@ -52,6 +52,11 @@ namespace ZKWebStandard.Web.Mock {
 			lastRedirect = url;
 			lastRedirectIsPermanent = permanent;
 		}
+
+		public virtual string GetContentsFromBody() {
+			Body.Seek(0, SeekOrigin.Begin);
+			return new StreamReader(Body).ReadToEnd();
+		}
 #pragma warning restore CS1591
 	}
 }

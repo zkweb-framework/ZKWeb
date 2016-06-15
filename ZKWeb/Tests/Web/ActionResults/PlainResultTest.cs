@@ -12,8 +12,7 @@ namespace ZKWeb.Tests.Web.ActionResults {
 			result.WriteResponse(contextMock.response);
 			Assert.Equals(contextMock.response.StatusCode, 200);
 			Assert.Equals(contextMock.response.ContentType, "text/plain");
-			contextMock.response.body.Seek(0, SeekOrigin.Begin);
-			Assert.Equals(new StreamReader(contextMock.response.body).ReadToEnd(), "test contents");
+			Assert.Equals(contextMock.response.GetContentsFromBody(), "test contents");
 		}
 	}
 }

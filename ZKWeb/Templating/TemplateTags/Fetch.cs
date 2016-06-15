@@ -113,8 +113,7 @@ namespace ZKWeb.Templating.TemplateTags {
 				} else {
 					var response = fetchContext.FetchResponse;
 					actionResult.WriteResponse(response);
-					response.body.Seek(0, SeekOrigin.Begin);
-					context[Variable] = new StreamReader(response.body).ReadToEnd();
+					context[Variable] = response.GetContentsFromBody();
 				}
 			}
 		}
