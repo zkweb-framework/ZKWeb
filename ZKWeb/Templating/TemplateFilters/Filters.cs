@@ -22,7 +22,7 @@ namespace ZKWeb.Templating.TemplateFilters {
 		/// <summary>
 		/// 格式化字符串
 		/// 最多可支持8个参数
-		/// </summary
+		/// </summary>
 		/// <example>
 		/// {{ "name is [0], age is [1]" | format: name, age }}
 		/// </example>
