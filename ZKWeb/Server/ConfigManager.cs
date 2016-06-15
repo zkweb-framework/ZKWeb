@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-
-namespace ZKWeb.Server {
+﻿namespace ZKWeb.Server {
 	/// <summary>
 	/// 网站配置管理器
 	/// </summary>
