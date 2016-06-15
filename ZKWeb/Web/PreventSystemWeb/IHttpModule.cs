@@ -4,5 +4,5 @@
 	/// - 不允许System.Web加载进来
 	/// - 防止引用System.Web命名空间的插件出错
 	/// </summary>
-	public interface IHttpModule { }
+	public interface IHttpModule { } // TODO: test me
 }
