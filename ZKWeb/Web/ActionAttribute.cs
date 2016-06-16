@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZKWeb.Web.Abstractions {
+namespace ZKWeb.Web {
 	/// <summary>
 	/// 标记函数可以处理指定路径的http请求
 	/// </summary>

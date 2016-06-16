@@ -1,4 +1,4 @@
-﻿namespace ZKWeb.Web.Abstractions {
+﻿namespace ZKWeb.Web {
 	/// <summary>
 	/// 控制器的接口
 	/// </summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZKWeb.Web.Abstractions {
+namespace ZKWeb.Web {
 	/// <summary>
 	/// 请求错误的处理器的接口
 	/// </summary>

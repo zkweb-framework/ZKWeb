@@ -1,4 +1,4 @@
-﻿namespace ZKWeb.Web.Abstractions {
+﻿namespace ZKWeb.Web {
 	/// <summary>
 	/// 常用的http的请求类型定义
 	/// </summary>

@@ -1,6 +1,6 @@
 ﻿using ZKWebStandard.Web;
 
-namespace ZKWeb.Web.Abstractions {
+namespace ZKWeb.Web {
 	/// <summary>
 	/// 请求结果的接口
 	/// </summary>

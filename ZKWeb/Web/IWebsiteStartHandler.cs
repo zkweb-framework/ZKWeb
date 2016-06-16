@@ -1,4 +1,4 @@
-﻿namespace ZKWeb.Web.Abstractions {
+﻿namespace ZKWeb.Web {
 	/// <summary>
 	/// 网站启动时的处理器接口
 	/// 在所有插件初始化完成后调用

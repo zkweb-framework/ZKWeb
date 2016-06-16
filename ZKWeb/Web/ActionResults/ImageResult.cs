@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using ZKWeb.Web.Abstractions;
+using ZKWeb.Web;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {

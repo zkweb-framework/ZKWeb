@@ -1,4 +1,4 @@
-﻿namespace ZKWeb.Web.Abstractions {
+﻿namespace ZKWeb.Web {
 	/// <summary>
 	/// Http请求的预处理器接口
 	/// 在IHttpRequestHandler调用前调用，先注册的先调用
