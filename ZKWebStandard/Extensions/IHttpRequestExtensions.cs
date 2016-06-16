@@ -11,7 +11,7 @@ namespace ZKWebStandard.Extensions {
 	/// </summary>
 	public static class IHttpRequestExtensions {
 		/// <summary>
-		/// 判断http请求是否由ajax发起
+		/// 判断Http请求是否由ajax发起
 		/// </summary>
 		/// <param name="request">http请求</param>
 		/// <returns></returns>
@@ -76,7 +76,7 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取http请求中的指定参数值
+		/// 获取Http请求中的指定参数值
 		/// 优先级: 表单内容 > 请求字符串
 		/// </summary>
 		/// <typeparam name="T">值类型</typeparam>
@@ -96,18 +96,34 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取http请求中的所有参数
+		/// 获取Http请求中的所有参数
 		/// 优先级: 表单内容 > 请求字符串
 		/// </summary>
 		/// <param name="request">Http请求</param>
 		/// <returns></returns>
-		public static IEnumerable<Pair<string, string>> GetAll(this IHttpRequest request) {
+		public static IEnumerable<Pair<string, IList<string>>> GetAll(this IHttpRequest request) {
 			foreach (var pair in request.GetFormValues()) {
-				yield return Pair.Create(pair.First, pair.Second[0]);
+				yield return Pair.Create(pair.First, pair.Second);
 			}
 			foreach (var pair in request.GetQueryValues()) {
-				yield return Pair.Create(pair.First, pair.Second[0]);
+				yield return Pair.Create(pair.First, pair.Second);
 			}
+		}
+
+		/// <summary>
+		/// 获取Http请求中的所有参数，以词典的形式返回
+		/// 优先级: 表单内容 > 请求字符串
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
+		public static IDictionary<string, IList<string>> GetAllDictionary(this IHttpRequest request) {
+			var result = new Dictionary<string, IList<string>>();
+			foreach (var pair in request.GetAll()) {
+				if (!result.ContainsKey(pair.First)) {
+					result[pair.First] = pair.Second;
+				}
+			}
+			return result;
 		}
 	}
 }

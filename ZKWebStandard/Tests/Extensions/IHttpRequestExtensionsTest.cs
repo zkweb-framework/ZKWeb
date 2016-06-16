@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
@@ -66,10 +65,20 @@ namespace ZKWebStandard.Tests.Extensions {
 		public void GetAll() {
 			using (HttpManager.OverrideContext("/?a=1&b=2", "POST")) {
 				var request = HttpManager.CurrentContext.Request;
-				var allParams = new Dictionary<string, string>();
-				request.GetAll().ForEach(pair => allParams[pair.First] = pair.Second);
-				Assert.Equals(allParams.GetOrDefault("a"), "1");
-				Assert.Equals(allParams.GetOrDefault("b"), "2");
+				var allParams = request.GetAll().ToDictionary(p => p.First, p => p.Second);
+				Assert.Equals(allParams.GetOrDefault("a")[0], "1");
+				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
+				Assert.Equals(allParams.GetOrDefault("c"), null);
+			}
+		}
+
+		public void GetAllDictionary() {
+			using (HttpManager.OverrideContext("/?a=1&b=2&a=3", "POST")) {
+				var request = HttpManager.CurrentContext.Request;
+				var allParams = request.GetAllDictionary();
+				Assert.Equals(allParams.GetOrDefault("a")[0], "1");
+				Assert.Equals(allParams.GetOrDefault("a")[1], "3");
+				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
 				Assert.Equals(allParams.GetOrDefault("c"), null);
 			}
 		}
