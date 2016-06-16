@@ -45,6 +45,15 @@ namespace ZKWebStandard.Tests.Extensions {
 			}
 		}
 
+		public void GetReferrer() {
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				Assert.Equals(request.GetReferrer(), null);
+				request.headers["Referrer"] = "http://abc.com/abc.html";
+				Assert.Equals(request.GetReferrer().ToString(), "http://abc.com/abc.html");
+			}
+		}
+
 		public void Get() {
 			using (HttpManager.OverrideContext("/?a=1&b=2", "POST")) {
 				var request = HttpManager.CurrentContext.Request;

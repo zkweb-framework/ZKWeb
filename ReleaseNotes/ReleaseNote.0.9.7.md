@@ -1,30 +1,30 @@
-0.9.7 Release Note
+﻿0.9.7 Release Note
 
-### ��Ҫ��������
+### 主要更新内容
 
-- Ǩ�ƺ��ĵ�Asp.Net Core
-- �ṩһ�ײ�������Asp.Net Core��Asp.Net�ĳ����
-- ֧�ִ�����ʹ�������DatabaseContext
+- 迁移核心到Asp.Net Core
+- 提供一套不依赖于Asp.Net Core和Asp.Net的抽象层
+- 支持创建不使用事务的DatabaseContext
 
-### ����˵��
+### 更新说明
 
-��θ��°Ѻ�����Ŀ�����л���Ǩ�Ƶ���Asp.Net Core��<br/>
-��Ϊ֮ǰʹ�õ����л�����Asp.Net (System.Web)����θ��µ���֮ǰ�Ĳ������Ҫ�϶���޸Ĳ������С�<br/>
+这次更新把核心项目的运行环境迁移到了Asp.Net Core。<br/>
+因为之前使用的运行环境是Asp.Net (System.Web)，这次更新导致之前的插件都需要较多的修改才能运行。<br/>
 
-���ǵ��Ժ������Ҫ�Ƴ�Asp.Net Core����θ���ZKWeb�ṩ�˶����ĳ��������ֹ��Asp.Net Core��������<br/>
-ԭ�е�ZKWeb.Utils��Ŀ������ZKWebStandard��ZKWeb��׼��⣩��<br/>
-���Ӧ��ʹ��ZKWeb��׼������ṩ�Ľӿںͺ�������Ӧ��������System.Web��Asp.Net Core��<br/>
+考虑到以后可能需要移出Asp.Net Core，这次更新ZKWeb提供了独立的抽象层来防止对Asp.Net Core的依赖。<br/>
+原有的ZKWeb.Utils项目更名到ZKWebStandard（ZKWeb标准类库）。<br/>
+插件应该使用ZKWeb标准类库中提供的接口和函数，不应该依赖于System.Web或Asp.Net Core。<br/>
 
-��θ����л�����ԭ�е�System.Data.Sqlite�ڸ��º���ʹ�ã�������µĵ�ַ��<br/>
+这次更新中还发现原有的System.Data.Sqlite在更新后不能使用，详见以下的地址：<br/>
 http://stackoverflow.com/questions/36284533/project-json-referencing-sqllite<br/>
 http://system.data.sqlite.org/index.html/tktview?name=942ab10de2<br/>
-Ŀǰʹ���˶��Դ����`SQLiteForZKWeb`�������������θ��º�ָ��������ṩ�İ���<br/>
+目前使用了独自打包的`SQLiteForZKWeb`，但将会在上游更新后恢复到上游提供的包。<br/>
 
-### �ⲿ����
+### 外部依赖
 
-���ĵĽ�ͼ
-����Ľ�ͼ
+核心的截图
+插件的截图
 
-### ��������
+### 性能数据
 
-δ����
+未测试

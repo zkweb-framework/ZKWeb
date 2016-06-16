@@ -58,6 +58,24 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
+		/// 获取当前请求的来源Url
+		/// 没有时返回null
+		/// </summary>
+		/// <param name="request">Http请求</param>
+		/// <returns></returns>
+		public static Uri GetReferrer(this IHttpRequest request) {
+			var referrer = request.GetHeader("Referrer");
+			if (referrer == null) {
+				return null;
+			}
+			Uri referrerUri;
+			if (!Uri.TryCreate(referrer, UriKind.Absolute, out referrerUri)) {
+				return null;
+			}
+			return referrerUri;
+		}
+
+		/// <summary>
 		/// 获取http请求中的指定参数值
 		/// 优先级: 表单内容 > 请求字符串
 		/// </summary>
