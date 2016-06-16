@@ -18,7 +18,7 @@
 这次更新中还发现原有的System.Data.Sqlite在更新后不能使用，详见以下的地址：<br/>
 http://stackoverflow.com/questions/36284533/project-json-referencing-sqllite<br/>
 http://system.data.sqlite.org/index.html/tktview?name=942ab10de2<br/>
-目前使用了独自打包的`System.Data.SQLite.Core.ForZKWeb`，但将会在上游更新后恢复到上游提供的包。<br/>
+目前使用了独自打包的`SQLiteForZKWeb`，但将会在上游更新后恢复到上游提供的包。<br/>
 
 ### 外部依赖
 
