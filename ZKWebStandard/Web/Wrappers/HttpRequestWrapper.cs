@@ -21,6 +21,9 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual long? ContentLength {
 			get { return OriginalRequest.ContentLength; }
 		}
+		public virtual string ContentType {
+			get { return OriginalRequest.ContentType; }
+		}
 		public virtual string Host {
 			get { return OriginalRequest.Host; }
 		}

@@ -29,6 +29,7 @@ namespace ZKWebStandard.Web.Mock {
 				request.queryString = queryString;
 				request.query = HttpUtils.ParseQueryString(queryString);
 			} else {
+				request.contentType = "application/x-www-form-urlencoded";
 				request.form = HttpUtils.ParseQueryString(queryString);
 			}
 			request.method = method;

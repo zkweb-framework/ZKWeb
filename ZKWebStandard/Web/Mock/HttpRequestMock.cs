@@ -15,6 +15,7 @@ namespace ZKWebStandard.Web.Mock {
 		public Stream body { get; set; }
 		public X509Certificate2 clientCertificate { get; set; }
 		public long? contentLength { get; set; }
+		public string contentType { get; set; }
 		public string host { get; set; }
 		public IHttpContext httpContext { get; set; }
 		public bool isHttps { get; set; }
@@ -36,6 +37,7 @@ namespace ZKWebStandard.Web.Mock {
 		public virtual Stream Body { get { return body; } }
 		public virtual X509Certificate2 ClientCertificate { get { return clientCertificate; } }
 		public virtual long? ContentLength { get { return contentLength; } }
+		public virtual string ContentType { get { return contentType; } }
 		public virtual string Host { get { return host; } }
 		public virtual IHttpContext HttpContext { get { return httpContext; } }
 		public virtual bool IsHttps { get { return isHttps; } }
@@ -53,6 +55,7 @@ namespace ZKWebStandard.Web.Mock {
 			body = new MemoryStream();
 			clientCertificate = null;
 			contentLength = null;
+			contentType = null;
 			host = "localhost";
 			httpContext = context;
 			isHttps = false;

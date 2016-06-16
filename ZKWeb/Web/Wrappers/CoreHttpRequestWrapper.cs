@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Http;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Web;
+using System;
 
 namespace ZKWeb.Web.Wrappers {
 	/// <summary>
@@ -19,12 +20,21 @@ namespace ZKWeb.Web.Wrappers {
 		/// AspNetCore的Http请求
 		/// </summary>
 		protected HttpRequest CoreRequest { get; set; }
+		/// <summary>
+		/// 当前请求是否可以获取表单内容
+		/// AspNetCore必须进行事先检查
+		/// 构建时还没接收到ContentType，所以不能在构建时检查
+		/// </summary>
+		protected Lazy<bool> ContainsFormValues { get; set; }
 
 		public Stream Body {
 			get { return CoreRequest.Body; }
 		}
 		public long? ContentLength {
 			get { return CoreRequest.ContentLength; }
+		}
+		public string ContentType {
+			get { return CoreRequest.ContentType; }
 		}
 		public string Host {
 			get { return CoreRequest.Host.ToString(); }
@@ -83,9 +93,15 @@ namespace ZKWeb.Web.Wrappers {
 			}
 		}
 		public IList<string> GetFormValue(string key) {
+			if (!ContainsFormValues.Value) {
+				return null;
+			}
 			return CoreRequest.Form[key];
 		}
 		public IEnumerable<Pair<string, IList<string>>> GetFormValues() {
+			if (!ContainsFormValues.Value) {
+				yield break;
+			}
 			foreach (var pair in CoreRequest.Form) {
 				yield return Pair.Create<string, IList<string>>(pair.Key, pair.Value);
 			}
@@ -126,6 +142,11 @@ namespace ZKWeb.Web.Wrappers {
 			CoreHttpContextWrapper parentContext, HttpRequest coreRequest) {
 			ParentContext = parentContext;
 			CoreRequest = coreRequest;
+			ContainsFormValues = new Lazy<bool>(() => {
+				var contentType = (ContentType ?? "").Split(';')[0];
+				return (contentType == "application/x-www-form-urlencoded" ||
+					contentType == "multipart/form-data");
+			});
 		}
 	}
 }

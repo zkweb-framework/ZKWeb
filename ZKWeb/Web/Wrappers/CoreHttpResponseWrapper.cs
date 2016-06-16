@@ -61,6 +61,7 @@ namespace ZKWeb.Web.Wrappers {
 		}
 		public void Redirect(string url, bool permanent) {
 			CoreResponse.Redirect(url, permanent);
+			End();
 		}
 		public void End() {
 			Body.Flush();

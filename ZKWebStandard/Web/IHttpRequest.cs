@@ -13,11 +13,14 @@ namespace ZKWebStandard.Web {
 		/// 请求的数据流
 		/// </summary>
 		Stream Body { get; }
-
 		/// <summary>
 		/// 内容长度
 		/// </summary>
 		long? ContentLength { get; }
+		/// <summary>
+		/// 内容类型
+		/// </summary>
+		string ContentType { get; }
 		/// <summary>
 		/// 接收到请求的主机名和端口
 		/// </summary>

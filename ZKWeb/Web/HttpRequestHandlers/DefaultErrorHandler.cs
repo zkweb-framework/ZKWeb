@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Text;
 using ZKWeb.Logging;
 using ZKWeb.Server;
-using ZKWeb.Web;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
@@ -39,13 +39,15 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 				var configManager = Application.Ioc.Resolve<ConfigManager>();
 				var displayFullException = (configManager.WebsiteConfig
 					.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForRequest) ?? true);
-				var message = string.Format("<h1>{0} {1}</h1>",
+				var message = new StringBuilder();
+				message.Append("<head><meta charset='utf-8' /></head>");
+				message.AppendFormat("<h1>{0} {1}</h1>",
 					statusCode, HttpUtils.HtmlEncode(ex.Message));
 				if (displayFullException && httpExcepion == null) {
-					message += string.Format($"<br /><br /><pre>{0}</pre>", HttpUtils.HtmlEncode(ex));
+					message.AppendFormat("<pre>{0}</pre>", HttpUtils.HtmlEncode(ex));
 				}
 				response.ContentType = "text/html";
-				response.Write(message);
+				response.Write(message.ToString());
 				response.End();
 			}
 		}

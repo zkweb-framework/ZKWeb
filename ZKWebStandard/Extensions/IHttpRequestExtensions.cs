@@ -63,16 +63,16 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http请求</param>
 		/// <returns></returns>
-		public static Uri GetReferrer(this IHttpRequest request) {
-			var referrer = request.GetHeader("Referrer");
-			if (referrer == null) {
+		public static Uri GetReferer(this IHttpRequest request) {
+			var referer = request.GetHeader("Referer");
+			if (referer == null) {
 				return null;
 			}
-			Uri referrerUri;
-			if (!Uri.TryCreate(referrer, UriKind.Absolute, out referrerUri)) {
+			Uri refererUri;
+			if (!Uri.TryCreate(referer, UriKind.Absolute, out refererUri)) {
 				return null;
 			}
-			return referrerUri;
+			return refererUri;
 		}
 
 		/// <summary>
