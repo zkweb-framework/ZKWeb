@@ -6,7 +6,7 @@ Features:<br/>
 	- Csscript + Codedom
 	- Auto compile after modification
 - Code first database auto migration
-	- NHibernate
+	- FluentNHibernate
 	- Auto migration without any handwrite command
 - Simple and high performance Ioc container
 - Simple and extendable template sysetm
