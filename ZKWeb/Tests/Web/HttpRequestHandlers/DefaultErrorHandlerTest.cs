@@ -35,7 +35,9 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					handler.OnError(new HttpException(404, "wrong address"));
-					Assert.Equals(response.GetContentsFromBody(), "<h1>404 wrong address</h1>");
+					var contents = response.GetContentsFromBody();
+					Assert.IsTrueWith(
+						contents.Contains("404 wrong address") && !contents.Contains("<pre>"), contents);
 				}
 				// 根据网站配置决定是否显示完整信息
 				config.Extra[ExtraConfigKeys.DisplayFullExceptionForRequest] = true;
