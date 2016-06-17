@@ -20,11 +20,15 @@ http://stackoverflow.com/questions/36284533/project-json-referencing-sqllite<br/
 http://system.data.sqlite.org/index.html/tktview?name=942ab10de2<br/>
 目前使用了独自打包的`SQLiteForZKWeb`，但将会在上游更新后恢复到上游提供的包。<br/>
 
-### 外部依赖
-
-核心的截图
-插件的截图
-
 ### 性能数据
 
-未测试
+虚拟机比迁移前慢1倍，实机比迁移前慢15%左右。
+
+2016-06-17 (i7 Q720 1.6Ghz x 4 core 8 threads, ab -n 4000 -c 8, vmware player 12, asp.net core)
+	- 首页 3.34ms, 3.26ms, 3.23mss
+	- 商品列表页 3.078ms, 3.00ms, 2.965ms
+	- 商品详情页 3.727ms, 3.37ms, 3.42ms
+2016-06-17 (i7 Q720 1.6Ghz x 4 core 8 threads, ab -n 4000 -c 16, real machine, asp.net core)
+	- 首页 0.934, 0.945, 0.949
+	- 商品列表页 0.867, 0.824, 0.852
+	- 商品详情页 1.539, 1.512, 1.488
