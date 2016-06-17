@@ -47,7 +47,7 @@ namespace ZKWeb.Web.Wrappers {
 			get { return OriginalRequest.Path; }
 		}
 		public string QueryString {
-			get { return OriginalRequest.QueryString.ToString(); }
+			get { return OriginalRequest.Url.Query; }
 		}
 		public string Scheme {
 			get { return OriginalRequest.Url.Scheme; }
