@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKWeb", "ZKWeb\ZKWeb.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKWebStandard", "ZKWebStandard\ZKWebStandard.csproj", "{CE944C66-7A44-442E-9386-25EEADC2ABB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKWeb.Console", "ZKWeb.Console\ZKWeb.Console.csproj", "{C85152CD-8F5E-4F45-8BFB-5A88DB2C9751}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CE944C66-7A44-442E-9386-25EEADC2ABB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE944C66-7A44-442E-9386-25EEADC2ABB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE944C66-7A44-442E-9386-25EEADC2ABB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85152CD-8F5E-4F45-8BFB-5A88DB2C9751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85152CD-8F5E-4F45-8BFB-5A88DB2C9751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85152CD-8F5E-4F45-8BFB-5A88DB2C9751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85152CD-8F5E-4F45-8BFB-5A88DB2C9751}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

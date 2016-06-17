@@ -26,9 +26,9 @@ namespace ZKWeb {
 	/// </summary>
 	public class Global : System.Web.HttpApplication {
 		/// <summary>
-		/// 网站启动时的处理
+		/// 初始化处理
 		/// </summary>
-		protected void Application_Start(object sender, EventArgs e) {
+		internal static void Initialize() {
 			// 注册核心组件
 			var ioc = ZKWeb.Application.Ioc;
 			ioc.UnregisterAll();
@@ -66,6 +66,13 @@ namespace ZKWeb {
 			// 设置线程池使用尽可能多的线程
 			// 实际本机设置的数量是(32767, 32767)
 			ThreadPool.SetMaxThreads(int.MaxValue, int.MaxValue);
+		}
+
+		/// <summary>
+		/// 网站启动时的处理
+		/// </summary>
+		protected void Application_Start(object sender, EventArgs e) {
+			Initialize();
 		}
 
 		/// <summary>
