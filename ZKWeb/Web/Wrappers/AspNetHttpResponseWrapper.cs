@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using ZKWebStandard.Web;
-using System.Threading;
 using System.Web;
 
 namespace ZKWeb.Web.Wrappers {
@@ -20,9 +19,6 @@ namespace ZKWeb.Web.Wrappers {
 		public string ContentType {
 			get { return OriginalResponse.ContentType; }
 			set { OriginalResponse.ContentType = value; }
-		}
-		public bool HasStarted {
-			get { return OriginalResponse.OutputStream.Position > 0; }
 		}
 		public IHttpContext HttpContext {
 			get { return ParentContext; }

@@ -17,9 +17,6 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="url">跳转到的url地址</param>
 		public static void RedirectByScript(this IHttpResponse response, string url) {
 			var urlJson = JsonConvert.SerializeObject(url);
-			if (response.HasStarted) {
-				throw new NotSupportedException("response has started");
-			}
 			response.ContentType = "text/html";
 			response.Write($@"<script type='text/javascript'>location.href = {urlJson};</script>");
 			response.Body.Flush();

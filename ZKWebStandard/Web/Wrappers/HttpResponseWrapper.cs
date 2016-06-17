@@ -15,9 +15,6 @@ namespace ZKWebStandard.Web.Wrappers {
 			get { return OriginalResponse.ContentType; }
 			set { OriginalResponse.ContentType = value; }
 		}
-		public virtual bool HasStarted {
-			get { return OriginalResponse.HasStarted; }
-		}
 		public virtual IHttpContext HttpContext {
 			get { return OriginalResponse.HttpContext; }
 		}

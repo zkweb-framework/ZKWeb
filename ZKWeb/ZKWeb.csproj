@@ -216,7 +216,6 @@
     <Compile Include="Web\IHttpRequestHandler.cs" />
     <Compile Include="Web\IHttpRequestPreHandler.cs" />
     <Compile Include="Web\IWebsiteStartHandler.cs" />
-    <Compile Include="Web\PreventSystemWeb\IHttpModule.cs" />
     <Compile Include="Web\Wrappers\AspNetHttpContextWrapper.cs" />
     <Compile Include="Web\Wrappers\AspNetHttpPostedFileWrapper.cs" />
     <Compile Include="Web\Wrappers\AspNetHttpRequestWrapper.cs" />

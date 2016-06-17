@@ -15,10 +15,6 @@ namespace ZKWebStandard.Web {
 		/// </summary>
 		string ContentType { get; set; }
 		/// <summary>
-		/// 是否已经写入了Http头
-		/// </summary>
-		bool HasStarted { get; }
-		/// <summary>
 		/// 所属的Http上下文
 		/// </summary>
 		IHttpContext HttpContext { get; }
