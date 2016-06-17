@@ -15,9 +15,6 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual Stream Body {
 			get { return OriginalRequest.Body; }
 		}
-		public virtual X509Certificate2 ClientCertificate {
-			get { return OriginalRequest.ClientCertificate; }
-		}
 		public virtual long? ContentLength {
 			get { return OriginalRequest.ContentLength; }
 		}
@@ -32,12 +29,6 @@ namespace ZKWebStandard.Web.Wrappers {
 		}
 		public virtual bool IsHttps {
 			get { return OriginalRequest.IsHttps; }
-		}
-		public virtual IPAddress LocalIpAddress {
-			get { return OriginalRequest.LocalIpAddress; }
-		}
-		public virtual int LocalPort {
-			get { return OriginalRequest.LocalPort; }
 		}
 		public virtual string Method {
 			get { return OriginalRequest.Method; }

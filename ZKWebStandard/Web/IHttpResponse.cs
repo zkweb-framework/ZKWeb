@@ -11,10 +11,6 @@ namespace ZKWebStandard.Web {
 		/// </summary>
 		Stream Body { get; }
 		/// <summary>
-		/// 内容长度
-		/// </summary>
-		long? ContentLength { get; set; }
-		/// <summary>
 		/// 内容类型
 		/// </summary>
 		string ContentType { get; set; }

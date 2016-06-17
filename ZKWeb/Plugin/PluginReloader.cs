@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using System.Web;
 using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
@@ -20,14 +19,9 @@ namespace ZKWeb.Plugin {
 	internal static class PluginReloader {
 		/// <summary>
 		/// 停止网站
-		/// 网站未运行时不做处理
 		/// </summary>
 		internal static void StopWebsite() {
-			var host = Application.Ioc.Resolve<IWebHost>(IfUnresolved.ReturnDefault);
-			if (host != null) {
-				var lifetime = host.Services.GetService<IApplicationLifetime>();
-				lifetime.StopApplication();
-			}
+			HttpRuntime.UnloadAppDomain();
 		}
 
 		/// <summary>

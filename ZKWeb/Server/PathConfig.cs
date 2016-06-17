@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
+﻿using System.IO;
+using System.Reflection;
+using System.Web;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Server {
 	/// <summary>
@@ -47,12 +49,10 @@ namespace ZKWeb.Server {
 		/// 初始化
 		/// </summary>
 		public PathConfig() {
-			var websiteRootDirectory = PlatformServices.Default.Application.ApplicationBasePath;
-			while (!File.Exists(Path.Combine(websiteRootDirectory, "web.config"))) {
-				websiteRootDirectory = Path.GetDirectoryName(websiteRootDirectory);
-				if (string.IsNullOrEmpty(websiteRootDirectory)) {
-					throw new DirectoryNotFoundException("find website root directory failed");
-				}
+			var websiteRootDirectory = HttpContext.Current?.Server.MapPath("~/");
+			if (websiteRootDirectory == null) {
+				var consolePath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(IHttpContext)).Location);
+				websiteRootDirectory = Path.GetFullPath(Path.Combine(consolePath, "../../../ZKWeb/"));
 			}
 			WebsiteRootDirectory = websiteRootDirectory;
 			AppDataDirectory = Path.Combine(WebsiteRootDirectory, "App_Data");
