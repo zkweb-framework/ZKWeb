@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.IO;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
@@ -10,17 +9,12 @@ namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
 	class IHttpResponseExtensionsTest {
 		public void RedirectByScript() {
-			var responseMock = Substitute.For<IHttpResponse>();
+			var contextMock = new HttpContextMock();
 			var stream = new MemoryStream();
-			responseMock.Body.Returns(stream);
-			responseMock.RedirectByScript("testurl");
-			responseMock.Received().ContentType = "text/html";
-			responseMock.Received().End();
-			stream.Seek(0, SeekOrigin.Begin);
-			using (var reader = new StreamReader(stream)) {
-				var contents = reader.ReadToEnd();
-				Assert.IsTrue(contents.Contains("testurl"));
-			}
+			contextMock.response.RedirectByScript("testurl");
+			var contents = contextMock.response.GetContentsFromBody();
+			Assert.IsTrueWith(contents.Contains("testurl"), contents);
+			Assert.IsTrue(contextMock.response.isEnd);
 		}
 
 		public void SetLastModified() {

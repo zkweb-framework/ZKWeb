@@ -11,17 +11,9 @@ namespace ZKWebStandard.Web {
 		/// </summary>
 		Stream Body { get; }
 		/// <summary>
-		/// 内容长度
-		/// </summary>
-		long? ContentLength { get; set; }
-		/// <summary>
 		/// 内容类型
 		/// </summary>
 		string ContentType { get; set; }
-		/// <summary>
-		/// 是否已经写入了Http头
-		/// </summary>
-		bool HasStarted { get; }
 		/// <summary>
 		/// 所属的Http上下文
 		/// </summary>

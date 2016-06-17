@@ -11,16 +11,9 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual Stream Body {
 			get { return OriginalResponse.Body; }
 		}
-		public virtual long? ContentLength {
-			get { return OriginalResponse.ContentLength; }
-			set { OriginalResponse.ContentLength = value; }
-		}
 		public virtual string ContentType {
 			get { return OriginalResponse.ContentType; }
 			set { OriginalResponse.ContentType = value; }
-		}
-		public virtual bool HasStarted {
-			get { return OriginalResponse.HasStarted; }
 		}
 		public virtual IHttpContext HttpContext {
 			get { return OriginalResponse.HttpContext; }

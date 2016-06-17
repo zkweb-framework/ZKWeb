@@ -20,15 +20,6 @@
         "runtime": {
           "lib/net45/Newtonsoft.Json.dll": {}
         }
-      },
-      "NSubstitute/1.10.0": {
-        "type": "package",
-        "compile": {
-          "lib/net45/NSubstitute.dll": {}
-        },
-        "runtime": {
-          "lib/net45/NSubstitute.dll": {}
-        }
       }
     }
   },
@@ -67,31 +58,11 @@
         "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.xml",
         "tools/install.ps1"
       ]
-    },
-    "NSubstitute/1.10.0": {
-      "sha512": "EjtltQLY+h9Q5k+Qr/8rnR0/MUlTizF+LOHA8Y5uy4SzLAL1Yubuz1gW9qfisJEhsS2DPWoBym/1f3Huwr0E8w==",
-      "type": "package",
-      "files": [
-        "BreakingChanges.txt",
-        "CHANGELOG.txt",
-        "LICENSE.txt",
-        "NSubstitute.1.10.0.nupkg.sha512",
-        "NSubstitute.nuspec",
-        "README.txt",
-        "acknowledgements.txt",
-        "lib/net35/NSubstitute.XML",
-        "lib/net35/NSubstitute.dll",
-        "lib/net40/NSubstitute.XML",
-        "lib/net40/NSubstitute.dll",
-        "lib/net45/NSubstitute.XML",
-        "lib/net45/NSubstitute.dll"
-      ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "DotLiquidForkForZKWeb >= 1.0.0",
-      "NSubstitute >= 1.10.0",
       "Newtonsoft.Json >= 9.0.1-beta1"
     ],
     ".NETFramework,Version=v4.5.2": [

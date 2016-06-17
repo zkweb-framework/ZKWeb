@@ -737,7 +737,6 @@
         "framework": ".NETFramework,Version=v4.5.2",
         "dependencies": {
           "DotLiquidForkForZKWeb": "1.0.0",
-          "NSubstitute": "1.10.0",
           "Newtonsoft.Json": "9.0.1-beta1"
         },
         "frameworkAssemblies": [

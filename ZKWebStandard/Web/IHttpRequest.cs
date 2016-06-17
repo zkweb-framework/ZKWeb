@@ -60,21 +60,6 @@ namespace ZKWebStandard.Web {
 		/// <example>http</example>
 		string Scheme { get; }
 		/// <summary>
-		/// 客户端的SSL证书
-		/// 不存在时返回null
-		/// </summary>
-		X509Certificate2 ClientCertificate { get; }
-		/// <summary>
-		/// 本地IP地址
-		/// </summary>
-		/// <example>127.0.0.1</example>
-		IPAddress LocalIpAddress { get; }
-		/// <summary>
-		/// 本地端口
-		/// </summary>
-		/// <example>80</example>
-		int LocalPort { get; }
-		/// <summary>
 		/// 远程IP地址
 		/// </summary>
 		/// <example>127.0.0.1</example>

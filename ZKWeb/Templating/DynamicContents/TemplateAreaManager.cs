@@ -106,17 +106,17 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <returns></returns>
 		public virtual List<TemplateWidget> GetCustomWidgets(string areaId) {
 			// 从缓存获取
-			var widgets = CustomWidgetsCache.GetOrDefault(areaId);
-			if (widgets != null) {
+			List<TemplateWidget> widgets;
+			if (CustomWidgetsCache.TryGetValue(areaId, out widgets)) {
 				return widgets;
 			}
 			// 从文件获取
 			var path = GetCustomWidgetsJsonPath(areaId);
 			if (File.Exists(path)) {
-				// 获取成功时保存到缓存中
 				widgets = JsonConvert.DeserializeObject<List<TemplateWidget>>(File.ReadAllText(path));
-				CustomWidgetsCache.Put(areaId, widgets, CustomWidgetsCacheTime);
 			}
+			// 保存到缓存，null也需要保存
+			CustomWidgetsCache.Put(areaId, widgets, CustomWidgetsCacheTime);
 			return widgets;
 		}
 

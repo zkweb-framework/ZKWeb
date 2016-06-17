@@ -13,14 +13,11 @@ namespace ZKWebStandard.Web.Mock {
 	public class HttpRequestMock : IHttpRequest {
 #pragma warning disable CS1591
 		public Stream body { get; set; }
-		public X509Certificate2 clientCertificate { get; set; }
 		public long? contentLength { get; set; }
 		public string contentType { get; set; }
 		public string host { get; set; }
 		public IHttpContext httpContext { get; set; }
 		public bool isHttps { get; set; }
-		public IPAddress localIpAddress { get; set; }
-		public int localPort { get; set; }
 		public string method { get; set; }
 		public string path { get; set; }
 		public string protocol { get; set; }
@@ -35,14 +32,11 @@ namespace ZKWebStandard.Web.Mock {
 		public IDictionary<string, IHttpPostedFile> postedFiles { get; set; }
 
 		public virtual Stream Body { get { return body; } }
-		public virtual X509Certificate2 ClientCertificate { get { return clientCertificate; } }
 		public virtual long? ContentLength { get { return contentLength; } }
 		public virtual string ContentType { get { return contentType; } }
 		public virtual string Host { get { return host; } }
 		public virtual IHttpContext HttpContext { get { return httpContext; } }
 		public virtual bool IsHttps { get { return isHttps; } }
-		public virtual IPAddress LocalIpAddress { get { return localIpAddress; } }
-		public virtual int LocalPort { get { return localPort; } }
 		public virtual string Method { get { return method; } }
 		public virtual string Path { get { return path; } }
 		public virtual string Protocol { get { return protocol; } }
@@ -53,14 +47,11 @@ namespace ZKWebStandard.Web.Mock {
 
 		public HttpRequestMock(IHttpContext context) {
 			body = new MemoryStream();
-			clientCertificate = null;
 			contentLength = null;
 			contentType = null;
 			host = "localhost";
 			httpContext = context;
 			isHttps = false;
-			localIpAddress = IPAddress.Loopback;
-			localPort = 80;
 			method = "GET";
 			path = "/";
 			protocol = "HTTP/1.1";
