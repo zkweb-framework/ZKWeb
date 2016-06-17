@@ -1,6 +1,6 @@
-﻿0.9.5 Release Note
+﻿### 0.9.5 Release Note
 
-更新内容
+### 更新内容
 
 - 支持在内存占用超过一定值时自动清理缓存+回收内存
 - 在核心中添加缓存隔离策略Url, Locale, Device

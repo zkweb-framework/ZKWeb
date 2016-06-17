@@ -31,7 +31,12 @@ Features:<br/>
 - Visual page editor
 	- Prepared and planned
 
-Version: 0.9.7 testing (backward compatibility is not provided yet)<br/>
+Version: 0.9.8 testing (backward compatibility is not provided yet)<br/>
+
+ZKWeb provided both Asp.Net and Asp.Net Core version now.<br/>
+For Asp.Net Core version please checkout `aspnet_core` branch.<br/>
+Both version compatible with same plugins.<br/>
+Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent on Asp.Net (Core).<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
@@ -41,16 +46,6 @@ Demo Website: http://zkwebsite.com/admin<br/>
 Demo Account: demo 123456
 
 This framework is inspired by django, all comments are written in chinese.<br/>
-
-ZKWeb is running on Asp.Net Core now,<br/>
-but it has it's abstraction layer to make sure plugins are independent from Asp.Net or Asp.Net Core.<br/>
-That make move away from Asp.Net Core in the future without breaking the compatibility is possible.<br/>
-The dependency to the following libraries is still required, but they are stable and solid. <br/>
-
-- DotLiquid
-- FluentNHibernate
-- Newtonsoft.Json
-- NSubstitute
 
 MIT License<br/>
 Copyright © 2016 303248153@github<br/>

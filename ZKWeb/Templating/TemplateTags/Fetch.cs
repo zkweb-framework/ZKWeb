@@ -185,15 +185,9 @@ namespace ZKWeb.Templating.TemplateTags {
 				FetchContext = fetchContext;
 				FetchPath = path;
 				FetchMethod = method;
-				if (method == "GET") {
-					FetchQueryString = queryString;
-					FetchQuery = HttpUtils.ParseQueryString(queryString);
-					FetchForm = new Dictionary<string, IList<string>>();
-				} else {
-					FetchQueryString = "";
-					FetchQuery = new Dictionary<string, IList<string>>();
-					FetchForm = HttpUtils.ParseQueryString(queryString);
-				}
+				FetchQueryString = queryString;
+				FetchQuery = HttpUtils.ParseQueryString(queryString);
+				FetchForm = FetchQuery;
 			}
 		};
 	}
