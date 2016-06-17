@@ -96,6 +96,10 @@ namespace ZKWeb {
 					throw new HttpException(404, "Not Found");
 				} catch (ThreadAbortException) {
 					// 正常处理完毕
+					// 这里需要throw的原因
+					// - IIS抛出的线程终止错误是包装的类型，表示请求结束
+					// - 如果让运行库抛出原本的例外会导致IIS认为不是请求结束而是程序结束
+					throw;
 				} catch (Exception ex) {
 					// 调用错误处理器，后注册的先调用
 					foreach (var handler in ioc.ResolveMany<IHttpRequestErrorHandler>()) {
