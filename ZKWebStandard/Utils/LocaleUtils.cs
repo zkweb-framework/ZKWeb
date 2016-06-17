@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Threading;
 using ZKWebStandard.Extensions;
@@ -17,6 +18,16 @@ namespace ZKWebStandard.Utils {
 		/// 储存当前页面使用时区的键名
 		/// </summary>
 		public const string TimeZoneKey = "ZKWeb.TimeZone";
+		/// <summary>
+		/// 语言信息的缓存
+		/// </summary>
+		private static ConcurrentDictionary<string, CultureInfo> ClutureInfoCache =
+			new ConcurrentDictionary<string, CultureInfo>();
+		/// <summary>
+		/// 时区信息的缓存
+		/// </summary>
+		private static ConcurrentDictionary<string, TimeZoneInfo> TimeZoneInfoCache =
+			new ConcurrentDictionary<string, TimeZoneInfo>();
 
 		/// <summary>
 		/// 设置当前线程使用的语言，返回是否成功
@@ -28,7 +39,8 @@ namespace ZKWebStandard.Utils {
 				return false;
 			}
 			try {
-				var cultureInfo = CultureInfo.GetCultureInfo(language);
+				var cultureInfo = ClutureInfoCache.GetOrAdd(
+					language, key => CultureInfo.GetCultureInfo(key));
 				Thread.CurrentThread.CurrentCulture = cultureInfo;
 				Thread.CurrentThread.CurrentUICulture = cultureInfo;
 				return true;
@@ -47,7 +59,8 @@ namespace ZKWebStandard.Utils {
 				return false;
 			}
 			try {
-				var timezoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timezone);
+				var timezoneInfo = TimeZoneInfoCache.GetOrAdd(
+					timezone, key => TimeZoneInfo.FindSystemTimeZoneById(key));
 				HttpManager.CurrentContext.PutData(TimeZoneKey, timezoneInfo);
 				return true;
 			} catch (TimeZoneNotFoundException) {

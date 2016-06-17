@@ -83,24 +83,42 @@ namespace ZKWebStandard.Collections {
 
 		/// <summary>
 		/// 获取缓存数据
+		/// 没有或已过期时返回false
+		/// </summary>
+		/// <param name="key">缓存键</param>
+		/// <param name="value">缓存值</param>
+		/// <returns></returns>
+		public bool TryGetValue(TKey key, out TValue value) {
+			RevokeExpires();
+			var now = DateTime.UtcNow;
+			CacheLock.EnterReadLock();
+			try {
+				Pair<TValue, DateTime> pair;
+				if (Cache.TryGetValue(key, out pair) && pair.Second > now) {
+					value = pair.First;
+					return true;
+				} else {
+					value = default(TValue);
+					return false;
+				}
+			} finally {
+				CacheLock.ExitReadLock();
+			}
+		}
+
+		/// <summary>
+		/// 获取缓存数据
 		/// 没有或已过期时返回默认值
 		/// </summary>
 		/// <param name="key">缓存键</param>
 		/// <param name="defaultValue">默认值</param>
 		/// <returns></returns>
 		public TValue GetOrDefault(TKey key, TValue defaultValue = default(TValue)) {
-			RevokeExpires();
-			var now = DateTime.UtcNow;
-			CacheLock.EnterReadLock();
-			try {
-				Pair<TValue, DateTime> value;
-				if (Cache.TryGetValue(key, out value) && value.Second > now) {
-					return value.First;
-				}
-				return defaultValue;
-			} finally {
-				CacheLock.ExitReadLock();
+			TValue value;
+			if (TryGetValue(key, out value)) {
+				return value;
 			}
+			return defaultValue;
 		}
 
 		/// <summary>

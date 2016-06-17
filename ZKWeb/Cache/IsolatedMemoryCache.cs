@@ -71,6 +71,17 @@ namespace ZKWeb.Cache {
 
 		/// <summary>
 		/// 获取缓存数据
+		/// 没有或已过期时返回false
+		/// </summary>
+		/// <param name="key">缓存键</param>
+		/// <param name="value">缓存值</param>
+		/// <returns></returns>
+		public bool TryGetValue(TKey key, out TValue value) {
+			return TryGetValue(GenerateKey(key), out value);
+		}
+
+		/// <summary>
+		/// 获取缓存数据
 		/// 没有或已过期时返回默认值
 		/// </summary>
 		/// <param name="key">缓存键</param>
