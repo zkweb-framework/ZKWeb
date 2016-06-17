@@ -1,6 +1,6 @@
-﻿0.9.6 Release Note
+﻿### 0.9.6 Release Note
 
-主要更新内容
+### 主要更新内容
 
 - 更改查找设备专用模板的规则，调整插件 > 设备到设备 > 插件
 - 更换Moq到NSubstitute
