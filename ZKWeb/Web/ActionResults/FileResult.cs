@@ -37,16 +37,15 @@ namespace ZKWeb.Web.ActionResults {
 			// 设置文件的最后修改时间
 			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
 			response.SetLastModified(lastModified);
+			// 设置内容类型
+			response.ContentType = MimeUtils.GetMimeType(FilePath);
 			// 文件没有修改时返回304
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
-				response.End();
 				return;
 			}
-			// 设置状态代码和内容类型
-			response.StatusCode = 200;
-			response.ContentType = MimeUtils.GetMimeType(FilePath);
 			// 写入文件到http回应中
+			response.StatusCode = 200;
 			response.WriteFile(FilePath);
 		}
 	}
