@@ -55,7 +55,9 @@ namespace ZKWeb.Owin.Hosting {
 			OwinResponse.Headers.Add(key, new[] { value });
 		}
 		public void Redirect(string url, bool permanent) {
-			OwinResponse.Redirect(url);
+			// Owin不支持永久跳转，这里自己写Http头
+			OwinResponse.Headers.Add("Location", new[] { url });
+			OwinResponse.StatusCode = permanent ? 301 : 302;
 			End();
 		}
 		public void End() {
