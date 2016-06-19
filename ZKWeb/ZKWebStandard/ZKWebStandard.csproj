@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE944C66-7A44-442E-9386-25EEADC2ABB1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZKWebStandard</RootNamespace>
+    <AssemblyName>ZKWebStandard</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ZKWebStandard.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\ZKWebStandard.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=82e46016ecf9f07c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotLiquidForkForZKWeb.1.0.0\lib\NET45\DotLiquid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\HtmlString.cs" />
+    <Compile Include="Collections\LazyCache.cs" />
+    <Compile Include="Collections\MemoryCache.cs" />
+    <Compile Include="Collections\Pair.cs" />
+    <Compile Include="Collections\SimpleDisposable.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\IDictionaryExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\IHttpContextExtensions.cs" />
+    <Compile Include="Extensions\IHttpRequestExtensions.cs" />
+    <Compile Include="Extensions\IHttpResponseExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Extensions\ImageExtensions.cs" />
+    <Compile Include="Extensions\ISetExtensions.cs" />
+    <Compile Include="Extensions\ITreeNodeExtensions.cs" />
+    <Compile Include="Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="Extensions\MethodInfoExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Ioc\Container.cs" />
+    <Compile Include="Ioc\ExportManyAttributes.cs" />
+    <Compile Include="Ioc\IContainer.cs" />
+    <Compile Include="Ioc\IfUnresolved.cs" />
+    <Compile Include="Ioc\IGenericRegistrator.cs" />
+    <Compile Include="Ioc\IGenericResolver.cs" />
+    <Compile Include="Ioc\IRegistrator.cs" />
+    <Compile Include="Ioc\IResolver.cs" />
+    <Compile Include="Ioc\ReuseAttribute.cs" />
+    <Compile Include="Ioc\ReuseType.cs" />
+    <Compile Include="Ioc\SingletonReuseAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Testing\Assert.cs" />
+    <Compile Include="Testing\AssertException.cs" />
+    <Compile Include="Testing\AssertPassedException.cs" />
+    <Compile Include="Testing\AssertSkipedException.cs" />
+    <Compile Include="Testing\Events\AllTestCompletedInfo.cs" />
+    <Compile Include="Testing\Events\AllTestStartingInfo.cs" />
+    <Compile Include="Testing\Events\DebugMessageInfo.cs" />
+    <Compile Include="Testing\Events\ErrorMessageInfo.cs" />
+    <Compile Include="Testing\Events\IUnitTestEventHandler.cs" />
+    <Compile Include="Testing\Events\TestFailedInfo.cs" />
+    <Compile Include="Testing\Events\TestPassedInfo.cs" />
+    <Compile Include="Testing\Events\TestSkippedInfo.cs" />
+    <Compile Include="Testing\Events\TestStartingInfo.cs" />
+    <Compile Include="Testing\TestResultCounter.cs" />
+    <Compile Include="Testing\TestRunner.cs" />
+    <Compile Include="Testing\TestsAttribute.cs" />
+    <Compile Include="Tests\Collections\LazyCacheTest.cs" />
+    <Compile Include="Tests\Collections\MemoryCacheTest.cs" />
+    <Compile Include="Tests\Collections\SimpleDisposableTest.cs" />
+    <Compile Include="Tests\Extensions\ByteArrayExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\DateTimeExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\EnumExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ExpressionExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IDictionaryExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IEnumerableExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IHttpContextExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IHttpRequestExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IHttpResponseExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\IListExtensions.cs" />
+    <Compile Include="Tests\Extensions\ImageExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ISetExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ITreeNodeExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\MemberInfoExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\MethodInfoExtensionsTest.cs" />
+    <Compile Include="Tests\Extensions\ObjectExtensionsTest.cs" />
+    <Compile Include="Tests\Ioc\ContainerTest.cs" />
+    <Compile Include="Tests\Utils\ExpressionUtilsTest.cs" />
+    <Compile Include="Tests\Utils\FileUtilsTest.cs" />
+    <Compile Include="Tests\Utils\HttpUtilsTest.cs" />
+    <Compile Include="Tests\Utils\LocaleUtilsTest.cs" />
+    <Compile Include="Tests\Utils\PasswordUtilsTest.cs" />
+    <Compile Include="Tests\Utils\PathUtilsTest.cs" />
+    <Compile Include="Tests\Utils\RandomUtilsTest.cs" />
+    <Compile Include="Tests\Utils\ReflectionUtilsTest.cs" />
+    <Compile Include="Tests\Utils\RegexUtilsTest.cs" />
+    <Compile Include="Tests\Utils\SystemUtilsTest.cs" />
+    <Compile Include="Tests\Utils\TreeUtilsTest.cs" />
+    <Compile Include="Tests\Web\HttpManagerTest.cs" />
+    <Compile Include="Utils\ExpressionUtils.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="Utils\HttpUtils.cs" />
+    <Compile Include="Utils\LocaleUtils.cs" />
+    <Compile Include="Utils\MimeUtils.cs" />
+    <Compile Include="Utils\PasswordUtils.cs" />
+    <Compile Include="Utils\PathUtils.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Utils\ReflectionUtils.cs" />
+    <Compile Include="Utils\RegexUtils.cs" />
+    <Compile Include="Utils\SystemUtils.cs" />
+    <Compile Include="Utils\TreeUtils.cs" />
+    <Compile Include="Web\HttpCookieOptions.cs" />
+    <Compile Include="Web\HttpException.cs" />
+    <Compile Include="Web\HttpManager.cs" />
+    <Compile Include="Web\IHttpContext.cs" />
+    <Compile Include="Web\IHttpPostedFile.cs" />
+    <Compile Include="Web\IHttpRequest.cs" />
+    <Compile Include="Web\IHttpResponse.cs" />
+    <Compile Include="Web\Mock\HttpContextMock.cs" />
+    <Compile Include="Web\Mock\HttpRequestMock.cs" />
+    <Compile Include="Web\Mock\HttpResponseMock.cs" />
+    <Compile Include="Web\Wrappers\HttpContextWrapper.cs" />
+    <Compile Include="Web\Wrappers\HttpRequestWrapper.cs" />
+    <Compile Include="Web\Wrappers\HttpResponseWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

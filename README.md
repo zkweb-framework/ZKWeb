@@ -1,4 +1,4 @@
-### Extendable .net web framework
+### Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin
 
 Features:<br/>
 
@@ -31,11 +31,10 @@ Features:<br/>
 - Visual page editor
 	- Prepared and planned
 
-Version: 0.9.8 testing (backward compatibility is not provided yet)<br/>
+Version: 1.0.0 beta 1 (Backward compatibility is provided as much as possible)<br/>
 
-ZKWeb provided both Asp.Net and Asp.Net Core version now.<br/>
-For Asp.Net Core version please checkout `aspnet_core` branch.<br/>
-Both version compatible with same plugins.<br/>
+ZKWeb support running on Asp.Net, Asp.Net Core and Owin.<br/>
+All version compatible with same plugins.<br/>
 Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent on Asp.Net (Core).<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
@@ -55,9 +54,10 @@ If you have any license issue please contact 303248153@qq.com.<br/>
 
 a. How to run this project?
 
-- Download ZKWeb and ZKWeb.Plugins from github
-- Put ZKWeb and ZKWeb.Plugins in same folder
-- Edit config.json under ZKWeb\App_Data change Database and ConnectionString
+- Download **ZKWeb** and **ZKWeb.Plugins** from github
+- Put **ZKWeb** and **ZKWeb.Plugins** in same folder
+- Decide which version you want to run, Asp.Net or Asp.Net Core or Owin.
+- Edit **config.json** under **App_Data**, change Database and ConnectionString
 	- Example for mssql
 	```
 	"Database": "mssql",
@@ -78,11 +78,11 @@ a. How to run this project?
 	"Database": "mysql",
 	"ConnectionString": "Server=127.0.0.1;Port=3306;Database=test_db;User Id=test_user;Password=123456;",
 	```
--	Once database configuration completed, you can run ZKWeb project from visual studio.
+-	Execute from visual studio or dotnet command.
 
 b. How to add my own plugin?
 	
-- Add folder "Example" under "ZKWeb.Plugins" 
+- Add folder **Example** under **ZKWeb.Plugins** 
 - Plugin folder struction:
 
 	```
@@ -94,7 +94,7 @@ b. How to add my own plugin?
 		template.mobile: mobile specialized html templates
 		template.desktop: desktop specialized html templates
 	```
-- Create "ExampleController.cs" under "Example\src"
+- Create **ExampleController.cs** under **Example\src**
 
 	``` csharp
 	[ExportMany]
@@ -105,10 +105,11 @@ b. How to add my own plugin?
 			}
 	}
 	```
-- Create "test.html" under "Example\template\example"
+- Create **test.html** under **Example\template\example**
 
 	``` html
 	<div>{{ message }}</div>
 	```
-- Edit "ZKWeb\App_Data\config.json", add "Example" to "Plugins" list
-- Open browser and visit http://localhost:port/example
+- Edit **config.json** under **App_Data**, add **Example** to **Plugins** list
+- Open browser and visit http://localhost:8765/example<br/>
+  or visit http://localhost:5000/example if you're running on kestrel

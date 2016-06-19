@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>ZKWeb</id>
+		<version>1.0.0-beta-1a</version>
+		<title>ZKWeb</title>
+		<authors>303248153</authors>
+		<owners>303248153</owners>
+		<description>Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin. For more information please visit project site.</description>
+		<summary>Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin. For more information please visit project site.</summary>
+		<language>en-US</language>
+		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
+		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<tags></tags>
+		<dependencies>
+			<dependency id="CS-Script.bin" version="3.12.2.1" />
+			<dependency id="DotLiquidForkForZKWeb" version="1.0.0" />
+			<dependency id="FluentNHibernate" version="2.0.3.0" />
+			<dependency id="NHibernate" version="4.0.4.4000" />
+			<dependency id="Newtonsoft.Json" version="9.0.1-beta1" />
+			<dependency id="NSubstitute" version="1.10.0.0" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\LICENSE.txt" target="." />
+		<file src="..\ZKWeb\bin\Release\ZKWeb.dll" target="lib\NET45" />
+		<file src="..\ZKWeb\bin\Release\ZKWeb.xml" target="lib\NET45" />
+		<file src="..\ZKWeb\bin\Release\ZKWeb.pdb" target="lib\NET45" />
+		<file src="..\ZKWeb\bin\Release\ZKWebStandard.dll" target="lib\NET45" />
+		<file src="..\ZKWeb\bin\Release\ZKWebStandard.xml" target="lib\NET45" />
+		<file src="..\ZKWeb\bin\Release\ZKWebStandard.pdb" target="lib\NET45" />
+	</files>
+</package>

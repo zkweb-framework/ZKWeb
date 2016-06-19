@@ -163,6 +163,7 @@ $RECYCLE.BIN/
 
 # nuget packages
 packages/
+*.nupkg
 
 # publish files
 PublishProfiles/
