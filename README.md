@@ -39,7 +39,7 @@ Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
-References: http://zkweb-framework.github.io/cn/references/zkweb/html/annotated.html<br/>
+References: http://zkweb-framework.github.io/cn/references/zkweb/index.html<br/>
 
 Demo Website: http://zkwebsite.com/admin<br/>
 Demo Account: demo 123456
