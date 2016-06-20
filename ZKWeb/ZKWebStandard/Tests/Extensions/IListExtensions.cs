@@ -35,5 +35,11 @@ namespace ZKWebStandard.Tests.Extensions {
 			list.AddAfter(x => x == 2, 3);
 			Assert.IsTrueWith(list.SequenceEqual(new[] { 1, 2, 3, 4 }), list);
 		}
+
+		public void AddRange() {
+			IList<int> list = new List<int>();
+			list.AddRange(new[] { 1, 2, 3 });
+			Assert.IsTrueWith(list.SequenceEqual(new[] { 1, 2, 3 }), list);
+		}
 	}
 }

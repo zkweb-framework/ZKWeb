@@ -8,8 +8,10 @@ namespace ZKWebStandard.Tests.Extensions {
 	class ISetExtensionsTest {
 		public void AddRange() {
 			var set = new SortedSet<int>();
-			set.AddRange(new[] { 1, 2, 3 });
+			Assert.Equals(set.AddRange(new[] { 1, 2, 3 }), 3);
 			Assert.IsTrueWith(set.SequenceEqual(new[] { 1, 2, 3 }), set);
+			Assert.Equals(set.AddRange(new[] { 3, 4, 5 }), 2);
+			Assert.IsTrueWith(set.SequenceEqual(new[] { 1, 2, 3, 4, 5 }), set);
 		}
 	}
 }

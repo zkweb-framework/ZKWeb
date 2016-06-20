@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using ZKWebStandard.Collections;
 
 namespace ZKWebStandard.Web.Wrappers {

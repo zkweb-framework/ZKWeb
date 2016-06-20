@@ -106,5 +106,18 @@ namespace ZKWebStandard.Extensions {
 			}
 			items.Insert(index + 1, obj);
 		}
+
+		/// <summary>
+		/// 添加元素列表到列表中
+		/// </summary>
+		/// <typeparam name="T">元素类型</typeparam>
+		/// <param name="list">列表</param>
+		/// <param name="items">元素列表</param>
+		/// <returns></returns>
+		public static void AddRange<T>(this IList<T> list, IEnumerable<T> items) {
+			foreach (var item in items) {
+				list.Add(item);
+			}
+		}
 	}
 }
