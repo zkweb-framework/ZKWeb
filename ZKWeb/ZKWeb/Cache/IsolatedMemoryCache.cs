@@ -92,6 +92,19 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
+		/// 获取缓存数据
+		/// 没有或已过期时创建并返回
+		/// 注意获取和创建整体不是原子的
+		/// </summary>
+		/// <param name="key">缓存</param>
+		/// <param name="creator">创建函数</param>
+		/// <param name="keepTime">保留时间</param>
+		/// <returns></returns>
+		public TValue GetOrCreate(TKey key, Func<TValue> creator, TimeSpan keepTime) {
+			return GetOrCreate(GenerateKey(key), creator, keepTime);
+		}
+
+		/// <summary>
 		/// 删除缓存数据
 		/// </summary>
 		/// <param name="key">缓存键</param>

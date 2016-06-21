@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,9 +19,9 @@ namespace ZKWeb.Localize {
 		public TimeSpan TranslateCacheTime { get; set; }
 		/// <summary>
 		/// 翻译缓存
-		/// { 语言: { 文本: 翻译, ... } }
+		/// { (语言, 文本): 翻译, ... }
 		/// </summary>
-		protected ConcurrentDictionary<string, MemoryCache<string, string>> TranslateCache { get; set; }
+		protected MemoryCache<Pair<string, string>, string> TranslateCache { get; set; }
 		/// <summary>
 		/// 翻译提供器的缓存
 		/// { 语言: 提供器列表, ... }
@@ -36,7 +35,7 @@ namespace ZKWeb.Localize {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			TranslateCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TranslateCacheTime, 3));
-			TranslateCache = new ConcurrentDictionary<string, MemoryCache<string, string>>();
+			TranslateCache = new MemoryCache<Pair<string, string>, string>();
 			TranslateProvidersCache = new MemoryCache<string, List<ITranslateProvider>>();
 		}
 
@@ -62,24 +61,19 @@ namespace ZKWeb.Localize {
 				return "";
 			}
 			// 从缓存获取
-			var localizeCache = TranslateCache.GetOrAdd(code, _ => new MemoryCache<string, string>());
-			var translated = localizeCache.GetOrDefault(text);
-			if (translated != null) {
-				return translated;
-			}
-			// 获取翻译提供器列表
-			var providers = GetTranslateProviders(code);
-			// 翻译文本并保存到缓存
-			// 没有找到翻译时使用原文本
-			foreach (var provider in providers) {
-				translated = provider.Translate(text);
-				if (translated != null) {
-					break;
+			return TranslateCache.GetOrCreate(Pair.Create(code, text), () => {
+				// 获取翻译提供器列表
+				var providers = GetTranslateProviders(code);
+				// 翻译文本并保存到缓存
+				// 没有找到翻译时使用原文本
+				foreach (var provider in providers) {
+					var translated = provider.Translate(text);
+					if (translated != null) {
+						return translated;
+					}
 				}
-			}
-			translated = translated ?? text;
-			localizeCache.Put(text, translated, TranslateCacheTime);
-			return translated;
+				return text;
+			}, TranslateCacheTime);
 		}
 
 		/// <summary>
@@ -88,17 +82,11 @@ namespace ZKWeb.Localize {
 		/// <param name="code">格式是{语言}-{地区}</param>
 		/// <returns></returns>
 		public virtual List<ITranslateProvider> GetTranslateProviders(string code) {
-			// 从缓存获取
-			var provides = TranslateProvidersCache.GetOrDefault(code);
-			if (provides != null) {
-				return provides;
-			}
-			// 从容器获取并保存到缓存
-			provides = Application.Ioc.ResolveMany<ITranslateProvider>()
-				.Where(p => p.CanTranslate(code))
-				.Reverse().ToList();
-			TranslateProvidersCache.Put(code, provides, TranslateCacheTime);
-			return provides;
+			return TranslateProvidersCache.GetOrCreate(code, () => {
+				return Application.Ioc.ResolveMany<ITranslateProvider>()
+					.Where(p => p.CanTranslate(code))
+					.Reverse().ToList();
+			}, TranslateCacheTime);
 		}
 
 		/// <summary>

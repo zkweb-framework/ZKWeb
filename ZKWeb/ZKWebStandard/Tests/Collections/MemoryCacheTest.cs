@@ -37,6 +37,14 @@ namespace ZKWebStandard.Tests.Collections {
 			// GetOrDefault，已过期未删除时
 			memoryCache.Put(1, "TestDataA", TimeSpan.FromMinutes(-1));
 			Assert.Equals(memoryCache.GetOrDefault(1), null);
+			// GetOrCreate
+			Assert.Equals(memoryCache.GetOrCreate(
+				101, () => "create 101", TimeSpan.FromSeconds(100)), "create 101");
+			Assert.Equals(memoryCache.GetOrDefault(101), "create 101");
+			Assert.Equals(memoryCache.GetOrCreate(
+				101, () => "create 101 again", TimeSpan.FromSeconds(100)), "create 101");
+			Assert.Equals(memoryCache.GetOrDefault(101), "create 101");
+			memoryCache.Remove(101);
 			// RevokeExpires
 			memoryCache.LastRevokeExpires = DateTime.UtcNow.AddSeconds(-181);
 			memoryCache.GetOrDefault(0);
