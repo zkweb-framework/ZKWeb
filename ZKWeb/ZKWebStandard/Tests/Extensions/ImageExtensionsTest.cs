@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NETCORE
+using System;
 using System.Drawing;
 using System.IO;
 using ZKWebStandard.Extensions;
@@ -91,3 +92,4 @@ namespace ZKWebStandard.Tests.Extensions {
 		}
 	}
 }
+#endif

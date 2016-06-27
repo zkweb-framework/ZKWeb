@@ -5,21 +5,22 @@ using ZKWebStandard.Utils;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
 using ZKWebStandard.Web.Mock;
+using System.Globalization;
 
 namespace ZKWebStandard.Tests.Functions {
 	[Tests]
 	class LocaleUtilsTest {
 		public void SetThreadLanguage() {
 			Assert.IsTrue(LocaleUtils.SetThreadLanguage("zh-CN"));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "zh-CN");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "zh-CN");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "zh-CN");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "zh-CN");
 			Assert.IsTrue(LocaleUtils.SetThreadLanguage("en-US"));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 			Assert.IsTrue(!LocaleUtils.SetThreadLanguage(null));
 			Assert.IsTrue(!LocaleUtils.SetThreadLanguage("NotExist"));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 		}
 
 		public void SetThreadTimezone() {
@@ -41,32 +42,32 @@ namespace ZKWebStandard.Tests.Functions {
 			// 无cookies, 无浏览器语言，传入默认语言
 			context.RemoveCookie(LocaleUtils.LanguageKey);
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, "zh-CN"));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "zh-CN");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "zh-CN");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "zh-CN");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "zh-CN");
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, "en-US"));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 			// 无cookies, 有浏览器语言但不启用，不传入默认语言
 			using (HttpManager.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 				request.headers["Accept-Language"] = "NotExist,zh-CN;q=0.7";
 				Assert.IsTrue(!LocaleUtils.SetThreadLanguageAutomatic(false, null));
-				Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
-				Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
+				Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
+				Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 			}
 			// 无cookies, 有浏览器语言且启用，不传入默认语言
 			using (HttpManager.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 				request.headers["Accept-Language"] = "NotExist,zh-CN;q=0.7";
 				Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(true, null));
-				Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "zh-CN");
-				Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "zh-CN");
+				Assert.Equals(CultureInfo.CurrentCulture.Name, "zh-CN");
+				Assert.Equals(CultureInfo.CurrentUICulture.Name, "zh-CN");
 			}
 			// 有cookies，无浏览器语言，不传入默认语言
 			context.PutCookie(LocaleUtils.LanguageKey, "en-US");
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, null));
-			Assert.Equals(Thread.CurrentThread.CurrentCulture.IetfLanguageTag, "en-US");
-			Assert.Equals(Thread.CurrentThread.CurrentUICulture.IetfLanguageTag, "en-US");
+			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
+			Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 		}
 
 		public void SetThreadTimezoneAutomatic() {

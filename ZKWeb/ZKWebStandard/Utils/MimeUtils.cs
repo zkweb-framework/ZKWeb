@@ -12,7 +12,7 @@ namespace ZKWebStandard.Utils {
 		/// 后缀名到MIME类型的索引
 		/// </summary>
 		private static IDictionary<string, string> MimeMapping =
-			new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
+			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
 				{".323", "text/h323"},
 				{".3g2", "video/3gpp2"},
 				{".3gp", "video/3gpp"},

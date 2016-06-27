@@ -13,11 +13,11 @@ namespace ZKWebStandard.Utils {
 		/// <returns></returns>
 		public static string GetSizeDisplayName(long bytes) {
 			if (bytes >= 1073741824) {
-				return $"{Decimal.Round((decimal)bytes / 1073741824, 2)}GB";
+				return $"{Math.Round((decimal)bytes / 1073741824, 2)}GB";
 			} else if (bytes >= 1048576) {
-				return $"{Decimal.Round((decimal)bytes / 1048576, 2)}MB";
+				return $"{Math.Round((decimal)bytes / 1048576, 2)}MB";
 			} else if (bytes >= 1024) {
-				return $"{Decimal.Round((decimal)bytes / 1024, 2)}KB";
+				return $"{Math.Round((decimal)bytes / 1024, 2)}KB";
 			}
 			return $"{bytes}Bytes";
 		}

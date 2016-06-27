@@ -41,7 +41,7 @@ namespace ZKWebStandard.Extensions {
 			where T : Attribute {
 			Type type = value.GetType();
 			var field = type.FastGetField(Enum.GetName(type, value));
-			return Attribute.GetCustomAttribute(field, typeof(T)) as T;
+			return field.GetAttribute<T>();
 		}
 	}
 }

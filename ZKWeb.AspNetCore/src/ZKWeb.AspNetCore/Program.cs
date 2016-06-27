@@ -33,26 +33,11 @@ namespace ZKWeb.AspNetCore {
 		}
 
 		/// <summary>
-		/// 获取网站根目录
-		/// </summary>
-		/// <returns></returns>
-		private static string GetWebsiteRootDirectory() {
-			var path = PlatformServices.Default.Application.ApplicationBasePath;
-			while (!File.Exists(Path.Combine(path, "Web.config"))) {
-				path = Path.GetDirectoryName(path);
-				if (string.IsNullOrEmpty(path)) {
-					throw new DirectoryNotFoundException("Website root directory not found");
-				}
-			}
-			return path;
-		}
-
-		/// <summary>
 		/// 运行测试
 		/// </summary>
 		private static void RunTests() {
 			// 初始化程序
-			Application.Initialize(GetWebsiteRootDirectory());
+			Application.Initialize(Startup.GetWebsiteRootDirectory());
 			// 运行所有测试
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
@@ -65,38 +50,11 @@ namespace ZKWeb.AspNetCore {
 		/// 运行网站
 		/// </summary>
 		private static void RunWebsite() {
-			// 配置托管
-			// 支持IIS和Kestrel
 			var host = new WebHostBuilder()
 				.UseKestrel()
 				.UseIISIntegration()
-				.Configure(app => {
-					// 初始化程序
-					Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
-					Application.Initialize(GetWebsiteRootDirectory());
-					// 设置处理请求的函数
-					// 处理会在线程池中运行
-					app.Run(coreContext => Task.Run(() => {
-						var context = new CoreHttpContextWrapper(coreContext);
-						try {
-							// 处理请求
-							Application.OnRequest(context);
-						} catch (CoreHttpResponseEndException) {
-							// 正常处理完毕
-						} catch (Exception ex) {
-							// 处理错误
-							try {
-								Application.OnError(context, ex);
-							} catch (CoreHttpResponseEndException) {
-								// 错误处理完毕
-							} catch (Exception) {
-								// 错误处理失败
-							}
-						}
-					}));
-				})
+				.UseStartup<Startup>()
 				.Build();
-			Application.Ioc.RegisterInstance<IWebHost>(host);
 			host.Run();
 		}
 	}

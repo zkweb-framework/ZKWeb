@@ -40,9 +40,15 @@ namespace ZKWebStandard.Utils {
 			}
 			try {
 				var cultureInfo = ClutureInfoCache.GetOrAdd(
-					language, key => CultureInfo.GetCultureInfo(key));
+					language, key => new CultureInfo(key));
+#if NETCORE
+				CultureInfo.CurrentCulture = cultureInfo;
+				CultureInfo.CurrentUICulture = cultureInfo;
+#else
+				// .net 4.6开始才支持使用CultureInfo设置当前语言
 				Thread.CurrentThread.CurrentCulture = cultureInfo;
 				Thread.CurrentThread.CurrentUICulture = cultureInfo;
+#endif
 				return true;
 			} catch (CultureNotFoundException) {
 				return false;
@@ -63,7 +69,9 @@ namespace ZKWebStandard.Utils {
 					timezone, key => TimeZoneInfo.FindSystemTimeZoneById(key));
 				HttpManager.CurrentContext.PutData(TimeZoneKey, timezoneInfo);
 				return true;
-			} catch (TimeZoneNotFoundException) {
+			} catch (Exception) {
+				// TimeZoneNotFoundException is not available
+				// https://github.com/dotnet/corefx/blob/master/src/System.Runtime/tests/System/TimeZoneInfoTests.cs
 				return false;
 			}
 		}

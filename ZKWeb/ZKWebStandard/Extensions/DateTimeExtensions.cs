@@ -17,7 +17,7 @@ namespace ZKWebStandard.Extensions {
 			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Utc);
-				return TimeZoneInfo.ConvertTimeFromUtc(time, timezone);
+				return TimeZoneInfo.ConvertTime(time, TimeZoneInfo.Utc, timezone);
 			}
 			// 没有时使用服务器的本地时间
 			return time.ToLocalTime();
@@ -44,7 +44,7 @@ namespace ZKWebStandard.Extensions {
 			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Unspecified);
-				return TimeZoneInfo.ConvertTimeToUtc(time, timezone);
+				return TimeZoneInfo.ConvertTime(time, timezone, TimeZoneInfo.Utc);
 			}
 			// 没有时使用服务器的本地时间
 			return time.ToUniversalTime();

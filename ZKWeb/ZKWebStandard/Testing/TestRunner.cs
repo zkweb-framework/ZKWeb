@@ -97,7 +97,7 @@ namespace ZKWebStandard.Testing {
 					// 调用测试函数
 					try {
 						TriggerEvent(h => h.OnTestStarting, new TestStartingInfo(this, method, instance));
-						((Action)Delegate.CreateDelegate(typeof(Action), instance, method))();
+						method.FastInvoke(instance);
 						throw new AssertPassedException();
 					} catch (AssertPassedException) {
 						// 测试通过
@@ -136,7 +136,7 @@ namespace ZKWebStandard.Testing {
 			// 枚举所有类型
 			foreach (var type in Assembly.GetTypes()) {
 				// 只测试带测试属性的类型
-				if (type.GetCustomAttribute<TestsAttribute>() == null) {
+				if (type.GetTypeInfo().GetCustomAttribute<TestsAttribute>() == null) {
 					continue;
 				}
 				// 执行测试函数

@@ -14,18 +14,18 @@ namespace ZKWebStandard.Utils {
 		public static Random Generator { get; } = new Random(SystemRandomInt());
 
 		/// <summary>
-		/// 使用RNGCryptoServiceProvider生成真正随机的二进制数据
+		/// 生成真正随机的二进制数据
 		/// </summary>
 		public static byte[] SystemRandomBytes(int length) {
 			byte[] buffer = new byte[length];
-			using (var rng = new RNGCryptoServiceProvider()) {
+			using (var rng = RandomNumberGenerator.Create()) {
 				rng.GetBytes(buffer);
 			}
 			return buffer;
 		}
 
 		/// <summary>
-		/// 使用RNGCryptoServiceProvider生成真正随机的整数
+		/// 生成真正随机的整数
 		/// </summary>
 		public static int SystemRandomInt() {
 			return BitConverter.ToInt32(SystemRandomBytes(4), 0);

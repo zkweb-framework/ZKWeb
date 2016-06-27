@@ -162,6 +162,7 @@
     <Compile Include="Hosting\OwinHttpResponseWrapper.cs" />
     <Compile Include="Hosting\OwinWebsiteStopper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartupBase.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup />

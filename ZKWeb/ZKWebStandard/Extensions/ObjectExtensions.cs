@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
@@ -53,15 +54,15 @@ namespace ZKWebStandard.Extensions {
 			}
 			// 类型相同时直接返回，不需要转换
 			var objType = obj.GetType();
-			if (type.IsAssignableFrom(objType)) {
+			if (type.GetTypeInfo().IsAssignableFrom(objType)) {
 				return obj;
 			}
 			// 使用Convert转换
 			try {
-				if (objType.IsEnum && type == typeof(int)) {
+				if (objType.GetTypeInfo().IsEnum && type == typeof(int)) {
 					// enum => int
 					return Convert.ToInt32(obj);
-				} else if (objType == typeof(string) && type.IsEnum) {
+				} else if (objType == typeof(string) && type.GetTypeInfo().IsEnum) {
 					// string => enum, 下面json也能转换但这里转换性能更快
 					return Enum.Parse(type, (string)obj);
 				}

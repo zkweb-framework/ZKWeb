@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
@@ -89,13 +90,13 @@ namespace ZKWebStandard.Ioc {
 		/// 获取类型的自身类型和继承的类型和实现的接口列表
 		/// </summary>
 		protected static IEnumerable<Type> GetImplementedTypes(Type type) {
-			foreach (var interfaceType in type.GetInterfaces()) {
+			foreach (var interfaceType in type.GetTypeInfo().GetInterfaces()) {
 				yield return interfaceType;
 			}
 			var baseType = type;
 			while (baseType != null) {
 				yield return baseType;
-				baseType = baseType.BaseType;
+				baseType = baseType.GetTypeInfo().BaseType;
 			}
 		}
 
@@ -104,10 +105,11 @@ namespace ZKWebStandard.Ioc {
 		/// 部分系统类型和接口会被忽略
 		/// </summary>
 		protected static IEnumerable<Type> GetImplementedServiceTypes(Type type, bool nonPublicServiceTypes) {
-			var mscorlibAssembly = typeof(int).Assembly;
+			var mscorlibAssembly = typeof(int).GetTypeInfo().Assembly;
 			foreach (var serviceType in GetImplementedTypes(type)) {
-				if ((!serviceType.IsNotPublic || nonPublicServiceTypes) &&
-					(serviceType.Assembly != mscorlibAssembly)) {
+				var serviceTypeInfo = serviceType.GetTypeInfo();
+				if ((!serviceTypeInfo.IsNotPublic || nonPublicServiceTypes) &&
+					(serviceTypeInfo.Assembly != mscorlibAssembly)) {
 					yield return serviceType;
 				}
 			}
@@ -227,12 +229,13 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
-				var exportManyAttribute = type.GetAttribute<ExportManyAttribute>();
+				var typeInfo = type.GetTypeInfo();
+				var exportManyAttribute = typeInfo.GetAttribute<ExportManyAttribute>();
 				if (exportManyAttribute == null) {
 					continue;
 				}
 				// 按ExportMany属性注册
-				var reuseType = type.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
+				var reuseType = typeInfo.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
 				var nonPublic = exportManyAttribute.NonPublic;
 				var except = exportManyAttribute.Except;
 				var contractKey = exportManyAttribute.ContractKey;
@@ -308,7 +311,8 @@ namespace ZKWebStandard.Ioc {
 				throw new KeyNotFoundException(string.Format(messageFormat, serviceType, serviceKey));
 			} else if (ifUnresolved == IfUnresolved.ReturnDefault) {
 				// 返回默认值
-				return serviceType.IsValueType ? Activator.CreateInstance(serviceType) : null;
+				return serviceType.GetTypeInfo().IsValueType ?
+					Activator.CreateInstance(serviceType) : null;
 			} else {
 				throw new NotSupportedException(string.Format(
 					"unsupported ifUnresolved type {0}", ifUnresolved));

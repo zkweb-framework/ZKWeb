@@ -8,7 +8,7 @@
 		static void Main(string[] args) {
 			// 初始化程序
 			Application.Initialize(
-				Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "../../"));
+				Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "../../../../"));
 			// 运行所有测试
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
