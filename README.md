@@ -31,7 +31,7 @@ Features:<br/>
 - Visual page editor
 	- Prepared and planned
 
-Version: 1.0.0 beta 1 (Backward compatibility is provided as much as possible)<br/>
+Version: 1.0.0 beta 2 (Backward compatibility is provided as much as possible)<br/>
 
 ZKWeb support running on Asp.Net, Asp.Net Core and Owin.<br/>
 All version compatible with same plugins.<br/>
