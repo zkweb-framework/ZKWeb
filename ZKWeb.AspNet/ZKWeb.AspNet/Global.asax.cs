@@ -1,7 +1,8 @@
 ﻿using ZKWeb.Hosting.AspNet;
 
 namespace ZKWeb.AspNet {
-	public class Global : GlobalBase {
-
-	}
+	/// <summary>
+	/// Asp.Net Global Class
+	/// </summary>
+	public class Global : GlobalBase { }
 }

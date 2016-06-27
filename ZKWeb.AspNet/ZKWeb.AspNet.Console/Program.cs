@@ -10,7 +10,6 @@
 		}
 
 		public static void RunTests() {
-			Console.ReadLine();
 			Application.Initialize(
 				Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "../../../ZKWeb.AspNet"));
 

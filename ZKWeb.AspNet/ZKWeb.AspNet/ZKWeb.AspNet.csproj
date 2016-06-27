@@ -99,15 +99,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="ZKWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.0.0-beta-2\lib\net45\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.0.0-beta-2a\lib\net45\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.Hosting.AspNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.0.0-beta-2\lib\net45\ZKWeb.Hosting.AspNet.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.0.0-beta-2a\lib\net45\ZKWeb.Hosting.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.0.0-beta-2\lib\net45\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.0.0-beta-2a\lib\net45\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -115,6 +115,10 @@
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="App_Data\config.json" />
+    <Content Include="ZKWeb.AspNet\static\zkweb.aspnet.css\hello.css" />
+    <Content Include="ZKWeb.AspNet\static\zkweb.aspnet.js\hello.js" />
+    <Content Include="ZKWeb.AspNet\templates\zkweb.aspnet\hello.html" />
+    <Content Include="ZKWeb.AspNet\plugin.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -130,7 +134,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZKWeb.AspNet\src\Controllers\HelloController.cs" />
+    <Compile Include="ZKWeb.AspNet\src\Plugin.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
