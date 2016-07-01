@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using ZKWeb.Web;
 
-namespace ZKWeb.Owin.Hosting {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// 停止Owin网站的运行
 	/// </summary>

@@ -28,7 +28,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// 框架的完整版本
 		/// </summary>
-		public static string FullVersion { get { return "1.0.0 beta 2"; } }
+		public static string FullVersion { get { return "1.0.0 beta 3"; } }
 		/// <summary>
 		/// 框架的数值版本
 		/// </summary>

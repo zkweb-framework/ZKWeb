@@ -2,7 +2,7 @@
 using System.IO;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Owin.Hosting {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// 包装Owin的Http回应
 	/// </summary>

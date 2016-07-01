@@ -2,7 +2,7 @@
 using System.Net.Http;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Owin.Hosting {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// 包装Owin的提交文件
 	/// </summary>

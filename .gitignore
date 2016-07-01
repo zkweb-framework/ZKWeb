@@ -164,6 +164,7 @@ $RECYCLE.BIN/
 # nuget packages
 packages/
 *.nupkg
+project.lock.json
 
 # publish files
 PublishProfiles/

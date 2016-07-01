@@ -10,7 +10,7 @@ using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Owin.Hosting {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// 包装Owin的Http请求
 	/// </summary>

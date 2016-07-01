@@ -3,10 +3,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
-using ZKWeb.Owin.Hosting;
 using ZKWebStandard.Extensions;
 
-namespace ZKWeb.Owin {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// Owin程序配置类的基类
 	/// </summary>

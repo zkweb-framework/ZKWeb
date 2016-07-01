@@ -1,0 +1,10 @@
+﻿{
+	"version": "1.0.0-*",
+	"dependencies": {},
+	"buildOptions": {
+		"emitEntryPoint": true
+	},
+	"frameworks": {
+		"net461": {}
+	}
+}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Owin.Hosting {
+namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// 包装Owin的Http上下文
 	/// </summary>
