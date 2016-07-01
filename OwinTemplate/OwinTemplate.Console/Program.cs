@@ -9,7 +9,8 @@
 
 	public class Program {
 		public static void Main(string[] args) {
-			SelfHost();
+			// SelfHost();
+			RunTests();
 		}
 
 		public static void SelfHost() {
