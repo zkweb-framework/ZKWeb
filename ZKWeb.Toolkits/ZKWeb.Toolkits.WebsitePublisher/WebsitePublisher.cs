@@ -111,9 +111,14 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var outputDir = Path.Combine(Parameters.OutputDirectory, Parameters.OutputName);
 			// 复制网站程序
 			// Asp.Net需要复制到bin下，Asp.Net Core需要复制到根目录
+			// Asp.Net还需要同时复制Global.asax
 			var outputBinDir = isCore ? outputDir : Path.Combine(outputDir, "bin");
 			DirectoryUtils.CopyDirectory(binDir, outputBinDir);
 			File.Copy(webConfigPath, Path.Combine(outputDir, "web.config"), true);
+			var globalAsaxPath = Path.Combine(webRoot, "Global.asax");
+			if (File.Exists(globalAsaxPath)) {
+				File.Copy(globalAsaxPath, Path.Combine(outputDir, "Global.asax"), true);
+			}
 			// 整合和复制网站配置
 			var outputConfigJsonPath = Path.Combine(outputDir, "App_Data", "config.json");
 			var config = WebsiteConfig.Merge(configJsonPath, outputConfigJsonPath);

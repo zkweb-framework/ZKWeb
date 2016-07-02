@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZKWeb.Toolkits.ProjectCreator.Gui.Utils;
 using ZKWeb.Toolkits.ProjectCreator.Model;
@@ -59,7 +60,8 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 			}
 		}
 
-		private void btnCreateProject_Click(object sender, EventArgs e) {
+		private async void btnCreateProject_Click(object sender, EventArgs e) {
+			btnCreateProject.Enabled = false;
 			try {
 				var parameters = new CreateProjectParameters();
 				parameters.ProjectType = GetSelectedProjectType();
@@ -70,10 +72,12 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 				parameters.UseDefaultPlugins = tbUseDefaultPlugins.Text;
 				parameters.OutputDirectory = tbOutputDirectory.Text;
 				var creator = new ProjectCreator(parameters);
-				creator.CreateProject();
+				await Task.Run(() => creator.CreateProject());
 				MessageBox.Show("Success");
 			} catch (Exception ex) {
 				MessageBox.Show(ex.Message);
+			} finally {
+				btnCreateProject.Enabled = true;
 			}
 		}
 	}
