@@ -14,9 +14,11 @@
 - 升级.net框架版本到4.6.1
   - 微软已经删除System.Diagnostics.Process等包中对4.5的支持，这次升级是万不得已
 - 提供项目生成器
-  - Tools\ProjectCreator.Gui.exe, ProjectCreator.Cmd.exe
-- 提供项目发布器
-  - Tools\WebsitePublisher.Gui.exe, WebsitePublisher.Cmd.exe
+  - 界面版 Tools\ProjectCreator.Gui.exe
+  - 命令版 Tools\ProjectCreator.Cmd.exe
+- 提供网站发布器
+  - 界面版 Tools\WebsitePublisher.Gui.exe
+  - 命令版 WebsitePublisher.Cmd.exe
 
 ### 已知问题
 
