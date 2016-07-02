@@ -14,5 +14,9 @@
 			}
 		},
 		"net461": {}
+	},
+	"dependencies": {
+		"ZKWeb.Toolkits.WebsitePublisher": "1.0.0-*",
+		"Mono.Options": "4.4.0"
 	}
 }

@@ -22,6 +22,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		/// </summary>
 		/// <param name="parameters">创建项目的参数</param>
 		public ProjectCreator(CreateProjectParameters parameters) {
+			parameters.Check();
 			Parameters = parameters;
 		}
 
@@ -83,7 +84,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 			var contents = File.ReadAllText(path);
 			foreach (var property in parameters.GetType().GetTypeInfo().GetProperties()) {
 				var expr = "${" + property.Name + "}";
-				contents = contents.Replace(expr, property.GetValue(parameters).ToString());
+				contents = contents.Replace(expr, property.GetValue(parameters)?.ToString());
 			}
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 			File.WriteAllText(outputPath, contents);

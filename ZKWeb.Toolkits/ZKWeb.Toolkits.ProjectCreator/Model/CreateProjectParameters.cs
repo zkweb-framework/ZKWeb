@@ -1,4 +1,6 @@
-﻿namespace ZKWeb.Toolkits.ProjectCreator.Model {
+﻿using System;
+
+namespace ZKWeb.Toolkits.ProjectCreator.Model {
 	/// <summary>
 	/// 创建项目的参数
 	/// </summary>
@@ -44,5 +46,23 @@
 		/// 保存项目的文件夹
 		/// </summary>
 		public string OutputDirectory { get; set; }
+
+		/// <summary>
+		/// 检查参数
+		/// </summary>
+		public void Check() {
+			if (ProjectType != "AspNet" && ProjectType != "AspNetCore" && ProjectType != "Owin") {
+				throw new ArgumentException("Project Type must be one of AspNet, AspNetCore, Owin");
+			} else if (string.IsNullOrEmpty(ProjectName)) {
+				throw new ArgumentException("Project Name can't be empty");
+			} else if (Database != "mssql" && Database != "mysql" &&
+				Database != "postgresql" && Database != "sqlite") {
+				throw new ArgumentException("Database must be one of mssql, mysql, postgresql, sqlite");
+			} else if (string.IsNullOrEmpty(ConnectionString)) {
+				throw new ArgumentException("Connection String can't be empty");
+			} else if (string.IsNullOrEmpty(OutputDirectory)) {
+				throw new ArgumentException("Output Directory can't be empty");
+			}
+		}
 	}
 }

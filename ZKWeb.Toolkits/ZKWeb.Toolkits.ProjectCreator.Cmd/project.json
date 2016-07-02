@@ -16,6 +16,7 @@
 		"net461": {}
 	},
 	"dependencies": {
-		"ZKWeb.Toolkits.ProjectCreator": "1.0.0-*"
+		"ZKWeb.Toolkits.ProjectCreator": "1.0.0-*",
+		"Mono.Options": "4.4.0"
 	}
 }
