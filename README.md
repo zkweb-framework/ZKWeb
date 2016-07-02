@@ -53,64 +53,6 @@ If you have any license issue please contact 303248153@qq.com.<br/>
 
 ### Getting Started:
 
-a. How to run this project?
-
-- Download **ZKWeb** and **ZKWeb.Plugins** from github
-- Put **ZKWeb** and **ZKWeb.Plugins** in same folder
-- Decide which version you want to run, Asp.Net or Asp.Net Core or Owin.
-- Edit **config.json** under **App_Data**, change Database and ConnectionString
-	- Example for mssql
-	```
-	"Database": "mssql",
-	"ConnectionString": "Server=127.0.0.1;Database=test_db;User Id=test_user;Password=123456;",
-	```
-	- Example for postgresql
-	```
-	"Database": "postgresql",
-	"ConnectionString": "Server=127.0.0.1;Port=5432;Database=test_db;User Id=test_user;Password=123456;",
-	```
-	- Example for sqlite
-	```
-	"Database": "sqlite",
-	"ConnectionString": "Data Source={{App_Data}}/test.db;Version=3;",
-	```
-	- Example for mysql
-	```
-	"Database": "mysql",
-	"ConnectionString": "Server=127.0.0.1;Port=3306;Database=test_db;User Id=test_user;Password=123456;",
-	```
--	Execute from visual studio or dotnet command.
-
-b. How to add my own plugin?
-	
-- Add folder **Example** under **ZKWeb.Plugins** 
-- Plugin folder struction:
-
-	```
-	Example
-		bin: compiled assembly
-		src: source files for automatic compilation in developement
-		static: static files
-		template: default html templates
-		template.mobile: mobile specialized html templates
-		template.desktop: desktop specialized html templates
-	```
-- Create **ExampleController.cs** under **Example\src**
-
-	``` csharp
-	[ExportMany]
-	public class ExampleController : IController {
-			[Action("example")]
-			public IActionResult Example() {
-				return new TemplateResult("example/test.html", new { message = "hello world" });
-			}
-	}
-	```
-- Create **test.html** under **Example\template\example**
-
-	``` html
-	<div>{{ message }}</div>
-	```
-- Edit **config.json** under **App_Data**, add **Example** to **Plugins** list
-- Open browser and visit http://localhost:8765/example<br/>
-  or visit http://localhost:5000/example if you're running on kestrel
+Getting started is much easier now.<br/>
+Open "Tools\ProjectCreator.Gui.exe", create your own project then open it.<br/>
+For more information please see the document.<br/>
