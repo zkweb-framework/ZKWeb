@@ -1,0 +1,6 @@
+﻿{
+	"Name": "${ProjectName}",
+	"Version": "0.1",
+	"Description": "${ProjectDescription}",
+	"Dependencies": [ ]
+}
