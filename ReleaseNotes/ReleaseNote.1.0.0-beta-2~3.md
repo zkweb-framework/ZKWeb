@@ -18,7 +18,7 @@
   - 命令版 Tools\ProjectCreator.Cmd.exe
 - 提供网站发布器
   - 界面版 Tools\WebsitePublisher.Gui.exe
-  - 命令版 WebsitePublisher.Cmd.exe
+  - 命令版 Tools\WebsitePublisher.Cmd.exe
 
 ### 已知问题
 
