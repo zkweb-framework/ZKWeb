@@ -130,7 +130,8 @@ namespace ZKWeb {
 			}
 			// 调用错误处理器，后注册的先调用
 			using (HttpManager.OverrideContext(context)) {
-				foreach (var handler in Ioc.ResolveMany<IHttpRequestErrorHandler>()) {
+				foreach (var handler in
+					Ioc.ResolveMany<IHttpRequestErrorHandler>().Reverse()) {
 					handler.OnError(ex);
 				}
 			}
