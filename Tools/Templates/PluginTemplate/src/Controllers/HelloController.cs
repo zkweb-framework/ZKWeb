@@ -2,7 +2,7 @@
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Ioc;
 
-namespace ${ProjectName}.${ProjectName}.src.Controllers {
+namespace ${ProjectName}.Plugins.${ProjectName}.src.Controllers {
 	/// <summary>
 	/// Hello world controller
 	/// </summary>

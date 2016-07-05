@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>${ProjectName}</RootNamespace>
-    <AssemblyName>${ProjectName}</AssemblyName>
+    <RootNamespace>${ProjectName}.Owin</RootNamespace>
+    <AssemblyName>${ProjectName}.Owin</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -163,12 +163,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="${ProjectName}\static\${ProjectNameLower}.css\hello.css" />
-    <Content Include="${ProjectName}\static\${ProjectNameLower}.js\hello.js" />
-    <Content Include="${ProjectName}\templates\${ProjectNameLower}\hello.html" />
     <Content Include="packages.config" />
     <Content Include="App_Data\config.json" />
-    <Content Include="${ProjectName}\plugin.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -180,8 +176,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="${ProjectName}\src\Controllers\HelloController.cs" />
-    <Compile Include="${ProjectName}\src\Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

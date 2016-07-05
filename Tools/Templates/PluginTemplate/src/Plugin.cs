@@ -1,7 +1,7 @@
 ﻿using ZKWeb.Plugin;
 using ZKWebStandard.Ioc;
 
-namespace ${ProjectName}.${ProjectName}.src {
+namespace ${ProjectName}.Plugins.${ProjectName}.src {
 	/// <summary>
 	/// Plugin Entry Point
 	/// </summary>

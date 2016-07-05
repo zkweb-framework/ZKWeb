@@ -1,6 +1,6 @@
 ﻿using ZKWeb.Hosting.AspNet;
 
-namespace ${ProjectName} {
+namespace ${ProjectName}.AspNet {
 	/// <summary>
 	/// Asp.Net Global Class
 	/// </summary>

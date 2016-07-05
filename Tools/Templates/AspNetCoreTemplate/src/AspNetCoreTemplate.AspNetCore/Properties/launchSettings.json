@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "${ProjectName}": {
+    "${ProjectName}.AspNetCore": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:${SelfHostPort}",

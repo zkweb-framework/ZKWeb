@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 
-namespace ${ProjectName} {
+namespace ${ProjectName}.AspNetCore {
 	/// <summary>
 	/// Asp.Net Core Main Program
 	/// </summary>

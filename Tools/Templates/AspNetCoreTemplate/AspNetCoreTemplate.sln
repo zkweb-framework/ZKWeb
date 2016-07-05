@@ -10,9 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "${ProjectName}", "src\${ProjectName}\${ProjectName}.xproj", "{${WebProjectGuid}}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "${ProjectName}.AspNetCore", "src\${ProjectName}.AspNetCore\${ProjectName}.AspNetCore.xproj", "{${WebProjectGuid}}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "${ProjectName}.Console", "src\${ProjectName}.Console\${ProjectName}.Console.xproj", "{${ConsoleProjectGuid}}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "${ProjectName}.Plugins", "src\${ProjectName}.Plugins\${ProjectName}.Plugins.xproj", "{${PluginProjectGuid}}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,10 @@ Global
 		{${ConsoleProjectGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{${ConsoleProjectGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{${ConsoleProjectGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{${PluginProjectGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{${PluginProjectGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{${PluginProjectGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{${PluginProjectGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,5 +41,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{${WebProjectGuid}} = {ADA47558-C1AF-4CFA-B0FF-AF09BE8E4602}
 		{${ConsoleProjectGuid}} = {ADA47558-C1AF-4CFA-B0FF-AF09BE8E4602}
+		{${PluginProjectGuid}} = {ADA47558-C1AF-4CFA-B0FF-AF09BE8E4602}
 	EndGlobalSection
 EndGlobal

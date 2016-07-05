@@ -1,5 +1,5 @@
 ﻿namespace ${ProjectName}.Console {
-	using global::${ProjectName};
+	using global::${ProjectName}.Owin;
 	using Microsoft.Owin.Hosting;
 	using System;
 	using System.IO;
@@ -36,7 +36,7 @@
 	public class SelfHostStartup : Startup {
 		public override string GetWebsiteRootDirectory() {
 			return Path.Combine(
-				Path.GetDirectoryName(typeof(Program).Assembly.Location), "../../../${ProjectName}");
+				Path.GetDirectoryName(typeof(Program).Assembly.Location), "../../../${ProjectName}.Owin");
 		}
 	}
 }

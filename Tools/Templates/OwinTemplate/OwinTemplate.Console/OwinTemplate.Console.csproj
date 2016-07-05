@@ -172,9 +172,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\${ProjectName}\${ProjectName}.csproj">
+    <ProjectReference Include="..\${ProjectName}\${ProjectName}.Owin.csproj">
       <Project>{${WebProjectGuid}}</Project>
-      <Name>${ProjectName}</Name>
+      <Name>${ProjectName}.Owin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

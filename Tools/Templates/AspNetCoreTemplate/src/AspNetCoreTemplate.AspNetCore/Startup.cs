@@ -1,6 +1,6 @@
 ﻿using ZKWeb.Hosting.AspNetCore;
 
-namespace ${ProjectName} {
+namespace ${ProjectName}.AspNetCore {
 	/// <summary>
 	/// Asp.Net Core Startup Class
 	/// </summary>

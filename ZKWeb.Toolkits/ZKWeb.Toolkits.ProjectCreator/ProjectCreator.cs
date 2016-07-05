@@ -48,17 +48,18 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		protected virtual void WriteConfigObject(string outputPath) {
 			var pluginDirectories = new List<string>();
 			var plugins = new List<string>();
+			var pluginRoot = $"../{Parameters.ProjectName}.Plugins";
 			if (string.IsNullOrEmpty(Parameters.UseDefaultPlugins)) {
 				// 不使用默认插件
-				pluginDirectories.Add("./");
+				pluginDirectories.Add(pluginRoot);
 				plugins.Add(Parameters.ProjectName);
 			} else {
 				// 使用默认插件
 				var collection = PluginCollection.FromFile(Parameters.UseDefaultPlugins);
+				pluginDirectories.Add(pluginRoot);
 				pluginDirectories.Add(PathUtils.MakeRelativePath(
 					Path.GetDirectoryName(Path.GetDirectoryName(outputPath)),
 					Path.GetDirectoryName(Parameters.UseDefaultPlugins)));
-				pluginDirectories.Add("./");
 				plugins.AddRange(collection.PrependPlugins);
 				plugins.Add(Parameters.ProjectName);
 				plugins.AddRange(collection.AppendPlugins);
@@ -111,7 +112,8 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				IISPort = random.Next(50000, 64999),
 				SelfHostPort = random.Next(40000, 49999),
 				WebProjectGuid = Guid.NewGuid(),
-				ConsoleProjectGuid = Guid.NewGuid()
+				ConsoleProjectGuid = Guid.NewGuid(),
+				PluginProjectGuid = Guid.NewGuid()
 			};
 			// 写入项目文件
 			foreach (var path in Directory.EnumerateFiles(
@@ -126,12 +128,12 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				}
 			}
 			// 写入插件文件
-			var webRoot = Path.GetDirectoryName(Directory.EnumerateDirectories(
-				outputRoot, "App_Data", SearchOption.AllDirectories).First());
+			var pluginRoot = Directory.EnumerateDirectories(
+				outputRoot, "*.Plugins", SearchOption.AllDirectories).First();
 			foreach (var path in Directory.EnumerateFiles(
 				pluginTemplateRoot, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(pluginTemplateRoot.Length + 1);
-				var outputPath = Path.Combine(webRoot, Parameters.ProjectName,
+				var outputPath = Path.Combine(pluginRoot, Parameters.ProjectName,
 					relPath.Replace(pluginTemplateName.ToLower(), Parameters.ProjectName.ToLower()));
 				WriteTemplateContents(path, outputPath, templateParameters);
 			}
