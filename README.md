@@ -32,7 +32,6 @@ Features:<br/>
 	- Prepared and planned
 
 Version: 1.0.0 beta 3 (Backward compatibility is provided as much as possible)<br/>
-[![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
 
 ZKWeb support running on Asp.Net, Asp.Net Core and Owin.<br/>
 All version compatible with same plugins.<br/>
