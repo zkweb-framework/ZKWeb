@@ -58,9 +58,14 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var webRoot = GetWebRoot();
 			var binDir = Path.Combine(webRoot, "bin");
 			if (!File.Exists(Path.Combine(binDir, "ZKWeb.dll"))) {
+				// Asp.Net Core时需要查找
+				// 使用包含release但不包含publish的目录
 				isCore = true;
 				var dllPath = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
-					.Where(p => p.Substring(webRoot.Length).Contains("Release")).FirstOrDefault();
+					.Where(p => {
+						var relPath = p.Substring(webRoot.Length).ToLower();
+						return relPath.Contains("release") && !relPath.Contains("publish");
+					}).FirstOrDefault();
 				if (dllPath == null) {
 					throw new DirectoryNotFoundException("bin directory not found");
 				}
@@ -78,6 +83,22 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		protected virtual string GetConfigJsonPath() {
 			var webRoot = GetWebRoot();
 			return Path.Combine(webRoot, "App_Data", "config.json");
+		}
+
+		/// <summary>
+		/// 获取Asp.Net Core的启动程序路径
+		/// </summary>
+		/// <param name="binDir">bin目录的路径</param>
+		/// <returns></returns>
+		protected virtual string GetAspNetCoreLauncherPath(string binDir) {
+			var exeName = Directory.EnumerateFiles(
+					binDir, "*.exe", SearchOption.TopDirectoryOnly)
+					.Select(path => Path.GetFileName(path))
+					.Where(name => !name.Contains(".vshost.")).FirstOrDefault();
+			if (string.IsNullOrEmpty(exeName)) {
+				throw new FileNotFoundException("Asp.Net Core Launcher exe not found");
+			}
+			return "." + Path.DirectorySeparatorChar + exeName;
 		}
 
 		/// <summary>
@@ -110,14 +131,19 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var configJsonPath = GetConfigJsonPath();
 			var outputDir = Path.Combine(Parameters.OutputDirectory, Parameters.OutputName);
 			// 复制网站程序
-			// Asp.Net需要复制到bin下，Asp.Net Core需要复制到根目录
-			// Asp.Net还需要同时复制Global.asax
-			var outputBinDir = isCore ? outputDir : Path.Combine(outputDir, "bin");
-			DirectoryUtils.CopyDirectory(binDir, outputBinDir);
-			File.Copy(webConfigPath, Path.Combine(outputDir, "web.config"), true);
-			var globalAsaxPath = Path.Combine(webRoot, "Global.asax");
-			if (File.Exists(globalAsaxPath)) {
-				File.Copy(globalAsaxPath, Path.Combine(outputDir, "Global.asax"), true);
+			if (!isCore) {
+				// Asp.Net: 把文件复制到bin下，并同时复制Global.asax
+				DirectoryUtils.CopyDirectory(binDir, Path.Combine(outputDir, "bin"));
+				File.Copy(webConfigPath, Path.Combine(outputDir, "web.config"), true);
+				File.Copy(Path.Combine(webRoot, "Global.asax"),
+					Path.Combine(outputDir, "Global.asax"), true);
+			} else {
+				// Asp.Net Core: 把文件复制到根目录，并同时替换web.config中的路径
+				DirectoryUtils.CopyDirectory(binDir, outputDir);
+				var webConfig = File.ReadAllText(webConfigPath);
+				webConfig = webConfig.Replace("%LAUNCHER_PATH%", GetAspNetCoreLauncherPath(binDir));
+				webConfig = webConfig.Replace("%LAUNCHER_ARGS%", "");
+				File.WriteAllText(Path.Combine(outputDir, "web.config"), webConfig);
 			}
 			// 整合和复制网站配置
 			var outputConfigJsonPath = Path.Combine(outputDir, "App_Data", "config.json");
