@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Server;
 using ZKWebStandard.Utils;
 
@@ -26,31 +26,6 @@ namespace ZKWeb.Plugin {
 		public PluginManager() {
 			Plugins = new List<PluginInfo>();
 			PluginAssemblies = new List<Assembly>();
-		}
-
-		/// <summary>
-		/// 程序集解决器
-		/// 从插件目录下搜索程序集并载入
-		/// </summary>
-		/// <returns></returns>
-		internal Assembly AssemblyResolver(object sender, ResolveEventArgs args) {
-			// 从已载入的程序集中查找
-			var requireName = new AssemblyName(args.Name);
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-				if (assembly.GetName().Name == requireName.Name) {
-					return assembly;
-				}
-			}
-			// 查找插件的引用程序集目录
-			// 这里不查找插件的程序集目录避免错误的在重新编译前载入了插件的程序集
-			foreach (var plugin in Plugins) {
-				var path = Path.Combine(plugin.ReferencesDirectory(), $"{requireName.Name}.dll");
-				if (File.Exists(path)) {
-					return Assembly.LoadFrom(path);
-				}
-			}
-			// 找不到时返回null
-			return null;
 		}
 
 		/// <summary>
@@ -83,22 +58,22 @@ namespace ZKWeb.Plugin {
 				var info = PluginInfo.FromDirectory(dir);
 				pluginManager.Plugins.Add(info);
 			}
-			// 注册解决程序集依赖的函数
-			AppDomain.CurrentDomain.AssemblyResolve += pluginManager.AssemblyResolver;
 			// 载入插件
+			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
 			foreach (var plugin in pluginManager.Plugins) {
 				// 编译带源代码的插件
 				plugin.Compile();
 				// 载入插件程序集，注意部分插件只有资源文件没有程序集
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
-					pluginManager.PluginAssemblies.Add(Assembly.LoadFile(assemblyPath));
+					pluginManager.PluginAssemblies.Add(assemblyLoader.LoadFile(assemblyPath));
 				}
 			}
 			// 注册程序集中的类型到容器中
 			// 只有公开的类型会被注册
 			foreach (var assembly in pluginManager.PluginAssemblies) {
-				Application.Ioc.RegisterExports(assembly.GetTypes().Where(t => t.IsPublic));
+				var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsPublic);
+				Application.Ioc.RegisterExports(types);
 			}
 		}
 	}

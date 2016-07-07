@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿#if !NETCORE
+using System.IO;
 using System.Linq;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
@@ -127,3 +128,4 @@ namespace ZKWeb.Tests.Server {
 		}
 	}
 }
+#endif

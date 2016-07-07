@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NETCORE
+using System;
 using System.IO;
 using ZKWeb.Server;
 using ZKWeb.Tests.Server;
@@ -39,3 +40,4 @@ namespace ZKWeb.Tests.Web.ActionResults {
 		}
 	}
 }
+#endif

@@ -1,6 +1,6 @@
 ﻿using DotLiquid;
+using System.Globalization;
 using System.IO;
-using System.Threading;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
@@ -16,7 +16,7 @@ namespace ZKWeb.Templating.TemplateTags {
 		/// <param name="context"></param>
 		/// <param name="result"></param>
 		public override void Render(Context context, TextWriter result) {
-			result.Write(Thread.CurrentThread.CurrentCulture.Name);
+			result.Write(CultureInfo.CurrentCulture.Name);
 		}
 	}
 }

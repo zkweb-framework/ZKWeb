@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Cfg;
+﻿#if !NETCORE
+using FluentNHibernate.Cfg;
 
 namespace ZKWeb.Database {
 	/// <summary>
@@ -12,3 +13,4 @@ namespace ZKWeb.Database {
 		void OnInitialize(FluentConfiguration configuration);
 	}
 }
+#endif

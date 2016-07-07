@@ -1,4 +1,5 @@
-﻿using DotLiquid;
+﻿#if !NETCORE
+using DotLiquid;
 using System.IO;
 using ZKWeb.Templating;
 using ZKWeb.Tests.Server;
@@ -28,3 +29,4 @@ namespace ZKWeb.Tests.Templating {
 		}
 	}
 }
+#endif

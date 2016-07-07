@@ -1,4 +1,6 @@
-﻿using NSubstitute;
+﻿#if !NETCORE
+using NSubstitute;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,8 +23,8 @@ namespace ZKWeb.Testing {
 		/// <returns></returns>
 		public virtual IList<Assembly> GetAssembliesForTest() {
 			var result = new List<Assembly>();
-			result.Add(typeof(TestManager).Assembly); // ZKWeb
-			result.Add(typeof(TestRunner).Assembly); // ZKWebStandard
+			result.Add(typeof(TestManager).GetTypeInfo().Assembly); // ZKWeb
+			result.Add(typeof(TestRunner).GetTypeInfo().Assembly); // ZKWebStandard
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			result.AddRange(pluginManager.PluginAssemblies); // 插件程序集列表}
 			return result;
@@ -57,6 +59,7 @@ namespace ZKWeb.Testing {
 			}
 		}
 
+#if !NETCORE
 		/// <summary>
 		/// 在指定的范围内启用临时数据库
 		/// </summary>
@@ -76,5 +79,6 @@ namespace ZKWeb.Testing {
 			// 区域结束后结束对容器的重载和删除数据库文件
 			return new SimpleDisposable(() => { overrideIoc.Dispose(); File.Delete(dbPath); });
 		}
+#endif
 	}
 }

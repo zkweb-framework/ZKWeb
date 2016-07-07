@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
@@ -15,7 +16,7 @@ namespace ZKWeb.Cache.Policies {
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {
-			var language = Thread.CurrentThread.CurrentCulture.Name;
+			var language = CultureInfo.CurrentCulture.Name;
 			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			return Pair.Create(language, timezone);
 		}

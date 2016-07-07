@@ -1,4 +1,5 @@
-﻿using DotLiquid.Exceptions;
+﻿#if !NETCORE
+using DotLiquid.Exceptions;
 using NSubstitute;
 using System.Collections.Generic;
 using ZKWeb.Logging;
@@ -77,3 +78,4 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 		}
 	}
 }
+#endif

@@ -41,14 +41,8 @@ namespace ZKWebStandard.Utils {
 			try {
 				var cultureInfo = ClutureInfoCache.GetOrAdd(
 					language, key => new CultureInfo(key));
-#if NETCORE
 				CultureInfo.CurrentCulture = cultureInfo;
 				CultureInfo.CurrentUICulture = cultureInfo;
-#else
-				// .net 4.6开始才支持使用CultureInfo设置当前语言
-				Thread.CurrentThread.CurrentCulture = cultureInfo;
-				Thread.CurrentThread.CurrentUICulture = cultureInfo;
-#endif
 				return true;
 			} catch (CultureNotFoundException) {
 				return false;

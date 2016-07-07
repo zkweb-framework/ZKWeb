@@ -1,4 +1,5 @@
-﻿using FluentNHibernate;
+﻿#if !NETCORE
+using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -10,8 +11,18 @@ using System.Linq;
 using System.Text;
 using ZKWeb.Server;
 using ZKWebStandard.Extensions;
+#endif
 
 namespace ZKWeb.Database {
+#if NETCORE
+	/// <summary>
+	/// 数据库管理器
+	/// 尚未支持.Net Core
+	/// </summary>
+	public class DatabaseManager {
+		internal static void Initialize() { }
+	}
+#else
 	/// <summary>
 	/// 数据库管理器
 	/// </summary>
@@ -117,4 +128,5 @@ namespace ZKWeb.Database {
 				config.Database, config.ConnectionString, pathConfig.DatabaseScriptPath);
 		}
 	}
+#endif
 }

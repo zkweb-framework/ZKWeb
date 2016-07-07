@@ -1,12 +1,21 @@
-﻿using System;
+﻿#if !NETCORE
+using System;
 using System.Linq;
 using NHibernate;
 using System.Linq.Expressions;
 using NHibernate.Linq;
 using ZKWebStandard.Extensions;
 using System.Data;
+#endif
 
 namespace ZKWeb.Database {
+#if NETCORE
+	/// <summary>
+	/// 数据库上下文
+	/// 尚未支持.Net Core
+	/// </summary>
+	public class DatabaseContext { };
+#else
 	/// <summary>
 	/// 数据库上下文
 	/// 这个类用于包装对数据库的操作和触发以下事件
@@ -160,4 +169,5 @@ namespace ZKWeb.Database {
 			Transaction?.Commit();
 		}
 	}
+#endif
 }

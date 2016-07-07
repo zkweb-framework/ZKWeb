@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿#if !NETCORE
+using NSubstitute;
 using ZKWeb.Logging;
 using ZKWebStandard.Testing;
 
@@ -36,3 +37,4 @@ namespace ZKWeb.Tests.Logging {
 		}
 	}
 }
+#endif

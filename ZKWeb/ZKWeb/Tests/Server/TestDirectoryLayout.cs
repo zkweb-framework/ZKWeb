@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿#if !NETCORE
+using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -102,3 +103,4 @@ namespace ZKWeb.Tests.Server {
 		}
 	}
 }
+#endif

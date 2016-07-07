@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿#if !NETCORE
+using Newtonsoft.Json;
 using NHibernate;
 using NHibernate.SqlTypes;
 using NHibernate.UserTypes;
@@ -99,3 +100,4 @@ namespace ZKWeb.Database.UserTypes {
 		}
 	}
 }
+#endif

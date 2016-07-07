@@ -8,6 +8,8 @@ using ZKWeb.Localize;
 using ZKWeb.Localize.JsonConverters;
 using ZKWeb.Logging;
 using ZKWeb.Plugin;
+using ZKWeb.Plugin.AssemblyLoaders;
+using ZKWeb.Plugin.CompilerServices;
 using ZKWeb.Serialize;
 using ZKWeb.Server;
 using ZKWeb.Templating;
@@ -28,7 +30,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// 框架的完整版本
 		/// </summary>
-		public static string FullVersion { get { return "1.0.0 beta 3"; } }
+		public static string FullVersion { get { return "1.0.0 beta 4"; } }
 		/// <summary>
 		/// 框架的数值版本
 		/// </summary>
@@ -52,13 +54,19 @@ namespace ZKWeb {
 		public static void Initialize(string websiteRootDirectory) {
 			// 重复初始化时抛出例外
 			if (Interlocked.Exchange(ref Initialized, 1) != 0) {
-				throw new ApplicationException("Application already initialized");
+				throw new InvalidOperationException("Application already initialized");
 			}
 			// 注册核心组件
 			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
+#if NETCORE
+			Ioc.RegisterMany<CoreAssemblyLoader>(ReuseType.Singleton);
+#else
+			Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
+#endif
+			Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<ConfigManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PathConfig>(ReuseType.Singleton);
@@ -80,6 +88,7 @@ namespace ZKWeb {
 			JsonNetInitializer.Initialize();
 			TemplateManager.Initialize();
 			ControllerManager.Initialize();
+			ThreadPoolInitializer.Initialize();
 			DatabaseManager.Initialize();
 			// 初始化所有插件并调用网站启动时的处理
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
@@ -87,9 +96,6 @@ namespace ZKWeb {
 			// 初始化常驻型的核心组件
 			PluginReloader.Start();
 			AutomaticCacheCleaner.Start();
-			// 设置线程池使用尽可能多的线程
-			// 实际本机设置的数量是(32767, 32767)
-			ThreadPool.SetMaxThreads(int.MaxValue, int.MaxValue);
 		}
 
 		/// <summary>
@@ -100,7 +106,7 @@ namespace ZKWeb {
 		public static void OnRequest(IHttpContext context) {
 			// 检测是否嵌套调用
 			if (HttpManager.CurrentContextExists) {
-				throw new ApplicationException("Nested call is unsupported");
+				throw new InvalidOperationException("Nested call is unsupported");
 			}
 			// 调用请求处理器
 			using (HttpManager.OverrideContext(context)) {
@@ -126,7 +132,7 @@ namespace ZKWeb {
 		public static void OnError(IHttpContext context, Exception ex) {
 			// 检测是否嵌套调用
 			if (HttpManager.CurrentContextExists) {
-				throw new ApplicationException("Nested call is unsupported");
+				throw new InvalidOperationException("Nested call is unsupported");
 			}
 			// 调用错误处理器，后注册的先调用
 			using (HttpManager.OverrideContext(context)) {

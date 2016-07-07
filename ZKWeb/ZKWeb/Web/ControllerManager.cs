@@ -68,14 +68,16 @@ namespace ZKWeb.Web {
 				if (attributes.Any()) {
 					// 预先编译好函数，提高实际调用时的性能
 					var makeInstance = method.IsStatic ? null :
-						Expression.New(type.GetConstructors()[0]);
+						Expression.New(type.GetTypeInfo().GetConstructors()[0]);
 					Func<IActionResult> action;
-					if (typeof(IActionResult).IsAssignableFrom(method.ReturnType)) {
+					var actionResultType = typeof(IActionResult).GetTypeInfo();
+					if (actionResultType.IsAssignableFrom(method.ReturnType)) {
 						action = Expression.Lambda<Func<IActionResult>>(
 							Expression.Call(makeInstance, method)).Compile();
 					} else {
+						var plainResultType = typeof(PlainResult).GetTypeInfo();
 						action = Expression.Lambda<Func<IActionResult>>(
-							Expression.New(typeof(PlainResult).GetConstructors()[0],
+							Expression.New(plainResultType.GetConstructors()[0],
 							Expression.Call(makeInstance, method))).Compile();
 					}
 					// 添加函数

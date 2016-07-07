@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using ZKWeb.Cache;
@@ -45,7 +46,7 @@ namespace ZKWeb.Localize {
 		/// <param name="text">文本</param>
 		/// <returns></returns>
 		public virtual string Translate(string text) {
-			var cluture = Thread.CurrentThread.CurrentCulture;
+			var cluture = CultureInfo.CurrentCulture;
 			return Translate(text, cluture.Name);
 		}
 

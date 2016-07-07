@@ -1,4 +1,5 @@
-﻿using FluentNHibernate;
+﻿#if !NETCORE
+using FluentNHibernate;
 using FluentNHibernate.Mapping;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,3 +129,4 @@ namespace ZKWeb.Tests.Database {
 		}
 	}
 }
+#endif

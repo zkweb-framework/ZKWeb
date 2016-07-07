@@ -1,15 +1,19 @@
 {
-	"version": "1.0.0-beta-3",
+	"version": "1.0.0-beta-4",
 	"dependencies": {
 		"Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
 		"Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
 		"Microsoft.Extensions.PlatformAbstractions": "1.0.0",
 		"NETStandard.Library": "1.6.0",
-		"ZKWeb": "1.0.0-beta-3",
-		"ZKWebStandard": "1.0.0-beta-3"
+		"ZKWeb": "1.0.0-beta-4",
+		"ZKWebStandard": "1.0.0-beta-4"
 	},
 	"frameworks": {
-		"net461": {}
+		"net461": {},
+		"netstandard1.6": {
+			"imports": "dnxcore50",
+			"buildOptions": { "define": [ "NETCORE" ] }
+		}
 	},
 	"buildOptions": {
 		"optimize": true,
