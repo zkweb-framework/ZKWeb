@@ -1,4 +1,4 @@
-### Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin
+### Extendable .Net Web Framework
 
 ### Features
 
