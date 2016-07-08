@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.Hosting.AspNetCore</id>
-		<version>1.0.0-beta-3c</version>
+		<version>1.0.0-beta-4</version>
 		<title>ZKWeb Asp.Net Core Hosting Support</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.0.0-beta-3c" />
+			<dependency id="ZKWeb" version="1.0.0-beta-4" />
 			<dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="1.0.0" />
 			<dependency id="Microsoft.AspNetCore.Http.Abstractions" version="1.0.0" />
 			<dependency id="Microsoft.Extensions.PlatformAbstractions" version="1.0.0" />
@@ -25,5 +25,8 @@
 		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\net461\ZKWeb.Hosting.AspNetCore.dll" target="lib\net461" />
 		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\net461\ZKWeb.Hosting.AspNetCore.xml" target="lib\net461" />
 		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\net461\ZKWeb.Hosting.AspNetCore.pdb" target="lib\net461" />
+		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\netstandard1.6\ZKWeb.Hosting.AspNetCore.dll" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\netstandard1.6\ZKWeb.Hosting.AspNetCore.xml" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.Hosting.AspNetCore\bin\Release\netstandard1.6\ZKWeb.Hosting.AspNetCore.pdb" target="lib\netstandard1.6" />
 	</files>
 </package>
