@@ -1,16 +1,33 @@
 {
 	"version": "1.0.0-*",
 	"dependencies": {
-		"MySql.Data": "7.0.2-DMR",
 		"npgsql": "3.1.5",
-		"NSubstitute": "1.10.0",
-		"SQLiteForZKWeb": "1.0.102",
-		"ZKWeb": "1.0.0-beta-3c"
+		"ZKWeb": "1.0.0-beta-4a",
+		"ZKWeb.Hosting.AspNetCore": "1.0.0-beta-4a"
 	},
 	"buildOptions": {
 		"emitEntryPoint": true
 	},
 	"frameworks": {
-		"net461": {}
+		"net461": {
+			"dependencies": {
+				"MySql.Data": "7.0.3-DMR",
+				"NSubstitute": "1.10.0",
+				"SQLiteForZKWeb": "1.0.102"
+			}
+		},
+		"netcoreapp1.0": {
+			"imports": [
+				"dotnet5.6",
+				"portable-net45+win8"
+			],
+			"buildOptions": { "define": [ "NETCORE" ] },
+			"dependencies": {
+				"Microsoft.NETCore.App": {
+					"type": "platform",
+					"version": "1.0.0"
+				}
+			}
+		}
 	}
 }

@@ -1,13 +1,12 @@
 ﻿{
 	"version": "1.0.0-*",
 	"dependencies": {
-		"MySql.Data": "7.0.2-DMR",
-		"npgsql": "3.1.5",
-		"NSubstitute": "1.10.0",
-		"SQLiteForZKWeb": "1.0.102",
-		"ZKWeb": "1.0.0-beta-3c"
+		"ZKWeb": "1.0.0-beta-4a"
 	},
 	"frameworks": {
-		"net461": {}
+		"net461": {},
+		"netstandard1.6": {
+			"buildOptions": { "define": [ "NETCORE" ] }
+		}
 	}
 }

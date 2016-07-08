@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.Hosting.AspNetCore</id>
-		<version>1.0.0-beta-4</version>
+		<version>1.0.0-beta-4a</version>
 		<title>ZKWeb Asp.Net Core Hosting Support</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.0.0-beta-4" />
+			<dependency id="ZKWeb" version="1.0.0-beta-4a" />
 			<dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="1.0.0" />
 			<dependency id="Microsoft.AspNetCore.Http.Abstractions" version="1.0.0" />
 			<dependency id="Microsoft.Extensions.PlatformAbstractions" version="1.0.0" />
