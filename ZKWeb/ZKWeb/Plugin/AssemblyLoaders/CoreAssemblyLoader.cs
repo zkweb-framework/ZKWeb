@@ -15,21 +15,31 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// 载入程序集使用的上下文
 		/// </summary>
 		private LoadContext Context { get; set; }
+		/// <summary>
+		/// 用于包装mscorlib的程序集名称的集合
+		/// </summary>
+		private HashSet<string> WrapperAssemblyNames { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
+			WrapperAssemblyNames = new HashSet<string>() {
+				"System.Console"
+			};
 		}
 
 		/// <summary>
 		/// 获取当前已载入的程序集列表
+		/// 排除仅用于包装的程序集和动态程序集
 		/// </summary>
 		public IList<Assembly> GetLoadedAssemblies() {
 			return DependencyContext.Default.RuntimeLibraries
 				.SelectMany(l => l.GetDefaultAssemblyNames(DependencyContext.Default))
-				.Select(name => Context.LoadFromAssemblyName(name)).ToList();
+				.Where(name => !WrapperAssemblyNames.Contains(name.Name))
+				.Select(name => Context.LoadFromAssemblyName(name))
+				.Where(assembly => !assembly.IsDynamic).ToList();
 		}
 
 		/// <summary>
@@ -37,6 +47,13 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public Assembly Load(string name) {
 			return Context.LoadFromAssemblyName(new AssemblyName(name));
+		}
+
+		/// <summary>
+		/// 根据名称载入程序集
+		/// </summary>
+		public Assembly Load(AssemblyName assemblyName) {
+			return Context.LoadFromAssemblyName(assemblyName);
 		}
 
 		/// <summary>
@@ -57,12 +74,23 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 
 		/// <summary>
 		/// 载入程序集使用的上下文
-		/// 参考
-		/// https://github.com/dotnet/roslyn/blob/master/src/Scripting/Core/Hosting/AssemblyLoader/CoreAssemblyLoaderImpl.cs
 		/// </summary>
 		private class LoadContext : AssemblyLoadContext {
 			protected override Assembly Load(AssemblyName assemblyName) {
-				return Default.LoadFromAssemblyName(assemblyName);
+				try {
+					// 尝试直接载入
+					return Assembly.Load(assemblyName);
+				} catch {
+					// 失败时枚举插件的引用文件夹载入
+					var pluginManager = Application.Ioc.Resolve<PluginManager>();
+					foreach (var plugin in pluginManager.Plugins) {
+						var path = plugin.ReferenceAssemblyPath(assemblyName.Name);
+						if (path != null) {
+							return LoadFromAssemblyPath(path);
+						}
+					}
+					throw;
+				}
 			}
 		}
 	}

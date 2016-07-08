@@ -15,11 +15,6 @@ namespace ZKWeb.Plugin.CompilerServices {
 		/// 不生成时将无法调试，默认是true
 		/// </summary>
 		public bool GeneratePdbFile { get; set; }
-		/// <summary>
-		/// 引用的程序集路径列表
-		/// 默认会引用当前程序引用的程序集，这里是额外引用的列表
-		/// </summary>
-		public IList<string> ReferenceAssemblyPaths { get; set; }
 
 		/// <summary>
 		/// 初始化
@@ -27,7 +22,6 @@ namespace ZKWeb.Plugin.CompilerServices {
 		public CompilationOptions() {
 			Debug = false;
 			GeneratePdbFile = true;
-			ReferenceAssemblyPaths = new List<string>();
 		}
 	}
 }

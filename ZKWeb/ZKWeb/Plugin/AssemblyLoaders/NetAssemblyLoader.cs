@@ -1,7 +1,7 @@
 ﻿#if !NETCORE
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
@@ -20,9 +20,11 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 
 		/// <summary>
 		/// 获取当前已载入的程序集列表
+		/// 排除动态程序集
 		/// </summary>
 		public IList<Assembly> GetLoadedAssemblies() {
-			return AppDomain.CurrentDomain.GetAssemblies();
+			return AppDomain.CurrentDomain.GetAssemblies()
+				.Where(assembly => !assembly.IsDynamic).ToList();
 		}
 
 		/// <summary>
@@ -30,6 +32,13 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public Assembly Load(string name) {
 			return Assembly.Load(name);
+		}
+
+		/// <summary>
+		/// 根据名称载入程序集
+		/// </summary>
+		public Assembly Load(AssemblyName assemblyName) {
+			return Assembly.Load(assemblyName);
 		}
 
 		/// <summary>
@@ -63,8 +72,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			// 这里不查找插件的程序集目录避免错误的在重新编译前载入了插件的程序集
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			foreach (var plugin in pluginManager.Plugins) {
-				if (plugin.References.Contains(requireName.Name)) {
-					var path = plugin.ReferenceAssemblyPath(requireName.Name);
+				var path = plugin.ReferenceAssemblyPath(requireName.Name);
+				if (path != null) {
 					return Assembly.LoadFrom(path);
 				}
 			}

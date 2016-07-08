@@ -20,6 +20,13 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		Assembly Load(string name);
 
 		/// <summary>
+		/// 根据名称载入程序集
+		/// </summary>
+		/// <param name="assemblyName">程序集名称</param>
+		/// <returns></returns>
+		Assembly Load(AssemblyName assemblyName);
+
+		/// <summary>
 		/// 从二进制数据载入程序集
 		/// </summary>
 		/// <param name="rawAssembly">程序集的二进制数据内容</param>

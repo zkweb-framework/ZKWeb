@@ -31,6 +31,12 @@
 		/// <param name="args"></param>
 		private static void Main(string[] args) {
 			// 初始化程序
+
+			typeof(System.ComponentModel.DataAnnotations.RequiredAttribute).ToString();
+#if !NETCORE
+			typeof(System.Drawing.Bitmap).ToString();
+#endif
+
 			Application.Initialize(GetWebsiteRootDirectory());
 			// 运行所有测试
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();

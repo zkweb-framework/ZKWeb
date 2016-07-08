@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Plugin.CompilerServices;
 using ZKWebStandard.Extensions;
 
@@ -95,7 +96,7 @@ namespace ZKWeb.Plugin {
 
 		/// <summary>
 		/// 获取插件引用程序集的目录路径
-		/// 获取失败时抛出例外
+		/// 获取失败时返回null
 		/// </summary>
 		/// <param name="info">插件信息</param>
 		/// <param name="assemblyName">引用的程序集名称</param>
@@ -112,7 +113,7 @@ namespace ZKWeb.Plugin {
 					return path;
 				}
 			}
-			throw new FileNotFoundException($"Reference assembly {assemblyName} path not found");
+			return null;
 		}
 
 		/// <summary>
@@ -141,6 +142,11 @@ namespace ZKWeb.Plugin {
 			var assemblyPath = info.AssemblyPath();
 			var assemblyPdbPath = info.AssemblyPdbPath();
 			var compileInfoPath = info.CompileInfoPath();
+			// 载入引用的程序集列表
+			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
+			foreach (var reference in info.References) {
+				assemblyLoader.Load(reference);
+			}
 			// 检查是否需要重新编译
 			// 会通过对比所有源文件的修改时间是否一致来检查
 			// 没有源文件时表示只有资源文件或不开源，不需要重新编译
@@ -167,8 +173,6 @@ namespace ZKWeb.Plugin {
 				Directory.CreateDirectory(Path.GetDirectoryName(assemblyPath));
 				var compilerService = Application.Ioc.Resolve<ICompilerService>();
 				var options = new CompilationOptions();
-				options.ReferenceAssemblyPaths.AddRange(
-					info.References.Select(name => ReferenceAssemblyPath(info, name)));
 				compilerService.Compile(sourceFiles, assemblyName, assemblyPath, options);
 				// 保存编译信息
 				File.WriteAllText(compileInfoPath, compileInfo);
