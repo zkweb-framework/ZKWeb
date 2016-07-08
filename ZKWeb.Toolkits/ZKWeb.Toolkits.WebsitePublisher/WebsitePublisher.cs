@@ -59,12 +59,14 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var binDir = Path.Combine(webRoot, "bin");
 			if (!File.Exists(Path.Combine(binDir, "ZKWeb.dll"))) {
 				// Asp.Net Core时需要查找
-				// 使用包含release但不包含publish的目录
+				// 使用包含release和net461但不包含publish的目录
+				// 目前不支持发布.net core版本，但以后需要支持
 				isCore = true;
 				var dllPath = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
 					.Where(p => {
 						var relPath = p.Substring(webRoot.Length).ToLower();
-						return relPath.Contains("release") && !relPath.Contains("publish");
+						return (relPath.Contains("release") &&
+							relPath.Contains("net461") && !relPath.Contains("publish"));
 					}).FirstOrDefault();
 				if (dllPath == null) {
 					throw new DirectoryNotFoundException("bin directory not found");
