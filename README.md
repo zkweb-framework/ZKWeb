@@ -1,9 +1,9 @@
 ### Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin
 
-Features:<br/>
+### Features
 
 - Dynamic plugins
-	- Csscript + Codedom
+	- Roslyn
 	- Auto compile after modification
 - Code first database auto migration
 	- FluentNHibernate
@@ -31,11 +31,21 @@ Features:<br/>
 - Visual page editor
 	- Prepared and planned
 
-Version: 1.0.0 beta 3 (Backward compatibility is provided as much as possible)<br/>
+Version: 1.0.0 beta 4 (Backward compatibility is provided as much as possible)<br/>
+
+### Hosting Environment
 
 ZKWeb support running on Asp.Net, Asp.Net Core and Owin.<br/>
 All version compatible with same plugins.<br/>
 Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent on Asp.Net (Core).<br/>
+
+### .Net Core Support
+
+ZKWeb provided basic support for .net core now.<br/>
+But because NHibernate and Substitite are not support .net core yet,<br/>
+functions like database access are unavailable.<br/>
+
+### Links and License
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Document: http://zkweb-framework.github.io (Chinese only)<br/>
@@ -52,6 +62,5 @@ If you have any license issue please contact 303248153@qq.com.<br/>
 
 ### Getting Started:
 
-Getting started is much easier now.<br/>
 Open "Tools\ProjectCreator.Gui.exe", create your own project then open it.<br/>
 For more information please see the document.<br/>
