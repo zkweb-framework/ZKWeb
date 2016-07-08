@@ -42,7 +42,7 @@ Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent
 ### .Net Core Support
 
 ZKWeb provided basic support for .net core now.<br/>
-But because NHibernate and Substitite are not support .net core yet,<br/>
+But because NHibernate and Substitite doesn't have .net core support yet,<br/>
 functions like database access are unavailable.<br/>
 
 ### Links and License
