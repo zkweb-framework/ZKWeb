@@ -21,7 +21,10 @@
 			}
 		},
 		"netcoreapp1.0": {
-			"imports": "dnxcore50",
+			"imports": [
+				"dotnet5.6",
+				"portable-net45+win8"
+			],
 			"buildOptions": { "define": [ "NETCORE" ] },
 			"dependencies": {
 				"Microsoft.NETCore.App": {
