@@ -10,12 +10,23 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// </summary>
 	internal class NetAssemblyLoader : IAssemblyLoader {
 		/// <summary>
+		/// 可能的程序集名称的后缀
+		/// 用于载入缩写的程序集名称
+		/// </summary>
+		protected IList<string> PossibleAssemblyNameSuffix { get; set; }
+
+		/// <summary>
 		/// 初始化
 		/// </summary>
 		public NetAssemblyLoader() {
 			// 注册解决程序集依赖的函数
 			AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolver;
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
+			// 可能的程序集名称的后缀
+			PossibleAssemblyNameSuffix = new List<string>() {
+				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+			};
 		}
 
 		/// <summary>
@@ -31,7 +42,19 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// 根据名称载入程序集
 		/// </summary>
 		public Assembly Load(string name) {
-			return Assembly.Load(name);
+			try {
+				// 尝试直接载入
+				return Load(new AssemblyName(name));
+			} catch {
+				// 直接载入失败时，添加可能的后缀再尝试载入
+				foreach (var suffix in PossibleAssemblyNameSuffix) {
+					try {
+						return Load(new AssemblyName(name + suffix));
+					} catch {
+					}
+				}
+				throw;
+			}
 		}
 
 		/// <summary>

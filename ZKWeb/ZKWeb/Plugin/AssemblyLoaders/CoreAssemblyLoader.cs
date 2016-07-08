@@ -17,6 +17,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		private LoadContext Context { get; set; }
 		/// <summary>
 		/// 用于包装mscorlib的程序集名称的集合
+		/// Roslyn的"IgnoreCorLibraryDuplicatedTypes"选项没有公开，所以需要在这里处理
 		/// </summary>
 		private HashSet<string> WrapperAssemblyNames { get; set; }
 
