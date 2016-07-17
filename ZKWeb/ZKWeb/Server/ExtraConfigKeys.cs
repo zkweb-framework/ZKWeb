@@ -44,5 +44,9 @@
 		/// 缓存自动清理器的检查间隔，单位是秒
 		/// </summary>
 		public const string CleanCacheCheckInterval = "ZKWeb.CleanCacheCheckInterval";
+		/// <summary>
+		/// 使用Release配置编译插件，启用时将不能调试插件
+		/// </summary>
+		public const string CompilePluginsWithReleaseConfiguration = "ZKWeb.CompilePluginsWithReleaseConfiguration";
 	}
 }

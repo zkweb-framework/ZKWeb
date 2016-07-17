@@ -1,5 +1,5 @@
 {
-	"version": "1.0.0-beta-4",
+	"version": "1.0.0-beta-5",
 	"dependencies": {
 		"DotLiquidForkForZKWeb": "1.0.2",
 		"System.Threading.Thread": "4.0.0",

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Plugin.CompilerServices;
+using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin {
@@ -170,9 +171,15 @@ namespace ZKWeb.Plugin {
 					File.Move(assemblyPdbPath, $"{assemblyPdbPath}.{DateTime.UtcNow.Ticks}.old");
 				}
 				// 调用编译器编译
+				// 默认以debug配置编译，以release配置编译时将不能对插件进行调试
 				Directory.CreateDirectory(Path.GetDirectoryName(assemblyPath));
+				var configManager = Application.Ioc.Resolve<ConfigManager>();
+				var release = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
+					ExtraConfigKeys.CompilePluginsWithReleaseConfiguration) ?? false;
 				var compilerService = Application.Ioc.Resolve<ICompilerService>();
 				var options = new CompilationOptions();
+				options.Debug = !release;
+				options.GeneratePdbFile = !release;
 				compilerService.Compile(sourceFiles, assemblyName, assemblyPath, options);
 				// 保存编译信息
 				File.WriteAllText(compileInfoPath, compileInfo);
