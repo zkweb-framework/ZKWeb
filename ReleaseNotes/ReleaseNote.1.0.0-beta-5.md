@@ -5,6 +5,7 @@
 - 修复使用Roslyn编译的插件无法正常调试的功能
   - 添加ZKWeb.CompilePluginsWithReleaseConfiguration选项
   - 修改此选项后需要手动删除原有编译的bin文件夹才能生效
+- 添加decimal.Normalize函数
 
 ### 已知问题
 
