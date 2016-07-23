@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using ZKWeb.Plugin.AssemblyLoaders;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Text;
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
@@ -88,8 +89,8 @@ namespace ZKWeb.Plugin.CompilerServices {
 			options = options ?? new CompilationOptions();
 			// 解析源代码文件
 			var syntaxTrees = sourceFiles
-				.Select(path => File.ReadAllText(path))
-				.Select(text => CSharpSyntaxTree.ParseText(text))
+				.Select(path => CSharpSyntaxTree.ParseText(
+					File.ReadAllText(path), path: path, encoding: Encoding.UTF8))
 				.ToList();
 			// 找出所有using，并尝试加载里面的程序集
 			LoadAssembliesFromUsings(syntaxTrees);
