@@ -31,7 +31,7 @@
 - Visual page editor
 	- Prepared and planned
 
-Version: 1.0.0 beta 4 (Backward compatibility is provided as much as possible)<br/>
+Version: 1.0.0 beta 5 (Backward compatibility is provided as much as possible)<br/>
 
 ### Hosting Environment
 
