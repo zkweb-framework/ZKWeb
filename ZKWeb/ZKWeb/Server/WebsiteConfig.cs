@@ -5,38 +5,43 @@ using System.Linq;
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// 网站配置
+	/// Website configuration
 	/// </summary>
 	public class WebsiteConfig {
 		/// <summary>
-		/// 使用的数据库
-		/// 可以指定这些值
-		/// postgresql, sqlite, mysql, mssql
+		/// Object relational mapper
+		/// It will load the mapper assembly named "ZKWeb.ORM.{thisValue}"
+		/// eg: NHibernate, InMemory
+		/// </summary>
+		public string ORM { get; set; }
+		/// <summary>
+		/// Database name
+		/// eg: PostgreSQL, SQLite, MySQL, MSSQL
 		/// </summary>
 		public string Database { get; set; }
 		/// <summary>
-		/// 数据库的链接字符串
+		/// Database connection string
 		/// </summary>
 		public string ConnectionString { get; set; }
 		/// <summary>
-		/// 插件目录列表
-		/// 必须是相对于网站程序的路径
-		/// 如果没有指定则使用"App_Data/Plugins"
+		/// Directories use to find plugins
+		/// It should be a relative path to website root
+		/// If not specified "App_Data/Plugins" will be used
 		/// </summary>
 		public IList<string> PluginDirectories { get; set; }
 		/// <summary>
-		/// 使用的插件列表
+		/// Plugin names in the loading order
 		/// </summary>
 		public IList<string> Plugins { get; set; }
 		/// <summary>
-		/// 其他附加配置
+		/// Other extra configuration
 		/// </summary>
 		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
-		/// 从文件读取网站配置
+		/// Read website configuration from path
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="path">Configuration path</param>
 		/// <returns></returns>
 		public static WebsiteConfig FromFile(string path) {
 			var json = File.ReadAllText(path);

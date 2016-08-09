@@ -1,5 +1,4 @@
-﻿#if !NETCORE
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using ZKWebStandard.Web;
@@ -59,4 +58,3 @@ namespace ZKWeb.Web.ActionResults {
 		}
 	}
 }
-#endif

@@ -1,14 +1,12 @@
-﻿#if !NETCORE
-using NSubstitute;
-#endif
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using ZKWeb.Database;
 using ZKWeb.Plugin;
-using ZKWebStandard.Collections;
+using ZKWeb.Server;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Testing.Events;
 
@@ -58,27 +56,27 @@ namespace ZKWeb.Testing {
 				RunAssemblyTest(assembly, eventHandler);
 			}
 		}
-
-#if !NETCORE
+		
 		/// <summary>
 		/// 在指定的范围内启用临时数据库
 		/// </summary>
-		/// <param name="dbPath">数据库文件的路径，不指定时使用临时文件</param>
 		/// <returns></returns>
-		public virtual IDisposable UseTemporaryDatabase(string dbPath = null) {
+		public virtual IDisposable UseTemporaryDatabase() {
 			// 创建数据库会话生成器
-			dbPath = dbPath ?? Path.GetTempFileName();
-			var connectionString = string.Format("Data Source={0};Version=3;", dbPath);
-			var sessionFactory = DatabaseManager.BuildSessionFactory("sqlite", connectionString, null);
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var extra = configManager.WebsiteConfig.Extra;
+			var orm = extra.GetOrDefault<string>(ExtraConfigKeys.TemporaryDatabaseORM) ?? "InMemory";
+			var database = extra.GetOrDefault<string>(ExtraConfigKeys.TemporaryDatabaseType);
+			var connectionString = extra.GetOrDefault<string>(ExtraConfigKeys.TemporaryDatabaseConnectionString);
+			var sessionFactory = DatabaseManager.CreateContextFactor(orm, database, connectionString);
 			// 重载当前的数据库管理器，使用刚才创建的数据库会话生成器
 			var overrideIoc = Application.OverrideIoc();
 			var databaseManagerMock = Substitute.ForPartsOf<DatabaseManager>();
-			databaseManagerMock.SessionFactory.Returns(sessionFactory);
+			databaseManagerMock.CreateContext().Returns(callInfo => sessionFactory.CreateContext());
 			Application.Ioc.Unregister<DatabaseManager>();
 			Application.Ioc.RegisterInstance(databaseManagerMock);
-			// 区域结束后结束对容器的重载和删除数据库文件
-			return new SimpleDisposable(() => { overrideIoc.Dispose(); File.Delete(dbPath); });
+			// 区域结束后结束对容器的重载
+			return overrideIoc;
 		}
-#endif
 	}
 }

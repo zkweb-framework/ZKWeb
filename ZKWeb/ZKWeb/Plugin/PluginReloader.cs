@@ -13,7 +13,7 @@ namespace ZKWeb.Plugin {
 	/// - 插件根目录/*.json
 	/// - 插件根目录/*.dll
 	/// - App_Data/*.json (仅根目录)
-	/// - App_Data/DatabaseScript.txt (仅删除)
+	/// - App_Data/*.ddl (仅删除)
 	/// </summary>
 	internal static class PluginReloader {
 		/// <summary>
@@ -56,11 +56,11 @@ namespace ZKWeb.Plugin {
 			websiteConfigWatcher.Filter = "*.json";
 			startWatcher(websiteConfigWatcher);
 			// 监视数据库生成脚本，仅监视删除
-			var databaseScriptWatcher = new FileSystemWatcher();
-			databaseScriptWatcher.Path = Path.GetDirectoryName(pathConfig.DatabaseScriptPath);
-			databaseScriptWatcher.Filter = Path.GetFileName(pathConfig.DatabaseScriptPath);
-			databaseScriptWatcher.Deleted += (sender, e) => stopWebsite();
-			databaseScriptWatcher.EnableRaisingEvents = true;
+			var ddlWatcher = new FileSystemWatcher();
+			ddlWatcher.Path = pathConfig.AppDataDirectory;
+			ddlWatcher.Filter = "*.ddl";
+			ddlWatcher.Deleted += (sender, e) => stopWebsite();
+			ddlWatcher.EnableRaisingEvents = true;
 		}
 	}
 }

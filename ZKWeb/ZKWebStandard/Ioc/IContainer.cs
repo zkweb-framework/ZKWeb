@@ -2,11 +2,15 @@
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Ioc容器的接口
+	/// Interface for IoC container
 	/// </summary>
 	public interface IContainer :
 		IRegistrator, IGenericRegistrator,
-		IResolver, IGenericResolver,
-		ICloneable, IDisposable {
+		IResolver, IGenericResolver, IDisposable {
+		/// <summary>
+		/// Clone the container
+		/// </summary>
+		/// <returns></returns>
+		object Clone();
 	}
 }

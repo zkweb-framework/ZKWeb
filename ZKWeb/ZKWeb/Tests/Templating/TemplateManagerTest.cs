@@ -1,5 +1,4 @@
-﻿#if !NETCORE
-using System.IO;
+﻿using System.IO;
 using ZKWeb.Templating;
 using ZKWeb.Tests.Server;
 using ZKWebStandard.Ioc;
@@ -25,4 +24,3 @@ namespace ZKWeb.Tests.Templating {
 		}
 	}
 }
-#endif

@@ -1,5 +1,4 @@
-﻿#if !NETCORE
-using DotLiquid;
+﻿using DotLiquid;
 using NSubstitute;
 using ZKWeb.Localize;
 using ZKWebStandard.Ioc;
@@ -40,4 +39,3 @@ namespace ZKWeb.Tests.Templating.TemplateFilters {
 		}
 	}
 }
-#endif

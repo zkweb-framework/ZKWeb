@@ -7,6 +7,7 @@
 		"NETStandard.Library": "1.6.0",
 		"Newtonsoft.Json": "9.0.1",
 		"NSubstitute": "2.0.0-rc",
+		"System.Data.Common": "4.1.0",
 		"System.IO.FileSystem.Watcher": "4.0.0",
 		"ZKWebStandard": "1.0.0-rc-1"
 	},

@@ -1,10 +1,7 @@
-﻿#if !NETCORE
-using FluentNHibernate;
-using FluentNHibernate.Mapping;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZKWeb.Database;
-using ZKWeb.Database.UserTypes;
 using ZKWeb.Testing;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
@@ -15,38 +12,34 @@ namespace ZKWeb.Tests.Database {
 		public void All() {
 			var testManager = Application.Ioc.Resolve<TestManager>();
 			using (Application.OverrideIoc()) {
-				Application.Ioc.Unregister<IMappingProvider>();
-				Application.Ioc.RegisterMany<TestTableMap>();
+				Application.Ioc.Unregister<IEntity>();
+				Application.Ioc.RegisterMany<TestTable>();
 				using (testManager.UseTemporaryDatabase()) {
 					var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
-					var saveCallback = new TestTableSaveCallback();
-					var deleteCallback = new TestTableDeleteCallback();
-					Application.Ioc.RegisterInstance<IDataSaveCallback<TestTable>>(saveCallback);
-					Application.Ioc.RegisterInstance<IDataDeleteCallback<TestTable>>(deleteCallback);
-					// 添加对象
-					using (var context = databaseManager.GetContext()) {
+					var handler = new TestTableOperationHandler();
+					Application.Ioc.RegisterInstance<IEntityOperationHandler<TestTable>>(handler);
+					// Save
+					using (var context = databaseManager.CreateContext()) {
 						var obj = new TestTable() { Name = "TestName" };
 						var otherObj = new TestTable() { Name = "OtherName" };
 						context.Save(ref obj);
 						context.Save(ref otherObj);
-						Assert.Equals(saveCallback.BeforeSaveCount, 2);
-						Assert.Equals(saveCallback.AfterSaveCount, 2);
-						context.SaveChanges();
+						Assert.Equals(handler.BeforeSaveCount, 2);
+						Assert.Equals(handler.AfterSaveCount, 2);
 					}
-					// 更新对象
-					using (var context = databaseManager.GetContext()) {
-						context.UpdateWhere<TestTable>(
+					// BatchUpdate
+					using (var context = databaseManager.CreateContext()) {
+						context.BatchUpdate<TestTable>(
 							t => t.Name == "TestName",
 							t => {
 								t.Name = "TestNameUpdated";
 								t.Extra["TestKey"] = "TestValue";
 							});
-						Assert.Equals(saveCallback.BeforeSaveCount, 3);
-						Assert.Equals(saveCallback.AfterSaveCount, 3);
-						context.SaveChanges();
+						Assert.Equals(handler.BeforeSaveCount, 3);
+						Assert.Equals(handler.AfterSaveCount, 3);
 					}
-					// 获取更新后的对象
-					using (var context = databaseManager.GetContext()) {
+					// Query
+					using (var context = databaseManager.CreateContext()) {
 						var obj = context.Get<TestTable>(t => t.Name == "TestNameUpdated");
 						Assert.IsTrue(obj != null);
 						Assert.IsTrue(obj.Extra != null);
@@ -55,78 +48,82 @@ namespace ZKWeb.Tests.Database {
 							.FirstOrDefault(t => t.Name == "TestNameUpdated");
 						Assert.Equals(obj, objFromQuery);
 					}
-					// 计算对象数量
-					using (var context = databaseManager.GetContext()) {
+					// Count
+					using (var context = databaseManager.CreateContext()) {
 						Assert.Equals(context.Count<TestTable>(_ => true), 2);
 						Assert.Equals(context.Count<TestTable>(t => t.Name == "TestNameUpdated"), 1);
 						Assert.Equals(context.Count<TestTable>(t => t.Name == "NotExist"), 0);
 					}
-					// 删除对象
-					using (var context = databaseManager.GetContext()) {
-						context.DeleteWhere<TestTable>(t => t.Name == "TestNameUpdated");
+					// BatchDelete
+					using (var context = databaseManager.CreateContext()) {
+						context.BatchDelete<TestTable>(t => t.Name == "TestNameUpdated");
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestNameUpdated") == null);
-						Assert.Equals(deleteCallback.BeforeDeleteCount, 1);
-						Assert.Equals(deleteCallback.AfterDeleteCount, 1);
-						context.SaveChanges();
+						Assert.Equals(handler.BeforeDeleteCount, 1);
+						Assert.Equals(handler.AfterDeleteCount, 1);
 					}
-					// 检查删除对象
-					using (var context = databaseManager.GetContext()) {
+					// Get
+					using (var context = databaseManager.CreateContext()) {
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestNameUpdated") == null);
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "OtherName") != null);
 					}
-					// 不使用事务
-					using (var context = databaseManager.GetContext(null)) {
-						var obj = new TestTable() { Name = "TestName" };
-						context.Save(ref obj);
-						context.SaveChanges();
+					// BatchSave, BeginTransaction, CommitTransaction
+					using (var context = databaseManager.CreateContext()) {
+						context.BeginTransaction();
+						context.BeginTransaction();
+						var objs = new[] {
+								new TestTable() { Name = "TestName_1" },
+								new TestTable() { Name = "TestName_2" },
+								new TestTable() { Name = "TestName_3" }
+							}.AsEnumerable();
+						context.BatchSave(ref objs);
+						context.FinishTransaction();
+						context.FinishTransaction();
 					}
-					using (var context = databaseManager.GetContext(null)) {
-						var obj = context.Get<TestTable>(t => t.Name == "TestName");
-						Assert.IsTrue(obj != null);
+					using (var context = databaseManager.CreateContext()) {
+						context.BeginTransaction();
+						context.BeginTransaction();
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_1") != null);
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_2") != null);
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_3") != null);
+						// only begin, no finish
 					}
 				}
 			}
 		}
 
-		class TestTable {
-			public virtual long Id { get; set; }
+		class TestTable : IEntity<Guid>, IEntityMappingProvider<TestTable> {
+			public virtual Guid Id { get; set; }
 			public virtual string Name { get; set; }
 			public virtual Dictionary<string, object> Extra { get; set; }
-		}
 
-		class TestTableMap : ClassMap<TestTable> {
-			public TestTableMap() {
-				Id(t => t.Id);
-				Map(t => t.Name);
-				Map(t => t.Extra).CustomType<JsonSerializedType<Dictionary<string, object>>>();
+			public void Configure(IEntityMappingBuilder<TestTable> builder) {
+				builder.Id(t => t.Id);
+				builder.Map(t => t.Name);
+				builder.Map(t => t.Extra, new EntityMappingOptions() { WithSerialization = true });
 			}
 		}
 
-		class TestTableSaveCallback : IDataSaveCallback<TestTable> {
+		class TestTableOperationHandler : IEntityOperationHandler<TestTable> {
 			public int BeforeSaveCount { get; set; }
 			public int AfterSaveCount { get; set; }
-
-			public void BeforeSave(DatabaseContext context, TestTable data) {
-				++BeforeSaveCount;
-			}
-
-			public void AfterSave(DatabaseContext context, TestTable data) {
-				++AfterSaveCount;
-			}
-		}
-
-		class TestTableDeleteCallback : IDataDeleteCallback<TestTable> {
 			public int BeforeDeleteCount { get; set; }
 			public int AfterDeleteCount { get; set; }
 
-			public void BeforeDelete(DatabaseContext context, TestTable data) {
+			public void BeforeSave(IDatabaseContext context, TestTable data) {
+				++BeforeSaveCount;
+			}
+
+			public void AfterSave(IDatabaseContext context, TestTable data) {
+				++AfterSaveCount;
+			}
+
+			public void BeforeDelete(IDatabaseContext context, TestTable data) {
 				++BeforeDeleteCount;
 			}
 
-			public void AfterDelete(DatabaseContext context, TestTable data) {
+			public void AfterDelete(IDatabaseContext context, TestTable data) {
 				++AfterDeleteCount;
 			}
 		}
 	}
 }
-#endif

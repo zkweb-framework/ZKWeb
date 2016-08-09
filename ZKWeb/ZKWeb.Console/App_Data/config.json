@@ -1,5 +1,6 @@
 ﻿{
-	"Database": "sqlite",
+	"ORM": "NHibernate",
+	"Database": "SQLite",
 	"ConnectionString": "Data Source={{App_Data}}/test.db;Version=3;",
 	"PluginDirectories": [],
 	"Plugins": []

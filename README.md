@@ -28,9 +28,9 @@ Backward compatibility is provided as much as possible<br/>
 	- Support running on Owin
 	- All host environment based on same abstraction layer
 - Multiple ORM
-	- Support NHibernate (Not available for .Net Core)
-	- ~~Support InMemoryDb (Not Done)~~
-	- ~~Support EntityFramework Core (Not Done)~~
+	- ~~Support NHibernate (Not ready, Not available for .Net Core)~~
+	- ~~Support InMemory (Not ready)~~
+	- ~~Support EntityFramework Core (Not ready)~~
 	- Support runtime database scheme migration
 	- All ORM based on same abstraction layer
 - Localization

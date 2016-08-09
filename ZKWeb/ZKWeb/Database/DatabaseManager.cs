@@ -1,132 +1,66 @@
-﻿#if !NETCORE
-using FluentNHibernate;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using NHibernate;
-using NHibernate.Tool.hbm2ddl;
-using System;
-using System.Data;
-using System.IO;
+﻿using System;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Server;
-using ZKWebStandard.Extensions;
-#endif
 
 namespace ZKWeb.Database {
-#if NETCORE
 	/// <summary>
-	/// 数据库管理器
-	/// 尚未支持.Net Core
-	/// </summary>
-	public class DatabaseManager {
-		internal static void Initialize() { }
-	}
-#else
-	/// <summary>
-	/// 数据库管理器
+	/// Database manager
 	/// </summary>
 	public class DatabaseManager {
 		/// <summary>
-		/// 数据库会话生成器
+		/// Default database context factor
 		/// </summary>
-		public virtual ISessionFactory SessionFactory { get; protected set; }
+		protected virtual IDatabaseContextFactor DefaultContextFactor { get; set; }
 
 		/// <summary>
-		/// 获取数据库上下文
-		/// 事务的隔离等级默认是IsolationLevel.ReadCommitted
+		/// Create database context from the default factor
 		/// </summary>
 		/// <returns></returns>
-		public virtual DatabaseContext GetContext() {
-			return GetContext(IsolationLevel.ReadCommitted);
+		public virtual IDatabaseContext CreateContext() {
+			return DefaultContextFactor.CreateContext();
 		}
 
 		/// <summary>
-		/// 获取数据库上下文
+		/// Create database context factor from the given parameters
 		/// </summary>
-		/// <param name="isolationLevel">事务的隔离等级，等于null时不开启事务</param>
+		/// <param name="orm">Object relational mapper</param>
+		/// <param name="database">Database name</param>
+		/// <param name="connectionString">Database connection string</param>
 		/// <returns></returns>
-		public virtual DatabaseContext GetContext(IsolationLevel? isolationLevel) {
-			return new DatabaseContext(SessionFactory, isolationLevel);
-		}
-
-		/// <summary>
-		/// 根据数据库类型和连接字符串创建数据库会话生成器
-		/// 支持自动更新数据库
-		/// </summary>
-		/// <param name="database">数据库类型</param>
-		/// <param name="connectionString">连接字符串</param>
-		/// <param name="databaseScriptPath">判断是否需要更新数据库的文件路径，传入null时总是更新</param>
-		/// <returns></returns>
-		internal static ISessionFactory BuildSessionFactory(
-			string database, string connectionString, string databaseScriptPath) {
-			// 创建数据库配置
-			IPersistenceConfigurer db;
-			if (string.Compare(database, DatabaseTypes.PostgreSQL, true) == 0) {
-				db = PostgreSQLConfiguration.Standard.ConnectionString(connectionString);
-			} else if (string.Compare(database, DatabaseTypes.SQLite, true) == 0) {
-				var pathConfig = Application.Ioc.Resolve<PathConfig>();
-				db = SQLiteConfiguration.Standard.ConnectionString(
-					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
-			} else if (string.Compare(database, DatabaseTypes.MySQL, true) == 0) {
-				db = MySQLConfiguration.Standard.ConnectionString(connectionString);
-			} else if (string.Compare(database, DatabaseTypes.MSSQL, true) == 0) {
-				db = MsSqlConfiguration.MsSql2008.ConnectionString(connectionString);
-			} else {
-				throw new ArgumentException($"unknown database type {database}");
+		internal static IDatabaseContextFactor CreateContextFactor(
+			string orm, string database, string connectionString) {
+			if (string.IsNullOrEmpty(orm)) {
+				throw new NotSupportedException("No ORM name is provided, please set it first");
 			}
-			var configuration = Fluently.Configure();
-			configuration.Database(db);
-			// 注册数据表类型
-			var tableTypes = Application.Ioc.ResolveMany<IMappingProvider>()
-				.Select(p => p.GetType()).OrderBy(t => t.FullName).ToList();
-			configuration.Mappings(m => tableTypes.ForEach(t => m.FluentMappings.Add(t)));
-			// 调用数据库初始化处理器
-			// 可以在这里全局处理表名和字段名
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			handlers.ForEach(h => h.OnInitialize(configuration));
-			// 自动更新数据库
-			// 流程 (databaseScriptPath不等于空时）
-			// - 生成当前数据库表的sql脚本，不会实际执行
-			// - 判断是否和databaseScriptPath对应的文件内容一致
-			// - 不一致时执行数据库更新并保存到该文件中
-			// 检测是否需要自动更新的原因是为了优化启动网站时的性能
-			// 保存文件的处理要放到BuildSessionFactory后面，
-			// 否则会出现数据库没有初始化成功但仍然保存了该文件的问题。
-			Action onBuildFactorySuccess = null;
-			configuration.ExposeConfiguration(c => {
-				if (string.IsNullOrEmpty(databaseScriptPath)) {
-					new SchemaUpdate(c).Execute(false, true);
-				} else {
-					var scriptBuilder = new StringBuilder();
-					scriptBuilder.AppendLine("/* file for database migration checking, don't execute */");
-					scriptBuilder.AppendLine(string.Format("/* {0} {1} */", database, connectionString));
-					new SchemaExport(c).Create(s => scriptBuilder.AppendLine(s), false);
-					var path = databaseScriptPath;
-					var script = scriptBuilder.ToString();
-					if (!File.Exists(path) || script != File.ReadAllText(path)) {
-						new SchemaUpdate(c).Execute(false, true);
-						onBuildFactorySuccess = () => File.WriteAllText(path, script);
-					}
-				}
-			});
-			// 应用更新并创建数据库会话生成器
-			var sessionFactory = configuration.BuildSessionFactory();
-			onBuildFactorySuccess?.Invoke();
-			return sessionFactory;
+			var assemblyName = string.Format("ZKWeb.ORM.{0}", orm);
+			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
+			Assembly assembly;
+			try {
+				assembly = assemblyLoader.Load(assemblyName);
+			} catch (Exception e) {
+				throw new NotSupportedException(string.Format(
+					"Load ORM assembly {0} failed, please install it first. error: {1}", orm, e.Message));
+			}
+			var factorType = assembly.GetTypes().FirstOrDefault(t =>
+				typeof(IDatabaseContextFactor).IsAssignableFrom(t));
+			if (factorType == null) {
+				throw new NotSupportedException(string.Format(
+					"Find factor type from ORM {0} failed", orm));
+			}
+			return (IDatabaseContextFactor)Activator.CreateInstance(factorType, database, connectionString);
 		}
 
 		/// <summary>
-		/// 初始化数据库管理器
+		/// Initialize database manager
 		/// </summary>
 		internal static void Initialize() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var config = configManager.WebsiteConfig;
 			var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
-			databaseManager.SessionFactory = BuildSessionFactory(
-				config.Database, config.ConnectionString, pathConfig.DatabaseScriptPath);
+			databaseManager.DefaultContextFactor = CreateContextFactor(
+				config.ORM, config.Database, config.ConnectionString);
 		}
 	}
-#endif
 }

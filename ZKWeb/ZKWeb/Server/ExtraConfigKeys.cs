@@ -1,9 +1,20 @@
 ﻿namespace ZKWeb.Server {
 	/// <summary>
-	/// 网站附加配置中使用的键值
-	/// 前缀需要添加"ZKWeb."
+	/// Extra website configuration keys
 	/// </summary>
 	internal static class ExtraConfigKeys {
+		/// <summary>
+		/// ORM for temporary database, Default is "InMemory"
+		/// </summary>
+		public const string TemporaryDatabaseORM = "ZKWeb.TemporaryDatabaseORM";
+		/// <summary>
+		/// Database type for temporary database, Default is empty
+		/// </summary>
+		public const string TemporaryDatabaseType = "ZKWeb.TemporaryDatabaseType";
+		/// <summary>
+		/// Connection string for temporary database, Default is empty
+		/// </summary>
+		public const string TemporaryDatabaseConnectionString = "ZKWeb.TemporaryDatabaseConnectionString";
 		/// <summary>
 		/// 翻译的缓存时间，单位是秒
 		/// </summary>
