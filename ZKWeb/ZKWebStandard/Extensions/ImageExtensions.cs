@@ -75,7 +75,7 @@ namespace ZKWebStandard.Extensions {
 			var encoder = ImageCodecInfo.GetImageEncoders().First(
 				c => c.FormatID == ImageFormat.Jpeg.Guid);
 			var parameters = new EncoderParameters();
-			parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+			parameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
 			image.Save(filename, encoder, parameters);
 		}
 

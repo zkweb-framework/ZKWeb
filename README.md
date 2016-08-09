@@ -1,60 +1,71 @@
-### Extendable .Net Web Framework
+### An Extendable .Net Web Framework
+
+Version: 1.0.0 rc 1<br/>
+Backward compatibility is provided as much as possible<br/>
+
+[TODO] Icons
 
 ### Features
 
-- Dynamic plugins
-	- Roslyn
-	- Auto compile after modification
-- Code first database auto migration
-	- FluentNHibernate
-	- Auto migration without any handwrite command
-- Simple and high performance Ioc container
-- Simple and extendable template sysetm
-	- DotLiquid
-	- Template overriding like django
-	- Mobile specialized templates
-	- Dynamic contents (area + widget pattern)
-	- Per widget render result cache (perform extremely fast rending) 
-- Multi language support
-- Multi timezone support
-- Testing support
-	- Console and web test runner
-	- Ioc container overridden
-	- Http context overridden
-	- Temporary database
-- Form generation
-	- Supported by plugin
-- Scaffolding
-	- Supported by plugin
-- Pesudo static
-	- Supported by plugin
-- Visual page editor
-	- Prepared and planned
+- .Net Core Support
+	- Support both .Net Framework and .Net Core
+- Plugin System
+	- Using Roslyn
+	- Support runtime plugin reload
+	- Support automatic compile and reload when plugin source code changed
+- Template System
+	- Using DotLiquid
+	- Support django style template overriding
+	- Support mobile specialized templates
+	- Support dynamic contents (by area tag)
+	- Support per-widget render cache (for extremely fast rending)
+- IoC Container
+	- Using custom lightweight IoC container
+	- Support register by MEF style attributes
+- Multiple Host Environment
+	- Support running on Asp.Net
+	- Support running on Asp.Net Core
+	- Support running on Owin
+	- All host environment based on same abstraction layer
+- Multiple ORM
+	- Support NHibernate (Not available for .Net Core)
+	- ~~Support InMemoryDb (Not Done)~~
+	- ~~Support EntityFramework Core (Not Done)~~
+	- Support runtime database scheme migration
+	- All ORM based on same abstraction layer
+- Localization
+	- Support multi-language
+	- Support multi-timezone
+	- Support text translation
+- Testing
+	- Provide console and web test runner
+	- Support IoC container overridden
+	- Support http context overridden
+	- Support temporary database
+- Project Toolkits
+	- Project Creator for creating ZKWeb project
+	- Website Publisher for publishing ZKWeb project
 
-Version: 1.0.0 beta 5 (Backward compatibility is provided as much as possible)<br/>
+### Features from default plugin collection
 
-### Hosting Environment
-
-ZKWeb support running on Asp.Net, Asp.Net Core and Owin.<br/>
-All version compatible with same plugins.<br/>
-Plugins should use the abstraction layer ZKWeb provided, and shouldn't dependent on Asp.Net (Core).<br/>
-
-### .Net Core Support
-
-ZKWeb provided basic support for .net core now.<br/>
-But because NHibernate and Substitite doesn't have .net core support yet,<br/>
-functions like database access are unavailable.<br/>
+- Form generation and validation
+- Ajax table generation
+- CRUD page scaffolding
+- Scheduled Tasks
+- Captcha
+- Admin Panel
+- Automatic pesudo static support
+- Multi-Currency and Region support
+- And More...
 
 ### Links and License
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
-Document: http://zkweb-framework.github.io (Chinese only)<br/>
+Documents: http://zkweb-framework.github.io (Chinese)<br/>
 References: http://zkweb-framework.github.io/cn/references/zkweb/index.html<br/>
 
 Demo Website: http://zkwebsite.com/admin<br/>
 Demo Account: demo 123456
-
-This framework is inspired by django, all comments are written in chinese.<br/>
 
 MIT License<br/>
 Copyright © 2016 303248153@github<br/>
