@@ -8,11 +8,11 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
-	/// 按当前语言和时区隔离缓存
+	/// Isolate cache by culture and timezone
 	/// </summary>
 	public class CacheIsolateByLocale : ICacheIsolationPolicy {
 		/// <summary>
-		/// 获取隔离键
+		/// Get isolation key
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {

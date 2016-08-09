@@ -24,39 +24,39 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb {
 	/// <summary>
-	/// 主程序
+	/// Main Application
 	/// </summary>
 	public static class Application {
 		/// <summary>
-		/// 框架的完整版本
+		/// ZKWeb Version String
 		/// </summary>
-		public static string FullVersion { get { return "1.0.0 beta 4"; } }
+		public static string FullVersion { get { return "1.0.0 rc 1"; } }
 		/// <summary>
-		/// 框架的数值版本
+		/// ZKWeb Version Object
 		/// </summary>
 		public static Version Version { get { return Version.Parse(FullVersion.Split(' ')[0]); } }
 		/// <summary>
-		/// 当前使用的容器
-		/// 允许使用线程本地变量重载
+		/// The IoC Container Instance
+		/// Allow override by thread local variable
 		/// </summary>
 		public static IContainer Ioc { get { return overrideIoc.Value ?? defaultIoc; } }
 		private static IContainer defaultIoc = new Container();
 		private static ThreadLocal<IContainer> overrideIoc = new ThreadLocal<IContainer>();
 		/// <summary>
-		/// 是否已初始化
+		/// Initialize Flag
 		/// </summary>
 		private static int Initialized = 0;
 
 		/// <summary>
-		/// 初始化主程序
+		/// Intialize main application
 		/// </summary>
-		/// <param name="websiteRootDirectory">网站根目录的路径</param>
+		/// <param name="websiteRootDirectory">Website root directory</param>
 		public static void Initialize(string websiteRootDirectory) {
-			// 重复初始化时抛出例外
+			// throw exception if already initialized
 			if (Interlocked.Exchange(ref Initialized, 1) != 0) {
 				throw new InvalidOperationException("Application already initialized");
 			}
-			// 注册核心组件
+			// register core components
 			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
@@ -81,7 +81,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
 			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
 			Ioc.RegisterMany<CacheIsolateByUrl>(ReuseType.Singleton, serviceKey: "Url");
-			// 初始化核心组件
+			// initialize core components
 			PathConfig.Initialize(websiteRootDirectory);
 			ConfigManager.Initialize();
 			PluginManager.Initialize();
@@ -90,51 +90,51 @@ namespace ZKWeb {
 			ControllerManager.Initialize();
 			ThreadPoolInitializer.Initialize();
 			DatabaseManager.Initialize();
-			// 初始化所有插件并调用网站启动时的处理
+			// initialize all plugins
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
-			// 初始化常驻型的核心组件
+			// start the resident core processes
 			PluginReloader.Start();
 			AutomaticCacheCleaner.Start();
 		}
 
 		/// <summary>
-		/// 处理Http请求
-		/// 处理完毕后会调用Response.End函数
+		/// Handle http request
+		/// `Response.End` will be called if processing completed without errors
 		/// </summary>
-		/// <param name="context">Http上下文</param>
+		/// <param name="context">Http context</param>
 		public static void OnRequest(IHttpContext context) {
-			// 检测是否嵌套调用
+			// Detect nested call
 			if (HttpManager.CurrentContextExists) {
 				throw new InvalidOperationException("Nested call is unsupported");
 			}
-			// 调用请求处理器
+			// Call request handlers
 			using (HttpManager.OverrideContext(context)) {
-				// 调用预处理器，先注册的先调用
+				// Call pre request handlers, in register order
 				foreach (var handler in Ioc.ResolveMany<IHttpRequestPreHandler>()) {
 					handler.OnRequest();
 				}
-				// 调用处理器，后注册的先调用
+				// Call request handlers, in reverse register order
 				foreach (var handler in Ioc.ResolveMany<IHttpRequestHandler>().Reverse()) {
 					handler.OnRequest();
 				}
-				// 没有处理时返回404
+				// If request not get handled, throw an 404 exception
 				throw new HttpException(404, "Not Found");
 			}
 		}
 
 		/// <summary>
-		/// 处理错误
-		/// 处理完毕后会调用Response.End函数
+		/// Handle http error
+		/// `Response.End` will be called if processing completed without errors
 		/// </summary>
-		/// <param name="context">Http上下文</param>
-		/// <param name="ex">错误对象</param>
+		/// <param name="context">Http context</param>
+		/// <param name="ex">Exception object</param>
 		public static void OnError(IHttpContext context, Exception ex) {
-			// 检测是否嵌套调用
+			// Detect nested call
 			if (HttpManager.CurrentContextExists) {
 				throw new InvalidOperationException("Nested call is unsupported");
 			}
-			// 调用错误处理器，后注册的先调用
+			// Call error handlers, in reverse register order
 			using (HttpManager.OverrideContext(context)) {
 				foreach (var handler in
 					Ioc.ResolveMany<IHttpRequestErrorHandler>().Reverse()) {
@@ -144,8 +144,9 @@ namespace ZKWeb {
 		}
 
 		/// <summary>
-		/// 重载当前使用的Ioc容器，在当前线程中有效
-		/// 重载后的容器会继承原有的容器，但不会对原有的容器做出修改
+		/// Override IoC container, only available for the thread calling this method
+		/// Overrided container will inherit the original container,
+		/// Alter override container will not affect the original container.
 		/// </summary>
 		/// <returns></returns>
 		public static IDisposable OverrideIoc() {

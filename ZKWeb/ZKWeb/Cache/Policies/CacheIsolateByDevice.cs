@@ -3,11 +3,11 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
-	/// 按当前设备隔离缓存
+	/// Isolate cache by client device type, eg Desktop or Mobile
 	/// </summary>
 	public class CacheIsolateByDevice : ICacheIsolationPolicy {
 		/// <summary>
-		/// 获取隔离键
+		/// Get isolation key
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {

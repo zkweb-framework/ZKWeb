@@ -5,36 +5,36 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Cache {
 	/// <summary>
-	/// 支持按照指定策略隔离缓存数据使用的键类型
-	/// 性能测试数据
-	/// - struct 储存1.5s/1000000次 读取0.7s/1000000次
-	/// - class 储存2.0s/1000000次 读取0.7s/1000000次
+	/// Cache key type that combines original cache key and isolation key
+	/// Benchmark
+	/// - struct Store 1.5s/1000000 times, Load 0.7s/1000000 times
+	/// - class Store 2.0s/1000000 times, Load 0.7s/1000000 times
 	/// </summary>
-	/// <typeparam name="TKey">键类型</typeparam>
+	/// <typeparam name="TKey">Original cache key type</typeparam>
 	public struct IsolatedMemoryCacheKey<TKey> : IEquatable<IsolatedMemoryCacheKey<TKey>> {
 		/// <summary>
-		/// 缓存键
+		/// Original cache key
 		/// </summary>
 		public TKey Key { get; private set; }
 		/// <summary>
-		/// 隔离键列表
+		/// Isolation keys
 		/// </summary>
 		public IList<object> IsolationKeys { get; private set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="key">缓存键</param>
-		/// <param name="isolationKeys">隔离键列表</param>
+		/// <param name="key">Original cache key</param>
+		/// <param name="isolationKeys">Isolation keys</param>
 		public IsolatedMemoryCacheKey(TKey key, IList<object> isolationKeys) {
 			Key = key;
 			IsolationKeys = isolationKeys ?? new List<object>();
 		}
 
 		/// <summary>
-		/// 比较是否相等
+		/// Check if equals
 		/// </summary>
-		/// <param name="obj">比较的对象</param>
+		/// <param name="obj">Object compare to</param>
 		/// <returns></returns>
 		public bool Equals(IsolatedMemoryCacheKey<TKey> obj) {
 			return (Key.EqualsSupportsNull(obj.Key) &&
@@ -42,9 +42,9 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// 比较是否相等
+		/// Check if equals
 		/// </summary>
-		/// <param name="obj">比较的对象</param>
+		/// <param name="obj">Object compare to</param>
 		/// <returns></returns>
 		public override bool Equals(object obj) {
 			return (obj is IsolatedMemoryCacheKey<TKey> &&
@@ -52,7 +52,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// 获取Hash值
+		/// Generate hash value
 		/// </summary>
 		/// <returns></returns>
 		public override int GetHashCode() {

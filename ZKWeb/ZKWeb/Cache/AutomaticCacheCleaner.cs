@@ -7,22 +7,22 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.Cache {
 	/// <summary>
-	/// 自动清理缓存的类
+	/// Automatic cache cleaner
 	/// </summary>
 	internal static class AutomaticCacheCleaner {
 		/// <summary>
-		/// 启用自动清理缓存
+		/// Start cleaner
 		/// </summary>
 		internal static void Start() {
-			// 在内存占用超过设置值时自动清理缓存+回收内存
-			// 检查间隔默认是15秒
+			// Read memory usage threshold settings.
+			// If no settings present, do not start the cleaner thread.
+			// Default check interval is 15s.
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var thresholdMb = configManager.WebsiteConfig.Extra.GetOrDefault<int?>(
 				ExtraConfigKeys.ClearCacheAfterUsedMemoryMoreThan);
 			var intervalMs = (configManager.WebsiteConfig.Extra.GetOrDefault<int?>(
 				ExtraConfigKeys.CleanCacheCheckInterval) ?? 15) * 1000;
 			if (thresholdMb == null) {
-				// 没有设置时不启用此功能
 				return;
 			}
 			var thread = new Thread(() => {
@@ -31,7 +31,7 @@ namespace ZKWeb.Cache {
 					try {
 						var usedMemory = SystemUtils.GetUsedMemoryBytes() / 1024 / 1024;
 						if (usedMemory > thresholdMb.Value) {
-							// 清理缓存+回收内存
+							// Clear cache + collect garbage
 							var cleaners = Application.Ioc.ResolveMany<ICacheCleaner>();
 							cleaners.ForEach(c => c.ClearCache());
 							GC.Collect();

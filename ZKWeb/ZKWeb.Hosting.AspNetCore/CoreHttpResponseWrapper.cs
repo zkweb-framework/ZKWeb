@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Http;
 using ZKWebStandard.Web;
+using System;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
@@ -59,15 +60,23 @@ namespace ZKWeb.Hosting.AspNetCore {
 			End();
 		}
 		public void End() {
-			Body.Flush();
+			// Fix kesterl 1.0.0 304 => 502 error
+			// See https://github.com/aspnet/KestrelHttpServer/issues/952
+			try {
+				if (Body.Position > 0) {
+					Body.Flush();
+				}
+			} catch (NotSupportedException) {
+				// This exception will throw when access Position property if no contents writed before.
+			}
 			throw new CoreHttpResponseEndException();
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parentContext">所属的Http上下文</param>
-		/// <param name="coreResponse">AspNetCore的Http回应</param>
+		/// <param name="parentContext">Parent http context</param>
+		/// <param name="coreResponse">Asp.net core http response</param>
 		public CoreHttpResponseWrapper(
 			CoreHttpContextWrapper parentContext, HttpResponse coreResponse) {
 			ParentContext = parentContext;
