@@ -1,9 +1,10 @@
 ### An Extendable .Net Web Framework
 
 Version: 1.0.0 rc 1<br/>
-Backward compatibility is provided as much as possible<br/>
+<h5>Backward compatibility is provided as much as possible.</h5><br/>
 
-[TODO] Icons
+[![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
+[![NuGet](https://buildstats.info/nuget/ZKWeb)](http://www.nuget.org/packages/ZKWeb)
 
 ### Features
 
@@ -36,7 +37,7 @@ Backward compatibility is provided as much as possible<br/>
 - Localization
 	- Support multi-language
 	- Support multi-timezone
-	- Support text translation
+	- Support gettext style translation
 - Testing
 	- Provide console and web test runner
 	- Support IoC container overridden
@@ -46,7 +47,7 @@ Backward compatibility is provided as much as possible<br/>
 	- Project Creator for creating ZKWeb project
 	- Website Publisher for publishing ZKWeb project
 
-### Features from default plugin collection
+### Features from the default plugin collection
 
 - Form generation and validation
 - Ajax table generation
@@ -74,4 +75,4 @@ If you have any license issue please contact 303248153@qq.com.<br/>
 ### Getting Started:
 
 Open "Tools\ProjectCreator.Gui.exe", create your own project then open it.<br/>
-For more information please see the document.<br/>
+For more information please see the documents.<br/>
