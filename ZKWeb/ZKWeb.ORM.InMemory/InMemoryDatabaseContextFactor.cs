@@ -5,11 +5,11 @@ namespace ZKWeb.ORM.InMemory {
 	/// InMemory database context factor
 	/// This factor hold a memory database for all context it created
 	/// </summary>
-	public class InMemoryDatabaseContextFactor : IDatabaseContextFactor {
+	internal class InMemoryDatabaseContextFactor : IDatabaseContextFactor {
 		/// <summary>
 		/// The database object
 		/// </summary>
-		public InMemoryDatabase Database { get; set; }
+		private InMemoryDatabase Database { get; set; }
 
 		/// <summary>
 		/// Initialize

@@ -1,6 +1,6 @@
 ﻿namespace ZKWeb.Database {
 	/// <summary>
-	/// Interface for entity
+	/// Empty base interface
 	/// </summary>
 	public interface IEntity { }
 

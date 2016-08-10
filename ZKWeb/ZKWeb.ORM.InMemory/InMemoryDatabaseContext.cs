@@ -8,11 +8,11 @@ namespace ZKWeb.ORM.InMemory {
 	/// <summary>
 	/// InMemory database context
 	/// </summary>
-	public class InMemoryDatabaseContext : IDatabaseContext {
+	internal class InMemoryDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// The database object
 		/// </summary>
-		public InMemoryDatabase Database { get; set; }
+		private InMemoryDatabase Database { get; set; }
 
 		/// <summary>
 		/// Initialize

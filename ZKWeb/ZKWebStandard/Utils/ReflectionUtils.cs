@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// 反射工具类
+	/// Reflection utility functions
 	/// </summary>
 	public static class ReflectionUtils {
 		/// <summary>
@@ -34,6 +35,32 @@ namespace ZKWebStandard.Utils {
 			var objParam = Expression.Parameter(typeof(T), "obj");
 			var body = Expression.Convert(Expression.PropertyOrField(objParam, memberName), typeof(M));
 			return Expression.Lambda<Func<T, M>>(body, objParam).Compile();
+		}
+
+		/// <summary>
+		/// Get generic arguments from type
+		/// </summary>
+		/// <param name="type">The type</param>
+		/// <param name="genericType">The generic type</param>
+		/// <example>GetGenericArguments(typeof(MyList), typeof(IList[]))</example>
+		/// <returns></returns>
+		public static Type[] GetGenericArguments(Type type, Type genericType) {
+			var typeInfo = type.GetTypeInfo();
+			foreach (var interfaceType in typeInfo.GetInterfaces()) {
+				var interfaceTypeInfo = interfaceType.GetTypeInfo();
+				if (interfaceTypeInfo.IsGenericType &&
+					interfaceTypeInfo.GetGenericTypeDefinition() == genericType) {
+					return interfaceTypeInfo.GetGenericArguments();
+				}
+			}
+			while (typeInfo != null) {
+				if (typeInfo.IsGenericType &&
+					typeInfo.GetGenericTypeDefinition() == genericType) {
+					return typeInfo.GetGenericArguments();
+				}
+				typeInfo = typeInfo.BaseType?.GetTypeInfo();
+			}
+			return null;
 		}
 	}
 }

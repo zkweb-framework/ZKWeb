@@ -96,6 +96,10 @@ namespace ZKWeb.Tests.Database {
 			public virtual string Name { get; set; }
 			public virtual Dictionary<string, object> Extra { get; set; }
 
+			public TestTable() {
+				Extra = new Dictionary<string, object>();
+			}
+
 			public void Configure(IEntityMappingBuilder<TestTable> builder) {
 				builder.Id(t => t.Id);
 				builder.Map(t => t.Name);

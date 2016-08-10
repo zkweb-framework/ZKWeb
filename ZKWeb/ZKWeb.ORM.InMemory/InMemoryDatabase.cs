@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.FastReflection;
+using System.Linq;
 using ZKWeb.Database;
 using ZKWebStandard.Utils;
 
@@ -9,19 +11,51 @@ namespace ZKWeb.ORM.InMemory {
 	/// A simple memory database
 	/// The performance is poor, it should only use for testing
 	/// </summary>
-	public class InMemoryDatabase {
+	internal class InMemoryDatabase {
 		/// <summary>
 		/// Data store
 		/// { Type: { key: object } }
 		/// </summary>
-		protected ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
+		private ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
 			Store { get; set; }
 		/// <summary>
-		/// The sequence for integer type primary key
-		/// { Type: value }
+		/// Type to mapping definition
 		/// </summary>
-		protected ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
+		private ConcurrentDictionary<Type, IInMemoryEntityMapping> Mappings { get; set; }
+		/// <summary>
+		/// Type to primary key sequence, only for integer type
+		/// </summary>
+		private ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
+		/// <summary>
+		/// The lock for the sequence increment
+		/// </summary>
+		private object PrimaryKeySequenceLock { get; set; }
 
+		/// <summary>
+		/// Initialize
+		/// </summary>
+		public InMemoryDatabase() {
+			Store = new ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>();
+			Mappings = new ConcurrentDictionary<Type, IInMemoryEntityMapping>();
+			PrimaryKeySequence = new ConcurrentDictionary<Type, long>();
+			PrimaryKeySequenceLock = new object();
+			// build entity mappings
+			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
+			var groupedProviders = providers.GroupBy(p =>
+				ReflectionUtils.GetGenericArguments(
+				p.GetType(), typeof(IEntityMappingProvider<>))[0]);
+			foreach (var group in groupedProviders) {
+				var builder = (IInMemoryEntityMapping)Activator.CreateInstance(
+					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(group.Key));
+				var configureMethod = typeof(IEntityMappingProvider<>)
+					.MakeGenericType(group.Key).FastGetMethod("Configure");
+				foreach (var provider in group) {
+					configureMethod.FastInvoke(provider, builder);
+				}
+				Mappings[group.Key] = builder;
+			}
+		}
+		
 		/// <summary>
 		/// Get data store for specified type
 		/// </summary>
@@ -31,33 +65,33 @@ namespace ZKWeb.ORM.InMemory {
 			return Store.GetOrAdd(entityType, t => new ConcurrentDictionary<object, object>());
 		}
 		
+		/// <summary>
+		/// Get the primary key object from entity
+		/// </summary>
 		public object GetPrimaryKey<T>(T entity) {
-			throw new NotImplementedException();
+			var mapping = Mappings[typeof(T)];
+			return mapping.IdMember.FastGetValue(entity);
 		}
 		
+		/// <summary>
+		/// If an entity have a integer or guid primary key, and it's empty,
+		/// then generate a new primary key for it.
+		/// Return the final primary key.
+		/// </summary>
 		public object EnsurePrimaryKey<T>(T entity) {
-			if (entity is IEntity<int>) {
-				var typedEntity = (IEntity<int>)entity;
-				if (typedEntity.Id == 0) {
-					var id = PrimaryKeySequence.GetOrAdd(typeof(T), 0);
-					
+			var mapping = Mappings[typeof(T)];
+			var primaryKey = GetPrimaryKey(entity);
+			if ((primaryKey is int || primaryKey is long) && ((long)primaryKey) <= 0) {
+				lock (PrimaryKeySequenceLock) {
+					primaryKey = PrimaryKeySequence.GetOrAdd(typeof(T), 0) + 1;
+					PrimaryKeySequence[typeof(T)] = (long)primaryKey;
 				}
-				return typedEntity.Id;
-			} else if (entity is IEntity<long>) {
-				var typedEntity = (IEntity<long>)entity;
-				if (typedEntity.Id == 0) {
-					var id = PrimaryKeySequence.GetOrAdd(typeof(T), 0);
-
-				}
-				return typedEntity.Id;
-			} else if (entity is IEntity<Guid>) {
-				var typedEntity = (IEntity<Guid>)entity;
-				if (typedEntity.Id == Guid.Empty) {
-					typedEntity.Id = GuidUtils.SequentialGuid(DateTime.UtcNow);
-				}
-				return typedEntity.Id;
+				mapping.IdMember.FastSetValue(entity, primaryKey);
+			} else if (primaryKey is Guid && (Guid)primaryKey == Guid.Empty) {
+				primaryKey = GuidUtils.SequentialGuid(DateTime.UtcNow);
+				mapping.IdMember.FastSetValue(entity, primaryKey);
 			}
-			return GetPrimaryKey(entity);
+			return primaryKey;
 		}
 	}
 }
