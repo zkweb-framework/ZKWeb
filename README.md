@@ -1,7 +1,7 @@
 ### An Extendable .Net Web Framework
 
-Version: 1.0.0 rc 1<br/>
-<h5>Backward compatibility is provided as much as possible.</h5><br/>
+Version: 1.0.0 rc 1
+<h5>Backward compatibility is provided as much as possible.</h5>
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
 [![NuGet](https://buildstats.info/nuget/ZKWeb)](http://www.nuget.org/packages/ZKWeb)
