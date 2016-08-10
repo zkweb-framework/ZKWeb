@@ -1,9 +1,9 @@
 ﻿namespace ZKWeb.Database {
 	/// <summary>
-	/// Interface for database context factor
+	/// Interface for database context factory
 	/// It should initialize database scheme when construct
 	/// </summary>
-	public interface IDatabaseContextFactor {
+	public interface IDatabaseContextFactory {
 		/// <summary>
 		/// Create database context
 		/// </summary>

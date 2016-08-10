@@ -8,14 +8,14 @@
 		"ZKWeb": "1.0.0-rc-1",
 		"ZKWeb.ORM.EFCore": "1.0.0-rc-1",
 		"ZKWeb.ORM.InMemory": "1.0.0-rc-1",
-		"ZKWeb.ORM.NHibernate": "1.0.0-rc-1",
 		"ZKWebStandard": "1.0.0-rc-1"
 	},
 	"frameworks": {
 		"net461": {
 			"dependencies": {
 				"MySql.Data": "7.0.3-DMR",
-				"SQLiteForZKWeb": "1.0.102"
+				"SQLiteForZKWeb": "1.0.102",
+				"ZKWeb.ORM.NHibernate": "1.0.0-rc-1"
 			}
 		},
 		"netcoreapp1.0": {

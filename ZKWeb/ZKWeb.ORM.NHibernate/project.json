@@ -6,11 +6,7 @@
 		"ZKWebStandard": "1.0.0-rc-1"
 	},
 	"frameworks": {
-		"net461": {},
-		"netstandard1.6": {
-			"imports": "dnxcore50",
-			"buildOptions": { "define": [ "NETCORE" ] }
-		}
+		"net461": {}
 	},
 	"buildOptions": {
 		"optimize": true,

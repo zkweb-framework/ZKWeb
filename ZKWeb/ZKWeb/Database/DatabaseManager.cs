@@ -10,26 +10,26 @@ namespace ZKWeb.Database {
 	/// </summary>
 	public class DatabaseManager {
 		/// <summary>
-		/// Default database context factor
+		/// Default database context factory
 		/// </summary>
-		protected virtual IDatabaseContextFactor DefaultContextFactor { get; set; }
+		protected virtual IDatabaseContextFactory DefaultContextFactory { get; set; }
 
 		/// <summary>
-		/// Create database context from the default factor
+		/// Create database context from the default factory
 		/// </summary>
 		/// <returns></returns>
 		public virtual IDatabaseContext CreateContext() {
-			return DefaultContextFactor.CreateContext();
+			return DefaultContextFactory.CreateContext();
 		}
 
 		/// <summary>
-		/// Create database context factor from the given parameters
+		/// Create database context factory from the given parameters
 		/// </summary>
 		/// <param name="orm">Object relational mapper</param>
 		/// <param name="database">Database name</param>
 		/// <param name="connectionString">Database connection string</param>
 		/// <returns></returns>
-		internal static IDatabaseContextFactor CreateContextFactor(
+		internal static IDatabaseContextFactory CreateContextFactor(
 			string orm, string database, string connectionString) {
 			if (string.IsNullOrEmpty(orm)) {
 				throw new NotSupportedException("No ORM name is provided, please set it first");
@@ -44,12 +44,12 @@ namespace ZKWeb.Database {
 					"Load ORM assembly {0} failed, please install it first. error: {1}", orm, e.Message));
 			}
 			var factorType = assembly.GetTypes().FirstOrDefault(t =>
-				typeof(IDatabaseContextFactor).IsAssignableFrom(t));
+				typeof(IDatabaseContextFactory).IsAssignableFrom(t));
 			if (factorType == null) {
 				throw new NotSupportedException(string.Format(
-					"Find factor type from ORM {0} failed", orm));
+					"Find factory type from ORM {0} failed", orm));
 			}
-			return (IDatabaseContextFactor)Activator.CreateInstance(factorType, database, connectionString);
+			return (IDatabaseContextFactory)Activator.CreateInstance(factorType, database, connectionString);
 		}
 
 		/// <summary>
@@ -59,7 +59,7 @@ namespace ZKWeb.Database {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var config = configManager.WebsiteConfig;
 			var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
-			databaseManager.DefaultContextFactor = CreateContextFactor(
+			databaseManager.DefaultContextFactory = CreateContextFactor(
 				config.ORM, config.Database, config.ConnectionString);
 		}
 	}

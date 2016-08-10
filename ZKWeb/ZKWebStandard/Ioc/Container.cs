@@ -29,24 +29,24 @@ namespace ZKWebStandard.Ioc {
 		/// 生成函数的集合
 		/// { (类型, 关联键): [生成函数, ...], ... }
 		/// </summary>
-		protected IDictionary<Pair<Type, object>, IList<Func<object>>> Factors { get; set; }
+		protected IDictionary<Pair<Type, object>, IList<Func<object>>> Factories { get; set; }
 		/// <summary>
 		/// 生成函数的集合的线程锁
 		/// </summary>
-		protected ReaderWriterLockSlim FactorsLock { get; set; }
+		protected ReaderWriterLockSlim FactoriesLock { get; set; }
 
 		/// <summary>
 		/// 初始化
 		/// </summary>
 		public Container() {
-			Factors = new Dictionary<Pair<Type, object>, IList<Func<object>>>();
-			FactorsLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+			Factories = new Dictionary<Pair<Type, object>, IList<Func<object>>>();
+			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 		}
 
 		/// <summary>
 		/// 从原始的生成函数和重用策略构建生成函数
 		/// </summary>
-		protected static Func<object> BuildFactor(Func<object> originalFactor, ReuseType reuseType) {
+		protected static Func<object> BuildFactory(Func<object> originalFactor, ReuseType reuseType) {
 			if (reuseType == ReuseType.Transient) {
 				// 即时模式
 				return originalFactor;
@@ -83,7 +83,7 @@ namespace ZKWebStandard.Ioc {
 		protected static Func<object> BuildFactor(Type type, ReuseType reuseType) {
 			var typeFactor = TypeFactorsCache.GetOrAdd(type,
 				t => Expression.Lambda<Func<object>>(Expression.New(t)).Compile());
-			return BuildFactor(typeFactor, reuseType);
+			return BuildFactory(typeFactor, reuseType);
 		}
 
 		/// <summary>
@@ -118,30 +118,30 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// 注册生成函数到服务类型，并关联指定的键
 		/// </summary>
-		protected void RegisterFactor(Type serviceType, Func<object> factor, object serviceKey) {
+		protected void RegisterFactory(Type serviceType, Func<object> factory, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			FactorsLock.EnterWriteLock();
+			FactoriesLock.EnterWriteLock();
 			try {
-				var factors = Factors.GetOrCreate(key, () => new List<Func<object>>());
-				factors.Add(factor);
+				var factors = Factories.GetOrCreate(key, () => new List<Func<object>>());
+				factors.Add(factory);
 			} finally {
-				FactorsLock.ExitWriteLock();
+				FactoriesLock.ExitWriteLock();
 			}
 		}
 
 		/// <summary>
 		/// 注册生成函数到多个服务类型，并关联指定的键
 		/// </summary>
-		protected void RegisterFactorMany(IList<Type> serviceTypes, Func<object> factor, object serviceKey) {
-			FactorsLock.EnterWriteLock();
+		protected void RegisterFactoryMany(IList<Type> serviceTypes, Func<object> factory, object serviceKey) {
+			FactoriesLock.EnterWriteLock();
 			try {
 				foreach (var serviceType in serviceTypes) {
 					var key = Pair.Create(serviceType, serviceKey);
-					var factors = Factors.GetOrCreate(key, () => new List<Func<object>>());
-					factors.Add(factor);
+					var factories = Factories.GetOrCreate(key, () => new List<Func<object>>());
+					factories.Add(factory);
 				}
 			} finally {
-				FactorsLock.ExitWriteLock();
+				FactoriesLock.ExitWriteLock();
 			}
 		}
 
@@ -150,8 +150,8 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factor = BuildFactor(implementationType, reuseType);
-			RegisterFactor(serviceType, factor, serviceKey);
+			var factory = BuildFactor(implementationType, reuseType);
+			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
 		/// <summary>
@@ -166,8 +166,8 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factor = BuildFactor(implementationType, reuseType);
-			RegisterFactorMany(serviceTypes, factor, serviceKey);
+			var factory = BuildFactor(implementationType, reuseType);
+			RegisterFactoryMany(serviceTypes, factory, serviceKey);
 		}
 
 		/// <summary>
@@ -195,8 +195,8 @@ namespace ZKWebStandard.Ioc {
 		/// 默认是单例模式
 		/// </summary>
 		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
-			var factor = BuildFactor(() => instance, ReuseType.Singleton);
-			RegisterFactor(serviceType, factor, serviceKey);
+			var factory = BuildFactory(() => instance, ReuseType.Singleton);
+			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
 		/// <summary>
@@ -211,17 +211,17 @@ namespace ZKWebStandard.Ioc {
 		/// 注册生成函数到服务类型，并关联指定的键
 		/// </summary>
 		public void RegisterDelegate(
-			Type serviceType, Func<object> factor, ReuseType reuseType, object serviceKey) {
-			factor = BuildFactor(factor, reuseType);
-			RegisterFactor(serviceType, factor, serviceKey);
+			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
+			factory = BuildFactory(factory, reuseType);
+			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
 		/// <summary>
 		/// 注册生成函数到服务类型，并关联指定的键
 		/// </summary>
 		public void RegisterDelegate<TService>(
-			Func<TService> factor, ReuseType reuseType, object serviceKey) {
-			RegisterDelegate(typeof(TService), () => factor(), reuseType, serviceKey);
+			Func<TService> factory, ReuseType reuseType, object serviceKey) {
+			RegisterDelegate(typeof(TService), () => factory(), reuseType, serviceKey);
 		}
 
 		/// <summary>
@@ -252,11 +252,11 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Unregister(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			FactorsLock.EnterWriteLock();
+			FactoriesLock.EnterWriteLock();
 			try {
-				Factors.Remove(key);
+				Factories.Remove(key);
 			} finally {
-				FactorsLock.ExitWriteLock();
+				FactoriesLock.ExitWriteLock();
 			}
 		}
 
@@ -271,11 +271,11 @@ namespace ZKWebStandard.Ioc {
 		/// 取消所有注册的生成函数
 		/// </summary>
 		public void UnregisterAll() {
-			FactorsLock.EnterWriteLock();
+			FactoriesLock.EnterWriteLock();
 			try {
-				Factors.Clear();
+				Factories.Clear();
 			} finally {
-				FactorsLock.ExitWriteLock();
+				FactoriesLock.ExitWriteLock();
 			}
 			GC.Collect();
 		}
@@ -286,28 +286,28 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public object Resolve(Type serviceType, IfUnresolved ifUnresolved, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			Func<object> factor = null;
-			long factorsCount = 0;
-			FactorsLock.EnterReadLock();
+			Func<object> factory = null;
+			long factoriesCount = 0;
+			FactoriesLock.EnterReadLock();
 			try {
 				// 获取生成函数和生成函数的数量
 				// 只有在注册了单个生成函数时获取成功
-				var factors = Factors.GetOrDefault(key);
-				factorsCount = factors?.Count ?? 0;
-				if (factorsCount == 1) {
-					factor = factors[0];
+				var factories = Factories.GetOrDefault(key);
+				factoriesCount = factories?.Count ?? 0;
+				if (factoriesCount == 1) {
+					factory = factories[0];
 				}
 			} finally {
-				FactorsLock.ExitReadLock();
+				FactoriesLock.ExitReadLock();
 			}
-			if (factor != null) {
+			if (factory != null) {
 				// 获取成功
-				return factor();
+				return factory();
 			} else if (ifUnresolved == IfUnresolved.Throw) {
 				// 抛出例外
-				var messageFormat = (factorsCount <= 0) ?
-					"no factor registered to type {0} and service key {1}" :
-					"more than one factor registered to type {0} and service key {1}";
+				var messageFormat = (factoriesCount <= 0) ?
+					"no factory registered to type {0} and service key {1}" :
+					"more than one factory registered to type {0} and service key {1}";
 				throw new KeyNotFoundException(string.Format(messageFormat, serviceType, serviceKey));
 			} else if (ifUnresolved == IfUnresolved.ReturnDefault) {
 				// 返回默认值
@@ -334,20 +334,20 @@ namespace ZKWebStandard.Ioc {
 		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
 			var factorsCopy = new List<Func<object>>();
-			FactorsLock.EnterReadLock();
+			FactoriesLock.EnterReadLock();
 			try {
 				// 复制生成函数列表
-				var factors = Factors.GetOrDefault(key);
+				var factors = Factories.GetOrDefault(key);
 				if (factors != null) {
 					factorsCopy.Capacity = factors.Count;
 					factorsCopy.AddRange(factors);
 				}
 			} finally {
-				FactorsLock.ExitReadLock();
+				FactoriesLock.ExitReadLock();
 			}
 			// 生成实例并逐个返回
-			foreach (var factor in factorsCopy) {
-				yield return factor();
+			foreach (var factory in factorsCopy) {
+				yield return factory();
 			}
 		}
 
@@ -367,13 +367,13 @@ namespace ZKWebStandard.Ioc {
 		/// <returns></returns>
 		public object Clone() {
 			var clone = new Container();
-			FactorsLock.EnterReadLock();
+			FactoriesLock.EnterReadLock();
 			try {
-				foreach (var pair in Factors) {
-					clone.Factors[pair.Key] = pair.Value.ToList();
+				foreach (var pair in Factories) {
+					clone.Factories[pair.Key] = pair.Value.ToList();
 				}
 			} finally {
-				FactorsLock.ExitReadLock();
+				FactoriesLock.ExitReadLock();
 			}
 			return clone;
 		}

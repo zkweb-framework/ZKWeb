@@ -51,10 +51,10 @@ namespace ZKWebStandard.Ioc {
 		/// 注册生成函数到服务类型，并关联指定的键
 		/// </summary>
 		/// <param name="serviceType">服务类型</param>
-		/// <param name="factor">生成函数</param>
+		/// <param name="factory">生成函数</param>
 		/// <param name="reuseType">重用策略</param>
 		/// <param name="serviceKey">关联键</param>
-		void RegisterDelegate(Type serviceType, Func<object> factor,
+		void RegisterDelegate(Type serviceType, Func<object> factory,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>

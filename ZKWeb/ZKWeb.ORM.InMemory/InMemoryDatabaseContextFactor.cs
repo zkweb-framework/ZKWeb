@@ -2,10 +2,10 @@
 
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
-	/// InMemory database context factor
-	/// This factor hold a memory database for all context it created
+	/// InMemory database context factory
+	/// This factory hold a memory database for all context it created
 	/// </summary>
-	internal class InMemoryDatabaseContextFactor : IDatabaseContextFactor {
+	internal class InMemoryDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// The database object
 		/// </summary>
@@ -16,7 +16,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		/// <param name="database">Not using</param>
 		/// <param name="connectionString">Not using</param>
-		public InMemoryDatabaseContextFactor(string database, string connectionString) {
+		public InMemoryDatabaseContextFactory(string database, string connectionString) {
 			Database = new InMemoryDatabase();
 		}
 
