@@ -1,6 +1,6 @@
 ### An Extendable .Net Web Framework
 
-Version: 1.0.0 rc 1
+Version: 1.0.0 rc 1 (**working on**)
 <h5>Backward compatibility is provided as much as possible.</h5>
 
 [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)

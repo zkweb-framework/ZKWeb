@@ -2,8 +2,8 @@
 <package>
 	<metadata>
 		<id>ZKWeb.Hosting.AspNet</id>
-		<version>1.0.0-beta-5</version>
-		<title>ZKWeb Asp.Net Hosting Support</title>
+		<version>1.0.0-rc-1</version>
+		<title>ZKWeb.Hosting.AspNet</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
 		<description>Support hosting ZKWeb on Asp.Net. For more information please visit project site.</description>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.0.0-beta-5" />
+			<dependency id="ZKWeb" version="1.0.0-rc-1" />
 		</dependencies>
 	</metadata>
 	<files>

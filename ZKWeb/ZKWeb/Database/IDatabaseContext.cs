@@ -12,6 +12,7 @@ namespace ZKWeb.Database {
 		/// Begin a transaction
 		/// It should support recursive calling
 		/// Only the first call will create a transaction, later calls just increase the counter
+		/// Attention: Not all ORM support this feature
 		/// </summary>
 		void BeginTransaction();
 
@@ -19,6 +20,7 @@ namespace ZKWeb.Database {
 		/// Finish the transaction
 		/// It should support recursive calling
 		/// Only the last call will commit the transaction, previous calls just decrease the counter
+		/// Attention: Not all ORM support this feature
 		/// </summary>
 		void FinishTransaction();
 
