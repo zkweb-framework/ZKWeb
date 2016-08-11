@@ -100,7 +100,7 @@ namespace ZKWeb.Tests.Database {
 				Extra = new Dictionary<string, object>();
 			}
 
-			public void Configure(IEntityMappingBuilder<TestTable> builder) {
+			public virtual void Configure(IEntityMappingBuilder<TestTable> builder) {
 				builder.Id(t => t.Id);
 				builder.Map(t => t.Name);
 				builder.Map(t => t.Extra, new EntityMappingOptions() { WithSerialization = true });

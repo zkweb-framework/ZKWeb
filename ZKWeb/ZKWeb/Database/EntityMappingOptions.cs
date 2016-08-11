@@ -15,7 +15,7 @@
 		public long? Length { get; set; }
 		/// <summary>
 		/// Is unique field
-		/// Will create a unique index if not empty
+		/// Will create a unique index if it is true
 		/// </summary>
 		public bool? Unique { get; set; }
 		/// <summary>
@@ -30,12 +30,12 @@
 		public string Index { get; set; }
 		/// <summary>
 		/// Custom sql type
-		/// Will use this type instead the default if not empty
+		/// Will use this type instead of the default if not empty
 		/// </summary>
 		public string CustomSqlType { get; set; }
 		/// <summary>
 		/// Enable cascade delete
-		/// Will specific cascade delete or do nothing if not null
+		/// Will setting cascade delete or do nothing if not null
 		/// </summary>
 		public bool? CascadeDelete { get; set; }
 		/// <summary>

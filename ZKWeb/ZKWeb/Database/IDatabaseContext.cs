@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -14,7 +15,8 @@ namespace ZKWeb.Database {
 		/// Only the first call will create a transaction, later calls just increase the counter
 		/// Attention: Not all ORM support this feature
 		/// </summary>
-		void BeginTransaction();
+		/// <param name="isolationLevel">The isolation level</param>
+		void BeginTransaction(IsolationLevel? isolationLevel = null);
 
 		/// <summary>
 		/// Finish the transaction
@@ -111,7 +113,7 @@ namespace ZKWeb.Database {
 		/// `query` and `parameters` are ORM and Database specified
 		/// </summary>
 		/// <param name="query">Query object (eg: string)</param>
-		/// <param name="parameters">Query parameters (eg: SqlParameter[])</param>
+		/// <param name="parameters">Query parameters (eg: IDictionary[String, object])</param>
 		/// <returns></returns>
 		long RawUpdate(object query, object parameters);
 

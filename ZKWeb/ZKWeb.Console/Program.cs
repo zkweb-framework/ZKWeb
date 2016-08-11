@@ -1,4 +1,5 @@
 ﻿namespace ZKWeb.Console {
+	using Server;
 	using System;
 	using System.IO;
 	using System.Reflection;
@@ -32,6 +33,14 @@
 		private static void Main(string[] args) {
 			// 初始化程序
 			Application.Initialize(GetWebsiteRootDirectory());
+			// Use nhibernate
+			var ticks = DateTime.UtcNow.Ticks;
+			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var websiteConfig = configManager.WebsiteConfig;
+			websiteConfig.Extra["ZKWeb.TemporaryDatabaseORM"] = "NHibernate";
+			websiteConfig.Extra["ZKWeb.TemporaryDatabaseType"] = "SQLite";
+			websiteConfig.Extra["ZKWeb.TemporaryDatabaseConnectionString"] =
+				$"Data Source={{{{App_Data}}}}/test_{ticks}.db;Version=3;";
 			// 运行所有测试
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using ZKWeb.Database;
@@ -20,11 +21,11 @@ namespace ZKWeb.ORM.InMemory {
 		public InMemoryDatabaseContext(InMemoryDatabase database) {
 			Database = database;
 		}
-		
+
 		/// <summary>
 		/// Begin a transaction
 		/// </summary>
-		public void BeginTransaction() {
+		public void BeginTransaction(IsolationLevel? isolationLevel) {
 			// Do nothing
 		}
 
@@ -65,7 +66,7 @@ namespace ZKWeb.ORM.InMemory {
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			var entityLocal = entity; // Can't use ref parameter in lambda
+			var entityLocal = entity; // can't use ref parameter in lambda
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
 			update?.Invoke(entityLocal);
 			var primaryKey = Database.EnsurePrimaryKey(entity);
@@ -85,7 +86,7 @@ namespace ZKWeb.ORM.InMemory {
 			if (primaryKey != null) {
 				Database.GetEntityStore(typeof(T)).Remove(primaryKey);
 			}
-			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after save
+			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
 		}
 
 		/// <summary>
