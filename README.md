@@ -1,12 +1,12 @@
-### An Extendable .Net Web Framework
+# ZKWeb [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb) [![NuGet](https://buildstats.info/nuget/ZKWeb)](http://www.nuget.org/packages/ZKWeb)
 
-Version: 1.0.0 rc 1 (**working on**)
-<h5>Backward compatibility is provided as much as possible.</h5>
+ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
+The goal of this framework is to increase code reusability and decrease dependence on frameworks and tools such as Asp.Net and Visual Studio.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
-[![NuGet](https://buildstats.info/nuget/ZKWeb)](http://www.nuget.org/packages/ZKWeb)
+Version: 1.0.0 rc 1 (**working on**)<br/>
+Backward compatibility is provided as much as possible.
 
-### Features
+## Features
 
 - .Net Core Support
 	- Support both .Net Framework and .Net Core
@@ -29,8 +29,8 @@ Version: 1.0.0 rc 1 (**working on**)
 	- Support running on Owin
 	- All host environment based on same abstraction layer
 - Multiple ORM
-	- ~~Support NHibernate (Not ready, Not available for .Net Core)~~
-	- ~~Support InMemory (Not ready)~~
+	- Support NHibernate (Not available for .Net Core)
+	- Support InMemory
 	- ~~Support EntityFramework Core (Not ready)~~
 	- Support runtime database scheme migration
 	- All ORM based on same abstraction layer
@@ -47,7 +47,7 @@ Version: 1.0.0 rc 1 (**working on**)
 	- Project Creator for creating ZKWeb project
 	- Website Publisher for publishing ZKWeb project
 
-### Features from the default plugin collection
+## Features from the default plugin collection
 
 - Form generation and validation
 - Ajax table generation
@@ -59,7 +59,7 @@ Version: 1.0.0 rc 1 (**working on**)
 - Multi-Currency and Region support
 - And More...
 
-### Links and License
+## Links and License
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Documents: http://zkweb-framework.github.io (Chinese)<br/>
@@ -72,7 +72,7 @@ MIT License<br/>
 Copyright © 2016 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
 
-### Getting Started:
+## Getting Started
 
 Open "Tools\ProjectCreator.Gui.exe", create your own project then open it.<br/>
 For more information please see the documents.<br/>
