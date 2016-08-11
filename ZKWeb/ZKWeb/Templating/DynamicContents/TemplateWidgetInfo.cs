@@ -4,41 +4,40 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// 模板模块的信息
-	/// 由{模块路径}.widget文件反序列化生成
+	/// Template widget information
+	/// Desirialize from {WidgetPath}.widget
 	/// </summary>
 	public class TemplateWidgetInfo {
 		/// <summary>
-		/// 模块信息的后缀名
+		/// Widget information file extension
 		/// </summary>
 		public const string InfoExtension = ".widget";
 		/// <summary>
-		/// 模块内容的后缀名
+		/// Widget template file extension
 		/// </summary>
 		public const string HtmlExtension = ".html";
 		/// <summary>
-		/// 模块路径，不带后缀
+		/// Widget path, without extension
 		/// </summary>
 		public string WidgetPath { get; set; }
 		/// <summary>
-		/// 模块名称
+		/// Widget name
 		/// </summary>
 		public string Name { get; set; }
 		/// <summary>
-		/// 缓存时间，单位是秒
+		/// Cache time, in seconds
 		/// </summary>
 		public int CacheTime { get; set; }
 		/// <summary>
-		/// 缓存隔离策略
-		/// 可以不指定或指定一个或多个，指定多个时使用逗号分隔
+		/// Cache isolation policies, separated by comma
 		/// </summary>
 		/// <example>Locale,Url</example>
 		public string CacheBy { get; set; }
 
 		/// <summary>
-		/// 从路径读取模块信息
+		/// Read template widget information from path
 		/// </summary>
-		/// <param name="path">模块路径，注意不能带后缀</param>
+		/// <param name="path">Widget path, must without extension</param>
 		/// <returns></returns>
 		public static TemplateWidgetInfo FromPath(string path) {
 			var pathManager = Application.Ioc.Resolve<PathManager>();

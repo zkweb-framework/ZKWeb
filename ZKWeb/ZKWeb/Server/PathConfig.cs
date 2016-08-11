@@ -2,43 +2,43 @@
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// 路径配置
+	/// Path configuration
 	/// </summary>
 	public class PathConfig {
 		/// <summary>
-		/// 网站根目录
+		/// Website root directory
 		/// </summary>
 		public virtual string WebsiteRootDirectory { get; protected set; }
 		/// <summary>
-		/// App_Data目录
+		/// App_Data directory
 		/// </summary>
 		public virtual string AppDataDirectory { get; protected set; }
 		/// <summary>
-		/// 日志文件目录
+		/// Logs directory
 		/// </summary>
 		public virtual string LogsDirectory { get; protected set; }
 		/// <summary>
-		/// 网站配置文件路径
+		/// Website configuration path
 		/// </summary>
 		public virtual string WebsiteConfigPath { get; protected set; }
 		/// <summary>
-		/// 储存插件信息的文件名称
-		/// 这个文件会在插件目录下
+		/// File that store plugin information
+		/// Under plugin directory
 		/// </summary>
 		public virtual string PluginInfoFilename { get; protected set; }
 		/// <summary>
-		/// 模板文件夹的名称
-		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
+		/// Template directory name, only the name
+		/// Under App_Data or plugin directories
 		/// </summary>
 		public virtual string TemplateDirectoryName { get; protected set; }
 		/// <summary>
-		/// 设备专用的模板文件夹的名称
-		/// 这个文件夹可以在App_Data下，也可以在各个插件目录下
+		/// Device specialized template directory name format (with string.Format)
+		/// Under App_Data or plugin directories
 		/// </summary>
 		public virtual string DeviceSpecializedTemplateDirectoryNameFormat { get; protected set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public static void Initialize(string websiteRootDirectory) {
 			var config = Application.Ioc.Resolve<PathConfig>();

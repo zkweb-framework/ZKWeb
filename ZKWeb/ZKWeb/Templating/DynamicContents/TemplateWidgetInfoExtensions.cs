@@ -2,14 +2,14 @@
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// 模板模块的信息的扩展函数
+	/// Template widget information extension methods
 	/// </summary>
 	public static class TemplateWidgetInfoExtensions {
 		/// <summary>
-		/// 获取缓存隔离策略的名称列表
-		/// 默认会添加按设备隔离，即使模块信息中不指定
+		/// Get cache isolation policy names
+		/// With "Device" anyway even it's not in the configuration
 		/// </summary>
-		/// <param name="info">模板模块信息</param>
+		/// <param name="info">Widget information</param>
 		/// <returns></returns>
 		public static IList<string> GetCacheIsolationPolicyNames(this TemplateWidgetInfo info) {
 			var result = new List<string>();

@@ -1,6 +1,6 @@
 ﻿namespace ZKWeb.Plugin {
 	/// <summary>
-	/// 用于初始化插件的接口
+	/// Interface for plugin entry
 	/// </summary>
 	/// <example>
 	/// [ExportMany]
@@ -8,6 +8,5 @@
 	///		Plugin() { Console.WriteLine("plugin loaded"); }
 	/// }
 	/// </example>
-	public interface IPlugin {
-	}
+	public interface IPlugin { }
 }

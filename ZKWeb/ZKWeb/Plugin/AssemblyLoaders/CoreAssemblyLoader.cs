@@ -8,21 +8,22 @@ using System.Runtime.Loader;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
-	/// .Net Core使用的程序集载入器
+	/// Assembly loader for .Net Core
 	/// </summary>
 	internal class CoreAssemblyLoader : IAssemblyLoader {
 		/// <summary>
-		/// 载入程序集使用的上下文
+		/// The load context
 		/// </summary>
 		private LoadContext Context { get; set; }
 		/// <summary>
-		/// 用于包装mscorlib的程序集名称的集合
-		/// Roslyn的"IgnoreCorLibraryDuplicatedTypes"选项没有公开，所以需要在这里处理
+		/// Assembly names that used for wrap mscorlib
+		/// Because IgnoreCorLibraryDuplicatedTypes is a private option in Roslyn
+		/// We need to use a black list
 		/// </summary>
 		private HashSet<string> WrapperAssemblyNames { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
@@ -32,8 +33,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// 获取当前已载入的程序集列表
-		/// 排除仅用于包装的程序集和动态程序集
+		/// Get loaded assemblies
+		/// Except wrapper assemblies and dynamic assemblies
 		/// </summary>
 		public IList<Assembly> GetLoadedAssemblies() {
 			return DependencyContext.Default.RuntimeLibraries
@@ -44,21 +45,21 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// 根据名称载入程序集
+		/// Load assembly by name
 		/// </summary>
 		public Assembly Load(string name) {
 			return Context.LoadFromAssemblyName(new AssemblyName(name));
 		}
 
 		/// <summary>
-		/// 根据名称载入程序集
+		/// Load assembly by name object
 		/// </summary>
 		public Assembly Load(AssemblyName assemblyName) {
 			return Context.LoadFromAssemblyName(assemblyName);
 		}
 
 		/// <summary>
-		/// 从二进制数据载入程序集
+		/// Load assembly from it's binary contents
 		/// </summary>
 		public Assembly Load(byte[] rawAssembly) {
 			using (var stream = new MemoryStream(rawAssembly)) {
@@ -67,22 +68,22 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// 从文件载入程序集
+		/// Load assembly from file path
 		/// </summary>
 		public Assembly LoadFile(string path) {
 			return Context.LoadFromAssemblyPath(path);
 		}
 
 		/// <summary>
-		/// 载入程序集使用的上下文
+		/// The context for loading assembly
 		/// </summary>
 		private class LoadContext : AssemblyLoadContext {
 			protected override Assembly Load(AssemblyName assemblyName) {
 				try {
-					// 尝试直接载入
+					// Try load directly
 					return Assembly.Load(assemblyName);
 				} catch {
-					// 失败时枚举插件的引用文件夹载入
+					// If failed, try to load it from plugin's reference directory
 					var pluginManager = Application.Ioc.Resolve<PluginManager>();
 					foreach (var plugin in pluginManager.Plugins) {
 						var path = plugin.ReferenceAssemblyPath(assemblyName.Name);

@@ -8,20 +8,20 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
-	/// 插件管理器
+	/// Plugin manager
 	/// </summary>
 	public class PluginManager {
 		/// <summary>
-		/// 插件列表
+		/// Plugins
 		/// </summary>
 		public virtual IList<PluginInfo> Plugins { get; protected set; }
 		/// <summary>
-		/// 插件程序集列表
+		/// Plugin assemblies
 		/// </summary>
 		public virtual IList<Assembly> PluginAssemblies { get; protected set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public PluginManager() {
 			Plugins = new List<PluginInfo>();
@@ -29,16 +29,16 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// 载入所有插件
-		/// 载入插件的流程
-		///		枚举配置文件中的Plugins
-		///		载入Plugins.json中的插件信息
-		///		使用Csscript编译插件目录下的源代码到dll
-		///		载入编译好的dll
-		///		注册dll中的类型到Ioc中
-		/// 注意
-		///		载入插件后因为需要继续初始化数据库等，所以不会立刻执行IPlugin中的处理
-		///		IPlugin中的处理需要在创建之后手动执行
+		/// Load all plugins
+		/// Flow
+		/// - Get plugin names from website configuration
+		/// - Load plugin information from it's directory
+		/// - Use roslyn compile service compile the source files to assembly
+		/// - Load compiled assembly
+		/// - Register types in assembly to IoC container
+		/// Attention
+		/// - IPlugin will not initliaze here because we may need initialize database before
+		///   you should invoke IPlugin manually after calling this method
 		/// </summary>
 		internal static void Initialize() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
@@ -46,7 +46,7 @@ namespace ZKWeb.Plugin {
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			pluginManager.Plugins.Clear();
 			pluginManager.PluginAssemblies.Clear();
-			// 获取网站配置中的插件列表并载入插件信息
+			// Get plugin names from website configuration
 			var pluginDirectories = pathManager.GetPluginDirectories();
 			foreach (var pluginName in configManager.WebsiteConfig.Plugins) {
 				var dir = pluginDirectories
@@ -58,19 +58,19 @@ namespace ZKWeb.Plugin {
 				var info = PluginInfo.FromDirectory(dir);
 				pluginManager.Plugins.Add(info);
 			}
-			// 载入插件
+			// Load plugins
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
 			foreach (var plugin in pluginManager.Plugins) {
-				// 编译带源代码的插件
+				// Compile plugin
 				plugin.Compile();
-				// 载入插件程序集，注意部分插件只有资源文件没有程序集
+				// Load compiled assembly, some plugin may not have an assembly
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
 					pluginManager.PluginAssemblies.Add(assemblyLoader.LoadFile(assemblyPath));
 				}
 			}
-			// 注册程序集中的类型到容器中
-			// 只有公开的类型会被注册
+			// Register types in assembly to IoC container
+			// Only public types will be registered
 			foreach (var assembly in pluginManager.PluginAssemblies) {
 				var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsPublic);
 				Application.Ioc.RegisterExports(types);

@@ -1,18 +1,18 @@
 ﻿namespace ZKWeb.Localize {
 	/// <summary>
-	/// 翻译提供器的接口
+	/// Interface for translate text
 	/// </summary>
 	public interface ITranslateProvider {
 		/// <summary>
-		/// 判断是否支持翻译指定的语言
+		/// Determine this provider can translate text to the given language
 		/// </summary>
 		bool CanTranslate(string code);
 
 		/// <summary>
-		/// 翻译文本
-		/// 没有对应文本时应返回null
+		/// Translate text
+		/// It should return null if it can't translate the text
 		/// </summary>
-		/// <param name="text">文本</param>
+		/// <param name="text">Original text</param>
 		/// <returns></returns>
 		string Translate(string text);
 	}

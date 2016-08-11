@@ -16,47 +16,48 @@
 		/// </summary>
 		public const string TemporaryDatabaseConnectionString = "ZKWeb.TemporaryDatabaseConnectionString";
 		/// <summary>
-		/// 翻译的缓存时间，单位是秒
+		/// Translated text cache time, in seconds
 		/// </summary>
 		public const string TranslateCacheTime = "ZKWeb.TranslateCacheTime";
 		/// <summary>
-		/// 模板路径缓存时间，单位是秒
+		/// Template path cache time, in seconds
 		/// </summary>
 		public const string TemplatePathCacheTime = "ZKWeb.TemplatePathCacheTime";
 		/// <summary>
-		/// 资源路径的缓存时间，单位是秒
+		/// Resource file path cache time, in seconds
 		/// </summary>
 		public const string ResourcePathCacheTime = "ZKWeb.ResourcePathCacheTime";
 		/// <summary>
-		/// 模块信息的缓存时间，单位是秒
+		/// Widget information cache time, in seconds
 		/// </summary>
 		public const string WidgetInfoCacheTime = "ZKWeb.WidgetInfoCacheTime";
 		/// <summary>
-		/// 自定义模块列表的缓存时间，单位是秒
+		/// Custom widget list cache time, in seconds
 		/// </summary>
 		public const string CustomWidgetsCacheTime = "ZKWeb.CustomWidgetsCacheTime";
 		/// <summary>
-		/// 模板的缓存时间，单位是秒
+		/// Parsed template object cache time, in seconds
 		/// </summary>
 		public const string TemplateCacheTime = "ZKWeb.TemplateCacheTime";
 		/// <summary>
-		/// 是否在描画模板发生例外时显示完整信息
+		/// Display full exception for template rendering
 		/// </summary>
 		public const string DisplayFullExceptionForTemplate = "ZKWeb.DisplayFullExceptionForTemplate";
 		/// <summary>
-		/// 是否在请求发生例外时显示完整信息
+		/// Dispay full exception for http request
 		/// </summary>
 		public const string DisplayFullExceptionForRequest = "ZKWeb.DisplayFullExceptionForRequest";
 		/// <summary>
-		/// 内存占用超过此数值时自动清理缓存，单位是MB
+		/// Clear cache after used memory more than this value, in MB
 		/// </summary>
 		public const string ClearCacheAfterUsedMemoryMoreThan = "ZKWeb.ClearCacheAfterUsedMemoryMoreThan";
 		/// <summary>
-		/// 缓存自动清理器的检查间隔，单位是秒
+		/// Automatic cache cleaner check interval, in seconds
 		/// </summary>
 		public const string CleanCacheCheckInterval = "ZKWeb.CleanCacheCheckInterval";
 		/// <summary>
-		/// 使用Release配置编译插件，启用时将不能调试插件
+		/// Compile plugins with release configuration
+		/// Sometimes it will make debug with plugins not work
 		/// </summary>
 		public const string CompilePluginsWithReleaseConfiguration = "ZKWeb.CompilePluginsWithReleaseConfiguration";
 	}

@@ -3,25 +3,25 @@ using ZKWebStandard.Collection;
 
 namespace ZKWeb.Templating.TemplateFilters {
 	/// <summary>
-	/// 模板系统的过滤器
+	/// Dotliquid template filters
 	/// </summary>
 	public static class Filters {
 		/// <summary>
-		/// 翻译指定的文本
+		/// Translate text
 		/// </summary>
 		/// <example>
 		/// {{ text | trans }}
 		/// {{ "fixed text" | trans }}
 		/// </example>
-		/// <param name="text">需要翻译的文本</param>
+		/// <param name="text">Original text</param>
 		/// <returns></returns>
 		public static string Trans(string text) {
 			return new T(text);
 		}
 
 		/// <summary>
-		/// 格式化字符串
-		/// 最多可支持8个参数
+		/// Format string
+		/// Support up to 8 parameters
 		/// </summary>
 		/// <example>
 		/// {{ "name is [0], age is [1]" | format: name, age }}
@@ -42,12 +42,12 @@ namespace ZKWeb.Templating.TemplateFilters {
 		}
 
 		/// <summary>
-		/// 把字符串作为原始html描画
+		/// Render text as raw html
 		/// </summary>
 		/// <example>
 		/// {{ variable | raw_html }}
 		/// </example>
-		/// <param name="text"></param>
+		/// <param name="text">Html text</param>
 		/// <returns></returns>
 		public static object RawHtml(string text) {
 			return new HtmlString(text);

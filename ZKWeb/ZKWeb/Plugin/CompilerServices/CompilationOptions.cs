@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
-
-namespace ZKWeb.Plugin.CompilerServices {
+﻿namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
-	/// 编译选项
+	/// Compilation options
 	/// </summary>
 	public class CompilationOptions {
 		/// <summary>
-		/// 是否以除错模式编译
-		/// 性能会降低但更容易调试，默认是false
+		/// Compile with release mode
+		/// It may make some break point not work as excepted, Default is false
 		/// </summary>
-		public bool Debug { get; set; }
+		public bool Release { get; set; }
 		/// <summary>
-		/// 是否生成pdb文件
-		/// 不生成时将无法调试，默认是true
+		/// Generate pdb file or not
+		/// Debuggers require pdb file to debug, Default is true
 		/// </summary>
 		public bool GeneratePdbFile { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public CompilationOptions() {
-			Debug = false;
+			Release = false;
 			GeneratePdbFile = true;
 		}
 	}

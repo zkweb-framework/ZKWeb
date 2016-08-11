@@ -3,18 +3,18 @@ using System;
 
 namespace ZKWeb.Localize.JsonConverters {
 	/// <summary>
-	/// 支持序列化和反序列化类型T
+	/// Support serialize and deserialize T with json
 	/// </summary>
 	public class TJsonConverter : JsonConverter {
 		/// <summary>
-		/// 判断是否可以序列化
+		/// Determine the given type can use this conveter
 		/// </summary>
 		public override bool CanConvert(Type objectType) {
 			return (objectType == typeof(T));
 		}
 
 		/// <summary>
-		/// json到对象
+		/// Read json as object
 		/// </summary>
 		public override object ReadJson(JsonReader reader,
 			Type objectType, object existingValue, JsonSerializer serializer) {
@@ -22,7 +22,7 @@ namespace ZKWeb.Localize.JsonConverters {
 		}
 
 		/// <summary>
-		/// 对象到json
+		/// Write object to json
 		/// </summary>
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
 			writer.WriteValue(value?.ToString());

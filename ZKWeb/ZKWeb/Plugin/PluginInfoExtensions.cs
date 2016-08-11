@@ -9,32 +9,32 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
-	/// 插件信息的扩展函数
+	/// Plugin information extension methods
 	/// </summary>
 	public static class PluginInfoExtensions {
 		/// <summary>
-		/// 插件目录的名称
+		/// Get directory name
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string DirectoryName(this PluginInfo info) {
 			return Path.GetFileName(info.Directory);
 		}
 
 		/// <summary>
-		/// 插件源文件的目录路径
+		/// Get source directory
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string SourceDirectory(this PluginInfo info) {
 			return Path.Combine(info.Directory, "src");
 		}
 
 		/// <summary>
-		/// 插件程序集的目录路径
-		/// 路径中带有当前编译到的平台名称
+		/// Get binary directory
+		/// Path contains target platform name
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string BinDirectory(this PluginInfo info) {
 			var compilerService = Application.Ioc.Resolve<ICompilerService>();
@@ -42,21 +42,9 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// 插件引用程序集的目录路径
-		/// 路径中带有当前编译到的平台名称
+		/// Get source files 
 		/// </summary>
-		/// <param name="info">插件信息</param>
-		/// <returns></returns>
-		[Obsolete("Please use ReferenceAssemblyPath")]
-		public static string ReferencesDirectory(this PluginInfo info) {
-			var compilerService = Application.Ioc.Resolve<ICompilerService>();
-			return Path.Combine(info.Directory, "references", compilerService.TargetPlatform);
-		}
-
-		/// <summary>
-		/// 获取插件的源文件列表 
-		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string[] SourceFiles(this PluginInfo info) {
 			var sourceDirectory = info.SourceDirectory();
@@ -67,40 +55,40 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// 获取插件的程序集路径
+		/// Get assembly file path
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string AssemblyPath(this PluginInfo info) {
 			return Path.Combine(info.BinDirectory(), $"{info.DirectoryName()}.dll");
 		}
 
 		/// <summary>
-		/// 获取插件程序集对应的pdb文件路径
+		/// Get pdb file path
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string AssemblyPdbPath(this PluginInfo info) {
 			return Path.Combine(info.BinDirectory(), $"{info.DirectoryName()}.pdb");
 		}
 
 		/// <summary>
-		/// 获取保存编译信息的文件路径
-		/// 这个文件中有源代码和修改时间的列表
-		/// 用于检测是否需要重新编译
+		/// Get compile infomation path
+		/// Contains source code paths and it's modify time,
+		/// use to determine if recompile is needed
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static string CompileInfoPath(this PluginInfo info) {
 			return Path.Combine(info.BinDirectory(), "CompileInfo.txt");
 		}
 
 		/// <summary>
-		/// 获取插件引用程序集的目录路径
-		/// 获取失败时返回null
+		/// Get assembly path from plugin's reference directory
+		/// Return null if not found
 		/// </summary>
-		/// <param name="info">插件信息</param>
-		/// <param name="assemblyName">引用的程序集名称</param>
+		/// <param name="info">Plugin information</param>
+		/// <param name="assemblyName">Assembly name</param>
 		/// <returns></returns>
 		public static string ReferenceAssemblyPath(this PluginInfo info, string assemblyName) {
 			var compilerService = Application.Ioc.Resolve<ICompilerService>();
@@ -118,10 +106,10 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// 获取版本对象
-		/// 解析失败时返回默认的版本对象，不抛出例外
+		/// Get plugin version objects
+		/// Return an empty version if parse failed
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
 		public static Version VersionObject(this PluginInfo info) {
 			Version version;
@@ -132,25 +120,24 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// 编译插件
+		/// Compile plugin
 		/// </summary>
-		/// <param name="info">插件信息</param>
+		/// <param name="info">Plugin information</param>
 		public static void Compile(this PluginInfo info) {
-			// 获取插件的源代码文件列表和各个路径
+			// Get source files and releated paths
 			var sourceDirectory = info.SourceDirectory();
 			var sourceFiles = info.SourceFiles();
 			var assemblyName = info.DirectoryName();
 			var assemblyPath = info.AssemblyPath();
 			var assemblyPdbPath = info.AssemblyPdbPath();
 			var compileInfoPath = info.CompileInfoPath();
-			// 载入引用的程序集列表
+			// Load reference assemblies
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
 			foreach (var reference in info.References) {
 				assemblyLoader.Load(reference);
 			}
-			// 检查是否需要重新编译
-			// 会通过对比所有源文件的修改时间是否一致来检查
-			// 没有源文件时表示只有资源文件或不开源，不需要重新编译
+			// Check if recompile is needed
+			// If no source files exists then no need to compile
 			var existCompileInfo = "";
 			if (File.Exists(compileInfoPath)) {
 				existCompileInfo = File.ReadAllText(compileInfoPath);
@@ -159,32 +146,31 @@ namespace ZKWeb.Plugin {
 				.Select(s => new {
 					path = s.Substring(sourceDirectory.Length + 1),
 					time = File.GetLastWriteTime(s)
-				}) // 相对路径和修改时间
-				.OrderBy(s => s.path) // 固定排序
-				.Select(s => $"{s.path} {s.time}")); // 生成文本
+				}) // Relative path and modify time
+				.OrderBy(s => s.path) // Order by path
+				.Select(s => $"{s.path} {s.time}")); // Generate line
 			if (sourceFiles.Length > 0 && compileInfo != existCompileInfo) {
-				// 重新编译前把原来的文件重命名为old文件
+				// Rename old files
 				if (File.Exists(assemblyPath)) {
 					File.Move(assemblyPath, $"{assemblyPath}.{DateTime.UtcNow.Ticks}.old");
 				}
 				if (File.Exists(assemblyPdbPath)) {
 					File.Move(assemblyPdbPath, $"{assemblyPdbPath}.{DateTime.UtcNow.Ticks}.old");
 				}
-				// 调用编译器编译
-				// 默认以debug配置编译，以release配置编译时将不能对插件进行调试
+				// Invoke compile service
+				// Default use debug configuration
 				Directory.CreateDirectory(Path.GetDirectoryName(assemblyPath));
 				var configManager = Application.Ioc.Resolve<ConfigManager>();
 				var release = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
 					ExtraConfigKeys.CompilePluginsWithReleaseConfiguration) ?? false;
 				var compilerService = Application.Ioc.Resolve<ICompilerService>();
 				var options = new CompilationOptions();
-				options.Debug = !release;
-				options.GeneratePdbFile = !release;
+				options.Release = release;
+				options.GeneratePdbFile = true;
 				compilerService.Compile(sourceFiles, assemblyName, assemblyPath, options);
-				// 保存编译信息
+				// Write compile information
 				File.WriteAllText(compileInfoPath, compileInfo);
-				// 删除old文件
-				// 有可能因为文件占用而删除不成功，忽略删除失败时的例外
+				// Remove old files, maybe they are locking but that's not matter
 				Directory.EnumerateFiles(info.BinDirectory(), "*.old")
 					.ForEach(path => { try { File.Delete(path); } catch { } });
 			}

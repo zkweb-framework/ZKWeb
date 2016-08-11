@@ -2,34 +2,34 @@
 
 namespace ZKWeb.Localize {
 	/// <summary>
-	/// 翻译文本的帮助对象
-	/// 实际翻译会在转换到字符串时执行，使用T类型保存文本可以用于延迟翻译
-	/// 这个类可以直接转换到string，也可以使用ToString转换
+	/// A class wrap original text and return translated text
+	/// Translation will perform when calling ToString
+	/// This class can convert to string implicit, or use ToString explicit
 	/// </summary>
 	public struct T : ILiquidizable {
 		/// <summary>
-		/// 翻译前的文本
+		/// Original text
 		/// </summary>
 		private string Text { get; set; }
 
 		/// <summary>
-		/// 翻译文本
+		/// Get the translation of text
 		/// </summary>
-		/// <param name="text">文本</param>
+		/// <param name="text">Original text</param>
 		public T(string text) {
 			Text = text;
 		}
 
 		/// <summary>
-		/// 获取翻译后的文本
+		/// Get translated text
 		/// </summary>
-		/// <param name="t"></param>
+		/// <param name="t">This object</param>
 		public static implicit operator string(T t) {
 			return t.ToString();
 		}
 
 		/// <summary>
-		/// 允许描画到模板
+		/// Support render to template
 		/// </summary>
 		/// <returns></returns>
 		object ILiquidizable.ToLiquid() {
@@ -37,7 +37,7 @@ namespace ZKWeb.Localize {
 		}
 
 		/// <summary>
-		/// 获取翻译后的文本
+		/// Get translated text
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString() {

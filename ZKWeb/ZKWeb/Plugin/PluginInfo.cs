@@ -5,46 +5,47 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
-	/// 插件信息
+	/// Plugin information
 	/// </summary>
 	public class PluginInfo {
 		/// <summary>
-		/// 插件所在目录
+		/// Plugin directory
 		/// </summary>
 		public string Directory { get; set; }
 		/// <summary>
-		/// 插件名称
+		/// Plugin name
 		/// </summary>
 		public string Name { get; set; }
 		/// <summary>
-		/// 版本字符串
-		/// 格式: "major.minor.build 任意字符串"
+		/// Version string
+		/// Format: "major.minor.build any string"
 		/// </summary>
 		public string Version { get; set; }
 		/// <summary>
-		/// 插件描述
+		/// Plugin description
 		/// </summary>
 		public string Description { get; set; }
 		/// <summary>
-		/// 依赖的其他插件
+		/// Dependent other plugins
 		/// </summary>
 		public IList<string> Dependencies { get; set; }
 		/// <summary>
-		/// 引用的程序集列表
+		/// Reference assembly names
 		/// </summary>
 		public IList<string> References { get; set; }
 		/// <summary>
-		/// 附加信息
+		/// Extra information
 		/// </summary>
 		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
-		/// 从插件目录生成插件信息
+		/// Get plugin information from directory
 		/// </summary>
-		/// <param name="dir">插件目录</param>
+		/// <param name="dir">Directory</param>
 		/// <returns></returns>
 		public static PluginInfo FromDirectory(string dir) {
-			// 从json文件中读取插件信息，不存在时生成空的信息
+			// Read plugin information from json
+			// Create a default information instance if json file not exist
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var jsonPath = Path.Combine(dir, pathConfig.PluginInfoFilename);
 			var json = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "{}";

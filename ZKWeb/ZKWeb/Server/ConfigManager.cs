@@ -1,15 +1,15 @@
 ﻿namespace ZKWeb.Server {
 	/// <summary>
-	/// 网站配置管理器
+	/// Website configuration manager
 	/// </summary>
 	public class ConfigManager {
 		/// <summary>
-		/// 网站配置
+		/// Website configuration
 		/// </summary>
 		public virtual WebsiteConfig WebsiteConfig { get; protected set; }
 
 		/// <summary>
-		/// 载入网站配置
+		/// Load website configuration
 		/// </summary>
 		internal static void Initialize() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();

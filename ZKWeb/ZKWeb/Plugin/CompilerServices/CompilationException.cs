@@ -2,13 +2,13 @@
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
-	/// 编译错误
+	/// Exception for compilation error
 	/// </summary>
 	public class CompilationException : Exception {
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="message">错误信息</param>
+		/// <param name="message">Error message</param>
 		public CompilationException(string message) : base(message) { }
 	}
 }

@@ -9,11 +9,11 @@ using System.Text;
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
-	/// roslyn编译服务
+	/// Roslyn compiler service
 	/// </summary>
 	internal class RoslynCompilerService : ICompilerService {
 		/// <summary>
-		/// 编译到的平台名称
+		/// Target platform name
 		/// </summary>
 #if NETCORE
 		public string TargetPlatform { get { return "netstandard"; } }
@@ -21,33 +21,34 @@ namespace ZKWeb.Plugin.CompilerServices {
 		public string TargetPlatform { get { return "net"; } }
 #endif
 		/// <summary>
-		/// 已载入的命名空间的集合
-		/// 用于减少重复载入的时间
+		/// Loaded namespaces, for reducing load time
 		/// </summary>
 		protected HashSet<string> LoadedNamespaces { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public RoslynCompilerService() {
 			LoadedNamespaces = new HashSet<string>();
 		}
 
 		/// <summary>
-		/// 找出所有using，并尝试加载里面的程序集
+		/// Find all using directive
+		/// And try to load the namespace as assembly
 		/// </summary>
-		/// <param name="syntaxTrees">语法树列表</param>
+		/// <param name="syntaxTrees">Syntax trees</param>
 		protected void LoadAssembliesFromUsings(IList<SyntaxTree> syntaxTrees) {
-			// 从语法树找出所有using
-			// 例如"System.Threading"会查找出"System"和"System.Threading"
+			// Find all using directive
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
 			foreach (var tree in syntaxTrees) {
 				foreach (var usingSyntax in ((CompilationUnitSyntax)tree.GetRoot()).Usings) {
 					var name = usingSyntax.Name;
 					var names = new List<string>();
 					while (name != null) {
-						// 只有单个名称时是"IdentifierNameSyntax"
-						// 有多个名称(X.X)时是"QualifiedNameSyntax"
+						// The type is "IdentifierNameSyntax" if it's single identifier
+						// eg: System
+						// The type is "QualifiedNameSyntax" if it's contains more than one identifier
+						// eg: System.Threading
 						if (name is QualifiedNameSyntax) {
 							var qualifiedName = (QualifiedNameSyntax)name;
 							var identifierName = (IdentifierNameSyntax)qualifiedName.Right;
@@ -60,12 +61,13 @@ namespace ZKWeb.Plugin.CompilerServices {
 						}
 					}
 					if (names.Contains("src")) {
-						// 跳过插件的命名空间
+						// Ignore if it looks like a namespace from plugin 
 						continue;
 					}
 					names.Reverse();
 					for (int c = 1; c <= names.Count; ++c) {
-						// 尝试把命名空间当成是程序集载入
+						// Try to load the namespace as assembly
+						// eg: will try "System" and "System.Threading" from "System.Threading"
 						var usingName = string.Join(".", names.Take(c));
 						if (LoadedNamespaces.Contains(usingName)) {
 							continue;
@@ -81,32 +83,33 @@ namespace ZKWeb.Plugin.CompilerServices {
 		}
 
 		/// <summary>
-		/// 编译源代码到程序集
+		/// Compile source files to assembly
 		/// </summary>
 		public void Compile(IList<string> sourceFiles,
 			string assemblyName, string assemblyPath, CompilationOptions options) {
-			// 不指定选项时使用默认选项
+			// Use default options if `options` is null
 			options = options ?? new CompilationOptions();
-			// 解析源代码文件
+			// Parse source files into syntax trees
 			var syntaxTrees = sourceFiles
 				.Select(path => CSharpSyntaxTree.ParseText(
 					File.ReadAllText(path), path: path, encoding: Encoding.UTF8))
 				.ToList();
-			// 找出所有using，并尝试加载里面的程序集
+			// Find all using directive and load the namespace as assembly
+			// It's for resolve assembly dependencies of plugin
 			LoadAssembliesFromUsings(syntaxTrees);
-			// 引用当前载入的程序集和选项中指定的程序集
+			// Add loaded assemblies to compile references
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
 			var references = assemblyLoader.GetLoadedAssemblies()
 				.Select(assembly => assembly.Location)
 				.Select(path => MetadataReference.CreateFromFile(path))
 				.ToList();
-			// 设置编译参数
-			var optimizationLevel = (options.Debug ?
-				OptimizationLevel.Debug : OptimizationLevel.Release);
+			// Set roslyn compilation options
+			var optimizationLevel = (options.Release ?
+				OptimizationLevel.Release : OptimizationLevel.Debug);
 			var pdbPath = ((!options.GeneratePdbFile) ? null : Path.Combine(
 				Path.GetDirectoryName(assemblyPath),
 				Path.GetFileNameWithoutExtension(assemblyPath) + ".pdb"));
-			// 编译到程序集，出错时抛出例外
+			// Compile to assembly, throw exception if error occurred
 			var compilation = CSharpCompilation.Create(assemblyName)
 				.WithOptions(new CSharpCompilationOptions(
 					OutputKind.DynamicallyLinkedLibrary,

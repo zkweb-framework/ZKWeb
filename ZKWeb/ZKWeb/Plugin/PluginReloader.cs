@@ -7,32 +7,32 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
-	/// 自动重新载入插件和网站配置
-	/// 检测网站目录的以下文件是否有改变，有改变时卸载当前程序域来让下次打开网站时重新载入
-	/// - 插件根目录/*.cs
-	/// - 插件根目录/*.json
-	/// - 插件根目录/*.dll
-	/// - App_Data/*.json (仅根目录)
-	/// - App_Data/*.ddl (仅删除)
+	/// Automatic reload plugins and website configuration
+	/// It will determine the following files are changed then reload the website after
+	/// - {Plugin directory}/*.cs
+	/// - {Plugin directory}/*.json
+	/// - {Plugin directory}/*.dll
+	/// - App_Data/*.json (No recursion)
+	/// - App_Data/*.ddl (No recursion)
 	/// </summary>
 	internal static class PluginReloader {
 		/// <summary>
-		/// 启用自动重新载入插件和网站配置
+		/// Start reloader
 		/// </summary>
 		internal static void Start() {
-			// 停止网站运行的函数
-			var stopWebsite = new Action(() => {
+			// Function use to stop website
+			Action stopWebsite = () => {
 				var stoppers = Application.Ioc.ResolveMany<IWebsiteStopper>();
 				stoppers.ForEach(s => s.StopWebsite());
-			});
-			// 文件改变时卸载程序域的函数
+			};
+			// Function use to handle file changed
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();
 				if (ext == ".cs" || ext == ".json" || ext == ".dll") {
 					stopWebsite();
 				}
 			};
-			// 绑定文件监视器的事件处理函数并启用监视器
+			// Function use to start file system watcher
 			Action<FileSystemWatcher> startWatcher = (watcher) => {
 				watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
 				watcher.Changed += (sender, e) => onFileChanged(e.FullPath);
@@ -41,7 +41,7 @@ namespace ZKWeb.Plugin {
 				watcher.Renamed += (sender, e) => { onFileChanged(e.FullPath); onFileChanged(e.OldFullPath); };
 				watcher.EnableRaisingEvents = true;
 			};
-			// 监视插件目录
+			// Monitor plugin directory
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			pathManager.GetPluginDirectories().Where(p => Directory.Exists(p)).ForEach(p => {
 				var pluginFilesWatcher = new FileSystemWatcher();
@@ -49,13 +49,13 @@ namespace ZKWeb.Plugin {
 				pluginFilesWatcher.IncludeSubdirectories = true;
 				startWatcher(pluginFilesWatcher);
 			});
-			// 监视网站配置文件
+			// Monitor App_Data directory
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var websiteConfigWatcher = new FileSystemWatcher();
 			websiteConfigWatcher.Path = pathConfig.AppDataDirectory;
 			websiteConfigWatcher.Filter = "*.json";
 			startWatcher(websiteConfigWatcher);
-			// 监视数据库生成脚本，仅监视删除
+			// Monitor ddl script files, only trigger when deleted
 			var ddlWatcher = new FileSystemWatcher();
 			ddlWatcher.Path = pathConfig.AppDataDirectory;
 			ddlWatcher.Filter = "*.ddl";

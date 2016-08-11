@@ -7,21 +7,21 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Logging {
 	/// <summary>
-	/// 日志管理器
+	/// Log manager
 	/// </summary>
 	public class LogManager {
 		/// <summary>
-		/// 记录日志
+		/// Log message to file
 		/// </summary>
 		public virtual void Log(string filename, string message) {
-			// 创建日志文件夹
+			// Create log directory
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var logsDirectory = pathConfig.LogsDirectory;
 			Directory.CreateDirectory(logsDirectory);
-			// 写入到控制台
+			// Write to console
 			Console.Write(message);
-			// 写入到日志文件
-			// 有可能因为多个进程同时打开失败，最多重试100次
+			// Write to log file
+			// Retry up to 100 times if inconsistency occurs between the threads
 			var now = DateTime.UtcNow.ToLocalTime();
 			var path = Path.Combine(logsDirectory, filename);
 			for (int n = 0; n < 100; ++n) {
@@ -35,7 +35,7 @@ namespace ZKWeb.Logging {
 		}
 
 		/// <summary>
-		/// 记录除错级别的日志
+		/// Log debug level message
 		/// </summary>
 		public virtual void LogDebug(string message,
 			[CallerMemberName] string memberName = null) {
@@ -45,7 +45,7 @@ namespace ZKWeb.Logging {
 		}
 
 		/// <summary>
-		/// 记录消息级别的日志
+		/// Log information level message
 		/// </summary>
 		public virtual void LogInfo(string message,
 			[CallerMemberName] string memberName = null) {
@@ -55,7 +55,7 @@ namespace ZKWeb.Logging {
 		}
 
 		/// <summary>
-		/// 记录错误级别的日志
+		/// Log error level message
 		/// </summary>
 		public virtual void LogError(string message,
 			[CallerMemberName] string memberName = null,
@@ -67,7 +67,8 @@ namespace ZKWeb.Logging {
 		}
 
 		/// <summary>
-		/// 记录交易日志
+		/// Log transaction message,
+		/// It's for the things releated to money
 		/// </summary>
 		public virtual void LogTransaction(string message,
 			[CallerMemberName] string memberName = null) {

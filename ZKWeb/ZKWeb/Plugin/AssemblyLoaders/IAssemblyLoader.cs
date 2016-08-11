@@ -3,40 +3,41 @@ using System.Reflection;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
-	/// 程序集载入器的接口
+	/// Interface for assembly loader
 	/// </summary>
 	public interface IAssemblyLoader {
 		/// <summary>
-		/// 获取当前已载入的程序集列表
+		/// Get loaded assemblies
+		/// It should exclude wrapper assemblies and dynamic assemblies
 		/// </summary>
 		/// <returns></returns>
 		IList<Assembly> GetLoadedAssemblies();
 
 		/// <summary>
-		/// 根据名称载入程序集
+		/// Load assembly by name
 		/// </summary>
-		/// <param name="name">程序集名称</param>
+		/// <param name="name">Assembly name, in short or full</param>
 		/// <returns></returns>
 		Assembly Load(string name);
 
 		/// <summary>
-		/// 根据名称载入程序集
+		/// Load assembly by name object
 		/// </summary>
-		/// <param name="assemblyName">程序集名称</param>
+		/// <param name="assemblyName">Assembly name object</param>
 		/// <returns></returns>
 		Assembly Load(AssemblyName assemblyName);
 
 		/// <summary>
-		/// 从二进制数据载入程序集
+		/// Load assembly from it's binary contents
 		/// </summary>
-		/// <param name="rawAssembly">程序集的二进制数据内容</param>
+		/// <param name="rawAssembly">Assembly binary contents</param>
 		/// <returns></returns>
 		Assembly Load(byte[] rawAssembly);
 
 		/// <summary>
-		/// 从文件载入程序集
+		/// Load assembly from file path
 		/// </summary>
-		/// <param name="path">程序集的文件路径</param>
+		/// <param name="path">Assembly file path</param>
 		/// <returns></returns>
 		Assembly LoadFile(string path);
 	}

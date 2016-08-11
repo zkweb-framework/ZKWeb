@@ -2,13 +2,13 @@
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// 模板模块的扩展函数
+	/// Template widget extension methods
 	/// </summary>
 	public static class TemplateWidgetExtensions {
 		/// <summary>
-		/// 获取模板模块对应的缓存键
+		/// Get cache key for template widget
 		/// </summary>
-		/// <param name="widget">模板模块</param>
+		/// <param name="widget">Template widget</param>
 		/// <returns></returns>
 		public static string GetCacheKey(this TemplateWidget widget) {
 			var cacheKey = widget.Path;
