@@ -4,6 +4,7 @@
 
 - Translate all comments to english
 - Fix Asp.Net Core 502 error when returnning 304
+- IoC container support constructor dependency injection
 
 ### Breaking Changes
 

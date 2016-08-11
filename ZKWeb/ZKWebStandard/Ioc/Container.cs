@@ -80,9 +80,32 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// 从类型和重用策略构建生成函数
 		/// </summary>
-		protected static Func<object> BuildFactor(Type type, ReuseType reuseType) {
-			var typeFactor = TypeFactorsCache.GetOrAdd(type,
-				t => Expression.Lambda<Func<object>>(Expression.New(t)).Compile());
+		protected static Func<object> BuildFactor(
+			IContainer container, Type type, ReuseType reuseType) {
+			var typeFactor = TypeFactorsCache.GetOrAdd(type, t => {
+				// Support constructor dependency injection
+				var argumentExpressions = new List<Expression>();
+				var constructor = t.GetConstructors().Where(c => c.IsPublic).First();
+				foreach (var parameter in constructor.GetParameters()) {
+					var parameterType = parameter.ParameterType;
+					var parameterTypeInfo = parameterType.GetTypeInfo();
+					if (parameterTypeInfo.IsGenericType &&
+						parameterTypeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
+						argumentExpressions.Add(Expression.Call(
+							Expression.Constant(container), "ResolveMany",
+							parameterTypeInfo.GetGenericArguments(),
+							Expression.Constant(null)));
+					} else {
+						argumentExpressions.Add(Expression.Call(
+							Expression.Constant(container), "Resolve",
+							new[] { parameterType },
+							Expression.Constant(IfUnresolved.Throw),
+							Expression.Constant(null)));
+					}
+				}
+				var newExpression = Expression.New(constructor, argumentExpressions);
+				return Expression.Lambda<Func<object>>(newExpression).Compile();
+			});
 			return BuildFactory(typeFactor, reuseType);
 		}
 
@@ -150,7 +173,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factory = BuildFactor(implementationType, reuseType);
+			var factory = BuildFactor(this, implementationType, reuseType);
 			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
@@ -166,7 +189,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factory = BuildFactor(implementationType, reuseType);
+			var factory = BuildFactor(this, implementationType, reuseType);
 			RegisterFactoryMany(serviceTypes, factory, serviceKey);
 		}
 

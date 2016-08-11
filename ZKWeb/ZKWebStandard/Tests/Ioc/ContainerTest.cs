@@ -195,6 +195,20 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void ResolveFromConstructor() {
+			using (IContainer container = new Container()) {
+				container.Register<ClassService, TransientImplementation>();
+				container.Register<ClassService, SingletonImplementation>();
+				container.Register<InterfaceService, TransientImplementation>();
+				container.RegisterMany<TestResolveFromConstructor>();
+				var instance = container.Resolve<TestResolveFromConstructor>();
+				Assert.Equals(instance.ClassServices.Count(), 2);
+				Assert.IsTrue(instance.ClassServices.Any(s => s is TransientImplementation));
+				Assert.IsTrue(instance.ClassServices.Any(s => s is SingletonImplementation));
+				Assert.Equals(instance.InterfaceService.GetType(), typeof(TransientImplementation));
+			}
+		}
+
 		public interface InterfaceService {
 			string Name { get; }
 		}
@@ -214,6 +228,19 @@ namespace ZKWebStandard.Tests.IocContainer {
 		public class SingletonImplementation : ClassService, InterfaceService {
 			public string Name { get { return "Singleton"; } }
 			public override string GetName() { return Name; }
+		}
+
+		[ExportMany]
+		public class TestResolveFromConstructor {
+			public IEnumerable<ClassService> ClassServices { get; set; }
+			public InterfaceService InterfaceService { get; set; }
+
+			public TestResolveFromConstructor(
+				IEnumerable<ClassService> classServices,
+				InterfaceService interfaceService) {
+				ClassServices = classServices;
+				InterfaceService = interfaceService;
+			}
 		}
 	}
 }
