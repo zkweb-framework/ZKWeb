@@ -90,7 +90,8 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
-			EntityMappingOptions options = null) {
+			EntityMappingOptions options = null)
+			where TOther : class {
 			// Unsupported options: Length, Unique, Index,
 			// CustomSqlType, CascadeDelete, WithSerialization
 			options = options ?? new EntityMappingOptions();
@@ -110,7 +111,8 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options = null) {
+			EntityMappingOptions options = null)
+			where TChild : class {
 			// Unsupported options: Column, Length, Unique,
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
@@ -127,7 +129,8 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options = null) {
+			EntityMappingOptions options = null)
+			where TChild : class {
 			// Unsupported options: Column, Length, Unique,
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();

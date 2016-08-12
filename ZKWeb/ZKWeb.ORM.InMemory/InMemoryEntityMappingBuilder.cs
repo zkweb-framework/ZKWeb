@@ -52,7 +52,8 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options)
+			where TOther : class {
 			ManyToOneMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
 
@@ -61,7 +62,8 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options)
+			where TChild : class {
 			OneToManyMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
 
@@ -70,7 +72,8 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options = null) {
+			EntityMappingOptions options = null)
+			where TChild : class {
 			ManyToManyMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
 	}

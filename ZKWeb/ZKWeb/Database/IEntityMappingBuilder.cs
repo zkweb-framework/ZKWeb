@@ -32,7 +32,8 @@ namespace ZKWeb.Database {
 		/// <param name="memberExpression">Expression that access the reference member</param>
 		/// <param name="options">Mapping options</param>
 		void References<TOther>(
-			Expression<Func<T, TOther>> memberExpression, EntityMappingOptions options = null);
+			Expression<Func<T, TOther>> memberExpression, EntityMappingOptions options = null)
+			where TOther : class;
 
 		/// <summary>
 		/// Maps a collection of entities as a one-to-many relationship.
@@ -41,7 +42,8 @@ namespace ZKWeb.Database {
 		/// <param name="memberExpression">Expression that access the collection member</param>
 		/// <param name="options">Mapping options</param>
 		void HasMany<TChild>(
-			Expression<Func<T, IEnumerable<TChild>>> memberExpression, EntityMappingOptions options = null);
+			Expression<Func<T, IEnumerable<TChild>>> memberExpression, EntityMappingOptions options = null)
+			where TChild : class;
 
 		/// <summary>
 		/// Maps a collection of entities as a many-to-many relationship.
@@ -50,6 +52,7 @@ namespace ZKWeb.Database {
 		/// <param name="memberExpression">Expression that access the collection member</param>
 		/// <param name="options">Mapping options</param>
 		void HasManyToMany<TChild>(
-			Expression<Func<T, IEnumerable<TChild>>> memberExpression, EntityMappingOptions options = null);
+			Expression<Func<T, IEnumerable<TChild>>> memberExpression, EntityMappingOptions options = null)
+			where TChild : class;
 	}
 }

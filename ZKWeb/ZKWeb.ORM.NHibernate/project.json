@@ -1,10 +1,13 @@
 ﻿{
 	"version": "1.0.0-rc-1",
 	"dependencies": {
+		"FluentNHibernate": "2.0.3",
+		"MySql.Data": "7.0.3-DMR",
 		"NETStandard.Library": "1.6.0",
 		"NHibernate": "4.0.4.4000",
-		"FluentNHibernate": "2.0.3",
+		"Npgsql": "3.1.7",
 		"ZKWeb": "1.0.0-rc-1",
+		"ZKWeb.Repack.SQLite": "1.0.102",
 		"ZKWebStandard": "1.0.0-rc-1"
 	},
 	"frameworks": {
