@@ -6,7 +6,7 @@ namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// A base database context only contains migration history table
 	/// </summary>
-	internal class EFCoreDatabaseContextBase : DbContext {
+	public class EFCoreDatabaseContextBase : DbContext {
 		/// <summary>
 		/// Database type
 		/// </summary>

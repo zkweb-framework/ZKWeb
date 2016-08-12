@@ -13,7 +13,7 @@ namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// Entity Framework Core database context
 	/// </summary>
-	internal class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
+	public class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
 		/// <summary>
 		/// Entity Framework Core transaction
 		/// </summary>

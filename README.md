@@ -31,7 +31,7 @@ Backward compatibility is provided as much as possible.
 - Multiple ORM
 	- Support NHibernate (Not available for .Net Core)
 	- Support InMemory
-	- ~~Support EntityFramework Core (Not ready)~~
+	- Support EntityFramework Core
 	- Support runtime database scheme migration
 	- All ORM based on same abstraction layer
 - Localization
