@@ -37,6 +37,11 @@ namespace ZKWeb.ORM.EFCore {
 			var tableName = typeof(T).Name;
 			Handlers.ForEach(h => h.ConvertTableName(ref tableName));
 			Builder = Builder.ToTable(tableName);
+			// Configure with providers
+			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
+			foreach (var provider in providers) {
+				provider.Configure(this);
+			}
 		}
 
 		/// <summary>

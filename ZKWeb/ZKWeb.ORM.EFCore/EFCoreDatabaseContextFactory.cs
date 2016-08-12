@@ -1,4 +1,10 @@
-﻿using ZKWeb.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using ZKWeb.Database;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -22,8 +28,27 @@ namespace ZKWeb.ORM.EFCore {
 		public EFCoreDatabaseContextFactory(string database, string connectionString) {
 			Database = database;
 			ConnectionString = connectionString;
-			// initialize database scheme
-			// TODO
+			// Initialize database scheme
+			using (var context = (DbContext)CreateContext()) {
+				// TODO: create a empty database first
+				// think about how to store and load IModel (use GenerateSnapshot?)
+				var serviceProvider = ((IInfrastructure<IServiceProvider>)context).Instance;
+				var databaseCreator = serviceProvider.GetService<IDatabaseCreator>();
+				if (databaseCreator is IRelationalDatabaseCreator) {
+					// It's a relational database, create and apply the migration
+					// Also see: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
+					var modelDiffer = serviceProvider.GetService<IMigrationsModelDiffer>();
+					var sqlGenerator = serviceProvider.GetService<IMigrationsSqlGenerator>();
+					var commandExecutor = serviceProvider.GetService<IMigrationCommandExecutor>();
+					var operations = modelDiffer.GetDifferences(null, context.Model);
+					var commands = sqlGenerator.Generate(operations, context.Model);
+					var connection = serviceProvider.GetService<IRelationalConnection>();
+					try { context.Database.ExecuteSqlCommand("select 1"); } catch { }
+					commandExecutor.ExecuteNonQuery(commands, connection);
+				} else {
+					// It maybe a in-memory database or no-sql database, do nothing
+				}
+			}
 		}
 
 		/// <summary>

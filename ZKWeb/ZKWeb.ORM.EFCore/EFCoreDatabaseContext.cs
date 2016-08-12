@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using ZKWeb.Database;
 using ZKWeb.Server;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -70,8 +71,15 @@ namespace ZKWeb.ORM.EFCore {
 		/// <param name="modelBuilder">Model builder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
 			base.OnModelCreating(modelBuilder);
-			// register entity mappings
-			// TODO
+			// Register entity mappings
+			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			var entityTypes = providers.Select(p =>
+				ReflectionUtils.GetGenericArguments(
+				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
+			entityTypes.ForEach(t => Activator.CreateInstance(
+				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t),
+				modelBuilder, handlers));
 		}
 
 		/// <summary>

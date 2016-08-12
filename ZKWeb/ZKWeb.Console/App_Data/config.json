@@ -1,7 +1,7 @@
 ﻿{
-	"ORM": "InMemory",
-	"Database": "SQLite",
-	"ConnectionString": "Data Source={{App_Data}}/test.db;Version=3;",
+	"ORM": "EFCore",
+	"Database": "MSSQL",
+	"ConnectionString": "Data Source=.\\sqlexpress;Initial Catalog=test_db;User Id=sa;Password=123",
 	"PluginDirectories": [],
-	"Plugins": []
+	"Plugins": [ "XXPlugin" ]
 }
