@@ -7,22 +7,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using ZKWeb.Database;
-using ZKWeb.Server;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// Entity Framework Core database context
 	/// </summary>
-	internal class EFCoreDatabaseContext : DbContext, IDatabaseContext {
-		/// <summary>
-		/// Database type
-		/// </summary>
-		private string DatabaseName { get; set; }
-		/// <summary>
-		/// Connection string
-		/// </summary>
-		private string ConnectionString { get; set; }
+	internal class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
 		/// <summary>
 		/// Entity Framework Core transaction
 		/// </summary>
@@ -37,32 +28,10 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
-		public EFCoreDatabaseContext(string database, string connectionString) {
-			DatabaseName = database;
-			ConnectionString = connectionString;
+		public EFCoreDatabaseContext(string database, string connectionString)
+			: base(database, connectionString) {
 			Transaction = null;
 			TransactionLevel = 0;
-		}
-
-		/// <summary>
-		/// Configure database context
-		/// </summary>
-		/// <param name="optionsBuilder">Options builder</param>
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-			// Set connection string
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
-			if (string.Compare(DatabaseName, "MSSQL", true) == 0) {
-				optionsBuilder.UseSqlServer(ConnectionString);
-			} else if (string.Compare(DatabaseName, "SQLite", true) == 0) {
-				optionsBuilder.UseSqlite(
-					ConnectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
-			} else if (string.Compare(DatabaseName, "MySQL", true) == 0) {
-				optionsBuilder.UseMySql(ConnectionString);
-			} else if (string.Compare(DatabaseName, "InMemory", true) == 0) {
-				optionsBuilder.UseInMemoryDatabase();
-			} else {
-				throw new ArgumentException($"unsupported database type {Database}");
-			}
 		}
 
 		/// <summary>
@@ -70,6 +39,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <param name="modelBuilder">Model builder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
+			// Call base method
 			base.OnModelCreating(modelBuilder);
 			// Register entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();

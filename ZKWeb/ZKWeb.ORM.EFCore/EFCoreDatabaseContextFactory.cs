@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using ZKWeb.Database;
 
 namespace ZKWeb.ORM.EFCore {
@@ -28,26 +30,66 @@ namespace ZKWeb.ORM.EFCore {
 		public EFCoreDatabaseContextFactory(string database, string connectionString) {
 			Database = database;
 			ConnectionString = connectionString;
-			// Initialize database scheme
-			using (var context = (DbContext)CreateContext()) {
-				// TODO: create a empty database first
-				// think about how to store and load IModel (use GenerateSnapshot?)
+			// Prepare database migration
+			IModel initialModel = null;
+			using (var context = new EFCoreDatabaseContextBase(Database, ConnectionString)) {
+				// We may need create a new database and migration history table
+				// It's done here
+				context.Database.EnsureCreated();
+				initialModel = context.Model;
+			}
+			// Perform database migration
+			using (var context = new EFCoreDatabaseContext(Database, ConnectionString)) {
 				var serviceProvider = ((IInfrastructure<IServiceProvider>)context).Instance;
 				var databaseCreator = serviceProvider.GetService<IDatabaseCreator>();
 				if (databaseCreator is IRelationalDatabaseCreator) {
 					// It's a relational database, create and apply the migration
-					// Also see: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
-					var modelDiffer = serviceProvider.GetService<IMigrationsModelDiffer>();
-					var sqlGenerator = serviceProvider.GetService<IMigrationsSqlGenerator>();
-					var commandExecutor = serviceProvider.GetService<IMigrationCommandExecutor>();
-					var operations = modelDiffer.GetDifferences(null, context.Model);
-					var commands = sqlGenerator.Generate(operations, context.Model);
-					var connection = serviceProvider.GetService<IRelationalConnection>();
-					try { context.Database.ExecuteSqlCommand("select 1"); } catch { }
-					commandExecutor.ExecuteNonQuery(commands, connection);
+					MigrateRelationalDatabase(context, initialModel);
 				} else {
-					// It maybe a in-memory database or no-sql database, do nothing
+					// It maybe an in-memory database or no-sql database, do nothing
 				}
+			}
+		}
+
+		/// <summary>
+		/// Create and apply the migration for relational database
+		/// See: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
+		/// </summary>
+		/// <param name="context">Entity Framework Core database context</param>
+		/// <param name="initialModel">Initial model, only contains migration history</param>
+		private void MigrateRelationalDatabase(DbContext context, IModel initialModel) {
+			var serviceProvider = ((IInfrastructure<IServiceProvider>)context).Instance;
+			// Get the last migration model
+			var histories = context.Set<EFCoreMigrationHistory>();
+			var lastMigration = histories.OrderByDescending(h => h.Revision).FirstOrDefault();
+			var lastModel = initialModel;
+			// TODO: deserialize the model
+
+
+			// Compare with the newest model
+			var modelDiffer = serviceProvider.GetService<IMigrationsModelDiffer>();
+			var sqlGenerator = serviceProvider.GetService<IMigrationsSqlGenerator>();
+			var commandExecutor = serviceProvider.GetService<IMigrationCommandExecutor>();
+			var operations = modelDiffer.GetDifferences(lastModel, context.Model);
+			if (operations.Count <= 0) {
+				// There no difference
+				return;
+			}
+			// There some difference, we need perform the migration
+			var commands = sqlGenerator.Generate(operations, context.Model);
+			var connection = serviceProvider.GetService<IRelationalConnection>();
+			// insert the history first, if migration failed, delete it
+			// TODO: serialize the model
+			var history = new EFCoreMigrationHistory("Test");
+			histories.Add(history);
+			context.SaveChanges();
+			try {
+				// Execute migration commands
+				commandExecutor.ExecuteNonQuery(commands, connection);
+			} catch {
+				histories.Remove(history);
+				context.SaveChanges();
+				throw;
 			}
 		}
 
