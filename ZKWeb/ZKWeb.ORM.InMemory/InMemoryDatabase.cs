@@ -39,7 +39,7 @@ namespace ZKWeb.ORM.InMemory {
 			Mappings = new ConcurrentDictionary<Type, IInMemoryEntityMapping>();
 			PrimaryKeySequence = new ConcurrentDictionary<Type, long>();
 			PrimaryKeySequenceLock = new object();
-			// build entity mappings
+			// Build entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
 			var groupedProviders = providers.GroupBy(p =>
 				ReflectionUtils.GetGenericArguments(

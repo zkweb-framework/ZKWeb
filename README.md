@@ -29,7 +29,7 @@ Backward compatibility is provided as much as possible.
 	- Support running on Owin
 	- All host environment based on same abstraction layer
 - Multiple ORM
-	- ~~Support Dapper (working on)~~
+	- Support Dapper
 		- Reference, HasMany, HasManyToMany is unavailable
 		- Migration feature is unavailable
 	- Support EntityFramework Core

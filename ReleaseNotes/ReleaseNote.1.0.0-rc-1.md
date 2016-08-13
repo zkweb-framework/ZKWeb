@@ -11,7 +11,7 @@
 
 - Provide full support for .Net Core
 	- Support multiple ORM
-		- ~~Support Dapper~~
+		- Support Dapper
 		- Support EntityFramework Core
 		- Support InMemory
 		- ~~Support MongoDB~~

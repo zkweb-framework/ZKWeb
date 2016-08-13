@@ -1,23 +1,36 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
+﻿using System.Data;
+using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using ZKWeb.Database;
-using ZKWebStandard.Utils;
+using ZKWeb.Server;
+using Pomelo.Data.MySql;
+using Npgsql;
+using System;
+using System.Threading;
+using System.Linq;
+using Dapper;
+using System.Linq.Expressions;
+using Dapper.Contrib.Extensions;
+using System.FastReflection;
+using System.Collections.Generic;
 
-namespace ZKWeb.ORM.EFCore {
+namespace ZKWeb.ORM.Dapper {
 	/// <summary>
-	/// Entity Framework Core database context
+	/// Dapper database context
 	/// </summary>
-	public class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
+	internal class DapperDatabaseContext : IDatabaseContext {
 		/// <summary>
-		/// Entity Framework Core transaction
+		/// Dapper entity mappings
 		/// </summary>
-		private IDbContextTransaction Transaction { get; set; }
+		private DapperEntityMappings Mappings { get; set; }
+		/// <summary>
+		/// Database connection
+		/// </summary>
+		private IDbConnection Connection { get; set; }
+		/// <summary>
+		/// Database transaction
+		/// </summary>
+		private IDbTransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter
 		/// </summary>
@@ -26,39 +39,46 @@ namespace ZKWeb.ORM.EFCore {
 		/// <summary>
 		/// Initialize
 		/// </summary>
+		/// <param name="mappings">Dapper entity mappings</param>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
-		public EFCoreDatabaseContext(string database, string connectionString)
-			: base(database, connectionString) {
+		public DapperDatabaseContext(DapperEntityMappings mappings,
+			string database, string connectionString) {
+			Mappings = mappings;
+			Connection = null;
 			Transaction = null;
 			TransactionLevel = 0;
+			// Create database connection
+			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			if (string.Compare(database, "MSSQL", true) == 0) {
+				Connection = new SqlConnection(connectionString);
+			} else if (string.Compare(database, "SQLite", true) == 0) {
+				Connection = new SqliteConnection(
+					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
+			} else if (string.Compare(database, "MySQL", true) == 0) {
+				Connection = new MySqlConnection(connectionString);
+			} else if (string.Compare(database, "PostgreSQL", true) == 0) {
+				Connection = new NpgsqlConnection(connectionString);
+			} else {
+				throw new ArgumentException($"unsupported database type {database}");
+			}
 		}
 
 		/// <summary>
-		/// Configure entity model
+		/// Finalize
 		/// </summary>
-		/// <param name="modelBuilder">Model builder</param>
-		protected override void OnModelCreating(ModelBuilder modelBuilder) {
-			// Call base method
-			base.OnModelCreating(modelBuilder);
-			// Register entity mappings
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			var entityTypes = providers.Select(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
-			entityTypes.ForEach(t => Activator.CreateInstance(
-				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t),
-				modelBuilder, handlers));
+		~DapperDatabaseContext() {
+			Dispose();
 		}
 
 		/// <summary>
-		/// Dispose context and transaction
+		/// Dispose connection and transaction
 		/// </summary>
-		public override void Dispose() {
+		public void Dispose() {
 			Transaction?.Dispose();
 			Transaction = null;
-			base.Dispose();
+			Connection?.Dispose();
+			Connection = null;
 		}
 
 		/// <summary>
@@ -71,8 +91,8 @@ namespace ZKWeb.ORM.EFCore {
 					throw new InvalidOperationException("Transaction exists");
 				}
 				Transaction = (isolationLevel == null) ?
-					Database.BeginTransaction() :
-					Database.BeginTransaction(isolationLevel.Value);
+					Connection.BeginTransaction() :
+					Connection.BeginTransaction(isolationLevel.Value);
 			}
 		}
 
@@ -97,26 +117,41 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Get the query object for specific entity
+		/// Attention: It's slow, you should use RawQuery
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
-			return Set<T>();
+			return Connection.GetAll<T>(Transaction).AsQueryable();
 		}
 
 		/// <summary>
 		/// Get single entity that matched the given predicate
 		/// It should return null if no matched entity found
+		/// Attention: It's slow except predicate like x => x.Id == id
 		/// </summary>
 		/// <typeparam name="T">Entity Type</typeparam>
 		/// <param name="predicate">The predicate</param>
 		/// <returns></returns>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
+			// If predicate is about compare primary key then we can use `Get` method
+			if (predicate.Body is BinaryExpression) {
+				var binaryExpr = (BinaryExpression)predicate.Body;
+				if (binaryExpr.NodeType == ExpressionType.Equal &&
+					binaryExpr.Left is MemberExpression &&
+					((MemberExpression)binaryExpr.Left).Member.Name ==
+					Mappings.GetMapping(typeof(T)).IdMember.Name &&
+					binaryExpr.Right is ConstantExpression) {
+					var primaryKey = ((ConstantExpression)binaryExpr.Right).Value;
+					return Connection.Get<T>(primaryKey, Transaction);
+				}
+			}
 			return Query<T>().FirstOrDefault(predicate);
 		}
 
 		/// <summary>
 		/// Get how many entities that matched the given predicate
+		/// Attention: It's slow, you should use RawQuery
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -128,18 +163,18 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		private void InsertOrUpdate<T>(T entity)
 			where T : class, IEntity {
-			var entityInfo = Entry(entity);
-			if (entityInfo.State == EntityState.Detached) {
-				// It's not being tracked
-				if (entityInfo.IsKeySet) {
-					// The key is not default, mark all properties as modified
-					Update(entity);
-				} else {
-					// The key is default, set it's state to Added
-					Add(entity);
-				}
-			} else {
-				// It's being tracked, we don't need to do anything
+			// If the primary key is empty, insert it
+			var mapping = Mappings.GetMapping(typeof(T));
+			var primaryKey = mapping.IdMember.FastGetValue(entity);
+			if (primaryKey == null ||
+				object.Equals(primaryKey, 0) ||
+				object.Equals(primaryKey, -1) ||
+				object.Equals(primaryKey, Guid.Empty)) {
+				Connection.Insert(entity, Transaction);
+			}
+			// Try update first, if not exist then perform the insert
+			if (!Connection.Update(entity, Transaction)) {
+				Connection.Insert(entity, Transaction);
 			}
 		}
 
@@ -153,7 +188,6 @@ namespace ZKWeb.ORM.EFCore {
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
 			update?.Invoke(entityLocal);
 			InsertOrUpdate(entityLocal);
-			SaveChanges(); // send commands to database
 			callbacks.ForEach(c => c.AfterSave(this, entityLocal)); // notify after save
 			entity = entityLocal;
 		}
@@ -165,8 +199,7 @@ namespace ZKWeb.ORM.EFCore {
 			where T : class, IEntity {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
-			Delete(entity);
-			SaveChanges(); // send commands to database
+			Connection.Delete(entity, Transaction);
 			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
 		}
 
@@ -183,7 +216,6 @@ namespace ZKWeb.ORM.EFCore {
 				update?.Invoke(e);
 				InsertOrUpdate(e);
 			});
-			SaveChanges(); // send commands to database
 			entitiesLocal.ForEach(e =>
 				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
 			entities = entitiesLocal;
@@ -191,6 +223,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Batch update entities
+		/// Attention: It's slow, you should use RawUpdate
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -201,6 +234,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Batch delete entities
+		/// Attention: It's slow, you should use RawUpdate
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -209,7 +243,6 @@ namespace ZKWeb.ORM.EFCore {
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
 			entities.ForEach(e => Delete(e));
-			SaveChanges(); // send commands to database
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
 			return entities.Count;
@@ -219,7 +252,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// Perform a raw update to database
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
-			return Database.ExecuteSqlCommand((string)query, (object[])parameters);
+			return Connection.Execute((string)query, parameters, Transaction);
 		}
 
 		/// <summary>
@@ -227,7 +260,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class, IEntity {
-			return Query<T>().FromSql((string)query, (object[])parameters);
+			return Connection.Query<T>((string)query, parameters, Transaction);
 		}
 	}
 }

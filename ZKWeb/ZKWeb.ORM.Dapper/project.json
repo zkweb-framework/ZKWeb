@@ -1,10 +1,14 @@
 ﻿{
 	"version": "1.0.0-rc-1",
 	"dependencies": {
+		"Dapper": "1.50.2",
+		"Dapper.Contrib": "1.50.0",
+		"Microsoft.Data.Sqlite": "1.1.0-alpha1-21861",
 		"NETStandard.Library": "1.6.0",
+		"Npgsql": "3.1.7",
+		"Pomelo.Data.MySql": "1.0.0",
 		"ZKWeb": "1.0.0-rc-1",
-		"ZKWebStandard": "1.0.0-rc-1",
-		"Dapper": "1.50.2"
+		"ZKWebStandard": "1.0.0-rc-1"
 	},
 	"frameworks": {
 		"net461": {},
