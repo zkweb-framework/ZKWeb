@@ -2,13 +2,13 @@
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// 请求错误的处理器的接口
+	/// Interface for http request error handler
 	/// </summary>
 	public interface IHttpRequestErrorHandler {
 		/// <summary>
-		/// 处理请求错误
+		/// Handle request error
 		/// </summary>
-		/// <param name="ex">例外对象</param>
+		/// <param name="ex">Exception object</param>
 		/// <returns></returns>
 		void OnError(Exception ex);
 	}

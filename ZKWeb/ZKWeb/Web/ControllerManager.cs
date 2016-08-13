@@ -8,65 +8,64 @@ using System.Reflection;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWeb.Web.ActionResults;
-using ZKWeb.Web;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// 控制器管理器
+	/// Controller manager
 	/// </summary>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
-		/// { (路径, 类型): 处理函数, ... }
+		/// { (Path, Method): Action }
 		/// </summary>
 		protected IDictionary<Pair<string, string>, Func<IActionResult>> Actions { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public ControllerManager() {
 			Actions = new ConcurrentDictionary<Pair<string, string>, Func<IActionResult>>();
 		}
 
 		/// <summary>
-		/// 处理http请求
-		/// 查找路径对应的处理函数，存在时使用该函数否则跳过处理
+		/// Handle http request
+		/// Find the action from the request path, if not found then do nothing
 		/// </summary>
 		public virtual void OnRequest() {
 			var context = HttpManager.CurrentContext;
 			var action = GetAction(context.Request.Path, context.Request.Method);
 			if (action != null) {
 				var result = action();
-				// 写入回应
+				// Write response
 				result.WriteResponse(context.Response);
-				// 清理资源
+				// If result is disposable, dispose it
 				if (result is IDisposable) {
 					((IDisposable)result).Dispose();
 				}
-				// 结束回应
+				// End response
 				context.Response.End();
 			}
 		}
 
 		/// <summary>
-		/// 注册控制器类型
+		/// Register controller
 		/// </summary>
-		/// <typeparam name="T">控制器类型</typeparam>
+		/// <typeparam name="T">Controller type</typeparam>
 		public virtual void RegisterController<T>() {
 			RegisterController(typeof(T));
 		}
 
 		/// <summary>
-		/// 注册控制器类型
+		/// Register controller
 		/// </summary>
-		/// <param name="type">控制器类型</param>
+		/// <param name="type">Controller type</param>
 		public virtual void RegisterController(Type type) {
-			// 枚举所有带ActionAttribute的属性的公开函数
+			// Get all public methods with ActionAttribute
 			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
 				var attributes = method.GetCustomAttributes<ActionAttribute>();
 				if (attributes.Any()) {
-					// 预先编译好函数，提高实际调用时的性能
+					// Compile it to delegate for performance
 					var makeInstance = method.IsStatic ? null :
 						Expression.New(type.GetTypeInfo().GetConstructors()[0]);
 					Func<IActionResult> action;
@@ -80,7 +79,7 @@ namespace ZKWeb.Web {
 							Expression.New(plainResultType.GetConstructors()[0],
 							Expression.Call(makeInstance, method))).Compile();
 					}
-					// 添加函数
+					// Register action
 					foreach (var attribute in attributes) {
 						RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
 					}
@@ -89,11 +88,11 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// 正规化路径
-		/// 路径前没有/时添加/
-		/// 路径后有/时去除/
+		/// Normalize path
+		/// If path not startswith / then add /
+		/// If path ends / then remove /
 		/// </summary>
-		/// <param name="path">路径</param>
+		/// <param name="path">Path</param>
 		/// <returns></returns>
 		public virtual string NormalizePath(string path) {
 			if (path.Length > 1 && path.EndsWith("/")) {
@@ -106,22 +105,22 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// 注册单个http请求的处理函数
+		/// Register action
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="method">请求类型</param>
-		/// <param name="action">处理函数</param>
+		/// <param name="path">Path</param>
+		/// <param name="method">Method</param>
+		/// <param name="action">Action</param>
 		public virtual void RegisterAction(string path, string method, Func<IActionResult> action) {
 			RegisterAction(path, method, action, false);
 		}
 
 		/// <summary>
-		/// 注册单个http请求的处理函数
+		/// Register action
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="method">请求类型</param>
-		/// <param name="action">处理函数</param>
-		/// <param name="overrideExists">是否覆盖相同路径的函数</param>
+		/// <param name="path">Path</param>
+		/// <param name="method">Method</param>
+		/// <param name="action">Action</param>
+		/// <param name="overrideExists">Allow override exist actions</param>
 		public virtual void RegisterAction(
 			string path, string method, Func<IActionResult> action, bool overrideExists) {
 			path = NormalizePath(path);
@@ -133,10 +132,10 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// 注销单个http请求的处理函数
+		/// Unregister action
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="method">请求类型</param>
+		/// <param name="path">Path</param>
+		/// <param name="method">Method</param>
 		/// <returns></returns>
 		public virtual bool UnregisterAction(string path, string method) {
 			path = NormalizePath(path);
@@ -145,11 +144,11 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// 获取路径和请求类型对应的处理函数
-		/// 找不到时返回null
+		/// Get action from path and method
+		/// Return null if not found
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="method">请求类型</param>
+		/// <param name="path">Path</param>
+		/// <param name="method">Method</param>
 		/// <returns></returns>
 		public virtual Func<IActionResult> GetAction(string path, string method) {
 			path = NormalizePath(path);
@@ -158,8 +157,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// 初始化控制器管理器
-		/// 添加在Ioc容器中注册的控制器下的处理函数
+		/// Initialize
+		/// Add registered controllers
 		/// </summary>
 		internal static void Initialize() {
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();

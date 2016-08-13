@@ -1,11 +1,12 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// Http请求的预处理器接口
-	/// 在IHttpRequestHandler调用前调用，先注册的先调用
+	/// Interface for http request handler
+	/// Call in register order, before calling IHttpRequestHandler
 	/// </summary>
 	public interface IHttpRequestPreHandler {
 		/// <summary>
-		/// 处理Http请求
+		/// Handle http reqeust
+		/// It's not recommend to call response.End here
 		/// </summary>
 		void OnRequest();
 	}

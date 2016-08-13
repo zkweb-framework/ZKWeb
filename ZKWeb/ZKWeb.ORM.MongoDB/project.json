@@ -1,0 +1,20 @@
+﻿{
+	"version": "1.0.0-rc-1",
+	"dependencies": {
+		"NETStandard.Library": "1.6.0",
+		"ZKWeb": "1.0.0-rc-1",
+		"ZKWebStandard": "1.0.0-rc-1",
+		"MongoDB.Driver": "2.3.0-beta1"
+	},
+	"frameworks": {
+		"net461": {},
+		"netstandard1.6": {
+			"imports": "dnxcore50",
+			"buildOptions": { "define": [ "NETCORE" ] }
+		}
+	},
+	"buildOptions": {
+		"optimize": true,
+		"xmlDoc": true
+	}
+}

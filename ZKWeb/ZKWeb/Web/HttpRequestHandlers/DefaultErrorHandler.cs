@@ -8,34 +8,33 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.HttpRequestHandlers {
 	/// <summary>
-	/// 默认的请求错误处理器
+	/// Default error handler
 	/// </summary>
 	public class DefaultErrorHandler : IHttpRequestErrorHandler {
 		/// <summary>
-		/// 处理请求错误
+		/// Handler request error
 		/// </summary>
 		public void OnError(Exception ex) {
-			// 设置错误代码到回应
+			// Set status
 			var response = HttpManager.CurrentContext.Response;
 			var httpExcepion = ex as HttpException;
 			var statusCode = httpExcepion?.StatusCode ?? 500;
-			// 记录除了客户端错误以外的错误到日志
+			// If error ain't client error, log it
 			if (!(statusCode >= 400 && statusCode < 500)) {
 				var logManager = Application.Ioc.Resolve<LogManager>();
 				logManager.LogError(ex.ToString());
 			}
-			// 根据请求类型写入到回应
+			// Check if it's ajax request
 			var request = HttpManager.CurrentContext.Request;
 			response.StatusCode = statusCode;
 			if (request.IsAjaxRequest()) {
-				// Ajax请求时只返回例外消息
+				// Only return message for ajax request
 				response.ContentType = "text/plain";
 				response.Write(ex.Message);
 				response.End();
 			} else {
-				// 其他请求时
-				// - 判断是否HttpException，如果是则只显示例外消息
-				// - 判断网站配置中是否允许显示详细错误，如果允许则显示详细错误
+				// Return staatus and message for other request
+				// If display full exception is allowed, return full exception information
 				var configManager = Application.Ioc.Resolve<ConfigManager>();
 				var displayFullException = (configManager.WebsiteConfig
 					.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForRequest) ?? true);

@@ -1,6 +1,6 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// 常用的http的请求类型定义
+	/// Common http methods
 	/// </summary>
 	public static class HttpMethods {
 		/// <summary>

@@ -1,11 +1,11 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// 停止网站运行的接口
-	/// 需要平台提供
+	/// Interface for stop website running
+	/// Usually provide by hosting environment
 	/// </summary>
 	public interface IWebsiteStopper {
 		/// <summary>
-		/// 停止网站运行
+		/// Stop website running
 		/// </summary>
 		void StopWebsite();
 	}

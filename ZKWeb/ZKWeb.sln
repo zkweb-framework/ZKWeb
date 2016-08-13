@@ -21,6 +21,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.EFCore", "ZKWeb.O
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.InMemory", "ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.xproj", "{0A265341-C534-4822-BDA8-27F3853B09AB}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.MongoDB", "ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.xproj", "{DF94D55B-6572-4487-B9E8-88DD83853B28}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.Dapper", "ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.xproj", "{9480BBC6-622F-4386-8652-C5977634E9CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{0A265341-C534-4822-BDA8-27F3853B09AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A265341-C534-4822-BDA8-27F3853B09AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A265341-C534-4822-BDA8-27F3853B09AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF94D55B-6572-4487-B9E8-88DD83853B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF94D55B-6572-4487-B9E8-88DD83853B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF94D55B-6572-4487-B9E8-88DD83853B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF94D55B-6572-4487-B9E8-88DD83853B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9480BBC6-622F-4386-8652-C5977634E9CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9480BBC6-622F-4386-8652-C5977634E9CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9480BBC6-622F-4386-8652-C5977634E9CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9480BBC6-622F-4386-8652-C5977634E9CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

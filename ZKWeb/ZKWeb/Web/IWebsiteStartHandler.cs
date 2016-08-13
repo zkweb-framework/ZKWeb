@@ -1,11 +1,11 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// 网站启动时的处理器接口
-	/// 在所有插件初始化完成后调用
+	/// Interface for website start handler
+	/// After all IPlugin called
 	/// </summary>
 	public interface IWebsiteStartHandler {
 		/// <summary>
-		/// 网站启动时的处理
+		/// Handle website start
 		/// </summary>
 		void OnWebsiteStart();
 	}

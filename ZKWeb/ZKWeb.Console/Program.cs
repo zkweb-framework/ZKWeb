@@ -25,9 +25,9 @@
 			}
 			return path;
 		}
-
+		
 		/// <summary>
-		/// 控制台程序入口点
+		/// Program entry
 		/// </summary>
 		/// <param name="args"></param>
 		private static void Main(string[] args) {

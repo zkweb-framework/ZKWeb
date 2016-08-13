@@ -2,13 +2,13 @@
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// 请求结果的接口
+	/// Interface for action result
 	/// </summary>
 	public interface IActionResult {
 		/// <summary>
-		/// 把数据写到Http回应
+		/// Write http response
 		/// </summary>
-		/// <param name="response">Http回应</param>
+		/// <param name="response">Http response</param>
 		void WriteResponse(IHttpResponse response);
 	}
 }

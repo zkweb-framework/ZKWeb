@@ -5,23 +5,23 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// 图片结果
+	/// Image result
 	/// </summary>
 	public class ImageResult : IActionResult, IDisposable {
 		/// <summary>
-		/// 图片对象
+		/// Image object
 		/// </summary>
 		public Image Image { get; set; }
 		/// <summary>
-		/// 图片格式
+		/// Image format
 		/// </summary>
 		public ImageFormat Format { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="image">图片对象</param>
-		/// <param name="format">图片格式，默认是Jpeg</param>
+		/// <param name="image">Image object</param>
+		/// <param name="format">Image format, default is Jpeg</param>
 		public ImageResult(Image image, ImageFormat format = null) {
 			Image = image;
 			Format = format ?? ImageFormat.Jpeg;

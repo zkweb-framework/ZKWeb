@@ -22,7 +22,7 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 				Application.Ioc.RegisterInstance(logManagerMock);
 				Application.Ioc.Unregister<ConfigManager>();
 				Application.Ioc.RegisterInstance(configManagerMock);
-				// Ajax请求时只显示消息
+				// Only return message if error occurs with ajax request
 				using (HttpManager.OverrideContext("", "GET")) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
@@ -30,7 +30,7 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 					handler.OnError(new ArgumentException("some message"));
 					Assert.Equals(response.GetContentsFromBody(), "some message");
 				}
-				// HttpException时显示状态代码和消息
+				// Display status and message if the error is HttpException
 				using (HttpManager.OverrideContext("", "GET")) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
@@ -39,7 +39,7 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 					Assert.IsTrueWith(
 						contents.Contains("404 wrong address") && !contents.Contains("<pre>"), contents);
 				}
-				// 根据网站配置决定是否显示完整信息
+				// Display full exception dependent on website configuration
 				config.Extra[ExtraConfigKeys.DisplayFullExceptionForRequest] = true;
 				using (HttpManager.OverrideContext("", "GET")) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
@@ -58,7 +58,7 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 					Assert.IsTrueWith(
 						contents.Contains("500 some error") && !contents.Contains("<pre>"), contents);
 				}
-				// 测试记录日志
+				// Test error logging
 				logManagerMock.ClearReceivedCalls();
 				using (HttpManager.OverrideContext("", "GET")) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;

@@ -14,13 +14,13 @@ namespace ZKWeb.Tests.Server {
 		public IList<string> CleanupPaths { get; private set; }
 
 		/// <summary>
-		/// 测试时重载插件文件夹的设置
-		/// 测试完毕后会删除所有插件目录
+		/// Override plugin directories for testing
+		/// It will remove all test files when disposed
 		/// </summary>
-		/// <param name="pluginDirectories">插件目录列表，不传入时使用[ "App_Data/__TestPlugins" ]</param>
-		/// <param name="plugins">插件列表，不传入时使用[ "PluginA", "PluginB" ]</param>
-		/// <param name="extra">附加数据，不传入时使用空的附加数据</param>
-		/// <param name="pluginDirectoryIndex">创建插件文件夹时，使用的插件目录的序号</param>
+		/// <param name="pluginDirectories">Plugin directories, default is [ "App_Data/__TestPlugins" ]</param>
+		/// <param name="plugins">Plugins, default is [ "PluginA", "PluginB" ]</param>
+		/// <param name="extra">Extra data, default is empty</param>
+		/// <param name="pluginDirectoryIndex">Which plugin directory will use to create plugins</param>
 		public TestDirectoryLayout(
 			IList<string> pluginDirectories = null,
 			IList<string> plugins = null,
@@ -33,7 +33,7 @@ namespace ZKWeb.Tests.Server {
 				Extra = extra ?? new Dictionary<string, object>()
 			};
 			CleanupPaths = new List<string>();
-			// 重新注册ConfigManager, PathConfig, PathManager, PluginManager
+			// Mock ConfigManager, PathConfig, PathManager, PluginManager
 			var configManagerMock = Substitute.ForPartsOf<ConfigManager>();
 			configManagerMock.WebsiteConfig.Returns(WebsiteConfig);
 			Application.Ioc.Unregister<ConfigManager>();
@@ -42,8 +42,7 @@ namespace ZKWeb.Tests.Server {
 			Application.Ioc.RegisterInstance(configManagerMock);
 			Application.Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
 			Application.Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
-			// 创建插件文件夹，并设置释放时删除
-			// 创建插件文件夹后把该插件的信息加到插件管理器
+			// Create plugin directories and plugins
 			var pathManager = Application.Ioc.Resolve<PathManager>();
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			var pluginDirectory = pathManager.GetPluginDirectories()[pluginDirectoryIndex];
@@ -58,12 +57,12 @@ namespace ZKWeb.Tests.Server {
 		}
 
 		/// <summary>
-		/// 写入文件到插件文件夹
+		/// Write file to plugin
 		/// </summary>
-		/// <param name="plugin">插件名称</param>
-		/// <param name="path">路径</param>
-		/// <param name="contents">内容</param>
-		/// <param name="pluginDirectoryIndex">使用的插件目录的序号</param>
+		/// <param name="plugin">Plugin name</param>
+		/// <param name="path">Path</param>
+		/// <param name="contents">Contents</param>
+		/// <param name="pluginDirectoryIndex">Which plugin directory will use to locate plugins</param>
 		public void WritePluginFile(
 			string plugin, string path, string contents, int pluginDirectoryIndex = 0) {
 			var pathManager = Application.Ioc.Resolve<PathManager>();
@@ -75,10 +74,10 @@ namespace ZKWeb.Tests.Server {
 		}
 
 		/// <summary>
-		/// 写入文件到AppData
+		/// Write file to App_Data
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="contents">内容</param>
+		/// <param name="path">Path</param>
+		/// <param name="contents">Contents</param>
 		public void WriteAppDataFile(string path, string contents) {
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			var fullPath = Path.Combine(pathConfig.AppDataDirectory, path);
@@ -88,7 +87,7 @@ namespace ZKWeb.Tests.Server {
 		}
 
 		/// <summary>
-		/// 释放对容器的重载和删除写入的文件和文件夹
+		/// Finish container overrding and remove test files
 		/// </summary>
 		public void Dispose() {
 			OverrideIoc.Dispose();

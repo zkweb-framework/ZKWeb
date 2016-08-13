@@ -11,46 +11,45 @@ using ZKWebStandard.Collection;
 
 namespace ZKWeb.Templating {
 	/// <summary>
-	/// 模板管理器
-	/// 当前使用的模板系统是
-	/// DotLiquid http://dotliquidmarkup.org/
+	/// Template manager
+	/// See: http://dotliquidmarkup.org/
 	/// </summary>
 	public class TemplateManager {
 		/// <summary>
-		/// 描画指定的模板到数据流中
+		/// Render template to stream
 		/// </summary>
-		/// <param name="path">模板路径</param>
-		/// <param name="argument">传给模板的参数</param>
-		/// <param name="stream">数据流</param>
-		public virtual void RenderTemplate(string path, object argument, Stream stream) {
-			// 构建模板的参数
+		/// <param name="path">Template path</param>
+		/// <param name="arguments">Template arguments</param>
+		/// <param name="stream">Target stream</param>
+		public virtual void RenderTemplate(string path, object arguments, Stream stream) {
+			// Build template parameters
 			var parameters = new RenderParameters();
-			if (argument is IDictionary<string, object>) {
-				parameters.LocalVariables = Hash.FromDictionary((IDictionary<string, object>)argument);
+			if (arguments is IDictionary<string, object>) {
+				parameters.LocalVariables = Hash.FromDictionary((IDictionary<string, object>)arguments);
 			} else {
-				parameters.LocalVariables = Hash.FromAnonymousObject(argument);
+				parameters.LocalVariables = Hash.FromAnonymousObject(arguments);
 			}
-			// 查找模板，找不到时写入错误信息
+			// Find template, display error if not found
 			var template = Template.FileSystem.ReadTemplateFile(null, path) as Template;
 			if (template == null) {
-				// 这里不能调用Dispose，见http://stackoverflow.com/questions/2666888
+				// Can't use using directive here, see http://stackoverflow.com/questions/2666888
 				var writer = new StreamWriter(stream);
 				writer.WriteLine($"template file {path} not found");
 				writer.Flush();
 				return;
 			}
-			// 使用模板描画到数据流中
+			// Render to stream
 			template.Render(stream, parameters);
 		}
 
 		/// <summary>
-		/// 描画指定的模板到字符串
+		/// Render template to string
 		/// </summary>
-		/// <param name="path">模板路径</param>
-		/// <param name="argument">传给模板的参数</param>
-		public virtual string RenderTemplate(string path, object argument) {
+		/// <param name="path">Template path</param>
+		/// <param name="arguments">Template arguments</param>
+		public virtual string RenderTemplate(string path, object arguments) {
 			using (var stream = new MemoryStream()) {
-				RenderTemplate(path, argument, stream);
+				RenderTemplate(path, arguments, stream);
 				stream.Seek(0, SeekOrigin.Begin);
 				var reader = new StreamReader(stream);
 				return reader.ReadToEnd();
@@ -58,33 +57,32 @@ namespace ZKWeb.Templating {
 		}
 
 		/// <summary>
-		/// 初始化模板系统
+		/// Initialize
 		/// </summary>
 		internal static void Initialize() {
-			// 默认所有文本和对象经过html编码
+			// Force all string and object encode with html by default
 			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtils.HtmlEncode(s));
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtils.HtmlEncode(s));
-			// 注册允许描画的类型
+			// Register safe type
 			Template.RegisterSafeType(typeof(HtmlString), s => s);
 			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
-			// 初始化DotLiquid
-			// 这里会添加所有默认标签和过滤器，这里不添加下面注册时不能覆盖
+			// Call the static constructor here to add default tags and filters
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
-			// 修改正则表达式的缓存大小，默认缓存只有15
+			// Use bigger regex cache size
 			Regex.CacheSize = 0xffff;
-			// 设置是否显示完整的例外信息
+			// Set if display full exception is allowed
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			Context.DisplayFullException = (configManager.WebsiteConfig
 				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
-			// 注册自定义标签
+			// Register custom tags
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<Fetch>("fetch");
 			Template.RegisterTag<HtmlLang>("html_lang");
 			Template.RegisterTag<RawHtml>("raw_html");
-			// 注册自定义过滤器
+			// Register custom filters
 			Template.RegisterFilter(typeof(Filters));
-			// 设置使用的文件系统
+			// Set template filesystem
 			Template.FileSystem = Application.Ioc.Resolve<TemplateFileSystem>();
 		}
 	}

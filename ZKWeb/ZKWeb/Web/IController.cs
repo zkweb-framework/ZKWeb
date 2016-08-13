@@ -1,6 +1,6 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// 控制器的接口
+	/// Interface for controller
 	/// </summary>
 	/// <example>
 	/// [ExportMany]

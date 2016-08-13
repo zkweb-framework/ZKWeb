@@ -29,7 +29,7 @@ namespace ZKWeb.Database {
 		/// <param name="database">Database name</param>
 		/// <param name="connectionString">Database connection string</param>
 		/// <returns></returns>
-		internal static IDatabaseContextFactory CreateContextFactor(
+		public static IDatabaseContextFactory CreateContextFactor(
 			string orm, string database, string connectionString) {
 			if (string.IsNullOrEmpty(orm)) {
 				throw new NotSupportedException("No ORM name is provided, please set it first");

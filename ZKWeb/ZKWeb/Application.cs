@@ -146,7 +146,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// Override IoC container, only available for the thread calling this method
 		/// Overrided container will inherit the original container,
-		/// Alter override container will not affect the original container.
+		/// Alter overrided container will not affect the original container.
 		/// </summary>
 		/// <returns></returns>
 		public static IDisposable OverrideIoc() {

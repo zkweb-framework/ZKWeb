@@ -1,50 +1,53 @@
 ﻿using System;
 using System.IO;
 using ZKWebStandard.Extensions;
-using ZKWeb.Web;
 using ZKWebStandard.Web;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// 文件结果
+	/// File result
 	/// </summary>
 	public class FileResult : IActionResult {
 		/// <summary>
-		/// 文件路径
+		/// File path
 		/// </summary>
 		public string FilePath { get; set; }
 		/// <summary>
-		/// 客户端传入的文件修改时间
+		/// Cached modify time received from client
 		/// </summary>
 		public DateTime? IfModifiedSince { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="path">文件路径</param>
-		/// <param name="ifModifiedSince">客户端传入的文件修改时间</param>
+		/// <param name="path">File path</param>
+		/// <param name="ifModifiedSince">Cached modify time received from client</param>
 		public FileResult(string path, DateTime? ifModifiedSince = null) {
 			FilePath = path;
 			IfModifiedSince = ifModifiedSince;
 		}
 
 		/// <summary>
-		/// 写入文件到Http回应
+		/// Write file to http response
+		/// If file not modified, return 304
 		/// </summary>
-		/// <param name="response">Http回应</param>
+		/// <param name="response">Http Reponse</param>
 		public void WriteResponse(IHttpResponse response) {
-			// 设置文件的最后修改时间
+			// Set last modified time
 			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
 			response.SetLastModified(lastModified);
-			// 设置内容类型
+			// Set mime
 			response.ContentType = MimeUtils.GetMimeType(FilePath);
-			// 文件没有修改时返回304
+			// If file not modified, return 304
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
 				return;
 			}
-			// 写入文件到http回应中
+			// Write file to http response
+			// TODO: support range request
+			// http://dotnetslackers.com/articles/aspnet/Range-Specific-Requests-in-ASP-NET.aspx
+			// http://www.freesoft.org/CIE/RFC/2068/178.htm
 			response.StatusCode = 200;
 			response.WriteFile(FilePath);
 		}

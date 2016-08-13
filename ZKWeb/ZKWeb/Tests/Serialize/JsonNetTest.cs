@@ -8,11 +8,11 @@ namespace ZKWeb.Tests.Serialize {
 	[Tests]
 	class JsonNetTest {
 		public void All() {
-			// 测试序列化T类型
+			// Serialize T
 			var translated = new T("__OriginalString");
 			Assert.Equals(JsonConvert.SerializeObject(translated),
 				JsonConvert.SerializeObject(translated.ToString()));
-			// 测试防止反序列化时使用原来的对象
+			// Avoid add items to exist collection
 			var data = JsonConvert.DeserializeObject<TestData>("{ Array: [ 4, 5, 6 ] }");
 			Assert.IsTrueWith(data.Array.SequenceEqual(new[] { 4, 5, 6 }), data);
 		}

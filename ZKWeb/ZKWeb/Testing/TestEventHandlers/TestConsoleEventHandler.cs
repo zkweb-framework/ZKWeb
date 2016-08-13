@@ -4,7 +4,7 @@ using ZKWebStandard.Testing.Events;
 
 namespace ZKWeb.Testing.TestEventHandlers {
 	/// <summary>
-	/// 在控制台中运行测试使用的事件处理器
+	/// Test event handler for running tests from console
 	/// </summary>
 	public class TestConsoleEventHandler : ITestEventHandler {
 #pragma warning disable CS1591

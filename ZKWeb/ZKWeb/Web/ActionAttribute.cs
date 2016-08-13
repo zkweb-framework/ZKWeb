@@ -2,28 +2,28 @@
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// 标记函数可以处理指定路径的http请求
+	/// Mark action method in controller
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class ActionAttribute : Attribute {
 		/// <summary>
-		/// 路径
+		/// Path
 		/// </summary>
 		public string Path { get; set; }
 		/// <summary>
-		/// 请求类型
+		/// Method, GET or POST or whatever
 		/// </summary>
 		public string Method { get; set; }
 		/// <summary>
-		/// 是否重载现有的函数
+		/// Allow override exist actions
 		/// </summary>
 		public bool OverrideExists { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="path">路径</param>
-		/// <param name="method">请求类型，默认是GET</param>
+		/// <param name="path">Path</param>
+		/// <param name="method">Method, default is GET</param>
 		public ActionAttribute(string path, string method = HttpMethods.GET) {
 			Path = path;
 			Method = method;

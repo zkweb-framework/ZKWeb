@@ -1,34 +1,33 @@
-﻿using ZKWeb.Web;
-using ZKWebStandard.Web;
+﻿using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// 重定向结果
+	/// Redirect result
 	/// </summary>
 	public class RedirectResult : IActionResult {
 		/// <summary>
-		/// 重定向到的url
+		/// Redirect to url
 		/// </summary>
 		public string Url { get; set; }
 		/// <summary>
-		/// 是否永久重定向
+		/// Is permanent
 		/// </summary>
 		public bool Permanent { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="url">重定向到的url</param>
-		/// <param name="permanent">是否永久重定向</param>
+		/// <param name="url">Redirect to url</param>
+		/// <param name="permanent">Is permanent</param>
 		public RedirectResult(string url, bool permanent = false) {
 			Url = url;
 			Permanent = permanent;
 		}
 
 		/// <summary>
-		/// 跳转到指定地址
+		/// Send redirect response
 		/// </summary>
-		/// <param name="response">Http回应</param>
+		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {
 			response.Redirect(Url, Permanent);
 		}
