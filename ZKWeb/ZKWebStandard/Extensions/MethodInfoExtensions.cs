@@ -3,14 +3,14 @@ using System.Text;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 函数信息的扩展函数
+	/// MethodInfo extensions
 	/// </summary>
 	public static class MethodInfoExtensions {
 		/// <summary>
-		/// 获取函数的完整名称
-		/// 包含所在类的完整名称和函数名称
+		/// Get full name of method
+		/// Including type name and method name
 		/// </summary>
-		/// <param name="info">函数信息</param>
+		/// <param name="info">Method information</param>
 		public static string GetFullName(this MethodInfo info) {
 			var result = new StringBuilder();
 			result.Append(info.DeclaringType.FullName).Append('.').Append(info.Name);

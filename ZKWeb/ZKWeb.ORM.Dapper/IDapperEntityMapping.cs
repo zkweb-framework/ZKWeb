@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
-	/// Defines the mapping for an entity
+	/// The non-generic interface for entity mapping
 	/// </summary>
 	internal interface IDapperEntityMapping {
 		/// <summary>

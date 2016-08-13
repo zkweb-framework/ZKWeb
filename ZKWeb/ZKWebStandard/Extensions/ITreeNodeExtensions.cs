@@ -4,15 +4,15 @@ using ZKWebStandard.Utils;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 树节点的扩展函数
+	/// ITreeNode extension methods
 	/// </summary>
 	public static class ITreeNodeExtensions {
 		/// <summary>
-		/// 获取节点的所有上级节点
-		/// 顺序从下到上，根节点时返回空序列
+		/// Get all parent nodes
+		/// From bottom to top, return empty sequences if node is root
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="node">获取的节点</param>
+		/// <typeparam name="T">Node value type</typeparam>
+		/// <param name="node">The node</param>
 		/// <returns></returns>
 		public static IEnumerable<ITreeNode<T>> GetParents<T>(this ITreeNode<T> node) {
 			var parent = node.Parent;
@@ -23,12 +23,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 递归访问所有节点
-		/// 保证顺序由根节点开始，从上到下
+		/// Visit all nodes recursively
+		/// From top to bottom
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="node">根节点</param>
-		/// <param name="visit">访问函数</param>
+		/// <typeparam name="T">Node value type</typeparam>
+		/// <param name="node">The node</param>
+		/// <param name="visit">Visit action</param>
 		public static void VisitAllNodes<T>(
 			this ITreeNode<T> node, Action<ITreeNode<T>> visit) {
 			visit(node);
@@ -38,11 +38,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 枚举返回所有节点
-		/// 保证顺序由根节点开始，从上到下
+		/// Enumerate all nodes
+		/// From top to bottom
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="node">根节点</param>
+		/// <typeparam name="T">Node value type</typeparam>
+		/// <param name="node">The node</param>
 		/// <returns></returns>
 		public static IEnumerable<ITreeNode<T>> EnumerateAllNodes<T>(
 			this ITreeNode<T> node) {

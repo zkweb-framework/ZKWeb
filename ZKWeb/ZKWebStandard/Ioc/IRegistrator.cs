@@ -3,78 +3,75 @@ using System.Collections.Generic;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Ioc容器的注册器接口
+	/// Interface for registrator
 	/// </summary>
 	public interface IRegistrator {
 		/// <summary>
-		/// 注册实现类型到服务类型，并关联指定的键
+		/// Register implementation type with service type and service key
 		/// </summary>
-		/// <param name="serviceType">服务类型</param>
-		/// <param name="implementationType">实现类型</param>
-		/// <param name="reuseType">重用策略</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <param name="serviceType">Service type</param>
+		/// <param name="implementationType">Implementation type</param>
+		/// <param name="reuseType">Reuse type</param>
+		/// <param name="serviceKey">Service key</param>
 		void Register(Type serviceType, Type implementationType,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
-		/// 注册实现类型到多个服务类型，并关联指定的键
+		/// Register implementation type with service types and service key
 		/// </summary>
-		/// <param name="serviceTypes">服务类型列表</param>
-		/// <param name="implementationType">实现类型</param>
-		/// <param name="reuseType">重用策略</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <param name="serviceTypes">Service types</param>
+		/// <param name="implementationType">Implementation type</param>
+		/// <param name="reuseType">Reuse type</param>
+		/// <param name="serviceKey">Service key</param>
 		void RegisterMany(IList<Type> serviceTypes, Type implementationType,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
-		/// 注册实现类型到它自身和继承的类型和实现的接口，并关联指定的键
-		/// 部分系统类型和接口会被忽略
+		/// Register implementation type with service types and service key
+		/// Service types are obtain from base types and interfaces
 		/// </summary>
-		/// <param name="implementationType">实现类型</param>
-		/// <param name="reuseType">重用策略</param>
-		/// <param name="serviceKey">关联键</param>
-		/// <param name="nonPublicServiceTypes">是否包含私有类型</param>
+		/// <param name="implementationType">Implementation type</param>
+		/// <param name="reuseType">Reuse type</param>
+		/// <param name="serviceKey">Service key</param>
+		/// <param name="nonPublicServiceTypes">Also register with non public service types</param>
 		void RegisterMany(Type implementationType,
 			ReuseType reuseType = ReuseType.Transient,
 			object serviceKey = null, bool nonPublicServiceTypes = false);
 
 		/// <summary>
-		/// 注册实例到服务类型，并关联指定的键
-		/// 默认是单例模式
+		/// Register instance with service type and service key
+		/// Reuse type is forced to Singleton
 		/// </summary>
-		/// <param name="serviceType">服务类型</param>
-		/// <param name="instance">实例</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <param name="serviceType">Service type</param>
+		/// <param name="instance">Service instance</param>
+		/// <param name="serviceKey">Service key</param>
 		void RegisterInstance(Type serviceType, object instance, object serviceKey = null);
 
 		/// <summary>
-		/// 注册生成函数到服务类型，并关联指定的键
+		/// Register delegate with service type and service key
 		/// </summary>
-		/// <param name="serviceType">服务类型</param>
-		/// <param name="factory">生成函数</param>
-		/// <param name="reuseType">重用策略</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <param name="serviceType">Implementation type</param>
+		/// <param name="factory">Service factory</param>
+		/// <param name="reuseType">Reuse type</param>
+		/// <param name="serviceKey">Service key</param>
 		void RegisterDelegate(Type serviceType, Func<object> factory,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
-		/// 注册使用属性导出的类型
-		/// 应支持以下属性
-		/// - ExportAttribute (System.ComponentModel.Composition)
-		/// - ExportManyAttribute
+		/// Automatic register types by export attributes
 		/// </summary>
-		/// <param name="types"></param>
+		/// <param name="types">Implementation types</param>
 		void RegisterExports(IEnumerable<Type> types);
 
 		/// <summary>
-		/// 取消注册到服务类型并关联了指定的键的所有生成函数
+		/// Unregister all factories with specified service type and service key
 		/// </summary>
-		/// <param name="serviceType">服务类型</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <param name="serviceType">Service type</param>
+		/// <param name="serviceKey">Service key</param>
 		void Unregister(Type serviceType, object serviceKey = null);
 
 		/// <summary>
-		/// 取消所有注册的生成函数
+		/// Unregister all factories
 		/// </summary>
 		void UnregisterAll();
 	}

@@ -2,25 +2,25 @@
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// 支持泛型的Ioc容器的解决器接口
+	/// Interface for generic resolver
 	/// </summary>
 	public interface IGenericResolver {
 		/// <summary>
-		/// 获取注册到服务类型并关联了指定键的单个实例
-		/// 没有注册或注册了多个时按无法解决时的策略处理
+		/// Resolve service with type and key
+		/// Throw exception or return default value if not found, dependent on ifUnresolved
 		/// </summary>
-		/// <typeparam name="TService">服务类型</typeparam>
-		/// <param name="ifUnresolved">无法解决时的策略</param>
-		/// <param name="serviceKey">关联键</param>
+		/// <typeparam name="TService">Service type</typeparam>
+		/// <param name="ifUnresolved">Action when service unresolved</param>
+		/// <param name="serviceKey">Service key</param>
 		/// <returns></returns>
 		TService Resolve<TService>(IfUnresolved ifUnresolved = IfUnresolved.Throw, object serviceKey = null);
 
 		/// <summary>
-		/// 获取注册到服务类型并关联了指定键的单个或多个实例
-		/// 没有注册时返回空列表
+		/// Resolve services with type and key
+		/// Return empty sequence if no service registered
 		/// </summary>
-		/// <typeparam name="TService">服务类型</typeparam>
-		/// <param name="serviceKey">关联键</param>
+		/// <typeparam name="TService">Service type</typeparam>
+		/// <param name="serviceKey">Service key</param>
 		/// <returns></returns>
 		IEnumerable<TService> ResolveMany<TService>(object serviceKey = null);
 	}

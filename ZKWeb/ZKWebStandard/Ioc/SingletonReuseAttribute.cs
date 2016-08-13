@@ -2,12 +2,13 @@
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// 设置使用单例模式的属性
+	/// Singleton reuse attribute
+	/// A convenient attribute from ReuseAttribute
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
 	public class SingletonReuseAttribute : ReuseAttribute {
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public SingletonReuseAttribute() : base(ReuseType.Singleton) { }
 	}

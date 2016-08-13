@@ -6,14 +6,15 @@ using System.FastReflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 成员信息的扩展函数
+	/// MemberInfo extensions
 	/// </summary>
 	public static class MemberInfoExtensions {
 		/// <summary>
-		/// 获取指定类型的属性，没有时返回null
+		/// Get specified type attribute
+		/// Return null if not found
 		/// </summary>
-		/// <typeparam name="TAttribute">属性类型</typeparam>
-		/// <param name="info">成员信息</param>
+		/// <typeparam name="TAttribute">Attribute type</typeparam>
+		/// <param name="info">Member infomation</param>
 		/// <returns></returns>
 		public static TAttribute GetAttribute<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
@@ -21,10 +22,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取指定类型的属性列表
+		/// Get specified type attributes
 		/// </summary>
-		/// <typeparam name="TAttribute">属性类型</typeparam>
-		/// <param name="info">成员信息</param>
+		/// <typeparam name="TAttribute">Attribute type</typeparam>
+		/// <param name="info">Member infomation</param>
 		/// <returns></returns>
 		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {

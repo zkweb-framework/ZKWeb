@@ -4,15 +4,14 @@ using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 对象的扩展函数
+	/// Object extension methods
 	/// </summary>
 	public static class ObjectExtensions {
 		/// <summary>
-		/// 对比对象是否相等
-		/// 对象等于null也可以进行比较
+		/// Compare objects, won't throw exception if any object is null
 		/// </summary>
-		/// <param name="obj">对象</param>
-		/// <param name="target">目标对象</param>
+		/// <param name="obj">Object</param>
+		/// <param name="target">Target object</param>
 		/// <returns></returns>
 		public static bool EqualsSupportsNull(this object obj, object target) {
 			if (obj == null && target == null) {
@@ -26,66 +25,71 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 转换对象到指定类型，失败时返回默认值
+		/// Convert object to specified type
+		/// Return default value if failed
 		/// </summary>
-		/// <typeparam name="T">需要转换到的类型</typeparam>
-		/// <param name="obj">转换的对象</param>
-		/// <param name="default_value">默认值</param>
+		/// <typeparam name="T">Type convert to</typeparam>
+		/// <param name="obj">Object</param>
+		/// <param name="defaultValue">Default value</param>
 		/// <returns></returns>
-		public static T ConvertOrDefault<T>(this object obj, T default_value = default(T)) {
-			return (T)obj.ConvertOrDefault(typeof(T), default_value);
+		public static T ConvertOrDefault<T>(this object obj, T defaultValue = default(T)) {
+			return (T)obj.ConvertOrDefault(typeof(T), defaultValue);
 		}
 
 		/// <summary>
-		/// 转换对象到指定类型，失败时返回默认值
-		/// 转换过程
-		///		类型是枚举类型时先把值转换到int再转换到枚举类型
-		///		使用Convert.ChangeType转换
-		///		使用JsonConvert转换
+		/// Convert object to specified type
+		/// Return default value if failed
+		/// Flow
+		/// - If object is Enum and type is int, use Convert.ToInt32
+		/// - If object is string and type is Enum, use Enum.Parse
+		/// - Use Convert.ChangeType
+		/// - If object is string, use json deserialize(obj, type)
+		/// - Use json deserialize(serialize(obj), type)
 		/// </summary>
-		/// <param name="obj">转换的对象</param>
-		/// <param name="type">需要转换到的类型</param>
-		/// <param name="default_value">默认值</param>
+		/// <param name="obj">Object</param>
+		/// <param name="type">Target type</param>
+		/// <param name="defaultValue">Default value</param>
 		/// <returns></returns>
-		public static object ConvertOrDefault(this object obj, Type type, object default_value) {
-			// 对象是null时直接返回默认值
+		public static object ConvertOrDefault(this object obj, Type type, object defaultValue) {
+			// If object is null, we don't need to convert
 			if (obj == null) {
-				return default_value;
+				return defaultValue;
 			}
-			// 类型相同时直接返回，不需要转换
+			// If object can convert to type directly, we don't need to convert
 			var objType = obj.GetType();
 			if (type.GetTypeInfo().IsAssignableFrom(objType)) {
 				return obj;
 			}
-			// 使用Convert转换
+			// Handle enum and use Convert
 			try {
 				if (objType.GetTypeInfo().IsEnum && type == typeof(int)) {
 					// enum => int
 					return Convert.ToInt32(obj);
 				} else if (objType == typeof(string) && type.GetTypeInfo().IsEnum) {
-					// string => enum, 下面json也能转换但这里转换性能更快
+					// string => enum
 					return Enum.Parse(type, (string)obj);
 				}
 				return Convert.ChangeType(obj, type);
 			} catch {
 			}
-			// 使用JsonConvert转换
+			// Use JsonConvert, use obj as json string
 			if (obj is string) {
 				try { return JsonConvert.DeserializeObject(obj as string, type); } catch { }
 			}
+			// Use JsonConvert, serialize then deserialize
 			try {
 				return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(obj), type);
 			} catch {
 			}
-			return default_value;
+			return defaultValue;
 		}
 
 		/// <summary>
-		/// 通过Json序列化和反序列化克隆对象
-		/// 调用此函数前必须确认对象可以通过Json序列化
+		/// Use json serializer to clone object
+		/// Please sure the object can serialize and deserialize by json.net
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="obj"></param>
+		/// <typeparam name="T">Object type</typeparam>
+		/// <param name="obj">Object</param>
 		/// <returns></returns>
 		public static T CloneByJson<T>(this T obj) {
 			var json = JsonConvert.SerializeObject(obj);

@@ -1,14 +1,14 @@
 ﻿namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// 对象的重用策略
+	/// Service reuse type
 	/// </summary>
 	public enum ReuseType {
 		/// <summary>
-		/// 即时模式，不共享对象
+		/// Transient, no reuse
 		/// </summary>
 		Transient = 0,
 		/// <summary>
-		/// 单例模式，共享并重用对象
+		/// Singleton, reuse in the future, it's granted to be thread safe
 		/// </summary>
 		Singleton = 1,
 	}
