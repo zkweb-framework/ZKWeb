@@ -4,15 +4,15 @@ using System.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// 包装原始的Http回应
+	/// Http response wrapper for Asp.Net
 	/// </summary>
 	internal class AspNetHttpResponseWrapper : IHttpResponse {
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		protected AspNetHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// 原始的Http回应
+		/// Original http response
 		/// </summary>
 		protected HttpResponse OriginalResponse { get; set; }
 
@@ -63,14 +63,14 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parentContext">所属的Http上下文</param>
-		/// <param name="coreResponse">AspNetCore的Http回应</param>
+		/// <param name="parentContext">Parent http context</param>
+		/// <param name="originalResponse">Original http response</param>
 		public AspNetHttpResponseWrapper(
-			AspNetHttpContextWrapper parentContext, HttpResponse coreResponse) {
+			AspNetHttpContextWrapper parentContext, HttpResponse originalResponse) {
 			ParentContext = parentContext;
-			OriginalResponse = coreResponse;
+			OriginalResponse = originalResponse;
 		}
 	}
 }

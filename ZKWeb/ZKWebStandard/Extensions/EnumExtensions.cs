@@ -4,38 +4,39 @@ using System.FastReflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 枚举类型的扩展函数
+	/// Enum extension methods
 	/// </summary>
 	public static class EnumExtensions {
 		/// <summary>
-		/// 获取枚举值的描述
-		/// 有指定Description属性时返回该属性的对应名称，否则返回字段本身的名称
+		/// Get enum value description
+		/// If enum value contains `DescriptionAttribute` then return the description in attribute
+		/// Otherwise return the default name
 		/// </summary>
-		/// <param name="value">枚举值</param>
+		/// <param name="value">Enum value</param>
 		/// <returns></returns>
 		public static string GetDescription(this Enum value) {
-			// 获取枚举值类型和名称
+			// Get enum type and name
 			Type type = value.GetType();
 			string name = Enum.GetName(type, value);
 			if (name == null) {
-				// 值不在类型中时返回数字
+				// If it's not defined as a field then return the numeric value
 				return Convert.ToInt32(value).ToString();
 			}
-			// 获取Description属性
+			// Get DescriptionAttribute, return the description in attribute if exist
 			var attribute = value.GetAttribute<DescriptionAttribute>();
 			if (attribute != null) {
 				return attribute.Description;
 			}
-			// 返回默认名称
+			// Return default name
 			return name;
 		}
 
 		/// <summary>
-		/// 获取枚举值的属性
-		/// 没有对应属性时返回null
+		/// Get attribute from enum value's field
+		/// Return null if not found
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="value">枚举值</param>
+		/// <typeparam name="T">Attribute type</typeparam>
+		/// <param name="value">Enum value</param>
 		/// <returns></returns>
 		public static T GetAttribute<T>(this Enum value)
 			where T : Attribute {

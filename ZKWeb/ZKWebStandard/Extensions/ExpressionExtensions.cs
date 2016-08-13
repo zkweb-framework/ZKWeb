@@ -5,13 +5,14 @@ using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Linq表达式的扩展函数
+	/// Linq expression extension methods
 	/// </summary>
 	public static class ExpressionExtensions {
 		/// <summary>
-		/// 获取成员表达式中的成员信息
+		/// Get member information from lambda expression
+		/// The expression should looks like: x => x.Name
 		/// </summary>
-		/// <param name="expression"></param>
+		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
 		public static MemberInfo GetMemberInfo(this LambdaExpression expression) {
 			var memberExpression = expression.Body as MemberExpression;
@@ -22,10 +23,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取成员表达式中成员带的属性对象
+		/// Get member's attribute from lambda expression
+		/// The expression should looks like: x => x.Name
 		/// </summary>
-		/// <typeparam name="TAttribute"></typeparam>
-		/// <param name="expression"></param>
+		/// <typeparam name="TAttribute">Attribute type</typeparam>
+		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
 		public static TAttribute GetMemberAttribute<TAttribute>(this LambdaExpression expression)
 			where TAttribute : Attribute {

@@ -1,24 +1,23 @@
 ﻿namespace ZKWebStandard.Collection {
 	/// <summary>
-	/// Html字符串
-	/// 用于包装字符串
+	/// Html string wrapper
 	/// </summary>
 	public class HtmlString {
 		/// <summary>
-		/// 字符串值
+		/// Html string
 		/// </summary>
 		protected string Value { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="value">字符串值</param>
+		/// <param name="value">Html string</param>
 		public HtmlString(string value) {
 			Value = value;
 		}
 
 		/// <summary>
-		/// 返回字符串值
+		/// Return html string
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString() {

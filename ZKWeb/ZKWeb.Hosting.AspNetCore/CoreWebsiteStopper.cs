@@ -4,11 +4,11 @@ using ZKWebStandard.Ioc;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// 停止Asp.Net Core网站的运行
+	/// Asp.Net Core website stopper
 	/// </summary>
 	internal class CoreWebsiteStopper : IWebsiteStopper {
 		/// <summary>
-		/// 停止网站运行
+		/// Stop application
 		/// </summary>
 		public void StopWebsite() {
 			var lifetime = Application.Ioc.Resolve<IApplicationLifetime>(IfUnresolved.ReturnDefault);

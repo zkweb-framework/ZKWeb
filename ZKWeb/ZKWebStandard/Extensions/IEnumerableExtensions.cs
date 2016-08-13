@@ -4,15 +4,15 @@ using System.Linq;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 序列的扩展函数
+	/// IEnumerable extension methods
 	/// </summary>
 	public static class IEnumerableExtensions {
 		/// <summary>
-		/// 添加对象到指定的序列中，如果对象不等于null
+		/// Concat object if it's not null
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="elements">序列</param>
-		/// <param name="element">添加的对象</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="elements">Elements</param>
+		/// <param name="element">The object to concat</param>
 		/// <returns></returns>
 		public static IEnumerable<T> ConcatIfNotNull<T>(
 			this IEnumerable<T> elements, T element) {
@@ -23,11 +23,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 对序列中的每一个元素执行指定的函数
+		/// Perform the given action to each element
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="elements">序列</param>
-		/// <param name="action">执行的函数</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="elements">Elements</param>
+		/// <param name="action">The action</param>
 		/// <returns></returns>
 		public static void ForEach<T>(
 			this IEnumerable<T> elements, Action<T> action) {

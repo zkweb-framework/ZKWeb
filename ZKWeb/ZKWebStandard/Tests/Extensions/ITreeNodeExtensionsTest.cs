@@ -51,7 +51,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			var visitedNames = new List<string>();
 			tree.VisitAllNodes(n => visitedNames.Add(n.Value?.Name));
 			Assert.Equals(visitedNames.Count, 8);
-			Assert.Equals(visitedNames[0], null); // 根节点
+			Assert.Equals(visitedNames[0], null); // Root
 			Assert.Equals(visitedNames[1], "A");
 			Assert.Equals(visitedNames[2], "AA");
 			Assert.Equals(visitedNames[3], "AB");
@@ -65,7 +65,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			var tree = TestData.GetTestTree();
 			var allNames = tree.EnumerateAllNodes().Select(n => n.Value?.Name).ToList();
 			Assert.Equals(allNames.Count, 8);
-			Assert.Equals(allNames[0], null); // 根节点
+			Assert.Equals(allNames[0], null); // Root
 			Assert.Equals(allNames[1], "A");
 			Assert.Equals(allNames[2], "AA");
 			Assert.Equals(allNames[3], "AB");

@@ -4,24 +4,24 @@ using System.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// 包装原始的Http上下文
+	/// Http context wrapper for Asp.Net
 	/// </summary>
 	internal class AspNetHttpContextWrapper : IHttpContext {
 		/// <summary>
-		/// 原始的Http上下文
+		/// Original http context
 		/// </summary>
 		protected HttpContext OriginalContext { get; set; }
 		/// <summary>
-		/// 包装好的Http请求
+		/// Wrapped http request
 		/// </summary>
 		protected AspNetHttpRequestWrapper ChildRequest { get; set; }
 		/// <summary>
-		/// 包装好的Http回应
+		/// Wrapped http response
 		/// </summary>
 		protected AspNetHttpResponseWrapper ChildResponse { get; set; }
 		/// <summary>
-		/// Http上下文中共享的数据
-		/// 不使用原始的上下文的Items
+		/// Http context bound items
+		/// Items from original context is not using
 		/// </summary>
 		public Dictionary<object, object> ChildItems { get; set; }
 
@@ -36,9 +36,9 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="originalContext">原始的Http上下文</param>
+		/// <param name="originalContext">Orignal http context</param>
 		public AspNetHttpContextWrapper(HttpContext originalContext) {
 			OriginalContext = originalContext;
 			ChildRequest = new AspNetHttpRequestWrapper(this, originalContext.Request);

@@ -7,11 +7,11 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Owin程序配置类的基类
+	/// Base startup class for owin
 	/// </summary>
 	public abstract class StartupBase {
 		/// <summary>
-		/// 获取网站根目录
+		/// Get website root directory
 		/// </summary>
 		/// <returns></returns>
 		public virtual string GetWebsiteRootDirectory() {
@@ -23,32 +23,39 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// 配置Owin程序
+		/// Allow child class to configure middlewares
 		/// </summary>
-		/// <param name="app"></param>
+		protected virtual void ConfigureMiddlewares(IAppBuilder app) { }
+
+		/// <summary>
+		/// Configure owin application
+		/// </summary>
+		/// <param name="app">Owin application</param>
 		public virtual void Configuration(IAppBuilder app) {
-			// 初始化程序
+			// Initialize application
 			var websiteRootDirectory = app.Properties.GetOrDefault<string>("host.WebsiteRootDirectory");
 			websiteRootDirectory = websiteRootDirectory ?? GetWebsiteRootDirectory();
 			Application.Ioc.RegisterMany<OwinWebsiteStopper>();
 			Application.Initialize(websiteRootDirectory);
-			// 设置处理请求的函数
-			// 处理会在线程池中运行
+			// Configure middlewares
+			ConfigureMiddlewares(app);
+			// Set request handler, it will running in thread pool
+			// It can't throw any exception otherwise application will get killed
 			app.Run(owinContext => Task.Run(() => {
 				var context = new OwinHttpContextWrapper(owinContext);
 				try {
-					// 处理请求
+					// Handle request
 					Application.OnRequest(context);
 				} catch (OwinHttpResponseEndException) {
-					// 正常处理完毕
+					// Success
 				} catch (Exception ex) {
-					// 处理错误
+					// Error
 					try {
 						Application.OnError(context, ex);
 					} catch (OwinHttpResponseEndException) {
-						// 错误处理完毕
+						// Handle error success
 					} catch (Exception) {
-						// 错误处理失败
+						// Handle error failed
 					}
 				}
 			}));

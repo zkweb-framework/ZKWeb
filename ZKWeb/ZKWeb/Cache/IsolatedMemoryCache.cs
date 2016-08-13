@@ -60,7 +60,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// Put cache value
+		/// Put value to cache
 		/// </summary>
 		/// <param name="key">Original cache key</param>
 		/// <param name="value">Cache value</param>
@@ -70,7 +70,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// Try get cache value
+		/// Try to get cached value
 		/// Return false if no exist value or exist value expired
 		/// </summary>
 		/// <param name="key">Original cache key</param>
@@ -81,7 +81,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// Get cache value
+		/// Get cached value
 		/// Return default value if no exist value or exist value expired
 		/// </summary>
 		/// <param name="key">Original cache key</param>
@@ -92,7 +92,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// Get cache value
+		/// Get cached value
 		/// Generate a new value and store it to cache if the no exist value or exist value expired
 		/// Attention: This is not an atomic operation
 		/// </summary>
@@ -105,7 +105,7 @@ namespace ZKWeb.Cache {
 		}
 
 		/// <summary>
-		/// Remove cache value
+		/// Remove cached value
 		/// </summary>
 		/// <param name="key">Original cache key</param>
 		public void Remove(TKey key) {

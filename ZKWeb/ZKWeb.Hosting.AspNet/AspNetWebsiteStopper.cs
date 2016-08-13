@@ -3,11 +3,11 @@ using ZKWeb.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// 停止Asp.Net网站的运行
+	/// Asp.Net website stopper
 	/// </summary>
 	internal class AspNetWebsiteStopper : IWebsiteStopper {
 		/// <summary>
-		/// 停止网站运行
+		/// Unload app doamin
 		/// </summary>
 		public void StopWebsite() {
 			HttpRuntime.UnloadAppDomain();

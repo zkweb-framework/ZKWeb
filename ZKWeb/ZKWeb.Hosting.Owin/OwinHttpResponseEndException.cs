@@ -2,7 +2,7 @@
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// 代表Http回应结束的例外
+	/// Http response end exception for Owin
 	/// </summary>
 	internal class OwinHttpResponseEndException : Exception { }
 }

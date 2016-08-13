@@ -4,19 +4,19 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// 包装AspNetCore的Http上下文
+	/// Http context wrapper for Asp.Net Core
 	/// </summary>
 	internal class CoreHttpContextWrapper : IHttpContext {
 		/// <summary>
-		/// AspNetCore的Http上下文
+		/// Original http context
 		/// </summary>
 		protected HttpContext CoreContext { get; set; }
 		/// <summary>
-		/// 包装好的Http请求
+		/// Wrapped http request
 		/// </summary>
 		protected CoreHttpRequestWrapper ChildRequest { get; set; }
 		/// <summary>
-		/// 包装好的Http回应
+		/// Wrapped http response
 		/// </summary>
 		protected CoreHttpResponseWrapper ChildResponse { get; set; }
 
@@ -34,9 +34,9 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="coreContext">AspNetCore的Http上下文</param>
+		/// <param name="coreContext">Asp.Net Core http context</param>
 		public CoreHttpContextWrapper(HttpContext coreContext) {
 			CoreContext = coreContext;
 			ChildRequest = new CoreHttpRequestWrapper(this, coreContext.Request);

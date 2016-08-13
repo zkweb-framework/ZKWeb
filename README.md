@@ -29,12 +29,17 @@ Backward compatibility is provided as much as possible.
 	- Support running on Owin
 	- All host environment based on same abstraction layer
 - Multiple ORM
-	- Support NHibernate
-		- Not available for .Net Core
-	- Support InMemory
+	- ~~Support Dapper (working on)~~
 		- Reference, HasMany, HasManyToMany is unavailable
+		- Migration feature is unavailable
 	- Support EntityFramework Core
 		- WithSerialization, HasManyToMany is unavailable
+	- Support InMemory
+		- Reference, HasMany, HasManyToMany is unavailable
+	- ~~Support MongoDB (working on)~~
+		- Reference, HasMany, HasManyToMany is unavailable
+	- Support NHibernate
+		- No support for .Net Core yet
 	- Support runtime database scheme migration
 	- All ORM based on same abstraction layer
 - Localization

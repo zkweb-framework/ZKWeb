@@ -12,32 +12,32 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// 包装Owin的Http请求
+	/// Http request wrapper for Owin
 	/// </summary>
 	internal class OwinHttpRequestWrapper : IHttpRequest {
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		protected OwinHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Owin的Http请求
+		/// Original http request
 		/// </summary>
 		protected IOwinRequest OwinRequest { get; set; }
 		/// <summary>
-		/// Owin的Http请求内容，用于读取表单内容
+		/// Http content object, used for read form contents
 		/// </summary>
 		protected HttpContent OwinContent { get; set; }
 		/// <summary>
-		/// Owin的表单内容
+		/// Owin form collection
 		/// </summary>
 		protected Lazy<NameValueCollection> OwinFormCollection { get; set; }
 		/// <summary>
-		/// Owin的带文件的表单内容
+		/// Owin multipart form collection
 		/// </summary>
 		protected Lazy<Dictionary<string, IList<HttpContent>>> OwinMultipartFormCollection { get; set; }
 		/// <summary>
-		/// 表单内容读取到字符串的结果
-		/// 因为只能读取一次，之前读取的值需要保存在这里
+		/// Read contents
+		/// Because contents can only read once, it need a variable to store previous read result
 		/// </summary>
 		protected Dictionary<HttpContent, string> HttpContentReadResults { get; set; }
 
@@ -103,10 +103,10 @@ namespace ZKWeb.Hosting.Owin {
 		}
 		public IList<string> GetFormValue(string key) {
 			if (OwinFormCollection.Value != null) {
-				// 从普通的表单获取
+				// From url encoded form
 				return OwinFormCollection.Value.GetValues(key);
 			} else if (OwinMultipartFormCollection.Value != null) {
-				// 从带文件的表单获取
+				// From multi part form
 				var contents = OwinMultipartFormCollection.Value.GetOrDefault(key);
 				if (contents != null) {
 					return contents.Select(c => ReadHttpContentAsString(c)).ToList();
@@ -116,17 +116,17 @@ namespace ZKWeb.Hosting.Owin {
 		}
 		public IEnumerable<Pair<string, IList<string>>> GetFormValues() {
 			if (OwinFormCollection.Value != null) {
-				// 从普通的表单获取
+				// From url encoded form
 				foreach (var key in OwinFormCollection.Value.AllKeys) {
 					yield return Pair.Create<string, IList<string>>(
 						key, OwinFormCollection.Value.GetValues(key));
 				}
 			} else if (OwinMultipartFormCollection.Value != null) {
-				// 从带文件的表单获取
+				// From multi part form
 				foreach (var pair in OwinMultipartFormCollection.Value) {
 					if (pair.Value.Any(
 						c => !string.IsNullOrEmpty(c.Headers.ContentDisposition.FileName))) {
-						continue; // 跳过文件
+						continue; // Ignore files
 					}
 					yield return Pair.Create<string, IList<string>>(
 						pair.Key, pair.Value.Select(c => ReadHttpContentAsString(c)).ToList());
@@ -148,7 +148,7 @@ namespace ZKWeb.Hosting.Owin {
 		}
 		public IHttpPostedFile GetPostedFile(string key) {
 			if (OwinMultipartFormCollection.Value != null) {
-				// 从带文件的表单获取
+				// From multi part form
 				var values = OwinMultipartFormCollection.Value.GetOrDefault(key);
 				if (values != null) {
 					var content = values[0];
@@ -159,7 +159,7 @@ namespace ZKWeb.Hosting.Owin {
 		}
 		public IEnumerable<Pair<string, IHttpPostedFile>> GetPostedFiles() {
 			if (OwinMultipartFormCollection.Value != null) {
-				// 从带文件的表单获取
+				// From multi part form
 				foreach (var pair in OwinMultipartFormCollection.Value) {
 					var content = pair.Value[0];
 					yield return Pair.Create<string, IHttpPostedFile>(
@@ -169,10 +169,10 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parentContext">所属的Http上下文</param>
-		/// <param name="owinRequest">Owin的Http请求</param>
+		/// <param name="parentContext">Parent context</param>
+		/// <param name="owinRequest">Original http request</param>
 		public OwinHttpRequestWrapper(
 			OwinHttpContextWrapper parentContext, IOwinRequest owinRequest) {
 			ParentContext = parentContext;

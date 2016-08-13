@@ -8,21 +8,21 @@ using System;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// 包装AspNetCore的Http请求
+	/// Http request wrapper for Asp.net Core
 	/// </summary>
 	internal class CoreHttpRequestWrapper : IHttpRequest {
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		protected CoreHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// AspNetCore的Http请求
+		/// Original http request
 		/// </summary>
 		protected HttpRequest CoreRequest { get; set; }
 		/// <summary>
-		/// 当前请求是否可以获取表单内容
-		/// AspNetCore必须进行事先检查
-		/// 构建时还没接收到ContentType，所以不能在构建时检查
+		/// Detect request contains form values
+		/// It's necessary for Asp.Net Core
+		/// And because ContentType ain't arrived when construct, it should be a lazy method
 		/// </summary>
 		protected Lazy<bool> ContainsFormValues { get; set; }
 
@@ -130,10 +130,10 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parentContext">所属的Http上下文</param>
-		/// <param name="coreRequest">AspNetCore的Http请求</param>
+		/// <param name="parentContext">Parent context</param>
+		/// <param name="coreRequest">Original http request</param>
 		public CoreHttpRequestWrapper(
 			CoreHttpContextWrapper parentContext, HttpRequest coreRequest) {
 			ParentContext = parentContext;

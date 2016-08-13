@@ -1,5 +1,4 @@
 ﻿namespace ZKWeb.Console {
-	using Server;
 	using System;
 	using System.IO;
 	using System.Reflection;
@@ -7,12 +6,12 @@
 	using Testing.TestEventHandlers;
 
 	/// <summary>
-	/// 控制台程序
-	/// 主要用来运行测试
+	/// Console program
+	/// Used for internal testing
 	/// </summary>
 	internal class Program {
 		/// <summary>
-		/// 获取网站根目录
+		/// Get website root directory
 		/// </summary>
 		/// <returns></returns>
 		private static string GetWebsiteRootDirectory() {
@@ -25,26 +24,26 @@
 			}
 			return path;
 		}
-		
+
 		/// <summary>
 		/// Program entry
 		/// </summary>
 		/// <param name="args"></param>
 		private static void Main(string[] args) {
-			// 初始化程序
+			// Initialize application
 			Application.Initialize(GetWebsiteRootDirectory());
-			// Use nhibernate
+			// Use specified temporary database
 			/*var ticks = DateTime.UtcNow.Ticks;
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
 			var websiteConfig = configManager.WebsiteConfig;
 			websiteConfig.Extra["ZKWeb.TemporaryDatabaseORM"] = "NHibernate";
 			websiteConfig.Extra["ZKWeb.TemporaryDatabaseType"] = "SQLite";
 			websiteConfig.Extra["ZKWeb.TemporaryDatabaseConnectionString"] =
-				$"Data Source={{{{App_Data}}}}/test_{ticks}.db;Version=3;";
-			// 运行所有测试
+				$"Data Source={{{{App_Data}}}}/test_{ticks}.db;Version=3;";*/
+			// Run all tests
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
-			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());*/
-			// 等待结束
+			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
+			// Done
 			Console.WriteLine("done");
 			Console.ReadLine();
 		}

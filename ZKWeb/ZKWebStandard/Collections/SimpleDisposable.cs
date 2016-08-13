@@ -3,29 +3,29 @@ using System.Threading;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// 简单的Disposable类
-	/// 可以指定在对象回收时执行的函数
-	/// 指定的函数最多只会被执行一次
+	/// Simple dispose object
+	/// Execute the given method when disposed,
+	/// the given method execute not more than once
 	/// </summary>
 	public class SimpleDisposable : IDisposable {
 		/// <summary>
-		/// 在Dispose时执行的函数
+		/// Method execute when dispoed
 		/// </summary>
 		protected Action OnDispose { get; set; }
 		/// <summary>
-		/// 是否已执行过Dispose
+		/// Is method executed
 		/// </summary>
 		protected int Disposed = 0;
 
 		/// <summary>
-		/// 初始化
+		/// Initialized
 		/// </summary>
 		public SimpleDisposable(Action onDispose) {
 			OnDispose = onDispose;
 		}
 
 		/// <summary>
-		/// 执行释放函数
+		/// Call the method if it's not called before
 		/// </summary>
 		public void Dispose() {
 			if (Interlocked.Exchange(ref Disposed, 1) == 0) {
@@ -34,7 +34,7 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// 执行释放函数
+		/// Finalizer
 		/// </summary>
 		~SimpleDisposable() {
 			Dispose();

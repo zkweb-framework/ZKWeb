@@ -4,11 +4,11 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// 包装Owin的提交文件
+	/// Http poested file wrapper for Owin
 	/// </summary>
 	internal class OwinHttpPostedFileWrapper : IHttpPostedFile {
 		/// <summary>
-		/// Owin的提交文件
+		/// Http content object
 		/// </summary>
 		protected HttpContent OwinFile { get; set; }
 
@@ -27,9 +27,9 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="owinFile">Owin的提交文件</param>
+		/// <param name="owinFile">Http content object</param>
 		public OwinHttpPostedFileWrapper(HttpContent owinFile) {
 			OwinFile = owinFile;
 		}

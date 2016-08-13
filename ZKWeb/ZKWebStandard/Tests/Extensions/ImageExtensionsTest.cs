@@ -9,7 +9,6 @@ namespace ZKWebStandard.Tests.Extensions {
 	class ImageExtensionsTest {
 		public void Resize() {
 			using (var image = new Bitmap(3, 2)) {
-				// 设置图片像素
 				// blue, black, red
 				// red, blue, black
 				image.SetPixel(0, 0, Color.Blue);

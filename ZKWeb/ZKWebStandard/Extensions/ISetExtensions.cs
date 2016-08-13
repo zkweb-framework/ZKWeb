@@ -2,16 +2,16 @@
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 集合的扩展函数
+	/// ISet extension methods
 	/// </summary>
 	public static class ISetExtensions {
 		/// <summary>
-		/// 添加元素列表到集合中
-		/// 返回添加成功的数量
+		/// Batch add elements
+		/// Return how many elements are not in the set before
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="set">集合</param>
-		/// <param name="items">元素列表</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="set">Element set</param>
+		/// <param name="items">Elements want's to add</param>
 		/// <returns></returns>
 		public static long AddRange<T>(this ISet<T> set, IEnumerable<T> items) {
 			long result = 0;

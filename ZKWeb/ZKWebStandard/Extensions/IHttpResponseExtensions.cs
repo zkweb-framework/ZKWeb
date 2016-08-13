@@ -6,15 +6,15 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Http回应类的扩展函数
+	/// Http response extension methods
 	/// </summary>
 	public static class IHttpResponseExtensions {
 		/// <summary>
-		/// 通过脚本跳转到指定url
-		/// 用这个代替301跳转可以保留referer
+		/// Redirect to url by javascript
+		/// Use it instead of 301 redirect can make browser send the referer header
 		/// </summary>
-		/// <param name="response">Http回应</param>
-		/// <param name="url">跳转到的url地址</param>
+		/// <param name="response">Http response</param>
+		/// <param name="url">Url</param>
 		public static void RedirectByScript(this IHttpResponse response, string url) {
 			var urlJson = JsonConvert.SerializeObject(url);
 			response.ContentType = "text/html";
@@ -24,20 +24,20 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 设置最后修改的时间
+		/// Set last modified time to http response
 		/// </summary>
-		/// <param name="response">回应</param>
-		/// <param name="date">时间</param>
+		/// <param name="response">Http response</param>
+		/// <param name="date">Last modified time</param>
 		public static void SetLastModified(this IHttpResponse response, DateTime date) {
 			var value = date.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo);
 			response.AddHeader("Last-Modified", value);
 		}
 
 		/// <summary>
-		/// 写入字符串到回应
+		/// Write string to http response
 		/// </summary>
-		/// <param name="response">Http回应</param>
-		/// <param name="value">字符串值</param>
+		/// <param name="response">Http response</param>
+		/// <param name="value">String value</param>
 		public static void Write(this IHttpResponse response, string value) {
 			var writer = new StreamWriter(response.Body);
 			writer.Write(value);
@@ -45,10 +45,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 写入文件到回应
+		/// Write file to http response
 		/// </summary>
-		/// <param name="response">Http回应</param>
-		/// <param name="path">文件路径</param>
+		/// <param name="response">Http response</param>
+		/// <param name="path">File path</param>
 		public static void WriteFile(this IHttpResponse response, string path) {
 			using (var stream = new FileStream(path, FileMode.Open)) {
 				stream.CopyTo(response.Body);

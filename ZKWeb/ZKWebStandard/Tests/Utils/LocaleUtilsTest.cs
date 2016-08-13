@@ -39,7 +39,7 @@ namespace ZKWebStandard.Tests.Functions {
 
 		public void SetThreadLanguageAutomatic() {
 			var context = HttpManager.CurrentContext;
-			// 无cookies, 无浏览器语言，传入默认语言
+			// No cookies, no accept languages, with default language
 			context.RemoveCookie(LocaleUtils.LanguageKey);
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, "zh-CN"));
 			Assert.Equals(CultureInfo.CurrentCulture.Name, "zh-CN");
@@ -47,7 +47,7 @@ namespace ZKWebStandard.Tests.Functions {
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, "en-US"));
 			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
 			Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
-			// 无cookies, 有浏览器语言但不启用，不传入默认语言
+			// No cookies, have accept languages but not using, no default language
 			using (HttpManager.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 				request.headers["Accept-Language"] = "NotExist,zh-CN;q=0.7";
@@ -55,7 +55,7 @@ namespace ZKWebStandard.Tests.Functions {
 				Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
 				Assert.Equals(CultureInfo.CurrentUICulture.Name, "en-US");
 			}
-			// 无cookies, 有浏览器语言且启用，不传入默认语言
+			// No cookies, have accept languages and it can be used, no default language
 			using (HttpManager.OverrideContext("", "GET")) {
 				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 				request.headers["Accept-Language"] = "NotExist,zh-CN;q=0.7";
@@ -63,7 +63,7 @@ namespace ZKWebStandard.Tests.Functions {
 				Assert.Equals(CultureInfo.CurrentCulture.Name, "zh-CN");
 				Assert.Equals(CultureInfo.CurrentUICulture.Name, "zh-CN");
 			}
-			// 有cookies，无浏览器语言，不传入默认语言
+			// Have cookies, no accept languages, no default language
 			context.PutCookie(LocaleUtils.LanguageKey, "en-US");
 			Assert.IsTrue(LocaleUtils.SetThreadLanguageAutomatic(false, null));
 			Assert.Equals(CultureInfo.CurrentCulture.Name, "en-US");
@@ -72,7 +72,7 @@ namespace ZKWebStandard.Tests.Functions {
 
 		public void SetThreadTimezoneAutomatic() {
 			var context = HttpManager.CurrentContext;
-			// 无cookies, 传入默认时区
+			// No cookies, with default timezone
 			context.RemoveCookie(LocaleUtils.TimeZoneKey);
 			LocaleUtils.SetThreadTimezoneAutomatic("China Standard Time");
 			var timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
@@ -80,11 +80,11 @@ namespace ZKWebStandard.Tests.Functions {
 			LocaleUtils.SetThreadTimezoneAutomatic("GMT Standard Time");
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			Assert.Equals(timezone.StandardName, "GMT Standard Time");
-			// 无cookies, 不传入默认时区
+			// No cookies, no default timezone
 			Assert.IsTrue(!LocaleUtils.SetThreadTimezoneAutomatic(null));
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			Assert.Equals(timezone.StandardName, "GMT Standard Time");
-			// 有cookies, 不传入默认时区
+			// Have cookies, no default timezone
 			context.PutCookie(LocaleUtils.TimeZoneKey, "China Standard Time", new HttpCookieOptions());
 			Assert.IsTrue(LocaleUtils.SetThreadTimezoneAutomatic(null));
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);

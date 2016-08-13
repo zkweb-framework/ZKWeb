@@ -2,7 +2,7 @@
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// 代表Http回应结束的例外
+	/// Reponse end exception for Asp.Net Core
 	/// </summary>
 	internal class CoreHttpResponseEndException : Exception { }
 }

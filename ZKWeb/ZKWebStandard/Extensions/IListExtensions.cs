@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 列表的扩展函数
+	/// IList Extension methods
 	/// </summary>
 	public static class IListExtensions {
 		/// <summary>
-		/// 查找符合条件的元素位置，找不到时返回-1
+		/// Find element index that match the given predicate
+		/// Return -1 if not found
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="items">元素列表</param>
-		/// <param name="startIndex">开始位置</param>
-		/// <param name="match">匹配条件</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="startIndex">Start position</param>
+		/// <param name="match">The predicate</param>
 		/// <returns></returns>
 		public static int FindIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
@@ -28,11 +29,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 查找符合条件的元素位置，找不到时返回-1
+		/// Find element index that match the given predicate
+		/// Return -1 if not found
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="items">元素列表</param>
-		/// <param name="match">匹配条件</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="match">The predicate</param>
 		/// <returns></returns>
 		public static int FindIndex<T>(
 			this IList<T> items, Predicate<T> match) {
@@ -40,12 +42,13 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 从末尾开始查找符合条件的元素位置，找不到时返回-1
+		/// Find element index that match the given predicate from back to front
+		/// Return -1 if not found
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="items">元素列表</param>
-		/// <param name="startIndex">末尾的开始位置</param>
-		/// <param name="match">匹配条件</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="startIndex">Start position from back</param>
+		/// <param name="match">The predicate</param>
 		/// <returns></returns>
 		public static int FindLastIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
@@ -61,11 +64,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 从末尾开始查找符合条件的元素位置，找不到时返回-1
+		/// Find element index that match the given predicate from back to front
+		/// Return -1 if not found
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="items">元素列表</param>
-		/// <param name="match">匹配条件</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="match">The predicate</param>
 		/// <returns></returns>
 		public static int FindLastIndex<T>(
 			this IList<T> items, Predicate<T> match) {
@@ -73,12 +77,13 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 添加元素到指定元素的前面
-		/// 如果没有则添加到最前面
+		/// Add element before the other element that match the given predicate
+		/// If no other elements matched then add the element to front
 		/// </summary>
-		/// <param name="items">元素列表</param>
-		/// <param name="before">添加到这个元素的前面</param>
-		/// <param name="obj">添加的元素</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="before">The predicate</param>
+		/// <param name="obj">Element want's to add</param>
 		public static void AddBefore<T>(
 			this IList<T> items, Predicate<T> before, T obj) {
 			var a = new List<int>();
@@ -92,12 +97,13 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 添加元素到指定元素的后面
-		/// 如果没有则添加到最后面
+		/// Add element after the other element that match the given predicate
+		/// If no other elements matched then add the element to front
 		/// </summary>
-		/// <param name="items">元素列表</param>
-		/// <param name="after">添加到这个元素的后面</param>
-		/// <param name="obj">添加的元素</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="items">Elements</param>
+		/// <param name="after">The predicate</param>
+		/// <param name="obj">Element want's to add</param>
 		public static void AddAfter<T>(
 			this IList<T> items, Predicate<T> after, T obj) {
 			var index = items.FindLastIndex(x => after(x));
@@ -108,11 +114,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 添加元素列表到列表中
+		/// Batch add elements
 		/// </summary>
-		/// <typeparam name="T">元素类型</typeparam>
-		/// <param name="list">列表</param>
-		/// <param name="items">元素列表</param>
+		/// <typeparam name="T">Element type</typeparam>
+		/// <param name="list">Elements</param>
+		/// <param name="items">Elements want's to add</param>
 		/// <returns></returns>
 		public static void AddRange<T>(this IList<T> list, IEnumerable<T> items) {
 			foreach (var item in items) {

@@ -3,73 +3,75 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// 对类型
-	/// 代替Tuple的原因: Tuple是class，创建时消耗较大
-	/// 代替KeyValuePair的原因: KeyValuePair没有重载GetHashCode，作为词典的键会导致频繁冲突
-	/// 校验值的生成:
-	/// - 这个函数生成校验值时使用hash(first) ^ hash(second)
-	/// - 如果两个值相同可能会导致一直生成相同的校验，使用时应注意避免这种情况
+	/// Pair type
+	/// Why use it instead of Tuple: Tuple is class, not fast as struct for creating object
+	/// Why use it instead of KeyValuePair:
+	/// - KeyValuePair didn't override GetHashCode,
+	/// - it will be very slow to use KeyValuePair for dictionary key
 	/// </summary>
-	/// <typeparam name="TFirst">第一个值的类型</typeparam>
-	/// <typeparam name="TSecond">第二个值的类型</typeparam>
+	/// <typeparam name="TFirst">First value's type</typeparam>
+	/// <typeparam name="TSecond">Second value's type</typeparam>
 	public struct Pair<TFirst, TSecond> : IEquatable<Pair<TFirst, TSecond>> {
 		/// <summary>
-		/// 第一个值
+		/// First value
 		/// </summary>
 		public TFirst First { get; private set; }
 		/// <summary>
-		/// 第二个值
+		/// Second value
 		/// </summary>
 		public TSecond Second { get; private set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="first">第一个值</param>
-		/// <param name="second">第二个值</param>
+		/// <param name="first">First value</param>
+		/// <param name="second">Second value</param>
 		public Pair(TFirst first, TSecond second) {
 			First = first;
 			Second = second;
 		}
 
 		/// <summary>
-		/// 比较是否相等
+		/// Compare to the given object for equality
 		/// </summary>
-		/// <param name="obj">比较的对象</param>
+		/// <param name="obj">Other object</param>
 		/// <returns></returns>
 		public bool Equals(Pair<TFirst, TSecond> obj) {
 			return First.EqualsSupportsNull(obj.First) && Second.EqualsSupportsNull(obj.Second);
 		}
 
 		/// <summary>
-		/// 比较是否相等
+		/// Compare to the given object for equality
 		/// </summary>
-		/// <param name="obj">比较的对象</param>
+		/// <param name="obj">Other object</param>
 		/// <returns></returns>
 		public override bool Equals(object obj) {
 			return (obj is Pair<TFirst, TSecond>) && Equals((Pair<TFirst, TSecond>)obj);
 		}
 
 		/// <summary>
-		/// 获取校验值
+		/// Get hash code
 		/// </summary>
 		/// <returns></returns>
 		public override int GetHashCode() {
-			return (First?.GetHashCode() ?? 0) ^ (Second?.GetHashCode() ?? 0);
+			// same with Tuple.CombineHashCodess
+			var hash_1 = First?.GetHashCode() ?? 0;
+			var hash_2 = Second?.GetHashCode() ?? 0;
+			return (hash_1 << 5) + hash_1 ^ hash_2;
 		}
 	}
 
 	/// <summary>
-	/// 对类型的静态函数
+	/// Pair type utility functions
 	/// </summary>
 	public static class Pair {
 		/// <summary>
-		/// 创建对
+		/// Create pair
 		/// </summary>
-		/// <typeparam name="TFirst">第一个值的类型</typeparam>
-		/// <typeparam name="TSecond">第二个值的类型</typeparam>
-		/// <param name="first"></param>
-		/// <param name="second"></param>
+		/// <typeparam name="TFirst">First value's type</typeparam>
+		/// <typeparam name="TSecond">Second value's type</typeparam>
+		/// <param name="first">First value</param>
+		/// <param name="second">Second value</param>
 		/// <returns></returns>
 		public static Pair<TFirst, TSecond> Create<TFirst, TSecond>(TFirst first, TSecond second) {
 			return new Pair<TFirst, TSecond>(first, second);

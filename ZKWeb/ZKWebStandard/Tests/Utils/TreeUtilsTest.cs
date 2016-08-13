@@ -38,7 +38,7 @@ namespace ZKWebStandard.Tests.Functions {
 
 		public void CreateTree() {
 			var tree = TestData.GetTestTree();
-			Assert.Equals(tree.Value, null); // 根节点
+			Assert.Equals(tree.Value, null); // Root
 			var childsLv_1 = tree.Childs.ToList(); // A, B
 			Assert.Equals(childsLv_1.Count, 2);
 			Assert.Equals(childsLv_1[0].Value.Name, "A");
@@ -58,12 +58,12 @@ namespace ZKWebStandard.Tests.Functions {
 			Assert.Equals(childsLv_3_BB.Count, 1);
 			Assert.Equals(childsLv_3_BB[0].Value.Name, "BBB");
 			Assert.IsTrueWith(!childsLv_3_BB[0].Childs.Any(), childsLv_3_BB[0].Childs);
-			// 测试添加子节点的检查
-			Assert.Throws<ArgumentNullException>(() => childsLv_3_BB[0].AddChildNode(null)); // 添加空
-			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_3_BB[0])); // 添加自身
-			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[1])); // 添加上级
-			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[0])); // 已有原上级节点
-			// 测试删除子节点
+			// Test add child nodes
+			Assert.Throws<ArgumentNullException>(() => childsLv_3_BB[0].AddChildNode(null)); // Add null
+			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_3_BB[0])); // Add self
+			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[1])); // Add parent
+			Assert.Throws<ArgumentException>(() => childsLv_3_BB[0].AddChildNode(childsLv_2_B[0])); // Add node that already has a parent
+			// Test remove child nodes
 			var node = childsLv_3_BB[0];
 			childsLv_2_B[1].RemoveChildNode(node);
 			Assert.IsTrueWith(!childsLv_2_B[1].Childs.Any(), childsLv_2_B[1].Childs);
@@ -73,7 +73,7 @@ namespace ZKWebStandard.Tests.Functions {
 
 		public void Transform() {
 			var tree = TreeUtils.Transform(TestData.GetTestTree(), d => d?.Name);
-			Assert.Equals(tree.Value, null); // 根节点
+			Assert.Equals(tree.Value, null); // Root
 			var childsLv_1 = tree.Childs.ToList(); // A, B
 			Assert.Equals(childsLv_1.Count, 2);
 			Assert.Equals(childsLv_1[0].Value, "A");

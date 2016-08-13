@@ -5,15 +5,15 @@ using System;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// 包装AspNetCore的Http回应
+	/// Http response wrapper for Asp.Net Core
 	/// </summary>
 	internal class CoreHttpResponseWrapper : IHttpResponse {
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		protected CoreHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// AspNetCore的Http回应
+		/// Original http response
 		/// </summary>
 		protected HttpResponse CoreResponse { get; set; }
 
@@ -76,7 +76,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// Initialize
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
-		/// <param name="coreResponse">Asp.net core http response</param>
+		/// <param name="coreResponse">Original http response</param>
 		public CoreHttpResponseWrapper(
 			CoreHttpContextWrapper parentContext, HttpResponse coreResponse) {
 			ParentContext = parentContext;

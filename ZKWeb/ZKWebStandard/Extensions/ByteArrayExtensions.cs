@@ -2,13 +2,13 @@
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 字节数组的扩展函数
+	/// Byte array extension methods
 	/// </summary>
 	public static class ByteArrayExtensions {
 		/// <summary>
-		/// 把字节数组转换到hex格式，返回小写
+		/// Convert byte array to hex former, in lower case
 		/// </summary>
-		/// <param name="data">字节数组</param>
+		/// <param name="data">Byte array</param>
 		/// <returns></returns>
 		public static string ToHex(this byte[] data) {
 			if (data == null) {

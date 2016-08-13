@@ -4,67 +4,68 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// 时间的扩展函数
+	/// Date time extension methods
 	/// </summary>
 	public static class DateTimeExtensions {
 		/// <summary>
-		/// 把UTC时间转换到客户端的本地时间
+		/// Convert UTC time to client time, use the timezone from client
 		/// </summary>
-		/// <param name="time">utc时间</param>
+		/// <param name="time">UTC time</param>
 		/// <returns></returns>
 		public static DateTime ToClientTime(this DateTime time) {
-			// 获取时区设置，指定了时区时使用时区转换
+			// Get timezone from client
+			// If timezone exist, use it to convert time
 			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Utc);
 				return TimeZoneInfo.ConvertTime(time, TimeZoneInfo.Utc, timezone);
 			}
-			// 没有时使用服务器的本地时间
+			// If timezone not exist, use server local time
 			return time.ToLocalTime();
 		}
 
 		/// <summary>
-		/// 把UTC时间转换到客户端的本地时间字符串
-		/// 格式固定是 yyyy/MM/dd HH:mm:ss
-		/// 推荐使用这个函数代替 ToClientTime().ToString()，可以不受语言影响
+		/// Convert UTC time to client time as string
+		/// Format is yyyy/MM/dd HH:mm:ss
 		/// </summary>
-		/// <param name="time">utc时间</param>
+		/// <param name="time">UTC time</param>
 		/// <returns></returns>
 		public static string ToClientTimeString(this DateTime time) {
 			return time.ToClientTime().ToString("yyyy/MM/dd HH:mm:ss");
 		}
 
 		/// <summary>
-		/// 从客户端的本地时间转换到UTC时间
+		/// Convert client time to UTC time, use the timezone from client
 		/// </summary>
 		/// <param name="time">本地时间</param>
 		/// <returns></returns>
 		public static DateTime FromClientTime(this DateTime time) {
-			// 获取时区设置，指定了时区时使用时区转换
+			// Get timezone from client
+			// If timezone exist, use it to convert time
 			var timezone = HttpManager.CurrentContext.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
 			if (timezone != null) {
 				time = DateTime.SpecifyKind(time, DateTimeKind.Unspecified);
 				return TimeZoneInfo.ConvertTime(time, timezone, TimeZoneInfo.Utc);
 			}
-			// 没有时使用服务器的本地时间
+			// If timezone not exist, assume it's server local time
 			return time.ToUniversalTime();
 		}
 
 		/// <summary>
-		/// 只保留时间到秒部分，清空毫秒
+		/// Truncate datetime, only keep seconds
 		/// </summary>
-		/// <param name="time">时间</param>
+		/// <param name="time">The time</param>
 		/// <returns></returns>
 		public static DateTime Truncate(this DateTime time) {
 			return time.AddTicks(-(time.Ticks % TimeSpan.TicksPerSecond));
 		}
 
 		/// <summary>
-		/// 返回Unix格式的时间戳
-		/// 时间小于1970-1-1时会返回负值
-		/// 传入的时间会使用ToUniversalTime转换成utc时间
+		/// Return unix style timestamp
+		/// Return a minus value if the time early than 1970-1-1
+		/// The given time will be converted to UTC time first
 		/// </summary>
-		/// <param name="time">时间</param>
+		/// <param name="time">The time</param>
 		/// <returns></returns>
 		public static TimeSpan ToTimestamp(this DateTime time) {
 			return time.ToUniversalTime() - new DateTime(1970, 1, 1);

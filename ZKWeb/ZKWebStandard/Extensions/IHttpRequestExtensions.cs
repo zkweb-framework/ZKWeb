@@ -7,31 +7,31 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Http请求类的扩展函数
+	/// Http request extension methods
 	/// </summary>
 	public static class IHttpRequestExtensions {
 		/// <summary>
-		/// 判断Http请求是否由ajax发起
+		/// Determine it's a ajax http request
 		/// </summary>
-		/// <param name="request">http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static bool IsAjaxRequest(this IHttpRequest request) {
 			return request.GetHeader("X-Requested-With") == "XMLHttpRequest";
 		}
 
 		/// <summary>
-		/// 获取请求的UserAgent
+		/// Get user agent from http request
 		/// </summary>
-		/// <param name="request">Http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static string GetUserAgent(this IHttpRequest request) {
 			return request.GetHeader("User-Agent");
 		}
 
 		/// <summary>
-		/// 获取请求要求的语言列表
+		/// Get accept languages from http request
 		/// </summary>
-		/// <param name="request">Http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static IList<string> GetAcceptLanguages(this IHttpRequest request) {
 			var acceptLanguages = request.GetHeader("Accept-Language") ?? "";
@@ -40,9 +40,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取客户端中缓存的最后修改的时间
+		/// Get "If-Modified-Since" header's value from http request
+		/// Return DateTime.MinValue if not found
 		/// </summary>
-		/// <param name="request">Http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static DateTime GetIfModifiedSince(this IHttpRequest request) {
 			var value = request.GetHeader("If-Modified-Since");
@@ -58,10 +59,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取当前请求的来源Url
-		/// 没有时返回null
+		/// Get Referer from http request
+		/// Return null if not exist
 		/// </summary>
-		/// <param name="request">Http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static Uri GetReferer(this IHttpRequest request) {
 			var referer = request.GetHeader("Referer");
@@ -76,13 +77,13 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取Http请求中的指定参数值
-		/// 优先级: 表单内容 > 请求字符串
+		/// Get argument from http request
+		/// Priority: Form > QueryString
 		/// </summary>
-		/// <typeparam name="T">值类型</typeparam>
-		/// <param name="request">Http请求</param>
-		/// <param name="key">参数名称</param>
-		/// <param name="defaultValue">获取失败时的默认值</param>
+		/// <typeparam name="T">Value type</typeparam>
+		/// <param name="request">Http request</param>
+		/// <param name="key">Key</param>
+		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
 		public static T Get<T>(this IHttpRequest request, string key, T defaultValue = default(T)) {
 			var values = request.GetFormValue(key);
@@ -96,10 +97,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取Http请求中的所有参数
-		/// 优先级: 表单内容 > 请求字符串
+		/// Get all arguments from http request
+		/// Priority: Form > QueryString
 		/// </summary>
-		/// <param name="request">Http请求</param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static IEnumerable<Pair<string, IList<string>>> GetAll(this IHttpRequest request) {
 			foreach (var pair in request.GetFormValues()) {
@@ -111,10 +112,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// 获取Http请求中的所有参数，以词典的形式返回
-		/// 优先级: 表单内容 > 请求字符串
+		/// Get all arguments from http request in dictionary
+		/// Priority: Form > QueryString
 		/// </summary>
-		/// <param name="request"></param>
+		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static IDictionary<string, IList<string>> GetAllDictionary(this IHttpRequest request) {
 			var result = new Dictionary<string, IList<string>>();
