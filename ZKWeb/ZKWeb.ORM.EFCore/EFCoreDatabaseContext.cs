@@ -163,7 +163,7 @@ namespace ZKWeb.ORM.EFCore {
 			where T : class, IEntity {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
-			Delete(entity);
+			Remove(entity);
 			SaveChanges(); // send commands to database
 			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
 		}

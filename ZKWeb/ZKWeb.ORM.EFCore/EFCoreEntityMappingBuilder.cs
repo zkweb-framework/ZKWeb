@@ -128,10 +128,10 @@ namespace ZKWeb.ORM.EFCore {
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var collectionBuilder = Builder.HasMany(memberExpression).WithOne();
-			if (options.CascadeDelete == true) {
-				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Cascade);
-			} else if (options.CascadeDelete == false) {
+			if (options.CascadeDelete == false) {
 				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Restrict);
+			} else {
+				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Cascade); // true or default
 			}
 		}
 
