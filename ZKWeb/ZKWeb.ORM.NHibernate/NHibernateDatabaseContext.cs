@@ -207,7 +207,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Perform a raw query to database
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
-			where T : class, IEntity {
+			where T : class {
 			return CreateSQLQuery(query, parameters).Enumerable<T>();
 		}
 	}

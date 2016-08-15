@@ -133,7 +133,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// Perform a raw query to database
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
-			where T : class, IEntity {
+			where T : class {
 			throw new NotSupportedException(
 				"This operation is not supported for memory database");
 		}

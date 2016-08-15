@@ -259,7 +259,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// Perform a raw query to database
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
-			where T : class, IEntity {
+			where T : class {
 			return Connection.Query<T>((string)query, parameters, Transaction);
 		}
 	}

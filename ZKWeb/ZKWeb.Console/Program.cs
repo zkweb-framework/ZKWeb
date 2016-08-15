@@ -32,14 +32,6 @@
 		private static void Main(string[] args) {
 			// Initialize application
 			Application.Initialize(GetWebsiteRootDirectory());
-			// Use specified temporary database
-			/*var ticks = DateTime.UtcNow.Ticks;
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			var websiteConfig = configManager.WebsiteConfig;
-			websiteConfig.Extra["ZKWeb.TemporaryDatabaseORM"] = "NHibernate";
-			websiteConfig.Extra["ZKWeb.TemporaryDatabaseType"] = "SQLite";
-			websiteConfig.Extra["ZKWeb.TemporaryDatabaseConnectionString"] =
-				$"Data Source={{{{App_Data}}}}/test_{ticks}.db;Version=3;";*/
 			// Run all tests
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());

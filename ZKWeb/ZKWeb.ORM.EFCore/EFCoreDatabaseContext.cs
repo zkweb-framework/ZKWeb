@@ -226,8 +226,8 @@ namespace ZKWeb.ORM.EFCore {
 		/// Perform a raw query to database
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
-			where T : class, IEntity {
-			return Query<T>().FromSql((string)query, (object[])parameters);
+			where T : class {
+			return Set<T>().FromSql((string)query, (object[])parameters);
 		}
 	}
 }

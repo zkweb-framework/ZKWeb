@@ -127,6 +127,6 @@ namespace ZKWeb.Database {
 		/// <param name="parameters">Query parameters (eg: SqlParameter[])</param>
 		/// <returns></returns>
 		IEnumerable<T> RawQuery<T>(object query, object parameters)
-			where T : class, IEntity;
+			where T : class;
 	}
 }
