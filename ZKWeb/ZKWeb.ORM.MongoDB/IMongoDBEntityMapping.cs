@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace ZKWeb.ORM.MongoDB {
+﻿namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
 	/// Interface for mongodb entity mapping
 	/// </summary>

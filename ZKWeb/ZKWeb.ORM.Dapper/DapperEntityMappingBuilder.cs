@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
@@ -13,19 +14,28 @@ namespace ZKWeb.ORM.Dapper {
 		IEntityMappingBuilder<T>, IDapperEntityMapping
 		where T : class, IEntity {
 		public Type EntityType { get { return typeof(T); } }
-		public MemberInfo IdMember { get; set; }
-		public IList<MemberInfo> OrdinaryMembers { get; set; }
+		public string TableName { get { return tableName; } }
+		private string tableName;
+		public MemberInfo IdMember { get { return idMember; } }
+		private MemberInfo idMember;
+		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
+		private IList<MemberInfo> ordinaryMembers;
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		public DapperEntityMappingBuilder() {
-			OrdinaryMembers = new List<MemberInfo>();
+			tableName = typeof(T).Name;
+			idMember = null;
+			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered providers
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+			// Set table name with registered handlers
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			handlers.ForEach(h => h.ConvertTableName(ref tableName));
 		}
 
 		/// <summary>
@@ -34,7 +44,7 @@ namespace ZKWeb.ORM.Dapper {
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
 			EntityMappingOptions options) {
-			IdMember = ((MemberExpression)memberExpression.Body).Member;
+			idMember = ((MemberExpression)memberExpression.Body).Member;
 		}
 
 		/// <summary>
@@ -43,7 +53,7 @@ namespace ZKWeb.ORM.Dapper {
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
 			EntityMappingOptions options) {
-			OrdinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
+			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
 
 		/// <summary>

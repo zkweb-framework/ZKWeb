@@ -5,8 +5,10 @@
 		"Newtonsoft.Json": "9.0.1",
 		"NSubstitute": "2.0.0-rc",
 		"ZKWeb": "1.0.0-rc-1",
+		"ZKWeb.ORM.Dapper": "1.0.0-rc-1",
 		"ZKWeb.ORM.EFCore": "1.0.0-rc-1",
 		"ZKWeb.ORM.InMemory": "1.0.0-rc-1",
+		"ZKWeb.ORM.MongoDB": "1.0.0-rc-1",
 		"ZKWebStandard": "1.0.0-rc-1"
 	},
 	"frameworks": {

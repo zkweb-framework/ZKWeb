@@ -62,6 +62,7 @@ namespace ZKWeb.ORM.Dapper {
 			} else {
 				throw new ArgumentException($"unsupported database type {database}");
 			}
+			Connection.Open();
 		}
 
 		/// <summary>
