@@ -5,125 +5,125 @@ using ZKWebStandard.Collections;
 
 namespace ZKWebStandard.Web {
 	/// <summary>
-	/// Http请求的接口
+	/// Interface for http request
 	/// </summary>
 	public interface IHttpRequest {
 		/// <summary>
-		/// 请求的数据流
+		/// Request content
 		/// </summary>
 		Stream Body { get; }
 		/// <summary>
-		/// 内容长度
+		/// Content length
 		/// </summary>
 		long? ContentLength { get; }
 		/// <summary>
-		/// 内容类型
+		/// Content type
 		/// </summary>
 		string ContentType { get; }
 		/// <summary>
-		/// 接收到请求的主机名和端口
+		/// Request from hostname and port
 		/// </summary>
 		/// <example>localhost:8765</example>
 		string Host { get; }
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		IHttpContext HttpContext { get; }
 		/// <summary>
-		/// 是否Https
+		/// Is https
 		/// </summary>
 		bool IsHttps { get; }
 		/// <summary>
-		/// 请求类型
+		/// Request method
 		/// </summary>
 		/// <example>GET</example>
 		string Method { get; }
 		/// <summary>
-		/// 请求协议，Tcp中的协议
+		/// Request protocol (eg: HTTP/1.1)
 		/// </summary>
 		/// <example>HTTP/1.1</example>
 		string Protocol { get; }
 		/// <summary>
-		/// 请求路径
+		/// Request path
 		/// </summary>
 		/// <example>/test</example>
 		string Path { get; }
 		/// <summary>
-		/// 请求参数
+		/// Request query string, startswith `?` if not empty
 		/// </summary>
 		/// <example>?key=value</example>
 		string QueryString { get; }
 		/// <summary>
-		/// 请求协议，Url中的协议
+		/// Request scheme (eg: http)
 		/// </summary>
 		/// <example>http</example>
 		string Scheme { get; }
 		/// <summary>
-		/// 远程IP地址
+		/// Remote ip address
 		/// </summary>
 		/// <example>127.0.0.1</example>
 		IPAddress RemoteIpAddress { get; }
 		/// <summary>
-		/// 远程端口
+		/// Remote port
 		/// </summary>
 		/// <example>65535</example>
 		int RemotePort { get; }
 
 		/// <summary>
-		/// 获取Cookie值
+		/// Get cookie value
 		/// </summary>
-		/// <param name="key">键名</param>
+		/// <param name="key">Cookie key</param>
 		/// <returns></returns>
 		string GetCookie(string key);
 		/// <summary>
-		/// 获取所有Cookie键值
+		/// Get all cookie keys and values
 		/// </summary>
 		IEnumerable<Pair<string, string>> GetCookies();
 		/// <summary>
-		/// 获取请求参数的值
-		/// 获取不到时返回null
+		/// Get query value
+		/// Return null if not exist
 		/// </summary>
-		/// <param name="key">键名</param>
+		/// <param name="key">Query key</param>
 		/// <returns></returns>
 		IList<string> GetQueryValue(string key);
 		/// <summary>
-		/// 获取所有请求参数的键值
+		/// Get all query keys and values
 		/// </summary>
 		/// <returns></returns>
 		IEnumerable<Pair<string, IList<string>>> GetQueryValues();
 		/// <summary>
-		/// 获取表单值
-		/// 获取不到时返回null
+		/// Get form value
+		/// Return null if not exist
 		/// </summary>
-		/// <param name="key">键名</param>
+		/// <param name="key">Form key</param>
 		/// <returns></returns>
 		IList<string> GetFormValue(string key);
 		/// <summary>
-		/// 获取所有表单的键值
+		/// Get all form keys and values
 		/// </summary>
 		/// <returns></returns>
 		IEnumerable<Pair<string, IList<string>>> GetFormValues();
 		/// <summary>
-		/// 获取Http头的值
-		/// 获取不到时返回null
+		/// Get http header value
+		/// Return null if not exist
 		/// </summary>
-		/// <param name="key">键名</param>
+		/// <param name="key">Header key</param>
 		/// <returns></returns>
 		string GetHeader(string key);
 		/// <summary>
-		/// 获取所有Http头的键值
+		/// Get all http header keys and values
 		/// </summary>
 		/// <returns></returns>
 		IEnumerable<Pair<string, string>> GetHeaders();
 		/// <summary>
-		/// 获取上传的文件
-		/// 获取不到时返回null
+		/// Get posted file
+		/// Return null if not exist
 		/// </summary>
-		/// <param name="key">键名</param>
+		/// <param name="key">Form key</param>
 		/// <returns></returns>
 		IHttpPostedFile GetPostedFile(string key);
 		/// <summary>
-		/// 获取所有上传的文件的键名和文件对象
+		/// Get all posted files
 		/// </summary>
 		IEnumerable<Pair<string, IHttpPostedFile>> GetPostedFiles();
 	}

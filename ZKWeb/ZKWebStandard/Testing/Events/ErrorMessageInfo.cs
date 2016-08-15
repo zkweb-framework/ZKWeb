@@ -1,22 +1,22 @@
 ﻿namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// 额外的错误信息
+	/// Information for error message
 	/// </summary>
 	public class ErrorMessageInfo {
 		/// <summary>
-		/// 测试运行器
+		/// Test runner
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// 错误信息
+		/// Error message
 		/// </summary>
 		public string Message { get; private set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="runner">测试运行器</param>
-		/// <param name="message">错误信息</param>
+		/// <param name="runner">Test runner</param>
+		/// <param name="message">Error message</param>
 		public ErrorMessageInfo(TestRunner runner, string message) {
 			Runner = runner;
 			Message = message;

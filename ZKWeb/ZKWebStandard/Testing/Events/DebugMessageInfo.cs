@@ -1,22 +1,22 @@
 ﻿namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// 额外的除错信息
+	/// Information for debug message
 	/// </summary>
 	public class DebugMessageInfo {
 		/// <summary>
-		/// 测试运行器
+		/// Test runner
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// 除错信息
+		/// Debug message
 		/// </summary>
 		public string Message { get; private set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="runner">测试运行器</param>
-		/// <param name="message">除错信息</param>
+		/// <param name="runner">Test runner</param>
+		/// <param name="message">Debug message</param>
 		public DebugMessageInfo(TestRunner runner, string message) {
 			Runner = runner;
 			Message = message;

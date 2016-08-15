@@ -8,12 +8,11 @@ namespace ZKWebStandard.Utils {
 	/// </summary>
 	public static class ReflectionUtils {
 		/// <summary>
-		/// 生成属性或字段的设置函数
-		/// 可以用于私有的属性或字段
+		/// Make setter for member, member can be non public
 		/// </summary>
-		/// <typeparam name="T">对象的类型</typeparam>
-		/// <typeparam name="M">属性或字段的类型</typeparam>
-		/// <param name="memberName">属性或字段的名称</param>
+		/// <typeparam name="T">Data Type</typeparam>
+		/// <typeparam name="M">Member Type</typeparam>
+		/// <param name="memberName">Member name</param>
 		/// <returns></returns>
 		public static Action<T, M> MakeSetter<T, M>(string memberName) {
 			var objParam = Expression.Parameter(typeof(T), "obj");
@@ -24,12 +23,11 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 生成属性或字段的获取函数
-		/// 可以用于私有的属性或字段
+		/// Make getter for member, member can be non public
 		/// </summary>
-		/// <typeparam name="T">对象的类型</typeparam>
-		/// <typeparam name="M">属性或字段的类型</typeparam>
-		/// <param name="memberName">属性或字段的名称</param>
+		/// <typeparam name="T">Data Type</typeparam>
+		/// <typeparam name="M">Member Type</typeparam>
+		/// <param name="memberName">Member name</param>
 		/// <returns></returns>
 		public static Func<T, M> MakeGetter<T, M>(string memberName) {
 			var objParam = Expression.Parameter(typeof(T), "obj");

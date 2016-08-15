@@ -5,7 +5,7 @@ using ZKWebStandard.Collections;
 
 namespace ZKWebStandard.Web.Wrappers {
 	/// <summary>
-	/// Http请求的包装类
+	/// Http request wrapper base class
 	/// </summary>
 	public abstract class HttpRequestWrapper : IHttpRequest {
 #pragma warning disable CS1591

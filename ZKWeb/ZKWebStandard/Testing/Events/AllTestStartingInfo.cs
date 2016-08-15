@@ -1,17 +1,17 @@
 ﻿namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// 运行所有测试前的信息
+	/// Information for all test starting
 	/// </summary>
 	public class AllTestStartingInfo {
 		/// <summary>
-		/// 测试运行器
+		/// Test runner
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="runner">测试运行器</param>
+		/// <param name="runner">Test runner</param>
 		public AllTestStartingInfo(TestRunner runner) {
 			Runner = runner;
 		}

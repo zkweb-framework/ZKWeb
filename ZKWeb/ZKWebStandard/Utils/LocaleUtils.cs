@@ -1,38 +1,37 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Globalization;
-using System.Threading;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// 语言和时区的工具类
+	/// Locale utility languages
 	/// </summary>
 	public static class LocaleUtils {
 		/// <summary>
-		/// 储存当前请求使用语言的键名
+		/// The key for store using language code
 		/// </summary>
 		public const string LanguageKey = "ZKWeb.Language";
 		/// <summary>
-		/// 储存当前页面使用时区的键名
+		/// The key for store using timezone
 		/// </summary>
 		public const string TimeZoneKey = "ZKWeb.TimeZone";
 		/// <summary>
-		/// 语言信息的缓存
+		/// Cache for cluture information
 		/// </summary>
 		private static ConcurrentDictionary<string, CultureInfo> ClutureInfoCache =
 			new ConcurrentDictionary<string, CultureInfo>();
 		/// <summary>
-		/// 时区信息的缓存
+		/// Cache for timezone
 		/// </summary>
 		private static ConcurrentDictionary<string, TimeZoneInfo> TimeZoneInfoCache =
 			new ConcurrentDictionary<string, TimeZoneInfo>();
 
 		/// <summary>
-		/// 设置当前线程使用的语言，返回是否成功
+		/// Set using languange code, return true for success
 		/// </summary>
-		/// <param name="language">语言代码</param>
+		/// <param name="language">Language code</param>
 		/// <returns></returns>
 		public static bool SetThreadLanguage(string language) {
 			if (string.IsNullOrEmpty(language)) {
@@ -50,9 +49,9 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 设置当前线程使用的时区，返回是否成功
+		/// Set using timezone, return true for success
 		/// </summary>
-		/// <param name="timezone">时区名称</param>
+		/// <param name="timezone">Timezone name</param>
 		/// <returns></returns>
 		public static bool SetThreadTimezone(string timezone) {
 			if (string.IsNullOrEmpty(timezone)) {
@@ -71,52 +70,52 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 自动设置当前线程使用的语言，返回是否成功
-		/// 设置顺序
-		///		获取Cookies中指定的语言，设置成功时返回
-		///		允许检测浏览器语言时使用浏览器指定的语言，设置成功时返回
-		///		使用传入的默认语言，返回是否成功
+		/// Automatic set using language name, return true for success
+		/// Flow
+		/// - Use language code from cookie
+		/// - Use accept languages from client, if allowed
+		/// - Use default language
 		/// </summary>
-		/// <param name="allowDetectLanguageFromBrowser">是否允许检测浏览器语言</param>
-		/// <param name="defaultLanguage">默认语言</param>
+		/// <param name="allowDetectLanguageFromBrowser">Allow use accept languages from client</param>
+		/// <param name="defaultLanguage">Default language</param>
 		/// <returns></returns>
 		public static bool SetThreadLanguageAutomatic(
 			bool allowDetectLanguageFromBrowser, string defaultLanguage) {
-			// 获取Cookies中指定的语言，设置成功时返回
+			// Use language code from cookie
 			var context = HttpManager.CurrentContext;
 			var languageFromCookies = context.GetCookie(LanguageKey);
 			if (SetThreadLanguage(languageFromCookies)) {
 				return true;
 			}
-			// 允许检测浏览器语言时使用浏览器指定的语言，设置成功时返回
+			// Use accept languages from client, if allowed
 			if (allowDetectLanguageFromBrowser) {
 				var userLanguages = context.Request.GetAcceptLanguages();
 				foreach (var languageFromBrowser in userLanguages) {
 					if (SetThreadLanguage(languageFromBrowser)) {
-						return true; // 设置成功时返回
+						return true;
 					}
 				}
 			}
-			// 使用传入的默认语言，返回是否成功
+			// Use default language
 			return SetThreadLanguage(defaultLanguage);
 		}
 
 		/// <summary>
-		/// 自动设置当前线程使用的时区，返回是否成功
-		/// 设置顺序
-		///		获取Cookies中指定的时区，设置成功时返回
-		///		使用传入的默认时区，返回是否成功
+		/// Automatic set using timezone, return true for success
+		/// Flow
+		/// - Use timezone name from cookies
+		/// - Use default timezone
 		/// </summary>
-		/// <param name="defaultTimezone">默认时区</param>
+		/// <param name="defaultTimezone">Default timezone</param>
 		/// <returns></returns>
 		public static bool SetThreadTimezoneAutomatic(string defaultTimezone) {
-			// 获取Cookies中指定的时区，设置成功时返回
+			// Use timezone name from cookies
 			var context = HttpManager.CurrentContext;
 			var timezoneFromCookies = context.GetCookie(TimeZoneKey);
 			if (SetThreadTimezone(timezoneFromCookies)) {
 				return true;
 			}
-			// 使用传入的默认时区，返回是否成功
+			// Use default timezone
 			return SetThreadTimezone(defaultTimezone);
 		}
 	}

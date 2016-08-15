@@ -5,11 +5,11 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// MIME类型的工具类
+	/// Mime utility functions
 	/// </summary>
 	public static class MimeUtils {
 		/// <summary>
-		/// 后缀名到MIME类型的索引
+		/// Mime mapping
 		/// </summary>
 		private static IDictionary<string, string> MimeMapping =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -576,9 +576,9 @@ namespace ZKWebStandard.Utils {
 			};
 
 		/// <summary>
-		/// 根据文件后缀获取MIME类型
+		/// Get mime type from file extension
 		/// </summary>
-		/// <param name="filename">文件名</param>
+		/// <param name="filename">File name</param>
 		/// <returns></returns>
 		public static string GetMimeType(string filename) {
 			var extension = Path.GetExtension(filename);

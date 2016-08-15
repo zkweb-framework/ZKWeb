@@ -5,11 +5,11 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Testing {
 	/// <summary>
-	/// 断言类
+	/// Assert utility functions
 	/// </summary>
 	public static class Assert {
 		/// <summary>
-		/// 测试条件是否成立
+		/// Test if condition is true
 		/// </summary>
 		public static void IsTrue(bool condition,
 			[CallerMemberName] string memberName = null,
@@ -22,8 +22,8 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// 测试条件是否成立
-		/// 不成立时包含指定的对象的信息到例外中
+		/// Test if condition is true
+		/// If failed include `obj`'s contents to exception message
 		/// </summary>
 		public static void IsTrueWith(bool condition, object obj,
 			[CallerMemberName] string memberName = null,
@@ -37,7 +37,7 @@ namespace ZKWebStandard.Testing {
 		}
 		
 		/// <summary>
-		/// 测试对象是否相等
+		/// Test if a and b are equals
 		/// </summary>
 		public static void Equals<T>(T a, T b,
 			[CallerMemberName] string memberName = null,
@@ -48,10 +48,10 @@ namespace ZKWebStandard.Testing {
 					$"assert equals failed: {a} != {b}, {filePath}:{lineNumber} {memberName}");
 			}
 		}
-		
+
 		/// <summary>
-		/// 测试对象是否相等
-		/// 对象版本，提供这个函数用于防止object.Equals被调用
+		/// Test if a and b are equals
+		/// Use to avoid calling object.Equals
 		/// </summary>
 		public static void Equals(object a, object b,
 			[CallerMemberName] string memberName = null,
@@ -61,7 +61,7 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// 测试指定的函数抛出指定的例外
+		/// Test if action throws specified type's exception
 		/// </summary>
 		public static void Throws<TException>(Action action,
 			[CallerMemberName] string memberName = null,
@@ -80,14 +80,14 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// 把当前测试作为通过处理
+		/// Make this test passed
 		/// </summary>
 		public static void Passed() {
 			throw new AssertPassedException();
 		}
 
 		/// <summary>
-		/// 把当前测试作为跳过处理
+		/// Make this test skipped
 		/// </summary>
 		public static void Skipped(string reason) {
 			throw new AssertSkipedException(reason);

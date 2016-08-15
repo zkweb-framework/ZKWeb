@@ -3,16 +3,16 @@ using System.Linq.Expressions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Linq表达式的工具函数
+	/// Expression utility functions
 	/// </summary>
 	public static class ExpressionUtils {
 		/// <summary>
-		/// 构建判断成员是否等于指定值的表达式
-		/// 相当于"data => data.{memberName} == {equalsTo}"
+		/// Make lambda expression that compare member to the given object
+		/// Perform "data => data.{memberName} == {equalsTo}"
 		/// </summary>
-		/// <typeparam name="TData">数据类型</typeparam>
-		/// <param name="memberName">成员名称</param>
-		/// <param name="equalsTo">比较值</param>
+		/// <typeparam name="TData">Data type</typeparam>
+		/// <param name="memberName">Member name</param>
+		/// <param name="equalsTo">Compare to</param>
 		/// <returns></returns>
 		public static Expression<Func<TData, bool>> MakeMemberEqualiventExpression<TData>(
 			string memberName, object equalsTo) {

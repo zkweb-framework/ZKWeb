@@ -5,51 +5,51 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Http工具类
+	/// Http utility functions
 	/// </summary>
 	public static class HttpUtils {
 		/// <summary>
-		/// Url编码
+		/// Url encode
 		/// </summary>
-		/// <param name="value">字符串值</param>
+		/// <param name="value">Original value</param>
 		/// <returns></returns>
 		public static string UrlEncode(object value) {
 			return WebUtility.UrlEncode(value?.ToString() ?? "");
 		}
 
 		/// <summary>
-		/// Url解码
+		/// Url decode
 		/// </summary>
-		/// <param name="value">字符串值</param>
+		/// <param name="value">Original value</param>
 		/// <returns></returns>
 		public static string UrlDecode(string value) {
 			return WebUtility.UrlDecode(value ?? "");
 		}
 
 		/// <summary>
-		/// Html编码
+		/// Html encode
 		/// </summary>
-		/// <param name="value">字符串值</param>
+		/// <param name="value">Original value</param>
 		/// <returns></returns>
 		public static string HtmlEncode(object value) {
 			return WebUtility.HtmlEncode(value?.ToString() ?? "");
 		}
 
 		/// <summary>
-		/// Html解码
+		/// Html decode
 		/// </summary>
-		/// <param name="value">字符串值</param>
+		/// <param name="value">Original value</param>
 		/// <returns></returns>
 		public static string HtmlDecode(string value) {
 			return WebUtility.HtmlDecode(value ?? "");
 		}
 
 		/// <summary>
-		/// 分割路径和请求字符串
+		/// Split path and query string
 		/// </summary>
-		/// <param name="pathAndQuery">路径和请求字符串</param>
-		/// <param name="path">路径</param>
-		/// <param name="queryString">请求字符串</param>
+		/// <param name="pathAndQuery">Path an query string</param>
+		/// <param name="path">Path</param>
+		/// <param name="queryString">Query string</param>
 		public static void SplitPathAndQuery(
 			string pathAndQuery, out string path, out string queryString) {
 			var queryIndex = pathAndQuery.IndexOf('?');
@@ -58,19 +58,18 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 解析请求字符串
+		/// Parse query string
 		/// </summary>
-		/// <param name="queryString">请求字符串</param>
+		/// <param name="queryString">Query string</param>
 		/// <returns></returns>
 		public static IDictionary<string, IList<string>> ParseQueryString(string queryString) {
 			var result = new Dictionary<string, IList<string>>();
-			// 空白时不需要解析
 			if (string.IsNullOrEmpty(queryString)) {
 				return result;
 			}
-			// 以?开始时跳过这个字符
+			// Trim beginning `?`
 			var startIndex = (queryString[0] == '?') ? 1 : 0;
-			// 获取所有键值
+			// Find all keys and values
 			while (startIndex < queryString.Length) {
 				var equalIndex = queryString.IndexOf('=', startIndex);
 				if (equalIndex < 0) {
@@ -91,9 +90,9 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 构建请求字符串
+		/// Build query string
 		/// </summary>
-		/// <param name="queryParams">请求参数</param>
+		/// <param name="queryParams">Query arguments</param>
 		/// <returns></returns>
 		public static string BuildQueryString(IDictionary<string, IList<string>> queryParams) {
 			var queryString = new StringBuilder();

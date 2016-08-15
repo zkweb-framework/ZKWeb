@@ -2,7 +2,7 @@
 
 namespace ZKWebStandard.Web.Wrappers {
 	/// <summary>
-	/// Http回应的包装类
+	/// Http response wrapper base class
 	/// </summary>
 	public abstract class HttpResponseWrapper : IHttpResponse {
 #pragma warning disable CS1591

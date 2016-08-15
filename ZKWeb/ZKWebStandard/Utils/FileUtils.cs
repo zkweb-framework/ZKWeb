@@ -2,14 +2,14 @@
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// 文件工具类
+	/// File utility functions
 	/// </summary>
 	public static class FileUtils {
 		/// <summary>
-		/// 获取字节大小的显示名称
-		/// 自动转换成KB、MB或GB格式
+		/// Get display name for bytes
+		/// Eg: 123KB, 123MB, 123GB
 		/// </summary>
-		/// <param name="bytes">字节数</param>
+		/// <param name="bytes">bytes</param>
 		/// <returns></returns>
 		public static string GetSizeDisplayName(long bytes) {
 			if (bytes >= 1073741824) {

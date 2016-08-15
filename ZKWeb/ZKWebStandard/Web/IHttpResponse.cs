@@ -1,49 +1,49 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace ZKWebStandard.Web {
 	/// <summary>
-	/// Http回应的接口
+	/// Interface for http response
 	/// </summary>
 	public interface IHttpResponse {
 		/// <summary>
-		/// 回应的数据流
+		/// Reponse body
 		/// </summary>
 		Stream Body { get; }
 		/// <summary>
-		/// 内容类型
+		/// Content type
 		/// </summary>
 		string ContentType { get; set; }
 		/// <summary>
-		/// 所属的Http上下文
+		/// Parent http context
 		/// </summary>
 		IHttpContext HttpContext { get; }
 		/// <summary>
-		/// 状态代码
+		/// Status code
 		/// </summary>
 		int StatusCode { get; set; }
 
 		/// <summary>
-		/// 设置Cookie值
+		/// Set cookie value
 		/// </summary>
-		/// <param name="key">键名</param>
-		/// <param name="value">Cookie值</param>
-		/// <param name="options">使用的选项</param>
+		/// <param name="key">Cookie key</param>
+		/// <param name="value">Cookie value</param>
+		/// <param name="options">Options for setting cookie</param>
 		void SetCookie(string key, string value, HttpCookieOptions options);
 		/// <summary>
-		/// 添加Http头的值
+		/// Add http header
 		/// </summary>
-		/// <param name="key">键名</param>
-		/// <param name="value">值</param>
+		/// <param name="key">Header key</param>
+		/// <param name="value">Header value</param>
 		void AddHeader(string key, string value);
 		/// <summary>
-		/// 跳转到指定的地址
+		/// Redirect to url
 		/// </summary>
-		/// <param name="url">Url地址</param>
-		/// <param name="permanent">是否永久跳转</param>
+		/// <param name="url">Url address</param>
+		/// <param name="permanent">Is permanent redirect</param>
 		void Redirect(string url, bool permanent);
 		/// <summary>
-		/// 结束回应
+		/// End response
+		/// It should throw an exception to stop processing
 		/// </summary>
 		void End();
 	}

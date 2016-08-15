@@ -4,16 +4,16 @@ using System.Text;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// 密码工具类
+	/// Password utility functions
 	/// </summary>
 	public static class PasswordUtils {
 		/// <summary>
-		/// 获取指定数据的PBKDF2校验值
+		/// Get PBKDF2 checksum
 		/// </summary>
-		/// <param name="data"></param>
-		/// <param name="slat">参与校验的随机数据，长度需要等于8</param>
-		/// <param name="iterations">计算循环次数，越长强度越高但越耗费性能</param>
-		/// <param name="hashLength">校验值长度</param>
+		/// <param name="data">The data</param>
+		/// <param name="slat">The slat, length should be 8</param>
+		/// <param name="iterations">Iteration times</param>
+		/// <param name="hashLength">Hash length</param>
 		/// <returns></returns>
 		public static byte[] PBKDF2Sum(
 			byte[] data, byte[] slat, int iterations = 1024, int hashLength = 32) {
@@ -22,14 +22,14 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 获取指定数据的Md5校验值
+		/// Get md5 checksum
 		/// </summary>
 		public static byte[] Md5Sum(byte[] data) {
 			return MD5.Create().ComputeHash(data);
 		}
 
 		/// <summary>
-		/// 获取指定数据的Sha1校验值
+		/// Get sha1 checksum
 		/// </summary>
 		public static byte[] Sha1Sum(byte[] data) {
 			return SHA1.Create().ComputeHash(data);
@@ -37,26 +37,26 @@ namespace ZKWebStandard.Utils {
 	}
 
 	/// <summary>
-	/// 密码信息
+	/// Password information
 	/// </summary>
 	public class PasswordInfo {
 		/// <summary>
-		/// 密码类型
+		/// Password type
 		/// </summary>
 		public PasswordHashType Type { get; set; } = PasswordHashType.PBKDF2;
 		/// <summary>
-		/// 参与校验的随机数据（base64）
+		/// Slat in base64
 		/// </summary>
 		public string Slat { get; set; }
 		/// <summary>
-		/// 密码校验值（base64）
+		/// Hash in base64
 		/// </summary>
 		public string Hash { get; set; }
 
 		/// <summary>
-		/// 检查密码，返回密码是否正确
+		/// Check password, return true for success
 		/// </summary>
-		/// <param name="password"></param>
+		/// <param name="password">The password</param>
 		/// <returns></returns>
 		public bool Check(string password) {
 			if (string.IsNullOrEmpty(password)) {
@@ -68,11 +68,11 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// 从密码创建密码信息
+		/// Create password information from password
 		/// </summary>
-		/// <param name="password">密码</param>
-		/// <param name="slat">参与校验的随机数据，不指定时使用默认值</param>
-		/// <param name="type">密码类型</param>
+		/// <param name="password">The password</param>
+		/// <param name="slat">Slat, use a random value if gived null</param>
+		/// <param name="type">Password type</param>
 		public static PasswordInfo FromPassword(string password,
 			byte[] slat = null, PasswordHashType type = PasswordHashType.PBKDF2) {
 			if (string.IsNullOrEmpty(password)) {

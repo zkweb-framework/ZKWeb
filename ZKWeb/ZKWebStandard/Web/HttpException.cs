@@ -2,19 +2,20 @@
 
 namespace ZKWebStandard.Web {
 	/// <summary>
-	/// Http错误
+	/// Http exception
+	/// Please use this type instead of Asp.Net and Asp.Net Core's
 	/// </summary>
 	public class HttpException : Exception {
 		/// <summary>
-		/// 状态代码
+		/// Status code
 		/// </summary>
 		public int StatusCode { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="statusCode">状态代码</param>
-		/// <param name="message">例外消息</param>
+		/// <param name="statusCode">Status code</param>
+		/// <param name="message">Exception message</param>
 		public HttpException(int statusCode, string message = null) : base(message) {
 			StatusCode = statusCode;
 		}
