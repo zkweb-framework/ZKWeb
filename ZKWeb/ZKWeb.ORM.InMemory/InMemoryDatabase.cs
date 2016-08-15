@@ -47,15 +47,10 @@ namespace ZKWeb.ORM.InMemory {
 			foreach (var group in groupedProviders) {
 				var builder = (IInMemoryEntityMapping)Activator.CreateInstance(
 					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(group.Key));
-				var configureMethod = typeof(IEntityMappingProvider<>)
-					.MakeGenericType(group.Key).FastGetMethod("Configure");
-				foreach (var provider in group) {
-					configureMethod.FastInvoke(provider, builder);
-				}
 				Mappings[group.Key] = builder;
 			}
 		}
-		
+
 		/// <summary>
 		/// Get data store for specified type
 		/// </summary>
@@ -64,7 +59,7 @@ namespace ZKWeb.ORM.InMemory {
 		public IDictionary<object, object> GetEntityStore(Type entityType) {
 			return Store.GetOrAdd(entityType, t => new ConcurrentDictionary<object, object>());
 		}
-		
+
 		/// <summary>
 		/// Get the primary key object from entity
 		/// </summary>
@@ -72,7 +67,7 @@ namespace ZKWeb.ORM.InMemory {
 			var mapping = Mappings[typeof(T)];
 			return mapping.IdMember.FastGetValue(entity);
 		}
-		
+
 		/// <summary>
 		/// If an entity have a integer or guid primary key, and it's empty,
 		/// then generate a new primary key for it.

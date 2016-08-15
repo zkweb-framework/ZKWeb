@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using ZKWeb.Database;
 
 namespace ZKWeb.ORM.MongoDB {
@@ -6,11 +7,15 @@ namespace ZKWeb.ORM.MongoDB {
 	/// MongoDB database context factory
 	/// MongoDB doesn't need to migrate database scheme
 	/// </summary>
-	public class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
+	internal class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// Connection string
+		/// Connection url
 		/// </summary>
-		public string ConnectionString { get; set; }
+		private MongoUrl ConnectionUrl { get; set; }
+		/// <summary>
+		/// MongoDB entity mappings
+		/// </summary>
+		private MongoDBEntityMappings Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -21,7 +26,11 @@ namespace ZKWeb.ORM.MongoDB {
 			if (string.Compare(database, "MongoDB", true) != 0) {
 				throw new ArgumentException($"Database type should be MongoDB");
 			}
-			ConnectionString = connectionString;
+			ConnectionUrl = new MongoUrl(connectionString);
+			if (string.IsNullOrEmpty(ConnectionUrl.DatabaseName)) {
+				throw new ArgumentException("Please set the database name in connection string");
+			}
+			Mappings = new MongoDBEntityMappings(ConnectionUrl);
 		}
 
 		/// <summary>

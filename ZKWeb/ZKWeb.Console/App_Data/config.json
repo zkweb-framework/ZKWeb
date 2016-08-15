@@ -1,5 +1,5 @@
 ﻿{
-	"ORM": "EFCore",
+	"ORM": "NHibernate",
 	"Database": "MSSQL",
 	"ConnectionString": "Data Source=.\\sqlexpress;Initial Catalog=test_db;User Id=sa;Password=123",
 	"PluginDirectories": [],

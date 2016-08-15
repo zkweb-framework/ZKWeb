@@ -27,6 +27,11 @@ namespace ZKWeb.ORM.InMemory {
 			ManyToOneMembers = new List<MemberInfo>();
 			OneToManyMembers = new List<MemberInfo>();
 			ManyToManyMembers = new List<MemberInfo>();
+			// Configure with registered providers
+			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
+			foreach (var provider in providers) {
+				provider.Configure(this);
+			}
 		}
 
 		/// <summary>

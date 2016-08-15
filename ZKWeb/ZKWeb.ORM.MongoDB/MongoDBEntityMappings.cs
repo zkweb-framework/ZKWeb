@@ -1,32 +1,37 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Concurrent;
-using System.FastReflection;
 using System.Linq;
 using ZKWeb.Database;
 using ZKWebStandard.Utils;
 
-namespace ZKWeb.ORM.Dapper {
+namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// Dapper entity mappings
+	/// MongoDB entity mappings
 	/// </summary>
-	internal class DapperEntityMappings {
+	internal class MongoDBEntityMappings {
 		/// <summary>
 		/// Type to mapping definition
 		/// </summary>
-		private ConcurrentDictionary<Type, IDapperEntityMapping> Mappings { get; set; }
+		private ConcurrentDictionary<Type, IMongoDBEntityMapping> Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		public DapperEntityMappings() {
+		/// <param name="connectionUrl">Connection url</param>
+		public MongoDBEntityMappings(MongoUrl connectionUrl) {
 			// Build entity mappings
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
 			var groupedProviders = providers.GroupBy(p =>
 				ReflectionUtils.GetGenericArguments(
 				p.GetType(), typeof(IEntityMappingProvider<>))[0]);
+			var client = new MongoClient(connectionUrl);
+			var database = client.GetDatabase(connectionUrl.DatabaseName);
 			foreach (var group in groupedProviders) {
-				var builder = (IDapperEntityMapping)Activator.CreateInstance(
-					typeof(DapperEntityMappingBuilder<>).MakeGenericType(group.Key));
+				var builder = (IMongoDBEntityMapping)Activator.CreateInstance(
+					typeof(MongoDBEntityMappingBuilder<>).MakeGenericType(group.Key),
+					database, handlers, group.AsEnumerable());
 				Mappings[group.Key] = builder;
 			}
 		}
@@ -36,7 +41,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		/// <param name="type">Entity type</param>
 		/// <returns></returns>
-		public IDapperEntityMapping GetMapping(Type type) {
+		public IMongoDBEntityMapping GetMapping(Type type) {
 			return Mappings[type];
 		}
 	}

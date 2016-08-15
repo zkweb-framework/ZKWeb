@@ -18,26 +18,20 @@ namespace ZKWeb.ORM.EFCore {
 		/// Entity Framework Core type builder
 		/// </summary>
 		private EntityTypeBuilder<T> Builder { get; set; }
-		/// <summary>
-		/// Database initialize handlers
-		/// </summary>
-		private IEnumerable<IDatabaseInitializeHandler> Handlers { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		/// <param name="builder">Model builder</param>
-		/// <param name="handlers">Database initialize handlers</param>
 		public EFCoreEntityMappingBuilder(
-			ModelBuilder builder,
-			IEnumerable<IDatabaseInitializeHandler> handlers) {
+			ModelBuilder builder) {
 			Builder = builder.Entity<T>();
-			Handlers = handlers;
-			// Set table name
+			// Set table name with registered handlers
 			var tableName = typeof(T).Name;
-			Handlers.ForEach(h => h.ConvertTableName(ref tableName));
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			handlers.ForEach(h => h.ConvertTableName(ref tableName));
 			Builder = Builder.ToTable(tableName);
-			// Configure with providers
+			// Configure with registered providers
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
 			foreach (var provider in providers) {
 				provider.Configure(this);

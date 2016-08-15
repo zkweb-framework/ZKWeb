@@ -13,9 +13,10 @@ namespace ZKWeb.ORM.NHibernate {
 		ClassMap<T>, IEntityMappingBuilder<T>
 		where T : class, IEntity {
 		/// <summary>
-		/// Initialize, call registered providers to configure this mapping
+		/// Initialize
 		/// </summary>
 		public NHibernateEntityMappingBuilder() {
+			// Configure with registered providers
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
 			foreach (var provider in providers) {
 				provider.Configure(this);
@@ -117,10 +118,10 @@ namespace ZKWeb.ORM.NHibernate {
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var oneToManyPart = base.HasMany(memberExpression);
-			if (options.CascadeDelete == true) {
-				oneToManyPart.Cascade.AllDeleteOrphan();
-			} else if (options.CascadeDelete == false) {
+			if (options.CascadeDelete == false) {
 				oneToManyPart.Cascade.None();
+			} else {
+				oneToManyPart.Cascade.AllDeleteOrphan(); // true or default
 			}
 		}
 
@@ -137,8 +138,8 @@ namespace ZKWeb.ORM.NHibernate {
 			var manyToManyPart = base.HasManyToMany(memberExpression);
 			if (options.CascadeDelete == true) {
 				manyToManyPart.Cascade.AllDeleteOrphan();
-			} else if (options.CascadeDelete == false) {
-				manyToManyPart.Cascade.None();
+			} else {
+				manyToManyPart.Cascade.None(); // false or default
 			}
 		}
 	}

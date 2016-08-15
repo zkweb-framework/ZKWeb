@@ -43,13 +43,11 @@ namespace ZKWeb.ORM.EFCore {
 			base.OnModelCreating(modelBuilder);
 			// Register entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			var entityTypes = providers.Select(p =>
 				ReflectionUtils.GetGenericArguments(
 				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
 			entityTypes.ForEach(t => Activator.CreateInstance(
-				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t),
-				modelBuilder, handlers));
+				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t), modelBuilder));
 		}
 
 		/// <summary>
