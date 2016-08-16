@@ -4,21 +4,21 @@ using System.IO;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Model {
 	/// <summary>
-	/// 插件集合的定义
-	/// plugin.collection.json的内容
+	/// Plugin collection
+	/// Deserialize from `plugin.collection.json`
 	/// </summary>
 	public class PluginCollection {
 		/// <summary>
-		/// 在插件列表前添加的插件
+		/// Plugins prepend to plugin list
 		/// </summary>
 		public IList<string> PrependPlugins { get; set; }
 		/// <summary>
-		/// 在插件列表后添加的插件
+		/// Plugins append to plugin list
 		/// </summary>
 		public IList<string> AppendPlugins { get; set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
 		public PluginCollection() {
 			PrependPlugins = new List<string>();
@@ -26,9 +26,9 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		}
 
 		/// <summary>
-		/// 从文件读取插件集合
+		/// Read plugin collection from file
 		/// </summary>
-		/// <param name="path">文件路径</param>
+		/// <param name="path">Json file path</param>
 		/// <returns></returns>
 		public static PluginCollection FromFile(string path) {
 			var json = File.ReadAllText(path);

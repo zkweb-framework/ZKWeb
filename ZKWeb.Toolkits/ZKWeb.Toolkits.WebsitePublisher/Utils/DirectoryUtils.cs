@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace ZKWeb.Toolkits.WebsitePublisher.Utils {
 	/// <summary>
-	/// 文件夹的工具函数
+	/// Directory utility functions
 	/// </summary>
 	public static class DirectoryUtils {
 		/// <summary>
-		/// 递归复制文件夹内容
+		/// Copy directory recursivly
 		/// </summary>
-		/// <param name="fromDir">来源文件夹</param>
-		/// <param name="toDir">目标文件夹</param>
+		/// <param name="fromDir">From directory</param>
+		/// <param name="toDir">To directory</param>
 		public static void CopyDirectory(string fromDir, string toDir) {
 			foreach (var path in Directory.EnumerateFiles(fromDir, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(fromDir.Length + 1);

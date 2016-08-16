@@ -10,14 +10,15 @@ namespace ZKWeb.Toolkits.ProjectCreator.Cmd {
 			var showHelp = false;
 			var optionSet = new OptionSet() {
 				{ "t|type=", "AspNet, AspNetCore or Owin", t => parameters.ProjectType = t },
-				{ "n|name=", "Project Name", n => parameters.ProjectName = n },
-				{ "d|description=", "Project Description", d => parameters.ProjectDescription = d },
-				{ "b|database=", "mssql, mysql, postgresql or sqlite", d => parameters.Database = d },
-				{ "c|connectionString=", "The Connection String", c => parameters.ConnectionString = c },
+				{ "n|name=", "Project name", n => parameters.ProjectName = n },
+				{ "d|description=", "Project description", d => parameters.ProjectDescription = d },
+				{ "m|orm=", "Dapper, EFCore, MongoDB or NHibernate", m => parameters.ORM = m },
+				{ "b|database=", "MSSQL, MySQL, SQLite, MongoDB or PostgreSQL", d => parameters.Database = d },
+				{ "c|connectionString=", "The connection string", c => parameters.ConnectionString = c },
 				{ "u|useDefaultPlugins=",
 					"The location of plugin.collection.json, if you want to use default plugins",
 					u => parameters.UseDefaultPlugins = u },
-				{ "o|output=", "Output Directory", o => parameters.OutputDirectory = o },
+				{ "o|output=", "Output directory", o => parameters.OutputDirectory = o },
 				{ "h|help", "Show this message and exit", h => showHelp = (h != null) }
 			};
 			try {

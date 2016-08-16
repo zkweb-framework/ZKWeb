@@ -2,24 +2,24 @@
 
 namespace ZKWeb.Toolkits.WebsitePublisher.Model {
 	/// <summary>
-	/// 发布网站的参数
+	/// Publish website parameters
 	/// </summary>
 	public class PublishWebsiteParameters {
 		/// <summary>
-		/// 网站根目录
+		/// Website root
 		/// </summary>
 		public string WebRoot { get; set; }
 		/// <summary>
-		/// 发布网站的名称
+		/// Output name
 		/// </summary>
 		public string OutputName { get; set; }
 		/// <summary>
-		/// 发布到的目录
+		/// Output directory
 		/// </summary>
 		public string OutputDirectory { get; set; }
 
 		/// <summary>
-		/// 检查参数
+		/// Check parameters
 		/// </summary>
 		public void Check() {
 			if (string.IsNullOrEmpty(WebRoot)) {

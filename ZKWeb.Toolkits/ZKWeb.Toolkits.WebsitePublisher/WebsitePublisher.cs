@@ -6,25 +6,25 @@ using ZKWeb.Toolkits.WebsitePublisher.Utils;
 
 namespace ZKWeb.Toolkits.WebsitePublisher {
 	/// <summary>
-	/// 网站发布器
+	/// Website publisher
 	/// </summary>
 	public class WebsitePublisher {
 		/// <summary>
-		/// 发布网站的参数
+		/// Publish website parameters
 		/// </summary>
 		public PublishWebsiteParameters Parameters { get; protected set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parameters">发布网站的参数</param>
+		/// <param name="parameters">Publish website parameters</param>
 		public WebsitePublisher(PublishWebsiteParameters parameters) {
 			parameters.Check();
 			Parameters = parameters;
 		}
 
 		/// <summary>
-		/// 获取网站根目录
+		/// Get directory of website root
 		/// </summary>
 		/// <returns></returns>
 		protected virtual string GetWebRoot() {
@@ -32,7 +32,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 获取Web.config的路径
+		/// Get path of `Web.config`
 		/// </summary>
 		/// <returns></returns>
 		protected virtual string GetWebConfigPath() {
@@ -48,19 +48,19 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 获取bin目录
-		/// Asp.Net时是WebRoot\bin
-		/// Asp.Net Core时需要查找
+		/// Get directory of bin
+		/// Asp.Net:
+		/// - Use WebRoot\bin
+		/// Asp.Net Core:
+		/// - Find directory contains "ZKWeb.dll", "release", "net461", but not contains "publish"
+		/// - Publish with .Net Core is not support yet
 		/// </summary>
-		/// <param name="isCore">是否Asp.Net Core</param>
+		/// <param name="isCore">Is Asp.Net Core</param>
 		/// <returns></returns>
 		protected virtual string GetBinDirectory(out bool isCore) {
 			var webRoot = GetWebRoot();
 			var binDir = Path.Combine(webRoot, "bin");
 			if (!File.Exists(Path.Combine(binDir, "ZKWeb.dll"))) {
-				// Asp.Net Core时需要查找
-				// 使用包含release和net461但不包含publish的目录
-				// 目前不支持发布.net core版本，但以后需要支持
 				isCore = true;
 				var dllPath = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
 					.Where(p => {
@@ -79,7 +79,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 获取config.json的路径
+		/// Get path of `config.json`
 		/// </summary>
 		/// <returns></returns>
 		protected virtual string GetConfigJsonPath() {
@@ -88,15 +88,15 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 获取Asp.Net Core的启动程序路径
+		/// Get Asp.Net Core launcher path
 		/// </summary>
-		/// <param name="binDir">bin目录的路径</param>
+		/// <param name="binDir">bin directory</param>
 		/// <returns></returns>
 		protected virtual string GetAspNetCoreLauncherPath(string binDir) {
 			var exeName = Directory.EnumerateFiles(
-					binDir, "*.exe", SearchOption.TopDirectoryOnly)
-					.Select(path => Path.GetFileName(path))
-					.Where(name => !name.Contains(".vshost.")).FirstOrDefault();
+				binDir, "*.exe", SearchOption.TopDirectoryOnly)
+				.Select(path => Path.GetFileName(path))
+				.Where(name => !name.Contains(".vshost.")).FirstOrDefault();
 			if (string.IsNullOrEmpty(exeName)) {
 				throw new FileNotFoundException("Asp.Net Core Launcher exe not found");
 			}
@@ -104,10 +104,10 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 查找插件目录
+		/// Find plugin path
 		/// </summary>
-		/// <param name="config">网站配置</param>
-		/// <param name="pluginName">插件名称</param>
+		/// <param name="config">Website configuration</param>
+		/// <param name="pluginName">Plugin name</param>
 		/// <returns></returns>
 		protected virtual string FindPluginDirectory(WebsiteConfig config, string pluginName) {
 			var pluginDirectories = config.PluginDirectories
@@ -122,39 +122,39 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		}
 
 		/// <summary>
-		/// 发布网站
+		/// Publish website
 		/// </summary>
 		public virtual void PublishWebsite() {
-			// 计算各路径
+			// Get paths
 			var webRoot = GetWebRoot();
 			var webConfigPath = GetWebConfigPath();
 			var isCore = false;
 			var binDir = GetBinDirectory(out isCore);
 			var configJsonPath = GetConfigJsonPath();
 			var outputDir = Path.Combine(Parameters.OutputDirectory, Parameters.OutputName);
-			// 复制网站程序
+			// Copy website binaries
 			if (!isCore) {
-				// Asp.Net: 把文件复制到bin下，并同时复制Global.asax
+				// Asp.Net: copy files to output\bin, and copy Global.asax
 				DirectoryUtils.CopyDirectory(binDir, Path.Combine(outputDir, "bin"));
 				File.Copy(webConfigPath, Path.Combine(outputDir, "web.config"), true);
 				File.Copy(Path.Combine(webRoot, "Global.asax"),
 					Path.Combine(outputDir, "Global.asax"), true);
 			} else {
-				// Asp.Net Core: 把文件复制到根目录，并同时替换web.config中的路径
+				// Asp.Net Core: copy files to output\, and replace launcher path in web.config
 				DirectoryUtils.CopyDirectory(binDir, outputDir);
 				var webConfig = File.ReadAllText(webConfigPath);
 				webConfig = webConfig.Replace("%LAUNCHER_PATH%", GetAspNetCoreLauncherPath(binDir));
 				webConfig = webConfig.Replace("%LAUNCHER_ARGS%", "");
 				File.WriteAllText(Path.Combine(outputDir, "web.config"), webConfig);
 			}
-			// 整合和复制网站配置
+			// Merge website configuration
 			var outputConfigJsonPath = Path.Combine(outputDir, "App_Data", "config.json");
 			var config = WebsiteConfig.Merge(configJsonPath, outputConfigJsonPath);
 			config.PluginDirectories = new[] { "App_Data/Plugins" };
 			Directory.CreateDirectory(Path.GetDirectoryName(outputConfigJsonPath));
 			File.WriteAllText(outputConfigJsonPath,
 				JsonConvert.SerializeObject(config, Formatting.Indented));
-			// 复制各个插件
+			// Copy plugins
 			var originalConfig = WebsiteConfig.FromFile(configJsonPath);
 			var outputPluginRoot = Path.Combine(outputDir, config.PluginDirectories[0]);
 			foreach (var pluginName in config.Plugins) {
@@ -162,7 +162,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				var outputPluginDir = Path.Combine(outputPluginRoot, pluginName);
 				DirectoryUtils.CopyDirectory(pluginDir, outputPluginDir);
 			}
-			// 删除各个插件下的src目录
+			// Remove src directory under plugins
 			foreach (var dir in Directory.EnumerateDirectories(
 				outputPluginRoot, "src", SearchOption.AllDirectories)) {
 				Directory.Delete(dir, true);

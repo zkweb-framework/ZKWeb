@@ -2,29 +2,29 @@
 
 namespace ZKWeb.Toolkits.ProjectCreator.Utils {
 	/// <summary>
-	/// 路径的工具函数
+	/// Path utility functions
 	/// </summary>
 	public static class PathUtils {
 		/// <summary>
-		/// 生成相对路径
+		/// Make relative path
 		/// </summary>
-		/// <param name="fromPath">来源路径</param>
-		/// <param name="toPath">目标路径</param>
+		/// <param name="fromPath">From path</param>
+		/// <param name="toPath">To path</param>
 		/// <returns></returns>
 		public static string MakeRelativePath(string fromPath, string toPath) {
 			fromPath = Path.GetFullPath(fromPath);
 			toPath = Path.GetFullPath(toPath);
-			// 一层层提升来源路径，直到目标路径以来源路径为前缀
+			// Get parent paths of fromPath, until toPath starts with fromPath
 			var resultPath = "";
 			while (!toPath.StartsWith(fromPath)) {
 				fromPath = Path.GetDirectoryName(fromPath);
 				resultPath += "../";
 				if (string.IsNullOrEmpty(fromPath)) {
-					// 无法找到共同的前缀，可能不在同一个驱动器上
+					// No common prefix, maybe not on same driver
 					return toPath;
 				}
 			}
-			// 添加目标路径
+			// Add non common part from toPath
 			var subPart = toPath.Substring(fromPath.Length);
 			subPart = subPart.Replace(Path.DirectorySeparatorChar, '/');
 			if (subPart.StartsWith("/")) {

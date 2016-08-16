@@ -9,25 +9,25 @@ using System.Linq;
 
 namespace ZKWeb.Toolkits.ProjectCreator {
 	/// <summary>
-	/// 项目创建器
+	/// ZKWeb project creator
 	/// </summary>
 	public class ProjectCreator {
 		/// <summary>
-		/// 创建项目的参数
+		/// Create project parameters
 		/// </summary>
 		public CreateProjectParameters Parameters { get; protected set; }
 
 		/// <summary>
-		/// 初始化
+		/// Initialize
 		/// </summary>
-		/// <param name="parameters">创建项目的参数</param>
+		/// <param name="parameters">Create project parameters</param>
 		public ProjectCreator(CreateProjectParameters parameters) {
 			parameters.Check();
 			Parameters = parameters;
 		}
 
 		/// <summary>
-		/// 自动检测储存模板的文件夹
+		/// Automatic detect templates directory
 		/// </summary>
 		/// <returns></returns>
 		protected virtual string AutoDetectTemplatesDirectory() {
@@ -42,19 +42,19 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		}
 
 		/// <summary>
-		/// 写入配置内容
+		/// Write config.json
 		/// </summary>
-		/// <param name="outputPath">config.json的路径</param>
+		/// <param name="outputPath">Path of config.json</param>
 		protected virtual void WriteConfigObject(string outputPath) {
 			var pluginDirectories = new List<string>();
 			var plugins = new List<string>();
 			var pluginRoot = $"../{Parameters.ProjectName}.Plugins";
 			if (string.IsNullOrEmpty(Parameters.UseDefaultPlugins)) {
-				// 不使用默认插件
+				// Not use default plugins
 				pluginDirectories.Add(pluginRoot);
 				plugins.Add(Parameters.ProjectName);
 			} else {
-				// 使用默认插件
+				// Use default plugins
 				var collection = PluginCollection.FromFile(Parameters.UseDefaultPlugins);
 				pluginDirectories.Add(pluginRoot);
 				pluginDirectories.Add(PathUtils.MakeRelativePath(
@@ -75,11 +75,11 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		}
 
 		/// <summary>
-		/// 写入模板内容
+		/// Write template contents
 		/// </summary>
-		/// <param name="path">模板路径</param>
-		/// <param name="outputPath">写入的文件路径</param>
-		/// <param name="parameters">参数</param>
+		/// <param name="path">Template path</param>
+		/// <param name="outputPath">Project output path</param>
+		/// <param name="parameters">Render parameters</param>
 		protected virtual void WriteTemplateContents(
 			string path, string outputPath, object parameters) {
 			var contents = File.ReadAllText(path);
@@ -92,18 +92,18 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		}
 
 		/// <summary>
-		/// 创建项目
+		/// Create proejct
 		/// </summary>
 		public virtual void CreateProject() {
-			// 获取储存模板的文件夹
+			// Get templates directory
 			var templatesDirectory = Parameters.TemplatesDirectory ?? AutoDetectTemplatesDirectory();
-			// 获取项目模板路径和插件模板路径
-			var projectTemplateName = Parameters.ProjectType + "Template";
-			var pluginTemplateName = "PluginTemplate";
+			// Get project template path and plugin template path
+			var projectTemplateName = $"{Parameters.ProjectType}.{Parameters.ORM}";
+			var pluginTemplateName = "BootstrapPlugin";
 			var projectTemplateRoot = Path.Combine(templatesDirectory, projectTemplateName);
 			var pluginTemplateRoot = Path.Combine(templatesDirectory, pluginTemplateName);
 			var outputRoot = Path.Combine(Parameters.OutputDirectory, Parameters.ProjectName);
-			// 创建模板参数
+			// Create render parameters
 			var random = new Random();
 			var templateParameters = new {
 				ProjectName = Parameters.ProjectName,
@@ -115,7 +115,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				ConsoleProjectGuid = Guid.NewGuid(),
 				PluginProjectGuid = Guid.NewGuid()
 			};
-			// 写入项目文件
+			// Write project files
 			foreach (var path in Directory.EnumerateFiles(
 				projectTemplateRoot, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(projectTemplateRoot.Length + 1);
@@ -127,7 +127,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 					WriteTemplateContents(path, outputPath, templateParameters);
 				}
 			}
-			// 写入插件文件
+			// Write plugin files
 			var pluginRoot = Directory.EnumerateDirectories(
 				outputRoot, "*.Plugins", SearchOption.AllDirectories).First();
 			foreach (var path in Directory.EnumerateFiles(

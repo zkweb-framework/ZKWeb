@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MongoDB.Driver;
+using MySql.Data.MySqlClient;
 using Npgsql;
 using System;
 using System.Data.SqlClient;
@@ -7,35 +8,41 @@ using System.IO;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Gui.Utils {
 	/// <summary>
-	/// 数据库的工具函数
+	/// Database utility functions
 	/// </summary>
 	public static class DatabaseUtils {
 		/// <summary>
-		/// 测试连接字符串是否可用
+		/// Test connection string is correct
 		/// </summary>
-		/// <param name="database">数据库</param>
-		/// <param name="connectionString">连接字符串</param>
+		/// <param name="database">Database</param>
+		/// <param name="connectionString">Connection string</param>
 		public static void TestConnectionString(string database, string connectionString) {
-			if (database == "mssql") {
+			if (string.Compare(database, "MSSQL", true) == 0) {
 				using (var connection = new SqlConnection(connectionString)) {
 					connection.Open();
 				}
-			} else if (database == "mysql") {
+			} else if (string.Compare(database, "MySQL", true) == 0) {
 				using (var connection = new MySqlConnection(connectionString)) {
 					connection.Open();
 				}
-			} else if (database == "postgresql") {
+			} else if (string.Compare(database, "PostgreSQL", true) == 0) {
 				using (var connection = new NpgsqlConnection(connectionString)) {
 					connection.Open();
 				}
-			} else if (database == "sqlite") {
+			} else if (string.Compare(database, "SQLite", true) == 0) {
 				var tempDir = Path.GetDirectoryName(Path.GetTempPath());
 				connectionString = connectionString.Replace("{{App_Data}}", tempDir);
 				using (var connection = new SQLiteConnection(connectionString)) {
 					connection.Open();
 				}
+			} else if (string.Compare(database, "InMemory", true) == 0) {
+				// Do nothing
+			} else if (string.Compare(database, "MongoDB", true) == 0) {
+				var mongoUrl = new MongoUrl(connectionString);
+				new MongoClient(mongoUrl).ListDatabases().ToList();
 			} else {
-				throw new ArgumentException($"Unsupported database {database}");
+				throw new ArgumentException(
+					$"Unsupported database {database}, please check it yourself");
 			}
 		}
 	}
