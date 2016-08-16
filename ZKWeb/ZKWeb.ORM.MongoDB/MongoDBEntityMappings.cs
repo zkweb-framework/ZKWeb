@@ -20,6 +20,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		/// <param name="connectionUrl">Connection url</param>
 		public MongoDBEntityMappings(MongoUrl connectionUrl) {
+			Mappings = new ConcurrentDictionary<Type, IMongoDBEntityMapping>();
 			// Build entity mappings
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
@@ -30,8 +31,7 @@ namespace ZKWeb.ORM.MongoDB {
 			var database = client.GetDatabase(connectionUrl.DatabaseName);
 			foreach (var group in groupedProviders) {
 				var builder = (IMongoDBEntityMapping)Activator.CreateInstance(
-					typeof(MongoDBEntityMappingBuilder<>).MakeGenericType(group.Key),
-					database, handlers, group.AsEnumerable());
+					typeof(MongoDBEntityMappingBuilder<>).MakeGenericType(group.Key), database);
 				Mappings[group.Key] = builder;
 			}
 		}

@@ -2,8 +2,8 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using ZKWeb.Database;
 using ZKWebStandard.Extensions;
 
@@ -29,6 +29,16 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public string CollectionName { get { return collectionName; } }
 		private string collectionName;
+		/// <summary>
+		/// Id member
+		/// </summary>
+		public MemberInfo IdMember { get { return idMember; } }
+		private MemberInfo idMember;
+		/// <summary>
+		/// Ordinary members
+		/// </summary>
+		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
+		private IList<MemberInfo> ordinaryMembers;
 
 		/// <summary>
 		/// Initialize
@@ -38,13 +48,18 @@ namespace ZKWeb.ORM.MongoDB {
 			MapActions = new List<Action<BsonClassMap<T>>>();
 			CollectionActions = new List<Action<IMongoCollection<T>>>();
 			collectionName = typeof(T).Name;
+			idMember = null;
+			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered provider
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
 			// Register mapping
-			BsonClassMap.RegisterClassMap<T>(m => MapActions.ForEach(a => a(m)));
+			BsonClassMap.RegisterClassMap<T>(m => {
+				MapActions.ForEach(a => a(m));
+				m.SetIgnoreExtraElements(true);
+			});
 			// Get collection name with registered hanlders
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			foreach (var handler in handlers) {
@@ -52,7 +67,9 @@ namespace ZKWeb.ORM.MongoDB {
 			}
 			// Create indexes
 			var collection = database.GetCollection<T>(collectionName);
-			CollectionActions.ForEach(a => a(collection));
+			CollectionActions.ForEach(a => {
+				a(collection);
+			});
 		}
 
 		/// <summary>
@@ -63,6 +80,8 @@ namespace ZKWeb.ORM.MongoDB {
 			EntityMappingOptions options) {
 			// Unsupported options: Length, Unique, Nullable
 			// Index, CustomSqlType, CascadeDelete, WithSerialization
+			options = options ?? new EntityMappingOptions();
+			idMember = ((MemberExpression)memberExpression.Body).Member;
 			MapActions.Add(m => {
 				var memberMap = m.MapIdMember(memberExpression);
 				if (!string.IsNullOrEmpty(options.Column)) {
@@ -78,6 +97,8 @@ namespace ZKWeb.ORM.MongoDB {
 			Expression<Func<T, TMember>> memberExpression,
 			EntityMappingOptions options) {
 			// Unsupported options: Length, CustomSqlType, CascadeDelete, WithSerialization
+			options = options ?? new EntityMappingOptions();
+			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
 			MapActions.Add(m => {
 				var memberMap = m.MapMember(memberExpression);
 				if (!string.IsNullOrEmpty(options.Column)) {

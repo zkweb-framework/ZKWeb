@@ -38,7 +38,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
-			throw new NotImplementedException();
+			return new MongoDBDatabaseContext(ConnectionUrl, Mappings);
 		}
 	}
 }

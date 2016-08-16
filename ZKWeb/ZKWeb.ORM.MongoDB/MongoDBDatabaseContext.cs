@@ -1,96 +1,62 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using System.Data;
+using ZKWeb.Database;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using ZKWeb.Database;
+using System.FastReflection;
+using System.Collections.Generic;
+using MongoDB.Driver;
 using ZKWebStandard.Utils;
+using MongoDB.Bson;
 
-namespace ZKWeb.ORM.EFCore {
+namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// Entity Framework Core database context
+	/// Dapper database context
 	/// </summary>
-	public class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
+	internal class MongoDBDatabaseContext : IDatabaseContext {
 		/// <summary>
-		/// Entity Framework Core transaction
+		/// MongoDB entity mappings
 		/// </summary>
-		private IDbContextTransaction Transaction { get; set; }
+		private MongoDBEntityMappings Mappings { get; set; }
 		/// <summary>
-		/// Transaction level counter
+		/// Database object
 		/// </summary>
-		private int TransactionLevel;
+		private IMongoDatabase Database { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public EFCoreDatabaseContext(string database, string connectionString)
-			: base(database, connectionString) {
-			Transaction = null;
-			TransactionLevel = 0;
+		/// <param name="connectionUrl">Connection url</param>
+		/// <param name="mappings">Dapper entity mappings</param>
+		public MongoDBDatabaseContext(
+			MongoUrl connectionUrl,
+			MongoDBEntityMappings mappings) {
+			Mappings = mappings;
+			Database = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
 		}
 
 		/// <summary>
-		/// Configure entity model
+		/// Do nothing
 		/// </summary>
-		/// <param name="modelBuilder">Model builder</param>
-		protected override void OnModelCreating(ModelBuilder modelBuilder) {
-			// Call base method
-			base.OnModelCreating(modelBuilder);
-			// Register entity mappings
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers.Select(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
-			entityTypes.ForEach(t => Activator.CreateInstance(
-				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t), modelBuilder));
-		}
+		public void Dispose() { }
 
 		/// <summary>
-		/// Dispose context and transaction
+		/// Do Nothing
 		/// </summary>
-		public override void Dispose() {
-			Transaction?.Dispose();
-			Transaction = null;
-			base.Dispose();
-		}
+		public void BeginTransaction(IsolationLevel? isolationLevel = null) { }
 
 		/// <summary>
-		/// Begin a transaction
+		/// Do Nothing
 		/// </summary>
-		public void BeginTransaction(IsolationLevel? isolationLevel = null) {
-			var level = Interlocked.Increment(ref TransactionLevel);
-			if (level == 1) {
-				if (Transaction != null) {
-					throw new InvalidOperationException("Transaction exists");
-				}
-				Transaction = (isolationLevel == null) ?
-					Database.BeginTransaction() :
-					Database.BeginTransaction(isolationLevel.Value);
-			}
-		}
+		public void FinishTransaction() { }
 
 		/// <summary>
-		/// Finish the transaction
+		/// Get mongo collection
 		/// </summary>
-		public void FinishTransaction() {
-			var level = Interlocked.Decrement(ref TransactionLevel);
-			if (level == 0) {
-				if (Transaction == null) {
-					throw new InvalidOperationException("Transaction not exists");
-				}
-				Transaction.Commit();
-				Transaction.Dispose();
-				Transaction = null;
-			} else if (level < 0) {
-				Interlocked.Exchange(ref level, 0);
-				throw new InvalidOperationException(
-					"You can't call FinishTransaction more times than BeginTransaction");
-			}
+		private IMongoCollection<T> GetCollection<T>()
+			where T : class {
+			var mapping = Mappings.GetMapping(typeof(T));
+			return Database.GetCollection<T>(mapping.CollectionName);
 		}
 
 		/// <summary>
@@ -98,7 +64,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
-			return Set<T>();
+			return GetCollection<T>().AsQueryable();
 		}
 
 		/// <summary>
@@ -119,23 +85,13 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Insert or update entity
+		/// Make expression for filter entity by id
+		/// Result is (e => e.Id == entity.Id)
 		/// </summary>
-		private void InsertOrUpdate<T>(T entity)
-			where T : class, IEntity {
-			var entityInfo = Entry(entity);
-			if (entityInfo.State == EntityState.Detached) {
-				// It's not being tracked
-				if (entityInfo.IsKeySet) {
-					// The key is not default, mark all properties as modified
-					Update(entity);
-				} else {
-					// The key is default, set it's state to Added
-					Add(entity);
-				}
-			} else {
-				// It's being tracked, we don't need to do anything
-			}
+		private Expression<Func<T, bool>> MakeIdExpression<T>(T entity) {
+			var mapping = Mappings.GetMapping(typeof(T));
+			return ExpressionUtils.MakeMemberEqualiventExpression<T>(
+				mapping.IdMember.Name, mapping.IdMember.FastGetValue(entity));
 		}
 
 		/// <summary>
@@ -147,8 +103,9 @@ namespace ZKWeb.ORM.EFCore {
 			var entityLocal = entity; // can't use ref parameter in lambda
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
 			update?.Invoke(entityLocal);
-			InsertOrUpdate(entityLocal);
-			SaveChanges(); // send commands to database
+			GetCollection<T>().ReplaceOne(
+				MakeIdExpression(entity), entity,
+				new UpdateOptions() { IsUpsert = true });
 			callbacks.ForEach(c => c.AfterSave(this, entityLocal)); // notify after save
 			entity = entityLocal;
 		}
@@ -160,8 +117,7 @@ namespace ZKWeb.ORM.EFCore {
 			where T : class, IEntity {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
-			Remove(entity);
-			SaveChanges(); // send commands to database
+			GetCollection<T>().DeleteOne(MakeIdExpression(entity));
 			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
 		}
 
@@ -172,13 +128,15 @@ namespace ZKWeb.ORM.EFCore {
 			where T : class, IEntity {
 			var entitiesLocal = entities.ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
+			var collection = GetCollection<T>();
 			entitiesLocal.ForEach(e =>
 				callbacks.ForEach(c => c.BeforeSave(this, e))); // notify before save
 			entitiesLocal.ForEach(e => {
 				update?.Invoke(e);
-				InsertOrUpdate(e);
+				collection.ReplaceOne(
+					MakeIdExpression(e), e,
+					new UpdateOptions() { IsUpsert = true });
 			});
-			SaveChanges(); // send commands to database
 			entitiesLocal.ForEach(e =>
 				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
 			entities = entitiesLocal;
@@ -201,10 +159,11 @@ namespace ZKWeb.ORM.EFCore {
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
+			var collection = GetCollection<T>();
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
-			entities.ForEach(e => Delete(e));
-			SaveChanges(); // send commands to database
+			entities.ForEach(e =>
+				collection.DeleteOne(MakeIdExpression(e)));
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
 			return entities.Count;
@@ -214,7 +173,19 @@ namespace ZKWeb.ORM.EFCore {
 		/// Perform a raw update to database
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
-			return Database.ExecuteSqlCommand((string)query, (object[])parameters);
+			if (query is Command<int>) {
+				return Database.RunCommand(
+					(Command<int>)query, parameters as ReadPreference);
+			} else if (query is Command<long>) {
+				return Database.RunCommand(
+					(Command<long>)query, parameters as ReadPreference);
+			} else if (query is Func<IMongoDatabase, int>) {
+				return ((Func<IMongoDatabase, int>)query).Invoke(Database);
+			} else if (query is Func<IMongoDatabase, long>) {
+				return ((Func<IMongoDatabase, long>)query).Invoke(Database);
+			}
+			throw new ArgumentException(
+				"Unsupported query type, you can use Command<int> or Func<IMongoDatabase, int>");
 		}
 
 		/// <summary>
@@ -222,7 +193,24 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {
-			return Set<T>().FromSql((string)query, (object[])parameters);
+			if (query is FilterDefinition<T>) {
+				return GetCollection<T>().Find(
+					(FilterDefinition<T>)query,
+					parameters as FindOptions).ToEnumerable();
+			} else if (query is Command<T>) {
+				return new[] { Database.RunCommand(
+					(Command<T>)query, parameters as ReadPreference)
+				};
+			} else if (query is BsonJavaScript[]) {
+				var scripts = (BsonJavaScript[])query;
+				return GetCollection<T>().MapReduce(
+					scripts[0], scripts[1],
+					parameters as MapReduceOptions<T, T>).ToEnumerable();
+			} else {
+				throw new ArgumentException(
+					"Unsupported query type, you can use FilterDefinition<T> or " +
+					"Command<T> or BsonJavaScript[2] (for MapReduce)");
+			}
 		}
 	}
 }

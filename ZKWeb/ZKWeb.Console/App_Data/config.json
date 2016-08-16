@@ -1,7 +1,7 @@
 ﻿{
-	"ORM": "EFCore",
-	"Database": "MSSQL",
-	"ConnectionString": "Data Source=.\\sqlexpress;Initial Catalog=test_db;User Id=sa;Password=123",
+	"ORM": "MongoDB",
+	"Database": "MongoDB",
+	"ConnectionString": "mongodb://zkweb:123456@127.0.0.1:27017/zkweb",
 	"PluginDirectories": [],
 	"Plugins": [ "XXPlugin" ]
 }

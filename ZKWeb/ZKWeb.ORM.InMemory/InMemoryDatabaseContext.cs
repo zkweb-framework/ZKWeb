@@ -23,18 +23,19 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
-		/// Begin a transaction
+		/// Do Nothing
 		/// </summary>
-		public void BeginTransaction(IsolationLevel? isolationLevel) {
-			// Do nothing
-		}
+		public void Dispose() { }
 
 		/// <summary>
-		/// Finish the transaction
+		/// Do Nothing
 		/// </summary>
-		public void FinishTransaction() {
-			// Do nothing
-		}
+		public void BeginTransaction(IsolationLevel? isolationLevel) { }
+
+		/// <summary>
+		/// Do Nothing
+		/// </summary>
+		public void FinishTransaction() { }
 
 		/// <summary>
 		/// Get the query object for specific entity
@@ -136,13 +137,6 @@ namespace ZKWeb.ORM.InMemory {
 			where T : class {
 			throw new NotSupportedException(
 				"This operation is not supported for memory database");
-		}
-
-		/// <summary>
-		/// Dispose this context
-		/// </summary>
-		public void Dispose() {
-			// Do nothing
 		}
 	}
 }

@@ -130,9 +130,6 @@ namespace ZKWeb.ORM.Dapper {
 		/// It should return null if no matched entity found
 		/// Attention: It's slow except predicate like x => x.Id == id
 		/// </summary>
-		/// <typeparam name="T">Entity Type</typeparam>
-		/// <param name="predicate">The predicate</param>
-		/// <returns></returns>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
 			// If predicate is about compare primary key then we can use `Get` method
@@ -243,7 +240,8 @@ namespace ZKWeb.ORM.Dapper {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
-			entities.ForEach(e => Delete(e));
+			entities.ForEach(e =>
+				Connection.Delete(e, Transaction));
 			entities.ForEach(e =>
 				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
 			return entities.Count;
