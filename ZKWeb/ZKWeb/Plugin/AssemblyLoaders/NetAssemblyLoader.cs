@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
@@ -13,19 +14,25 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Possible assembly name suffixes
 		/// Use to load assemblies by short name
 		/// </summary>
-		protected IList<string> PossibleAssemblyNameSuffixes { get; set; }
+		private IList<string> PossibleAssemblyNameSuffixes { get; set; }
+		/// <summary>
+		/// Replacement assemblies
+		/// </summary>
+		private IDictionary<string, string> ReplacementAssemblies { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		public NetAssemblyLoader() {
-			// Register assembly resolve event
 			AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolver;
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
-			// Add possible assembly name suffixes
 			PossibleAssemblyNameSuffixes = new List<string>() {
 				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
 				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+			};
+			ReplacementAssemblies = new Dictionary<string, string>() {
+				{ "System.FastReflection", "FastReflection" },
+				{ "System.Drawing", "CoreCompat.System.Drawing" }
 			};
 		}
 
@@ -42,6 +49,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Load assembly by name
 		/// </summary>
 		public Assembly Load(string name) {
+			// Replace name if replacement exists
+			name = ReplacementAssemblies.GetOrDefault(name, name);
 			try {
 				// Try load directly
 				return Load(new AssemblyName(name));

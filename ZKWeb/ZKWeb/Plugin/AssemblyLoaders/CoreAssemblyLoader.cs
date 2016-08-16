@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
@@ -20,7 +21,11 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Because IgnoreCorLibraryDuplicatedTypes is a private option in Roslyn
 		/// We need to use a black list
 		/// </summary>
-		private HashSet<string> WrapperAssemblyNames { get; set; }
+		private ISet<string> WrapperAssemblyNames { get; set; }
+		/// <summary>
+		/// Replacement assemblies
+		/// </summary>
+		private IDictionary<string, string> ReplacementAssemblies { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -29,6 +34,10 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			Context = new LoadContext();
 			WrapperAssemblyNames = new HashSet<string>() {
 				"System.Console"
+			};
+			ReplacementAssemblies = new Dictionary<string, string>() {
+				{ "System.FastReflection", "FastReflection" },
+				{ "System.Drawing", "CoreCompat.System.Drawing" }
 			};
 		}
 
@@ -48,6 +57,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Load assembly by name
 		/// </summary>
 		public Assembly Load(string name) {
+			// Replace name if replacement exists
+			name = ReplacementAssemblies.GetOrDefault(name, name);
 			return Context.LoadFromAssemblyName(new AssemblyName(name));
 		}
 
