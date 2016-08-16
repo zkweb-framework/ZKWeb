@@ -3,17 +3,14 @@
 	"dependencies": {
 		"ZKWeb": "1.0.0-rc-1",
 		"ZKWeb.Hosting.AspNetCore": "1.0.0-rc-1",
-		"ZKWeb.ORM.InMemory": "1.0.0-rc-1"
+		"ZKWeb.ORM.InMemory": "1.0.0-rc-1",
+		"ZKWeb.ORM.MongoDB": "1.0.0-rc-1"
 	},
 	"buildOptions": {
 		"emitEntryPoint": true
 	},
 	"frameworks": {
-		"net461": {
-			"dependencies": {
-				"ZKWeb.ORM.NHibernate": "1.0.0-rc-1"
-			}
-		},
+		"net461": {},
 		"netcoreapp1.0": {
 			"imports": [
 				"dotnet5.6",
