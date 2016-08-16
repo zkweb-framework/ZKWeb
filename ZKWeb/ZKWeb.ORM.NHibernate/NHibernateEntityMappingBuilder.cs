@@ -61,13 +61,13 @@ namespace ZKWeb.ORM.NHibernate {
 			var memberPart = base.Map(Expression.Lambda<Func<T, object>>(
 				Expression.Convert(memberExpression.Body, typeof(object)),
 				memberExpression.Parameters));
-			var member = ((MemberExpression)memberExpression.Body).Member;
+			var property = (PropertyInfo)((MemberExpression)memberExpression.Body).Member;
 			if (!string.IsNullOrEmpty(options.Column)) {
 				memberPart = memberPart.Column(options.Column);
 			}
 			if (options.Length != null) {
 				memberPart = memberPart.Length(checked((int)options.Length.Value));
-			} else if (((PropertyInfo)member).PropertyType == typeof(string)) {
+			} else if (property.PropertyType == typeof(string)) {
 				memberPart = memberPart.Length(0xffff); // set max length for string by default
 			}
 			if (options.Unique == true) {
@@ -83,6 +83,8 @@ namespace ZKWeb.ORM.NHibernate {
 			}
 			if (!string.IsNullOrEmpty(options.CustomSqlType)) {
 				memberPart = memberPart.CustomSqlType(options.CustomSqlType);
+			} else if (property.PropertyType.IsEnum) {
+				memberPart = memberPart.CustomType<int>(); // store enum as int type by default
 			}
 			if (options.WithSerialization == true) {
 				memberPart = memberPart.CustomType(
