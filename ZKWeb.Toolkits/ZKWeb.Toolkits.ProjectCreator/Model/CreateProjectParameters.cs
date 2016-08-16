@@ -57,7 +57,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		/// Available product types
 		/// </summary>
 		public readonly static string[] AvailableProductTypes = new[] {
-			"AspNet", "AspNetCore", "Owin"
+			"AspNetCore", "AspNet", "Owin"
 		};
 		/// <summary>
 		/// Available ORM

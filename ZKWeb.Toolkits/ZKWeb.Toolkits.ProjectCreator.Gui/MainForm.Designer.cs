@@ -29,6 +29,12 @@
 			this.rbAspNetCore = new System.Windows.Forms.RadioButton();
 			this.rbAspNet = new System.Windows.Forms.RadioButton();
 			this.panelMain = new System.Windows.Forms.TableLayoutPanel();
+			this.panelORM = new System.Windows.Forms.Panel();
+			this.rbMongoDB = new System.Windows.Forms.RadioButton();
+			this.rbDapper = new System.Windows.Forms.RadioButton();
+			this.rbEFCore = new System.Windows.Forms.RadioButton();
+			this.rbNHibernate = new System.Windows.Forms.RadioButton();
+			this.lbORM = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.btnBrowseOutputDirectory = new System.Windows.Forms.Button();
 			this.tbOutputDirectory = new System.Windows.Forms.TextBox();
@@ -42,31 +48,25 @@
 			this.tbConnectionString = new System.Windows.Forms.TextBox();
 			this.lbConnectionString = new System.Windows.Forms.Label();
 			this.panelDatabase = new System.Windows.Forms.Panel();
+			this.rbDMongoDB = new System.Windows.Forms.RadioButton();
+			this.rbInMemory = new System.Windows.Forms.RadioButton();
+			this.rbPostgreSQL = new System.Windows.Forms.RadioButton();
+			this.rbSQLite = new System.Windows.Forms.RadioButton();
+			this.rbMySQL = new System.Windows.Forms.RadioButton();
+			this.rbMSSQL = new System.Windows.Forms.RadioButton();
 			this.lbDatabase = new System.Windows.Forms.Label();
 			this.tbDescription = new System.Windows.Forms.TextBox();
 			this.lbDescription = new System.Windows.Forms.Label();
 			this.lbProjectName = new System.Windows.Forms.Label();
 			this.tbProjectName = new System.Windows.Forms.TextBox();
 			this.btnCreateProject = new System.Windows.Forms.Button();
-			this.lbORM = new System.Windows.Forms.Label();
-			this.panelORM = new System.Windows.Forms.Panel();
-			this.rbNHibernate = new System.Windows.Forms.RadioButton();
-			this.rbEFCore = new System.Windows.Forms.RadioButton();
-			this.rbDapper = new System.Windows.Forms.RadioButton();
-			this.rbMongoDB = new System.Windows.Forms.RadioButton();
-			this.rbMSSQL = new System.Windows.Forms.RadioButton();
-			this.rbMySQL = new System.Windows.Forms.RadioButton();
-			this.rbSQLite = new System.Windows.Forms.RadioButton();
-			this.rbPostgreSQL = new System.Windows.Forms.RadioButton();
-			this.rbInMemory = new System.Windows.Forms.RadioButton();
-			this.rbDMongoDB = new System.Windows.Forms.RadioButton();
 			this.panelProjectType.SuspendLayout();
 			this.panelMain.SuspendLayout();
+			this.panelORM.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panelDefaultPlugins.SuspendLayout();
 			this.panelConnectionString.SuspendLayout();
 			this.panelDatabase.SuspendLayout();
-			this.panelORM.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lbProjectType
@@ -95,7 +95,7 @@
 			// rbOwin
 			// 
 			this.rbOwin.AutoSize = true;
-			this.rbOwin.Location = new System.Drawing.Point(172, 3);
+			this.rbOwin.Location = new System.Drawing.Point(175, 3);
 			this.rbOwin.Name = "rbOwin";
 			this.rbOwin.Size = new System.Drawing.Size(49, 17);
 			this.rbOwin.TabIndex = 2;
@@ -106,10 +106,12 @@
 			// rbAspNetCore
 			// 
 			this.rbAspNetCore.AutoSize = true;
-			this.rbAspNetCore.Location = new System.Drawing.Point(78, 3);
+			this.rbAspNetCore.Checked = true;
+			this.rbAspNetCore.Location = new System.Drawing.Point(3, 3);
 			this.rbAspNetCore.Name = "rbAspNetCore";
 			this.rbAspNetCore.Size = new System.Drawing.Size(88, 17);
 			this.rbAspNetCore.TabIndex = 1;
+			this.rbAspNetCore.TabStop = true;
 			this.rbAspNetCore.Tag = "AspNetCore";
 			this.rbAspNetCore.Text = "Asp.Net Core";
 			this.rbAspNetCore.UseVisualStyleBackColor = true;
@@ -117,12 +119,10 @@
 			// rbAspNet
 			// 
 			this.rbAspNet.AutoSize = true;
-			this.rbAspNet.Checked = true;
-			this.rbAspNet.Location = new System.Drawing.Point(3, 3);
+			this.rbAspNet.Location = new System.Drawing.Point(100, 3);
 			this.rbAspNet.Name = "rbAspNet";
 			this.rbAspNet.Size = new System.Drawing.Size(63, 17);
 			this.rbAspNet.TabIndex = 0;
-			this.rbAspNet.TabStop = true;
 			this.rbAspNet.Tag = "AspNet";
 			this.rbAspNet.Text = "Asp.Net";
 			this.rbAspNet.UseVisualStyleBackColor = true;
@@ -164,6 +164,80 @@
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
 			this.panelMain.Size = new System.Drawing.Size(756, 311);
 			this.panelMain.TabIndex = 3;
+			// 
+			// panelORM
+			// 
+			this.panelORM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.panelORM.Controls.Add(this.rbMongoDB);
+			this.panelORM.Controls.Add(this.rbDapper);
+			this.panelORM.Controls.Add(this.rbEFCore);
+			this.panelORM.Controls.Add(this.rbNHibernate);
+			this.panelORM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelORM.Location = new System.Drawing.Point(133, 99);
+			this.panelORM.Name = "panelORM";
+			this.panelORM.Size = new System.Drawing.Size(620, 26);
+			this.panelORM.TabIndex = 8;
+			// 
+			// rbMongoDB
+			// 
+			this.rbMongoDB.AutoSize = true;
+			this.rbMongoDB.Location = new System.Drawing.Point(295, 5);
+			this.rbMongoDB.Name = "rbMongoDB";
+			this.rbMongoDB.Size = new System.Drawing.Size(73, 17);
+			this.rbMongoDB.TabIndex = 4;
+			this.rbMongoDB.Tag = "MongoDB";
+			this.rbMongoDB.Text = "MongoDB";
+			this.rbMongoDB.UseVisualStyleBackColor = true;
+			this.rbMongoDB.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbDapper
+			// 
+			this.rbDapper.AutoSize = true;
+			this.rbDapper.Location = new System.Drawing.Point(225, 5);
+			this.rbDapper.Name = "rbDapper";
+			this.rbDapper.Size = new System.Drawing.Size(60, 17);
+			this.rbDapper.TabIndex = 3;
+			this.rbDapper.Tag = "Dapper";
+			this.rbDapper.Text = "Dapper";
+			this.rbDapper.UseVisualStyleBackColor = true;
+			this.rbDapper.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbEFCore
+			// 
+			this.rbEFCore.AutoSize = true;
+			this.rbEFCore.Location = new System.Drawing.Point(90, 5);
+			this.rbEFCore.Name = "rbEFCore";
+			this.rbEFCore.Size = new System.Drawing.Size(128, 17);
+			this.rbEFCore.TabIndex = 2;
+			this.rbEFCore.Tag = "EFCore";
+			this.rbEFCore.Text = "EntityFramework Core";
+			this.rbEFCore.UseVisualStyleBackColor = true;
+			this.rbEFCore.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbNHibernate
+			// 
+			this.rbNHibernate.AutoSize = true;
+			this.rbNHibernate.Checked = true;
+			this.rbNHibernate.Location = new System.Drawing.Point(5, 5);
+			this.rbNHibernate.Name = "rbNHibernate";
+			this.rbNHibernate.Size = new System.Drawing.Size(79, 17);
+			this.rbNHibernate.TabIndex = 1;
+			this.rbNHibernate.TabStop = true;
+			this.rbNHibernate.Tag = "NHibernate";
+			this.rbNHibernate.Text = "NHibernate";
+			this.rbNHibernate.UseVisualStyleBackColor = true;
+			this.rbNHibernate.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// lbORM
+			// 
+			this.lbORM.AutoSize = true;
+			this.lbORM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lbORM.Location = new System.Drawing.Point(3, 96);
+			this.lbORM.Name = "lbORM";
+			this.lbORM.Size = new System.Drawing.Size(124, 32);
+			this.lbORM.TabIndex = 18;
+			this.lbORM.Text = "ORM*:";
+			this.lbORM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tableLayoutPanel1
 			// 
@@ -316,6 +390,80 @@
 			this.panelDatabase.Size = new System.Drawing.Size(620, 26);
 			this.panelDatabase.TabIndex = 7;
 			// 
+			// rbDMongoDB
+			// 
+			this.rbDMongoDB.AutoSize = true;
+			this.rbDMongoDB.Location = new System.Drawing.Point(380, 5);
+			this.rbDMongoDB.Name = "rbDMongoDB";
+			this.rbDMongoDB.Size = new System.Drawing.Size(73, 17);
+			this.rbDMongoDB.TabIndex = 7;
+			this.rbDMongoDB.Tag = "MongoDB";
+			this.rbDMongoDB.Text = "MongoDB";
+			this.rbDMongoDB.UseVisualStyleBackColor = true;
+			this.rbDMongoDB.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbInMemory
+			// 
+			this.rbInMemory.AutoSize = true;
+			this.rbInMemory.Location = new System.Drawing.Point(300, 5);
+			this.rbInMemory.Name = "rbInMemory";
+			this.rbInMemory.Size = new System.Drawing.Size(71, 17);
+			this.rbInMemory.TabIndex = 6;
+			this.rbInMemory.Tag = "InMemory";
+			this.rbInMemory.Text = "InMemory";
+			this.rbInMemory.UseVisualStyleBackColor = true;
+			this.rbInMemory.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbPostgreSQL
+			// 
+			this.rbPostgreSQL.AutoSize = true;
+			this.rbPostgreSQL.Location = new System.Drawing.Point(210, 5);
+			this.rbPostgreSQL.Name = "rbPostgreSQL";
+			this.rbPostgreSQL.Size = new System.Drawing.Size(82, 17);
+			this.rbPostgreSQL.TabIndex = 5;
+			this.rbPostgreSQL.Tag = "PostgreSQL";
+			this.rbPostgreSQL.Text = "PostgreSQL";
+			this.rbPostgreSQL.UseVisualStyleBackColor = true;
+			this.rbPostgreSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbSQLite
+			// 
+			this.rbSQLite.AutoSize = true;
+			this.rbSQLite.Location = new System.Drawing.Point(145, 5);
+			this.rbSQLite.Name = "rbSQLite";
+			this.rbSQLite.Size = new System.Drawing.Size(57, 17);
+			this.rbSQLite.TabIndex = 4;
+			this.rbSQLite.Tag = "SQLite";
+			this.rbSQLite.Text = "SQLite";
+			this.rbSQLite.UseVisualStyleBackColor = true;
+			this.rbSQLite.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbMySQL
+			// 
+			this.rbMySQL.AutoSize = true;
+			this.rbMySQL.Location = new System.Drawing.Point(75, 5);
+			this.rbMySQL.Name = "rbMySQL";
+			this.rbMySQL.Size = new System.Drawing.Size(60, 17);
+			this.rbMySQL.TabIndex = 3;
+			this.rbMySQL.Tag = "MySQL";
+			this.rbMySQL.Text = "MySQL";
+			this.rbMySQL.UseVisualStyleBackColor = true;
+			this.rbMySQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbMSSQL
+			// 
+			this.rbMSSQL.AutoSize = true;
+			this.rbMSSQL.Checked = true;
+			this.rbMSSQL.Location = new System.Drawing.Point(5, 5);
+			this.rbMSSQL.Name = "rbMSSQL";
+			this.rbMSSQL.Size = new System.Drawing.Size(62, 17);
+			this.rbMSSQL.TabIndex = 2;
+			this.rbMSSQL.TabStop = true;
+			this.rbMSSQL.Tag = "MSSQL";
+			this.rbMSSQL.Text = "MSSQL";
+			this.rbMSSQL.UseVisualStyleBackColor = true;
+			this.rbMSSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
 			// lbDatabase
 			// 
 			this.lbDatabase.AutoSize = true;
@@ -380,152 +528,6 @@
 			this.btnCreateProject.UseVisualStyleBackColor = true;
 			this.btnCreateProject.Click += new System.EventHandler(this.btnCreateProject_Click);
 			// 
-			// lbORM
-			// 
-			this.lbORM.AutoSize = true;
-			this.lbORM.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbORM.Location = new System.Drawing.Point(3, 96);
-			this.lbORM.Name = "lbORM";
-			this.lbORM.Size = new System.Drawing.Size(124, 32);
-			this.lbORM.TabIndex = 18;
-			this.lbORM.Text = "ORM*:";
-			this.lbORM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// panelORM
-			// 
-			this.panelORM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.panelORM.Controls.Add(this.rbMongoDB);
-			this.panelORM.Controls.Add(this.rbDapper);
-			this.panelORM.Controls.Add(this.rbEFCore);
-			this.panelORM.Controls.Add(this.rbNHibernate);
-			this.panelORM.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelORM.Location = new System.Drawing.Point(133, 99);
-			this.panelORM.Name = "panelORM";
-			this.panelORM.Size = new System.Drawing.Size(620, 26);
-			this.panelORM.TabIndex = 8;
-			// 
-			// rbNHibernate
-			// 
-			this.rbNHibernate.AutoSize = true;
-			this.rbNHibernate.Checked = true;
-			this.rbNHibernate.Location = new System.Drawing.Point(5, 5);
-			this.rbNHibernate.Name = "rbNHibernate";
-			this.rbNHibernate.Size = new System.Drawing.Size(79, 17);
-			this.rbNHibernate.TabIndex = 1;
-			this.rbNHibernate.Tag = "NHibernate";
-			this.rbNHibernate.Text = "NHibernate";
-			this.rbNHibernate.UseVisualStyleBackColor = true;
-			this.rbNHibernate.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
-			// 
-			// rbEFCore
-			// 
-			this.rbEFCore.AutoSize = true;
-			this.rbEFCore.Location = new System.Drawing.Point(90, 5);
-			this.rbEFCore.Name = "rbEFCore";
-			this.rbEFCore.Size = new System.Drawing.Size(128, 17);
-			this.rbEFCore.TabIndex = 2;
-			this.rbEFCore.Tag = "EFCore";
-			this.rbEFCore.Text = "EntityFramework Core";
-			this.rbEFCore.UseVisualStyleBackColor = true;
-			this.rbEFCore.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
-			// 
-			// rbDapper
-			// 
-			this.rbDapper.AutoSize = true;
-			this.rbDapper.Location = new System.Drawing.Point(225, 5);
-			this.rbDapper.Name = "rbDapper";
-			this.rbDapper.Size = new System.Drawing.Size(60, 17);
-			this.rbDapper.TabIndex = 3;
-			this.rbDapper.Tag = "Dapper";
-			this.rbDapper.Text = "Dapper";
-			this.rbDapper.UseVisualStyleBackColor = true;
-			this.rbDapper.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
-			// 
-			// rbMongoDB
-			// 
-			this.rbMongoDB.AutoSize = true;
-			this.rbMongoDB.Location = new System.Drawing.Point(295, 5);
-			this.rbMongoDB.Name = "rbMongoDB";
-			this.rbMongoDB.Size = new System.Drawing.Size(73, 17);
-			this.rbMongoDB.TabIndex = 4;
-			this.rbMongoDB.Tag = "MongoDB";
-			this.rbMongoDB.Text = "MongoDB";
-			this.rbMongoDB.UseVisualStyleBackColor = true;
-			this.rbMongoDB.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
-			// 
-			// rbMSSQL
-			// 
-			this.rbMSSQL.AutoSize = true;
-			this.rbMSSQL.Checked = true;
-			this.rbMSSQL.Location = new System.Drawing.Point(5, 5);
-			this.rbMSSQL.Name = "rbMSSQL";
-			this.rbMSSQL.Size = new System.Drawing.Size(62, 17);
-			this.rbMSSQL.TabIndex = 2;
-			this.rbMSSQL.Tag = "MSSQL";
-			this.rbMSSQL.Text = "MSSQL";
-			this.rbMSSQL.UseVisualStyleBackColor = true;
-			this.rbMSSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbMySQL
-			// 
-			this.rbMySQL.AutoSize = true;
-			this.rbMySQL.Location = new System.Drawing.Point(75, 5);
-			this.rbMySQL.Name = "rbMySQL";
-			this.rbMySQL.Size = new System.Drawing.Size(60, 17);
-			this.rbMySQL.TabIndex = 3;
-			this.rbMySQL.Tag = "MySQL";
-			this.rbMySQL.Text = "MySQL";
-			this.rbMySQL.UseVisualStyleBackColor = true;
-			this.rbMySQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbSQLite
-			// 
-			this.rbSQLite.AutoSize = true;
-			this.rbSQLite.Location = new System.Drawing.Point(145, 5);
-			this.rbSQLite.Name = "rbSQLite";
-			this.rbSQLite.Size = new System.Drawing.Size(57, 17);
-			this.rbSQLite.TabIndex = 4;
-			this.rbSQLite.Tag = "SQLite";
-			this.rbSQLite.Text = "SQLite";
-			this.rbSQLite.UseVisualStyleBackColor = true;
-			this.rbSQLite.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbPostgreSQL
-			// 
-			this.rbPostgreSQL.AutoSize = true;
-			this.rbPostgreSQL.Location = new System.Drawing.Point(210, 5);
-			this.rbPostgreSQL.Name = "rbPostgreSQL";
-			this.rbPostgreSQL.Size = new System.Drawing.Size(82, 17);
-			this.rbPostgreSQL.TabIndex = 5;
-			this.rbPostgreSQL.Tag = "PostgreSQL";
-			this.rbPostgreSQL.Text = "PostgreSQL";
-			this.rbPostgreSQL.UseVisualStyleBackColor = true;
-			this.rbPostgreSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbInMemory
-			// 
-			this.rbInMemory.AutoSize = true;
-			this.rbInMemory.Location = new System.Drawing.Point(300, 5);
-			this.rbInMemory.Name = "rbInMemory";
-			this.rbInMemory.Size = new System.Drawing.Size(71, 17);
-			this.rbInMemory.TabIndex = 6;
-			this.rbInMemory.Tag = "InMemory";
-			this.rbInMemory.Text = "InMemory";
-			this.rbInMemory.UseVisualStyleBackColor = true;
-			this.rbInMemory.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbDMongoDB
-			// 
-			this.rbDMongoDB.AutoSize = true;
-			this.rbDMongoDB.Location = new System.Drawing.Point(380, 5);
-			this.rbDMongoDB.Name = "rbDMongoDB";
-			this.rbDMongoDB.Size = new System.Drawing.Size(73, 17);
-			this.rbDMongoDB.TabIndex = 7;
-			this.rbDMongoDB.Tag = "MongoDB";
-			this.rbDMongoDB.Text = "MongoDB";
-			this.rbDMongoDB.UseVisualStyleBackColor = true;
-			this.rbDMongoDB.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -539,6 +541,8 @@
 			this.panelProjectType.PerformLayout();
 			this.panelMain.ResumeLayout(false);
 			this.panelMain.PerformLayout();
+			this.panelORM.ResumeLayout(false);
+			this.panelORM.PerformLayout();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			this.panelDefaultPlugins.ResumeLayout(false);
@@ -547,8 +551,6 @@
 			this.panelConnectionString.PerformLayout();
 			this.panelDatabase.ResumeLayout(false);
 			this.panelDatabase.PerformLayout();
-			this.panelORM.ResumeLayout(false);
-			this.panelORM.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
