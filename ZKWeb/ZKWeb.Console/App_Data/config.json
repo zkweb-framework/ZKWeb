@@ -1,7 +1,7 @@
 ﻿{
-	"ORM": "MongoDB",
-	"Database": "MongoDB",
-	"ConnectionString": "mongodb://zkweb:123456@127.0.0.1:27017/zkweb",
+	"ORM": "NHibernate",
+	"Database": "MSSQL",
+	"ConnectionString": "Data Source=.\\sqlexpress;Initial Catalog=zkweb;User Id=sa;Password=123",
 	"PluginDirectories": [],
 	"Plugins": [ "XXPlugin" ]
 }

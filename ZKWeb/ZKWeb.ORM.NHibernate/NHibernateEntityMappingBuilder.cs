@@ -3,6 +3,7 @@ using FluentNHibernate.Mapping;
 using ZKWeb.Database;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -60,11 +61,14 @@ namespace ZKWeb.ORM.NHibernate {
 			var memberPart = base.Map(Expression.Lambda<Func<T, object>>(
 				Expression.Convert(memberExpression.Body, typeof(object)),
 				memberExpression.Parameters));
+			var member = ((MemberExpression)memberExpression.Body).Member;
 			if (!string.IsNullOrEmpty(options.Column)) {
 				memberPart = memberPart.Column(options.Column);
 			}
 			if (options.Length != null) {
 				memberPart = memberPart.Length(checked((int)options.Length.Value));
+			} else if (((PropertyInfo)member).PropertyType == typeof(string)) {
+				memberPart = memberPart.Length(0xffff); // default to support long string
 			}
 			if (options.Unique == true) {
 				memberPart = memberPart.Unique();

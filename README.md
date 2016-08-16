@@ -30,14 +30,9 @@ Backward compatibility is provided as much as possible.
 	- All host environment based on same abstraction layer
 - Multiple ORM
 	- Support Dapper
-		- Reference, HasMany, HasManyToMany is unavailable
-		- Migration feature is unavailable
 	- Support EntityFramework Core
-		- WithSerialization, HasManyToMany is unavailable
 	- Support InMemory
-		- Reference, HasMany, HasManyToMany is unavailable
-	- ~~Support MongoDB (working on)~~
-		- Reference, HasMany, HasManyToMany is unavailable
+	- Support MongoDB
 	- Support NHibernate
 		- No support for .Net Core yet
 	- Support runtime database scheme migration
