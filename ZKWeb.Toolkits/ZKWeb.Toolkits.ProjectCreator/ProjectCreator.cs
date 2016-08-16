@@ -65,6 +65,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				plugins.AddRange(collection.AppendPlugins);
 			}
 			var json = JsonConvert.SerializeObject(new {
+				ORM = Parameters.ORM,
 				Database = Parameters.Database,
 				ConnectionString = Parameters.ConnectionString,
 				PluginDirectories = pluginDirectories,
@@ -98,6 +99,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 			// Get templates directory
 			var templatesDirectory = Parameters.TemplatesDirectory ?? AutoDetectTemplatesDirectory();
 			// Get project template path and plugin template path
+			var projectNameInPath = "ProjectName";
 			var projectTemplateName = $"{Parameters.ProjectType}.{Parameters.ORM}";
 			var pluginTemplateName = "BootstrapPlugin";
 			var projectTemplateRoot = Path.Combine(templatesDirectory, projectTemplateName);
@@ -120,7 +122,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				projectTemplateRoot, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(projectTemplateRoot.Length + 1);
 				var outputPath = Path.Combine(outputRoot,
-					relPath.Replace(projectTemplateName, Parameters.ProjectName));
+					relPath.Replace(projectNameInPath, Parameters.ProjectName));
 				if (Path.GetFileName(outputPath) == "config.json") {
 					WriteConfigObject(outputPath);
 				} else {
@@ -134,7 +136,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				pluginTemplateRoot, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(pluginTemplateRoot.Length + 1);
 				var outputPath = Path.Combine(pluginRoot, Parameters.ProjectName,
-					relPath.Replace(pluginTemplateName.ToLower(), Parameters.ProjectName.ToLower()));
+					relPath.Replace(projectNameInPath, Parameters.ProjectName.ToLower()));
 				WriteTemplateContents(path, outputPath, templateParameters);
 			}
 		}
