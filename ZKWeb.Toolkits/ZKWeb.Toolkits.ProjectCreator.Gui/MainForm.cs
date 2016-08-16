@@ -10,6 +10,17 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 		public MainForm() {
 			InitializeComponent();
 			onDatabaseCheckedChanged(null, null);
+			onORMCheckedChanged(null, null);
+		}
+
+		private void onORMCheckedChanged(object sender, EventArgs e) {
+			var orm = GetSelectedORM();
+			var availableDatabases = CreateProjectParameters.AvailableDatabases[orm];
+			foreach (var rb in panelDatabase.Controls.OfType<RadioButton>()) {
+				rb.Enabled = availableDatabases.Contains(rb.Tag?.ToString());
+			}
+			panelDatabase.Controls.OfType<RadioButton>()
+				.OrderBy(c => c.TabIndex).First(rb => rb.Enabled).Checked = true;
 		}
 
 		private void onDatabaseCheckedChanged(object sender, EventArgs e) {
@@ -20,12 +31,23 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 			} else if (rbPostgreSQL.Checked) {
 				tbConnectionString.Text = "Server=127.0.0.1;Port=5432;Database=test_db;User Id=test_user;Password=123456;";
 			} else if (rbSQLite.Checked) {
-				tbConnectionString.Text = "Data Source={{App_Data}}/test.db;Version=3;";
+				tbConnectionString.Text = "Data Source={{App_Data}}/test.db;";
+			} else if (rbInMemory.Checked) {
+				tbConnectionString.Text = "";
+			} else if (rbMongoDB.Checked) {
+				tbConnectionString.Text = "mongodb://test_user:123456@127.0.0.1:27017/test_db";
+			} else {
+				tbConnectionString.Text = "";
 			}
 		}
 
 		private string GetSelectedProjectType() {
 			var radio = panelProjectType.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+			return radio?.Tag?.ToString();
+		}
+
+		private string GetSelectedORM() {
+			var radio = panelORM.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
 			return radio?.Tag?.ToString();
 		}
 
@@ -67,6 +89,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 				parameters.ProjectType = GetSelectedProjectType();
 				parameters.ProjectName = tbProjectName.Text;
 				parameters.ProjectDescription = tbDescription.Text;
+				parameters.ORM = GetSelectedORM();
 				parameters.Database = GetSelectedDatabase();
 				parameters.ConnectionString = tbConnectionString.Text;
 				parameters.UseDefaultPlugins = tbUseDefaultPlugins.Text;

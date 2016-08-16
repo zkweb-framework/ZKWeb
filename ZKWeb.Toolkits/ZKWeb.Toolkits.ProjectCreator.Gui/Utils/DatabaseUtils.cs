@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using MySql.Data.MySqlClient;
 using Npgsql;
 using System;
@@ -39,7 +40,8 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui.Utils {
 				// Do nothing
 			} else if (string.Compare(database, "MongoDB", true) == 0) {
 				var mongoUrl = new MongoUrl(connectionString);
-				new MongoClient(mongoUrl).ListDatabases().ToList();
+				var mongoDatabase = new MongoClient(mongoUrl).GetDatabase(mongoUrl.DatabaseName);
+				mongoDatabase.ListCollections().ToBsonDocument();
 			} else {
 				throw new ArgumentException(
 					$"Unsupported database {database}, please check it yourself");

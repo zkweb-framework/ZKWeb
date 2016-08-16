@@ -42,22 +42,31 @@
 			this.tbConnectionString = new System.Windows.Forms.TextBox();
 			this.lbConnectionString = new System.Windows.Forms.Label();
 			this.panelDatabase = new System.Windows.Forms.Panel();
-			this.rbPostgreSQL = new System.Windows.Forms.RadioButton();
-			this.rbMySQL = new System.Windows.Forms.RadioButton();
-			this.rbMSSQL = new System.Windows.Forms.RadioButton();
-			this.rbSQLite = new System.Windows.Forms.RadioButton();
 			this.lbDatabase = new System.Windows.Forms.Label();
 			this.tbDescription = new System.Windows.Forms.TextBox();
 			this.lbDescription = new System.Windows.Forms.Label();
 			this.lbProjectName = new System.Windows.Forms.Label();
 			this.tbProjectName = new System.Windows.Forms.TextBox();
 			this.btnCreateProject = new System.Windows.Forms.Button();
+			this.lbORM = new System.Windows.Forms.Label();
+			this.panelORM = new System.Windows.Forms.Panel();
+			this.rbNHibernate = new System.Windows.Forms.RadioButton();
+			this.rbEFCore = new System.Windows.Forms.RadioButton();
+			this.rbDapper = new System.Windows.Forms.RadioButton();
+			this.rbMongoDB = new System.Windows.Forms.RadioButton();
+			this.rbMSSQL = new System.Windows.Forms.RadioButton();
+			this.rbMySQL = new System.Windows.Forms.RadioButton();
+			this.rbSQLite = new System.Windows.Forms.RadioButton();
+			this.rbPostgreSQL = new System.Windows.Forms.RadioButton();
+			this.rbInMemory = new System.Windows.Forms.RadioButton();
+			this.rbDMongoDB = new System.Windows.Forms.RadioButton();
 			this.panelProjectType.SuspendLayout();
 			this.panelMain.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panelDefaultPlugins.SuspendLayout();
 			this.panelConnectionString.SuspendLayout();
 			this.panelDatabase.SuspendLayout();
+			this.panelORM.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lbProjectType
@@ -123,25 +132,27 @@
 			this.panelMain.ColumnCount = 2;
 			this.panelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
 			this.panelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.panelMain.Controls.Add(this.tableLayoutPanel1, 1, 6);
-			this.panelMain.Controls.Add(this.lbOutputDirectory, 0, 6);
-			this.panelMain.Controls.Add(this.panelDefaultPlugins, 1, 5);
-			this.panelMain.Controls.Add(this.lbDefaultPlugins, 0, 5);
-			this.panelMain.Controls.Add(this.panelConnectionString, 1, 4);
-			this.panelMain.Controls.Add(this.lbConnectionString, 0, 4);
-			this.panelMain.Controls.Add(this.panelDatabase, 1, 3);
-			this.panelMain.Controls.Add(this.lbDatabase, 0, 3);
+			this.panelMain.Controls.Add(this.panelORM, 0, 3);
+			this.panelMain.Controls.Add(this.lbORM, 0, 3);
+			this.panelMain.Controls.Add(this.tableLayoutPanel1, 1, 7);
+			this.panelMain.Controls.Add(this.lbOutputDirectory, 0, 7);
+			this.panelMain.Controls.Add(this.panelDefaultPlugins, 1, 6);
+			this.panelMain.Controls.Add(this.lbDefaultPlugins, 0, 6);
+			this.panelMain.Controls.Add(this.panelConnectionString, 1, 5);
+			this.panelMain.Controls.Add(this.lbConnectionString, 0, 5);
+			this.panelMain.Controls.Add(this.panelDatabase, 1, 4);
+			this.panelMain.Controls.Add(this.lbDatabase, 0, 4);
 			this.panelMain.Controls.Add(this.tbDescription, 1, 2);
 			this.panelMain.Controls.Add(this.lbDescription, 0, 2);
 			this.panelMain.Controls.Add(this.lbProjectName, 0, 1);
 			this.panelMain.Controls.Add(this.lbProjectType, 0, 0);
 			this.panelMain.Controls.Add(this.panelProjectType, 1, 0);
 			this.panelMain.Controls.Add(this.tbProjectName, 1, 1);
-			this.panelMain.Controls.Add(this.btnCreateProject, 1, 7);
+			this.panelMain.Controls.Add(this.btnCreateProject, 1, 8);
 			this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelMain.Location = new System.Drawing.Point(0, 0);
 			this.panelMain.Name = "panelMain";
-			this.panelMain.RowCount = 8;
+			this.panelMain.RowCount = 9;
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
@@ -150,7 +161,8 @@
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
 			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.panelMain.Size = new System.Drawing.Size(756, 274);
+			this.panelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+			this.panelMain.Size = new System.Drawing.Size(756, 311);
 			this.panelMain.TabIndex = 3;
 			// 
 			// tableLayoutPanel1
@@ -161,7 +173,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.btnBrowseOutputDirectory, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.tbOutputDirectory, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(133, 195);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(133, 227);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -191,7 +203,7 @@
 			// 
 			this.lbOutputDirectory.AutoSize = true;
 			this.lbOutputDirectory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbOutputDirectory.Location = new System.Drawing.Point(3, 192);
+			this.lbOutputDirectory.Location = new System.Drawing.Point(3, 224);
 			this.lbOutputDirectory.Name = "lbOutputDirectory";
 			this.lbOutputDirectory.Size = new System.Drawing.Size(124, 32);
 			this.lbOutputDirectory.TabIndex = 15;
@@ -206,7 +218,7 @@
 			this.panelDefaultPlugins.Controls.Add(this.btnBrowseDefaultPlugins, 0, 0);
 			this.panelDefaultPlugins.Controls.Add(this.tbUseDefaultPlugins, 0, 0);
 			this.panelDefaultPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelDefaultPlugins.Location = new System.Drawing.Point(133, 163);
+			this.panelDefaultPlugins.Location = new System.Drawing.Point(133, 195);
 			this.panelDefaultPlugins.Name = "panelDefaultPlugins";
 			this.panelDefaultPlugins.RowCount = 1;
 			this.panelDefaultPlugins.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -237,7 +249,7 @@
 			// 
 			this.lbDefaultPlugins.AutoSize = true;
 			this.lbDefaultPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbDefaultPlugins.Location = new System.Drawing.Point(3, 160);
+			this.lbDefaultPlugins.Location = new System.Drawing.Point(3, 192);
 			this.lbDefaultPlugins.Name = "lbDefaultPlugins";
 			this.lbDefaultPlugins.Size = new System.Drawing.Size(124, 32);
 			this.lbDefaultPlugins.TabIndex = 13;
@@ -252,7 +264,7 @@
 			this.panelConnectionString.Controls.Add(this.btnTest, 0, 0);
 			this.panelConnectionString.Controls.Add(this.tbConnectionString, 0, 0);
 			this.panelConnectionString.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelConnectionString.Location = new System.Drawing.Point(133, 131);
+			this.panelConnectionString.Location = new System.Drawing.Point(133, 163);
 			this.panelConnectionString.Name = "panelConnectionString";
 			this.panelConnectionString.RowCount = 1;
 			this.panelConnectionString.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -282,7 +294,7 @@
 			// 
 			this.lbConnectionString.AutoSize = true;
 			this.lbConnectionString.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbConnectionString.Location = new System.Drawing.Point(3, 128);
+			this.lbConnectionString.Location = new System.Drawing.Point(3, 160);
 			this.lbConnectionString.Name = "lbConnectionString";
 			this.lbConnectionString.Size = new System.Drawing.Size(124, 32);
 			this.lbConnectionString.TabIndex = 8;
@@ -292,71 +304,23 @@
 			// panelDatabase
 			// 
 			this.panelDatabase.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.panelDatabase.Controls.Add(this.rbDMongoDB);
+			this.panelDatabase.Controls.Add(this.rbInMemory);
 			this.panelDatabase.Controls.Add(this.rbPostgreSQL);
+			this.panelDatabase.Controls.Add(this.rbSQLite);
 			this.panelDatabase.Controls.Add(this.rbMySQL);
 			this.panelDatabase.Controls.Add(this.rbMSSQL);
-			this.panelDatabase.Controls.Add(this.rbSQLite);
 			this.panelDatabase.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelDatabase.Location = new System.Drawing.Point(133, 99);
+			this.panelDatabase.Location = new System.Drawing.Point(133, 131);
 			this.panelDatabase.Name = "panelDatabase";
 			this.panelDatabase.Size = new System.Drawing.Size(620, 26);
 			this.panelDatabase.TabIndex = 7;
-			// 
-			// rbPostgreSQL
-			// 
-			this.rbPostgreSQL.AutoSize = true;
-			this.rbPostgreSQL.Location = new System.Drawing.Point(144, 3);
-			this.rbPostgreSQL.Name = "rbPostgreSQL";
-			this.rbPostgreSQL.Size = new System.Drawing.Size(82, 17);
-			this.rbPostgreSQL.TabIndex = 2;
-			this.rbPostgreSQL.Tag = "postgresql";
-			this.rbPostgreSQL.Text = "PostgreSQL";
-			this.rbPostgreSQL.UseVisualStyleBackColor = true;
-			this.rbPostgreSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbMySQL
-			// 
-			this.rbMySQL.AutoSize = true;
-			this.rbMySQL.Location = new System.Drawing.Point(78, 3);
-			this.rbMySQL.Name = "rbMySQL";
-			this.rbMySQL.Size = new System.Drawing.Size(60, 17);
-			this.rbMySQL.TabIndex = 1;
-			this.rbMySQL.Tag = "mysql";
-			this.rbMySQL.Text = "MySQL";
-			this.rbMySQL.UseVisualStyleBackColor = true;
-			this.rbMySQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbMSSQL
-			// 
-			this.rbMSSQL.AutoSize = true;
-			this.rbMSSQL.Location = new System.Drawing.Point(3, 3);
-			this.rbMSSQL.Name = "rbMSSQL";
-			this.rbMSSQL.Size = new System.Drawing.Size(62, 17);
-			this.rbMSSQL.TabIndex = 0;
-			this.rbMSSQL.Tag = "mssql";
-			this.rbMSSQL.Text = "MSSQL";
-			this.rbMSSQL.UseVisualStyleBackColor = true;
-			this.rbMSSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
-			// 
-			// rbSQLite
-			// 
-			this.rbSQLite.AutoSize = true;
-			this.rbSQLite.Checked = true;
-			this.rbSQLite.Location = new System.Drawing.Point(227, 3);
-			this.rbSQLite.Name = "rbSQLite";
-			this.rbSQLite.Size = new System.Drawing.Size(57, 17);
-			this.rbSQLite.TabIndex = 3;
-			this.rbSQLite.TabStop = true;
-			this.rbSQLite.Tag = "sqlite";
-			this.rbSQLite.Text = "SQLite";
-			this.rbSQLite.UseVisualStyleBackColor = true;
-			this.rbSQLite.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
 			// 
 			// lbDatabase
 			// 
 			this.lbDatabase.AutoSize = true;
 			this.lbDatabase.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbDatabase.Location = new System.Drawing.Point(3, 96);
+			this.lbDatabase.Location = new System.Drawing.Point(3, 128);
 			this.lbDatabase.Name = "lbDatabase";
 			this.lbDatabase.Size = new System.Drawing.Size(124, 32);
 			this.lbDatabase.TabIndex = 6;
@@ -407,20 +371,166 @@
 			// btnCreateProject
 			// 
 			this.btnCreateProject.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnCreateProject.Location = new System.Drawing.Point(133, 232);
+			this.btnCreateProject.Location = new System.Drawing.Point(133, 264);
 			this.btnCreateProject.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
 			this.btnCreateProject.Name = "btnCreateProject";
-			this.btnCreateProject.Size = new System.Drawing.Size(620, 34);
+			this.btnCreateProject.Size = new System.Drawing.Size(620, 39);
 			this.btnCreateProject.TabIndex = 17;
 			this.btnCreateProject.Text = "Create Project";
 			this.btnCreateProject.UseVisualStyleBackColor = true;
 			this.btnCreateProject.Click += new System.EventHandler(this.btnCreateProject_Click);
 			// 
+			// lbORM
+			// 
+			this.lbORM.AutoSize = true;
+			this.lbORM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lbORM.Location = new System.Drawing.Point(3, 96);
+			this.lbORM.Name = "lbORM";
+			this.lbORM.Size = new System.Drawing.Size(124, 32);
+			this.lbORM.TabIndex = 18;
+			this.lbORM.Text = "ORM*:";
+			this.lbORM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// panelORM
+			// 
+			this.panelORM.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.panelORM.Controls.Add(this.rbMongoDB);
+			this.panelORM.Controls.Add(this.rbDapper);
+			this.panelORM.Controls.Add(this.rbEFCore);
+			this.panelORM.Controls.Add(this.rbNHibernate);
+			this.panelORM.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelORM.Location = new System.Drawing.Point(133, 99);
+			this.panelORM.Name = "panelORM";
+			this.panelORM.Size = new System.Drawing.Size(620, 26);
+			this.panelORM.TabIndex = 8;
+			// 
+			// rbNHibernate
+			// 
+			this.rbNHibernate.AutoSize = true;
+			this.rbNHibernate.Checked = true;
+			this.rbNHibernate.Location = new System.Drawing.Point(5, 5);
+			this.rbNHibernate.Name = "rbNHibernate";
+			this.rbNHibernate.Size = new System.Drawing.Size(79, 17);
+			this.rbNHibernate.TabIndex = 1;
+			this.rbNHibernate.Tag = "NHibernate";
+			this.rbNHibernate.Text = "NHibernate";
+			this.rbNHibernate.UseVisualStyleBackColor = true;
+			this.rbNHibernate.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbEFCore
+			// 
+			this.rbEFCore.AutoSize = true;
+			this.rbEFCore.Location = new System.Drawing.Point(90, 5);
+			this.rbEFCore.Name = "rbEFCore";
+			this.rbEFCore.Size = new System.Drawing.Size(128, 17);
+			this.rbEFCore.TabIndex = 2;
+			this.rbEFCore.Tag = "EFCore";
+			this.rbEFCore.Text = "EntityFramework Core";
+			this.rbEFCore.UseVisualStyleBackColor = true;
+			this.rbEFCore.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbDapper
+			// 
+			this.rbDapper.AutoSize = true;
+			this.rbDapper.Location = new System.Drawing.Point(225, 5);
+			this.rbDapper.Name = "rbDapper";
+			this.rbDapper.Size = new System.Drawing.Size(60, 17);
+			this.rbDapper.TabIndex = 3;
+			this.rbDapper.Tag = "Dapper";
+			this.rbDapper.Text = "Dapper";
+			this.rbDapper.UseVisualStyleBackColor = true;
+			this.rbDapper.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbMongoDB
+			// 
+			this.rbMongoDB.AutoSize = true;
+			this.rbMongoDB.Location = new System.Drawing.Point(295, 5);
+			this.rbMongoDB.Name = "rbMongoDB";
+			this.rbMongoDB.Size = new System.Drawing.Size(73, 17);
+			this.rbMongoDB.TabIndex = 4;
+			this.rbMongoDB.Tag = "MongoDB";
+			this.rbMongoDB.Text = "MongoDB";
+			this.rbMongoDB.UseVisualStyleBackColor = true;
+			this.rbMongoDB.CheckedChanged += new System.EventHandler(this.onORMCheckedChanged);
+			// 
+			// rbMSSQL
+			// 
+			this.rbMSSQL.AutoSize = true;
+			this.rbMSSQL.Checked = true;
+			this.rbMSSQL.Location = new System.Drawing.Point(5, 5);
+			this.rbMSSQL.Name = "rbMSSQL";
+			this.rbMSSQL.Size = new System.Drawing.Size(62, 17);
+			this.rbMSSQL.TabIndex = 2;
+			this.rbMSSQL.Tag = "MSSQL";
+			this.rbMSSQL.Text = "MSSQL";
+			this.rbMSSQL.UseVisualStyleBackColor = true;
+			this.rbMSSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbMySQL
+			// 
+			this.rbMySQL.AutoSize = true;
+			this.rbMySQL.Location = new System.Drawing.Point(75, 5);
+			this.rbMySQL.Name = "rbMySQL";
+			this.rbMySQL.Size = new System.Drawing.Size(60, 17);
+			this.rbMySQL.TabIndex = 3;
+			this.rbMySQL.Tag = "MySQL";
+			this.rbMySQL.Text = "MySQL";
+			this.rbMySQL.UseVisualStyleBackColor = true;
+			this.rbMySQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbSQLite
+			// 
+			this.rbSQLite.AutoSize = true;
+			this.rbSQLite.Location = new System.Drawing.Point(145, 5);
+			this.rbSQLite.Name = "rbSQLite";
+			this.rbSQLite.Size = new System.Drawing.Size(57, 17);
+			this.rbSQLite.TabIndex = 4;
+			this.rbSQLite.Tag = "SQLite";
+			this.rbSQLite.Text = "SQLite";
+			this.rbSQLite.UseVisualStyleBackColor = true;
+			this.rbSQLite.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbPostgreSQL
+			// 
+			this.rbPostgreSQL.AutoSize = true;
+			this.rbPostgreSQL.Location = new System.Drawing.Point(210, 5);
+			this.rbPostgreSQL.Name = "rbPostgreSQL";
+			this.rbPostgreSQL.Size = new System.Drawing.Size(82, 17);
+			this.rbPostgreSQL.TabIndex = 5;
+			this.rbPostgreSQL.Tag = "PostgreSQL";
+			this.rbPostgreSQL.Text = "PostgreSQL";
+			this.rbPostgreSQL.UseVisualStyleBackColor = true;
+			this.rbPostgreSQL.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbInMemory
+			// 
+			this.rbInMemory.AutoSize = true;
+			this.rbInMemory.Location = new System.Drawing.Point(300, 5);
+			this.rbInMemory.Name = "rbInMemory";
+			this.rbInMemory.Size = new System.Drawing.Size(71, 17);
+			this.rbInMemory.TabIndex = 6;
+			this.rbInMemory.Tag = "InMemory";
+			this.rbInMemory.Text = "InMemory";
+			this.rbInMemory.UseVisualStyleBackColor = true;
+			this.rbInMemory.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
+			// rbDMongoDB
+			// 
+			this.rbDMongoDB.AutoSize = true;
+			this.rbDMongoDB.Location = new System.Drawing.Point(380, 5);
+			this.rbDMongoDB.Name = "rbDMongoDB";
+			this.rbDMongoDB.Size = new System.Drawing.Size(73, 17);
+			this.rbDMongoDB.TabIndex = 7;
+			this.rbDMongoDB.Tag = "MongoDB";
+			this.rbDMongoDB.Text = "MongoDB";
+			this.rbDMongoDB.UseVisualStyleBackColor = true;
+			this.rbDMongoDB.CheckedChanged += new System.EventHandler(this.onDatabaseCheckedChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(756, 274);
+			this.ClientSize = new System.Drawing.Size(756, 311);
 			this.Controls.Add(this.panelMain);
 			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -437,6 +547,8 @@
 			this.panelConnectionString.PerformLayout();
 			this.panelDatabase.ResumeLayout(false);
 			this.panelDatabase.PerformLayout();
+			this.panelORM.ResumeLayout(false);
+			this.panelORM.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -455,10 +567,6 @@
 		private System.Windows.Forms.TextBox tbDescription;
 		private System.Windows.Forms.Label lbDatabase;
 		private System.Windows.Forms.Panel panelDatabase;
-		private System.Windows.Forms.RadioButton rbPostgreSQL;
-		private System.Windows.Forms.RadioButton rbMySQL;
-		private System.Windows.Forms.RadioButton rbMSSQL;
-		private System.Windows.Forms.RadioButton rbSQLite;
 		private System.Windows.Forms.Label lbConnectionString;
 		private System.Windows.Forms.TableLayoutPanel panelConnectionString;
 		private System.Windows.Forms.Button btnTest;
@@ -472,6 +580,18 @@
 		private System.Windows.Forms.Button btnBrowseOutputDirectory;
 		private System.Windows.Forms.TextBox tbOutputDirectory;
 		private System.Windows.Forms.Button btnCreateProject;
+		private System.Windows.Forms.Label lbORM;
+		private System.Windows.Forms.Panel panelORM;
+		private System.Windows.Forms.RadioButton rbNHibernate;
+		private System.Windows.Forms.RadioButton rbEFCore;
+		private System.Windows.Forms.RadioButton rbDapper;
+		private System.Windows.Forms.RadioButton rbMongoDB;
+		private System.Windows.Forms.RadioButton rbMSSQL;
+		private System.Windows.Forms.RadioButton rbMySQL;
+		private System.Windows.Forms.RadioButton rbSQLite;
+		private System.Windows.Forms.RadioButton rbPostgreSQL;
+		private System.Windows.Forms.RadioButton rbInMemory;
+		private System.Windows.Forms.RadioButton rbDMongoDB;
 	}
 }
 
