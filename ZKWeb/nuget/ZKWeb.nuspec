@@ -6,8 +6,8 @@
 		<title>ZKWeb</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
-		<description>Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin. For more information please visit project site.</description>
-		<summary>Extendable .net web framework support running on Asp.Net, Asp.Net Core and Owin. For more information please visit project site.</summary>
+		<description>ZKWeb is a flexible web framework support .Net Framework and .Net Core.</description>
+		<summary>ZKWeb is a flexible web framework support .Net Framework and .Net Core.</summary>
 		<language>en-US</language>
 		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
 		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
