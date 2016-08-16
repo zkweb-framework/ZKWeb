@@ -14,7 +14,7 @@
 		- Support Dapper
 		- Support EntityFramework Core
 		- Support InMemory
-		- ~~Support MongoDB~~
+		- Support MongoDB
 		- Support NHibernate
 	- Replace System.Drawing with CoreCompat.System.Drawing
 		- Require mono's libgdiplus.dll on linux and osx

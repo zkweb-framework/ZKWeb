@@ -90,9 +90,14 @@ namespace ZKWeb.Plugin.CompilerServices {
 			// Use default options if `options` is null
 			options = options ?? new CompilationOptions();
 			// Parse source files into syntax trees
+			// Also define NETCORE for .Net Core
+			var parseOptions = CSharpParseOptions.Default;
+#if NETCORE
+			parseOptions = parseOptions.WithPreprocessorSymbols("NETCORE");
+#endif
 			var syntaxTrees = sourceFiles
 				.Select(path => CSharpSyntaxTree.ParseText(
-					File.ReadAllText(path), path: path, encoding: Encoding.UTF8))
+					File.ReadAllText(path), parseOptions, path, Encoding.UTF8))
 				.ToList();
 			// Find all using directive and load the namespace as assembly
 			// It's for resolve assembly dependencies of plugin

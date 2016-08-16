@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>ZKWeb.ORM.InMemory</id>
+		<version>1.0.0-rc-1</version>
+		<title>ZKWeb.ORM.InMemory</title>
+		<authors>303248153</authors>
+		<owners>303248153</owners>
+		<description>Support use in memory database in ZKWeb. For more information please visit project site.</description>
+		<summary>Support use in memory database in ZKWeb. For more information please visit project site.</summary>
+		<language>en-US</language>
+		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
+		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<tags></tags>
+		<dependencies>
+			<dependency id="ZKWeb" version="1.0.0-rc-1" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\LICENSE.txt" target="." />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\net461\ZKWeb.ORM.InMemory.dll" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\net461\ZKWeb.ORM.InMemory.xml" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\net461\ZKWeb.ORM.InMemory.pdb" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\netstandard1.6\ZKWeb.ORM.InMemory.dll" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\netstandard1.6\ZKWeb.ORM.InMemory.xml" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.ORM.InMemory\bin\Release\netstandard1.6\ZKWeb.ORM.InMemory.pdb" target="lib\netstandard1.6" />
+	</files>
+</package>

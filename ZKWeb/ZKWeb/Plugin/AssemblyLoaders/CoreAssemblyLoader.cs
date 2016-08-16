@@ -33,7 +33,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
 			WrapperAssemblyNames = new HashSet<string>() {
-				"System.Console"
+				"System.Console",
+				"System.Runtime.Extensions"
 			};
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },

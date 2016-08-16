@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>ZKWeb.ORM.Dapper</id>
+		<version>1.0.0-rc-1</version>
+		<title>ZKWeb.ORM.Dapper</title>
+		<authors>303248153</authors>
+		<owners>303248153</owners>
+		<description>Support use Dapper in ZKWeb. For more information please visit project site.</description>
+		<summary>Support use Dapper in ZKWeb. For more information please visit project site.</summary>
+		<language>en-US</language>
+		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
+		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<tags></tags>
+		<dependencies>
+			<dependency id="ZKWeb" version="1.0.0-rc-1" />
+			<dependency id="Dapper" version="1.50.2" />
+			<dependency id="Dapper.Contrib" version="1.50.0" />
+			<dependency id="Microsoft.Data.Sqlite" version="1.0.0" />
+			<dependency id="Npgsql" version="3.1.7" />
+			<dependency id="Pomelo.Data.MySql" version="1.0.0" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\LICENSE.txt" target="." />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\net461\ZKWeb.ORM.Dapper.dll" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\net461\ZKWeb.ORM.Dapper.xml" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\net461\ZKWeb.ORM.Dapper.pdb" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\netstandard1.6\ZKWeb.ORM.Dapper.dll" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\netstandard1.6\ZKWeb.ORM.Dapper.xml" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb.ORM.Dapper\bin\Release\netstandard1.6\ZKWeb.ORM.Dapper.pdb" target="lib\netstandard1.6" />
+	</files>
+</package>

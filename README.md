@@ -77,5 +77,6 @@ If you have any license issue please contact 303248153@qq.com.<br/>
 
 ## Getting Started
 
-Open "Tools\ProjectCreator.Gui.exe", create your own project then open it.<br/>
+Open "Tools\ProjectCreator.Gui.exe",<br/>
+create your own project with specified hosting and ORM then open it.<br/>
 For more information please see the documents.<br/>

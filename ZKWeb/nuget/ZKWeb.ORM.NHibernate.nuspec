@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+	<metadata>
+		<id>ZKWeb.ORM.NHibernate</id>
+		<version>1.0.0-rc-1</version>
+		<title>ZKWeb.ORM.NHibernate</title>
+		<authors>303248153</authors>
+		<owners>303248153</owners>
+		<description>Support use NHibernate in ZKWeb. For more information please visit project site.</description>
+		<summary>Support use NHibernate in ZKWeb. For more information please visit project site.</summary>
+		<language>en-US</language>
+		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
+		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<tags></tags>
+		<dependencies>
+			<dependency id="ZKWeb" version="1.0.0-rc-1" />
+			<dependency id="FluentNHibernate" version="2.0.3" />
+			<dependency id="MySql.Data" version="7.0.3-DMR" />
+			<dependency id="NHibernate" version="4.0.4.4000" />
+			<dependency id="Npgsql" version="3.1.7" />
+			<dependency id="ZKWeb.Repack.SQLite" version="1.0.102" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\LICENSE.txt" target="." />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.dll" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.xml" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.pdb" target="lib\net461" />
+	</files>
+</package>
