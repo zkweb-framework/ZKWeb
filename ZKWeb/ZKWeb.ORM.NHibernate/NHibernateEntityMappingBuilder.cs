@@ -68,7 +68,7 @@ namespace ZKWeb.ORM.NHibernate {
 			if (options.Length != null) {
 				memberPart = memberPart.Length(checked((int)options.Length.Value));
 			} else if (((PropertyInfo)member).PropertyType == typeof(string)) {
-				memberPart = memberPart.Length(0xffff); // default to support long string
+				memberPart = memberPart.Length(0xffff); // set max length for string by default
 			}
 			if (options.Unique == true) {
 				memberPart = memberPart.Unique();
