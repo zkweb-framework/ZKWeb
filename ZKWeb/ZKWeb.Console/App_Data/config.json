@@ -1,7 +1,7 @@
 ﻿{
-	"ORM": "NHibernate",
+	"ORM": "EFCore",
 	"Database": "SQLite",
 	"ConnectionString": "Data Source={{App_Data}}/test.db;",
 	"PluginDirectories": [ "../../../ZKWeb.Plugins" ],
-	"Plugins": [ "Common.Base" ]
+	"Plugins": [ ]
 }

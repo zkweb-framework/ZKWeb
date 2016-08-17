@@ -16,8 +16,9 @@
 		- Support InMemory
 		- Support MongoDB
 		- Support NHibernate
-	- Replace System.Drawing with CoreCompat.System.Drawing
+	- Replace System.Drawing with ZKWeb.System.Drawing
 		- Require mono's libgdiplus.dll on linux and osx
+		- ZKWeb.System.Drawing is fork from CoreCompat.System.Drawing
 
 ### Upgrade from previous version
 
@@ -25,5 +26,4 @@
 - Replace "DatabaseManager.GetContext" with "DatabaseManager.CreateContext"
 - Use "IEntityOperationHandler" Instead of "IDataSaveCallback" and "IDataDeleteCallback"
 - Install "ZKWeb.ORM.NHibernate" and "ZKWeb.ORM.InMemory" from nuget
-	- You can also try other ORM but you may need redesign you database scheme
 - Database transaction is not enabled by default anymore, enable it manually if needed
