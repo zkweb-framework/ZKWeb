@@ -34,7 +34,7 @@ namespace ZKWeb.ORM.NHibernate {
 			if (string.Compare(database, "PostgreSQL", true) == 0) {
 				db = PostgreSQLConfiguration.Standard.ConnectionString(connectionString);
 			} else if (string.Compare(database, "SQLite", true) == 0) {
-				db = SQLiteConfiguration.Standard.ConnectionString(
+				db = MicrosoftSQLiteConfiguration.Standard.ConnectionString(
 					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
 			} else if (string.Compare(database, "MySQL", true) == 0) {
 				db = MySQLConfiguration.Standard.ConnectionString(connectionString);

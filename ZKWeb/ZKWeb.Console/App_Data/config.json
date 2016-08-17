@@ -1,7 +1,7 @@
 ﻿{
 	"ORM": "NHibernate",
-	"Database": "MSSQL",
-	"ConnectionString": "Data Source=.\\sqlexpress;Initial Catalog=zkweb;User Id=sa;Password=123",
+	"Database": "SQLite",
+	"ConnectionString": "Data Source={{App_Data}}/test.db;",
 	"PluginDirectories": [ "../../../ZKWeb.Plugins" ],
 	"Plugins": [ "Common.Base" ]
 }
