@@ -36,9 +36,14 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// </summary>
 		public virtual void Configure(IApplicationBuilder app, IApplicationLifetime lifetime) {
 			// Initialize application
-			Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
-			Application.Initialize(GetWebsiteRootDirectory());
-			Application.Ioc.RegisterInstance(lifetime);
+			try {
+				Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
+				Application.Initialize(GetWebsiteRootDirectory());
+				Application.Ioc.RegisterInstance(lifetime);
+			} catch {
+				lifetime.StopApplication();
+				throw;
+			}
 			// Configure middlewares
 			ConfigureMiddlewares(app);
 			// Set request handler, it will running in thread pool
