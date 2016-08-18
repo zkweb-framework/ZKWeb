@@ -38,7 +38,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			};
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
-				{ "System.Drawing", "CoreCompat.System.Drawing" }
+				{ "System.Drawing", "ZKWeb.System.Drawing" }
 			};
 		}
 
