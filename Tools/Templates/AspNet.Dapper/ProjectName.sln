@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "${ProjectName}.AspNet", "${ProjectName}.AspNet\${ProjectName}.AspNet.csproj", "{${WebProjectGuid}}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "${ProjectName}.Console", "${ProjectName}.Console\${ProjectName}.Console.csproj", "{${ConsoleProjectGuid}}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "${ProjectName}.Plugins", "${ProjectName}.Plugins\${ProjectName}.Plugins.csproj", "{${PluginProjectGuid}}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{${WebProjectGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{${WebProjectGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{${WebProjectGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{${WebProjectGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{${ConsoleProjectGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{${ConsoleProjectGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{${ConsoleProjectGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{${ConsoleProjectGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+		{${PluginProjectGuid}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{${PluginProjectGuid}}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{${PluginProjectGuid}}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{${PluginProjectGuid}}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

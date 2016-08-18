@@ -190,6 +190,10 @@
       <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.0.0-rc-1d\lib\net461\ZKWeb.Hosting.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ZKWeb.ORM.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.0.0-rc-1d\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ZKWeb.ORM.NHibernate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.ORM.NHibernate.1.0.0-rc-1d\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
       <Private>True</Private>
