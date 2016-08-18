@@ -2,6 +2,6 @@
 	"ORM": "EFCore",
 	"Database": "SQLite",
 	"ConnectionString": "Data Source={{App_Data}}/test.db;",
-	"PluginDirectories": [ "../../../ZKWeb.Plugins" ],
-	"Plugins": [ ]
+	"PluginDirectories": [ "App_Data" ],
+	"Plugins": [ "A", "B" ]
 }

@@ -26,6 +26,11 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Replacement assemblies
 		/// </summary>
 		private IDictionary<string, string> ReplacementAssemblies { get; set; }
+		/// <summary>
+		/// Loaded assemblies
+		/// .Net Core is not able to track loaded assemblies, so we will track them manually
+		/// </summary>
+		private ISet<Assembly> LoadedAssemblies { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -40,6 +45,12 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 				{ "System.FastReflection", "FastReflection" },
 				{ "System.Drawing", "ZKWeb.System.Drawing" }
 			};
+			LoadedAssemblies = new HashSet<Assembly>(
+				DependencyContext.Default.RuntimeLibraries
+				.SelectMany(l => l.GetDefaultAssemblyNames(DependencyContext.Default))
+				.Where(name => !WrapperAssemblyNames.Contains(name.Name))
+				.Select(name => Context.LoadFromAssemblyName(name))
+				.Where(assembly => !assembly.IsDynamic));
 		}
 
 		/// <summary>
@@ -47,11 +58,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Except wrapper assemblies and dynamic assemblies
 		/// </summary>
 		public IList<Assembly> GetLoadedAssemblies() {
-			return DependencyContext.Default.RuntimeLibraries
-				.SelectMany(l => l.GetDefaultAssemblyNames(DependencyContext.Default))
-				.Where(name => !WrapperAssemblyNames.Contains(name.Name))
-				.Select(name => Context.LoadFromAssemblyName(name))
-				.Where(assembly => !assembly.IsDynamic).ToList();
+			return LoadedAssemblies.ToList();
 		}
 
 		/// <summary>
@@ -60,14 +67,18 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		public Assembly Load(string name) {
 			// Replace name if replacement exists
 			name = ReplacementAssemblies.GetOrDefault(name, name);
-			return Context.LoadFromAssemblyName(new AssemblyName(name));
+			var assembly = Context.LoadFromAssemblyName(new AssemblyName(name));
+			LoadedAssemblies.Add(assembly);
+			return assembly;
 		}
 
 		/// <summary>
 		/// Load assembly by name object
 		/// </summary>
 		public Assembly Load(AssemblyName assemblyName) {
-			return Context.LoadFromAssemblyName(assemblyName);
+			var assembly = Context.LoadFromAssemblyName(assemblyName);
+			LoadedAssemblies.Add(assembly);
+			return assembly;
 		}
 
 		/// <summary>
@@ -75,7 +86,9 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public Assembly Load(byte[] rawAssembly) {
 			using (var stream = new MemoryStream(rawAssembly)) {
-				return Context.LoadFromStream(stream);
+				var assembly = Context.LoadFromStream(stream);
+				LoadedAssemblies.Add(assembly);
+				return assembly;
 			}
 		}
 
@@ -83,7 +96,9 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Load assembly from file path
 		/// </summary>
 		public Assembly LoadFile(string path) {
-			return Context.LoadFromAssemblyPath(path);
+			var assembly = Context.LoadFromAssemblyPath(path);
+			LoadedAssemblies.Add(assembly);
+			return assembly;
 		}
 
 		/// <summary>
