@@ -1,10 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.Data.Sqlite;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MySql.Data.MySqlClient;
 using Npgsql;
 using System;
 using System.Data.SqlClient;
-using System.Data.SQLite;
 using System.IO;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Gui.Utils {
@@ -33,7 +33,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui.Utils {
 			} else if (string.Compare(database, "SQLite", true) == 0) {
 				var tempDir = Path.GetDirectoryName(Path.GetTempPath());
 				connectionString = connectionString.Replace("{{App_Data}}", tempDir);
-				using (var connection = new SQLiteConnection(connectionString)) {
+				using (var connection = new SqliteConnection(connectionString)) {
 					connection.Open();
 				}
 			} else if (string.Compare(database, "InMemory", true) == 0) {
