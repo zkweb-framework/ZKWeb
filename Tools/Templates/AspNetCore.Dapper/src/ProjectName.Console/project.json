@@ -1,10 +1,10 @@
 {
 	"version": "1.0.0-*",
 	"dependencies": {
-		"ZKWeb": "1.0.0-rc-1d",
-		"ZKWeb.Hosting.AspNetCore": "1.0.0-rc-1d",
-		"ZKWeb.ORM.InMemory": "1.0.0-rc-1d",
-		"ZKWeb.ORM.Dapper": "1.0.0-rc-1d"
+		"ZKWeb": "1.0.0-rc-2",
+		"ZKWeb.Hosting.AspNetCore": "1.0.0-rc-2",
+		"ZKWeb.ORM.InMemory": "1.0.0-rc-2",
+		"ZKWeb.ORM.Dapper": "1.0.0-rc-2"
 	},
 	"buildOptions": {
 		"emitEntryPoint": true
