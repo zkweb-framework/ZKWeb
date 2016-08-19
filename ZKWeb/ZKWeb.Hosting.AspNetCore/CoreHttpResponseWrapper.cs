@@ -66,11 +66,11 @@ namespace ZKWeb.Hosting.AspNetCore {
 				if (Body.Position > 0) {
 					Body.Flush();
 				} else {
-					CoreResponse.ContentLength = 0;
+					try { CoreResponse.ContentLength = 0; } catch (InvalidOperationException) { }
 				}
 			} catch (NotSupportedException) {
 				// This exception will throw when access Position property if no contents writed before.
-				CoreResponse.ContentLength = 0;
+				try { CoreResponse.ContentLength = 0; } catch (InvalidOperationException) { }
 			}
 			throw new CoreHttpResponseEndException();
 		}
