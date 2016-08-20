@@ -37,72 +37,7 @@ namespace ZKWebStandard.Ioc {
 		public Container() {
 			Factories = new Dictionary<Pair<Type, object>, IList<Func<object>>>();
 			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
-		}
-
-		/// <summary>
-		/// Build factory from original factory and reuse type
-		/// </summary>
-		protected static Func<object> BuildFactory(Func<object> originalFactory, ReuseType reuseType) {
-			if (reuseType == ReuseType.Transient) {
-				// Transient
-				return originalFactory;
-			} else if (reuseType == ReuseType.Singleton) {
-				// Singleton
-				object value = null;
-				object valueLock = new object();
-				return () => {
-					if (value != null) {
-						return value;
-					}
-					lock (valueLock) {
-						if (value != null) {
-							return value; // double check
-						}
-						value = originalFactory();
-						return value;
-					}
-				};
-			} else {
-				throw new NotSupportedException(string.Format("unsupported reuse type {0}", reuseType));
-			}
-		}
-
-		/// <summary>
-		/// Cache for type and it's original factory
-		/// </summary>
-		protected readonly static ConcurrentDictionary<Type, Func<object>> TypeFactorysCache =
-			new ConcurrentDictionary<Type, Func<object>>();
-
-		/// <summary>
-		/// Build factory from type and reuse type
-		/// </summary>
-		protected static Func<object> BuildFactor(
-			IContainer container, Type type, ReuseType reuseType) {
-			var typeFactor = TypeFactorysCache.GetOrAdd(type, t => {
-				// Support constructor dependency injection
-				var argumentExpressions = new List<Expression>();
-				var constructor = t.GetConstructors().Where(c => c.IsPublic).First();
-				foreach (var parameter in constructor.GetParameters()) {
-					var parameterType = parameter.ParameterType;
-					var parameterTypeInfo = parameterType.GetTypeInfo();
-					if (parameterTypeInfo.IsGenericType &&
-						parameterTypeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-						argumentExpressions.Add(Expression.Call(
-							Expression.Constant(container), "ResolveMany",
-							parameterTypeInfo.GetGenericArguments(),
-							Expression.Constant(null)));
-					} else {
-						argumentExpressions.Add(Expression.Call(
-							Expression.Constant(container), "Resolve",
-							new[] { parameterType },
-							Expression.Constant(IfUnresolved.Throw),
-							Expression.Constant(null)));
-					}
-				}
-				var newExpression = Expression.New(constructor, argumentExpressions);
-				return Expression.Lambda<Func<object>>(newExpression).Compile();
-			});
-			return BuildFactory(typeFactor, reuseType);
+			RegisterSelf();
 		}
 
 		/// <summary>
@@ -134,6 +69,22 @@ namespace ZKWebStandard.Ioc {
 					yield return serviceType;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Register self instance
+		/// </summary>
+		protected void RegisterSelf() {
+			Unregister<IContainer>(null);
+			Unregister<IRegistrator>(null);
+			Unregister<IGenericRegistrator>(null);
+			Unregister<IResolver>(null);
+			Unregister<IGenericResolver>(null);
+			RegisterInstance<IContainer>(this, null);
+			RegisterInstance<IRegistrator>(this, null);
+			RegisterInstance<IGenericRegistrator>(this, null);
+			RegisterInstance<IResolver>(this, null);
+			RegisterInstance<IGenericResolver>(this, null);
 		}
 
 		/// <summary>
@@ -171,7 +122,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factory = BuildFactor(this, implementationType, reuseType);
+			var factory = this.BuildFactory(implementationType, reuseType);
 			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
@@ -187,7 +138,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
-			var factory = BuildFactor(this, implementationType, reuseType);
+			var factory = this.BuildFactory(implementationType, reuseType);
 			RegisterFactoryMany(serviceTypes, factory, serviceKey);
 		}
 
@@ -216,7 +167,7 @@ namespace ZKWebStandard.Ioc {
 		/// Reuse type is forced to Singleton
 		/// </summary>
 		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
-			var factory = BuildFactory(() => instance, ReuseType.Singleton);
+			var factory = this.BuildFactory(() => instance, ReuseType.Singleton);
 			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
@@ -233,7 +184,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterDelegate(
 			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
-			factory = BuildFactory(factory, reuseType);
+			factory = this.BuildFactory(factory, reuseType);
 			RegisterFactory(serviceType, factory, serviceKey);
 		}
 
@@ -393,6 +344,7 @@ namespace ZKWebStandard.Ioc {
 				foreach (var pair in Factories) {
 					clone.Factories[pair.Key] = pair.Value.ToList();
 				}
+				clone.RegisterSelf(); // replace self instances
 			} finally {
 				FactoriesLock.ExitReadLock();
 			}

@@ -6,6 +6,24 @@ using ZKWebStandard.Testing;
 namespace ZKWebStandard.Tests.IocContainer {
 	[Tests]
 	class ContainerTest {
+		public void RegisterSelf() {
+			using (IContainer container = new Container()) {
+				Assert.IsTrue(object.ReferenceEquals(container.Resolve<IContainer>(), container));
+				Assert.IsTrue(object.ReferenceEquals(container.Resolve<IRegistrator>(), container));
+				Assert.IsTrue(object.ReferenceEquals(container.Resolve<IGenericRegistrator>(), container));
+				Assert.IsTrue(object.ReferenceEquals(container.Resolve<IResolver>(), container));
+				Assert.IsTrue(object.ReferenceEquals(container.Resolve<IGenericResolver>(), container));
+				using (IContainer clone = (IContainer)container.Clone()) {
+					Assert.IsTrue(!object.ReferenceEquals(clone, container));
+					Assert.IsTrue(object.ReferenceEquals(clone.Resolve<IContainer>(), clone));
+					Assert.IsTrue(object.ReferenceEquals(clone.Resolve<IRegistrator>(), clone));
+					Assert.IsTrue(object.ReferenceEquals(clone.Resolve<IGenericRegistrator>(), clone));
+					Assert.IsTrue(object.ReferenceEquals(clone.Resolve<IResolver>(), clone));
+					Assert.IsTrue(object.ReferenceEquals(clone.Resolve<IGenericResolver>(), clone));
+				}
+			}
+		}
+
 		public void Register() {
 			using (var container = new Container()) {
 				container.Register(
