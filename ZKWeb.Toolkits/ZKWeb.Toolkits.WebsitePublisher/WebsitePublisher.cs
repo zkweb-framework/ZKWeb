@@ -69,7 +69,9 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 							relPath.Contains("net461") && !relPath.Contains("publish"));
 					}).FirstOrDefault();
 				if (dllPath == null) {
-					throw new DirectoryNotFoundException("bin directory not found");
+					throw new DirectoryNotFoundException(
+						"bin directory not found, please compile the project " +
+						"with release configuration first");
 				}
 				binDir = Path.GetDirectoryName(dllPath);
 			} else {
