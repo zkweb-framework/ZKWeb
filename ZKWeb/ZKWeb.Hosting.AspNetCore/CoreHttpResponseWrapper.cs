@@ -62,15 +62,12 @@ namespace ZKWeb.Hosting.AspNetCore {
 		public void End() {
 			// Fix kesterl 1.0.0 304 => 502 error
 			// See https://github.com/aspnet/KestrelHttpServer/issues/952
-			try {
-				if (Body.Position > 0) {
-					Body.Flush();
-				} else {
-					try { CoreResponse.ContentLength = 0; } catch (InvalidOperationException) { }
-				}
-			} catch (NotSupportedException) {
-				// This exception will throw when access Position property if no contents writed before.
-				try { CoreResponse.ContentLength = 0; } catch (InvalidOperationException) { }
+			long position = 0;
+			try { position = Body.Position; } catch (NotSupportedException) { }
+			if (position > 0) {
+				try { Body.Flush(); } catch (IOException) { }
+			} else if (!CoreResponse.HasStarted) {
+				try { CoreResponse.ContentLength = 0; } catch (InvalidProgramException) { }
 			}
 			throw new CoreHttpResponseEndException();
 		}
