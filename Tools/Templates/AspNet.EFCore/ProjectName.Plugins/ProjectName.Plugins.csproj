@@ -141,7 +141,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.0.0-rc-2\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.0.0-rc-3\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -149,7 +149,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.0.0-rc-2\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.0.0-rc-3\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
