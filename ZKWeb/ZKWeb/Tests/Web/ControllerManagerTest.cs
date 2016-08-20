@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
 using ZKWebStandard.Web.Mock;
@@ -27,7 +29,19 @@ namespace ZKWeb.Tests.Web {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
 					Assert.Equals(response.ContentType, "application/json");
-					Assert.Equals(response.GetContentsFromBody(), JsonConvert.SerializeObject(new { a = 1 }));
+					Assert.Equals(
+						response.GetContentsFromBody(),
+						JsonConvert.SerializeObject(new { a = 1 }));
+				}
+
+				using (HttpManager.OverrideContext("__test_action_c?name=john&age=50", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
+					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
 				}
 			}
 		}
@@ -123,6 +137,11 @@ namespace ZKWeb.Tests.Web {
 			[Action("__test_action_b", HttpMethods.POST)]
 			public IActionResult TestActionB() {
 				return new JsonResult(new { a = 1 });
+			}
+
+			[Action("__test_action_c")]
+			public object TestActionC(string name, int age) {
+				return new { name = name, age = age };
 			}
 		}
 	}
