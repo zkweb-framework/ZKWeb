@@ -30,7 +30,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public static string FullVersion { get { return "1.0.0 rc 2"; } }
+		public static string FullVersion { get { return "1.0.0 rc 3"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>
@@ -52,11 +52,11 @@ namespace ZKWeb {
 		/// </summary>
 		/// <param name="websiteRootDirectory">Website root directory</param>
 		public static void Initialize(string websiteRootDirectory) {
-			// throw exception if already initialized
+			// Throw exception if already initialized
 			if (Interlocked.Exchange(ref Initialized, 1) != 0) {
 				throw new InvalidOperationException("Application already initialized");
 			}
-			// register core components
+			// Register core components
 			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
@@ -81,19 +81,19 @@ namespace ZKWeb {
 			Ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
 			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
 			Ioc.RegisterMany<CacheIsolateByUrl>(ReuseType.Singleton, serviceKey: "Url");
-			// initialize core components
+			// Initialize core components
 			PathConfig.Initialize(websiteRootDirectory);
 			ConfigManager.Initialize();
 			PluginManager.Initialize();
 			JsonNetInitializer.Initialize();
 			TemplateManager.Initialize();
-			ControllerManager.Initialize();
 			ThreadPoolInitializer.Initialize();
 			DatabaseManager.Initialize();
-			// initialize all plugins
+			// Initialize all plugins and controllers
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
-			// start the resident core processes
+			ControllerManager.Initialize();
+			// Start the resident core processes
 			PluginReloader.Start();
 			AutomaticCacheCleaner.Start();
 		}

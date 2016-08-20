@@ -3,11 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.FastReflection;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
-using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
@@ -48,41 +46,39 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register controller
+		/// Register controller type
 		/// </summary>
-		/// <typeparam name="T">Controller type</typeparam>
+		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController<T>() {
 			RegisterController(typeof(T));
 		}
 
 		/// <summary>
-		/// Register controller
+		/// Register controller type
 		/// </summary>
-		/// <param name="type">Controller type</param>
+		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController(Type type) {
+			RegisterController((IController)Activator.CreateInstance(type));
+		}
+
+		/// <summary>
+		/// Register controller instance
+		/// Attention: this instance will be used across all requests
+		/// </summary>
+		/// <param name="controller">Controller instance</param>
+		public virtual void RegisterController(IController controller) {
 			// Get all public methods with ActionAttribute
+			var type = controller.GetType();
 			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
 				var attributes = method.GetCustomAttributes<ActionAttribute>();
-				if (attributes.Any()) {
-					// Compile it to delegate for performance
-					var makeInstance = method.IsStatic ? null :
-						Expression.New(type.GetTypeInfo().GetConstructors()[0]);
-					Func<IActionResult> action;
-					var actionResultType = typeof(IActionResult).GetTypeInfo();
-					if (actionResultType.IsAssignableFrom(method.ReturnType)) {
-						action = Expression.Lambda<Func<IActionResult>>(
-							Expression.Call(makeInstance, method)).Compile();
-					} else {
-						var plainResultType = typeof(PlainResult).GetTypeInfo();
-						action = Expression.Lambda<Func<IActionResult>>(
-							Expression.New(plainResultType.GetConstructors()[0],
-							Expression.Call(makeInstance, method))).Compile();
-					}
-					// Register action
-					foreach (var attribute in attributes) {
-						RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
-					}
+				if (!attributes.Any()) {
+					continue;
+				}
+				// Register action
+				var action = controller.BuildActionDelegate(method);
+				foreach (var attribute in attributes) {
+					RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
 				}
 			}
 		}
@@ -159,11 +155,12 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// Initialize
 		/// Add registered controllers
+		/// Attention: all controllers will be created here
 		/// </summary>
 		internal static void Initialize() {
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 			foreach (var controller in Application.Ioc.ResolveMany<IController>()) {
-				controllerManager.RegisterController(controller.GetType());
+				controllerManager.RegisterController(controller);
 			}
 		}
 	}

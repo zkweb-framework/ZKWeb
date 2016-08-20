@@ -14,7 +14,7 @@ namespace ZKWeb.Tests.Web {
 				Application.Ioc.Unregister<ControllerManager>();
 				Application.Ioc.RegisterMany<ControllerManager>();
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-				controllerManager.RegisterController<TestController>();
+				controllerManager.RegisterController(new TestController());
 
 				using (HttpManager.OverrideContext("__test_action_a", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
@@ -37,7 +37,7 @@ namespace ZKWeb.Tests.Web {
 				Application.Ioc.Unregister<ControllerManager>();
 				Application.Ioc.RegisterMany<ControllerManager>();
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-				controllerManager.RegisterController<TestController>();
+				controllerManager.RegisterController(new TestController());
 				Assert.Equals(
 					((PlainResult)controllerManager.GetAction("__test_action_a", HttpMethods.GET)()).Text,
 					"test action a");
@@ -113,7 +113,7 @@ namespace ZKWeb.Tests.Web {
 			}
 		}
 
-		public class TestController {
+		public class TestController : IController {
 			[Action("__test_action_a")]
 			[Action("__test_action_a", HttpMethods.POST)]
 			public string TestActionA() {
