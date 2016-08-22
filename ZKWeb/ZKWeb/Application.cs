@@ -91,8 +91,8 @@ namespace ZKWeb {
 			DatabaseManager.Initialize();
 			// Initialize all plugins and controllers
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
-			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			ControllerManager.Initialize();
+			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 			// Start the resident core processes
 			PluginReloader.Start();
 			AutomaticCacheCleaner.Start();
