@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using ZKWebStandard.Ioc;
 
@@ -35,12 +36,20 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// Configure application
 		/// </summary>
 		public virtual void Configure(IApplicationBuilder app, IApplicationLifetime lifetime) {
-			// Initialize application
-			Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
-			Application.Initialize(GetWebsiteRootDirectory());
-			Application.Ioc.RegisterInstance(lifetime);
-			// Configure middlewares
-			ConfigureMiddlewares(app);
+			try {
+				// Initialize application
+				Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
+				Application.Initialize(GetWebsiteRootDirectory());
+				Application.Ioc.RegisterInstance(lifetime);
+				// Configure middlewares
+				ConfigureMiddlewares(app);
+			} catch {
+				// Stop application after error reported
+				var thread = new Thread(() => { Thread.Sleep(3000); lifetime.StopApplication(); });
+				thread.IsBackground = true;
+				thread.Start();
+				throw;
+			}
 			// Set request handler, it will running in thread pool
 			// It can't throw any exception otherwise application will get killed
 			app.Run(coreContext => Task.Run(() => {
