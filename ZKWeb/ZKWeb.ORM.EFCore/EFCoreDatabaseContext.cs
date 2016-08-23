@@ -121,16 +121,18 @@ namespace ZKWeb.ORM.EFCore {
 		/// <summary>
 		/// Insert or update entity
 		/// </summary>
-		private void InsertOrUpdate<T>(T entity)
+		private void InsertOrUpdate<T>(T entity, Action<T> update = null)
 			where T : class, IEntity {
 			var entityInfo = Entry(entity);
 			if (entityInfo.State == EntityState.Detached) {
 				// It's not being tracked
 				if (entityInfo.IsKeySet) {
 					// The key is not default, mark all properties as modified
+					update?.Invoke(entity);
 					Update(entity);
 				} else {
 					// The key is default, set it's state to Added
+					update?.Invoke(entity);
 					Add(entity);
 				}
 			} else {
@@ -146,8 +148,7 @@ namespace ZKWeb.ORM.EFCore {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			var entityLocal = entity; // can't use ref parameter in lambda
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
-			update?.Invoke(entityLocal);
-			InsertOrUpdate(entityLocal);
+			InsertOrUpdate(entityLocal, update);
 			SaveChanges(); // send commands to database
 			callbacks.ForEach(c => c.AfterSave(this, entityLocal)); // notify after save
 			entity = entityLocal;
@@ -174,10 +175,7 @@ namespace ZKWeb.ORM.EFCore {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			entitiesLocal.ForEach(e =>
 				callbacks.ForEach(c => c.BeforeSave(this, e))); // notify before save
-			entitiesLocal.ForEach(e => {
-				update?.Invoke(e);
-				InsertOrUpdate(e);
-			});
+			entitiesLocal.ForEach(e => InsertOrUpdate(e, update));
 			SaveChanges(); // send commands to database
 			entitiesLocal.ForEach(e =>
 				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
