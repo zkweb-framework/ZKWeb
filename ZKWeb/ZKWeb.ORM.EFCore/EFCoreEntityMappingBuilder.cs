@@ -77,9 +77,9 @@ namespace ZKWeb.ORM.EFCore {
 					memberExpression.Parameters));
 			}
 			if (options.Nullable == true) {
-				propertyBuilder = propertyBuilder.IsRequired(true);
-			} else if (options.Nullable == false) {
 				propertyBuilder = propertyBuilder.IsRequired(false);
+			} else if (options.Nullable == false) {
+				propertyBuilder = propertyBuilder.IsRequired(true);
 			}
 			if (!string.IsNullOrEmpty(options.Index)) {
 				Builder.HasIndex(Expression.Lambda<Func<T, object>>(
@@ -111,9 +111,9 @@ namespace ZKWeb.ORM.EFCore {
 				referenceBuilder = referenceBuilder.HasConstraintName(options.Column);
 			}
 			if (options.Nullable == true) {
-				referenceBuilder = referenceBuilder.IsRequired(true);
-			} else if (options.Nullable == false) {
 				referenceBuilder = referenceBuilder.IsRequired(false);
+			} else if (options.Nullable == false) {
+				referenceBuilder = referenceBuilder.IsRequired(true);
 			}
 			// Cascade should specified on parent side, but just support this option
 			if (options.CascadeDelete == false) {
