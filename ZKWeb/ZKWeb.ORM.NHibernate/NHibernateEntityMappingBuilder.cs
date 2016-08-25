@@ -8,6 +8,8 @@ using System.Reflection;
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
 	/// Defines a mapping for an entity
+	/// Useful links:
+	/// http://stackoverflow.com/questions/1152060/nhibernate-cascade-save-update
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class NHibernateEntityMappingBuilder<T> :
@@ -100,7 +102,7 @@ namespace ZKWeb.ORM.NHibernate {
 			EntityMappingOptions options = null)
 			where TOther : class {
 			// Unsupported options: Length, Unique, Index,
-			// CustomSqlType, CascadeDelete, WithSerialization
+			// CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var manyToOnePart = base.References(memberExpression);
 			if (!string.IsNullOrEmpty(options.Column)) {
@@ -110,6 +112,12 @@ namespace ZKWeb.ORM.NHibernate {
 				manyToOnePart = manyToOnePart.Nullable();
 			} else if (options.Nullable == false) {
 				manyToOnePart = manyToOnePart.Not.Nullable();
+			}
+			// Cascade should specified on parent side, but just support this option
+			if (options.CascadeDelete == false) {
+				manyToOnePart.Cascade.None();
+			} else if (options.CascadeDelete == true) {
+				manyToOnePart.Cascade.DeleteOrphans();
 			}
 		}
 

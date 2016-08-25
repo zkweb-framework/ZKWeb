@@ -104,7 +104,7 @@ namespace ZKWeb.ORM.EFCore {
 			EntityMappingOptions options)
 			where TOther : class {
 			// Unsupported options: Length, Unique, Index,
-			// CustomSqlType, CascadeDelete, WithSerialization
+			// CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var referenceBuilder = Builder.HasOne(memberExpression).WithMany();
 			if (!string.IsNullOrEmpty(options.Column)) {
@@ -114,6 +114,12 @@ namespace ZKWeb.ORM.EFCore {
 				referenceBuilder = referenceBuilder.IsRequired(true);
 			} else if (options.Nullable == false) {
 				referenceBuilder = referenceBuilder.IsRequired(false);
+			}
+			// Cascade should specified on parent side, but just support this option
+			if (options.CascadeDelete == false) {
+				referenceBuilder.OnDelete(DeleteBehavior.Restrict);
+			} else if (options.CascadeDelete == true) {
+				referenceBuilder.OnDelete(DeleteBehavior.Cascade);
 			}
 		}
 
