@@ -1,20 +1,20 @@
 {
-	"version": "1.0.0-rc-2",
+	"version": "1.0.0-final",
 	"dependencies": {
 		"NETStandard.Library": "1.6.0",
 		"Newtonsoft.Json": "9.0.1",
 		"NSubstitute": "2.0.0-rc",
-		"ZKWeb": "1.0.0-rc-2",
-		"ZKWeb.ORM.Dapper": "1.0.0-rc-2",
-		"ZKWeb.ORM.EFCore": "1.0.0-rc-2",
-		"ZKWeb.ORM.InMemory": "1.0.0-rc-2",
-		"ZKWeb.ORM.MongoDB": "1.0.0-rc-2",
-		"ZKWebStandard": "1.0.0-rc-2"
+		"ZKWeb": "1.0.0-final",
+		"ZKWeb.ORM.Dapper": "1.0.0-final",
+		"ZKWeb.ORM.EFCore": "1.0.0-final",
+		"ZKWeb.ORM.InMemory": "1.0.0-final",
+		"ZKWeb.ORM.MongoDB": "1.0.0-final",
+		"ZKWebStandard": "1.0.0-final"
 	},
 	"frameworks": {
 		"net461": {
 			"dependencies": {
-				"ZKWeb.ORM.NHibernate": "1.0.0-rc-2"
+				"ZKWeb.ORM.NHibernate": "1.0.0-final"
 			}
 		},
 		"netcoreapp1.0": {

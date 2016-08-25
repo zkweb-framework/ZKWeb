@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.NHibernate</id>
-		<version>1.0.0-rc-3</version>
+		<version>1.0.0-rc-3a</version>
 		<title>ZKWeb.ORM.NHibernate</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>

@@ -1,5 +1,5 @@
 ﻿{
-	"version": "1.0.0-rc-2",
+	"version": "1.0.0-final",
 	"dependencies": {
 		"Dapper": "1.50.2",
 		"Dapper.Contrib": "1.50.0",
@@ -7,8 +7,8 @@
 		"NETStandard.Library": "1.6.0",
 		"Npgsql": "3.1.7",
 		"Pomelo.Data.MySql": "1.0.0",
-		"ZKWeb": "1.0.0-rc-2",
-		"ZKWebStandard": "1.0.0-rc-2"
+		"ZKWeb": "1.0.0-final",
+		"ZKWebStandard": "1.0.0-final"
 	},
 	"frameworks": {
 		"net461": {},
