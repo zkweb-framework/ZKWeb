@@ -5,7 +5,7 @@ namespace ZKWeb.ORM.NHibernate {
 	/// Sqlite driver for Microsoft.Data.Sqlite
 	/// See: http://stackoverflow.com/questions/7626251/using-nhibernate-and-mono-data-sqlite
 	/// </summary>
-	public class MicrosoftSQLiteDriver : ReflectionBasedDriver {
+	internal class MicrosoftSQLiteDriver : ReflectionBasedDriver {
 		/// <summary>
 		/// Initialize
 		/// </summary>

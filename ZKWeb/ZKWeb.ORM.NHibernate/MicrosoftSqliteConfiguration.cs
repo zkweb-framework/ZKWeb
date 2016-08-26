@@ -6,7 +6,7 @@ namespace ZKWeb.ORM.NHibernate {
 	/// Sqlite confirguation for Microsoft.Data.Sqlite
 	/// See: http://stackoverflow.com/questions/7626251/using-nhibernate-and-mono-data-sqlite
 	/// </summary>
-	public class MicrosoftSQLiteConfiguration :
+	internal class MicrosoftSQLiteConfiguration :
 		PersistenceConfiguration<MicrosoftSQLiteConfiguration> {
 		/// <summary>
 		/// Default configuration

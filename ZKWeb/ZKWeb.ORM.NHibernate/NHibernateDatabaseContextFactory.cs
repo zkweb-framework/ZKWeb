@@ -32,7 +32,7 @@ namespace ZKWeb.ORM.NHibernate {
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			IPersistenceConfigurer db;
 			if (string.Compare(database, "PostgreSQL", true) == 0) {
-				db = PostgreSQLConfiguration.Standard.ConnectionString(connectionString);
+				db = BetterPostgreSQLConfiguration.Better.ConnectionString(connectionString);
 			} else if (string.Compare(database, "SQLite", true) == 0) {
 				db = MicrosoftSQLiteConfiguration.Standard.ConnectionString(
 					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
