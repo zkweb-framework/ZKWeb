@@ -33,7 +33,8 @@ namespace ZKWeb.ORM.EFCore {
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			if (string.Compare(DatabaseName, "MSSQL", true) == 0) {
-				optionsBuilder.UseSqlServer(ConnectionString);
+				optionsBuilder.UseSqlServer(
+					ConnectionString, option => option.UseRowNumberForPaging());
 			} else if (string.Compare(DatabaseName, "SQLite", true) == 0) {
 				optionsBuilder.UseSqlite(
 					ConnectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
