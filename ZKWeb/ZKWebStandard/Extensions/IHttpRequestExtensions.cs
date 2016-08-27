@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.FastReflection;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Web;
 
@@ -125,6 +129,51 @@ namespace ZKWebStandard.Extensions {
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// Get all parameters into a given type
+		/// </summary>
+		/// <typeparam name="T">The type contains parameters</typeparam>
+		/// <param name="request">Http request</param>
+		/// <returns></returns>
+		public static T GetAllAs<T>(this IHttpRequest request) {
+			if (request.ContentType?.StartsWith("application/json") ?? false) {
+				// Deserialize with json
+				// It should only read once
+				var json = (string)request.HttpContext.Items.GetOrCreate(
+					"__json_body", () => new StreamReader(request.Body).ReadToEnd());
+				return JsonConvert.DeserializeObject<T>(json);
+			} else if (typeof(T) == typeof(IDictionary<string, object>) ||
+				typeof(T) == typeof(Dictionary<string, object>)) {
+				// Return all parameters
+				return (T)(object)request.GetAllDictionary().ToDictionary(
+					p => p.Key, p => (object)p.Value.FirstOrDefault());
+			} else if (typeof(T) == typeof(IDictionary<string, string>) ||
+				typeof(T) == typeof(Dictionary<string, string>)) {
+				// Return all parameters
+				return (T)(object)request.GetAllDictionary().ToDictionary(
+					p => p.Key, p => (string)p.Value.FirstOrDefault());
+			} else {
+				// Get each property by it's name
+				var value = (T)Activator.CreateInstance(typeof(T));
+				foreach (var property in typeof(T).FastGetProperties()) {
+					if (!property.CanRead || !property.CanWrite) {
+						continue; // Property is read or write only
+					}
+					object propertyValue;
+					if (property.PropertyType == typeof(IHttpPostedFile)) {
+						propertyValue = request.GetPostedFile(property.Name);
+					} else {
+						propertyValue = request.Get<string>(property.Name)
+							.ConvertOrDefault(property.PropertyType, null);
+					}
+					if (propertyValue != null) {
+						property.FastSetValue(value, propertyValue);
+					}
+				}
+				return value;
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Extensions;
@@ -34,8 +36,35 @@ namespace ZKWeb.Tests.Web {
 						JsonConvert.SerializeObject(new { a = 1 }));
 				}
 
+				// test get parameter from key
 				using (HttpManager.OverrideContext("__test_action_c?name=john&age=50", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
+					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
+				}
+
+				// test get all parameters from form
+				using (HttpManager.OverrideContext("__test_action_d?name=john&age=50", HttpMethods.POST)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
+					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
+				}
+
+				// test get all parameters from json body
+				using (HttpManager.OverrideContext("__test_action_e", HttpMethods.POST)) {
+					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					request.contentType = "application/json";
+					request.body = new MemoryStream(Encoding.UTF8.GetBytes(
+						JsonConvert.SerializeObject(new { name = "john", age = 50 })));
 					controllerManager.OnRequest();
 					Assert.Equals(response.ContentType, "application/json");
 					var json = response.GetContentsFromBody();
@@ -141,8 +170,25 @@ namespace ZKWeb.Tests.Web {
 
 			[Action("__test_action_c")]
 			public object TestActionC(string name, int age) {
-				return new { name = name, age = age };
+				return new { name, age };
 			}
+
+			[Action("__test_action_d", HttpMethods.POST)]
+			public object TestActionD(ActionParams param) {
+				return new { name = param.name, age = param.age };
+			}
+
+			[Action("__test_action_e", HttpMethods.POST)]
+			public object TestActionE(IDictionary<string, object> param) {
+				var name = param.GetOrDefault<string>("name");
+				var age = param.GetOrDefault<int>("age");
+				return new { name, age };
+			}
+		}
+
+		public class ActionParams {
+			public string name { get; set; }
+			public int age { get; set; }
 		}
 	}
 }

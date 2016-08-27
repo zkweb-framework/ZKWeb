@@ -61,6 +61,7 @@ namespace ZKWebStandard.Web.Mock {
 			form = new Dictionary<string, IList<string>>();
 			headers = new Dictionary<string, string>();
 			query = new Dictionary<string, IList<string>>();
+			postedFiles = new Dictionary<string, IHttpPostedFile>();
 		}
 
 		public virtual string GetCookie(string key) {

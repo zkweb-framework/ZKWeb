@@ -19,7 +19,21 @@ namespace ZKWeb.Web {
 		/// <param name="name">Parameter name</param>
 		/// <returns></returns>
 		private static T GetRequestParameter<T>(string name) {
-			return HttpManager.CurrentContext.Request.Get<T>(name);
+			// Get parameter from form or query key
+			var request = HttpManager.CurrentContext.Request;
+			var result = request.Get<T>(name);
+			if (result != null) {
+				return result;
+			}
+			// Get parameter from all form or query values if type isn't basic type
+			var typeInfo = typeof(T).GetTypeInfo();
+			if (!typeInfo.IsValueType && typeof(T) != typeof(string) &&
+				!(typeInfo.IsGenericType &&
+				typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))) {
+				return request.GetAllAs<T>();
+			}
+			// Return default value
+			return default(T);
 		}
 
 		/// <summary>

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
@@ -81,6 +84,47 @@ namespace ZKWebStandard.Tests.Extensions {
 				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
 				Assert.Equals(allParams.GetOrDefault("c"), null);
 			}
+		}
+
+		public void GetAllAs() {
+			// json
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				request.contentType = "application/json";
+				request.body = new MemoryStream(Encoding.UTF8.GetBytes("{ a: 'xxx', b: 1 }"));
+				var result = request.GetAllAs<TestData>();
+				Assert.Equals(result.a, "xxx");
+				Assert.Equals(result.b, 1);
+				Assert.Equals(result.c, null);
+			}
+
+			// query dictionary
+			using (HttpManager.OverrideContext("/?a=xxx&b=1", "GET")) {
+				var request = HttpManager.CurrentContext.Request;
+				var result_a = request.GetAllAs<IDictionary<string, object>>();
+				var result_b = request.GetAllAs<IDictionary<string, string>>();
+				Assert.Equals(result_a.GetOrDefault("a"), "xxx");
+				Assert.Equals(result_a.GetOrDefault<int>("b"), 1);
+				Assert.Equals(result_b.GetOrDefault("a"), "xxx");
+				Assert.Equals(result_b.GetOrDefault("b"), "1");
+			}
+
+			// query
+			using (HttpManager.OverrideContext("/?a=xxx&b=1", "GET")) {
+				var file = new HttpPostFileMock();
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				request.postedFiles["c"] = file;
+				var result = request.GetAllAs<TestData>();
+				Assert.Equals(result.a, "xxx");
+				Assert.Equals(result.b, 1);
+				Assert.Equals(result.c, file);
+			}
+		}
+
+		public class TestData {
+			public string a { get; set; }
+			public int b { get; set; }
+			public IHttpPostedFile c { get; set; }
 		}
 	}
 }
