@@ -129,16 +129,14 @@ namespace ZKWeb.ORM.MongoDB {
 			var entitiesLocal = entities.ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			var collection = GetCollection<T>();
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeSave(this, e))); // notify before save
-			entitiesLocal.ForEach(e => {
-				update?.Invoke(e);
+			foreach (var entity in entitiesLocal) {
+				callbacks.ForEach(c => c.BeforeSave(this, entity)); // notify before save
+				update?.Invoke(entity);
 				collection.ReplaceOne(
-					MakeIdExpression(e), e,
+					MakeIdExpression(entity), entity,
 					new UpdateOptions() { IsUpsert = true });
-			});
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
+				callbacks.ForEach(c => c.AfterSave(this, entity)); // notify after save
+			}
 			entities = entitiesLocal;
 		}
 
@@ -155,17 +153,17 @@ namespace ZKWeb.ORM.MongoDB {
 		/// <summary>
 		/// Batch delete entities
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			var collection = GetCollection<T>();
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
-			entities.ForEach(e =>
-				collection.DeleteOne(MakeIdExpression(e)));
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
+			foreach (var entity in entities) {
+				beforeDelete?.Invoke(entity);
+				callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
+				collection.DeleteOne(MakeIdExpression(entity));
+				callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
+			}
 			return entities.Count;
 		}
 

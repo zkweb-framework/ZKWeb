@@ -208,14 +208,12 @@ namespace ZKWeb.ORM.Dapper {
 			where T : class, IEntity {
 			var entitiesLocal = entities.ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeSave(this, e))); // notify before save
-			entitiesLocal.ForEach(e => {
-				update?.Invoke(e);
-				InsertOrUpdate(e);
-			});
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
+			foreach (var entity in entitiesLocal) {
+				callbacks.ForEach(c => c.BeforeSave(this, entity)); // notify before save
+				update?.Invoke(entity);
+				InsertOrUpdate(entity);
+				callbacks.ForEach(c => c.AfterSave(this, entity)); // notify after save
+			}
 			entities = entitiesLocal;
 		}
 
@@ -234,16 +232,16 @@ namespace ZKWeb.ORM.Dapper {
 		/// Batch delete entities
 		/// Attention: It's slow, you should use RawUpdate
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
-			entities.ForEach(e =>
-				Connection.Delete(e, Transaction));
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
+			foreach (var entity in entities) {
+				beforeDelete?.Invoke(entity);
+				callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
+				Connection.Delete(entity, Transaction);
+				callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
+			}
 			return entities.Count;
 		}
 

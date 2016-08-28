@@ -145,15 +145,17 @@ namespace ZKWeb.ORM.NHibernate {
 			where T : class, IEntity {
 			var entitiesLocal = entities.ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeSave(this, e))); // notify before save
-			entitiesLocal = entitiesLocal.Select(e => {
-				update?.Invoke(e);
-				return Session.Merge(e);
-			}).ToList();
+			for (int i = 0; i < entitiesLocal.Count; ++i) {
+				var entity = entitiesLocal[i];
+				callbacks.ForEach(c => c.BeforeSave(this, entity)); // notify before save
+				update?.Invoke(entity);
+				entity = Session.Merge(entity);
+				entitiesLocal[i] = entity;
+			}
 			Session.Flush(); // send commands to database
-			entitiesLocal.ForEach(e =>
-				callbacks.ForEach(c => c.AfterSave(this, e))); // notify after save
+			foreach (var entity in entitiesLocal) {
+				callbacks.ForEach(c => c.AfterSave(this, entity)); // notify after save
+			}
 			entities = entitiesLocal;
 		}
 
@@ -170,16 +172,19 @@ namespace ZKWeb.ORM.NHibernate {
 		/// <summary>
 		/// Batch delete entities
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.BeforeDelete(this, e))); // notify before delete
-			entities.ForEach(e => Session.Delete(e));
+			foreach (var entity in entities) {
+				beforeDelete?.Invoke(entity);
+				callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
+				Session.Delete(entity);
+			}
 			Session.Flush(); // send commands to database
-			entities.ForEach(e =>
-				callbacks.ForEach(c => c.AfterDelete(this, e))); // notify after delete
+			foreach (var entity in entities) {
+				callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
+			}
 			return entities.Count;
 		}
 

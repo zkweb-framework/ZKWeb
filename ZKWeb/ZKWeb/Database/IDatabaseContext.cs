@@ -103,8 +103,10 @@ namespace ZKWeb.Database {
 		/// </summary>
 		/// <typeparam name="T">Entity Type</typeparam>
 		/// <param name="predicate">The predicate</param>
+		/// <param name="beforeDelete">Action before delete</param>
 		/// <returns></returns>
-		long BatchDelete<T>(Expression<Func<T, bool>> predicate)
+		long BatchDelete<T>(
+			Expression<Func<T, bool>> predicate, Action<T> beforeDelete = null)
 			where T : class, IEntity;
 
 		/// <summary>
