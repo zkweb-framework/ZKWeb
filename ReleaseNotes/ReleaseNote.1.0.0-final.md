@@ -16,3 +16,4 @@ This version bring many small bug fixes.
 - Improve error message for type have no public constrcutor
 - Fix incorrect nullable settings for Entity Framework Core
 - Fix old MSSQL support for Entity Framework Core
+- Allow pass before delete action to IDatabaseContext.BatchDelete
