@@ -72,9 +72,10 @@ namespace ZKWeb.ORM.EFCore {
 					checked((int)options.Length.Value));
 			}
 			if (options.Unique == true) {
-				Builder.HasAlternateKey(Expression.Lambda<Func<T, object>>(
+				// See http://stackoverflow.com/questions/35309553/the-property-on-entity-type-is-part-of-a-key-and-so-cannot-be-modified-or-marked
+				Builder.HasIndex(Expression.Lambda<Func<T, object>>(
 					Expression.Convert(memberExpression.Body, typeof(object)),
-					memberExpression.Parameters));
+					memberExpression.Parameters)).IsUnique();
 			}
 			if (options.Nullable == true) {
 				propertyBuilder = propertyBuilder.IsRequired(false);

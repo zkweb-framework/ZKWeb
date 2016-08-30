@@ -17,3 +17,4 @@ This version bring many small bug fixes.
 - Fix incorrect nullable settings for Entity Framework Core
 - Fix old MSSQL support for Entity Framework Core
 - Allow pass before delete action to IDatabaseContext.BatchDelete
+- Use unique index instead of alternate key for Entity Framework Core
