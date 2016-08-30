@@ -136,7 +136,8 @@ namespace ZKWeb.ORM.EFCore {
 					Add(entity);
 				}
 			} else {
-				// It's being tracked, we don't need to do anything
+				// It's being tracked, we don't need to attach it
+				update?.Invoke(entity);
 			}
 		}
 
