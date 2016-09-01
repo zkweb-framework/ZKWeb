@@ -13,13 +13,22 @@ namespace ZKWeb.ORM.InMemory {
 		/// <summary>
 		/// The database object
 		/// </summary>
-		private InMemoryDatabase Database { get; set; }
+		private InMemoryDatabaseStore Store { get; set; }
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return ConstORM; } }
+		public const string ConstORM = "InMemory";
+		/// <summary>
+		/// Database type
+		/// </summary>
+		public string Database { get { return null; } }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		public InMemoryDatabaseContext(InMemoryDatabase database) {
-			Database = database;
+		public InMemoryDatabaseContext(InMemoryDatabaseStore store) {
+			Store = store;
 		}
 
 		/// <summary>
@@ -42,7 +51,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
-			return Database.GetEntityStore(typeof(T)).Values.OfType<T>().AsQueryable();
+			return Store.GetEntityStore(typeof(T)).Values.OfType<T>().AsQueryable();
 		}
 
 		/// <summary>
@@ -70,8 +79,8 @@ namespace ZKWeb.ORM.InMemory {
 			var entityLocal = entity; // can't use ref parameter in lambda
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
 			update?.Invoke(entityLocal);
-			var primaryKey = Database.EnsurePrimaryKey(entity);
-			Database.GetEntityStore(typeof(T))[primaryKey] = entity;
+			var primaryKey = Store.EnsurePrimaryKey(entity);
+			Store.GetEntityStore(typeof(T))[primaryKey] = entity;
 			callbacks.ForEach(c => c.AfterSave(this, entityLocal)); // notify after save
 			entity = entityLocal;
 		}
@@ -83,9 +92,9 @@ namespace ZKWeb.ORM.InMemory {
 			where T : class, IEntity {
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
-			var primaryKey = Database.GetPrimaryKey(entity);
+			var primaryKey = Store.GetPrimaryKey(entity);
 			if (primaryKey != null) {
-				Database.GetEntityStore(typeof(T)).Remove(primaryKey);
+				Store.GetEntityStore(typeof(T)).Remove(primaryKey);
 			}
 			callbacks.ForEach(c => c.AfterDelete(this, entity)); // notify after delete
 		}

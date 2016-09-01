@@ -8,10 +8,11 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
-	/// A simple memory database
-	/// The performance is poor, it should only use for testing
+	/// A simple memory database store
+	/// It shouldn't use in production environment,
+	/// The performance will be very poor
 	/// </summary>
-	internal class InMemoryDatabase {
+	internal class InMemoryDatabaseStore {
 		/// <summary>
 		/// Data store
 		/// { Type: { key: object } }
@@ -34,7 +35,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		public InMemoryDatabase() {
+		public InMemoryDatabaseStore() {
 			Store = new ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>();
 			Mappings = new ConcurrentDictionary<Type, IInMemoryEntityMapping>();
 			PrimaryKeySequence = new ConcurrentDictionary<Type, long>();

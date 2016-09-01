@@ -10,6 +10,11 @@ namespace ZKWeb.Database {
 	public interface IEntityMappingBuilder<T>
 		where T : class, IEntity {
 		/// <summary>
+		/// ORM name
+		/// </summary>
+		string ORM { get; }
+
+		/// <summary>
 		/// Specify the primary key for this entity
 		/// </summary>
 		/// <typeparam name="TPrimaryKey">Primary key type</typeparam>

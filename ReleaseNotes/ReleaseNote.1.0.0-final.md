@@ -1,20 +1,27 @@
 ﻿### 1.0.0 final Release Note
 
-This version bring many small bug fixes.
+This version bring many small fixes.
 
 ### Changes
 
-- Improve website publisher error message
-- Make website start handler execute after controllers initialized
-	- Allow override default registered actions
-- Fix Guid entity key support for NHibernate and PostgreSQL
-- Fix Guid entity key support for Entity Framework Core
-- Allow Asp.Net Core retry after initialization failed
-- Support cascade option in many-to-one part
-- Support mapping action parameter from all request parameter
-- Support mapping action parameter from json contents
-- Improve error message for type have no public constrcutor
-- Fix incorrect nullable settings for Entity Framework Core
-- Fix old MSSQL support for Entity Framework Core
-- Allow pass before delete action to IDatabaseContext.BatchDelete
-- Use unique index instead of alternate key for Entity Framework Core
+- Framework changes
+	- Improve website publisher error message
+	- Make Asp.Net Core website reboot after initialization failed
+	- Make website start handler execute after controllers initialized
+	- Support mapping action parameter from all request parameter
+	- Support mapping action parameter from json contents
+	- Improve error message for type have no public constrcutor
+- ORM changes
+	- Support retrieve ORM name and database type from IDatabaseContext
+	- Support retrieve ORM name from IEntityMappingBuilder
+	- Allow pass before delete action to IDatabaseContext.BatchDelete
+- NHibernate changes
+	- Fix Guid entity key support
+	- Support specific navigation column name for HasMany, HasManyToMany
+- Entity Framework Core changes
+	- Fix Guid entity key support
+	- Fix incorrect nullable settings
+	- Fix old MSSQL support
+	- Support cascade option in many-to-one part
+	- Support specific navigation property for Reference, HasMany, HasManyToMany
+	- Use unique index instead of alternate key

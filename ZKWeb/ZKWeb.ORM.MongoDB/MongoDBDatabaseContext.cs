@@ -22,6 +22,16 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Database object
 		/// </summary>
 		private IMongoDatabase Database { get; set; }
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return ConstORM; } }
+		public const string ConstORM = "MongoDB";
+		/// <summary>
+		/// Database type
+		/// Same as ORM name
+		/// </summary>
+		string IDatabaseContext.Database { get { return ConstORM; } }
 
 		/// <summary>
 		/// Initialize

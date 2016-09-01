@@ -7,9 +7,9 @@ namespace ZKWeb.ORM.InMemory {
 	/// </summary>
 	internal class InMemoryDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// The database object
+		/// The store object
 		/// </summary>
-		private InMemoryDatabase Database { get; set; }
+		private InMemoryDatabaseStore Store { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -17,7 +17,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// <param name="database">Not using</param>
 		/// <param name="connectionString">Not using</param>
 		public InMemoryDatabaseContextFactory(string database, string connectionString) {
-			Database = new InMemoryDatabase();
+			Store = new InMemoryDatabaseStore();
 		}
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
-			return new InMemoryDatabaseContext(Database);
+			return new InMemoryDatabaseContext(Store);
 		}
 	}
 }

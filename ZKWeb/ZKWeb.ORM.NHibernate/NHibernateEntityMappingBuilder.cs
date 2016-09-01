@@ -16,6 +16,11 @@ namespace ZKWeb.ORM.NHibernate {
 		ClassMap<T>, IEntityMappingBuilder<T>
 		where T : class, IEntity {
 		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return "NHibernate"; } }
+
+		/// <summary>
 		/// Initialize
 		/// </summary>
 		public NHibernateEntityMappingBuilder() {
@@ -102,7 +107,7 @@ namespace ZKWeb.ORM.NHibernate {
 			EntityMappingOptions options = null)
 			where TOther : class {
 			// Unsupported options: Length, Unique, Index,
-			// CustomSqlType, WithSerialization
+			// CustomSqlType, WithSerialization, Navigation
 			options = options ?? new EntityMappingOptions();
 			var manyToOnePart = base.References(memberExpression);
 			if (!string.IsNullOrEmpty(options.Column)) {
@@ -132,6 +137,9 @@ namespace ZKWeb.ORM.NHibernate {
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var oneToManyPart = base.HasMany(memberExpression);
+			if (!string.IsNullOrEmpty(options.Navigation)) {
+				oneToManyPart = oneToManyPart.KeyColumn(options.Navigation);
+			}
 			if (options.CascadeDelete == false) {
 				oneToManyPart.Cascade.None();
 			} else {
@@ -150,6 +158,9 @@ namespace ZKWeb.ORM.NHibernate {
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			var manyToManyPart = base.HasManyToMany(memberExpression);
+			if (!string.IsNullOrEmpty(options.Navigation)) {
+				manyToManyPart.ChildKeyColumn(options.Navigation);
+			}
 			if (options.CascadeDelete == true) {
 				manyToManyPart.Cascade.AllDeleteOrphan();
 			} else {

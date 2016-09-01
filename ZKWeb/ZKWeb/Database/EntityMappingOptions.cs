@@ -43,5 +43,10 @@
 		/// and deserialize after retrieve from database if it is true
 		/// </summary>
 		public bool? WithSerialization { get; set; }
+		/// <summary>
+		/// Navigation property on the other side for References, HasMany, HasManyToMany
+		/// Automatic determine or create if this option is empty
+		/// </summary>
+		public string Navigation { get; set; }
 	}
 }

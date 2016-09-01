@@ -39,6 +39,10 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
 		private IList<MemberInfo> ordinaryMembers;
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return MongoDBDatabaseContext.ConstORM; } }
 
 		/// <summary>
 		/// Initialize

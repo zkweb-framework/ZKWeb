@@ -22,6 +22,16 @@ namespace ZKWeb.ORM.EFCore {
 		/// Transaction level counter
 		/// </summary>
 		private int TransactionLevel;
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return ConstORM; } }
+		internal const string ConstORM = "EFCore";
+		/// <summary>
+		/// Database type
+		/// </summary>
+		string IDatabaseContext.Database { get { return databaseType; } }
+		private string databaseType;
 
 		/// <summary>
 		/// Initialize
@@ -32,6 +42,7 @@ namespace ZKWeb.ORM.EFCore {
 			: base(database, connectionString) {
 			Transaction = null;
 			TransactionLevel = 0;
+			databaseType = database;
 		}
 
 		/// <summary>

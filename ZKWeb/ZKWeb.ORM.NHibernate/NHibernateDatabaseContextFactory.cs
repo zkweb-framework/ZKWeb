@@ -18,6 +18,10 @@ namespace ZKWeb.ORM.NHibernate {
 	/// </summary>
 	internal class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
+		/// Database type
+		/// </summary>
+		private string Database { get; set; }
+		/// <summary>
 		/// NHibernate session factory
 		/// </summary>
 		private ISessionFactory SessionFactory { get; set; }
@@ -89,6 +93,7 @@ namespace ZKWeb.ORM.NHibernate {
 				}
 			});
 			// create nhibernate session factory and write ddl script to file
+			Database = database;
 			SessionFactory = configuration.BuildSessionFactory();
 			onBuildFactorySuccess?.Invoke();
 		}
@@ -99,7 +104,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
 			var session = SessionFactory.OpenSession();
-			return new NHibernateDatabaseContext(session);
+			return new NHibernateDatabaseContext(session, Database);
 		}
 	}
 }

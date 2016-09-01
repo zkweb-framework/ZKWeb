@@ -35,6 +35,16 @@ namespace ZKWeb.ORM.Dapper {
 		/// Transaction level counter
 		/// </summary>
 		private int TransactionLevel;
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return ConstORM; } }
+		public const string ConstORM = "Dapper";
+		/// <summary>
+		/// Database type
+		/// </summary>
+		public string Database { get { return databaseType; } }
+		private string databaseType;
 
 		/// <summary>
 		/// Initialize
@@ -48,6 +58,7 @@ namespace ZKWeb.ORM.Dapper {
 			Connection = null;
 			Transaction = null;
 			TransactionLevel = 0;
+			databaseType = database;
 			// Create database connection
 			var pathConfig = Application.Ioc.Resolve<PathConfig>();
 			if (string.Compare(database, "MSSQL", true) == 0) {

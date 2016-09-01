@@ -25,15 +25,27 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Transaction level counter
 		/// </summary>
 		private int TransactionLevel;
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return ConstORM; } }
+		public const string ConstORM = "NHibernate";
+		/// <summary>
+		/// Database type
+		/// </summary>
+		public string Database { get { return databaseType; } }
+		private string databaseType;
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		/// <param name="session">NHibernate session</param>
-		public NHibernateDatabaseContext(ISession session) {
+		/// <param name="database">Database type</param>
+		public NHibernateDatabaseContext(ISession session, string database) {
 			Session = session;
 			Transaction = null;
 			TransactionLevel = 0;
+			databaseType = database;
 		}
 
 		/// <summary>

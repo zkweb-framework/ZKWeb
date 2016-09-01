@@ -10,6 +10,16 @@ namespace ZKWeb.Database {
 	/// </summary>
 	public interface IDatabaseContext : IDisposable {
 		/// <summary>
+		/// ORM name
+		/// </summary>
+		string ORM { get; }
+
+		/// <summary>
+		/// Database type
+		/// </summary>
+		string Database { get; }
+
+		/// <summary>
 		/// Begin a transaction
 		/// It should support recursive calling
 		/// Only the first call will create a transaction, later calls just increase the counter

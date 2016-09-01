@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.FastReflection;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using ZKWeb.Database;
 using ZKWebStandard.Extensions;
 
@@ -18,6 +22,10 @@ namespace ZKWeb.ORM.EFCore {
 		/// Entity Framework Core type builder
 		/// </summary>
 		private EntityTypeBuilder<T> Builder { get; set; }
+		/// <summary>
+		/// ORM name
+		/// </summary>
+		public string ORM { get { return EFCoreDatabaseContext.ConstORM; } }
 
 		/// <summary>
 		/// Initialize
@@ -98,6 +106,21 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
+		/// Use navigation property name from options, or
+		/// Automatic determine navigation property name on the other side
+		/// </summary>
+		private string GetNavigationPropertyName<TOther, TNavigationType>(
+			EntityMappingOptions options) {
+			if (!string.IsNullOrEmpty(options.Navigation)) {
+				return options.Navigation;
+			}
+			var navigationTypeInfo = typeof(TNavigationType).GetTypeInfo();
+			var navigationProperty = typeof(TOther).FastGetProperties()
+				.FirstOrDefault(p => navigationTypeInfo.IsAssignableFrom(p.PropertyType));
+			return navigationProperty?.Name;
+		}
+
+		/// <summary>
 		/// Create a reference to another entity, this is a many-to-one relationship.
 		/// </summary>
 		public void References<TOther>(
@@ -107,7 +130,9 @@ namespace ZKWeb.ORM.EFCore {
 			// Unsupported options: Length, Unique, Index,
 			// CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
-			var referenceBuilder = Builder.HasOne(memberExpression).WithMany();
+			var referenceBuilder = Builder
+				.HasOne(memberExpression)
+				.WithMany(GetNavigationPropertyName<TOther, IEnumerable<T>>(options));
 			if (!string.IsNullOrEmpty(options.Column)) {
 				referenceBuilder = referenceBuilder.HasConstraintName(options.Column);
 			}
@@ -134,7 +159,9 @@ namespace ZKWeb.ORM.EFCore {
 			// Unsupported options: Column, Length, Unique,
 			// Nullable, Index, CustomSqlType, WithSerialization
 			options = options ?? new EntityMappingOptions();
-			var collectionBuilder = Builder.HasMany(memberExpression).WithOne();
+			var collectionBuilder = Builder
+				.HasMany(memberExpression)
+				.WithOne(GetNavigationPropertyName<TChild, T>(options))
 			if (options.CascadeDelete == false) {
 				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Restrict);
 			} else {
