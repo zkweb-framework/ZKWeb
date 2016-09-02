@@ -161,7 +161,7 @@ namespace ZKWeb.ORM.EFCore {
 			options = options ?? new EntityMappingOptions();
 			var collectionBuilder = Builder
 				.HasMany(memberExpression)
-				.WithOne(GetNavigationPropertyName<TChild, T>(options))
+				.WithOne(GetNavigationPropertyName<TChild, T>(options));
 			if (options.CascadeDelete == false) {
 				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Restrict);
 			} else {
