@@ -3,10 +3,10 @@
 	"dependencies": {
 		"Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
 		"Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-		"ZKWeb": "1.0.0-rc-3",
-		"ZKWeb.Hosting.AspNetCore": "1.0.0-rc-3",
-		"ZKWeb.ORM.InMemory": "1.0.0-rc-3",
-		"ZKWeb.ORM.MongoDB": "1.0.0-rc-3"
+		"ZKWeb": "1.0.0-final",
+		"ZKWeb.Hosting.AspNetCore": "1.0.0-final",
+		"ZKWeb.ORM.InMemory": "1.0.0-final",
+		"ZKWeb.ORM.MongoDB": "1.0.0-final"
 	},
 	"tools": {
 		"Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
