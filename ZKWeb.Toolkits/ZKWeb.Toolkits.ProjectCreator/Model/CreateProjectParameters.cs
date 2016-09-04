@@ -70,7 +70,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		/// ORM that supports default plugins
 		/// </summary>
 		public readonly static string[] ORMThatSupportsDefaultPlugins = new[] {
-			"InMemory", "NHibernate"
+			"NHibernate"
 		};
 		/// <summary>
 		/// Available databases for specified ORM
@@ -109,7 +109,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 			if (!string.IsNullOrEmpty(UseDefaultPlugins) &&
 				!ORMThatSupportsDefaultPlugins.Contains(ORM)) {
 				throw new ArgumentException(
-					"Selected ORM doesn't support default plugins, please use one of" +
+					"Selected ORM doesn't support default plugins, please use following ORM: " +
 					string.Join(", ", ORMThatSupportsDefaultPlugins));
 			}
 		}
