@@ -50,7 +50,7 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="response">Http response</param>
 		/// <param name="path">File path</param>
 		public static void WriteFile(this IHttpResponse response, string path) {
-			using (var stream = new FileStream(path, FileMode.Open)) {
+			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
 				stream.CopyTo(response.Body);
 			}
 			response.Body.Flush();
