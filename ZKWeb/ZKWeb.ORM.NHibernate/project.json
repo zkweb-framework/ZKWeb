@@ -1,5 +1,5 @@
 {
-	"version": "1.0.1",
+	"version": "1.0.1.1-final",
 	"dependencies": {
 		"FluentNHibernate": "2.0.3",
 		"ZKWeb.Repack.SQLite": "1.0.103",
@@ -7,8 +7,8 @@
 		"NETStandard.Library": "1.6.0",
 		"NHibernate": "4.0.4.4000",
 		"Npgsql": "3.1.7",
-		"ZKWeb": "1.0.1",
-		"ZKWebStandard": "1.0.1"
+		"ZKWeb": "1.0.1-final",
+		"ZKWebStandard": "1.0.1-final"
 	},
 	"frameworks": {
 		"net461": {}

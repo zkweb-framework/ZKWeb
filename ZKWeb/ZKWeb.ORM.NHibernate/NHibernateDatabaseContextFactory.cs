@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate;
+using ZKWeb.Logging;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -88,10 +89,11 @@ namespace ZKWeb.ORM.NHibernate {
 				new SchemaExport(c).Create(s => scriptBuilder.AppendLine(s), false);
 				var script = scriptBuilder.ToString();
 				if (!File.Exists(ddlPath) || script != File.ReadAllText(ddlPath)) {
+					var logManager = Application.Ioc.Resolve<LogManager>();
 					var schemaUpdate = new SchemaUpdate(c);
 					schemaUpdate.Execute(false, true);
-					if (schemaUpdate.Exceptions.Any()) {
-						throw schemaUpdate.Exceptions.First();
+					foreach (var ex in schemaUpdate.Exceptions) {
+						logManager.LogError($"NHibernate schema update error: ({ex.GetType()}) {ex.Message}");
 					}
 					onBuildFactorySuccess = () => File.WriteAllText(ddlPath, script);
 				}

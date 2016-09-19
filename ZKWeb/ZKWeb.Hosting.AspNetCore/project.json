@@ -1,12 +1,12 @@
 {
-	"version": "1.0.1",
+	"version": "1.0.1-final",
 	"dependencies": {
 		"Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
 		"Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
 		"Microsoft.Extensions.PlatformAbstractions": "1.0.0",
 		"NETStandard.Library": "1.6.0",
-		"ZKWeb": "1.0.1",
-		"ZKWebStandard": "1.0.1"
+		"ZKWeb": "1.0.1-final",
+		"ZKWebStandard": "1.0.1-final"
 	},
 	"frameworks": {
 		"net461": {},

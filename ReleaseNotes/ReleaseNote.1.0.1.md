@@ -8,7 +8,7 @@
 	- Update MySql.Data to 7.0.5-IR21
 - Bug fixes
 	- Use FileShare.Read option in IHttpResponseExtensions.WriteFile
-	- Throw exception when NHibernate schema update failed
+	- Log errors from NHibernate schema update
 	- Make SQLite schema update with NHibernate work again (Switch back to ZKWeb.Repack.SQLite)
 - Improvements
 	- Display message from most inner exception on request error

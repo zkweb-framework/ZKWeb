@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.EFCore</id>
-		<version>1.0.1</version>
+		<version>1.0.1-final</version>
 		<title>ZKWeb.ORM.EFCore</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,12 +14,12 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.0.1" />
-			<dependency id="Microsoft.EntityFrameworkCore" version="1.0.1" />
+			<dependency id="ZKWeb" version="1.0.1-final" />
+			<dependency id="Microsoft.EntityFrameworkCore" version="1.0.1-final" />
 			<dependency id="Microsoft.EntityFrameworkCore.Design.Core" version="1.0.0-preview2-final" />
-			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="1.0.1" />
-			<dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="1.0.1" />
-			<dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="1.0.1" />
+			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="1.0.1-final" />
+			<dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="1.0.1-final" />
+			<dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="1.0.1-final" />
 			<dependency id="Pomelo.EntityFrameworkCore.MySql" version="1.0.0" />
 		</dependencies>
 	</metadata>
