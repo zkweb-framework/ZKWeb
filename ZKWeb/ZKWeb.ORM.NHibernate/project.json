@@ -1,14 +1,14 @@
-﻿{
-	"version": "1.0.0-final",
+{
+	"version": "1.0.1",
 	"dependencies": {
 		"FluentNHibernate": "2.0.3",
 		"Microsoft.Data.Sqlite": "1.0.0",
-		"MySql.Data": "7.0.3-DMR",
+		"MySql.Data": "7.0.5-IR21",
 		"NETStandard.Library": "1.6.0",
 		"NHibernate": "4.0.4.4000",
 		"Npgsql": "3.1.7",
-		"ZKWeb": "1.0.0-final",
-		"ZKWebStandard": "1.0.0-final"
+		"ZKWeb": "1.0.1",
+		"ZKWebStandard": "1.0.1"
 	},
 	"frameworks": {
 		"net461": {}
