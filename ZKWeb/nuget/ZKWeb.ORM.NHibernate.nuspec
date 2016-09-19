@@ -17,7 +17,7 @@
 			<dependency id="ZKWeb" version="1.0.1" />
 			<dependency id="FluentNHibernate" version="2.0.3" />
 			<dependency id="Microsoft.Data.Sqlite" version="1.0.0" />
-			<dependency id="MySql.Data" version="7.0.3-DMR" />
+			<dependency id="MySql.Data" version="7.0.5-IR21" />
 			<dependency id="NHibernate" version="4.0.4.4000" />
 			<dependency id="Npgsql" version="3.1.7" />
 		</dependencies>

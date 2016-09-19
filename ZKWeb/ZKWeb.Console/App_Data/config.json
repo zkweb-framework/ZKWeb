@@ -3,5 +3,5 @@
 	"Database": "SQLite",
 	"ConnectionString": "Data Source={{App_Data}}/test.db;",
 	"PluginDirectories": [ "App_Data" ],
-	"Plugins": [ ]
+	"Plugins": []
 }

@@ -15,11 +15,11 @@
 		<tags></tags>
 		<dependencies>
 			<dependency id="ZKWeb" version="1.0.1" />
-			<dependency id="Microsoft.EntityFrameworkCore" version="1.0.0" />
+			<dependency id="Microsoft.EntityFrameworkCore" version="1.0.1" />
 			<dependency id="Microsoft.EntityFrameworkCore.Design.Core" version="1.0.0-preview2-final" />
-			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="1.0.0" />
-			<dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="1.0.0" />
-			<dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="1.0.0" />
+			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="1.0.1" />
+			<dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="1.0.1" />
+			<dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="1.0.1" />
 			<dependency id="Pomelo.EntityFrameworkCore.MySql" version="1.0.0" />
 		</dependencies>
 	</metadata>

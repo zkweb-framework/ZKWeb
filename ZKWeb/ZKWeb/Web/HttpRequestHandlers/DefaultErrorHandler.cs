@@ -15,6 +15,10 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 		/// Handler request error
 		/// </summary>
 		public void OnError(Exception ex) {
+			// Use most inner exception
+			while (ex.InnerException != null) {
+				ex = ex.InnerException;
+			}
 			// Set status
 			var response = HttpManager.CurrentContext.Response;
 			var httpExcepion = ex as HttpException;

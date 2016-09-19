@@ -38,7 +38,7 @@ namespace ZKWeb.ORM.NHibernate {
 			if (string.Compare(database, "PostgreSQL", true) == 0) {
 				db = BetterPostgreSQLConfiguration.Better.ConnectionString(connectionString);
 			} else if (string.Compare(database, "SQLite", true) == 0) {
-				db = MicrosoftSQLiteConfiguration.Standard.ConnectionString(
+				db = SQLiteConfiguration.Standard.ConnectionString(
 					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
 			} else if (string.Compare(database, "MySQL", true) == 0) {
 				db = MySQLConfiguration.Standard.ConnectionString(connectionString);
@@ -88,7 +88,11 @@ namespace ZKWeb.ORM.NHibernate {
 				new SchemaExport(c).Create(s => scriptBuilder.AppendLine(s), false);
 				var script = scriptBuilder.ToString();
 				if (!File.Exists(ddlPath) || script != File.ReadAllText(ddlPath)) {
-					new SchemaUpdate(c).Execute(false, true);
+					var schemaUpdate = new SchemaUpdate(c);
+					schemaUpdate.Execute(false, true);
+					if (schemaUpdate.Exceptions.Any()) {
+						throw schemaUpdate.Exceptions.First();
+					}
 					onBuildFactorySuccess = () => File.WriteAllText(ddlPath, script);
 				}
 			});
