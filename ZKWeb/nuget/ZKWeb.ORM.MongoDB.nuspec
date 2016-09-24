@@ -15,7 +15,7 @@
 		<tags></tags>
 		<dependencies>
 			<dependency id="ZKWeb" version="1.0.1-final" />
-			<dependency id="MongoDB.Driver" version="2.3.0-rc1" />
+			<dependency id="MongoDB.Driver" version="2.3.0" />
 		</dependencies>
 	</metadata>
 	<files>
