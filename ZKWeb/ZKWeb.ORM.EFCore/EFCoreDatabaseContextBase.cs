@@ -40,6 +40,8 @@ namespace ZKWeb.ORM.EFCore {
 					ConnectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
 			} else if (string.Compare(DatabaseName, "MySQL", true) == 0) {
 				optionsBuilder.UseMySql(ConnectionString);
+			} else if (string.Compare(DatabaseName, "PostgreSQL", true) == 0) {
+				optionsBuilder.UseNpgsql(ConnectionString);
 			} else if (string.Compare(DatabaseName, "InMemory", true) == 0) {
 				optionsBuilder.UseInMemoryDatabase();
 			} else {

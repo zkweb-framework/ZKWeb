@@ -78,7 +78,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		public readonly static IDictionary<string, string[]> AvailableDatabases =
 			new Dictionary<string, string[]> {
 				{ "Dapper", new[] { "MSSQL", "SQLite", "MySQL", "PostgreSQL" } },
-				{ "EFCore", new[] { "MSSQL", "SQLite", "MySQL", "InMemory" } },
+				{ "EFCore", new[] { "MSSQL", "SQLite", "MySQL", "PostgreSQL", "InMemory" } },
 				{ "MongoDB", new [] { "MongoDB" } },
 				{ "NHibernate", new[] { "PostgreSQL", "SQLite", "MySQL", "MSSQL" } }
 			};
