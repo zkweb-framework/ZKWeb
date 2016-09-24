@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ZKWebStandard.Collections;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Collections {

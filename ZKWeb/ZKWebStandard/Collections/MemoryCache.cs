@@ -5,11 +5,11 @@ using System.Threading;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Memory cache, support specific lifetime and thread safe
+	/// Key-value cache based on memory
 	/// </summary>
 	/// <typeparam name="TKey">Key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
-	public class MemoryCache<TKey, TValue> {
+	public class MemoryCache<TKey, TValue> : IKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Check interval for revoke expired values
 		/// Default is 180s
@@ -105,39 +105,6 @@ namespace ZKWebStandard.Collections {
 			} finally {
 				CacheLock.ExitReadLock();
 			}
-		}
-
-		/// <summary>
-		/// Get cached value
-		/// Return default value if no exist value or exist value expired
-		/// </summary>
-		/// <param name="key">Key</param>
-		/// <param name="defaultValue">The default value</param>
-		/// <returns></returns>
-		public TValue GetOrDefault(TKey key, TValue defaultValue = default(TValue)) {
-			TValue value;
-			if (TryGetValue(key, out value)) {
-				return value;
-			}
-			return defaultValue;
-		}
-
-		/// <summary>
-		/// Get cached value
-		/// Generate a new value and store it to cache if the no exist value or exist value expired
-		/// Attention: This is not an atomic operation
-		/// </summary>
-		/// <param name="key">缓存</param>
-		/// <param name="creator">创建函数</param>
-		/// <param name="keepTime">保留时间</param>
-		/// <returns></returns>
-		public TValue GetOrCreate(TKey key, Func<TValue> creator, TimeSpan keepTime) {
-			TValue value;
-			if (keepTime == TimeSpan.Zero || !TryGetValue(key, out value)) {
-				value = creator();
-				Put(key, value, keepTime);
-			}
-			return value;
 		}
 
 		/// <summary>

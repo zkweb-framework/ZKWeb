@@ -10,11 +10,15 @@ namespace ZKWeb.Cache {
 	/// <typeparam name="TKey">Original key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
 	public class IsolatedMemoryCache<TKey, TValue> :
-		MemoryCache<IsolatedMemoryCacheKey<TKey>, TValue> {
+		IKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Cache isolation policies
 		/// </summary>
 		public IList<ICacheIsolationPolicy> IsolationPolicies { get; protected set; }
+		/// <summary>
+		/// Underlying cache
+		/// </summary>
+		public IKeyValueCache<IsolatedMemoryCacheKey<TKey>, TValue> UnderlyingCache { get; protected set; }
 
 		/// <summary>
 		/// Initialize
@@ -44,6 +48,7 @@ namespace ZKWeb.Cache {
 		/// <param name="isolationPolicies">Cache isolation policies</param>
 		public IsolatedMemoryCache(IList<ICacheIsolationPolicy> isolationPolicies) {
 			IsolationPolicies = isolationPolicies;
+			UnderlyingCache = new MemoryCache<IsolatedMemoryCacheKey<TKey>, TValue>();
 		}
 
 		/// <summary>
@@ -66,7 +71,7 @@ namespace ZKWeb.Cache {
 		/// <param name="value">Cache value</param>
 		/// <param name="keepTime">Keep time</param>
 		public void Put(TKey key, TValue value, TimeSpan keepTime) {
-			Put(GenerateKey(key), value, keepTime);
+			UnderlyingCache.Put(GenerateKey(key), value, keepTime);
 		}
 
 		/// <summary>
@@ -77,31 +82,7 @@ namespace ZKWeb.Cache {
 		/// <param name="value">Cache value</param>
 		/// <returns></returns>
 		public bool TryGetValue(TKey key, out TValue value) {
-			return TryGetValue(GenerateKey(key), out value);
-		}
-
-		/// <summary>
-		/// Get cached value
-		/// Return default value if no exist value or exist value expired
-		/// </summary>
-		/// <param name="key">Original cache key</param>
-		/// <param name="defaultValue">Default value</param>
-		/// <returns></returns>
-		public TValue GetOrDefault(TKey key, TValue defaultValue = default(TValue)) {
-			return GetOrDefault(GenerateKey(key), defaultValue);
-		}
-
-		/// <summary>
-		/// Get cached value
-		/// Generate a new value and store it to cache if the no exist value or exist value expired
-		/// Attention: This is not an atomic operation
-		/// </summary>
-		/// <param name="key">Original cache key</param>
-		/// <param name="creator">New value generator, only call if needed</param>
-		/// <param name="keepTime">Keep time</param>
-		/// <returns></returns>
-		public TValue GetOrCreate(TKey key, Func<TValue> creator, TimeSpan keepTime) {
-			return GetOrCreate(GenerateKey(key), creator, keepTime);
+			return UnderlyingCache.TryGetValue(GenerateKey(key), out value);
 		}
 
 		/// <summary>
@@ -109,7 +90,22 @@ namespace ZKWeb.Cache {
 		/// </summary>
 		/// <param name="key">Original cache key</param>
 		public void Remove(TKey key) {
-			Remove(GenerateKey(key));
+			UnderlyingCache.Remove(GenerateKey(key));
+		}
+
+		/// <summary>
+		/// Count cache
+		/// </summary>
+		/// <returns></returns>
+		public int Count() {
+			return UnderlyingCache.Count();
+		}
+
+		/// <summary>
+		/// Clear cache
+		/// </summary>
+		public void Clear() {
+			UnderlyingCache.Clear();
 		}
 	}
 }

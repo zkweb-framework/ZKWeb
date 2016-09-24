@@ -1,5 +1,6 @@
 ﻿using System;
 using ZKWeb.Cache;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Utils;
 

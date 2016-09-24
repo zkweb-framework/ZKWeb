@@ -2,7 +2,8 @@
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Lazy cache, support reset object and thread safe
+	/// Lazy single object cache
+	/// Support reset object and it's thread safe
 	/// </summary>
 	/// <typeparam name="T">Object type</typeparam>
 	public class LazyCache<T> where T : class {
