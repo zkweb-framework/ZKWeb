@@ -11,7 +11,7 @@ namespace ZKWeb.Cache {
 	/// - class Store 2.0s/1000000 times, Load 0.7s/1000000 times
 	/// </summary>
 	/// <typeparam name="TKey">Original cache key type</typeparam>
-	public struct IsolatedMemoryCacheKey<TKey> : IEquatable<IsolatedMemoryCacheKey<TKey>> {
+	public struct IsolatedCacheKey<TKey> : IEquatable<IsolatedCacheKey<TKey>> {
 		/// <summary>
 		/// Original cache key
 		/// </summary>
@@ -26,7 +26,7 @@ namespace ZKWeb.Cache {
 		/// </summary>
 		/// <param name="key">Original cache key</param>
 		/// <param name="isolationKeys">Isolation keys</param>
-		public IsolatedMemoryCacheKey(TKey key, IList<object> isolationKeys) {
+		public IsolatedCacheKey(TKey key, IList<object> isolationKeys) {
 			Key = key;
 			IsolationKeys = isolationKeys ?? new List<object>();
 		}
@@ -36,7 +36,7 @@ namespace ZKWeb.Cache {
 		/// </summary>
 		/// <param name="obj">Object compare to</param>
 		/// <returns></returns>
-		public bool Equals(IsolatedMemoryCacheKey<TKey> obj) {
+		public bool Equals(IsolatedCacheKey<TKey> obj) {
 			return (Key.EqualsSupportsNull(obj.Key) &&
 				IsolationKeys.SequenceEqual(obj.IsolationKeys));
 		}
@@ -47,8 +47,8 @@ namespace ZKWeb.Cache {
 		/// <param name="obj">Object compare to</param>
 		/// <returns></returns>
 		public override bool Equals(object obj) {
-			return (obj is IsolatedMemoryCacheKey<TKey> &&
-				Equals((IsolatedMemoryCacheKey<TKey>)obj));
+			return (obj is IsolatedCacheKey<TKey> &&
+				Equals((IsolatedCacheKey<TKey>)obj));
 		}
 
 		/// <summary>
