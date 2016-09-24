@@ -1,14 +1,18 @@
 ﻿using System;
 using ZKWeb.Cache;
+using ZKWeb.Cache.Policies;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Cache {
 	[Tests]
-	class IsolatedMemoryCacheTest {
+	class IsolatedKeyValueCacheTest {
 		public void All() {
-			var cache = new IsolatedMemoryCache<string, string>("Locale");
+			var cache = new IsolatedKeyValueCache<string, string>(
+				new[] { new CacheIsolateByLocale() },
+				new MemoryCache<IsolatedCacheKey<string>, string>());
 			// Set
 			LocaleUtils.SetThreadLanguage("zh-CN");
 			cache.Put("Key", "ValueForCN", TimeSpan.FromSeconds(5));

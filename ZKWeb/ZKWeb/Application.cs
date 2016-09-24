@@ -57,6 +57,7 @@ namespace ZKWeb {
 				throw new InvalidOperationException("Application already initialized");
 			}
 			// Register core components
+			Ioc.RegisterMany<CacheFactory>(ReuseType.Singleton);
 			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);

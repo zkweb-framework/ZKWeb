@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Cache;
 using ZKWeb.Server;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 
@@ -35,33 +36,35 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// Isolated by client device
 		/// { Widget path: widget information }
 		/// </summary>
-		protected IsolatedMemoryCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
+		protected IKeyValueCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
 		/// <summary>
 		/// Custom widgets cache
 		/// Isolated by client device
 		/// { Area id: custom widgets }
 		/// </summary>
-		protected IsolatedMemoryCache<string, List<TemplateWidget>> CustomWidgetsCache { get; set; }
+		protected IKeyValueCache<string, IList<TemplateWidget>> CustomWidgetsCache { get; set; }
 		/// <summary>
 		/// Widget render result cache
 		/// { Isolation policy: { Width path and arguments: render result } }
 		/// </summary>
-		protected ConcurrentDictionary<string,
-			IsolatedMemoryCache<string, string>> WidgetRenderCache { get; set; }
+		protected ConcurrentDictionary<string, IKeyValueCache<string, string>> WidgetRenderCache { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		public TemplateAreaManager() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
 			WidgetInfoCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.WidgetInfoCacheTime, 2));
 			CustomWidgetsCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.CustomWidgetsCacheTime, 2));
 			Areas = new Dictionary<string, TemplateArea>();
-			WidgetInfoCache = new IsolatedMemoryCache<string, TemplateWidgetInfo>("Device");
-			CustomWidgetsCache = new IsolatedMemoryCache<string, List<TemplateWidget>>("Device");
-			WidgetRenderCache = new ConcurrentDictionary<string, IsolatedMemoryCache<string, string>>();
+			WidgetInfoCache = cacheFactory.CreateCache<string, TemplateWidgetInfo>(
+				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
+			CustomWidgetsCache = cacheFactory.CreateCache<string, IList<TemplateWidget>>(
+				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
+			WidgetRenderCache = new ConcurrentDictionary<string, IKeyValueCache<string, string>>();
 		}
 
 		/// <summary>
@@ -106,7 +109,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <returns></returns>
-		public virtual List<TemplateWidget> GetCustomWidgets(string areaId) {
+		public virtual IList<TemplateWidget> GetCustomWidgets(string areaId) {
 			return CustomWidgetsCache.GetOrCreate(areaId, () => {
 				var path = GetCustomWidgetsJsonPath(areaId);
 				if (File.Exists(path)) {
@@ -145,12 +148,16 @@ namespace ZKWeb.Templating.DynamicContents {
 		public virtual string RenderWidget(Context context, TemplateWidget widget) {
 			// Get from cache
 			var info = GetWidgetInfo(widget.Path);
-			IsolatedMemoryCache<string, string> renderCache = null;
+			IKeyValueCache<string, string> renderCache = null;
 			string key = null;
 			string renderResult = null;
 			if (info.CacheTime > 0) {
-				renderCache = WidgetRenderCache.GetOrAdd(info.CacheBy ?? "",
-					_ => new IsolatedMemoryCache<string, string>(info.GetCacheIsolationPolicyNames()));
+				renderCache = WidgetRenderCache.GetOrAdd(info.CacheBy ?? "", _ => {
+					var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
+					var policyNames = info.GetCacheIsolationPolicyNames();
+					return cacheFactory.CreateCache<string, string>(
+						CacheFactoryOptions.Default.WithIsolationPolicies(policyNames));
+				});
 				key = widget.GetCacheKey();
 				renderResult = renderCache.GetOrDefault(key);
 				if (renderResult != null) {

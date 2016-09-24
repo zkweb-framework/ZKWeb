@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using ZKWeb.Cache;
 using ZKWeb.Plugin;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
@@ -28,25 +29,28 @@ namespace ZKWeb.Server {
 		/// Isolated by client device
 		/// { path: absolute path }
 		/// </summary>
-		protected IsolatedMemoryCache<string, string> TemplatePathCache { get; set; }
+		protected IKeyValueCache<string, string> TemplatePathCache { get; set; }
 		/// <summary>
 		/// Resource path cache
 		/// Isolated by client device
 		/// { path: absolute path }
 		/// </summary>
-		protected IsolatedMemoryCache<string, string> ResourcePathCache { get; set; }
+		protected IKeyValueCache<string, string> ResourcePathCache { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		public PathManager() {
 			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
 			TemplatePathCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplatePathCacheTime, 2));
 			ResourcePathCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.ResourcePathCacheTime, 2));
-			TemplatePathCache = new IsolatedMemoryCache<string, string>("Device");
-			ResourcePathCache = new IsolatedMemoryCache<string, string>("Device");
+			TemplatePathCache = cacheFactory.CreateCache<string, string>(
+				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
+			ResourcePathCache = cacheFactory.CreateCache<string, string>(
+				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
 		}
 
 		/// <summary>

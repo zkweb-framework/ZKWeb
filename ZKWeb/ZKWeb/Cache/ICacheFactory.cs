@@ -2,7 +2,7 @@
 
 namespace ZKWeb.Cache {
 	/// <summary>
-	/// Key-value cache factory interface
+	/// Cache factory interface
 	/// </summary>
 	public interface ICacheFactory {
 		/// <summary>
@@ -12,6 +12,7 @@ namespace ZKWeb.Cache {
 		/// <typeparam name="TValue">Value type</typeparam>
 		/// <param name="options">Cache factory options</param>
 		/// <returns></returns>
-		IKeyValueCache<TKey, TValue> CreateCache<TKey, TValue>(object options = null);
+		IKeyValueCache<TKey, TValue> CreateCache<TKey, TValue>(
+			CacheFactoryOptions options = null);
 	}
 }
