@@ -208,14 +208,20 @@ namespace ZKWebStandard.Ioc {
 				}
 				// From ExportManyAttribute
 				var reuseType = typeInfo.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
-				var nonPublic = exportManyAttribute.NonPublic;
-				var except = exportManyAttribute.Except;
 				var contractKey = exportManyAttribute.ContractKey;
-				var serviceTypes = GetImplementedServiceTypes(type, nonPublic);
+				var except = exportManyAttribute.Except;
+				var nonPublic = exportManyAttribute.NonPublic;
+				var clearExists = exportManyAttribute.ClearExists;
+				var serviceTypes = GetImplementedServiceTypes(type, nonPublic).ToList();
 				if (except != null && except.Any()) {
-					serviceTypes = serviceTypes.Where(t => !except.Contains(t));
+					// Apply except types
+					serviceTypes = serviceTypes.Where(t => !except.Contains(t)).ToList();
 				}
-				RegisterMany(serviceTypes.ToList(), type, reuseType, contractKey);
+				if (clearExists) {
+					// Apply clear exist
+					serviceTypes.ForEach(t => Unregister(t, contractKey));
+				}
+				RegisterMany(serviceTypes, type, reuseType, contractKey);
 			}
 		}
 

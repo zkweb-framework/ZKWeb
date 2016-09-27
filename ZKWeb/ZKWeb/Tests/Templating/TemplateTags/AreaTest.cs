@@ -1,6 +1,6 @@
 ﻿using DotLiquid;
 using ZKWeb.Templating.DynamicContents;
-using ZKWeb.Tests.Server;
+using ZKWeb.Tests.Storage;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;
 

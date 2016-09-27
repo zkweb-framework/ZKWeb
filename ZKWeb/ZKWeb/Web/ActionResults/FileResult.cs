@@ -8,6 +8,7 @@ namespace ZKWeb.Web.ActionResults {
 	/// <summary>
 	/// File result
 	/// </summary>
+	[Obsolete("Read file directly from this method is not recommended")]
 	public class FileResult : IActionResult {
 		/// <summary>
 		/// File path

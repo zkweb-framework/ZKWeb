@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Cache;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
@@ -53,7 +54,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// Initialize
 		/// </summary>
 		public TemplateAreaManager() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
 			WidgetInfoCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.WidgetInfoCacheTime, 2));
@@ -97,9 +98,9 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <returns></returns>
-		protected virtual string GetCustomWidgetsJsonPath(string areaId) {
-			var pathManager = Application.Ioc.Resolve<PathManager>();
-			var path = pathManager.GetStorageFullPath("areas", string.Format("{0}.widgets", areaId));
+		protected virtual IFileEntry GetCustomWidgetsFile(string areaId) {
+			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
+			var path = fileStorage.GetStorageFile("areas", $"{areaId}.widgets");
 			return path;
 		}
 
@@ -111,9 +112,9 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <returns></returns>
 		public virtual IList<TemplateWidget> GetCustomWidgets(string areaId) {
 			return CustomWidgetsCache.GetOrCreate(areaId, () => {
-				var path = GetCustomWidgetsJsonPath(areaId);
-				if (File.Exists(path)) {
-					return JsonConvert.DeserializeObject<List<TemplateWidget>>(File.ReadAllText(path));
+				var file = GetCustomWidgetsFile(areaId);
+				if (file.Exist) {
+					return JsonConvert.DeserializeObject<List<TemplateWidget>>(file.ReadAllText());
 				}
 				return null;
 			}, CustomWidgetsCacheTime);
@@ -129,12 +130,11 @@ namespace ZKWeb.Templating.DynamicContents {
 			// Remove cache
 			CustomWidgetsCache.Remove(areaId);
 			// Write to file
-			var path = GetCustomWidgetsJsonPath(areaId);
-			PathUtils.EnsureParentDirectory(path);
+			var file = GetCustomWidgetsFile(areaId);
 			if (widgets != null) {
-				File.WriteAllText(path, JsonConvert.SerializeObject(widgets, Formatting.Indented));
+				file.WriteAllText(JsonConvert.SerializeObject(widgets, Formatting.Indented));
 			} else {
-				File.Delete(path);
+				file.Delete();
 			}
 		}
 

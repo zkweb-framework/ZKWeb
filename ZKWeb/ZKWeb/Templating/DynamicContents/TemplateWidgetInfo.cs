@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
@@ -40,12 +41,12 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <param name="path">Widget path, must without extension</param>
 		/// <returns></returns>
 		public static TemplateWidgetInfo FromPath(string path) {
-			var pathManager = Application.Ioc.Resolve<PathManager>();
-			var fullPath = pathManager.GetTemplateFullPath(path + InfoExtension);
-			if (fullPath == null) {
+			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
+			var templateFile = fileStorage.GetTemplateFile(path + InfoExtension);
+			if (!templateFile.Exist) {
 				throw new FileNotFoundException($"widget {path} not exist");
 			}
-			var json = File.ReadAllText(fullPath);
+			var json = templateFile.ReadAllText();
 			var widgetInfo = JsonConvert.DeserializeObject<TemplateWidgetInfo>(json);
 			widgetInfo.WidgetPath = path;
 			widgetInfo.Name = widgetInfo.Name ?? Path.GetFileNameWithoutExtension(path);

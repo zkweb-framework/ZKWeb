@@ -1,5 +1,5 @@
 ﻿using ZKWeb.Templating;
-using ZKWeb.Tests.Server;
+using ZKWeb.Tests.Storage;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;

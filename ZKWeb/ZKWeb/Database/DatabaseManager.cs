@@ -56,7 +56,7 @@ namespace ZKWeb.Database {
 		/// Initialize database manager
 		/// </summary>
 		internal static void Initialize() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var config = configManager.WebsiteConfig;
 			var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
 			databaseManager.DefaultContextFactory = CreateContextFactor(

@@ -117,6 +117,17 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void RegisterExportsWithClearExists() {
+			using (var container = new Container()) {
+				container.RegisterExports(new[] {
+					typeof(SingletonImplementation),
+					typeof(ReplaceImplementation)
+				});
+				Assert.Equals(((ClassService)container.Resolve(
+					typeof(ClassService), IfUnresolved.Throw, "b")).GetName(), "Replace");
+			}
+		}
+
 		public void Unregister() {
 			using (var container = new Container()) {
 				container.RegisterExports(new[] { typeof(TransientImplementation) });
@@ -245,6 +256,12 @@ namespace ZKWebStandard.Tests.IocContainer {
 		[SingletonReuse]
 		public class SingletonImplementation : ClassService, InterfaceService {
 			public string Name { get { return "Singleton"; } }
+			public override string GetName() { return Name; }
+		}
+
+		[ExportMany(ContractKey = "b", ClearExists = true)]
+		public class ReplaceImplementation : ClassService, InterfaceService {
+			public string Name { get { return "Replace"; } }
 			public override string GetName() { return Name; }
 		}
 

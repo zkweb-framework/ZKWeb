@@ -1,20 +1,20 @@
 ﻿using System.IO;
 using System.Linq;
 using ZKWeb.Plugin;
-using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Tests.Server {
+namespace ZKWeb.Tests.Storage {
 	[Tests]
-	class PathManagerTest {
+	class LocalPathManagerTest {
 		public void GetPluginDirectories() {
 			var pluginDirectoriesConfig = new[] { "App_Data/__TestPluginsA", "App_Data/__TestPluginsB" };
 			using (new TestDirectoryLayout(pluginDirectoriesConfig)) {
-				var pathConfig = Application.Ioc.Resolve<PathConfig>();
-				var pathManager = Application.Ioc.Resolve<PathManager>();
+				var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
+				var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 				var pluginDirectories = pathManager.GetPluginDirectories();
 				Assert.Equals(pluginDirectories.Count, 2);
 				Assert.Equals(pluginDirectories[0],
@@ -32,9 +32,9 @@ namespace ZKWeb.Tests.Server {
 				layout.WritePluginFile("PluginB",
 					"templates.mobile/__test_3.html", "test 3 in plugin b for mobile");
 				layout.WriteAppDataFile("templates/__test_3.html", "test 3 in appdata");
-				var pathManager = Application.Ioc.Resolve<PathManager>();
+				var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
-				var pathConfig = Application.Ioc.Resolve<PathConfig>();
+				var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 
 				var candidates = pathManager.GetTemplateFullPathCandidates("__test_1.html").ToList();
 				Assert.Equals(candidates.Count, 6);
@@ -90,9 +90,9 @@ namespace ZKWeb.Tests.Server {
 				layout.WritePluginFile("PluginB", "static/__test_2.txt", "test 2 in plugin b");
 				layout.WritePluginFile("PluginB", "static/__test_3.txt", "test 3 in plugin b");
 				layout.WriteAppDataFile("static/__test_3.txt", "test 3 in appdata");
-				var pathManager = Application.Ioc.Resolve<PathManager>();
+				var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 				var pluginManager = Application.Ioc.Resolve<PluginManager>();
-				var pathConfig = Application.Ioc.Resolve<PathConfig>();
+				var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 
 				var candidates = pathManager.GetResourceFullPathCandidates("static/__test_1.txt").ToList();
 				Assert.Equals(candidates.Count, 3);
@@ -118,8 +118,8 @@ namespace ZKWeb.Tests.Server {
 
 		public void GetStorageFullPath() {
 			using (new TestDirectoryLayout()) {
-				var pathManager = Application.Ioc.Resolve<PathManager>();
-				var pathConfig = Application.Ioc.Resolve<PathConfig>();
+				var pathManager = Application.Ioc.Resolve<LocalPathManager>();
+				var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 				Assert.Equals(
 					pathManager.GetStorageFullPath("static/__test_1.txt"),
 					PathUtils.SecureCombine(pathConfig.AppDataDirectory, "static/__test_1.txt"));

@@ -63,7 +63,7 @@ namespace ZKWeb.Testing {
 		/// <returns></returns>
 		public virtual IDisposable UseTemporaryDatabase() {
 			// Create database context factory, default use inmemory orm
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var extra = configManager.WebsiteConfig.Extra;
 			var orm = extra.GetOrDefault<string>(ExtraConfigKeys.TemporaryDatabaseORM) ?? "InMemory";
 			var database = extra.GetOrDefault<string>(ExtraConfigKeys.TemporaryDatabaseType);

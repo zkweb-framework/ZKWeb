@@ -21,22 +21,23 @@ namespace ZKWeb.Localize {
 		/// Translated text cache
 		/// { (Language, Orignal text): Translated text, ... }
 		/// </summary>
-		protected MemoryCache<Pair<string, string>, string> TranslateCache { get; set; }
+		protected IKeyValueCache<Pair<string, string>, string> TranslateCache { get; set; }
 		/// <summary>
 		/// Translate provider cache
 		/// { Language: Providers, ... }
 		/// </summary>
-		protected MemoryCache<string, List<ITranslateProvider>> TranslateProvidersCache { get; set; }
+		protected IKeyValueCache<string, List<ITranslateProvider>> TranslateProvidersCache { get; set; }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		public TranslateManager() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+			var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
 			TranslateCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TranslateCacheTime, 3));
-			TranslateCache = new MemoryCache<Pair<string, string>, string>();
-			TranslateProvidersCache = new MemoryCache<string, List<ITranslateProvider>>();
+			TranslateCache = cacheFactory.CreateCache<Pair<string, string>, string>();
+			TranslateProvidersCache = cacheFactory.CreateCache<string, List<ITranslateProvider>>();
 		}
 
 		/// <summary>

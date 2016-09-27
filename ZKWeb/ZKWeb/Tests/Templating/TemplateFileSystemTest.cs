@@ -1,7 +1,7 @@
 ﻿using DotLiquid;
 using System.IO;
 using ZKWeb.Templating;
-using ZKWeb.Tests.Server;
+using ZKWeb.Tests.Storage;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;
 

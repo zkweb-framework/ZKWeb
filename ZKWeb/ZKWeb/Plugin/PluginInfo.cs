@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
@@ -46,7 +47,7 @@ namespace ZKWeb.Plugin {
 		public static PluginInfo FromDirectory(string dir) {
 			// Read plugin information from json
 			// Create a default information instance if json file not exist
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var jsonPath = Path.Combine(dir, pathConfig.PluginInfoFilename);
 			var json = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "{}";
 			var info = JsonConvert.DeserializeObject<PluginInfo>(json);

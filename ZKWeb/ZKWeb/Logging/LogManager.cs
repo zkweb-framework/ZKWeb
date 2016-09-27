@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using ZKWeb.Server;
+using ZKWeb.Storage;
 
 namespace ZKWeb.Logging {
 	/// <summary>
@@ -14,19 +13,16 @@ namespace ZKWeb.Logging {
 		/// Log message to file
 		/// </summary>
 		public virtual void Log(string filename, string message) {
-			// Create log directory
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
-			var logsDirectory = pathConfig.LogsDirectory;
-			Directory.CreateDirectory(logsDirectory);
 			// Write to console
 			Console.Write(message);
 			// Write to log file
 			// Retry up to 100 times if inconsistency occurs between the threads
+			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
+			var logFile = fileStorage.GetStorageFile("logs", filename);
 			var now = DateTime.UtcNow.ToLocalTime();
-			var path = Path.Combine(logsDirectory, filename);
 			for (int n = 0; n < 100; ++n) {
 				try {
-					File.AppendAllText(path, message, Encoding.UTF8);
+					logFile.AppendAllText(message);
 					break;
 				} catch (IOException) {
 					Thread.Sleep(5);

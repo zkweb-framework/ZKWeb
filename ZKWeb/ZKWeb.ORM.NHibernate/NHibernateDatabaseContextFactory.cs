@@ -3,7 +3,6 @@ using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions.Helpers;
 using System.Linq;
 using ZKWeb.Database;
-using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using System;
@@ -12,6 +11,7 @@ using System.Text;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate;
 using ZKWeb.Logging;
+using ZKWeb.Storage;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -34,7 +34,8 @@ namespace ZKWeb.ORM.NHibernate {
 		/// <param name="connectionString">Connection string</param>
 		public NHibernateDatabaseContextFactory(string database, string connectionString) {
 			// create database configuration
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
+			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			IPersistenceConfigurer db;
 			if (string.Compare(database, "PostgreSQL", true) == 0) {
 				db = BetterPostgreSQLConfiguration.Better.ConnectionString(connectionString);
@@ -80,22 +81,21 @@ namespace ZKWeb.ORM.NHibernate {
 			// it can make the website startup faster
 			var hash = PasswordUtils.Sha1Sum(
 				Encoding.UTF8.GetBytes(database + connectionString)).ToHex();
-			var ddlPath = Path.Combine(
-				pathConfig.AppDataDirectory, string.Format("nh_{0}.ddl", hash));
+			var ddlFileEntry = fileStorage.GetStorageFile($"nh_{hash}.ddl");
 			Action onBuildFactorySuccess = null;
 			configuration.ExposeConfiguration(c => {
 				var scriptBuilder = new StringBuilder();
 				scriptBuilder.AppendLine("/* this file is for database migration checking, don't execute it */");
 				new SchemaExport(c).Create(s => scriptBuilder.AppendLine(s), false);
 				var script = scriptBuilder.ToString();
-				if (!File.Exists(ddlPath) || script != File.ReadAllText(ddlPath)) {
+				if (!ddlFileEntry.Exist || script != ddlFileEntry.ReadAllText()) {
 					var logManager = Application.Ioc.Resolve<LogManager>();
 					var schemaUpdate = new SchemaUpdate(c);
 					schemaUpdate.Execute(false, true);
 					foreach (var ex in schemaUpdate.Exceptions) {
 						logManager.LogError($"NHibernate schema update error: ({ex.GetType()}) {ex.Message}");
 					}
-					onBuildFactorySuccess = () => File.WriteAllText(ddlPath, script);
+					onBuildFactorySuccess = () => ddlFileEntry.WriteAllText(script);
 				}
 			});
 			// create nhibernate session factory and write ddl script to file

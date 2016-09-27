@@ -1,10 +1,10 @@
 ﻿{
-	"version": "1.0.1-final",
+	"version": "1.1-beta-1",
 	"dependencies": {
 		"NETStandard.Library": "1.6.0",
-		"ZKWeb": "1.0.1-final",
+		"ZKWeb": "1.1-beta-1",
 		"ZKWeb.Fork.FastReflection": "2.0.0",
-		"ZKWebStandard": "1.0.1-final"
+		"ZKWebStandard": "1.1-beta-1"
 	},
 	"frameworks": {
 		"net461": {},

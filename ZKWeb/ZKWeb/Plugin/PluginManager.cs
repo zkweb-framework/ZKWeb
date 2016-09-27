@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.Plugin {
@@ -41,8 +42,8 @@ namespace ZKWeb.Plugin {
 		///   you should invoke IPlugin manually after calling this method
 		/// </summary>
 		internal static void Initialize() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+			var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			pluginManager.Plugins.Clear();
 			pluginManager.PluginAssemblies.Clear();

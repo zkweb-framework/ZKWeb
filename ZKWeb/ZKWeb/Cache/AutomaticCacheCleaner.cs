@@ -17,7 +17,7 @@ namespace ZKWeb.Cache {
 			// Read memory usage threshold settings.
 			// If no settings present, do not start the cleaner thread.
 			// Default check interval is 15s.
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var thresholdMb = configManager.WebsiteConfig.Extra.GetOrDefault<int?>(
 				ExtraConfigKeys.ClearCacheAfterUsedMemoryMoreThan);
 			var intervalMs = (configManager.WebsiteConfig.Extra.GetOrDefault<int?>(

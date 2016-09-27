@@ -39,7 +39,7 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 			} else {
 				// Return staatus and message for other request
 				// If display full exception is allowed, return full exception information
-				var configManager = Application.Ioc.Resolve<ConfigManager>();
+				var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 				var displayFullException = (configManager.WebsiteConfig
 					.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForRequest) ?? true);
 				var message = new StringBuilder();

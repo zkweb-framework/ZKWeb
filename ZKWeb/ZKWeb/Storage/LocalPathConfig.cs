@@ -1,10 +1,12 @@
 ﻿using System.IO;
 
-namespace ZKWeb.Server {
+namespace ZKWeb.Storage {
 	/// <summary>
-	/// Path configuration
+	/// Local path config
+	/// It's better to use IFileStorage
+	/// Unless you really want to access local file system
 	/// </summary>
-	public class PathConfig {
+	public class LocalPathConfig {
 		/// <summary>
 		/// Website root directory
 		/// </summary>
@@ -13,10 +15,6 @@ namespace ZKWeb.Server {
 		/// App_Data directory
 		/// </summary>
 		public virtual string AppDataDirectory { get; protected set; }
-		/// <summary>
-		/// Logs directory
-		/// </summary>
-		public virtual string LogsDirectory { get; protected set; }
 		/// <summary>
 		/// Website configuration path
 		/// </summary>
@@ -41,10 +39,9 @@ namespace ZKWeb.Server {
 		/// Initialize
 		/// </summary>
 		public static void Initialize(string websiteRootDirectory) {
-			var config = Application.Ioc.Resolve<PathConfig>();
+			var config = Application.Ioc.Resolve<LocalPathConfig>();
 			config.WebsiteRootDirectory = Path.GetFullPath(websiteRootDirectory);
 			config.AppDataDirectory = Path.Combine(config.WebsiteRootDirectory, "App_Data");
-			config.LogsDirectory = Path.Combine(config.AppDataDirectory, "logs");
 			config.WebsiteConfigPath = Path.Combine(config.AppDataDirectory, "config.json");
 			config.PluginInfoFilename = "plugin.json";
 			config.TemplateDirectoryName = "templates";

@@ -32,6 +32,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			}
 		}
 
+#pragma warning disable CS0618
 		public void WriteFile() {
 			using (HttpManager.OverrideContext("", "POST")) {
 				var path = Path.GetTempFileName();
@@ -45,5 +46,6 @@ namespace ZKWebStandard.Tests.Extensions {
 				}
 			}
 		}
+#pragma warning restore CS0618
 	}
 }

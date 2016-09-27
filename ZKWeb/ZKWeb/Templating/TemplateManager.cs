@@ -72,7 +72,7 @@ namespace ZKWeb.Templating {
 			// Use bigger regex cache size
 			Regex.CacheSize = 0xffff;
 			// Set if display full exception is allowed
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			Context.DisplayFullException = (configManager.WebsiteConfig
 				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
 			// Register custom tags

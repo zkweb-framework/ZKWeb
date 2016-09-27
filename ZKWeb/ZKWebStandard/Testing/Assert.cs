@@ -35,7 +35,7 @@ namespace ZKWebStandard.Testing {
 					$"assert is true failed: obj is {objJson}, {filePath}:{lineNumber} {memberName}");
 			}
 		}
-		
+
 		/// <summary>
 		/// Test if a and b are equals
 		/// </summary>

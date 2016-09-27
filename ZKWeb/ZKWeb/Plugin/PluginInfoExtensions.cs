@@ -160,7 +160,7 @@ namespace ZKWeb.Plugin {
 				// Invoke compile service
 				// Default use debug configuration
 				Directory.CreateDirectory(Path.GetDirectoryName(assemblyPath));
-				var configManager = Application.Ioc.Resolve<ConfigManager>();
+				var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 				var release = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
 					ExtraConfigKeys.CompilePluginsWithReleaseConfiguration) ?? false;
 				var compilerService = Application.Ioc.Resolve<ICompilerService>();

@@ -3,9 +3,9 @@ using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Server {
 	[Tests]
-	class ConfigManagerTest {
+	class WebsiteConfigManagerTest {
 		public void All() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			Assert.IsTrue(configManager.WebsiteConfig != null);
 		}
 	}

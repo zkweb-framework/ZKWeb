@@ -1,8 +1,10 @@
-﻿namespace ZKWeb.Server {
+﻿using ZKWeb.Storage;
+
+namespace ZKWeb.Server {
 	/// <summary>
-	/// Website configuration manager
+	/// Website config manager
 	/// </summary>
-	public class ConfigManager {
+	public class WebsiteConfigManager {
 		/// <summary>
 		/// Website configuration
 		/// </summary>
@@ -12,8 +14,8 @@
 		/// Load website configuration
 		/// </summary>
 		internal static void Initialize() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			configManager.WebsiteConfig = WebsiteConfig.FromFile(pathConfig.WebsiteConfigPath);
 		}
 	}

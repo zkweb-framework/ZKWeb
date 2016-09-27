@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -31,7 +32,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <param name="optionsBuilder">Options builder</param>
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			if (string.Compare(DatabaseName, "MSSQL", true) == 0) {
 				optionsBuilder.UseSqlServer(
 					ConnectionString, option => option.UseRowNumberForPaging());

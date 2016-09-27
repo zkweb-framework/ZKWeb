@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using ZKWeb.Server;
-using ZKWeb.Tests.Server;
 using ZKWebStandard.Extensions;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web.Mock;
+using ZKWeb.Storage;
+using ZKWeb.Tests.Storage;
 
 namespace ZKWeb.Tests.Web.ActionResults {
 	[Tests]
@@ -13,14 +13,16 @@ namespace ZKWeb.Tests.Web.ActionResults {
 		public void WriteResponse() {
 			using (var layout = new TestDirectoryLayout()) {
 				layout.WriteAppDataFile("static/__test.txt", "test contents");
-				var pathManager = Application.Ioc.Resolve<PathManager>();
+				var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 				var resourcePath = pathManager.GetResourceFullPath("static/__test.txt");
 				var lastModified = File.GetLastWriteTimeUtc(resourcePath).Truncate();
 				Assert.Equals(File.ReadAllText(resourcePath), "test contents");
 
 				var ifModifiedSinces = new DateTime?[] { null, DateTime.UtcNow.AddDays(1), lastModified };
 				foreach (var ifModifiedSince in ifModifiedSinces) {
+#pragma warning disable CS0618
 					var result = new FileResult(resourcePath, ifModifiedSince);
+#pragma warning restore CS0618
 					var contextMock = new HttpContextMock();
 					result.WriteResponse(contextMock.response);
 					if (ifModifiedSince == lastModified) {

@@ -12,6 +12,7 @@ using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Plugin.CompilerServices;
 using ZKWeb.Serialize;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWeb.Templating;
 using ZKWeb.Templating.DynamicContents;
 using ZKWeb.Testing;
@@ -30,7 +31,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public static string FullVersion { get { return "1.0.1 final"; } }
+		public static string FullVersion { get { return "1.1 beta 1"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>
@@ -69,9 +70,15 @@ namespace ZKWeb {
 #endif
 			Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
+#pragma warning disable CS0618
 			Ioc.RegisterMany<ConfigManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PathConfig>(ReuseType.Singleton);
 			Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
+#pragma warning restore CS0618
+			Ioc.RegisterMany<WebsiteConfigManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<LocalFileStorage>(ReuseType.Singleton);
+			Ioc.RegisterMany<LocalPathConfig>(ReuseType.Singleton);
+			Ioc.RegisterMany<LocalPathManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
@@ -83,8 +90,8 @@ namespace ZKWeb {
 			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
 			Ioc.RegisterMany<CacheIsolateByUrl>(ReuseType.Singleton, serviceKey: "Url");
 			// Initialize core components
-			PathConfig.Initialize(websiteRootDirectory);
-			ConfigManager.Initialize();
+			LocalPathConfig.Initialize(websiteRootDirectory);
+			WebsiteConfigManager.Initialize();
 			PluginManager.Initialize();
 			JsonNetInitializer.Initialize();
 			TemplateManager.Initialize();

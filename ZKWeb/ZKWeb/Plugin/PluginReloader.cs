@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWeb.Web;
 using ZKWebStandard.Extensions;
 
@@ -42,7 +42,7 @@ namespace ZKWeb.Plugin {
 				watcher.EnableRaisingEvents = true;
 			};
 			// Monitor plugin directory
-			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 			pathManager.GetPluginDirectories().Where(p => Directory.Exists(p)).ForEach(p => {
 				var pluginFilesWatcher = new FileSystemWatcher();
 				pluginFilesWatcher.Path = p;
@@ -50,7 +50,7 @@ namespace ZKWeb.Plugin {
 				startWatcher(pluginFilesWatcher);
 			});
 			// Monitor App_Data directory
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var websiteConfigWatcher = new FileSystemWatcher();
 			websiteConfigWatcher.Path = pathConfig.AppDataDirectory;
 			websiteConfigWatcher.Filter = "*.json";

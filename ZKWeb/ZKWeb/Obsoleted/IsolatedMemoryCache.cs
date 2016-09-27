@@ -5,11 +5,13 @@ using ZKWebStandard.Collections;
 
 namespace ZKWeb.Cache {
 	/// <summary>
-	/// This class is obsoleted, Please use ICacheFactory
+	/// This class should no longer be using
+	/// Please use ICacheFactory
+	/// Obsleted in 1.0.2
 	/// </summary>
 	/// <typeparam name="TKey">Original key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
-	[Obsolete]
+	[Obsolete("This class should no longer be using, Please use ICacheFactory")]
 	public class IsolatedMemoryCache<TKey, TValue> : IsolatedKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Initialize

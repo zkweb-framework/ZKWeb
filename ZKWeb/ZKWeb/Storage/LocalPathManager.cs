@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ZKWeb.Cache;
+using ZKWeb.Cache.Policies;
 using ZKWeb.Plugin;
+using ZKWeb.Server;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
 
-namespace ZKWeb.Server {
+namespace ZKWeb.Storage {
 	/// <summary>
-	/// Path manager
+	/// Local path manager
+	/// It's better to use IFileStorage
+	/// Unless you really want to access local file system
 	/// </summary>
-	public class PathManager : ICacheCleaner {
+	public class LocalPathManager : ICacheCleaner {
 		/// <summary>
 		/// Template path cache time
 		/// Default is 2s, able to override from website configuration
@@ -40,17 +44,19 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		public PathManager() {
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
-			var cacheFactory = Application.Ioc.Resolve<ICacheFactory>();
+		public LocalPathManager() {
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			TemplatePathCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.TemplatePathCacheTime, 2));
 			ResourcePathCacheTime = TimeSpan.FromSeconds(
 				configManager.WebsiteConfig.Extra.GetOrDefault(ExtraConfigKeys.ResourcePathCacheTime, 2));
-			TemplatePathCache = cacheFactory.CreateCache<string, string>(
-				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
-			ResourcePathCache = cacheFactory.CreateCache<string, string>(
-				CacheFactoryOptions.Default.WithIsolationPolicies("Device"));
+			// Path may different between servers, shouldn't use ICacheFactory here
+			TemplatePathCache = new IsolatedKeyValueCache<string, string>(
+				new[] { Application.Ioc.Resolve<ICacheIsolationPolicy>(serviceKey: "Device") },
+				new MemoryCache<IsolatedCacheKey<string>, string>());
+			ResourcePathCache = new IsolatedKeyValueCache<string, string>(
+				new[] { Application.Ioc.Resolve<ICacheIsolationPolicy>(serviceKey: "Device") },
+				new MemoryCache<IsolatedCacheKey<string>, string>());
 		}
 
 		/// <summary>
@@ -59,8 +65,8 @@ namespace ZKWeb.Server {
 		/// </summary>
 		/// <returns></returns>
 		public virtual IList<string> GetPluginDirectories() {
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
-			var configManager = Application.Ioc.Resolve<ConfigManager>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			return configManager.WebsiteConfig.PluginDirectories.Select(p =>
 				Path.GetFullPath(Path.Combine(pathConfig.WebsiteRootDirectory, p))).ToList();
 		}
@@ -88,7 +94,7 @@ namespace ZKWeb.Server {
 		/// <returns></returns>
 		public virtual IEnumerable<string> GetTemplateFullPathCandidates(string path) {
 			// Get client device and specialized template directory name
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var device = HttpManager.CurrentContext.GetClientDevice();
 			var deviceSpecializedTemplateDirectoryName = string.Format(
 				pathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLower());
@@ -131,7 +137,7 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// Get template full path
 		/// Return null if template file not found
-		/// It will cache result within a short time
+		/// Result will cache for a short time
 		/// </summary>
 		/// <param name="path">Template path</param>
 		/// <returns></returns>
@@ -158,7 +164,7 @@ namespace ZKWeb.Server {
 		public virtual IEnumerable<string> GetResourceFullPathCandidates(params string[] pathParts) {
 			// Load from App_Data first
 			var path = PathUtils.SecureCombine(pathParts);
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			yield return PathUtils.SecureCombine(pathConfig.AppDataDirectory, path);
 			// Then load from plugin directories
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
@@ -168,9 +174,9 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Get resource full
+		/// Get resource full path
 		/// Return null if resource file not found
-		/// It will cache result within a short time
+		/// Result will cache for a short time
 		/// </summary>
 		/// <param name="pathParts">Resource path</param>
 		/// <returns></returns>
@@ -187,14 +193,14 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Get storage file full path
-		/// Return App_Data\{StoragePath} either file exist or not
+		/// Get storage file or directory full path
+		/// Return App_Data\{StoragePath} either exist or not exist
 		/// </summary>
 		/// <param name="pathParts">Storage path</param>
 		/// <returns></returns>
 		public virtual string GetStorageFullPath(params string[] pathParts) {
 			var path = PathUtils.SecureCombine(pathParts);
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var fullPath = PathUtils.SecureCombine(pathConfig.AppDataDirectory, path);
 			return fullPath;
 		}

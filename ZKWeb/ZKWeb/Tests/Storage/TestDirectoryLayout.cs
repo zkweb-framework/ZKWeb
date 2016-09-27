@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
+using ZKWeb.Storage;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Utils;
 
-namespace ZKWeb.Tests.Server {
+namespace ZKWeb.Tests.Storage {
 	class TestDirectoryLayout : IDisposable {
 		private IDisposable OverrideIoc { get; set; }
 		private WebsiteConfig WebsiteConfig { get; set; }
@@ -33,17 +34,20 @@ namespace ZKWeb.Tests.Server {
 				Extra = extra ?? new Dictionary<string, object>()
 			};
 			CleanupPaths = new List<string>();
-			// Mock ConfigManager, PathConfig, PathManager, PluginManager
-			var configManagerMock = Substitute.ForPartsOf<ConfigManager>();
+			// Mock WebsiteConfigManager, LocalPathManager, PluginManager, IFileStorage
+			var configManagerMock = Substitute.ForPartsOf<WebsiteConfigManager>();
 			configManagerMock.WebsiteConfig.Returns(WebsiteConfig);
-			Application.Ioc.Unregister<ConfigManager>();
-			Application.Ioc.Unregister<PathManager>();
+			Application.Ioc.Unregister<WebsiteConfigManager>();
+			Application.Ioc.Unregister<LocalPathManager>();
 			Application.Ioc.Unregister<PluginManager>();
+			Application.Ioc.Unregister<LocalFileStorage>();
+			Application.Ioc.Unregister<IFileStorage>();
 			Application.Ioc.RegisterInstance(configManagerMock);
-			Application.Ioc.RegisterMany<PathManager>(ReuseType.Singleton);
+			Application.Ioc.RegisterMany<LocalPathManager>(ReuseType.Singleton);
 			Application.Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
+			Application.Ioc.RegisterMany<LocalFileStorage>(ReuseType.Singleton);
 			// Create plugin directories and plugins
-			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			var pluginDirectory = pathManager.GetPluginDirectories()[pluginDirectoryIndex];
 			foreach (var plugin in WebsiteConfig.Plugins) {
@@ -65,7 +69,7 @@ namespace ZKWeb.Tests.Server {
 		/// <param name="pluginDirectoryIndex">Which plugin directory will use to locate plugins</param>
 		public void WritePluginFile(
 			string plugin, string path, string contents, int pluginDirectoryIndex = 0) {
-			var pathManager = Application.Ioc.Resolve<PathManager>();
+			var pathManager = Application.Ioc.Resolve<LocalPathManager>();
 			var pluginDirectories = pathManager.GetPluginDirectories();
 			var fullPath = Path.Combine(pluginDirectories[pluginDirectoryIndex], plugin, path);
 			PathUtils.EnsureParentDirectory(fullPath);
@@ -79,7 +83,7 @@ namespace ZKWeb.Tests.Server {
 		/// <param name="path">Path</param>
 		/// <param name="contents">Contents</param>
 		public void WriteAppDataFile(string path, string contents) {
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var fullPath = Path.Combine(pathConfig.AppDataDirectory, path);
 			PathUtils.EnsureParentDirectory(fullPath);
 			File.WriteAllText(fullPath, contents);

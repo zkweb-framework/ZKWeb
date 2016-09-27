@@ -13,6 +13,7 @@ using System.Linq.Expressions;
 using Dapper.Contrib.Extensions;
 using System.FastReflection;
 using System.Collections.Generic;
+using ZKWeb.Storage;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
@@ -60,7 +61,7 @@ namespace ZKWeb.ORM.Dapper {
 			TransactionLevel = 0;
 			databaseType = database;
 			// Create database connection
-			var pathConfig = Application.Ioc.Resolve<PathConfig>();
+			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			if (string.Compare(database, "MSSQL", true) == 0) {
 				Connection = new SqlConnection(connectionString);
 			} else if (string.Compare(database, "SQLite", true) == 0) {

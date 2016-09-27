@@ -16,11 +16,11 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 			using (Application.OverrideIoc()) {
 				var logManagerMock = Substitute.For<LogManager>();
 				var config = new WebsiteConfig() { Extra = new Dictionary<string, object>() };
-				var configManagerMock = Substitute.For<ConfigManager>();
+				var configManagerMock = Substitute.For<WebsiteConfigManager>();
 				configManagerMock.WebsiteConfig.Returns(config);
 				Application.Ioc.Unregister<LogManager>();
 				Application.Ioc.RegisterInstance(logManagerMock);
-				Application.Ioc.Unregister<ConfigManager>();
+				Application.Ioc.Unregister<WebsiteConfigManager>();
 				Application.Ioc.RegisterInstance(configManagerMock);
 				// Only return message if error occurs with ajax request
 				using (HttpManager.OverrideContext("", "GET")) {
