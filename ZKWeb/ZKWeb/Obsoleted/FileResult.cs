@@ -46,9 +46,6 @@ namespace ZKWeb.Web.ActionResults {
 				return;
 			}
 			// Write file to http response
-			// TODO: support range request
-			// http://dotnetslackers.com/articles/aspnet/Range-Specific-Requests-in-ASP-NET.aspx
-			// http://www.freesoft.org/CIE/RFC/2068/178.htm
 			response.StatusCode = 200;
 			response.WriteFile(FilePath);
 		}
