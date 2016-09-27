@@ -64,18 +64,44 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save to jpeg with specified quality
+		/// Save to jpeg file
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
 		/// <param name="quality">Compress quality, 1~100</param>
+		[Obsolete("Please use SaveAuto")]
 		public static void SaveJpeg(this Image image, string filename, long quality) {
 			PathUtils.EnsureParentDirectory(filename);
+			using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write)) {
+				image.SaveJpeg(stream, quality);
+			}
+		}
+
+		/// <summary>
+		/// Save to jpeg
+		/// </summary>
+		/// <param name="image">Image object</param>
+		/// <param name="stream">Stream object</param>
+		/// <param name="quality">Compress quality, 1~100</param>
+		private static void SaveJpeg(this Image image, Stream stream, long quality) {
 			var encoder = ImageCodecInfo.GetImageEncoders().First(
 				c => c.FormatID == ImageFormat.Jpeg.Guid);
 			var parameters = new EncoderParameters();
 			parameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
-			image.Save(filename, encoder, parameters);
+			image.Save(stream, encoder, parameters);
+		}
+
+		/// <summary>
+		/// Save to icon file
+		/// </summary>
+		/// <param name="image">Image object</param>
+		/// <param name="filename">File path, will automatic create parent directories</param>
+		[Obsolete("Please use SaveAuto")]
+		public static void SaveIcon(this Image image, string filename) {
+			PathUtils.EnsureParentDirectory(filename);
+			using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write)) {
+				image.SaveIcon(stream);
+			}
 		}
 
 		/// <summary>
@@ -83,37 +109,34 @@ namespace ZKWebStandard.Extensions {
 		/// http://stackoverflow.com/questions/11434673/bitmap-save-to-save-an-icon-actually-saves-a-png
 		/// </summary>
 		/// <param name="image">Image object</param>
-		/// <param name="filename">File path, will automatic create parent directories</param>
-		public static void SaveIcon(this Image image, string filename) {
-			PathUtils.EnsureParentDirectory(filename);
-			using (var stream = new FileStream(filename, FileMode.Create)) {
-				// Header (ico, 1 photo)
-				stream.Write(new byte[] { 0, 0, 1, 0, 1, 0 }, 0, 6);
-				// Size
-				stream.WriteByte(checked((byte)image.Width));
-				stream.WriteByte(checked((byte)image.Height));
-				// No palette
-				stream.WriteByte(0);
-				// Reserved
-				stream.WriteByte(0);
-				// No color planes
-				stream.Write(new byte[] { 0, 0 }, 0, 2);
-				// 32 bpp
-				stream.Write(new byte[] { 32, 0 }, 0, 2);
-				// Image data length, set later
-				stream.Write(new byte[] { 0, 0, 0, 0 }, 0, 4);
-				// Image data offset, fixed 22 here
-				stream.Write(new byte[] { 22, 0, 0, 0 }, 0, 4);
-				// Write png data
-				image.Save(stream, ImageFormat.Png);
-				// Write image data length
-				long imageSize = stream.Length - 22;
-				stream.Seek(14, SeekOrigin.Begin);
-				stream.WriteByte((byte)(imageSize));
-				stream.WriteByte((byte)(imageSize >> 8));
-				stream.WriteByte((byte)(imageSize >> 16));
-				stream.WriteByte((byte)(imageSize >> 24));
-			}
+		/// <param name="stream">Stream object</param>
+		private static void SaveIcon(this Image image, Stream stream) {
+			// Header (ico, 1 photo)
+			stream.Write(new byte[] { 0, 0, 1, 0, 1, 0 }, 0, 6);
+			// Size
+			stream.WriteByte(checked((byte)image.Width));
+			stream.WriteByte(checked((byte)image.Height));
+			// No palette
+			stream.WriteByte(0);
+			// Reserved
+			stream.WriteByte(0);
+			// No color planes
+			stream.Write(new byte[] { 0, 0 }, 0, 2);
+			// 32 bpp
+			stream.Write(new byte[] { 32, 0 }, 0, 2);
+			// Image data length, set later
+			stream.Write(new byte[] { 0, 0, 0, 0 }, 0, 4);
+			// Image data offset, fixed 22 here
+			stream.Write(new byte[] { 22, 0, 0, 0 }, 0, 4);
+			// Write png data
+			image.Save(stream, ImageFormat.Png);
+			// Write image data length
+			long imageSize = stream.Length - 22;
+			stream.Seek(14, SeekOrigin.Begin);
+			stream.WriteByte((byte)(imageSize));
+			stream.WriteByte((byte)(imageSize >> 8));
+			stream.WriteByte((byte)(imageSize >> 16));
+			stream.WriteByte((byte)(imageSize >> 24));
 		}
 
 		/// <summary>
@@ -126,20 +149,34 @@ namespace ZKWebStandard.Extensions {
 		public static void SaveAuto(this Image image, string filename, long quality) {
 			PathUtils.EnsureParentDirectory(filename);
 			var extension = Path.GetExtension(filename).ToLower();
+			using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write)) {
+				image.SaveAuto(stream, extension, quality);
+			}
+		}
+
+		/// <summary>
+		/// Save image by it's file extension
+		/// Quality parameter only available for jpeg
+		/// </summary>
+		/// <param name="image">Image object</param>
+		/// <param name="stream">Stream object</param>
+		/// <param name="extension">File extension, eg: ".jpg"</param>
+		/// <param name="quality">Compress quality, 1~100</param>
+		public static void SaveAuto(this Image image, Stream stream, string extension, long quality) {
 			if (extension == ".jpg" || extension == ".jpeg") {
-				image.SaveJpeg(filename, quality);
+				image.SaveJpeg(stream, quality);
 			} else if (extension == ".bmp") {
-				image.Save(filename, ImageFormat.Bmp);
+				image.Save(stream, ImageFormat.Bmp);
 			} else if (extension == ".gif") {
-				image.Save(filename, ImageFormat.Gif);
+				image.Save(stream, ImageFormat.Gif);
 			} else if (extension == ".ico") {
-				image.SaveIcon(filename);
+				image.SaveIcon(stream);
 			} else if (extension == ".png") {
-				image.Save(filename, ImageFormat.Png);
+				image.Save(stream, ImageFormat.Png);
 			} else if (extension == ".tiff") {
-				image.Save(filename, ImageFormat.Tiff);
+				image.Save(stream, ImageFormat.Tiff);
 			} else if (extension == ".exif") {
-				image.Save(filename, ImageFormat.Exif);
+				image.Save(stream, ImageFormat.Exif);
 			} else {
 				throw new NotSupportedException(
 					string.Format("unsupport image extension {0}", extension));

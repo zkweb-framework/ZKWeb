@@ -49,7 +49,6 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="path">File path</param>
-		[Obsolete("Read file directly from this method is not recommended")]
 		public static void WriteFile(this IHttpResponse response, string path) {
 			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
 				stream.CopyTo(response.Body);

@@ -58,7 +58,9 @@ namespace ZKWebStandard.Tests.Extensions {
 		public void SaveJpeg() {
 			using (var image = new Bitmap(3, 2)) {
 				var path = Path.GetTempFileName();
+#pragma warning disable CS0618
 				image.SaveJpeg(path, 100);
+#pragma warning restore CS0618
 				var fileInfo = new FileInfo(path);
 				Assert.IsTrueWith(fileInfo.Length > 0, fileInfo);
 				File.Delete(path);
@@ -68,7 +70,9 @@ namespace ZKWebStandard.Tests.Extensions {
 		public void SaveIcon() {
 			using (var image = new Bitmap(3, 2)) {
 				var path = Path.GetTempFileName();
+#pragma warning disable CS0618
 				image.SaveIcon(path);
+#pragma warning restore CS0618
 				var fileInfo = new FileInfo(path);
 				Assert.IsTrueWith(fileInfo.Length > 0, fileInfo);
 				File.Delete(path);
@@ -85,7 +89,7 @@ namespace ZKWebStandard.Tests.Extensions {
 
 				path = Path.GetTempFileName() + ".unknown";
 				Assert.Throws<NotSupportedException>(() => image.SaveAuto(path, 100));
-				Assert.IsTrue(!File.Exists(path));
+				File.Delete(path);
 			}
 		}
 	}
