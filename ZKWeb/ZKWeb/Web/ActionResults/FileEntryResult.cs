@@ -1,19 +1,18 @@
 ﻿using System;
-using System.IO;
+using ZKWeb.Storage;
 using ZKWebStandard.Extensions;
-using ZKWebStandard.Web;
 using ZKWebStandard.Utils;
+using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// File result
+	/// Read contents from file entry and write to response
 	/// </summary>
-	[Obsolete("Please use FileEntryResult")]
-	public class FileResult : IActionResult {
+	public class FileEntryResult : IActionResult {
 		/// <summary>
 		/// File path
 		/// </summary>
-		public string FilePath { get; set; }
+		public IFileEntry FileEntry { get; set; }
 		/// <summary>
 		/// Cached modify time received from client
 		/// </summary>
@@ -22,10 +21,10 @@ namespace ZKWeb.Web.ActionResults {
 		/// <summary>
 		/// Initialize
 		/// </summary>
-		/// <param name="path">File path</param>
+		/// <param name="fileEntry">File entry</param>
 		/// <param name="ifModifiedSince">Cached modify time received from client</param>
-		public FileResult(string path, DateTime? ifModifiedSince = null) {
-			FilePath = path;
+		public FileEntryResult(IFileEntry fileEntry, DateTime? ifModifiedSince = null) {
+			FileEntry = fileEntry;
 			IfModifiedSince = ifModifiedSince;
 		}
 
@@ -36,10 +35,10 @@ namespace ZKWeb.Web.ActionResults {
 		/// <param name="response">Http Reponse</param>
 		public void WriteResponse(IHttpResponse response) {
 			// Set last modified time
-			var lastModified = File.GetLastWriteTimeUtc(FilePath).Truncate();
+			var lastModified = FileEntry.LastWriteTimeUtc.Truncate();
 			response.SetLastModified(lastModified);
 			// Set mime
-			response.ContentType = MimeUtils.GetMimeType(FilePath);
+			response.ContentType = MimeUtils.GetMimeType(FileEntry.Filename);
 			// If file not modified, return 304
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
@@ -47,7 +46,10 @@ namespace ZKWeb.Web.ActionResults {
 			}
 			// Write file to http response
 			response.StatusCode = 200;
-			response.WriteFile(FilePath);
+			using (var stream = FileEntry.OpenRead()) {
+				stream.CopyTo(response.Body);
+				response.Body.Flush();
+			}
 		}
 	}
 }
