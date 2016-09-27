@@ -41,6 +41,14 @@ Backward compatibility is provided as much as possible.
 	- Support multi-language
 	- Support multi-timezone
 	- Support gettext style translation
+- Caching
+	- Support policy based isolated cache
+		- Isolated by device, request url, and more...
+	- Provide abstraction layer for key-value cache
+		- Easy to provider your own cache for distributed cache
+- File Storage
+	- Provide abstraction layer for file storage
+		- Easy to provide your own storage for distributed file store
 - Testing
 	- Provide console and web test runner
 	- Support IoC container overridden
