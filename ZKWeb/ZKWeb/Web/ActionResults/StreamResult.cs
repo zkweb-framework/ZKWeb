@@ -38,6 +38,8 @@ namespace ZKWeb.Web.ActionResults {
 			// TODO: support range request
 			// http://dotnetslackers.com/articles/aspnet/Range-Specific-Requests-in-ASP-NET.aspx
 			// http://www.freesoft.org/CIE/RFC/2068/178.htm
+			//
+			// http://stackoverflow.com/questions/3303029/http-range-header
 			Stream.CopyTo(response.Body);
 			response.Body.Flush();
 		}

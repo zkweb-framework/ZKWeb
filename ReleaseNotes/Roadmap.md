@@ -1,7 +1,7 @@
-Tasks
-
-- Fork System.Drawing and libgdiplus completely (No plan yet)
+1.2
+- Fork System.Drawing and libgdiplus completely
 - Support Range header
 
-- Run all tests on linux (No plan yet)
-- Run all tests on macos (No plan yet)
+Undefined
+- Run all tests on linux
+- Run all tests on macos
