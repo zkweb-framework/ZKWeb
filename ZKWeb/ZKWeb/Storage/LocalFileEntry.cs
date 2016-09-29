@@ -39,6 +39,10 @@ namespace ZKWeb.Storage {
 		/// Get file last write time in UTC
 		/// </summary>
 		public DateTime LastWriteTimeUtc { get { return File.GetLastWriteTimeUtc(FullPath); } }
+		/// <summary>
+		/// Get file length in bytes
+		/// </summary>
+		public long Length { get { return new FileInfo(FullPath).Length; } }
 
 		/// <summary>
 		/// Initialize

@@ -31,6 +31,10 @@ namespace ZKWeb.Storage {
 		/// </summary>
 		DateTime LastWriteTimeUtc { get; }
 		/// <summary>
+		/// Get file length in bytes
+		/// </summary>
+		long Length { get; }
+		/// <summary>
 		/// Open file for read
 		/// May throw exception if unsupported
 		/// </summary>
