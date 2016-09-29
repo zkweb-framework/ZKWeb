@@ -43,7 +43,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		public static TemplateWidgetInfo FromPath(string path) {
 			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			var templateFile = fileStorage.GetTemplateFile(path + InfoExtension);
-			if (!templateFile.Exist) {
+			if (!templateFile.Exists) {
 				throw new FileNotFoundException($"widget {path} not exist");
 			}
 			var json = templateFile.ReadAllText();

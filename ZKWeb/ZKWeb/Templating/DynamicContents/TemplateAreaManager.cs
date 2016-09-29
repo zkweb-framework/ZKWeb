@@ -113,7 +113,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		public virtual IList<TemplateWidget> GetCustomWidgets(string areaId) {
 			return CustomWidgetsCache.GetOrCreate(areaId, () => {
 				var file = GetCustomWidgetsFile(areaId);
-				if (file.Exist) {
+				if (file.Exists) {
 					return JsonConvert.DeserializeObject<List<TemplateWidget>>(file.ReadAllText());
 				}
 				return null;

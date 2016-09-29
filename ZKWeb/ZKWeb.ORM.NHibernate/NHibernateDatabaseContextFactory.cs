@@ -88,7 +88,7 @@ namespace ZKWeb.ORM.NHibernate {
 				scriptBuilder.AppendLine("/* this file is for database migration checking, don't execute it */");
 				new SchemaExport(c).Create(s => scriptBuilder.AppendLine(s), false);
 				var script = scriptBuilder.ToString();
-				if (!ddlFileEntry.Exist || script != ddlFileEntry.ReadAllText()) {
+				if (!ddlFileEntry.Exists || script != ddlFileEntry.ReadAllText()) {
 					var logManager = Application.Ioc.Resolve<LogManager>();
 					var schemaUpdate = new SchemaUpdate(c);
 					schemaUpdate.Execute(false, true);

@@ -24,9 +24,9 @@ namespace ZKWeb.Storage {
 		/// </summary>
 		public string UniqueIdentifier { get { return FullPath; } }
 		/// <summary>
-		/// Check if file is exist
+		/// Check if file is exists
 		/// </summary>
-		public bool Exist { get { return File.Exists(FullPath); } }
+		public bool Exists { get { return File.Exists(FullPath); } }
 		/// <summary>
 		/// Get file creation time in UTC
 		/// </summary>

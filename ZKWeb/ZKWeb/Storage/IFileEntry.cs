@@ -17,7 +17,7 @@ namespace ZKWeb.Storage {
 		/// <summary>
 		/// Check if file is exist
 		/// </summary>
-		bool Exist { get; }
+		bool Exists { get; }
 		/// <summary>
 		/// Get file creation time in UTC
 		/// </summary>

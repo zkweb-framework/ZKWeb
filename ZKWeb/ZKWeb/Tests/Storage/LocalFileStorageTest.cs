@@ -13,7 +13,7 @@ namespace ZKWeb.Tests.Storage {
 				layout.WritePluginFile("PluginB", "templates/__test_1.html", "test 1 in plugin b");
 				var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 				var fileEntry = fileStorage.GetTemplateFile("__test_1.html");
-				Assert.IsTrue(fileEntry.Exist);
+				Assert.IsTrue(fileEntry.Exists);
 				Assert.IsTrue(!string.IsNullOrEmpty(fileEntry.Filename));
 				Assert.IsTrue(!string.IsNullOrEmpty(fileEntry.UniqueIdentifier));
 				Assert.IsTrue(fileEntry.CreationTimeUtc != DateTime.MinValue);
@@ -24,7 +24,7 @@ namespace ZKWeb.Tests.Storage {
 					.SequenceEqual(Encoding.UTF8.GetBytes("test 1 in plugin b")));
 				Assert.Throws<NotSupportedException>(() => fileEntry.WriteAllText("test readonly"));
 				fileEntry = fileStorage.GetTemplateFile("__test_2.html");
-				Assert.IsTrue(!fileEntry.Exist);
+				Assert.IsTrue(!fileEntry.Exists);
 			}
 		}
 
@@ -34,11 +34,11 @@ namespace ZKWeb.Tests.Storage {
 				layout.WritePluginFile("PluginB", "static/__test_1.txt", "test 1 in plugin b");
 				var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 				var fileEntry = fileStorage.GetResourceFile("static", "__test_1.txt");
-				Assert.IsTrue(fileEntry.Exist);
+				Assert.IsTrue(fileEntry.Exists);
 				Assert.Equals(fileEntry.ReadAllText(), "test 1 in plugin b");
 				Assert.Throws<NotSupportedException>(() => fileEntry.WriteAllText("test readonly"));
 				fileEntry = fileStorage.GetResourceFile("static", "__test_2.txt");
-				Assert.IsTrue(!fileEntry.Exist);
+				Assert.IsTrue(!fileEntry.Exists);
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace ZKWeb.Tests.Storage {
 				fileEntry.Delete();
 
 				fileEntry = fileStorage.GetStorageFile("static", "__test_file.txt");
-				Assert.IsTrue(!fileEntry.Exist);
+				Assert.IsTrue(!fileEntry.Exists);
 			}
 		}
 

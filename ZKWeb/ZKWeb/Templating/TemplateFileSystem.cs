@@ -45,7 +45,7 @@ namespace ZKWeb.Templating {
 			// Get template full path
 			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			var templateFile = fileStorage.GetTemplateFile(templateName);
-			if (!templateFile.Exist) {
+			if (!templateFile.Exists) {
 				throw new FileNotFoundException(
 					string.Format("template {0} not found", templateName));
 			}
