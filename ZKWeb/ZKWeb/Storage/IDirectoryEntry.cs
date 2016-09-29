@@ -12,7 +12,7 @@ namespace ZKWeb.Storage {
 		/// <summary>
 		/// Check if directory is exist
 		/// </summary>
-		bool Exist { get; }
+		bool Exists { get; }
 		/// <summary>
 		/// Enumerate files
 		/// </summary>

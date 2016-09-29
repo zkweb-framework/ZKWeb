@@ -17,7 +17,7 @@ namespace ZKWeb.Storage {
 		/// <summary>
 		/// Check if directory is exist
 		/// </summary>
-		public bool Exist { get { return Directory.Exists(FullPath); } }
+		public bool Exists { get { return Directory.Exists(FullPath); } }
 
 		/// <summary>
 		/// Initialize
@@ -32,7 +32,7 @@ namespace ZKWeb.Storage {
 		/// </summary>
 		/// <returns></returns>
 		public IEnumerable<IDirectoryEntry> EnumerateDirectories() {
-			if (!Exist) {
+			if (!Exists) {
 				yield break;
 			}
 			foreach (var path in Directory.EnumerateDirectories(FullPath)) {
@@ -45,7 +45,7 @@ namespace ZKWeb.Storage {
 		/// </summary>
 		/// <returns></returns>
 		public IEnumerable<IFileEntry> EnumerateFiles() {
-			if (!Exist) {
+			if (!Exists) {
 				yield break;
 			}
 			foreach (var path in Directory.EnumerateFiles(FullPath)) {
@@ -57,7 +57,7 @@ namespace ZKWeb.Storage {
 		/// Delete this directory and all files under it
 		/// </summary>
 		public void Delete() {
-			if (Exist) {
+			if (Exists) {
 				Directory.Delete(FullPath, true);
 			}
 		}
