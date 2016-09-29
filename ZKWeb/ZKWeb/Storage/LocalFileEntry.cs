@@ -92,8 +92,9 @@ namespace ZKWeb.Storage {
 		public void Delete() {
 			if (ReadOnly) {
 				throw new NotSupportedException("This file is readonly");
+			} else if (Exists) {
+				File.Delete(FullPath);
 			}
-			File.Delete(FullPath);
 		}
 	}
 }
