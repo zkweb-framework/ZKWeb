@@ -7,8 +7,8 @@
 		"NSubstitute": "2.0.0-rc",
 		"System.Data.Common": "4.1.0",
 		"System.IO.FileSystem.Watcher": "4.0.0",
-		"ZKWeb.Fork.DotLiquid": "2.0.0",
-		"ZKWeb.Fork.FastReflection": "2.0.0",
+		"ZKWeb.Fork.DotLiquid": "2.1.0",
+		"ZKWeb.Fork.FastReflection": "2.1.0",
 		"ZKWeb.System.Drawing": "1.0.1",
 		"ZKWebStandard": "1.1-final"
 	},

@@ -3,7 +3,7 @@
 	"dependencies": {
 		"NETStandard.Library": "1.6.0",
 		"ZKWeb": "1.1-final",
-		"ZKWeb.Fork.FastReflection": "2.0.0",
+		"ZKWeb.Fork.FastReflection": "2.1.0",
 		"ZKWebStandard": "1.1-final"
 	},
 	"frameworks": {

@@ -20,8 +20,8 @@
 				<dependency id="NSubstitute" version="2.0.0-rc" />
 				<dependency id="System.Data.Common" version="4.1.0" />
 				<dependency id="System.IO.FileSystem.Watcher" version="4.0.0" />
-				<dependency id="ZKWeb.Fork.DotLiquid" version="2.0.0" />
-				<dependency id="ZKWeb.Fork.FastReflection" version="2.0.0" />
+				<dependency id="ZKWeb.Fork.DotLiquid" version="2.1.0" />
+				<dependency id="ZKWeb.Fork.FastReflection" version="2.1.0" />
 				<dependency id="ZKWeb.System.Drawing" version="1.0.1" />
 			</group>
 			<group targetFramework="netstandard1.6">
@@ -30,8 +30,8 @@
 				<dependency id="NSubstitute" version="2.0.0-rc" />
 				<dependency id="System.Data.Common" version="4.1.0" />
 				<dependency id="System.IO.FileSystem.Watcher" version="4.0.0" />
-				<dependency id="ZKWeb.Fork.DotLiquid" version="2.0.0" />
-				<dependency id="ZKWeb.Fork.FastReflection" version="2.0.0" />
+				<dependency id="ZKWeb.Fork.DotLiquid" version="2.1.0" />
+				<dependency id="ZKWeb.Fork.FastReflection" version="2.1.0" />
 				<dependency id="ZKWeb.System.Drawing" version="1.0.1" />
 				<dependency id="Microsoft.Extensions.DependencyModel" version="1.0.0" />
 				<dependency id="System.Runtime.Loader" version="4.0.0" />
