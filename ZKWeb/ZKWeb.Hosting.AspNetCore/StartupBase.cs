@@ -18,7 +18,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// <returns></returns>
 		public virtual string GetWebsiteRootDirectory() {
 			var path = PlatformServices.Default.Application.ApplicationBasePath;
-			while (!File.Exists(Path.Combine(path, "Web.config"))) {
+			while (!(File.Exists(Path.Combine(path, "Web.config")) ||
+				File.Exists(Path.Combine(path, "web.config")))) {
 				path = Path.GetDirectoryName(path);
 				if (string.IsNullOrEmpty(path)) {
 					throw new DirectoryNotFoundException("Website root directory not found");
