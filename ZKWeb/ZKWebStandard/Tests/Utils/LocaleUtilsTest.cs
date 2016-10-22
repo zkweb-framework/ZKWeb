@@ -76,19 +76,19 @@ namespace ZKWebStandard.Tests.Functions {
 			context.RemoveCookie(LocaleUtils.TimeZoneKey);
 			LocaleUtils.SetThreadTimezoneAutomatic("China Standard Time");
 			var timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
-			Assert.Equals(timezone.StandardName, "China Standard Time");
+			Assert.Equals(timezone, LocaleUtils.GetTimezoneInfo("China Standard Time"));
 			LocaleUtils.SetThreadTimezoneAutomatic("GMT Standard Time");
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
-			Assert.Equals(timezone.StandardName, "GMT Standard Time");
+			Assert.Equals(timezone, LocaleUtils.GetTimezoneInfo("GMT Standard Time"));
 			// No cookies, no default timezone
 			Assert.IsTrue(!LocaleUtils.SetThreadTimezoneAutomatic(null));
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
-			Assert.Equals(timezone.StandardName, "GMT Standard Time");
+			Assert.Equals(timezone, LocaleUtils.GetTimezoneInfo("GMT Standard Time"));
 			// Have cookies, no default timezone
 			context.PutCookie(LocaleUtils.TimeZoneKey, "China Standard Time", new HttpCookieOptions());
 			Assert.IsTrue(LocaleUtils.SetThreadTimezoneAutomatic(null));
 			timezone = context.GetData<TimeZoneInfo>(LocaleUtils.TimeZoneKey);
-			Assert.Equals(timezone.StandardName, "China Standard Time");
+			Assert.Equals(timezone, LocaleUtils.GetTimezoneInfo("China Standard Time"));
 		}
 	}
 }
