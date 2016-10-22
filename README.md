@@ -76,7 +76,7 @@ Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Documents: http://zkweb-framework.github.io (Chinese)<br/>
 References: http://zkweb-framework.github.io/cn/references/zkweb/index.html<br/>
 
-Demo Website: http://zkwebsite.com/admin<br/>
+Demo Website: http://zkweb.org/admin<br/>
 Demo Account: demo 123456
 
 MIT License<br/>
