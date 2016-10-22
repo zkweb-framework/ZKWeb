@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ZKWeb.Cache;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
 using ZKWeb.Storage;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Utils;
 
@@ -58,6 +60,9 @@ namespace ZKWeb.Tests.Storage {
 			foreach (var directory in pathManager.GetPluginDirectories()) {
 				CleanupPaths.Add(directory);
 			}
+			// Clear cache to prevent file content cache
+			// On linux execution speed is so fast that cause file modify time are same between tests
+			Application.Ioc.ResolveMany<ICacheCleaner>().ForEach(c => c.ClearCache());
 		}
 
 		/// <summary>
