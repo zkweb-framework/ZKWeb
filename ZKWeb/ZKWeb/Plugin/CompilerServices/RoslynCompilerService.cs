@@ -6,6 +6,7 @@ using System.Linq;
 using ZKWeb.Plugin.AssemblyLoaders;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
@@ -109,6 +110,11 @@ namespace ZKWeb.Plugin.CompilerServices {
 				.Select(path => MetadataReference.CreateFromFile(path))
 				.ToList();
 			// Set roslyn compilation options
+			// Generate pdb file only supported on windows,
+			// because Microsoft.DiaSymReader.Native only have windows runtimes
+			if (!PlatformUtils.RunningOnWindows()) {
+				options.GeneratePdbFile = false;
+			}
 			var optimizationLevel = (options.Release ?
 				OptimizationLevel.Release : OptimizationLevel.Debug);
 			var pdbPath = ((!options.GeneratePdbFile) ? null : Path.Combine(
