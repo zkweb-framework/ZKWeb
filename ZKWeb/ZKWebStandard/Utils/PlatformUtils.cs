@@ -11,7 +11,7 @@ namespace ZKWebStandard.Utils {
 		private static bool IsLinuxOrMac = false;
 
 		static PlatformUtils() {
-#if CORECLR
+#if NETCORE
 			IsLinuxOrMac = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
 				RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 #else
