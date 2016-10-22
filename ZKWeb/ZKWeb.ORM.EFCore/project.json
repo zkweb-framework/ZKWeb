@@ -1,5 +1,5 @@
 {
-	"version": "1.1.1-beta-2",
+	"version": "1.1.1-beta-3",
 	"dependencies": {
 		"Microsoft.EntityFrameworkCore": "1.0.1",
 		"Microsoft.EntityFrameworkCore.Design.Core": "1.0.0-preview2-final",
@@ -9,8 +9,8 @@
 		"NETStandard.Library": "1.6.0",
 		"Npgsql.EntityFrameworkCore.PostgreSQL": "1.0.1",
 		"Pomelo.EntityFrameworkCore.MySql": "1.0.0",
-		"ZKWeb": "1.1.1-beta-2",
-		"ZKWebStandard": "1.1.1-beta-2"
+		"ZKWeb": "1.1.1-beta-3",
+		"ZKWebStandard": "1.1.1-beta-3"
 	},
 	"frameworks": {
 		"net461": {},
