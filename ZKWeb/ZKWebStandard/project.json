@@ -1,5 +1,5 @@
 {
-	"version": "1.1-final",
+	"version": "1.1.1-beta-1",
 	"dependencies": {
 		"NETStandard.Library": "1.6.0",
 		"Newtonsoft.Json": "9.0.1",
@@ -8,7 +8,7 @@
 		"System.Diagnostics.Process": "4.1.0",
 		"System.Security.Cryptography.Algorithms": "4.2.0",
 		"ZKWeb.Fork.FastReflection": "2.1.0",
-		"ZKWeb.System.Drawing": "1.0.1"
+		"ZKWeb.System.Drawing": "2.0.0-beta-1"
 	},
 	"frameworks": {
 		"net461": {},
