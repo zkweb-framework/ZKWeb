@@ -26,11 +26,11 @@ namespace ZKWeb.Tests.Cache {
 			LocaleUtils.SetThreadLanguage("zh-CN");
 			LocaleUtils.SetThreadTimezoneAutomatic("China Standard Time");
 			Assert.Equals(policy.GetIsolationKey(), Pair.Create(
-				"zh-CN", TimeZoneInfo.FindSystemTimeZoneById("China Standard Time")));
+				"zh-CN", LocaleUtils.GetTimezoneInfo("China Standard Time")));
 			LocaleUtils.SetThreadLanguage("en-US");
 			LocaleUtils.SetThreadTimezoneAutomatic("GMT Standard Time");
 			Assert.Equals(policy.GetIsolationKey(), Pair.Create(
-				"en-US", TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time")));
+				"en-US", LocaleUtils.GetTimezoneInfo("GMT Standard Time")));
 		}
 
 		public void ByUrl() {
