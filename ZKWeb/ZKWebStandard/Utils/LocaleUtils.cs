@@ -203,7 +203,13 @@ namespace ZKWebStandard.Utils {
 		/// <returns></returns>
 		public static CultureInfo GetCultureInfo(string language) {
 			try {
-				return new CultureInfo(language);
+				var cultureInfo = new CultureInfo(language);
+				// On linux .Net Core will return a pesudo culture info for language does not exist
+				// There no good way to detect it
+				if (cultureInfo.TwoLetterISOLanguageName.Length != 2 && cultureInfo.IsNeutralCulture) {
+					return null;
+				}
+				return cultureInfo;
 			} catch (CultureNotFoundException) {
 				return null;
 			}
