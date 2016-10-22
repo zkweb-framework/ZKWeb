@@ -13,8 +13,9 @@ namespace ZKWebStandard.Utils {
 		/// <param name="paths">Path parts</param>
 		/// <returns></returns>
 		public static string SecureCombine(params string[] paths) {
-			foreach (var path in paths) {
-				if (path.StartsWith("/")) {
+			for (var i = 0; i < paths.Length; ++i) {
+				var path = paths[i];
+				if (i > 0 && path.StartsWith("/")) {
 					throw new ArgumentException($"path startswith '/'");
 				} else if (path.StartsWith("\\")) {
 					throw new ArgumentException($"path startswith '\'");
