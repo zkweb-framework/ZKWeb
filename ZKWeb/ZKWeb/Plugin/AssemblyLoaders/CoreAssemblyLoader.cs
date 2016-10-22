@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
@@ -20,6 +21,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Assembly names that used for wrap mscorlib
 		/// Because IgnoreCorLibraryDuplicatedTypes is a private option in Roslyn
 		/// We need to use a black list
+		/// Attention:
+		/// This list only available on windows, it should not use on linux
 		/// </summary>
 		private ISet<string> WrapperAssemblyNames { get; set; }
 		/// <summary>
@@ -37,9 +40,11 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
-			WrapperAssemblyNames = new HashSet<string>() {
-				"System.Console",
-				"System.Runtime.Extensions"
+			WrapperAssemblyNames = new HashSet<string>();
+			if (PlatformUtils.RunningOnWindows()) {
+				WrapperAssemblyNames.Add("System.Console");
+				WrapperAssemblyNames.Add("System.Runtime.Extensions");
+				WrapperAssemblyNames.Add("System.Data.Common");
 			};
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
