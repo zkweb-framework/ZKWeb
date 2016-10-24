@@ -57,6 +57,8 @@ Backward compatibility is provided as much as possible.
 - Project Toolkits
 	- Project Creator for creating ZKWeb project
 	- Website Publisher for publishing ZKWeb project
+- Linux support
+	- Ubuntu 16.04 LTS 64bit
 
 ## Features from the default plugin collection
 
