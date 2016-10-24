@@ -133,7 +133,8 @@ namespace ZKWeb.Plugin.CompilerServices {
 			var withTopLevelBinderFlagsMethod = compilationOptions.GetType()
 				.FastGetMethod("WithTopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic);
 			var binderFlagsType = withTopLevelBinderFlagsMethod.GetParameters()[0].ParameterType;
-			withTopLevelBinderFlagsMethod.FastInvoke(compilationOptions,
+			compilationOptions = (CSharpCompilationOptions)withTopLevelBinderFlagsMethod.FastInvoke(
+				compilationOptions,
 				binderFlagsType.GetField("IgnoreCorLibraryDuplicatedTypes").GetValue(binderFlagsType));
 			// Compile to assembly, throw exception if error occurred
 			var compilation = CSharpCompilation.Create(assemblyName)
@@ -142,7 +143,8 @@ namespace ZKWeb.Plugin.CompilerServices {
 				.AddSyntaxTrees(syntaxTrees);
 			var emitResult = compilation.Emit(assemblyPath, pdbPath);
 			if (!emitResult.Success) {
-				throw new CompilationException(string.Join("\r\n", emitResult.Diagnostics));
+				throw new CompilationException(string.Join("\r\n",
+					emitResult.Diagnostics.Where(d => d.WarningLevel == 0)));
 			}
 		}
 	}

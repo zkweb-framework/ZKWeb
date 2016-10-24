@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using ZKWebStandard.Extensions;
-using ZKWebStandard.Utils;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
