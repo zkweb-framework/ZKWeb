@@ -7,6 +7,8 @@ using ZKWeb.Plugin.AssemblyLoaders;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text;
 using ZKWebStandard.Utils;
+using System.FastReflection;
+using System.Reflection;
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
@@ -120,11 +122,20 @@ namespace ZKWeb.Plugin.CompilerServices {
 			var pdbPath = ((!options.GeneratePdbFile) ? null : Path.Combine(
 				Path.GetDirectoryName(assemblyPath),
 				Path.GetFileNameWithoutExtension(assemblyPath) + ".pdb"));
+			// Create compilation options and set IgnoreCorLibraryDuplicatedTypes flag
+			// To avoid error like The type 'Path' exists in both
+			// 'System.Runtime.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+			// and
+			// 'System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e'
+			var compilationOptions = new CSharpCompilationOptions(
+				OutputKind.DynamicallyLinkedLibrary,
+				optimizationLevel: optimizationLevel);
+			compilationOptions.GetType()
+				.FastGetMethod("WithTopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic)
+				.FastInvoke(compilationOptions, 1 << 26);
 			// Compile to assembly, throw exception if error occurred
 			var compilation = CSharpCompilation.Create(assemblyName)
-				.WithOptions(new CSharpCompilationOptions(
-					OutputKind.DynamicallyLinkedLibrary,
-					optimizationLevel: optimizationLevel))
+				.WithOptions(compilationOptions)
 				.AddReferences(references)
 				.AddSyntaxTrees(syntaxTrees);
 			var emitResult = compilation.Emit(assemblyPath, pdbPath);

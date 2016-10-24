@@ -18,14 +18,6 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		private LoadContext Context { get; set; }
 		/// <summary>
-		/// Assembly names that used for wrap mscorlib
-		/// Because IgnoreCorLibraryDuplicatedTypes is a private option in Roslyn
-		/// We need to use a black list
-		/// Attention:
-		/// This list only available on windows, it should not use on linux
-		/// </summary>
-		private ISet<string> WrapperAssemblyNames { get; set; }
-		/// <summary>
 		/// Replacement assemblies
 		/// </summary>
 		private IDictionary<string, string> ReplacementAssemblies { get; set; }
@@ -40,12 +32,6 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
-			WrapperAssemblyNames = new HashSet<string>();
-			if (PlatformUtils.RunningOnWindows()) {
-				WrapperAssemblyNames.Add("System.Console");
-				WrapperAssemblyNames.Add("System.Runtime.Extensions");
-				WrapperAssemblyNames.Add("System.Data.Common");
-			};
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
 				{ "System.Drawing", "ZKWeb.System.Drawing" }
@@ -53,7 +39,6 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			LoadedAssemblies = new HashSet<Assembly>(
 				DependencyContext.Default.RuntimeLibraries
 				.SelectMany(l => l.GetDefaultAssemblyNames(DependencyContext.Default))
-				.Where(name => !WrapperAssemblyNames.Contains(name.Name))
 				.Select(name => Context.LoadFromAssemblyName(name))
 				.Where(assembly => !assembly.IsDynamic));
 		}
