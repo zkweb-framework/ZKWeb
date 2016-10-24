@@ -130,9 +130,11 @@ namespace ZKWeb.Plugin.CompilerServices {
 			var compilationOptions = new CSharpCompilationOptions(
 				OutputKind.DynamicallyLinkedLibrary,
 				optimizationLevel: optimizationLevel);
-			compilationOptions.GetType()
-				.FastGetMethod("WithTopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic)
-				.FastInvoke(compilationOptions, 1 << 26);
+			var withTopLevelBinderFlagsMethod = compilationOptions.GetType()
+				.FastGetMethod("WithTopLevelBinderFlags", BindingFlags.Instance | BindingFlags.NonPublic);
+			var binderFlagsType = withTopLevelBinderFlagsMethod.GetParameters()[0].ParameterType;
+			withTopLevelBinderFlagsMethod.FastInvoke(compilationOptions,
+				binderFlagsType.GetField("IgnoreCorLibraryDuplicatedTypes").GetValue(binderFlagsType));
 			// Compile to assembly, throw exception if error occurred
 			var compilation = CSharpCompilation.Create(assemblyName)
 				.WithOptions(compilationOptions)
