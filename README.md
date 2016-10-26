@@ -3,7 +3,7 @@
 ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
 The goal of this framework is to increase code reusability and decrease dependence on frameworks and tools such as Asp.Net and Visual Studio.
 
-Version: 1.1 final<br/>
+Version: 1.2 final<br/>
 Backward compatibility is provided as much as possible.
 
 ## Features
@@ -58,7 +58,10 @@ Backward compatibility is provided as much as possible.
 	- Project Creator for creating ZKWeb project
 	- Website Publisher for publishing ZKWeb project
 - Linux support
+	- These distributions are tested
 	- Ubuntu 16.04 LTS 64bit
+	- CentOS 7.2 64bit
+	- Fedora 24 64bit
 
 ## Features from the default plugin collection
 
