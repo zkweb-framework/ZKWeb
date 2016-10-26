@@ -46,11 +46,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DotLiquid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Fork.DotLiquid.2.0.0\lib\net45\DotLiquid.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Fork.DotLiquid.2.1.0\lib\net45\DotLiquid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FastReflection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Fork.FastReflection.2.0.0\lib\net45\FastReflection.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Fork.FastReflection.2.1.0\lib\net45\FastReflection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -215,28 +215,28 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.0.1\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.1.0-final\lib\net461\ZKWeb.dll</HintPath>
+    <Reference Include="ZKWeb, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.1.2.0-final\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.Hosting.Owin, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.Owin.1.1.0-final\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
+    <Reference Include="ZKWeb.Hosting.Owin, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.Hosting.Owin.1.2.0-final\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.Dapper, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.Dapper.1.1.0-final\lib\net461\ZKWeb.ORM.Dapper.dll</HintPath>
+    <Reference Include="ZKWeb.ORM.Dapper, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.ORM.Dapper.1.2.0-final\lib\net461\ZKWeb.ORM.Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.InMemory, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.1.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+    <Reference Include="ZKWeb.ORM.InMemory, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.2.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.System.Drawing.1.0.1\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.System.Drawing.2.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWebStandard, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.1.0-final\lib\net461\ZKWebStandard.dll</HintPath>
+    <Reference Include="ZKWebStandard, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.1.2.0-final\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
