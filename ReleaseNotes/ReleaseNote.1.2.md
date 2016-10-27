@@ -1,4 +1,4 @@
-﻿### 1.1.1 Release Note
+﻿### 1.2 Release Note
 
 ### Changes
 
