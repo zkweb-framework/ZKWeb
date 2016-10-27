@@ -17,6 +17,10 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Model {
 		/// Output directory
 		/// </summary>
 		public string OutputDirectory { get; set; }
+		/// <summary>
+		/// Ignore pattern in regex
+		/// </summary>
+		public string IgnorePattern { get; set; }
 
 		/// <summary>
 		/// Check parameters

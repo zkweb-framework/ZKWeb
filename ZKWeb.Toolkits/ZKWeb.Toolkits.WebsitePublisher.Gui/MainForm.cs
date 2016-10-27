@@ -14,7 +14,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Gui {
 			var dialog = new FolderBrowserDialog();
 			if (dialog.ShowDialog() == DialogResult.OK) {
 				tbWebRoot.Text = dialog.SelectedPath;
-				tbOutputName.Text = Path.GetFileName(dialog.SelectedPath);
+				tbOutputName.Text = Path.GetFileName(dialog.SelectedPath).Split('.')[0];
 			}
 		}
 
@@ -32,6 +32,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Gui {
 				parameters.WebRoot = tbWebRoot.Text;
 				parameters.OutputName = tbOutputName.Text;
 				parameters.OutputDirectory = tbOutputDirectory.Text;
+				parameters.IgnorePattern = tbIgnorePattern.Text;
 				var publisher = new WebsitePublisher(parameters);
 				await Task.Run(() => publisher.PublishWebsite());
 				MessageBox.Show("Success");
