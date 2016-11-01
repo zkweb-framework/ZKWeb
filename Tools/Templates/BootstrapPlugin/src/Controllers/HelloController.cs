@@ -1,20 +1,44 @@
-﻿using ZKWeb.Web;
+﻿using ZKWeb;
+using ZKWeb.Storage;
+using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
-using ZKWebStandard.Ioc;
+using ZKWebStandard.Extensions;
+using ZKWebStandard.Web;
 
 namespace ${ProjectName}.Plugins.${ProjectName}.src.Controllers {
 	/// <summary>
-	/// Hello world controller
+	/// Example controller only for learning, delete it if you don't need
 	/// </summary>
-	[ExportMany]
 	public class HelloController : IController {
-		/// <summary>
-		/// GET /hello
-		/// </summary>
-		/// <returns></returns>
-		[Action("hello")]
-		public IActionResult Hello() {
+		[Action("/")]
+		public IActionResult Index() {
 			return new TemplateResult("${ProjectNameLower}/hello.html", new { text = "World" });
+		}
+
+		[Action("/hello")]
+		public IActionResult Hello() {
+			return new PlainResult("Hello World In Plain Text");
+		}
+	}
+
+	/// <summary>
+	/// Static file handler, delete it if you are already use default plugin collections
+	/// </summary>
+	public class HelloStaticHandler : IHttpRequestHandler {
+		public const string Prefix = "/static/";
+
+		public void OnRequest() {
+			var context = HttpManager.CurrentContext;
+			var path = context.Request.Path;
+			if (path.StartsWith(Prefix)) {
+				var fileStorage = Application.Ioc.Resolve<IFileStorage>();
+				var fileEntry = fileStorage.GetResourceFile("static", path.Substring(Prefix.Length));
+				if (fileEntry.Exists) {
+					var ifModifiedSince = context.Request.GetIfModifiedSince();
+					new FileEntryResult(fileEntry, ifModifiedSince).WriteResponse(context.Response);
+					context.Response.End();
+				}
+			}
 		}
 	}
 }
