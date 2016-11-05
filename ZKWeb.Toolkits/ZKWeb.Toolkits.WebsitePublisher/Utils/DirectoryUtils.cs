@@ -14,9 +14,9 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Utils {
 		/// <param name="toDir">To directory</param>
 		/// <param name="ignorePattern">Ignore pattern in regex</param>
 		public static void CopyDirectory(string fromDir, string toDir, string ignorePattern) {
-			var regex = new Regex(ignorePattern);
+			var regex = string.IsNullOrEmpty(ignorePattern) ? null : new Regex(ignorePattern);
 			foreach (var path in Directory.EnumerateFiles(fromDir, "*", SearchOption.AllDirectories)) {
-				if (!string.IsNullOrEmpty(ignorePattern) && regex.IsMatch(path)) {
+				if (regex != null && regex.IsMatch(path)) {
 					continue;
 				}
 				var relPath = path.Substring(fromDir.Length + 1);
