@@ -6,6 +6,7 @@ using System.Text;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
 using ZKWebStandard.Web.Mock;
@@ -13,20 +14,31 @@ using ZKWebStandard.Web.Mock;
 namespace ZKWeb.Tests.Web {
 	[Tests]
 	class ControllerManagerTest {
-		public void OnRequest() {
+		private void OnRequestTest(Action action) {
 			using (Application.OverrideIoc()) {
 				Application.Ioc.Unregister<ControllerManager>();
-				Application.Ioc.RegisterMany<ControllerManager>();
+				Application.Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				controllerManager.RegisterController(new TestController());
+				action();
+			}
+		}
 
+		public void OnRequestTest_A() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_a", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
 					Assert.Equals(response.ContentType, "text/plain");
 					Assert.Equals(response.GetContentsFromBody(), "test action a");
 				}
+			});
+		}
 
+		public void OnRequestTest_B() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_b", HttpMethods.POST)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
@@ -35,8 +47,13 @@ namespace ZKWeb.Tests.Web {
 						response.GetContentsFromBody(),
 						JsonConvert.SerializeObject(new { a = 1 }));
 				}
+			});
+		}
 
-				// test get parameter from key
+		public void OnRequestTest_C() {
+			OnRequestTest(() => {
+				// test get parameter from query
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_c?name=john&age=50", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
@@ -47,7 +64,26 @@ namespace ZKWeb.Tests.Web {
 					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
 				}
 
+				// test get parameter from json body
+				using (HttpManager.OverrideContext("__test_action_c", HttpMethods.GET)) {
+					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+					request.contentType = "application/json";
+					request.body = new MemoryStream(Encoding.UTF8.GetBytes("{ name: 'john', age: 50 }"));
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
+					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
+				}
+			});
+		}
+
+		public void OnRequestTest_D() {
+			OnRequestTest(() => {
 				// test get all parameters from form
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_d?name=john&age=50", HttpMethods.POST)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
@@ -57,8 +93,13 @@ namespace ZKWeb.Tests.Web {
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
 					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
 				}
+			});
+		}
 
+		public void OnRequestTest_E() {
+			OnRequestTest(() => {
 				// test get all parameters from json body
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_e", HttpMethods.POST)) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
@@ -72,7 +113,25 @@ namespace ZKWeb.Tests.Web {
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
 					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
 				}
-			}
+			});
+		}
+
+		public void OnRequestTest_F() {
+			OnRequestTest(() => {
+				// test get parameter from posted file
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_f", "POST")) {
+					var file = new HttpPostFileMock() { filename = "abc.txt" };
+					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					request.postedFiles["file"] = file;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("filename"), "abc.txt");
+				}
+			});
 		}
 
 		public void RegisterController() {
@@ -183,6 +242,11 @@ namespace ZKWeb.Tests.Web {
 				var name = param.GetOrDefault<string>("name");
 				var age = param.GetOrDefault<int>("age");
 				return new { name, age };
+			}
+
+			[Action("__test_action_f", HttpMethods.POST)]
+			public object TestActionF(IHttpPostedFile file) {
+				return new { filename = file.FileName };
 			}
 		}
 

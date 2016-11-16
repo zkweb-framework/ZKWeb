@@ -81,8 +81,38 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
+		/// If http request content is json then return json string
+		/// otherwise return null
+		/// </summary>
+		/// <param name="request">Http request</param>
+		/// <returns></returns>
+		public static string GetJsonBody(this IHttpRequest request) {
+			if (request.ContentType?.StartsWith("application/json") ?? false) {
+				return (string)request.HttpContext.Items.GetOrCreate(
+					"__json_body", () => new StreamReader(request.Body).ReadToEnd());
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// If http request content is json then return a dictionary deserialized from content
+		/// otherwise return a empty dictionary
+		/// </summary>
+		/// <param name="request">Http request</param>
+		/// <returns></returns>
+		public static IDictionary<string, object> GetJsonBodyDictionary(this IHttpRequest request) {
+			return (IDictionary<string, object>)request.HttpContext.Items.GetOrCreate(
+				"__json_body_dictionary", () => {
+					var jsonBody = request.GetJsonBody();
+					return string.IsNullOrEmpty(jsonBody) ?
+						new Dictionary<string, object>() :
+						JsonConvert.DeserializeObject<IDictionary<string, object>>(jsonBody);
+				});
+		}
+
+		/// <summary>
 		/// Get argument from http request
-		/// Priority: Form > QueryString
+		/// Priority: Form > QueryString > Json > PostedFile
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		/// <param name="request">Http request</param>
@@ -90,19 +120,35 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
 		public static T Get<T>(this IHttpRequest request, string key, T defaultValue = default(T)) {
-			var values = request.GetFormValue(key);
-			if (values == null || values.Count <= 0) {
-				values = request.GetQueryValue(key);
+			// Form
+			object value = request.GetFormValue(key)?.FirstOrDefault();
+			if (value != null) {
+				return value.ConvertOrDefault<T>(defaultValue);
 			}
-			if (values == null || values.Count <= 0) {
-				return defaultValue;
+			// QueryString
+			value = request.GetQueryValue(key)?.FirstOrDefault();
+			if (value != null) {
+				return value.ConvertOrDefault<T>(defaultValue);
 			}
-			return values[0].ConvertOrDefault<T>(defaultValue);
+			// Json
+			value = request.GetJsonBodyDictionary().GetOrDefault(key);
+			if (value != null) {
+				return value.ConvertOrDefault<T>(defaultValue);
+			}
+			// PostedFile
+			if (typeof(T) == typeof(IHttpPostedFile) || typeof(T) == typeof(object)) {
+				value = request.GetPostedFile(key);
+				if (value != null) {
+					return (T)value;
+				}
+			}
+			return defaultValue;
 		}
 
 		/// <summary>
 		/// Get all arguments from http request
-		/// Priority: Form > QueryString
+		/// Posted files are not included
+		/// Priority: Form > QueryString > Json
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -113,11 +159,17 @@ namespace ZKWebStandard.Extensions {
 			foreach (var pair in request.GetQueryValues()) {
 				yield return Pair.Create(pair.First, pair.Second);
 			}
+			foreach (var pair in request.GetJsonBodyDictionary()) {
+				var value = (pair.Value is string) ?
+					(string)pair.Value : JsonConvert.SerializeObject(pair.Value);
+				yield return Pair.Create<string, IList<string>>(pair.Key, new[] { value });
+			}
 		}
 
 		/// <summary>
 		/// Get all arguments from http request in dictionary
-		/// Priority: Form > QueryString
+		/// Posted files are not included
+		/// Priority: Form > QueryString > Json
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -138,12 +190,10 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
 		public static T GetAllAs<T>(this IHttpRequest request) {
-			if (request.ContentType?.StartsWith("application/json") ?? false) {
+			var jsonBody = request.GetJsonBody();
+			if (!string.IsNullOrEmpty(jsonBody)) {
 				// Deserialize with json
-				// It should only read once
-				var json = (string)request.HttpContext.Items.GetOrCreate(
-					"__json_body", () => new StreamReader(request.Body).ReadToEnd());
-				return JsonConvert.DeserializeObject<T>(json);
+				return JsonConvert.DeserializeObject<T>(jsonBody);
 			} else if (typeof(T) == typeof(IDictionary<string, object>) ||
 				typeof(T) == typeof(Dictionary<string, object>)) {
 				// Return all parameters
@@ -161,13 +211,8 @@ namespace ZKWebStandard.Extensions {
 					if (!property.CanRead || !property.CanWrite) {
 						continue; // Property is read or write only
 					}
-					object propertyValue;
-					if (property.PropertyType == typeof(IHttpPostedFile)) {
-						propertyValue = request.GetPostedFile(property.Name);
-					} else {
-						propertyValue = request.Get<string>(property.Name)
-							.ConvertOrDefault(property.PropertyType, null);
-					}
+					var propertyValue = request.Get<object>(property.Name)
+						.ConvertOrDefault(property.PropertyType, null);
 					if (propertyValue != null) {
 						property.FastSetValue(value, propertyValue);
 					}
