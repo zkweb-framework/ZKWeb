@@ -1,8 +1,5 @@
-1.2
-- Fork System.Drawing and libgdiplus completely
+1.3
 - Support Range header
-- Replace Microsoft.EntityFrameworkCore.Design.Core
 
 Undefined
-- Run all tests on linux
 - Run all tests on macos
