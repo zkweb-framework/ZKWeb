@@ -29,3 +29,4 @@
 	- IHttpRequest.Get support json content
 	- IHttpRequest.Get support posted file
 	- IHttpRequest.GetAll support json content
+- Improve NHibernate RawUpdate and RawQuery, allow passing null parameters

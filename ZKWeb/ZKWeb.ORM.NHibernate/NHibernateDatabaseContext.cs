@@ -205,10 +205,12 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		private IQuery CreateSQLQuery(object query, object parameters) {
 			var sqlQueryString = (string)query;
-			var sqlParameters = (IDictionary<string, object>)parameters;
 			IQuery sqlQuery = Session.CreateSQLQuery(sqlQueryString);
-			foreach (var pair in sqlParameters) {
-				sqlQuery = sqlQuery.SetParameter(pair.Key, pair.Value);
+			if (parameters != null) {
+				var sqlParameters = (IDictionary<string, object>)parameters;
+				foreach (var pair in sqlParameters) {
+					sqlQuery = sqlQuery.SetParameter(pair.Key, pair.Value);
+				}
 			}
 			return sqlQuery;
 		}
