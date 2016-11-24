@@ -11,13 +11,25 @@ namespace ZKWeb.Localize {
 		/// Original text
 		/// </summary>
 		private string Text { get; set; }
+		/// <summary>
+		/// Format parameters
+		/// </summary>
+		private object[] Parameters { get; set; }
 
 		/// <summary>
 		/// Get the translation of text
 		/// </summary>
 		/// <param name="text">Original text</param>
-		public T(string text) {
+		public T(string text) : this(text, null) { }
+
+		/// <summary>
+		/// Get the translation of formatted text
+		/// </summary>
+		/// <param name="text">Original text</param>
+		/// <param name="parameters">Format parameters</param>
+		public T(string text, params object[] parameters) {
 			Text = text;
+			Parameters = parameters;
 		}
 
 		/// <summary>
@@ -42,7 +54,11 @@ namespace ZKWeb.Localize {
 		/// <returns></returns>
 		public override string ToString() {
 			var translateManager = Application.Ioc.Resolve<TranslateManager>();
-			return translateManager.Translate(Text);
+			var text = translateManager.Translate(Text);
+			if (Parameters != null) {
+				text = string.Format(text, Parameters);
+			}
+			return text;
 		}
 	}
 }

@@ -42,7 +42,9 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// </summary>
 		public IList<Assembly> GetLoadedAssemblies() {
 			return AppDomain.CurrentDomain.GetAssemblies()
-				.Where(assembly => !assembly.IsDynamic).ToList();
+				.Where(assembly => !assembly.IsDynamic)
+				.Where(assembly => !ReplacementAssemblies.ContainsKey(assembly.GetName().Name))
+				.ToList();
 		}
 
 		/// <summary>

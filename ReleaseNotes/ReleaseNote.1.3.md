@@ -30,3 +30,5 @@
 	- IHttpRequest.Get support posted file
 	- IHttpRequest.GetAll support json content
 - Improve NHibernate RawUpdate and RawQuery, allow passing null parameters
+- Bug fixes
+	- Fix confict error releated to System.Drawing
