@@ -171,3 +171,6 @@ PublishProfiles/
 
 # User-specific files for aspnet core
 *.xproj.user
+
+# Rider
+.idea
