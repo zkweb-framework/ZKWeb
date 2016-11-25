@@ -29,6 +29,8 @@
 	- IHttpRequest.Get support json content
 	- IHttpRequest.Get support posted file
 	- IHttpRequest.GetAll support json content
+- Support range header for file and stream
+	- Only available for stream that can seek
 - Improve NHibernate RawUpdate and RawQuery, allow passing null parameters
 - Bug fixes
 	- Fix confict error releated to System.Drawing

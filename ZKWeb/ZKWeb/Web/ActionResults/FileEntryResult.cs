@@ -37,18 +37,17 @@ namespace ZKWeb.Web.ActionResults {
 			// Set last modified time
 			var lastModified = FileEntry.LastWriteTimeUtc.Truncate();
 			response.SetLastModified(lastModified);
-			// Set mime
-			response.ContentType = MimeUtils.GetMimeType(FileEntry.Filename);
 			// If file not modified, return 304
+			// Otherwise write file to http response
+			var contentType = MimeUtils.GetMimeType(FileEntry.Filename);
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
-				return;
-			}
-			// Write file to http response
-			response.StatusCode = 200;
-			using (var stream = FileEntry.OpenRead()) {
-				stream.CopyTo(response.Body);
-				response.Body.Flush();
+				response.ContentType = contentType;
+			} else {
+				using (var stream = FileEntry.OpenRead())
+				using (var streamResult = new StreamResult(stream, contentType)) {
+					streamResult.WriteResponse(response);
+				}
 			}
 		}
 	}

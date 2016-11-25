@@ -81,6 +81,28 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
+		/// Get range request in bytes
+		/// http://stackoverflow.com/questions/3303029/http-range-header
+		/// Eg: "Range: bytes=3744-", "Range: bytes=3744-3800"
+		/// </summary>
+		/// <param name="request"></param>
+		/// <returns></returns>
+		public static Pair<long?, long?> GetBytesRange(this IHttpRequest request) {
+			var rangeHeader = request.GetHeader("Range");
+			if (string.IsNullOrEmpty(rangeHeader)) {
+				return Pair.Create<long?, long?>(null, null);
+			}
+			var typeAndRange = rangeHeader.Split('=');
+			if (typeAndRange.Length != 2 || typeAndRange[0] != "bytes") {
+				return Pair.Create<long?, long?>(null, null);
+			}
+			var beginAndFinish = typeAndRange[1].Split('-');
+			return Pair.Create(
+				beginAndFinish[0].ConvertOrDefault<long?>(),
+				beginAndFinish.Length <= 1 ? null : beginAndFinish[1].ConvertOrDefault<long?>());
+		}
+
+		/// <summary>
 		/// If http request content is json then return json string
 		/// otherwise return null
 		/// </summary>
