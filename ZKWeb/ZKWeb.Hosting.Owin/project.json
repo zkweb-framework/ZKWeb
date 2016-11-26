@@ -1,11 +1,11 @@
 {
-	"version": "1.3-beta-1",
+	"version": "1.3-beta-3",
 	"dependencies": {
 		"Microsoft.Owin": "3.0.1",
 		"NETStandard.Library": "1.6.1",
 		"System.Net.Http.Formatting.Extension": "5.2.3",
-		"ZKWeb": "1.3-beta-1",
-		"ZKWebStandard": "1.3-beta-1"
+		"ZKWeb": "1.3-beta-3",
+		"ZKWebStandard": "1.3-beta-3"
 	},
 	"frameworks": {
 		"net461": {

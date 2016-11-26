@@ -21,7 +21,7 @@
 	- Microsoft.EntityFrameworkCore.SqlServer 1.1.0
 	- Microsoft.Extensions.DependencyModel 1.1.0
 	- Npgsql 3.1.9
-	- Npgsql.EntityFrameworkCore.PostgreSQL 1.0.2
+	- Npgsql.EntityFrameworkCore.PostgreSQL 1.1.0
 	- Pomelo.EntityFrameworkCore.MySql 1.0.1
 - Downgrade packages
 	- MySql.Data 6.9.9 (new version breaks asp.net)
