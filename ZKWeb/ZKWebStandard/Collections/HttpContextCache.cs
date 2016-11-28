@@ -42,6 +42,9 @@ namespace ZKWebStandard.Collections {
 		/// <param name="value">Cache value</param>
 		/// <param name="keepTime">Keep time, not used</param>
 		public void Put(TKey key, TValue value, TimeSpan keepTime) {
+			if (!HttpManager.CurrentContextExists) {
+				return;
+			}
 			var storage = GetStorage();
 			storage[key] = value;
 		}
@@ -54,6 +57,10 @@ namespace ZKWebStandard.Collections {
 		/// <param name="value">Cache value</param>
 		/// <returns></returns>
 		public bool TryGetValue(TKey key, out TValue value) {
+			if (!HttpManager.CurrentContextExists) {
+				value = default(TValue);
+				return false;
+			}
 			var storage = GetStorage();
 			return storage.TryGetValue(key, out value);
 		}
@@ -63,6 +70,9 @@ namespace ZKWebStandard.Collections {
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		public void Remove(TKey key) {
+			if (!HttpManager.CurrentContextExists) {
+				return;
+			}
 			var storage = GetStorage();
 			storage.Remove(key);
 		}
@@ -72,6 +82,9 @@ namespace ZKWebStandard.Collections {
 		/// </summary>
 		/// <returns></returns>
 		public int Count() {
+			if (!HttpManager.CurrentContextExists) {
+				return 0;
+			}
 			var storage = GetStorage();
 			return storage.Count;
 		}
@@ -80,6 +93,9 @@ namespace ZKWebStandard.Collections {
 		/// Clear all cached values
 		/// </summary>
 		public void Clear() {
+			if (!HttpManager.CurrentContextExists) {
+				return;
+			}
 			var storage = GetStorage();
 			storage.Clear();
 		}
