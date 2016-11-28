@@ -1,5 +1,6 @@
 ﻿using System;
 using ZKWeb.Storage;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
@@ -17,15 +18,45 @@ namespace ZKWeb.Web.ActionResults {
 		/// Cached modify time received from client
 		/// </summary>
 		public DateTime? IfModifiedSince { get; set; }
+		/// <summary>
+		/// Range request in bytes
+		/// </summary>
+		public Pair<long?, long?> BytesRange { get; set; }
+
+		/// <summary>
+		/// Initialize
+		/// </summary>
+		/// <param name="fileEntry">File entry</param>
+		public FileEntryResult(IFileEntry fileEntry) :
+			this(fileEntry, null, Pair.Create<long?, long?>(null, null)) { }
 
 		/// <summary>
 		/// Initialize
 		/// </summary>
 		/// <param name="fileEntry">File entry</param>
 		/// <param name="ifModifiedSince">Cached modify time received from client</param>
-		public FileEntryResult(IFileEntry fileEntry, DateTime? ifModifiedSince = null) {
+		public FileEntryResult(IFileEntry fileEntry, DateTime? ifModifiedSince) :
+			this(fileEntry, ifModifiedSince, Pair.Create<long?, long?>(null, null)) { }
+
+		/// <summary>
+		/// Initialize
+		/// </summary>
+		/// <param name="fileEntry">File entry</param>
+		/// <param name="bytesRange">Range request in bytes</param>
+		public FileEntryResult(IFileEntry fileEntry, Pair<long?, long?> bytesRange) :
+			this(fileEntry, null, bytesRange) { }
+
+		/// <summary>
+		/// Initialize
+		/// </summary>
+		/// <param name="fileEntry">File entry</param>
+		/// <param name="ifModifiedSince">Cached modify time received from client</param>
+		/// <param name="bytesRange">Range request in bytes</param>
+		public FileEntryResult(
+			IFileEntry fileEntry, DateTime? ifModifiedSince, Pair<long?, long?> bytesRange) {
 			FileEntry = fileEntry;
 			IfModifiedSince = ifModifiedSince;
+			BytesRange = bytesRange;
 		}
 
 		/// <summary>
