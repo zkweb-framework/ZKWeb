@@ -76,7 +76,7 @@ namespace ZKWeb.Web.ActionResults {
 				response.ContentType = contentType;
 			} else {
 				using (var stream = FileEntry.OpenRead())
-				using (var streamResult = new StreamResult(stream, contentType)) {
+				using (var streamResult = new StreamResult(stream, contentType, BytesRange)) {
 					streamResult.WriteResponse(response);
 				}
 			}
