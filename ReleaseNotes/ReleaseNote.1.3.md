@@ -34,3 +34,4 @@
 - Improve NHibernate RawUpdate and RawQuery, allow passing null parameters
 - Bug fixes
 	- Fix confict error releated to System.Drawing
+	- Fix HttpContextCache error when http context not exists

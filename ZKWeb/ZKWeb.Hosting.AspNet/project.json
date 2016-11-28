@@ -1,9 +1,9 @@
 {
-	"version": "1.3-beta-3",
+	"version": "1.3-final",
 	"dependencies": {
 		"NETStandard.Library": "1.6.1",
-		"ZKWeb": "1.3-beta-3",
-		"ZKWebStandard": "1.3-beta-3"
+		"ZKWeb": "1.3-final",
+		"ZKWebStandard": "1.3-final"
 	},
 	"frameworks": {
 		"net461": {
