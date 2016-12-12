@@ -114,7 +114,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
 			var session = SessionFactory.OpenSession();
-			session.SetBatchSize(BatchSize);
+			try { session.SetBatchSize(BatchSize); } catch (NotSupportedException) { }
 			return new NHibernateDatabaseContext(session, Database);
 		}
 	}

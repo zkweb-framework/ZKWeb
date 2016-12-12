@@ -144,22 +144,6 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
-		/// Batch update entities in faster way
-		/// </summary>
-		public long FastBatchUpdate<T, TPrimaryKey>(
-			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
-			where T : class, IEntity<TPrimaryKey>, new() {
-			var updateAction = update.Compile();
-			var entities = Query<T>().Where(predicate);
-			var count = 0L;
-			foreach (var entity in entities) {
-				updateAction(entity);
-				++count;
-			}
-			return count;
-		}
-
-		/// <summary>
 		/// Batch delete entities in faster way
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)

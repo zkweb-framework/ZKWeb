@@ -71,10 +71,10 @@ namespace ZKWeb.Tests.Database {
 						context.BeginTransaction();
 						context.BeginTransaction();
 						var objs = new[] {
-								new TestTable() { Name = "TestName_1" },
-								new TestTable() { Name = "TestName_2" },
-								new TestTable() { Name = "TestName_3" }
-							}.AsEnumerable();
+							new TestTable() { Name = "TestName_1" },
+							new TestTable() { Name = "TestName_2" },
+							new TestTable() { Name = "TestName_3" }
+						}.AsEnumerable();
 						context.BatchSave(ref objs);
 						context.FinishTransaction();
 						context.FinishTransaction();
@@ -86,6 +86,40 @@ namespace ZKWeb.Tests.Database {
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_2") != null);
 						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_3") != null);
 						// only begin, no finish
+					}
+				}
+			}
+		}
+
+		public void FastBatchActions() {
+			var testManager = Application.Ioc.Resolve<TestManager>();
+			using (Application.OverrideIoc()) {
+				Application.Ioc.Unregister<IEntity>();
+				Application.Ioc.RegisterMany<TestTable>();
+				using (testManager.UseTemporaryDatabase()) {
+					var databaseManager = Application.Ioc.Resolve<DatabaseManager>();
+					// FastBatchSave
+					using (var context = databaseManager.CreateContext()) {
+						var objs = new[] {
+							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_1" },
+							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_2" },
+							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_3" }
+						};
+						context.FastBatchSave<TestTable, Guid>(objs);
+					}
+					using (var context = databaseManager.CreateContext()) {
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_1") != null);
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_2") != null);
+						Assert.IsTrue(context.Get<TestTable>(t => t.Name == "TestName_3") != null);
+					}
+					// FastBatchDelete
+					using (var context = databaseManager.CreateContext()) {
+						context.FastBatchDelete<TestTable, Guid>(a => a.Name.StartsWith("TestName_"));
+					}
+					using (var context = databaseManager.CreateContext()) {
+						Assert.Equals(context.Get<TestTable>(t => t.Name == "TestName_1"), null);
+						Assert.Equals(context.Get<TestTable>(t => t.Name == "TestName_2"), null);
+						Assert.Equals(context.Get<TestTable>(t => t.Name == "TestName_3"), null);
 					}
 				}
 			}

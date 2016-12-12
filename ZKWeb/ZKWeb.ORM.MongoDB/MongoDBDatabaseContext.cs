@@ -188,25 +188,6 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch update entities in faster way
-		/// </summary>
-		public long FastBatchUpdate<T, TPrimaryKey>(
-			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
-			where T : class, IEntity<TPrimaryKey>, new() {
-			var updateAction = update.Compile();
-			var collection = GetCollection<T>();
-			var entities = Query<T>().Where(predicate);
-			var requests = new List<WriteModel<T>>();
-			foreach (var entity in entities) {
-				updateAction(entity);
-				requests.Add(new ReplaceOneModel<T>(
-					MakeIdExpression(entity), entity) { IsUpsert = true });
-			}
-			var result = collection.BulkWrite(requests);
-			return requests.Count;
-		}
-
-		/// <summary>
 		/// Batch delete entities in faster way
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)

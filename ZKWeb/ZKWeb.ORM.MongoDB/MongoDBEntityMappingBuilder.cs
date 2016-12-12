@@ -60,10 +60,12 @@ namespace ZKWeb.ORM.MongoDB {
 				provider.Configure(this);
 			}
 			// Register mapping
-			BsonClassMap.RegisterClassMap<T>(m => {
-				MapActions.ForEach(a => a(m));
-				m.SetIgnoreExtraElements(true);
-			});
+			if (!BsonClassMap.IsClassMapRegistered(typeof(T))) {
+				BsonClassMap.RegisterClassMap<T>(m => {
+					MapActions.ForEach(a => a(m));
+					m.SetIgnoreExtraElements(true);
+				});
+			}
 			// Get collection name with registered hanlders
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			foreach (var handler in handlers) {

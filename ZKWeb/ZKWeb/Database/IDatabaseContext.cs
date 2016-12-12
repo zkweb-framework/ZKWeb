@@ -130,19 +130,6 @@ namespace ZKWeb.Database {
 			where T : class, IEntity<TPrimaryKey>;
 
 		/// <summary>
-		/// Batch update entities in faster way
-		/// It wouldn't call registered `IEntityOperationHandler`
-		/// </summary>
-		/// <typeparam name="T">Entity type</typeparam>
-		/// <typeparam name="TPrimaryKey">Primary key type</typeparam>
-		/// <param name="predicate">The predicate</param>
-		/// <param name="update">Update expression</param>
-		/// <returns></returns>
-		long FastBatchUpdate<T, TPrimaryKey>(
-			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
-			where T : class, IEntity<TPrimaryKey>, new();
-
-		/// <summary>
 		/// Batch delete entities in faster way
 		/// It wouldn't call registered `IEntityOperationHandler`
 		/// </summary>
