@@ -19,6 +19,10 @@ namespace ZKWeb.ORM.NHibernate {
 	/// </summary>
 	internal class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
+		/// Batch size
+		/// </summary>
+		private const int BatchSize = 1024;
+		/// <summary>
 		/// Database type
 		/// </summary>
 		private string Database { get; set; }
@@ -110,6 +114,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
 			var session = SessionFactory.OpenSession();
+			session.SetBatchSize(BatchSize);
 			return new NHibernateDatabaseContext(session, Database);
 		}
 	}

@@ -178,6 +178,45 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
+		/// Batch save entities in faster way
+		/// </summary>
+		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
+			where T : class, IEntity<TPrimaryKey> {
+			var collection = GetCollection<T>();
+			collection.BulkWrite(entities.Select(e =>
+				new ReplaceOneModel<T>(MakeIdExpression(e), e) { IsUpsert = true }));
+		}
+
+		/// <summary>
+		/// Batch update entities in faster way
+		/// </summary>
+		public long FastBatchUpdate<T, TPrimaryKey>(
+			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var updateAction = update.Compile();
+			var collection = GetCollection<T>();
+			var entities = Query<T>().Where(predicate);
+			var requests = new List<WriteModel<T>>();
+			foreach (var entity in entities) {
+				updateAction(entity);
+				requests.Add(new ReplaceOneModel<T>(
+					MakeIdExpression(entity), entity) { IsUpsert = true });
+			}
+			var result = collection.BulkWrite(requests);
+			return requests.Count;
+		}
+
+		/// <summary>
+		/// Batch delete entities in faster way
+		/// </summary>
+		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var collection = GetCollection<T>();
+			var result = collection.DeleteMany(predicate);
+			return result.DeletedCount;
+		}
+
+		/// <summary>
 		/// Perform a raw update to database
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {

@@ -132,6 +132,49 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
+		/// Batch save entities in faster way
+		/// </summary>
+		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
+			where T : class, IEntity<TPrimaryKey> {
+			var store = Store.GetEntityStore(typeof(T));
+			foreach (var entity in entities) {
+				var primaryKey = Store.EnsurePrimaryKey(entity);
+				store[primaryKey] = entity;
+			}
+		}
+
+		/// <summary>
+		/// Batch update entities in faster way
+		/// </summary>
+		public long FastBatchUpdate<T, TPrimaryKey>(
+			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var updateAction = update.Compile();
+			var entities = Query<T>().Where(predicate);
+			var count = 0L;
+			foreach (var entity in entities) {
+				updateAction(entity);
+				++count;
+			}
+			return count;
+		}
+
+		/// <summary>
+		/// Batch delete entities in faster way
+		/// </summary>
+		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var entities = Query<T>().Where(predicate);
+			var store = Store.GetEntityStore(typeof(T));
+			var count = 0L;
+			foreach (var entity in entities) {
+				store.Remove(entity.Id);
+				++count;
+			}
+			return count;
+		}
+
+		/// <summary>
 		/// Perform a raw update to database
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {

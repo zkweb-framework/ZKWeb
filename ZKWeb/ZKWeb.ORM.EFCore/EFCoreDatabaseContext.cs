@@ -226,6 +226,46 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
+		/// Batch save entities in faster way
+		/// </summary>
+		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
+			where T : class, IEntity<TPrimaryKey> {
+			foreach (var entity in entities) {
+				InsertOrUpdate(entity);
+			}
+			SaveChanges(); // send commands to database
+		}
+
+		/// <summary>
+		/// Batch update entities in faster way
+		/// </summary>
+		public long FastBatchUpdate<T, TPrimaryKey>(
+			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var updateAction = update.Compile();
+			var entities = Query<T>().Where(predicate);
+			var count = 0L;
+			foreach (var entity in entities) {
+				InsertOrUpdate(entity, updateAction);
+				++count;
+			}
+			SaveChanges(); // send commands to database
+			return count;
+		}
+
+		/// <summary>
+		/// Batch delete entities in faster way
+		/// </summary>
+		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var entities = Query<T>().Where(predicate).Select(t => new T() { Id = t.Id });
+			var count = entities.LongCount();
+			RemoveRange(entities);
+			SaveChanges(); // send commands to database
+			return count;
+		}
+
+		/// <summary>
 		/// Perform a raw update to database
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {

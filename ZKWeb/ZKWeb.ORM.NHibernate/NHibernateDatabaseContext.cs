@@ -201,6 +201,50 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
+		/// Batch save entities in faster way
+		/// </summary>
+		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
+			where T : class, IEntity<TPrimaryKey> {
+			foreach (var entity in entities) {
+				Session.Merge(entity);
+			}
+			Session.Flush(); // send commands to database
+		}
+
+		/// <summary>
+		/// Batch update entities in faster way
+		/// </summary>
+		public long FastBatchUpdate<T, TPrimaryKey>(
+			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var updateAction = update.Compile();
+			var entities = Query<T>().Where(predicate);
+			var count = 0L;
+			foreach (var entity in entities) {
+				updateAction(entity);
+				Session.Merge(entity);
+				++count;
+			}
+			Session.Flush(); // send commands to database
+			return count;
+		}
+
+		/// <summary>
+		/// Batch delete entities in faster way
+		/// </summary>
+		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
+			where T : class, IEntity<TPrimaryKey>, new() {
+			var entities = Query<T>().Where(predicate).Select(t => new T() { Id = t.Id });
+			var count = 0L;
+			foreach (var entity in entities) {
+				Session.Delete(entity);
+				++count;
+			}
+			Session.Flush(); // send commands to database
+			return count;
+		}
+
+		/// <summary>
 		/// Create a sql query from query string and parameters
 		/// </summary>
 		private IQuery CreateSQLQuery(object query, object parameters) {

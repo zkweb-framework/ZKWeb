@@ -89,7 +89,7 @@ namespace ZKWeb.Database {
 		/// Update action can be used for operation between `BeforeSave` and `AfterSave` callback
 		/// </summary>
 		/// <typeparam name="T">Entity Type</typeparam>
-		/// <param name="entities">Entity object</param>
+		/// <param name="entities">Entity objects</param>
 		/// <param name="update">Update action</param>
 		void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity;
@@ -118,6 +118,40 @@ namespace ZKWeb.Database {
 		long BatchDelete<T>(
 			Expression<Func<T, bool>> predicate, Action<T> beforeDelete = null)
 			where T : class, IEntity;
+
+		/// <summary>
+		/// Batch save entities in faster way
+		/// It wouldn't call registered `IEntityOperationHandler`
+		/// </summary>
+		/// <typeparam name="T">Entity type</typeparam>
+		/// <typeparam name="TPrimaryKey">Primary key type</typeparam>
+		/// <param name="entities">Entity objects</param>
+		void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
+			where T : class, IEntity<TPrimaryKey>;
+
+		/// <summary>
+		/// Batch update entities in faster way
+		/// It wouldn't call registered `IEntityOperationHandler`
+		/// </summary>
+		/// <typeparam name="T">Entity type</typeparam>
+		/// <typeparam name="TPrimaryKey">Primary key type</typeparam>
+		/// <param name="predicate">The predicate</param>
+		/// <param name="update">Update expression</param>
+		/// <returns></returns>
+		long FastBatchUpdate<T, TPrimaryKey>(
+			Expression<Func<T, bool>> predicate, Expression<Action<T>> update)
+			where T : class, IEntity<TPrimaryKey>, new();
+
+		/// <summary>
+		/// Batch delete entities in faster way
+		/// It wouldn't call registered `IEntityOperationHandler`
+		/// </summary>
+		/// <typeparam name="T">Entity type</typeparam>
+		/// <typeparam name="TPrimaryKey">Primary key type</typeparam>>
+		/// <param name="predicate">The predicate</param>
+		/// <returns></returns>
+		long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
+			where T : class, IEntity<TPrimaryKey>, new();
 
 		/// <summary>
 		/// Perform a raw update to database
