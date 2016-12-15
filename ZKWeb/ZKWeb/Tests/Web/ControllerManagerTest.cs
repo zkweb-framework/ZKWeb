@@ -120,7 +120,7 @@ namespace ZKWeb.Tests.Web {
 			OnRequestTest(() => {
 				// test get parameter from posted file
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-				using (HttpManager.OverrideContext("__test_action_f", "POST")) {
+				using (HttpManager.OverrideContext("__test_action_f", HttpMethods.POST)) {
 					var file = new HttpPostFileMock() { filename = "abc.txt" };
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
@@ -132,6 +132,36 @@ namespace ZKWeb.Tests.Web {
 					Assert.Equals(obj.GetOrDefault<string>("filename"), "abc.txt");
 				}
 			});
+		}
+
+		public void OnRequestTest_G() {
+			OnRequestTest(() => {
+				// test action filter attribute
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_g", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					var text = response.GetContentsFromBody();
+					Assert.Equals(text, "GInjected");
+				}
+			});
+		}
+
+		public void OnRequestTest_H() {
+			using (Application.OverrideIoc()) {
+				// test global registered action filter
+				Application.Ioc.Unregister<IActionFilter>();
+				Application.Ioc.RegisterInstance<IActionFilter>(new TestActionFilter());
+				OnRequestTest(() => {
+					var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+					using (HttpManager.OverrideContext("__test_action_h", HttpMethods.GET)) {
+						var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+						controllerManager.OnRequest();
+						var text = response.GetContentsFromBody();
+						Assert.Equals(text, "HInjected");
+					}
+				});
+			}
 		}
 
 		public void RegisterController() {
@@ -248,11 +278,33 @@ namespace ZKWeb.Tests.Web {
 			public object TestActionF(IHttpPostedFile file) {
 				return new { filename = file.FileName };
 			}
+
+			[TestActionFilter]
+			[Action("__test_action_g", HttpMethods.GET)]
+			public string TestActionG() {
+				return "G";
+			}
+
+			[Action("__test_action_h", HttpMethods.GET)]
+			public string TestActionH() {
+				return "H";
+			}
 		}
 
 		public class ActionParams {
 			public string name { get; set; }
 			public int age { get; set; }
+		}
+
+		public class TestActionFilter : ActionFilterAttribute {
+			public override Func<IActionResult> Filter(Func<IActionResult> action) {
+				return () => {
+					var result = action();
+					if (result is PlainResult)
+						((PlainResult)result).Text += "Injected";
+					return result;
+				};
+			}
 		}
 	}
 }

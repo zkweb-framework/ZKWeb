@@ -71,13 +71,20 @@ namespace ZKWeb.Web {
 			var type = controller.GetType();
 			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
-				var attributes = method.GetCustomAttributes<ActionAttribute>();
-				if (!attributes.Any()) {
+				// Get action attributes
+				var actionAttributes = method.GetCustomAttributes<ActionAttribute>();
+				if (!actionAttributes.Any()) {
 					continue;
 				}
-				// Register action
+				// Build action
 				var action = controller.BuildActionDelegate(method);
-				foreach (var attribute in attributes) {
+				// Apply action filters
+				var filterAttributes = method.GetCustomAttributes<ActionFilterAttribute>();
+				foreach (var filterAttribute in filterAttributes) {
+					action = filterAttribute.Filter(action);
+				}
+				// Register action
+				foreach (var attribute in actionAttributes) {
 					RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
 				}
 			}
@@ -119,6 +126,12 @@ namespace ZKWeb.Web {
 		/// <param name="overrideExists">Allow override exist actions</param>
 		public virtual void RegisterAction(
 			string path, string method, Func<IActionResult> action, bool overrideExists) {
+			// Apply global registered action filter
+			var actionFilters = Application.Ioc.ResolveMany<IActionFilter>();
+			foreach (var filter in actionFilters) {
+				action = filter.Filter(action);
+			}
+			// Associate path and method with action
 			path = NormalizePath(path);
 			var key = Pair.Create(path, method);
 			if (!overrideExists && Actions.ContainsKey(key)) {

@@ -36,7 +36,12 @@ namespace ZKWebStandard.Web {
 		public static IDisposable OverrideContext(IHttpContext context) {
 			var original = currentContext.Value;
 			currentContext.Value = context;
-			return new SimpleDisposable(() => currentContext.Value = original);
+			return new SimpleDisposable(() => {
+				// check again to avoid gc dispose
+				if (currentContext.Value == context) {
+					currentContext.Value = original;
+				}
+			});
 		}
 
 		/// <summary>
