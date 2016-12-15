@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.MongoDB</id>
-		<version>1.4-beta-1</version>
+		<version>1.4-beta-2</version>
 		<title>ZKWeb.ORM.MongoDB</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.4-beta-1" />
+			<dependency id="ZKWeb" version="1.4-beta-2" />
 			<dependency id="MongoDB.Driver" version="2.3.0" />
 		</dependencies>
 	</metadata>
