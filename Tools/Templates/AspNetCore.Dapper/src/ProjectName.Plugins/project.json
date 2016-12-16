@@ -1,7 +1,7 @@
 {
 	"version": "1.0.0-*",
 	"dependencies": {
-		"ZKWeb": "1.3.0-final"
+		"ZKWeb": "1.4.0-final"
 	},
 	"frameworks": {
 		"net461": {},
