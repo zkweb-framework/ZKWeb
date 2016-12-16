@@ -1,4 +1,4 @@
-# ZKWeb [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb) [![NuGet](https://buildstats.info/nuget/ZKWeb)](http://www.nuget.org/packages/ZKWeb)
+# ZKWeb [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb) [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.svg)](http://www.nuget.org/packages/ZKWeb)
 
 ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
 The goal of this framework is to increase code reusability and decrease dependence on frameworks and tools such as Asp.Net and Visual Studio.
