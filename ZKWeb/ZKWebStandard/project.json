@@ -1,5 +1,5 @@
 {
-	"version": "1.4-beta-2",
+	"version": "1.4-final",
 	"dependencies": {
 		"NETStandard.Library": "1.6.1",
 		"Newtonsoft.Json": "9.0.1",

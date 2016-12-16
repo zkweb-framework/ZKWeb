@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.InMemory</id>
-		<version>1.4-beta-2</version>
+		<version>1.4-final</version>
 		<title>ZKWeb.ORM.InMemory</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.4-beta-2" />
+			<dependency id="ZKWeb" version="1.4-final" />
 		</dependencies>
 	</metadata>
 	<files>
