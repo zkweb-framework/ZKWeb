@@ -12,6 +12,7 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get specified type attribute
 		/// Return null if not found
+		/// Will not search inherited attributes
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
@@ -30,6 +31,18 @@ namespace ZKWebStandard.Extensions {
 		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
 			return info.FastGetCustomAttributes(typeof(TAttribute)).OfType<TAttribute>();
+		}
+
+		/// <summary>
+		/// Get specified type attributes with inherit option
+		/// </summary>
+		/// <typeparam name="TAttribute">Attribute type</typeparam>
+		/// <param name="info">Member infomation</param>
+		/// <param name="inherit">Should search override method or property's attributes</param>
+		/// <returns></returns>
+		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info, bool inherit)
+			where TAttribute : Attribute {
+			return info.FastGetCustomAttributes(typeof(TAttribute), inherit).OfType<TAttribute>();
 		}
 	}
 }

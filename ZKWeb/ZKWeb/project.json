@@ -6,8 +6,8 @@
 		"Newtonsoft.Json": "9.0.1",
 		"NSubstitute": "2.0.0-rc",
 		"System.Data.Common": "4.3.0",
-		"ZKWeb.Fork.DotLiquid": "2.1.0",
-		"ZKWeb.Fork.FastReflection": "2.1.0",
+		"ZKWeb.Fork.DotLiquid": "2.1.1",
+		"ZKWeb.Fork.FastReflection": "2.1.1",
 		"ZKWeb.System.Drawing": "2.0.0",
 		"ZKWebStandard": "1.4-final"
 	},
