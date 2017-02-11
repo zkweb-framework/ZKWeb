@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using ZKWebStandard.Collections;
@@ -15,10 +13,10 @@ namespace ZKWebStandard.Ioc {
 	/// Benchmark
 	/// - Register Transient: 1000000/2.3s (DryIoc: 6.1s)
 	/// - Register Singleton: 1000000/2.6s (DryIoc: 5.2s)
-	/// - Resolve Transient: 10000000/3.2s (DryIoc: 0.54s)
-	/// - Resolve Singleton: 10000000/3.2s (DryIoc: 0.43s)
-	/// - ResolveMany Transient: 10000000/11.8s (DryIoc: 14.7s)
-	/// - ResolveMany Singleton: 10000000/11.1s (DryIoc: 12.9s)
+	/// - Resolve Transient: 10000000/0.57s (DryIoc: 0.54s)
+	/// - Resolve Singleton: 10000000/0.54s (DryIoc: 0.43s)
+	/// - ResolveMany Transient: 10000000/1.44s (DryIoc: 14.7s)
+	/// - ResolveMany Singleton: 10000000/1.40s (DryIoc: 12.9s)
 	/// </summary>
 	public class Container : IContainer {
 		/// <summary>
@@ -30,6 +28,10 @@ namespace ZKWebStandard.Ioc {
 		/// Factories lock
 		/// </summary>
 		protected ReaderWriterLockSlim FactoriesLock { get; set; }
+		/// <summary>
+		/// Increase after each modification
+		/// </summary>
+		protected int Revision { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -37,6 +39,7 @@ namespace ZKWebStandard.Ioc {
 		public Container() {
 			Factories = new Dictionary<Pair<Type, object>, IList<Func<object>>>();
 			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+			Revision = 0;
 			RegisterSelf();
 		}
 
@@ -94,9 +97,10 @@ namespace ZKWebStandard.Ioc {
 			var key = Pair.Create(serviceType, serviceKey);
 			FactoriesLock.EnterWriteLock();
 			try {
-				var factors = Factories.GetOrCreate(key, () => new List<Func<object>>());
-				factors.Add(factory);
+				var factories = Factories.GetOrCreate(key, () => new List<Func<object>>());
+				factories.Add(factory);
 			} finally {
+				Revision += 1;
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -113,6 +117,7 @@ namespace ZKWebStandard.Ioc {
 					factories.Add(factory);
 				}
 			} finally {
+				Revision += 1;
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -234,6 +239,7 @@ namespace ZKWebStandard.Ioc {
 			try {
 				Factories.Remove(key);
 			} finally {
+				Revision += 1;
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -256,6 +262,34 @@ namespace ZKWebStandard.Ioc {
 				FactoriesLock.ExitWriteLock();
 			}
 			GC.Collect();
+		}
+
+		/// <summary>
+		/// Get factories in faster way
+		/// Only applies when service key is null
+		/// </summary>
+		protected IList<Func<object>> FastGetFactories<TService>() {
+			if (ContainerFactoriesCache<TService>.Container == this &&
+				ContainerFactoriesCache<TService>.Revision == Revision &&
+				ContainerFactoriesCache<TService>.Factories != null) {
+				return ContainerFactoriesCache<TService>.Factories;
+			}
+			var key = Pair.Create(typeof(TService), (object)null);
+			var factoriesCopy = new List<Func<object>>();
+			FactoriesLock.EnterReadLock();
+			try {
+				var factories = Factories.GetOrDefault(key);
+				if (factories != null) {
+					factoriesCopy.Capacity = factories.Count;
+					factoriesCopy.AddRange(factories);
+				}
+				ContainerFactoriesCache<TService>.Container = this;
+				ContainerFactoriesCache<TService>.Revision = Revision;
+				ContainerFactoriesCache<TService>.Factories = factoriesCopy;
+			} finally {
+				FactoriesLock.ExitReadLock();
+			}
+			return factoriesCopy;
 		}
 
 		/// <summary>
@@ -302,6 +336,14 @@ namespace ZKWebStandard.Ioc {
 		/// Throw exception or return default value if not found, dependent on ifUnresolved
 		/// </summary>
 		public TService Resolve<TService>(IfUnresolved ifUnresolved, object serviceKey) {
+			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
+				// Use faster method
+				var factories = FastGetFactories<TService>();
+				if (factories.Count == 1) {
+					return (TService)factories[0]();
+				}
+			}
+			// Use default method
 			return (TService)Resolve(typeof(TService), ifUnresolved, serviceKey);
 		}
 
@@ -311,20 +353,20 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			var factorsCopy = new List<Func<object>>();
+			var factoriesCopy = new List<Func<object>>();
 			FactoriesLock.EnterReadLock();
 			try {
 				// Copy factories
-				var factors = Factories.GetOrDefault(key);
-				if (factors != null) {
-					factorsCopy.Capacity = factors.Count;
-					factorsCopy.AddRange(factors);
+				var factories = Factories.GetOrDefault(key);
+				if (factories != null) {
+					factoriesCopy.Capacity = factories.Count;
+					factoriesCopy.AddRange(factories);
 				}
 			} finally {
 				FactoriesLock.ExitReadLock();
 			}
 			// Get service instances
-			foreach (var factory in factorsCopy) {
+			foreach (var factory in factoriesCopy) {
 				yield return factory();
 			}
 		}
@@ -334,8 +376,16 @@ namespace ZKWebStandard.Ioc {
 		/// Return empty sequence if no service registered
 		/// </summary>
 		public IEnumerable<TService> ResolveMany<TService>(object serviceKey) {
-			foreach (var instance in ResolveMany(typeof(TService), serviceKey)) {
-				yield return (TService)instance;
+			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
+				// Use faster method
+				foreach (var factory in FastGetFactories<TService>()) {
+					yield return (TService)factory();
+				}
+			} else {
+				// Use default method
+				foreach (var instance in ResolveMany(typeof(TService), serviceKey)) {
+					yield return (TService)instance;
+				}
 			}
 		}
 
@@ -351,6 +401,7 @@ namespace ZKWebStandard.Ioc {
 					clone.Factories[pair.Key] = pair.Value.ToList();
 				}
 				clone.RegisterSelf(); // replace self instances
+				clone.Revision = Revision; // inherit revision
 			} finally {
 				FactoriesLock.ExitReadLock();
 			}

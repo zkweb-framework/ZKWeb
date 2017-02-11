@@ -30,12 +30,11 @@
 		/// </summary>
 		/// <param name="args"></param>
 		private static void Main(string[] args) {
-			IocContainerBenchmark.Start();
 			// Initialize application
-			// Application.Initialize(GetWebsiteRootDirectory());
+			Application.Initialize(GetWebsiteRootDirectory());
 			// Run all tests
-			// var unitTestManager = Application.Ioc.Resolve<TestManager>();
-			// unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
+			var unitTestManager = Application.Ioc.Resolve<TestManager>();
+			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
 			// Done
 			Console.WriteLine("done");
 			Console.ReadLine();
