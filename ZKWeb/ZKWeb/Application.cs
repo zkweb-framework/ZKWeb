@@ -123,12 +123,19 @@ namespace ZKWeb {
 					foreach (var handler in Ioc.ResolveMany<IHttpRequestPreHandler>()) {
 						handler.OnRequest();
 					}
-					// Call request handlers, in reverse register order
-					foreach (var handler in Ioc.ResolveMany<IHttpRequestHandler>().Reverse()) {
-						handler.OnRequest();
+					// Wrap handler action by wrappers
+					var handlerAction = new Action(() => {
+						// Call request handlers, in reverse register order
+						foreach (var handler in Ioc.ResolveMany<IHttpRequestHandler>().Reverse()) {
+							handler.OnRequest();
+						}
+						// If request not get handled, throw an 404 exception
+						throw new HttpException(404, "Not Found");
+					});
+					foreach (var wrapper in Ioc.ResolveMany<IHttpRequestHandlerWrapper>()) {
+						handlerAction = wrapper.WrapHandlerAction(handlerAction);
 					}
-					// If request not get handled, throw an 404 exception
-					throw new HttpException(404, "Not Found");
+					handlerAction();
 				} finally {
 					// Call post request handlers, in register order
 					foreach (var handler in Ioc.ResolveMany<IHttpRequestPostHandler>()) {
