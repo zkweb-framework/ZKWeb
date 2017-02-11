@@ -1,6 +1,6 @@
 ﻿The MIT License (MIT)
 
-Copyright © 2016 303248153@qq.com
+Copyright © 2016~2017 303248153@qq.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the “Software”),
