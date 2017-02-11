@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
-using ZKWeb.Server;
 using ZKWeb.Storage;
 
 namespace ZKWeb.Templating.DynamicContents {
@@ -28,12 +28,23 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <summary>
 		/// Cache time, in seconds
 		/// </summary>
+		/// <example>15</example>
 		public int CacheTime { get; set; }
 		/// <summary>
 		/// Cache isolation policies, separated by comma
 		/// </summary>
 		/// <example>Locale,Url</example>
 		public string CacheBy { get; set; }
+		/// <summary>
+		/// Argument information list
+		/// </summary>
+		/// <example>
+		/// "Arguments": [
+		///		{ "Name": "DisplayText", "Type": "TextBoxField" },
+		///		{ "Name": "DisplayStyle", "Type": "DropdownListField", "Provider": "TypeFullName" },
+		/// ]
+		/// </example>
+		public IList<IDictionary<string, object>> Arguments { get; set; }
 
 		/// <summary>
 		/// Read template widget information from path
@@ -50,6 +61,7 @@ namespace ZKWeb.Templating.DynamicContents {
 			var widgetInfo = JsonConvert.DeserializeObject<TemplateWidgetInfo>(json);
 			widgetInfo.WidgetPath = path;
 			widgetInfo.Name = widgetInfo.Name ?? Path.GetFileNameWithoutExtension(path);
+			widgetInfo.Arguments = widgetInfo.Arguments ?? new List<IDictionary<string, object>>();
 			return widgetInfo;
 		}
 	}
