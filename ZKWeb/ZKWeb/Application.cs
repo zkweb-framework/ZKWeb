@@ -177,7 +177,7 @@ namespace ZKWeb {
 			return new SimpleDisposable(() => {
 				var tmp = overrideIoc.Value;
 				overrideIoc.Value = previousOverride;
-				tmp.Dispose();
+				tmp?.Dispose();
 			});
 		}
 	}
