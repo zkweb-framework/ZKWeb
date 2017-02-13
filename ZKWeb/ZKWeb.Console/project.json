@@ -9,7 +9,7 @@
 		"ZKWeb.ORM.EFCore": "1.5-beta-2",
 		"ZKWeb.ORM.InMemory": "1.5-beta-2",
 		"ZKWeb.ORM.MongoDB": "1.5-beta-2",
-		"ZKWeb.System.Drawing": "2.0.0",
+		"ZKWeb.System.Drawing": "2.0.1",
 		"ZKWebStandard": "1.5-beta-2"
 	},
 	"frameworks": {

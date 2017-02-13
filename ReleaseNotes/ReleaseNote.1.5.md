@@ -9,3 +9,6 @@
 - IoC container now choose constructor that have most parameters instead of choose first constructor
 - Bug fixes
 	- Fix override ioc dispose error
+- Upgrade packages
+	- ZKWeb.Fork.FastReflection 2.1.1
+	- ZKWeb.System.Drawing 2.0.1
