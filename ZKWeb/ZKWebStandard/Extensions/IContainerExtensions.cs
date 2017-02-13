@@ -62,7 +62,10 @@ namespace ZKWebStandard.Extensions {
 			var typeFactor = TypeFactorysCache.GetOrAdd(type, t => {
 				// Support constructor dependency injection
 				var argumentExpressions = new List<Expression>();
-				var constructor = t.GetConstructors().Where(c => c.IsPublic).FirstOrDefault();
+				var constructor = t.GetConstructors()
+					.Where(c => c.IsPublic)
+					.OrderByDescending(c => c.GetParameters().Length)
+					.FirstOrDefault();
 				if (constructor == null) {
 					throw new ArgumentException(
 						$"Type {type} should have atleast one public constructor");
