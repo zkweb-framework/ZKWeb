@@ -7,3 +7,5 @@
 - Add Arguments member into TemplateWidgetInfo
 - MemberInfo.GetAttributes support passing inherit option
 - IoC container now choose constructor that have most parameters instead of choose first constructor
+- Bug fixes
+	- Fix override ioc dispose error
