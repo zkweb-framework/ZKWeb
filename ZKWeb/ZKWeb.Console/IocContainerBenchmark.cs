@@ -38,7 +38,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				container.Resolve<BenchmarkClass>();
+				container.Resolve<BenchmarkInterface>();
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}
@@ -52,7 +52,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				container.Resolve<BenchmarkClass>();
+				container.Resolve<BenchmarkInterface>();
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}
@@ -66,7 +66,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				foreach (var instance in container.ResolveMany<BenchmarkClass>()) { }
+				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { }
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}
@@ -80,7 +80,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				foreach (var instance in container.ResolveMany<BenchmarkClass>()) { }
+				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { }
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}

@@ -13,10 +13,10 @@ namespace ZKWebStandard.Ioc {
 	/// Benchmark
 	/// - Register Transient: 1000000/2.3s (DryIoc: 6.1s)
 	/// - Register Singleton: 1000000/2.6s (DryIoc: 5.2s)
-	/// - Resolve Transient: 10000000/0.57s (DryIoc: 0.54s)
-	/// - Resolve Singleton: 10000000/0.54s (DryIoc: 0.43s)
-	/// - ResolveMany Transient: 10000000/1.44s (DryIoc: 14.7s)
-	/// - ResolveMany Singleton: 10000000/1.40s (DryIoc: 12.9s)
+	/// - Resolve Transient: 10000000/0.27s (DryIoc: 0.54s)
+	/// - Resolve Singleton: 10000000/0.27s (DryIoc: 0.43s)
+	/// - ResolveMany Transient: 10000000/0.84s (DryIoc: 14.7s)
+	/// - ResolveMany Singleton: 10000000/0.88s (DryIoc: 12.9s)
 	/// </summary>
 	public class Container : IContainer {
 		/// <summary>
@@ -31,7 +31,7 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Increase after each modification
 		/// </summary>
-		protected int Revision { get; set; }
+		internal protected int Revision;
 
 		/// <summary>
 		/// Initialize
@@ -100,7 +100,7 @@ namespace ZKWebStandard.Ioc {
 				var factories = Factories.GetOrCreate(key, () => new List<Func<object>>());
 				factories.Add(factory);
 			} finally {
-				Revision += 1;
+				Interlocked.Increment(ref Revision);
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -117,7 +117,7 @@ namespace ZKWebStandard.Ioc {
 					factories.Add(factory);
 				}
 			} finally {
-				Revision += 1;
+				Interlocked.Increment(ref Revision);
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -239,7 +239,7 @@ namespace ZKWebStandard.Ioc {
 			try {
 				Factories.Remove(key);
 			} finally {
-				Revision += 1;
+				Interlocked.Increment(ref Revision);
 				FactoriesLock.ExitWriteLock();
 			}
 		}
@@ -265,15 +265,9 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Get factories in faster way
-		/// Only applies when service key is null
+		/// Update factories cache for service type and return newest data
 		/// </summary>
-		protected IList<Func<object>> FastGetFactories<TService>() {
-			if (ContainerFactoriesCache<TService>.Container == this &&
-				ContainerFactoriesCache<TService>.Revision == Revision &&
-				ContainerFactoriesCache<TService>.Factories != null) {
-				return ContainerFactoriesCache<TService>.Factories;
-			}
+		internal ContainerFactoriesCacheData UpdateFactoriesCache<TService>() {
 			var key = Pair.Create(typeof(TService), (object)null);
 			var factoriesCopy = new List<Func<object>>();
 			FactoriesLock.EnterReadLock();
@@ -283,13 +277,12 @@ namespace ZKWebStandard.Ioc {
 					factoriesCopy.Capacity = factories.Count;
 					factoriesCopy.AddRange(factories);
 				}
-				ContainerFactoriesCache<TService>.Container = this;
-				ContainerFactoriesCache<TService>.Revision = Revision;
-				ContainerFactoriesCache<TService>.Factories = factoriesCopy;
+				var data = new ContainerFactoriesCacheData(this, factoriesCopy);
+				ContainerFactoriesCache<TService>.Data = data;
+				return data;
 			} finally {
 				FactoriesLock.ExitReadLock();
 			}
-			return factoriesCopy;
 		}
 
 		/// <summary>
@@ -338,9 +331,12 @@ namespace ZKWebStandard.Ioc {
 		public TService Resolve<TService>(IfUnresolved ifUnresolved, object serviceKey) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
 				// Use faster method
-				var factories = FastGetFactories<TService>();
-				if (factories.Count == 1) {
-					return (TService)factories[0]();
+				var data = ContainerFactoriesCache<TService>.Data;
+				if (data == null || !data.IsMatched(this)) {
+					data = UpdateFactoriesCache<TService>();
+				}
+				if (data.SingleFactory != null) {
+					return (TService)data.SingleFactory();
 				}
 			}
 			// Use default method
@@ -378,7 +374,11 @@ namespace ZKWebStandard.Ioc {
 		public IEnumerable<TService> ResolveMany<TService>(object serviceKey) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
 				// Use faster method
-				foreach (var factory in FastGetFactories<TService>()) {
+				var data = ContainerFactoriesCache<TService>.Data;
+				if (data == null || !data.IsMatched(this)) {
+					data = UpdateFactoriesCache<TService>();
+				}
+				foreach (var factory in data.Factories) {
 					yield return (TService)factory();
 				}
 			} else {
