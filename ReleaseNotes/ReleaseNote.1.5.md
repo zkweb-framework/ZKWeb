@@ -10,5 +10,6 @@
 - Bug fixes
 	- Fix override ioc dispose error
 - Upgrade packages
+	- ZKWeb.Fork.DotLiquid 2.1.1
 	- ZKWeb.Fork.FastReflection 2.1.1
 	- ZKWeb.System.Drawing 2.0.1
