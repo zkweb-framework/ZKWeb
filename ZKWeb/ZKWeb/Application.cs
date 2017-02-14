@@ -31,7 +31,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public static string FullVersion { get { return "1.5 beta 2"; } }
+		public static string FullVersion { get { return "1.5 final"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>

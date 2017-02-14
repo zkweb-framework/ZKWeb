@@ -1,10 +1,10 @@
 {
-	"version": "1.5-beta-2",
+	"version": "1.5-final",
 	"dependencies": {
 		"MongoDB.Driver": "2.3.0",
 		"NETStandard.Library": "1.6.1",
-		"ZKWeb": "1.5-beta-2",
-		"ZKWebStandard": "1.5-beta-2"
+		"ZKWeb": "1.5-final",
+		"ZKWebStandard": "1.5-final"
 	},
 	"frameworks": {
 		"net461": {},
