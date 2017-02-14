@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using ZKWeb.Server;
+using System.Reflection;
 using ZKWeb.Storage;
 
 namespace ZKWeb.Plugin {
@@ -38,6 +38,12 @@ namespace ZKWeb.Plugin {
 		/// Extra information
 		/// </summary>
 		public IDictionary<string, object> Extra { get; set; }
+		/// <summary>
+		/// Plugin assembly
+		/// Maybe null if plugin not contains dll or didn't loaded
+		/// </summary>
+		[JsonIgnore]
+		public Assembly Assembly { get; set; }
 
 		/// <summary>
 		/// Get plugin information from directory

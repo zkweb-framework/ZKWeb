@@ -67,7 +67,9 @@ namespace ZKWeb.Plugin {
 				// Load compiled assembly, some plugin may not have an assembly
 				var assemblyPath = plugin.AssemblyPath();
 				if (File.Exists(assemblyPath)) {
-					pluginManager.PluginAssemblies.Add(assemblyLoader.LoadFile(assemblyPath));
+					var assembly = assemblyLoader.LoadFile(assemblyPath);
+					plugin.Assembly = assembly;
+					pluginManager.PluginAssemblies.Add(assembly);
 				}
 			}
 			// Register types in assembly to IoC container
