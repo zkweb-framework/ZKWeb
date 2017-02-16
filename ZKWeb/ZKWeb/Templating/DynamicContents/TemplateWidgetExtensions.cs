@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace ZKWeb.Templating.DynamicContents {
+﻿namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
 	/// Template widget extension methods
 	/// </summary>
@@ -12,8 +10,9 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <returns></returns>
 		public static string GetCacheKey(this TemplateWidget widget) {
 			var cacheKey = widget.Path;
-			if (widget.Args != null) {
-				cacheKey += JsonConvert.SerializeObject(widget.Args);
+			var argsJson = widget.ArgsJson;
+			if (argsJson != null) {
+				cacheKey += argsJson;
 			}
 			return cacheKey;
 		}

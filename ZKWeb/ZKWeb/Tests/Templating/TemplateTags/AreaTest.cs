@@ -24,8 +24,8 @@ namespace ZKWeb.Tests.Templating.TemplateTags {
 				var result = Template.Parse("{% area __test_area %}").Render();
 				Assert.Equals(result,
 					"<div class='template_area' area_id='__test_area'>" +
-					"<div class='template_widget' data-widget=''>widget test_a</div>" +
-					"<div class='template_widget' data-widget=''>widget test_b 1</div>" +
+					"<div class='template_widget' data-widget='__test_a'>widget test_a</div>" +
+					"<div class='template_widget' data-widget='__test_b{\"a\":1}'>widget test_b 1</div>" +
 					"</div>");
 
 				result = Template.Parse("{% area __test_empty_area %}").Render();

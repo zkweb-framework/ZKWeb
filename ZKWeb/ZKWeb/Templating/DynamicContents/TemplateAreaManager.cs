@@ -149,7 +149,7 @@ namespace ZKWeb.Templating.DynamicContents {
 			// Get from cache
 			var info = GetWidgetInfo(widget.Path);
 			IKeyValueCache<string, string> renderCache = null;
-			string key = null;
+			string key = widget.GetCacheKey();
 			string renderResult = null;
 			if (info.CacheTime > 0) {
 				renderCache = WidgetRenderCache.GetOrAdd(info.CacheBy ?? "", _ => {
@@ -158,7 +158,6 @@ namespace ZKWeb.Templating.DynamicContents {
 					return cacheFactory.CreateCache<string, string>(
 						CacheFactoryOptions.Default.WithIsolationPolicies(policyNames));
 				});
-				key = widget.GetCacheKey();
 				renderResult = renderCache.GetOrDefault(key);
 				if (renderResult != null) {
 					return renderResult;
