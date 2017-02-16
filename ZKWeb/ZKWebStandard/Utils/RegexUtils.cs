@@ -12,7 +12,7 @@ namespace ZKWebStandard.Utils {
 			/// <summary>
 			/// Email
 			/// </summary>
-			public const string Email = @"^[\w-]+@[\w-]+\.[\w-]+$";
+			public const string Email = @"^[\w-]+@[\w-]+(\.[\w-]+)+$";
 			/// <summary>
 			/// China mobile
 			/// </summary>
