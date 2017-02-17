@@ -8,7 +8,7 @@
 		"Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
 		"NETStandard.Library": "1.6.1",
 		"Npgsql.EntityFrameworkCore.PostgreSQL": "1.1.0",
-		"Pomelo.EntityFrameworkCore.MySql": "1.0.1",
+		"Pomelo.EntityFrameworkCore.MySql": "1.1.0",
 		"ZKWeb": "1.5.1-final",
 		"ZKWebStandard": "1.5.1-final"
 	},
