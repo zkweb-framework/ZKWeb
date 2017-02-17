@@ -41,8 +41,8 @@ namespace ZKWeb.ORM.EFCore {
 			var typeBuilder = builder.Entity<EFCoreMigrationHistory>()
 				.ToTable("__ZKWeb_EFMigrationHistory");
 			typeBuilder.HasKey(h => h.Revision);
-			typeBuilder.Property(h => h.Model).HasMaxLength(int.MaxValue).IsRequired();
-			typeBuilder.Property(h => h.ProductVersion).HasMaxLength(int.MaxValue).IsRequired();
+			typeBuilder.Property(h => h.Model).IsRequired();
+			typeBuilder.Property(h => h.ProductVersion).IsRequired();
 		}
 	}
 }
