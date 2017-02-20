@@ -8,6 +8,8 @@ using ZKWeb.Server;
 using ZKWeb.Templating.TemplateTags;
 using ZKWeb.Templating.TemplateFilters;
 using ZKWebStandard.Collection;
+using ZKWeb.Templating.DynamicContents;
+using ZKWebStandard.Collections;
 
 namespace ZKWeb.Templating {
 	/// <summary>
@@ -65,6 +67,8 @@ namespace ZKWeb.Templating {
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtils.HtmlEncode(s));
 			// Register safe type
 			Template.RegisterSafeType(typeof(HtmlString), s => s);
+			Template.RegisterSafeType(typeof(TemplateWidgetInfo), t => t);
+			Template.RegisterSafeType(typeof(Pair<,>), new[] { "First", "Second" });
 			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
 			// Call the static constructor here to add default tags and filters
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
