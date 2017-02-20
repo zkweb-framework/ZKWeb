@@ -8,7 +8,6 @@ using ZKWeb.Server;
 using ZKWeb.Templating.TemplateTags;
 using ZKWeb.Templating.TemplateFilters;
 using ZKWebStandard.Collection;
-using ZKWeb.Templating.DynamicContents;
 using ZKWebStandard.Collections;
 
 namespace ZKWeb.Templating {
@@ -17,6 +16,11 @@ namespace ZKWeb.Templating {
 	/// See: http://dotliquidmarkup.org/
 	/// </summary>
 	public class TemplateManager {
+		/// <summary>
+		/// Internal cache size use to improve regex performance
+		/// </summary>
+		public const int RegexCacheSize = 0xffff;
+
 		/// <summary>
 		/// Render template to stream
 		/// </summary>
@@ -67,18 +71,18 @@ namespace ZKWeb.Templating {
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtils.HtmlEncode(s));
 			// Register safe type
 			Template.RegisterSafeType(typeof(HtmlString), s => s);
-			Template.RegisterSafeType(typeof(TemplateWidgetInfo), t => t);
 			Template.RegisterSafeType(typeof(Pair<,>), new[] { "First", "Second" });
 			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
 			// Call the static constructor here to add default tags and filters
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			// Use bigger regex cache size
-			Regex.CacheSize = 0xffff;
+			Regex.CacheSize = RegexCacheSize;
 			// Set if display full exception is allowed
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
-			Context.DisplayFullException = (configManager.WebsiteConfig
-				.Extra.GetOrDefault<bool?>(ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true);
+			var extra = configManager.WebsiteConfig.Extra;
+			Context.DisplayFullException = extra.GetOrDefault<bool?>(
+				ExtraConfigKeys.DisplayFullExceptionForTemplate) ?? true;
 			// Register custom tags
 			Template.RegisterTag<Area>("area");
 			Template.RegisterTag<Fetch>("fetch");

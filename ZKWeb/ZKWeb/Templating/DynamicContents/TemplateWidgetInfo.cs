@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DotLiquid;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Storage;
@@ -8,7 +9,7 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template widget information
 	/// Desirialize from {WidgetPath}.widget
 	/// </summary>
-	public class TemplateWidgetInfo {
+	public class TemplateWidgetInfo : ILiquidizable {
 		/// <summary>
 		/// Widget information file extension
 		/// </summary>
@@ -25,6 +26,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// Widget name
 		/// </summary>
 		public string Name { get; set; }
+		/// <summary>
+		/// Widget description
+		/// </summary>
+		public string Description { get; set; }
 		/// <summary>
 		/// Cache time, in seconds
 		/// </summary>
@@ -45,6 +50,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// ]
 		/// </example>
 		public IList<IDictionary<string, object>> Arguments { get; set; }
+		/// <summary>
+		/// Extra data
+		/// </summary>
+		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
 		/// Read template widget information from path
@@ -62,7 +71,16 @@ namespace ZKWeb.Templating.DynamicContents {
 			widgetInfo.WidgetPath = path;
 			widgetInfo.Name = widgetInfo.Name ?? Path.GetFileNameWithoutExtension(path);
 			widgetInfo.Arguments = widgetInfo.Arguments ?? new List<IDictionary<string, object>>();
+			widgetInfo.Extra = widgetInfo.Extra ?? new Dictionary<string, object>();
 			return widgetInfo;
+		}
+
+		/// <summary>
+		/// Support render to template
+		/// </summary>
+		/// <returns></returns>
+		public object ToLiquid() {
+			return new { WidgetPath, Name, Description, CacheTime, CacheBy, Arguments, Extra };
 		}
 	}
 }
