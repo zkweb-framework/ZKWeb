@@ -6,6 +6,9 @@
 		- Provide framework option
 		- Provide linux project creator and website publisher
 		- Support build and publish all in command line
+	- Try switch dapper extension to Dommel
+	- Try let Common.Base support more ORM
+	- Fix dapper guid primary key error (Id type in database is varchar)
 
 Undefined
 - Run all tests on macos
