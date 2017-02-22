@@ -11,6 +11,7 @@
 	- Fix dapper guid primary key error (Id type in database is varchar)
 	- Check "SupportedORM" in plugin collection json
 		- Update documents
+	- Fix Dapper + Mysql unicode support
 
 Undefined
 - Run all tests on macos
