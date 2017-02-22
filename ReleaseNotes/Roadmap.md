@@ -9,6 +9,8 @@
 	- Try switch dapper extension to Dommel
 	- Try let Common.Base support more ORM
 	- Fix dapper guid primary key error (Id type in database is varchar)
+	- Check "SupportedORM" in plugin collection json
+		- Update documents
 
 Undefined
 - Run all tests on macos
