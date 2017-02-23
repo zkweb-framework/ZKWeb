@@ -76,14 +76,14 @@ namespace ZKWebStandard.Extensions {
 					if (parameterTypeInfo.IsGenericType &&
 						parameterTypeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
 						argumentExpressions.Add(Expression.Call(
-							Expression.Constant(container), "ResolveMany",
+							Expression.Constant(container), nameof(IContainer.ResolveMany),
 							parameterTypeInfo.GetGenericArguments(),
 							Expression.Constant(null)));
 					} else {
 						argumentExpressions.Add(Expression.Call(
-							Expression.Constant(container), "Resolve",
+							Expression.Constant(container), nameof(IContainer.Resolve),
 							new[] { parameterType },
-							Expression.Constant(IfUnresolved.Throw),
+							Expression.Constant(IfUnresolved.ReturnDefault),
 							Expression.Constant(null)));
 					}
 				}

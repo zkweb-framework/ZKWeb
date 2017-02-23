@@ -235,6 +235,7 @@ namespace ZKWebStandard.Tests.IocContainer {
 				Assert.IsTrue(instance.ClassServices.Any(s => s is TransientImplementation));
 				Assert.IsTrue(instance.ClassServices.Any(s => s is SingletonImplementation));
 				Assert.Equals(instance.InterfaceService.GetType(), typeof(TransientImplementation));
+				Assert.Equals(instance.TestResolveFailed, false);
 			}
 		}
 
@@ -269,12 +270,15 @@ namespace ZKWebStandard.Tests.IocContainer {
 		public class TestResolveFromConstructor {
 			public IEnumerable<ClassService> ClassServices { get; set; }
 			public InterfaceService InterfaceService { get; set; }
+			public bool? TestResolveFailed { get; set; }
 
 			public TestResolveFromConstructor(
 				IEnumerable<ClassService> classServices,
-				InterfaceService interfaceService) {
+				InterfaceService interfaceService,
+				bool testResolveFailed) {
 				ClassServices = classServices;
 				InterfaceService = interfaceService;
+				TestResolveFailed = testResolveFailed;
 			}
 		}
 	}
