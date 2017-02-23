@@ -11,7 +11,7 @@ namespace ZKWeb.Tests.Web.ActionResults {
 			var contextMock = new HttpContextMock();
 			result.WriteResponse(contextMock.response);
 			Assert.Equals(contextMock.response.StatusCode, 200);
-			Assert.Equals(contextMock.response.ContentType, "text/plain");
+			Assert.Equals(contextMock.response.ContentType, result.ContentType);
 			Assert.Equals(contextMock.response.GetContentsFromBody(), "test contents");
 		}
 	}

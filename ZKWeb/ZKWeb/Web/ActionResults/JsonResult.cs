@@ -15,6 +15,11 @@ namespace ZKWeb.Web.ActionResults {
 		/// Serialize formatting
 		/// </summary>
 		public Formatting SerializeFormatting { get; set; }
+		/// <summary>
+		/// Content Type
+		/// Default is "application/json; charset=utf-8"
+		/// </summary>
+		public string ContentType { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -24,6 +29,7 @@ namespace ZKWeb.Web.ActionResults {
 		public JsonResult(object obj, Formatting formatting = Formatting.None) {
 			Object = obj;
 			SerializeFormatting = formatting;
+			ContentType = "application/json; charset=utf-8";
 		}
 
 		/// <summary>
@@ -33,7 +39,7 @@ namespace ZKWeb.Web.ActionResults {
 		public void WriteResponse(IHttpResponse response) {
 			// Set status and mime
 			response.StatusCode = 200;
-			response.ContentType = "application/json";
+			response.ContentType = ContentType;
 			// Write json to http response
 			response.Write(JsonConvert.SerializeObject(Object, SerializeFormatting));
 		}

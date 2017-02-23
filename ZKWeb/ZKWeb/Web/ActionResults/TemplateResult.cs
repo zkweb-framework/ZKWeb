@@ -17,6 +17,11 @@ namespace ZKWeb.Web.ActionResults {
 		/// Can be anonymous object or IDictionary[string, object]
 		/// </summary>
 		public object TemplateArgument { get; set; }
+		/// <summary>
+		/// Content Type
+		/// Default is "text/html; charset=utf-8"
+		/// </summary>
+		public string ContentType { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -26,6 +31,7 @@ namespace ZKWeb.Web.ActionResults {
 		public TemplateResult(string path, object argument = null) {
 			TemplatePath = path;
 			TemplateArgument = argument;
+			ContentType = "text/html; charset=utf-8";
 		}
 
 		/// <summary>
@@ -35,7 +41,7 @@ namespace ZKWeb.Web.ActionResults {
 		public void WriteResponse(IHttpResponse response) {
 			// Set status and mime
 			response.StatusCode = 200;
-			response.ContentType = "text/html";
+			response.ContentType = ContentType;
 			// Render template to http response
 			var templateManager = Application.Ioc.Resolve<TemplateManager>();
 			templateManager.RenderTemplate(TemplatePath, TemplateArgument, response.Body);

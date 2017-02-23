@@ -22,6 +22,11 @@ namespace ZKWeb.Web.ActionResults {
 		/// Range request in bytes
 		/// </summary>
 		public Pair<long?, long?> BytesRange { get; set; }
+		/// <summary>
+		/// Content Type
+		/// Default determine from filename extension
+		/// </summary>
+		public string ContentType { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -57,6 +62,7 @@ namespace ZKWeb.Web.ActionResults {
 			FileEntry = fileEntry;
 			IfModifiedSince = ifModifiedSince;
 			BytesRange = bytesRange;
+			ContentType = null;
 		}
 
 		/// <summary>
@@ -70,7 +76,8 @@ namespace ZKWeb.Web.ActionResults {
 			response.SetLastModified(lastModified);
 			// If file not modified, return 304
 			// Otherwise write file to http response
-			var contentType = MimeUtils.GetMimeType(FileEntry.Filename);
+			var contentType = ContentType ??
+				MimeUtils.GetMimeType(FileEntry.Filename);
 			if (IfModifiedSince != null && IfModifiedSince == lastModified) {
 				response.StatusCode = 304;
 				response.ContentType = contentType;

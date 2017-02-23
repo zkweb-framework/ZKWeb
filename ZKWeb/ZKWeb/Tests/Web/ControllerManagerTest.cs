@@ -30,7 +30,7 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_a", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "text/plain");
+					Assert.Equals(response.ContentType, "text/plain; charset=utf-8");
 					Assert.Equals(response.GetContentsFromBody(), "test action a");
 				}
 			});
@@ -42,7 +42,7 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_b", HttpMethods.POST)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					Assert.Equals(
 						response.GetContentsFromBody(),
 						JsonConvert.SerializeObject(new { a = 1 }));
@@ -57,7 +57,7 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_c?name=john&age=50", HttpMethods.GET)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					var json = response.GetContentsFromBody();
 					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
@@ -71,7 +71,7 @@ namespace ZKWeb.Tests.Web {
 					request.body = new MemoryStream(Encoding.UTF8.GetBytes("{ name: 'john', age: 50 }"));
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					var json = response.GetContentsFromBody();
 					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
@@ -87,7 +87,7 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_d?name=john&age=50", HttpMethods.POST)) {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					var json = response.GetContentsFromBody();
 					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
@@ -103,11 +103,11 @@ namespace ZKWeb.Tests.Web {
 				using (HttpManager.OverrideContext("__test_action_e", HttpMethods.POST)) {
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
-					request.contentType = "application/json";
+					request.contentType = "application/json; charset=utf-8";
 					request.body = new MemoryStream(Encoding.UTF8.GetBytes(
 						JsonConvert.SerializeObject(new { name = "john", age = 50 })));
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					var json = response.GetContentsFromBody();
 					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
@@ -126,7 +126,7 @@ namespace ZKWeb.Tests.Web {
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					request.postedFiles["file"] = file;
 					controllerManager.OnRequest();
-					Assert.Equals(response.ContentType, "application/json");
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
 					var json = response.GetContentsFromBody();
 					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 					Assert.Equals(obj.GetOrDefault<string>("filename"), "abc.txt");

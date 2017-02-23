@@ -15,7 +15,7 @@ namespace ZKWeb.Tests.Web.ActionResults {
 				var exceptedResult = JsonConvert.SerializeObject(new { a = 1 }, format);
 				result.WriteResponse(contextMock.response);
 				Assert.Equals(contextMock.response.StatusCode, 200);
-				Assert.Equals(contextMock.response.ContentType, "application/json");
+				Assert.Equals(contextMock.response.ContentType, result.ContentType);
 				Assert.Equals(contextMock.response.GetContentsFromBody(), exceptedResult);
 			}
 		}
