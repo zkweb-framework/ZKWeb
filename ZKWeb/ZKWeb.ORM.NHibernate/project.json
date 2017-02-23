@@ -2,12 +2,12 @@
 	"version": "1.5.2-final",
 	"dependencies": {
 		"FluentNHibernate": "2.0.3",
-		"ZKWeb.Repack.SQLite": "1.0.103.1",
 		"MySql.Data": "6.9.9",
 		"NETStandard.Library": "1.6.1",
 		"NHibernate": "4.0.4.4000",
 		"Npgsql": "3.1.9",
 		"ZKWeb": "1.5.2-final",
+		"ZKWeb.Repack.SQLite": "1.0.104",
 		"ZKWebStandard": "1.5.2-final"
 	},
 	"frameworks": {
