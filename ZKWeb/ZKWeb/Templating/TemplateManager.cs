@@ -22,6 +22,22 @@ namespace ZKWeb.Templating {
 		public const int RegexCacheSize = 0xffff;
 
 		/// <summary>
+		/// Create hash from object
+		/// Please use this method to replace Hash.FromDictionary, Hash.FromAnonymousObject
+		/// </summary>
+		/// <param name="obj">Object</param>
+		/// <returns></returns>
+		public virtual Hash CreateHash(object obj) {
+			if (obj == null) {
+				return new Hash();
+			} else if (obj is IDictionary<string, object>) {
+				return Hash.FromDictionary((IDictionary<string, object>)obj);
+			} else {
+				return Hash.FromAnonymousObject(obj);
+			}
+		}
+
+		/// <summary>
 		/// Render template to stream
 		/// </summary>
 		/// <param name="path">Template path</param>
@@ -30,11 +46,7 @@ namespace ZKWeb.Templating {
 		public virtual void RenderTemplate(string path, object arguments, Stream stream) {
 			// Build template parameters
 			var parameters = new RenderParameters();
-			if (arguments is IDictionary<string, object>) {
-				parameters.LocalVariables = Hash.FromDictionary((IDictionary<string, object>)arguments);
-			} else {
-				parameters.LocalVariables = Hash.FromAnonymousObject(arguments);
-			}
+			parameters.LocalVariables = CreateHash(arguments);
 			// Find template, display error if not found
 			var template = Template.FileSystem.ReadTemplateFile(null, path) as Template;
 			if (template == null) {

@@ -5,6 +5,7 @@ using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
 using ZKWebStandard.Ioc;
+using ZKWeb.Templating;
 
 namespace ZKWeb.Tests.Templating.TemplateTags {
 	[Tests]
@@ -22,10 +23,11 @@ namespace ZKWeb.Tests.Templating.TemplateTags {
 					return new JsonResult(new { id, name, age });
 				});
 				using (HttpManager.OverrideContext("/test?age=108", "GET")) {
+					var templateManager = Application.Ioc.Resolve<TemplateManager>();
 					var result = Template.Parse(
 						"{% fetch /__test_path?id=123&name={name}&age={age} > info %}" +
 						"{{ info.id }} {{ info.name }} {{ info.age }}")
-						.Render(Hash.FromAnonymousObject(new { name = "test name" }));
+						.Render(templateManager.CreateHash(new { name = "test name" }));
 					Assert.Equals(result, "123 test name 108");
 				}
 			}

@@ -59,9 +59,8 @@ namespace ZKWeb.Templating.TemplateTags {
 			// Render div begin tag
 			result.Write($"<div class='template_area' area_id='{AreaId}'>");
 			// Render child widgets
-			var scope = Hash.FromDictionary(new Dictionary<string, object>() {
-				{ CurrentAreaIdKey, AreaId }
-			});
+			var scope = new Hash();
+			scope.Add(CurrentAreaIdKey, AreaId);
 			context.Stack(scope, () => {
 				foreach (var widget in widgets) {
 					result.Write(areaManager.RenderWidget(context, widget));

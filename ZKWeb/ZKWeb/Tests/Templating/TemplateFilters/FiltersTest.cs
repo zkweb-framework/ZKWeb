@@ -1,6 +1,7 @@
 ﻿using DotLiquid;
 using NSubstitute;
 using ZKWeb.Localize;
+using ZKWeb.Templating;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;
 
@@ -25,16 +26,18 @@ namespace ZKWeb.Tests.Templating.TemplateFilters {
 		}
 
 		public void Format() {
+			var templateManager = Application.Ioc.Resolve<TemplateManager>();
 			Assert.Equals(Template.Parse(
 				"{{ 'name is [0], age is [1]' | format: name, age }}")
-					.Render(Hash.FromAnonymousObject(new { name = "John", age = 50 })),
+					.Render(templateManager.CreateHash(new { name = "John", age = 50 })),
 				"name is John, age is 50");
 		}
 
 		public void RawHtml() {
+			var templateManager = Application.Ioc.Resolve<TemplateManager>();
 			Assert.Equals(
 				Template.Parse("{{ html | raw_html }}{{ html }}").Render(
-					Hash.FromAnonymousObject(new { html = "<a>'\"test</a>" })),
+					templateManager.CreateHash(new { html = "<a>'\"test</a>" })),
 				"<a>'\"test</a>&lt;a&gt;&#39;&quot;test&lt;/a&gt;");
 		}
 	}

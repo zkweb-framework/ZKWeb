@@ -164,9 +164,10 @@ namespace ZKWeb.Templating.DynamicContents {
 				}
 			}
 			// Render widget
+			var templateManager = Application.Ioc.Resolve<TemplateManager>();
 			var writer = new StringWriter();
 			writer.Write($"<div class='template_widget' data-widget='{key}'>");
-			var scope = Hash.FromAnonymousObject(widget.Args);
+			var scope = templateManager.CreateHash(widget.Args);
 			context.Stack(scope, () => {
 				var includeTag = new Include();
 				var htmlPath = widget.Path + TemplateWidgetInfo.HtmlExtension;

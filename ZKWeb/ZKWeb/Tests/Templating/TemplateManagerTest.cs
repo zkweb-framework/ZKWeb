@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using ZKWeb.Templating;
 using ZKWeb.Tests.Storage;
 using ZKWebStandard.Ioc;
@@ -7,6 +8,17 @@ using ZKWebStandard.Testing;
 namespace ZKWeb.Tests.Templating {
 	[Tests]
 	class TemplateManagerTest {
+		public void NewHash() {
+			var templateManager = Application.Ioc.Resolve<TemplateManager>();
+			var hashFromNull = templateManager.CreateHash(null);
+			Assert.Equals(hashFromNull.Count, 0);
+			var hashFromDictionary = templateManager.CreateHash(
+				new Dictionary<string, object>() { { "key", "value" } });
+			Assert.Equals(hashFromDictionary["key"], "value");
+			var hashFromObject = templateManager.CreateHash(new { key = "value" });
+			Assert.Equals(hashFromObject["key"], "value");
+		}
+
 		public void RenderTemplate() {
 			using (var layout = new TestDirectoryLayout()) {
 				Application.Ioc.Unregister<TemplateManager>();
