@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
+using ZKWeb.ORM.Dapper.TypeHandlers;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.Dapper {
@@ -45,6 +47,9 @@ namespace ZKWeb.ORM.Dapper {
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
 			EntityMappingOptions options) {
+			if (typeof(TPrimaryKey) == typeof(Guid)) {
+				TypeHandlerRegistrator.Register(typeof(Guid), new GuidTypeHandler());
+			}
 			idMember = ((MemberExpression)memberExpression.Body).Member;
 		}
 
@@ -54,6 +59,12 @@ namespace ZKWeb.ORM.Dapper {
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
 			EntityMappingOptions options) {
+			if (options.WithSerialization ?? false) {
+				TypeHandlerRegistrator.Register(
+					typeof(TMember),
+					(SqlMapper.ITypeHandler)Activator.CreateInstance(
+						typeof(JsonSerializedTypeHandler<>).MakeGenericType(typeof(TMember))));
+			}
 			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
 
