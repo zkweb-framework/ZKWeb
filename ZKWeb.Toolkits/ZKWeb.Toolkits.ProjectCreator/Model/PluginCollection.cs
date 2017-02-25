@@ -16,6 +16,10 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		/// Plugins append to plugin list
 		/// </summary>
 		public IList<string> AppendPlugins { get; set; }
+		/// <summary>
+		/// Supported ORM list
+		/// </summary>
+		public IList<string> SupportedORM { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -23,6 +27,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		public PluginCollection() {
 			PrependPlugins = new List<string>();
 			AppendPlugins = new List<string>();
+			SupportedORM = new List<string>();
 		}
 
 		/// <summary>

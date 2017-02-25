@@ -67,12 +67,6 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 			"Dapper", "EFCore", "MongoDB", "NHibernate"
 		};
 		/// <summary>
-		/// ORM that supports default plugins
-		/// </summary>
-		public readonly static string[] ORMThatSupportsDefaultPlugins = new[] {
-			"NHibernate"
-		};
-		/// <summary>
 		/// Available databases for specified ORM
 		/// </summary>
 		public readonly static IDictionary<string, string[]> AvailableDatabases =
@@ -106,11 +100,13 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 			} else if (string.IsNullOrEmpty(OutputDirectory)) {
 				throw new ArgumentException("Output directory can't be empty");
 			}
-			if (!string.IsNullOrEmpty(UseDefaultPlugins) &&
-				!ORMThatSupportsDefaultPlugins.Contains(ORM)) {
-				throw new ArgumentException(
-					"Selected ORM doesn't support default plugins, please use following ORM: " +
-					string.Join(", ", ORMThatSupportsDefaultPlugins));
+			if (!string.IsNullOrEmpty(UseDefaultPlugins)) {
+				var pluginCollection = PluginCollection.FromFile(UseDefaultPlugins);
+				if (pluginCollection.SupportedORM.Contains(ORM)) {
+					throw new ArgumentException(
+						"This plugin collection only support following ORM: " +
+						string.Join(", ", pluginCollection.SupportedORM));
+				}
 			}
 		}
 	}
