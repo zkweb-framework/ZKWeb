@@ -1,10 +1,12 @@
 ﻿using Dapper.FluentMap;
 using Dapper.FluentMap.Dommel;
+using Dommel;
 using System;
 using System.Collections.Concurrent;
 using System.FastReflection;
 using System.Linq;
 using ZKWeb.Database;
+using ZKWeb.ORM.Dapper.PropertyResolver;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.Dapper {
@@ -40,6 +42,7 @@ namespace ZKWeb.ORM.Dapper {
 					addMap.MakeGenericMethod(mapping.Key).FastInvoke(config, mapping.Value);
 				}
 				config.ForDommel();
+				DommelMapper.SetPropertyResolver(new ZKWebPropertyResolver());
 			});
 		}
 

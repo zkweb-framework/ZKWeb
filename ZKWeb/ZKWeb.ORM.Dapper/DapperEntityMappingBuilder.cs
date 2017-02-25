@@ -5,6 +5,7 @@ using System.FastReflection;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
+using ZKWeb.Logging;
 using ZKWeb.ORM.Dapper.TypeHandlers;
 using ZKWebStandard.Extensions;
 
@@ -92,7 +93,9 @@ namespace ZKWeb.ORM.Dapper {
 			Expression<Func<T, TOther>> memberExpression,
 			EntityMappingOptions options)
 			where TOther : class {
-			throw new NotSupportedException("References is not supported with dapper");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"References is unsupported with dapper, expression: {memberExpression}");
 		}
 
 		/// <summary>
@@ -102,7 +105,9 @@ namespace ZKWeb.ORM.Dapper {
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
 			EntityMappingOptions options)
 			where TChild : class {
-			throw new NotSupportedException("HasMany is not supported with dapper");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"HasMany is unsupported with dapper, expression: {memberExpression}");
 		}
 
 		/// <summary>
@@ -112,7 +117,9 @@ namespace ZKWeb.ORM.Dapper {
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
 			EntityMappingOptions options = null)
 			where TChild : class {
-			throw new NotSupportedException("HasManyToMany is not supported with dapper");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"HasManyToMany is unsupported with dapper, expression: {memberExpression}");
 		}
 
 		/// <summary>
@@ -130,7 +137,6 @@ namespace ZKWeb.ORM.Dapper {
 				var memberExpression = Expression.Lambda<Func<T, object>>(
 					Expression.Convert(Expression.Property(parameter, property), typeof(object)),
 					parameter);
-				Console.WriteLine($"ignore {memberExpression}");
 				base.Map(memberExpression).Ignore();
 			}
 		}

@@ -1,18 +1,17 @@
 ﻿using Dapper;
 using Newtonsoft.Json;
-using System.Data;
 
 namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// <summary>
 	/// Handle json serialized type
 	/// </summary>
 	/// <typeparam name="T">Json serialized type</typeparam>
-	internal class JsonSerializedTypeHandler<T> : SqlMapper.TypeHandler<T>
+	internal class JsonSerializedTypeHandler<T> : SqlMapper.StringTypeHandler<T>
 		where T : new() {
 		/// <summary>
 		/// Parse from json
 		/// </summary>
-		public override T Parse(object value) {
+		protected override T Parse(string value) {
 			var json = value?.ToString();
 			if (string.IsNullOrEmpty(json)) {
 				return new T();
@@ -23,8 +22,8 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 		/// <summary>
 		/// Serialize to json
 		/// </summary>
-		public override void SetValue(IDbDataParameter parameter, T value) {
-			parameter.Value = JsonConvert.SerializeObject(value);
+		protected override string Format(T value) {
+			return JsonConvert.SerializeObject(value);
 		}
 	}
 }
