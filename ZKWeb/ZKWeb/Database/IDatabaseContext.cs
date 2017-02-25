@@ -13,11 +13,15 @@ namespace ZKWeb.Database {
 		/// ORM name
 		/// </summary>
 		string ORM { get; }
-
 		/// <summary>
 		/// Database type
 		/// </summary>
 		string Database { get; }
+		/// <summary>
+		/// Underlying database connection
+		/// It may return any types of object or just return null
+		/// </summary>
+		object DbConnection { get; }
 
 		/// <summary>
 		/// Begin a transaction

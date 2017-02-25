@@ -21,7 +21,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// <summary>
 		/// Database object
 		/// </summary>
-		private IMongoDatabase Database { get; set; }
+		private IMongoDatabase MongoDatabase { get; set; }
 		/// <summary>
 		/// ORM name
 		/// </summary>
@@ -31,7 +31,11 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Database type
 		/// Same as ORM name
 		/// </summary>
-		string IDatabaseContext.Database { get { return ConstORM; } }
+		public string Database { get { return ConstORM; } }
+		/// <summary>
+		/// Underlying database connection
+		/// </summary>
+		public object DbConnection { get { return MongoDatabase; } }
 
 		/// <summary>
 		/// Initialize
@@ -42,7 +46,7 @@ namespace ZKWeb.ORM.MongoDB {
 			MongoUrl connectionUrl,
 			MongoDBEntityMappings mappings) {
 			Mappings = mappings;
-			Database = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
+			MongoDatabase = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
 		}
 
 		/// <summary>
@@ -66,7 +70,7 @@ namespace ZKWeb.ORM.MongoDB {
 		private IMongoCollection<T> GetCollection<T>()
 			where T : class {
 			var mapping = Mappings.GetMapping(typeof(T));
-			return Database.GetCollection<T>(mapping.CollectionName);
+			return MongoDatabase.GetCollection<T>(mapping.CollectionName);
 		}
 
 		/// <summary>
@@ -202,15 +206,15 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			if (query is Command<int>) {
-				return Database.RunCommand(
+				return MongoDatabase.RunCommand(
 					(Command<int>)query, parameters as ReadPreference);
 			} else if (query is Command<long>) {
-				return Database.RunCommand(
+				return MongoDatabase.RunCommand(
 					(Command<long>)query, parameters as ReadPreference);
 			} else if (query is Func<IMongoDatabase, int>) {
-				return ((Func<IMongoDatabase, int>)query).Invoke(Database);
+				return ((Func<IMongoDatabase, int>)query).Invoke(MongoDatabase);
 			} else if (query is Func<IMongoDatabase, long>) {
-				return ((Func<IMongoDatabase, long>)query).Invoke(Database);
+				return ((Func<IMongoDatabase, long>)query).Invoke(MongoDatabase);
 			}
 			throw new ArgumentException(
 				"Unsupported query type, you can use Command<int> or Func<IMongoDatabase, int>");
@@ -226,7 +230,7 @@ namespace ZKWeb.ORM.MongoDB {
 					(FilterDefinition<T>)query,
 					parameters as FindOptions).ToEnumerable();
 			} else if (query is Command<T>) {
-				return new[] { Database.RunCommand(
+				return new[] { MongoDatabase.RunCommand(
 					(Command<T>)query, parameters as ReadPreference)
 				};
 			} else if (query is BsonJavaScript[]) {

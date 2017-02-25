@@ -35,6 +35,10 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
+		/// <summary>
+		/// Underlying database connection
+		/// </summary>
+		public object DbConnection { get { return Session.Connection; } }
 
 		/// <summary>
 		/// Initialize

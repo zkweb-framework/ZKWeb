@@ -23,6 +23,10 @@ namespace ZKWeb.ORM.InMemory {
 		/// Database type
 		/// </summary>
 		public string Database { get { return null; } }
+		/// <summary>
+		/// Underlying database connection
+		/// </summary>
+		public object DbConnection { get { return null; } }
 
 		/// <summary>
 		/// Initialize

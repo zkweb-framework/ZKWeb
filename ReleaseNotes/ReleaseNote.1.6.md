@@ -9,6 +9,7 @@
 	- Support insert guid key into mysql database
 	- Support serialized type
 - Log error instead of throw exception for unsupported ORM mapping action
+- Support retrieve underlying database connection from IDatabaseContext
 - Add TemplateManager.CreateHash
 - Update packages
 	NHibernate 4.1.1.4000

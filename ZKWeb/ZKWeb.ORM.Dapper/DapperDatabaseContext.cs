@@ -45,6 +45,10 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
+		/// <summary>
+		/// Underlying database connection
+		/// </summary>
+		public object DbConnection { get { return Connection; } }
 
 		/// <summary>
 		/// Initialize

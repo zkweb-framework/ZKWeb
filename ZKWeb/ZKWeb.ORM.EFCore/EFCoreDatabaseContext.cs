@@ -32,6 +32,10 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		string IDatabaseContext.Database { get { return databaseType; } }
 		private string databaseType;
+		/// <summary>
+		/// Underlying database connection
+		/// </summary>
+		public object DbConnection { get { return Database.GetDbConnection(); } }
 
 		/// <summary>
 		/// Initialize
