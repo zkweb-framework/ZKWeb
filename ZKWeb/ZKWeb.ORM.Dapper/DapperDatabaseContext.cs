@@ -9,10 +9,10 @@ using System.Threading;
 using System.Linq;
 using Dapper;
 using System.Linq.Expressions;
-using Dapper.Contrib.Extensions;
 using System.FastReflection;
 using System.Collections.Generic;
 using ZKWeb.Storage;
+using Dommel;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
@@ -133,13 +133,12 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
-			return Connection.GetAll<T>(Transaction).AsQueryable();
+			return Connection.GetAll<T>().AsQueryable();
 		}
 
 		/// <summary>
 		/// Get single entity that matched the given predicate
 		/// It should return null if no matched entity found
-		/// Attention: It's slow except predicate like x => x.Id == id
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -152,10 +151,10 @@ namespace ZKWeb.ORM.Dapper {
 					Mappings.GetMapping(typeof(T)).IdMember.Name &&
 					binaryExpr.Right is ConstantExpression) {
 					var primaryKey = ((ConstantExpression)binaryExpr.Right).Value;
-					return Connection.Get<T>(primaryKey, Transaction);
+					return Connection.Get<T>(primaryKey);
 				}
 			}
-			return Query<T>().FirstOrDefault(predicate);
+			return Connection.Select(predicate).FirstOrDefault();
 		}
 
 		/// <summary>
@@ -273,12 +272,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
-			var entities = Query<T>().Where(predicate);
-			var count = 0L;
-			foreach (var entity in entities) {
-				Connection.Delete(entity, Transaction);
-				++count;
-			}
+			var count = Connection.Select(predicate).LongCount();
+			Connection.DeleteMultiple(predicate, Transaction);
 			return count;
 		}
 

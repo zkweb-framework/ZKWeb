@@ -2,7 +2,9 @@
 	"version": "1.6.0-experiment-1",
 	"dependencies": {
 		"Dapper": "1.50.2",
-		"Dapper.Contrib": "1.50.0",
+		"Dommel": "1.8.0",
+		"Dapper.FluentMap": "1.5.1",
+		"Dapper.FluentMap.Dommel": "1.4.3",
 		"Microsoft.Data.Sqlite": "1.1.0",
 		"NETStandard.Library": "1.6.1",
 		"Npgsql": "3.2.1",

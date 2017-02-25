@@ -6,7 +6,6 @@ using ZKWeb.Database;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using System;
-using System.IO;
 using System.Text;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate;

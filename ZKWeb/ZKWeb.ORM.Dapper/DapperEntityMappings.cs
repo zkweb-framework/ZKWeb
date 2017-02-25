@@ -1,9 +1,10 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper.FluentMap;
+using Dapper.FluentMap.Dommel;
 using System;
 using System.Collections.Concurrent;
+using System.FastReflection;
 using System.Linq;
 using ZKWeb.Database;
-using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.Dapper {
@@ -29,17 +30,17 @@ namespace ZKWeb.ORM.Dapper {
 			foreach (var group in groupedProviders) {
 				var builder = (IDapperEntityMapping)Activator.CreateInstance(
 					typeof(DapperEntityMappingBuilder<>).MakeGenericType(group.Key));
+				builder.IgnoreExtraMembers();
 				Mappings[group.Key] = builder;
 			}
-			// Set table name mapper
-			var previousMapper = SqlMapperExtensions.TableNameMapper;
-			SqlMapperExtensions.TableNameMapper = type => {
-				var mapping = Mappings.GetOrDefault(type);
-				if (mapping != null) {
-					return mapping.TableName;
+			// Setup dommel mappings
+			FluentMapper.Initialize(config => {
+				var addMap = config.GetType().FastGetMethod(nameof(config.AddMap));
+				foreach (var mapping in Mappings) {
+					addMap.MakeGenericMethod(mapping.Key).FastInvoke(config, mapping.Value);
 				}
-				return previousMapper?.Invoke(type);
-			};
+				config.ForDommel();
+			});
 		}
 
 		/// <summary>

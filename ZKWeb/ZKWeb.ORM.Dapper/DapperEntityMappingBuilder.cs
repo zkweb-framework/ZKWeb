@@ -1,6 +1,7 @@
-﻿using Dapper;
+﻿using Dapper.FluentMap.Dommel.Mapping;
 using System;
 using System.Collections.Generic;
+using System.FastReflection;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
@@ -13,11 +14,11 @@ namespace ZKWeb.ORM.Dapper {
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class DapperEntityMappingBuilder<T> :
-		IEntityMappingBuilder<T>, IDapperEntityMapping
+		DommelEntityMap<T>,
+		IEntityMappingBuilder<T>,
+		IDapperEntityMapping
 		where T : class, IEntity {
 		public Type EntityType { get { return typeof(T); } }
-		public string TableName { get { return tableName; } }
-		private string tableName;
 		public MemberInfo IdMember { get { return idMember; } }
 		private MemberInfo idMember;
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
@@ -28,7 +29,6 @@ namespace ZKWeb.ORM.Dapper {
 		/// Initialize
 		/// </summary>
 		public DapperEntityMappingBuilder() {
-			tableName = typeof(T).Name;
 			idMember = null;
 			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered providers
@@ -37,8 +37,10 @@ namespace ZKWeb.ORM.Dapper {
 				provider.Configure(this);
 			}
 			// Set table name with registered handlers
+			var tableName = typeof(T).Name;
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			handlers.ForEach(h => h.ConvertTableName(ref tableName));
+			base.ToTable(tableName);
 		}
 
 		/// <summary>
@@ -47,6 +49,17 @@ namespace ZKWeb.ORM.Dapper {
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
 			EntityMappingOptions options) {
+			options = options ?? new EntityMappingOptions();
+			var idMap = base.Map(Expression.Lambda<Func<T, object>>(
+				Expression.Convert(memberExpression.Body, typeof(object)),
+				memberExpression.Parameters));
+			idMap = idMap.IsKey();
+			if (!string.IsNullOrEmpty(options.Column)) {
+				idMap = idMap.ToColumn(options.Column);
+			}
+			if (options.WithSerialization == true) {
+				TypeHandlerRegistrator.RegisterJsonSerializedType(typeof(TPrimaryKey));
+			}
 			if (typeof(TPrimaryKey) == typeof(Guid)) {
 				TypeHandlerRegistrator.Register(typeof(Guid), new GuidTypeHandler());
 			}
@@ -59,11 +72,15 @@ namespace ZKWeb.ORM.Dapper {
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
 			EntityMappingOptions options) {
-			if (options.WithSerialization ?? false) {
-				TypeHandlerRegistrator.Register(
-					typeof(TMember),
-					(SqlMapper.ITypeHandler)Activator.CreateInstance(
-						typeof(JsonSerializedTypeHandler<>).MakeGenericType(typeof(TMember))));
+			options = options ?? new EntityMappingOptions();
+			var memberMap = base.Map(Expression.Lambda<Func<T, object>>(
+				Expression.Convert(memberExpression.Body, typeof(object)),
+				memberExpression.Parameters));
+			if (!string.IsNullOrEmpty(options.Column)) {
+				memberMap = memberMap.ToColumn(options.Column);
+			}
+			if (options?.WithSerialization ?? false) {
+				TypeHandlerRegistrator.RegisterJsonSerializedType(typeof(TMember));
 			}
 			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
 		}
@@ -96,6 +113,26 @@ namespace ZKWeb.ORM.Dapper {
 			EntityMappingOptions options = null)
 			where TChild : class {
 			throw new NotSupportedException("HasManyToMany is not supported with dapper");
+		}
+
+		/// <summary>
+		/// Ignore members that not mapped by this builder
+		/// </summary>
+		public void IgnoreExtraMembers() {
+			var existMembers = new HashSet<MemberInfo>();
+			existMembers.Add(idMember);
+			existMembers.AddRange(ordinaryMembers);
+			foreach (var property in typeof(T).FastGetProperties()) {
+				if (existMembers.Contains(property)) {
+					continue;
+				}
+				var parameter = Expression.Parameter(typeof(T));
+				var memberExpression = Expression.Lambda<Func<T, object>>(
+					Expression.Convert(Expression.Property(parameter, property), typeof(object)),
+					parameter);
+				Console.WriteLine($"ignore {memberExpression}");
+				base.Map(memberExpression).Ignore();
+			}
 		}
 	}
 }

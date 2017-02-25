@@ -23,5 +23,9 @@ namespace ZKWeb.ORM.Dapper {
 		/// Ordinary members, not releated to other entities
 		/// </summary>
 		IEnumerable<MemberInfo> OrdinaryMembers { get; }
+		/// <summary>
+		/// Ignore members that not mapped by this builder
+		/// </summary>
+		void IgnoreExtraMembers();
 	}
 }
