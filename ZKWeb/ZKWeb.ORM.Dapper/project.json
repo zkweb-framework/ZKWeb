@@ -1,14 +1,14 @@
 {
-	"version": "1.5.3-final",
+	"version": "1.6.0-experiment-1",
 	"dependencies": {
 		"Dapper": "1.50.2",
 		"Dapper.Contrib": "1.50.0",
 		"Microsoft.Data.Sqlite": "1.1.0",
 		"NETStandard.Library": "1.6.1",
-		"Npgsql": "3.1.9",
+		"Npgsql": "3.2.1",
 		"Pomelo.Data.MySql": "1.0.0",
-		"ZKWeb": "1.5.3-final",
-		"ZKWebStandard": "1.5.3-final"
+		"ZKWeb": "1.6.0-experiment-1",
+		"ZKWebStandard": "1.6.0-experiment-1"
 	},
 	"frameworks": {
 		"net461": {},

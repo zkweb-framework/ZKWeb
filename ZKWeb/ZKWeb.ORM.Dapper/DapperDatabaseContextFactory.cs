@@ -21,7 +21,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// Connection string
 		/// </summary>
 		public string ConnectionString { get; set; }
-
+ 
 		/// <summary>
 		/// Initialize
 		/// </summary>

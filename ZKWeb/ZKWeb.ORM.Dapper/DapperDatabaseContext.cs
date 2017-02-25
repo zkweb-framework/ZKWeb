@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using ZKWeb.Database;
-using ZKWeb.Server;
 using Pomelo.Data.MySql;
 using Npgsql;
 using System;
