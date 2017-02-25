@@ -80,7 +80,7 @@ namespace ZKWeb.ORM.Dapper {
 			if (!string.IsNullOrEmpty(options.Column)) {
 				memberMap = memberMap.ToColumn(options.Column);
 			}
-			if (options?.WithSerialization ?? false) {
+			if (options.WithSerialization ?? false) {
 				TypeHandlerRegistrator.RegisterJsonSerializedType(typeof(TMember));
 			}
 			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
