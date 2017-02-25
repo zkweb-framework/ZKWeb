@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
+using ZKWeb.Logging;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.MongoDB {
@@ -140,7 +141,9 @@ namespace ZKWeb.ORM.MongoDB {
 			Expression<Func<T, TOther>> memberExpression,
 			EntityMappingOptions options)
 			where TOther : class {
-			throw new NotSupportedException("References is not supported with MongoDB");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"References is unsupported with mongodb, expression: {memberExpression}");
 		}
 
 		/// <summary>
@@ -150,7 +153,9 @@ namespace ZKWeb.ORM.MongoDB {
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
 			EntityMappingOptions options)
 			where TChild : class {
-			throw new NotSupportedException("HasMany is not supported with MongoDB");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"HasMany is unsupported with mongodb, expression: {memberExpression}");
 		}
 
 		/// <summary>
@@ -160,7 +165,9 @@ namespace ZKWeb.ORM.MongoDB {
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
 			EntityMappingOptions options = null)
 			where TChild : class {
-			throw new NotSupportedException("HasManyToMany is not supported with MongoDB");
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError($"HasManyToMany is unsupported with mongodb, expression: {memberExpression}");
 		}
 	}
 }

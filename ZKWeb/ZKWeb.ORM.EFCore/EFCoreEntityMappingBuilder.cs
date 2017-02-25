@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
+using ZKWeb.Logging;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.EFCore {
@@ -99,9 +100,12 @@ namespace ZKWeb.ORM.EFCore {
 				propertyBuilder = propertyBuilder.HasColumnType(options.CustomSqlType);
 			}
 			if (options.WithSerialization == true) {
-				throw new NotSupportedException(
+				// log error only, some functions may not work
+				var logManager = Application.Ioc.Resolve<LogManager>();
+				logManager.LogError(
 					"Entity framework core not support custom type mapping yet, " +
-					"see https://github.com/aspnet/EntityFramework/issues/242");
+					"see https://github.com/aspnet/EntityFramework/issues/242 " +
+					$"expression: {memberExpression}");
 			}
 		}
 
@@ -176,9 +180,12 @@ namespace ZKWeb.ORM.EFCore {
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
 			EntityMappingOptions options)
 			where TChild : class {
-			throw new NotSupportedException(
+			// log error only, some functions may not work
+			var logManager = Application.Ioc.Resolve<LogManager>();
+			logManager.LogError(
 				"Entity framework core not support many-to-many yet, " +
-				"see https://github.com/aspnet/EntityFramework/issues/1368");
+				"see https://github.com/aspnet/EntityFramework/issues/1368 " +
+				$"expression: {memberExpression}");
 		}
 	}
 }
