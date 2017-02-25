@@ -69,7 +69,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 
 		private void btnBrowseDefaultPlugins_Click(object sender, EventArgs e) {
 			var dialog = new OpenFileDialog();
-			dialog.Filter = "|plugin.collection.json";
+			dialog.Filter = "|plugin.collection*.json";
 			if (dialog.ShowDialog() == DialogResult.OK) {
 				tbUseDefaultPlugins.Text = dialog.FileName;
 			}
