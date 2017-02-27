@@ -139,7 +139,7 @@ namespace ZKWeb.Templating.DynamicContents {
 
 		/// <summary>
 		/// Render widget
-		/// Return reder result
+		/// Return render result
 		/// </summary>
 		/// <param name="context">Template context</param>
 		/// <param name="widget">Template widget</param>
@@ -163,18 +163,8 @@ namespace ZKWeb.Templating.DynamicContents {
 				}
 			}
 			// Render widget
-			var templateManager = Application.Ioc.Resolve<TemplateManager>();
-			var writer = new StringWriter();
-			writer.Write($"<div class='template_widget' data-widget='{key}'>");
-			var scope = templateManager.CreateHash(widget.Args);
-			context.Stack(scope, () => {
-				var includeTag = new Include();
-				var htmlPath = widget.Path + TemplateWidgetInfo.HtmlExtension;
-				includeTag.Initialize("include", htmlPath, null);
-				includeTag.Render(context, writer);
-			});
-			writer.Write("</div>");
-			renderResult = writer.ToString();
+			var renderer = Application.Ioc.Resolve<ITemplateWidgetRenderer>();
+			renderResult = renderer.Render(context, widget);
 			// Store to cache
 			if (info.CacheTime > 0) {
 				renderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));

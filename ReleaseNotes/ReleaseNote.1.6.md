@@ -11,6 +11,7 @@
 - Log error instead of throw exception for unsupported ORM mapping action
 - Support retrieve underlying database connection from IDatabaseContext
 - Add TemplateManager.CreateHash
+- Split template widget render logic to ITemplateWidgetRenderer
 - Update packages
 	NHibernate 4.1.1.4000
 	Npgsql 3.2.1

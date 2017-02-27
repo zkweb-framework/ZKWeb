@@ -80,6 +80,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<LocalPathConfig>(ReuseType.Singleton);
 			Ioc.RegisterMany<LocalPathManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<TemplateWidgetRenderer>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TestManager>(ReuseType.Singleton);
