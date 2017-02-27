@@ -62,12 +62,14 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var binDir = Path.Combine(webRoot, "bin");
 			if (!File.Exists(Path.Combine(binDir, "ZKWeb.dll"))) {
 				isCore = true;
+				var configuration = Parameters.Configuration.ToLower();
+				var framework = Parameters.Framework.ToLower();
 				var dllPath = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
 					.Where(p => {
 						var relPath = p.Substring(webRoot.Length).ToLower();
-						// TODO: support publish other configuration and framework
-						return (relPath.Contains("release") &&
-							relPath.Contains("net461") && !relPath.Contains("publish"));
+						return (relPath.Contains(configuration) &&
+							relPath.Contains(framework) &&
+							!relPath.Contains("publish"));
 					}).FirstOrDefault();
 				if (dllPath == null) {
 					throw new DirectoryNotFoundException(
