@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
@@ -15,7 +17,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// It will open a scope let widget template use these variables
 		/// eg: if arguments is new { a = 123 }, then {{ a }} will perform 123
 		/// </summary>
-		public object Args { get; protected set; }
+		public IDictionary<string, object> Args { get; protected set; }
 		/// <summary>
 		/// Serialize result of Args
 		/// </summary>
@@ -41,7 +43,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// <param name="args">Widget arguments</param>
 		public TemplateWidget(string path, object args = null) {
 			Path = path;
-			Args = args;
+			Args = args.ConvertOrDefault<IDictionary<string, object>>();
 		}
 	}
 }

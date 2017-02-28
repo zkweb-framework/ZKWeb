@@ -12,6 +12,9 @@
 - Support retrieve underlying database connection from IDatabaseContext
 - Add TemplateManager.CreateHash
 - Split template widget render logic to ITemplateWidgetRenderer
+- Bug fixes
+	LocalFileEntry.OpenWrite should truncate exists file
+	TemplateWidget.Args should be IDictionary<string, object> for deserialize from json
 - Update packages
 	NHibernate 4.1.1.4000
 	Npgsql 3.2.1

@@ -71,7 +71,7 @@ namespace ZKWeb.Storage {
 				throw new NotSupportedException("This file is readonly");
 			}
 			PathUtils.EnsureParentDirectory(FullPath);
-			return new FileStream(FullPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+			return new FileStream(FullPath, FileMode.Create, FileAccess.Write, FileShare.None);
 		}
 
 		/// <summary>
