@@ -3,7 +3,7 @@
 ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
 The goal of this framework is to increase code reusability and decrease dependence on frameworks and tools such as Asp.Net and Visual Studio.
 
-Version: 1.5.3 final<br/>
+Version: 1.6 final<br/>
 Backward compatibility is provided as much as possible.
 
 ## Features

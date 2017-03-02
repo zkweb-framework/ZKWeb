@@ -1,5 +1,5 @@
 {
-	"version": "1.6.0-beta-3",
+	"version": "1.6.0-final",
 	"dependencies": {
 		"Microsoft.CodeAnalysis.CSharp": "2.0.0-rc4",
 		"NETStandard.Library": "1.6.1",
@@ -9,7 +9,7 @@
 		"ZKWeb.Fork.DotLiquid": "2.1.1",
 		"ZKWeb.Fork.FastReflection": "2.1.1",
 		"ZKWeb.System.Drawing": "2.0.1",
-		"ZKWebStandard": "1.6.0-beta-3"
+		"ZKWebStandard": "1.6.0-final"
 	},
 	"frameworks": {
 		"net461": {},
