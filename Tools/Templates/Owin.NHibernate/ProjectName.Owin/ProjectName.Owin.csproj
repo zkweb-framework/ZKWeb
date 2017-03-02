@@ -235,19 +235,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.5.0-final\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.Hosting.Owin, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.Owin.1.5.0-final\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.Owin.1.6.0-final\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.ORM.InMemory, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.5.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.6.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.ORM.NHibernate, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.NHibernate.1.5.0-final\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.NHibernate.1.6.0-final\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -255,7 +255,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.5.0-final\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

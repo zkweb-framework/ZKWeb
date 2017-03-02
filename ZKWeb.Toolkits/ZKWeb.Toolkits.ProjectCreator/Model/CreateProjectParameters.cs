@@ -102,7 +102,8 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 			}
 			if (!string.IsNullOrEmpty(UseDefaultPlugins)) {
 				var pluginCollection = PluginCollection.FromFile(UseDefaultPlugins);
-				if (pluginCollection.SupportedORM.Contains(ORM)) {
+				if (!pluginCollection.SupportedORM.Any(o =>
+					string.Equals(o, ORM, StringComparison.OrdinalIgnoreCase))) {
 					throw new ArgumentException(
 						"This plugin collection only support following ORM: " +
 						string.Join(", ", pluginCollection.SupportedORM));
