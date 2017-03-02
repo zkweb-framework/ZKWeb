@@ -66,12 +66,16 @@
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=2.0.0.61404, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.0.0-rc4\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.0.0-rc4\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.0.0.61404, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.0.0-rc4\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.0.0-rc4\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -126,7 +130,7 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHibernate, Version=4.1.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -141,8 +145,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.103.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Repack.SQLite.1.0.103.1\lib\net46\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.104.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.Repack.SQLite.1.0.104\lib\net46\System.Data.SQLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -234,19 +238,19 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.Hosting.Owin, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.Hosting.Owin, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.Hosting.Owin.1.6.0-final\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.InMemory, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.ORM.InMemory, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.ORM.InMemory.1.6.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.NHibernate, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.ORM.NHibernate, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.ORM.NHibernate.1.6.0-final\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -254,7 +258,7 @@
       <HintPath>..\packages\ZKWeb.System.Drawing.2.0.1\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWebStandard, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWebStandard, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -307,15 +311,15 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net451\ZKWeb.Repack.SQLite.targets" Condition="Exists('..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net451\ZKWeb.Repack.SQLite.targets')" />
+  <Import Project="..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net451\ZKWeb.Repack.SQLite.targets" Condition="Exists('..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net451\ZKWeb.Repack.SQLite.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net451\ZKWeb.Repack.SQLite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net451\ZKWeb.Repack.SQLite.targets'))" />
-    <Error Condition="!Exists('..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net46\ZKWeb.Repack.SQLite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net46\ZKWeb.Repack.SQLite.targets'))" />
+    <Error Condition="!Exists('..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net451\ZKWeb.Repack.SQLite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net451\ZKWeb.Repack.SQLite.targets'))" />
+    <Error Condition="!Exists('..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net46\ZKWeb.Repack.SQLite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net46\ZKWeb.Repack.SQLite.targets'))" />
   </Target>
-  <Import Project="..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net46\ZKWeb.Repack.SQLite.targets" Condition="Exists('..\packages\ZKWeb.Repack.SQLite.1.0.103.1\build\net46\ZKWeb.Repack.SQLite.targets')" />
+  <Import Project="..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net46\ZKWeb.Repack.SQLite.targets" Condition="Exists('..\packages\ZKWeb.Repack.SQLite.1.0.104\build\net46\ZKWeb.Repack.SQLite.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

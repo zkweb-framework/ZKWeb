@@ -26,3 +26,4 @@
 	Dommel 1.8.0
 	Dapper.FluentMap 1.5.1
 	Dapper.FluentMap.Dommel 1.4.3
+	ZKWeb.Repack.SQLite 1.0.104

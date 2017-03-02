@@ -62,12 +62,16 @@
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.1.1.0\lib\net451\Microsoft.AspNetCore.Http.Features.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=2.0.0.61404, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.0.0-rc4\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.0.0-rc4\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.0.0.61404, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.0.0-rc4\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.0.0-rc4\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Sqlite, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -326,19 +330,19 @@
       <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.Hosting.AspNet, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.Hosting.AspNet, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.6.0-final\lib\net461\ZKWeb.Hosting.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.EFCore, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.ORM.EFCore, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.ORM.EFCore.1.6.0-final\lib\net461\ZKWeb.ORM.EFCore.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWeb.ORM.InMemory, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWeb.ORM.InMemory, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.ORM.InMemory.1.6.0-final\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -346,7 +350,7 @@
       <HintPath>..\packages\ZKWeb.System.Drawing.2.0.1\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ZKWebStandard, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ZKWebStandard, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.1.6.0-final\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
