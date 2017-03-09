@@ -11,6 +11,8 @@ namespace ZKWeb.Tests.Templating.TemplateTags {
 			using (var layout = new TestDirectoryLayout()) {
 				Application.Ioc.Unregister<TemplateAreaManager>();
 				Application.Ioc.RegisterMany<TemplateAreaManager>(ReuseType.Singleton);
+				Application.Ioc.Unregister<ITemplateWidgetRenderer>();
+				Application.Ioc.RegisterMany<TemplateWidgetRenderer>();
 				var areaManager = Application.Ioc.Resolve<TemplateAreaManager>();
 
 				areaManager.GetArea("__test_area").DefaultWidgets.Add("__test_a");
