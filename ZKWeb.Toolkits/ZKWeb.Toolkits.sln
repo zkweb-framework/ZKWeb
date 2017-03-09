@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Toolkits.ProjectCreator", "ZKWeb.Toolkits.ProjectCreator\ZKWeb.Toolkits.ProjectCreator.xproj", "{CEFD9935-78AA-4AF8-B4A3-6E188F11B88B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Toolkits.ProjectCreator", "ZKWeb.Toolkits.ProjectCreator\ZKWeb.Toolkits.ProjectCreator.csproj", "{CEFD9935-78AA-4AF8-B4A3-6E188F11B88B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Toolkits.WebsitePublisher", "ZKWeb.Toolkits.WebsitePublisher\ZKWeb.Toolkits.WebsitePublisher.xproj", "{7A73D1F0-8266-4BF3-9518-84E8AF74EF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Toolkits.WebsitePublisher", "ZKWeb.Toolkits.WebsitePublisher\ZKWeb.Toolkits.WebsitePublisher.csproj", "{7A73D1F0-8266-4BF3-9518-84E8AF74EF56}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Toolkits.WebsitePublisher.Cmd", "ZKWeb.Toolkits.WebsitePublisher.Cmd\ZKWeb.Toolkits.WebsitePublisher.Cmd.xproj", "{C2641EEA-6A1C-4FA4-8149-B57169C4C2B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Toolkits.WebsitePublisher.Cmd", "ZKWeb.Toolkits.WebsitePublisher.Cmd\ZKWeb.Toolkits.WebsitePublisher.Cmd.csproj", "{C2641EEA-6A1C-4FA4-8149-B57169C4C2B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKWeb.Toolkits.ProjectCreator.Gui", "ZKWeb.Toolkits.ProjectCreator.Gui\ZKWeb.Toolkits.ProjectCreator.Gui.csproj", "{C3BA47B3-F33D-4408-B0F1-57BFCC9D359B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Toolkits.ProjectCreator.Cmd", "ZKWeb.Toolkits.ProjectCreator.Cmd\ZKWeb.Toolkits.ProjectCreator.Cmd.xproj", "{37C8862A-13A0-4329-A982-8B2F3AF4AA6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Toolkits.ProjectCreator.Cmd", "ZKWeb.Toolkits.ProjectCreator.Cmd\ZKWeb.Toolkits.ProjectCreator.Cmd.csproj", "{37C8862A-13A0-4329-A982-8B2F3AF4AA6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZKWeb.Toolkits.WebsitePublisher.Gui", "ZKWeb.Toolkits.WebsitePublisher.Gui\ZKWeb.Toolkits.WebsitePublisher.Gui.csproj", "{C10616C4-7589-4EBE-B2E6-BE2BE2240B38}"
 EndProject

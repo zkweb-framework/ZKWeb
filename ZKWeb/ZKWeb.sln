@@ -1,29 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWebStandard", "ZKWebStandard\ZKWebStandard.xproj", "{440BD038-B3D4-46F0-8FC7-B789A2D3C456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWebStandard", "ZKWebStandard\ZKWebStandard.csproj", "{440BD038-B3D4-46F0-8FC7-B789A2D3C456}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb", "ZKWeb\ZKWeb.xproj", "{50D6F28D-4FC8-4711-A0FF-A4EA768CDBD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb", "ZKWeb\ZKWeb.csproj", "{50D6F28D-4FC8-4711-A0FF-A4EA768CDBD3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Console", "ZKWeb.Console\ZKWeb.Console.xproj", "{120322FA-D4BB-41BD-B638-4CD7A2D83B18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Console", "ZKWeb.Console\ZKWeb.Console.csproj", "{120322FA-D4BB-41BD-B638-4CD7A2D83B18}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Hosting.AspNet", "ZKWeb.Hosting.AspNet\ZKWeb.Hosting.AspNet.xproj", "{016E4545-2A2E-482A-B230-23400677DD18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Hosting.AspNet", "ZKWeb.Hosting.AspNet\ZKWeb.Hosting.AspNet.csproj", "{016E4545-2A2E-482A-B230-23400677DD18}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Hosting.AspNetCore", "ZKWeb.Hosting.AspNetCore\ZKWeb.Hosting.AspNetCore.xproj", "{E03517D7-A2C7-4B28-B57B-9D770CA4EDC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Hosting.AspNetCore", "ZKWeb.Hosting.AspNetCore\ZKWeb.Hosting.AspNetCore.csproj", "{E03517D7-A2C7-4B28-B57B-9D770CA4EDC6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.Hosting.Owin", "ZKWeb.Hosting.Owin\ZKWeb.Hosting.Owin.xproj", "{668DBF52-038F-4400-A484-0FD2D92A3182}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.Hosting.Owin", "ZKWeb.Hosting.Owin\ZKWeb.Hosting.Owin.csproj", "{668DBF52-038F-4400-A484-0FD2D92A3182}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.NHibernate", "ZKWeb.ORM.NHibernate\ZKWeb.ORM.NHibernate.xproj", "{EDB5064E-77C2-4DE0-A1B8-A70196C656D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.ORM.NHibernate", "ZKWeb.ORM.NHibernate\ZKWeb.ORM.NHibernate.csproj", "{EDB5064E-77C2-4DE0-A1B8-A70196C656D3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.EFCore", "ZKWeb.ORM.EFCore\ZKWeb.ORM.EFCore.xproj", "{8B8B427D-A079-4145-B5D0-E726A5A0EA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.ORM.EFCore", "ZKWeb.ORM.EFCore\ZKWeb.ORM.EFCore.csproj", "{8B8B427D-A079-4145-B5D0-E726A5A0EA95}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.InMemory", "ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.xproj", "{0A265341-C534-4822-BDA8-27F3853B09AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.ORM.InMemory", "ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.csproj", "{0A265341-C534-4822-BDA8-27F3853B09AB}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.MongoDB", "ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.xproj", "{DF94D55B-6572-4487-B9E8-88DD83853B28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.ORM.MongoDB", "ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.csproj", "{DF94D55B-6572-4487-B9E8-88DD83853B28}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZKWeb.ORM.Dapper", "ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.xproj", "{9480BBC6-622F-4386-8652-C5977634E9CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZKWeb.ORM.Dapper", "ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.csproj", "{9480BBC6-622F-4386-8652-C5977634E9CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
