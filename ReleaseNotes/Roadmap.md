@@ -7,6 +7,7 @@
 		- Provide framework option
 		- Provide linux project creator and website publisher
 		- Support build and publish all in command line
+	- Provide better component unregister mechanism
 
 Undefined
 - Run all tests on macos
