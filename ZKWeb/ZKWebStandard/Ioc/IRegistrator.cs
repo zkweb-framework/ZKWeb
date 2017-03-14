@@ -65,10 +65,31 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Unregister all factories with specified service type and service key
+		/// For example:
+		/// Class A inherit I and J
+		/// Class B inherit I
+		/// The factory mapping will be
+		/// { A: A, I: [A, B], J: A, B: B }
+		/// After unregister I the factory mapping will be
+		/// { A: A, I: [], J: A, B: B }
 		/// </summary>
 		/// <param name="serviceType">Service type</param>
 		/// <param name="serviceKey">Service key</param>
 		void Unregister(Type serviceType, object serviceKey = null);
+
+		/// <summary>
+		/// Unregister factories with specified implementation type and service key
+		/// For example:
+		/// Class A inherit I and J
+		/// Class B inherit I
+		/// The factory mapping will be
+		/// { A: A, I: [A, B], J: A, B: B }
+		/// After unregister A the factory mapping will be
+		/// { A: [], I: [B], J: [], B: B }
+		/// </summary>
+		/// <param name="implementationType">Implementation type</param>
+		/// <param name="serviceKey">Service key</param>
+		void UnregisterImplementation(Type implementationType, object serviceKey = null);
 
 		/// <summary>
 		/// Unregister all factories

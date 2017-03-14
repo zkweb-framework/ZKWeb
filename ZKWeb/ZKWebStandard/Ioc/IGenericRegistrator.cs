@@ -48,9 +48,18 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Unregister all factories with specified service type and service key
+		/// Please see the example in IRegistrator
 		/// </summary>
 		/// <typeparam name="TService">Service type</typeparam>
 		/// <param name="serviceKey">Service key</param>
 		void Unregister<TService>(object serviceKey = null);
+
+		/// <summary>
+		/// Unregister factories with specified implementation type and service key
+		/// Please see the example in IRegistrator
+		/// </summary>
+		/// <typeparam name="TImplementation">Implementation type</typeparam>
+		/// <param name="serviceKey">Service key</param>
+		void UnregisterImplementation<TImplementation>(object serviceKey = null);
 	}
 }

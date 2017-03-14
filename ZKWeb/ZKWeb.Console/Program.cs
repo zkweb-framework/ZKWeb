@@ -30,6 +30,8 @@
 		/// </summary>
 		/// <param name="args"></param>
 		private static void Main(string[] args) {
+			IocContainerBenchmark.Start();
+			return;
 			// Initialize application
 			Application.Initialize(GetWebsiteRootDirectory());
 			// Run all tests

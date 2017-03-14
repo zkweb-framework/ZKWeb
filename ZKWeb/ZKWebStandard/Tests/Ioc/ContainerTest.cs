@@ -139,6 +139,20 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void UnregisterImplementation() {
+			using (var container = new Container()) {
+				container.RegisterMany<TransientImplementation>(ReuseType.Transient, null, false);
+				container.RegisterMany<SingletonImplementation>(ReuseType.Singleton, null, false);
+				container.UnregisterImplementation<TransientImplementation>(null);
+				Assert.Equals(
+					container.Resolve<ClassService>(IfUnresolved.Throw, null).GetName(), "Singleton");
+				Assert.Equals(
+					container.Resolve<InterfaceService>(IfUnresolved.Throw, null).Name, "Singleton");
+				Assert.Equals(
+					container.Resolve<TransientImplementation>(IfUnresolved.ReturnDefault, null), null);
+			}
+		}
+
 		public void UnregisterAll() {
 			using (var container = new Container()) {
 				container.RegisterExports(new[] {

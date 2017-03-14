@@ -21,9 +21,9 @@ namespace ZKWebStandard.Ioc {
 	public class Container : IContainer {
 		/// <summary>
 		/// Factories
-		/// { (Type, Service key): [Factory] }
+		/// { (Type, Service key): (Factory, Implementation Type) }
 		/// </summary>
-		protected IDictionary<Pair<Type, object>, IList<Func<object>>> Factories { get; set; }
+		protected IDictionary<Pair<Type, object>, List<ContainerFactoryData>> Factories { get; set; }
 		/// <summary>
 		/// Factories lock
 		/// </summary>
@@ -37,7 +37,7 @@ namespace ZKWebStandard.Ioc {
 		/// Initialize
 		/// </summary>
 		public Container() {
-			Factories = new Dictionary<Pair<Type, object>, IList<Func<object>>>();
+			Factories = new Dictionary<Pair<Type, object>, List<ContainerFactoryData>>();
 			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 			Revision = 0;
 			RegisterSelf();
@@ -93,12 +93,13 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Register factory with service type and service key
 		/// </summary>
-		protected void RegisterFactory(Type serviceType, Func<object> factory, object serviceKey) {
+		protected void RegisterFactory(
+			Type serviceType, ContainerFactoryData factoryData, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
 			FactoriesLock.EnterWriteLock();
 			try {
-				var factories = Factories.GetOrCreate(key, () => new List<Func<object>>());
-				factories.Add(factory);
+				var factories = Factories.GetOrCreate(key, () => new List<ContainerFactoryData>());
+				factories.Add(factoryData);
 			} finally {
 				Interlocked.Increment(ref Revision);
 				FactoriesLock.ExitWriteLock();
@@ -108,13 +109,14 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Register factory with service types and service key
 		/// </summary>
-		protected void RegisterFactoryMany(IList<Type> serviceTypes, Func<object> factory, object serviceKey) {
+		protected void RegisterFactoryMany(
+			IList<Type> serviceTypes, ContainerFactoryData factoryData, object serviceKey) {
 			FactoriesLock.EnterWriteLock();
 			try {
 				foreach (var serviceType in serviceTypes) {
 					var key = Pair.Create(serviceType, serviceKey);
-					var factories = Factories.GetOrCreate(key, () => new List<Func<object>>());
-					factories.Add(factory);
+					var factories = Factories.GetOrCreate(key, () => new List<ContainerFactoryData>());
+					factories.Add(factoryData);
 				}
 			} finally {
 				Interlocked.Increment(ref Revision);
@@ -128,7 +130,8 @@ namespace ZKWebStandard.Ioc {
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
 			var factory = this.BuildFactory(implementationType, reuseType);
-			RegisterFactory(serviceType, factory, serviceKey);
+			var factoryData = new ContainerFactoryData(factory, implementationType);
+			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
 		/// <summary>
@@ -144,7 +147,8 @@ namespace ZKWebStandard.Ioc {
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
 			var factory = this.BuildFactory(implementationType, reuseType);
-			RegisterFactoryMany(serviceTypes, factory, serviceKey);
+			var factoryData = new ContainerFactoryData(factory, implementationType);
+			RegisterFactoryMany(serviceTypes, factoryData, serviceKey);
 		}
 
 		/// <summary>
@@ -173,7 +177,8 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
 			var factory = this.BuildFactory(() => instance, ReuseType.Singleton);
-			RegisterFactory(serviceType, factory, serviceKey);
+			var factoryData = new ContainerFactoryData(factory, instance.GetType());
+			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
 		/// <summary>
@@ -190,7 +195,9 @@ namespace ZKWebStandard.Ioc {
 		public void RegisterDelegate(
 			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
 			factory = this.BuildFactory(factory, reuseType);
-			RegisterFactory(serviceType, factory, serviceKey);
+			// We can't known what type will be returned, the hint type will be service type
+			var factoryData = new ContainerFactoryData(factory, serviceType);
+			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
 		/// <summary>
@@ -252,6 +259,31 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
+		/// Unregister factories with specified implementation type and service key
+		/// </summary>
+		public void UnregisterImplementation(Type implementationType, object serviceKey) {
+			var serviceTypes = GetImplementedServiceTypes(implementationType, true).ToList();
+			var keys = serviceTypes.Select(t => Pair.Create(t, serviceKey)).ToList();
+			FactoriesLock.EnterWriteLock();
+			try {
+				foreach (var key in keys) {
+					var factories = Factories.GetOrDefault(key);
+					factories?.RemoveAll(f => f.ImplementationTypeHint == implementationType);
+				}
+			} finally {
+				Interlocked.Increment(ref Revision);
+				FactoriesLock.ExitWriteLock();
+			}
+		}
+
+		/// <summary>
+		/// Unregister factories with specified implementation type and service key
+		/// </summary>
+		public void UnregisterImplementation<TImplementation>(object serviceKey) {
+			UnregisterImplementation(typeof(TImplementation), serviceKey);
+		}
+
+		/// <summary>
 		/// Unregister all factories
 		/// </summary>
 		public void UnregisterAll() {
@@ -275,7 +307,7 @@ namespace ZKWebStandard.Ioc {
 				var factories = Factories.GetOrDefault(key);
 				if (factories != null) {
 					factoriesCopy.Capacity = factories.Count;
-					factoriesCopy.AddRange(factories);
+					factoriesCopy.AddRange(factories.Select(f => f.Factory));
 				}
 				var data = new ContainerFactoriesCacheData(this, factoriesCopy);
 				ContainerFactoriesCache<TService>.Data = data;
@@ -300,7 +332,7 @@ namespace ZKWebStandard.Ioc {
 				var factories = Factories.GetOrDefault(key);
 				factoriesCount = factories?.Count ?? 0;
 				if (factoriesCount == 1) {
-					factory = factories[0];
+					factory = factories[0].Factory;
 				}
 			} finally {
 				FactoriesLock.ExitReadLock();
@@ -356,7 +388,7 @@ namespace ZKWebStandard.Ioc {
 				var factories = Factories.GetOrDefault(key);
 				if (factories != null) {
 					factoriesCopy.Capacity = factories.Count;
-					factoriesCopy.AddRange(factories);
+					factoriesCopy.AddRange(factories.Select(f => f.Factory));
 				}
 			} finally {
 				FactoriesLock.ExitReadLock();

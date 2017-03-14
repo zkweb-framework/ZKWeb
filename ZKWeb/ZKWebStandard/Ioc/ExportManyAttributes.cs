@@ -22,7 +22,8 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public bool NonPublic { get; set; }
 		/// <summary>
-		/// Call Unregister first before register
+		/// Unregister service types before register
+		/// Please sure it won't unintentionally remove innocent implementations
 		/// </summary>
 		public bool ClearExists { get; set; }
 	}
