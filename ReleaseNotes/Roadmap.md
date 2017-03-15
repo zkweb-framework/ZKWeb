@@ -8,6 +8,9 @@
 		- Provide linux project creator and website publisher
 		- Support build and publish all in command line
 	- Provide better component unregister mechanism
+	- Improve website stopper
+		- Add InProgressRequests to Application?
+		- If InProgressRequests > 0 then sleep sometime?
 
 Undefined
 - Run all tests on macos
