@@ -7,10 +7,10 @@
 		- Provide framework option
 		- Provide linux project creator and website publisher
 		- Support build and publish all in command line
-	- Provide better component unregister mechanism
 	- Improve website stopper
 		- Add InProgressRequests to Application?
 		- If InProgressRequests > 0 then sleep sometime?
+	- Add [SingletonReuse] to project template's Plugin class
 
 Undefined
 - Run all tests on macos
