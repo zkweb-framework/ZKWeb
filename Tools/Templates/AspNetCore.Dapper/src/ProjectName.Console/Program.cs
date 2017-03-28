@@ -14,13 +14,12 @@
 		public static void RunTests() {
 			Application.Initialize(
 				Path.Combine(Path.GetDirectoryName(typeof(Program).GetTypeInfo().Assembly.Location),
-				"../../../../../${ProjectName}.AspNetCore"));
+				"../../../../${ProjectName}.AspNetCore"));
 
 			var unitTestManager = Application.Ioc.Resolve<TestManager>();
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
 
 			Console.WriteLine("done");
-			Console.ReadLine();
 		}
 	}
 }
