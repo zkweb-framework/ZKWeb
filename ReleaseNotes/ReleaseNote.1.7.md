@@ -12,3 +12,14 @@
 	- Add InjectAttribute for manually choose constructor to inject
 - Wesite stopper improvement
 	- Wait for requests finished before stop website up to 3 seconds
+- Update packages
+	Dapper.FluentMap 1.5.3
+	Dapper.FluentMap.Dommel 1.4.5
+	Dommel 1.8.1
+	Npgsql 3.2.2
+	MongoDB.Driver 2.4.3
+	NSubstitute 2.0.2
+	Newtonsoft.Json 10.0.1
+	Microsoft.CodeAnalysis.CSharp 2.0.0
+	Microsoft.Extensions.DependencyModel 1.1.1
+	Microsoft.DiaSymReader.Native 1.5.0

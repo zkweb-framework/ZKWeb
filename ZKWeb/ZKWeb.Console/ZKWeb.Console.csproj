@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.6.0-final</VersionPrefix>
+    <Version>1.7.0-beta-1</Version>
     <TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
     <AssemblyName>ZKWeb.Console</AssemblyName>
     <OutputType>Exe</OutputType>
@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="NSubstitute" Version="2.0.1-rc" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    <PackageReference Include="NSubstitute" Version="2.0.2" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="2.0.1" />
   </ItemGroup>
 

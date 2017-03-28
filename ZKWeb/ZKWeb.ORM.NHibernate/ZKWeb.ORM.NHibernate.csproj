@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>1.6.0-final</VersionPrefix>
+    <Version>1.7.0-beta-1</Version>
     <TargetFramework>net461</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>ZKWeb.ORM.NHibernate</AssemblyName>
@@ -22,7 +22,7 @@
     <PackageReference Include="FluentNHibernate" Version="2.0.3" />
     <PackageReference Include="MySql.Data" Version="6.9.9" />
     <PackageReference Include="NHibernate" Version="4.1.1.4000" />
-    <PackageReference Include="Npgsql" Version="3.2.1" />
+    <PackageReference Include="Npgsql" Version="3.2.2" />
     <PackageReference Include="ZKWeb.Repack.SQLite" Version="1.0.104" />
   </ItemGroup>
 
