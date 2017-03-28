@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.7.0-beta-1</Version>
+    <Version>1.7.0</Version>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>ZKWeb.ORM.EFCore</AssemblyName>

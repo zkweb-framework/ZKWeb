@@ -1,13 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.7.0</Version>
     <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>ZKWeb.ORM.InMemory</AssemblyName>
-    <PackageId>ZKWeb.ORM.InMemory</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <AssemblyName>${ProjectName}.Plugins</AssemblyName>
+    <PackageId>${ProjectName}.Plugins</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -15,12 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ZKWeb\ZKWeb.csproj" />
-    <ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.1.1" />
+    <PackageReference Include="ZKWeb" Version="1.6.0-final" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
