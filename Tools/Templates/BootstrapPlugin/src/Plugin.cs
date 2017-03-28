@@ -9,7 +9,7 @@ namespace ${ProjectName}.Plugins.${ProjectName}.src {
 	/// <summary>
 	/// Plugin Entry Point
 	/// </summary>
-	[ExportMany]
+	[ExportMany, SingletonReuse]
 	public class Plugin : IPlugin {
 		/// <summary>
 		/// Here will execute after plugin loaded

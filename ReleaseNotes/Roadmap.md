@@ -10,7 +10,6 @@
 	- Improve website stopper
 		- Add InProgressRequests to Application?
 		- If InProgressRequests > 0 then sleep sometime?
-	- Add [SingletonReuse] to project template's Plugin class
 
 Undefined
 - Run all tests on macos

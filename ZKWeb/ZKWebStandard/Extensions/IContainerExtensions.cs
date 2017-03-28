@@ -61,11 +61,17 @@ namespace ZKWebStandard.Extensions {
 			this IContainer container, Type type, ReuseType reuseType) {
 			var typeFactor = TypeFactorysCache.GetOrAdd(type, t => {
 				// Support constructor dependency injection
+				// First detect Inject attribute, then use the constructor that have most parameters	
 				var argumentExpressions = new List<Expression>();
-				var constructor = t.GetConstructors()
-					.Where(c => c.IsPublic)
-					.OrderByDescending(c => c.GetParameters().Length)
-					.FirstOrDefault();
+				var constructors = t.GetConstructors();
+				var constructor = constructors.FirstOrDefault(
+					c => c.GetAttribute<InjectAttribute>() != null);
+				if (constructor == null) {
+					constructor = constructors
+						.Where(c => c.IsPublic)
+						.OrderByDescending(c => c.GetParameters().Length)
+						.FirstOrDefault();
+				}
 				if (constructor == null) {
 					throw new ArgumentException(
 						$"Type {type} should have atleast one public constructor");

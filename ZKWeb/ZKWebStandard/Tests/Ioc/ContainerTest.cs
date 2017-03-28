@@ -253,6 +253,13 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void ResolveFromInjectConstructor() {
+			using (IContainer container = new Container()) {
+				container.RegisterMany<TestResolveFromInjectConstructor>();
+				Assert.IsTrue(container.Resolve<TestResolveFromInjectConstructor>() != null);
+			}
+		}
+
 		public interface InterfaceService {
 			string Name { get; }
 		}
@@ -293,6 +300,17 @@ namespace ZKWebStandard.Tests.IocContainer {
 				ClassServices = classServices;
 				InterfaceService = interfaceService;
 				TestResolveFailed = testResolveFailed;
+			}
+		}
+
+		[ExportMany]
+		public class TestResolveFromInjectConstructor {
+			public TestResolveFromInjectConstructor(int a) {
+				Assert.IsTrueWith(false, "choose wrong constructor");
+			}
+
+			[Inject]
+			public TestResolveFromInjectConstructor(string b) {
 			}
 		}
 	}
