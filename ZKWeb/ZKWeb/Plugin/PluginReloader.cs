@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using ZKWeb.Storage;
 using ZKWeb.Web;
 using ZKWebStandard.Extensions;
@@ -17,19 +18,33 @@ namespace ZKWeb.Plugin {
 	/// </summary>
 	internal static class PluginReloader {
 		/// <summary>
+		/// Stop website
+		/// </summary>
+		internal static void StopWebsite() {
+			var thread = new Thread(() => {
+				// Wait requests finished, up to 3 seconds	
+				int retry = 0;
+				while (Application.InProgressRequests > 0 && retry <= 3000) {
+					Thread.Sleep(1);
+					++retry;
+				}
+				// Call stoppers
+				var stoppers = Application.Ioc.ResolveMany<IWebsiteStopper>();
+				stoppers.ForEach(s => s.StopWebsite());
+			});
+			thread.IsBackground = true;
+			thread.Start();
+		}
+
+		/// <summary>
 		/// Start reloader
 		/// </summary>
 		internal static void Start() {
-			// Function use to stop website
-			Action stopWebsite = () => {
-				var stoppers = Application.Ioc.ResolveMany<IWebsiteStopper>();
-				stoppers.ForEach(s => s.StopWebsite());
-			};
 			// Function use to handle file changed
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();
 				if (ext == ".cs" || ext == ".json" || ext == ".dll") {
-					stopWebsite();
+					StopWebsite();
 				}
 			};
 			// Function use to start file system watcher
@@ -59,7 +74,7 @@ namespace ZKWeb.Plugin {
 			var ddlWatcher = new FileSystemWatcher();
 			ddlWatcher.Path = pathConfig.AppDataDirectory;
 			ddlWatcher.Filter = "*.ddl";
-			ddlWatcher.Deleted += (sender, e) => stopWebsite();
+			ddlWatcher.Deleted += (sender, e) => StopWebsite();
 			ddlWatcher.EnableRaisingEvents = true;
 		}
 	}

@@ -31,7 +31,7 @@ namespace ZKWeb {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public static string FullVersion { get { return "1.6.0 final"; } }
+		public static string FullVersion { get { return "1.7.0 beta 1"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>
@@ -46,7 +46,12 @@ namespace ZKWeb {
 		/// <summary>
 		/// Initialize Flag
 		/// </summary>
-		private static int Initialized = 0;
+		private static int initialized = 0;
+		/// <summary>
+		/// In progress requests
+		/// </summary>
+		public static int InProgressRequests { get { return inProgressRequests; } }
+		private static int inProgressRequests;
 
 		/// <summary>
 		/// Intialize main application
@@ -54,7 +59,7 @@ namespace ZKWeb {
 		/// <param name="websiteRootDirectory">Website root directory</param>
 		public static void Initialize(string websiteRootDirectory) {
 			// Throw exception if already initialized
-			if (Interlocked.Exchange(ref Initialized, 1) != 0) {
+			if (Interlocked.Exchange(ref initialized, 1) != 0) {
 				throw new InvalidOperationException("Application already initialized");
 			}
 			// Register core components
@@ -119,6 +124,8 @@ namespace ZKWeb {
 			}
 			// Call request handlers
 			using (HttpManager.OverrideContext(context)) {
+				// Increase requests count
+				Interlocked.Increment(ref inProgressRequests);
 				try {
 					// Call pre request handlers, in register order
 					foreach (var handler in Ioc.ResolveMany<IHttpRequestPreHandler>()) {
@@ -138,9 +145,14 @@ namespace ZKWeb {
 					}
 					handlerAction();
 				} finally {
-					// Call post request handlers, in register order
-					foreach (var handler in Ioc.ResolveMany<IHttpRequestPostHandler>()) {
-						handler.OnRequest();
+					try {
+						// Call post request handlers, in register order
+						foreach (var handler in Ioc.ResolveMany<IHttpRequestPostHandler>()) {
+							handler.OnRequest();
+						}
+					} finally {
+						// Decrease requests count
+						Interlocked.Decrement(ref inProgressRequests);
 					}
 				}
 			}
