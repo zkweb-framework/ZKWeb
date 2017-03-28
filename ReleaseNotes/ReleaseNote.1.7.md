@@ -12,6 +12,8 @@
 	- Add InjectAttribute for manually choose constructor to inject
 - Wesite stopper improvement
 	- Wait for requests finished before stop website up to 3 seconds
+- Support publish to other platform
+	- publish tool support framework option, default is net461
 - Update packages
 	Dapper.FluentMap 1.5.3
 	Dapper.FluentMap.Dommel 1.4.5
