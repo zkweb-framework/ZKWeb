@@ -29,7 +29,6 @@
 			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
 
 			Console.WriteLine("done");
-			Console.ReadLine();
 		}
 	}
 
