@@ -142,9 +142,11 @@ namespace ZKWeb.ORM.EFCore {
 			if (entityInfo.State == EntityState.Detached) {
 				// It's not being tracked
 				if (entityInfo.IsKeySet) {
-					// The key is not default, mark all properties as modified
+					// The key is not default, we're not sure it's in database or not
+					// check it first, it's rare so I don't think it will cause performance impact
+					// TODO
 					update?.Invoke(entity);
-					Update(entity);
+
 				} else {
 					// The key is default, set it's state to Added
 					update?.Invoke(entity);

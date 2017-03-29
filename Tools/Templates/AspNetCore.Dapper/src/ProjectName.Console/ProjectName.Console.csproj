@@ -14,10 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ZKWeb" Version="1.6.0-final" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="1.6.0-final" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="1.6.0-final" />
-    <PackageReference Include="ZKWeb.ORM.Dapper" Version="1.6.0-final" />
+    <PackageReference Include="ZKWeb" Version="1.7.0-beta-2" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="1.7.0-beta-2" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="1.7.0-beta-2" />
+    <PackageReference Include="ZKWeb.ORM.Dapper" Version="1.7.0-beta-2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
