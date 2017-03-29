@@ -20,10 +20,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
-    <PackageReference Include="ZKWeb" Version="1.7.0-beta-2" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="1.7.0-beta-2" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="1.7.0-beta-2" />
-    <PackageReference Include="ZKWeb.ORM.MongoDB" Version="1.7.0-beta-2" />
+    <PackageReference Include="ZKWeb" Version="1.7.0-beta-3" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="1.7.0-beta-3" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="1.7.0-beta-3" />
+    <PackageReference Include="ZKWeb.ORM.MongoDB" Version="1.7.0-beta-3" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
