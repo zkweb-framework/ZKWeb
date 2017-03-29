@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.FastReflection;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -139,22 +140,26 @@ namespace ZKWeb.ORM.EFCore {
 		private void InsertOrUpdate<T>(T entity, Action<T> update = null)
 			where T : class, IEntity {
 			var entityInfo = Entry(entity);
+			update?.Invoke(entity);
 			if (entityInfo.State == EntityState.Detached) {
 				// It's not being tracked
 				if (entityInfo.IsKeySet) {
 					// The key is not default, we're not sure it's in database or not
-					// check it first, it's rare so I don't think it will cause performance impact
-					// TODO
-					update?.Invoke(entity);
-
+					// check it first, it's rare so it shouldn't cause performance impact
+					var property = typeof(T).FastGetProperty(nameof(IEntity<object>.Id));
+					var id = property.FastGetValue(entity);
+					var expr = ExpressionUtils.MakeMemberEqualiventExpression<T>(property.Name, id);
+					if (Count(expr) > 0) {
+						Update(entity);
+					} else {
+						Add(entity);
+					}
 				} else {
 					// The key is default, set it's state to Added
-					update?.Invoke(entity);
 					Add(entity);
 				}
 			} else {
 				// It's being tracked, we don't need to attach it
-				update?.Invoke(entity);
 			}
 		}
 

@@ -10,6 +10,8 @@
 - IoC container improvement
 	- Add Container.UnregisterImplementation
 	- Add InjectAttribute for manually choose constructor to inject
+- Entity framework core improvement
+	- Support save detached entity that key is not empty and not exists in database
 - Wesite stopper improvement
 	- Wait for requests finished before stop website up to 3 seconds
 - Support publish to other platform
