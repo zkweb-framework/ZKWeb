@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Web.ActionResults;
-using ZKWebStandard.Extensions;
-using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
 	/// <summary>
@@ -13,34 +11,24 @@ namespace ZKWeb.Web {
 	/// </summary>
 	public static class IControllerExtensions {
 		/// <summary>
-		/// Method use to get request parameter
+		/// Get action parameter
 		/// </summary>
 		/// <typeparam name="T">Parameter type</typeparam>
 		/// <param name="name">Parameter name</param>
+		/// <param name="method">Method information</param>
+		/// <param name="parameterInfo">Parameter information</param>
 		/// <returns></returns>
-		private static T GetRequestParameter<T>(string name) {
-			// Get parameter from form or query key
-			var request = HttpManager.CurrentContext.Request;
-			var result = request.Get<T>(name);
-			if (result != null) {
-				return result;
-			}
-			// Get parameter from all form or query values if type isn't basic type
-			var typeInfo = typeof(T).GetTypeInfo();
-			if (!typeInfo.IsValueType && typeof(T) != typeof(string) &&
-				!(typeInfo.IsGenericType &&
-				typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))) {
-				return request.GetAllAs<T>();
-			}
-			// Return default value
-			return default(T);
+		internal static T GetActionParameter<T>(
+			string name, MethodInfo method, ParameterInfo parameterInfo) {
+			var provider = Application.Ioc.Resolve<IActionParameterProvider>();
+			return provider.GetParameter<T>(name, method, parameterInfo);
 		}
 
 		/// <summary>
-		/// Method information of GetRequestParameter
+		/// Method information of GetActionParameter
 		/// </summary>
-		private static MethodInfo GetRequestParameterMethod =>
-			typeof(IControllerExtensions).GetMethod("GetRequestParameter",
+		private static MethodInfo GetActionParameterMethod =>
+			typeof(IControllerExtensions).GetMethod(nameof(GetActionParameter),
 				BindingFlags.NonPublic | BindingFlags.Static);
 
 		/// <summary>
@@ -64,8 +52,10 @@ namespace ZKWeb.Web {
 			foreach (var parameter in parameters) {
 				// Get parameters from request by it's name
 				parametersExpr.Add(Expression.Call(null,
-					GetRequestParameterMethod.MakeGenericMethod(parameter.ParameterType),
-					Expression.Constant(parameter.Name)));
+					GetActionParameterMethod.MakeGenericMethod(parameter.ParameterType),
+					Expression.Constant(parameter.Name),
+					Expression.Constant(method),
+					Expression.Constant(parameter)));
 			}
 			// Determines if we need wrap the result
 			var actionResultType = typeof(IActionResult).GetTypeInfo();

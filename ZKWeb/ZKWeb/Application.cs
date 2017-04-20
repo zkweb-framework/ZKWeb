@@ -17,6 +17,7 @@ using ZKWeb.Templating;
 using ZKWeb.Templating.DynamicContents;
 using ZKWeb.Testing;
 using ZKWeb.Web;
+using ZKWeb.Web.ActionParameterProviders;
 using ZKWeb.Web.HttpRequestHandlers;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
@@ -89,6 +90,7 @@ namespace ZKWeb {
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TestManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<DefaultActionParameterProvider>(ReuseType.Singleton);
 			Ioc.RegisterMany<AddVersionHeaderHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<DefaultErrorHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
