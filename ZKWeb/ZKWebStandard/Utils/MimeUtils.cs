@@ -11,7 +11,7 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// Mime mapping
 		/// </summary>
-		private static IDictionary<string, string> MimeMapping =
+		public static readonly IDictionary<string, string> MimeMapping =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
 				{".323", "text/h323"},
 				{".3g2", "video/3gpp2"},
