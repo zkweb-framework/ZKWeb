@@ -18,7 +18,7 @@ namespace ZKWeb.Localize.JsonConverters {
 		/// </summary>
 		public override object ReadJson(JsonReader reader,
 			Type objectType, object existingValue, JsonSerializer serializer) {
-			return new T(reader.ReadAsString());
+			return new T(reader.Value as string);
 		}
 
 		/// <summary>

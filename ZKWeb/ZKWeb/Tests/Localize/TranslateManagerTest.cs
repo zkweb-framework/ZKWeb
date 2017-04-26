@@ -40,7 +40,7 @@ namespace ZKWeb.Tests.Localize {
 			}
 		}
 
-		class TestTranslateProviderCN : ITranslateProvider {
+		internal class TestTranslateProviderCN : ITranslateProvider {
 			public bool CanTranslate(string code) {
 				return code == "zh-CN";
 			}
@@ -50,7 +50,7 @@ namespace ZKWeb.Tests.Localize {
 			}
 		}
 
-		class TestTranslateProviderUS : ITranslateProvider {
+		internal class TestTranslateProviderUS : ITranslateProvider {
 			public bool CanTranslate(string code) {
 				return code == "en-US";
 			}
