@@ -96,6 +96,25 @@ namespace ZKWeb.Tests.Web {
 			});
 		}
 
+		public void OnRequestTest_D_JsonBody() {
+			OnRequestTest(() => {
+				// test get complex parameter from json body
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_d", HttpMethods.POST)) {
+					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+					request.contentType = "application/json";
+					request.body = new MemoryStream(Encoding.UTF8.GetBytes("{ param: { name: 'john', age: 50 } }"));
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "application/json; charset=utf-8");
+					var json = response.GetContentsFromBody();
+					var obj = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
+					Assert.Equals(obj.GetOrDefault<string>("name"), "john");
+					Assert.Equals(obj.GetOrDefault<int>("age"), 50);
+				}
+			});
+		}
+
 		public void OnRequestTest_E() {
 			OnRequestTest(() => {
 				// test get all parameters from json body
