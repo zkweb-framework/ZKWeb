@@ -10,6 +10,10 @@
 
 - Add IActionParameterProvider
 	- Can be used to customize the method of getting action parameters
+- Add `UseZKWeb` for Asp.Net Core and Owin
+- Allow provide custom Application class
+	- The initialize process can be customized now
+	- Please see `IApplication` and `DefaultApplication`
 - Bug fixes
 	- Fix deserialize `string` to `ZKWeb.Localize.T` failed
 	- Support `dynamic` keyword in plugin compilation

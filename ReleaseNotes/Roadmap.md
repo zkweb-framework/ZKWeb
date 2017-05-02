@@ -6,7 +6,6 @@
 		- Provide framework option
 		- Provide linux project creator and website publisher
 		- Support build and publish all in command line
-	- Support compile code uses dynamic
 
 Undefined
 - Run all tests on macos

@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Threading;
+using ZKWeb.Server;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
 	/// Base application class for Asp.Net
 	/// </summary>
-	public abstract class GlobalBase : System.Web.HttpApplication {
+	public abstract class GlobalBase : GlobalBase<DefaultApplication> {
+
+	}
+
+	/// <summary>
+	/// Base application class for Asp.Net
+	/// </summary>
+	/// <typeparam name="TApplication">Application type</typeparam>
+	public abstract class GlobalBase<TApplication> : System.Web.HttpApplication
+		where TApplication : IApplication, new() {
 		/// <summary>
 		/// On website start
 		/// </summary>
 		protected virtual void Application_Start(object sender, EventArgs e) {
+			ZKWeb.Application.Initialize<TApplication>(Server.MapPath("~/"));
 			ZKWeb.Application.Ioc.RegisterMany<AspNetWebsiteStopper>();
-			ZKWeb.Application.Initialize(Server.MapPath("~/"));
 		}
 
 		/// <summary>

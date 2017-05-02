@@ -1,15 +1,22 @@
 ﻿using Owin;
-using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Web;
+using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// Base startup class for owin
 	/// </summary>
-	public abstract class StartupBase {
+	public abstract class StartupBase : StartupBase<DefaultApplication> {
+
+	}
+
+	/// <summary>
+	/// Base startup class for owin
+	/// </summary>
+	public abstract class StartupBase<TApplication>
+		where TApplication : IApplication, new() {
 		/// <summary>
 		/// Get website root directory
 		/// </summary>
@@ -32,33 +39,12 @@ namespace ZKWeb.Hosting.Owin {
 		/// </summary>
 		/// <param name="app">Owin application</param>
 		public virtual void Configuration(IAppBuilder app) {
-			// Initialize application
+			// configure other middlewares
+			ConfigureMiddlewares(app);
+			// configure zkweb middleware
 			var websiteRootDirectory = app.Properties.GetOrDefault<string>("host.WebsiteRootDirectory");
 			websiteRootDirectory = websiteRootDirectory ?? GetWebsiteRootDirectory();
-			Application.Ioc.RegisterMany<OwinWebsiteStopper>();
-			Application.Initialize(websiteRootDirectory);
-			// Configure middlewares
-			ConfigureMiddlewares(app);
-			// Set request handler, it will running in thread pool
-			// It can't throw any exception otherwise application will get killed
-			app.Run(owinContext => Task.Run(() => {
-				var context = new OwinHttpContextWrapper(owinContext);
-				try {
-					// Handle request
-					Application.OnRequest(context);
-				} catch (OwinHttpResponseEndException) {
-					// Success
-				} catch (Exception ex) {
-					// Error
-					try {
-						Application.OnError(context, ex);
-					} catch (OwinHttpResponseEndException) {
-						// Handle error success
-					} catch (Exception) {
-						// Handle error failed
-					}
-				}
-			}));
+			app.UseZKWeb<TApplication>(GetWebsiteRootDirectory());
 		}
 	}
 }
