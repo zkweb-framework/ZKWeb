@@ -1,47 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Version>1.7.0</Version>
-    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyName>ZKWeb</AssemblyName>
-    <PackageId>ZKWeb</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Version>1.7.0</Version>
+		<TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<AssemblyName>ZKWeb</AssemblyName>
+		<PackageId>ZKWeb</PackageId>
+		<NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
-    <PackageReference Include="NSubstitute" Version="2.0.2" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="ZKWeb.Fork.DotLiquid" Version="2.1.1" />
-    <PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.1.1" />
-    <PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.0.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+		<PackageReference Include="NSubstitute" Version="2.0.2" />
+		<PackageReference Include="System.Data.Common" Version="4.3.0" />
+		<PackageReference Include="ZKWeb.Fork.DotLiquid" Version="2.1.1" />
+		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.1.1" />
+		<PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
-    <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-    <PackageReference Include="Microsoft.DiaSymReader.Native" Version="1.5.0" />
-    <PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="1.2.0" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+		<PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+		<PackageReference Include="Microsoft.DiaSymReader.Native" Version="1.5.0" />
+		<PackageReference Include="Microsoft.DiaSymReader.PortablePdb" Version="1.2.0" />
+	</ItemGroup>
 
 </Project>

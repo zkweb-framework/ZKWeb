@@ -34,6 +34,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 				{ "System.FastReflection", "FastReflection" },
 				{ "System.DrawingCore", "ZKWeb.System.Drawing" }
 			};
+			// for `dynamic` support
+			Load("Microsoft.CSharp");
 		}
 
 		/// <summary>

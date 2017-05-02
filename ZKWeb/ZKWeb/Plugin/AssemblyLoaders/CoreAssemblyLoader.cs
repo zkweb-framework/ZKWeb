@@ -40,6 +40,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 				.SelectMany(l => l.GetDefaultAssemblyNames(DependencyContext.Default))
 				.Select(name => Context.LoadFromAssemblyName(name))
 				.Where(assembly => !assembly.IsDynamic));
+			// for `dynamic` support
+			Load("Microsoft.CSharp");
 		}
 
 		/// <summary>
