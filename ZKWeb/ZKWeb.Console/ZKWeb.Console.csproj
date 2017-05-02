@@ -1,45 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <Version>1.7.0</Version>
-    <TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
-    <AssemblyName>ZKWeb.Console</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>ZKWeb.Console</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">1.1.1</RuntimeFrameworkVersion>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Version>1.8.0</Version>
+		<TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
+		<AssemblyName>ZKWeb.Console</AssemblyName>
+		<OutputType>Exe</OutputType>
+		<PackageId>ZKWeb.Console</PackageId>
+		<NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+		<RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">1.1.1</RuntimeFrameworkVersion>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="App_Data\*" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="App_Data\**\*.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ZKWeb\ZKWeb.csproj" />
-    <ProjectReference Include="..\ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.csproj" />
-    <ProjectReference Include="..\ZKWeb.ORM.EFCore\ZKWeb.ORM.EFCore.csproj" />
-    <ProjectReference Include="..\ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.csproj" />
-    <ProjectReference Include="..\ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.csproj" />
-    <ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ZKWeb\ZKWeb.csproj" />
+		<ProjectReference Include="..\ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.csproj" />
+		<ProjectReference Include="..\ZKWeb.ORM.EFCore\ZKWeb.ORM.EFCore.csproj" />
+		<ProjectReference Include="..\ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.csproj" />
+		<ProjectReference Include="..\ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.csproj" />
+		<ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <ProjectReference Include="..\ZKWeb.ORM.NHibernate\ZKWeb.ORM.NHibernate.csproj" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+		<ProjectReference Include="..\ZKWeb.ORM.NHibernate\ZKWeb.ORM.NHibernate.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
-    <PackageReference Include="NSubstitute" Version="2.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+		<PackageReference Include="NSubstitute" Version="2.0.3" />
+	</ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
-    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+	</PropertyGroup>
 
 </Project>

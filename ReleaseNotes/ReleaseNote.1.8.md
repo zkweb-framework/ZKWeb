@@ -12,3 +12,10 @@
 	- Can be used to customize the method of getting action parameters
 - Bug fixes
 	- Fix deserialize `string` to `ZKWeb.Localize.T` failed
+	- Support `dynamic` keyword in plugin compilation
+- Upgrade packages
+	- NSubstitute 2.0.3
+	- Newtonsoft.Json 10.0.2
+	- Microsoft.CodeAnalysis.CSharp 2.1.0
+	- Microsoft.Owin 3.1.0
+	- Pomole.EntityFrameworkCore.MySql 1.1.1
