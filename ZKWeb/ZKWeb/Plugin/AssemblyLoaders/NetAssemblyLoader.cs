@@ -32,7 +32,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			};
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
-				{ "System.Drawing", "ZKWeb.System.Drawing" }
+				{ "System.DrawingCore", "ZKWeb.System.Drawing" }
 			};
 		}
 

@@ -33,7 +33,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			Context = new LoadContext();
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
-				{ "System.Drawing", "ZKWeb.System.Drawing" }
+				{ "System.DrawingCore", "ZKWeb.System.Drawing" }
 			};
 			LoadedAssemblies = new HashSet<Assembly>(
 				DependencyContext.Default.RuntimeLibraries

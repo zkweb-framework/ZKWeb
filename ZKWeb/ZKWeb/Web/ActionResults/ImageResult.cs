@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.DrawingCore;
+using System.DrawingCore.Imaging;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {

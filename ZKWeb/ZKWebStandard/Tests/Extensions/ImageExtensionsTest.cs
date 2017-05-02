@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.DrawingCore;
 using System.IO;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
