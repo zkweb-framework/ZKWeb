@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.Dapper</id>
-		<version>1.8.0-beta-2</version>
+		<version>1.8.0-beta-3</version>
 		<title>ZKWeb.ORM.Dapper</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.8.0-beta-2" />
+			<dependency id="ZKWeb" version="1.8.0-beta-3" />
 			<dependency id="Dapper" version="1.50.2" />
 			<dependency id="Dommel" version="1.8.1" />
 			<dependency id="Dapper.FluentMap" version="1.5.3" />

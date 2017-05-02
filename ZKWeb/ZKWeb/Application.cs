@@ -50,9 +50,8 @@ namespace ZKWeb {
 		/// </summary>
 		public static void Initialize<TApplication>(string websiteRootDirectory)
 			where TApplication : IApplication, new() {
-			var application = new TApplication();
-			application.Initialize(websiteRootDirectory);
-			Instance = application;
+			Instance = new TApplication();
+			Instance.Initialize(websiteRootDirectory);
 		}
 
 		/// <summary>
