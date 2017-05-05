@@ -15,6 +15,8 @@
 	- The initialize process can be customized now
 	- Please see `IApplication` and `DefaultApplication`
 - Improve assembly dependency resolving by preload referenced assemblies
+- Improve publish tool
+	- Support publish project with netcoreapp1.1
 - Bug fixes
 	- Fix deserialize `string` to `ZKWeb.Localize.T` failed
 	- Support `dynamic` keyword in plugin compilation

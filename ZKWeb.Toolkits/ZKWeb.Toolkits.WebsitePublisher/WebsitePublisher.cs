@@ -42,7 +42,9 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				Path.Combine(Parameters.WebRoot, "web.config"); // 照顾到大小写区分的文件系统
 			}
 			if (!File.Exists(webConfigPath)) {
-				throw new FileNotFoundException("web.config not found");
+				throw new FileNotFoundException("web.config not found, \r\n" +
+					"please choose the project directory contains `web.config`, " +
+					"for example: 'Hello.World\\src\\Hello.World.AspNetCore'");
 			}
 			return webConfigPath;
 		}
@@ -52,7 +54,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		/// Asp.Net:
 		/// - Use WebRoot\bin
 		/// Asp.Net Core:
-		/// - Find directory contains "ZKWeb.dll", "release", "net461", but not contains "publish"
+		/// - Find directory contains "ZKWeb.dll", "release", framework
 		/// - Publish with .Net Core is not support yet
 		/// </summary>
 		/// <param name="isCore">Is Asp.Net Core</param>
@@ -64,17 +66,24 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				isCore = true;
 				var configuration = Parameters.Configuration.ToLower();
 				var framework = Parameters.Framework.ToLower();
-				var dllPath = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
+				var dllPaths = Directory.EnumerateFiles(binDir, "ZKWeb.dll", SearchOption.AllDirectories)
 					.Where(p => {
 						var relPath = p.Substring(webRoot.Length).ToLower();
-						return (relPath.Contains(configuration) &&
-							relPath.Contains(framework) &&
-							!relPath.Contains("publish"));
-					}).FirstOrDefault();
+						return relPath.Contains(configuration) && relPath.Contains(framework);
+					}).ToList();
+				// prefer directory not contains publish
+				var dllPath = dllPaths.FirstOrDefault(d => !d.Contains("publish"));
+				if (dllPath == null) {
+					dllPath = dllPaths.FirstOrDefault();
+				}
 				if (dllPath == null) {
 					throw new DirectoryNotFoundException(
-						"bin directory not found, please compile the project " +
-						"with release configuration first");
+						"Bin directory not found, please follow these instructions:\r\n" +
+						"First, please choose directory contains `web.config` as the `website root`, " +
+						"for example 'Hello.World\\src\\Hello.World.AspNetCore'\r\n" +
+						"Second, if your project type is Asp.Net or Owin, please compile it with `Release` configuration\r\n" +
+						"and if your project type is Asp.Net Core, you need to run the folowing command:\r\n" +
+						"dotnet publish -f netcoreapp1.1 -c Release -r win10-x64");
 				}
 				binDir = Path.GetDirectoryName(dllPath);
 			} else {
@@ -137,6 +146,11 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var binDir = GetBinDirectory(out isCore);
 			var configJsonPath = GetConfigJsonPath();
 			var outputDir = Path.Combine(Parameters.OutputDirectory, Parameters.OutputName);
+			// Remove App_Data under bin directory, because `dotnet publish` may copy this directory
+			var appDataDirToRemove = Path.Combine(binDir, "App_Data");
+			if (Directory.Exists(appDataDirToRemove)) {
+				Directory.Delete(appDataDirToRemove, true);
+			}
 			// Copy website binaries
 			if (!isCore) {
 				// Asp.Net: copy files to output\bin, and copy Global.asax

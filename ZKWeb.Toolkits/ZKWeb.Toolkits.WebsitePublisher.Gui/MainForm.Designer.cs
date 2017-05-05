@@ -24,6 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.lbFramework = new System.Windows.Forms.Label();
 			this.tbIgnorePattern = new System.Windows.Forms.TextBox();
 			this.lbIgnorePattern = new System.Windows.Forms.Label();
 			this.btnPublishWebsite = new System.Windows.Forms.Button();
@@ -37,8 +38,7 @@
 			this.btnBrowseWebRoot = new System.Windows.Forms.Button();
 			this.tbWebRoot = new System.Windows.Forms.TextBox();
 			this.lbWebRoot = new System.Windows.Forms.Label();
-			this.tbFramework = new System.Windows.Forms.TextBox();
-			this.lbFramework = new System.Windows.Forms.Label();
+			this.cbFramework = new System.Windows.Forms.ComboBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panelOutputDirectory.SuspendLayout();
 			this.panelWebRoot.SuspendLayout();
@@ -49,7 +49,6 @@
 			this.tableLayoutPanel1.ColumnCount = 2;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.tbFramework, 0, 4);
 			this.tableLayoutPanel1.Controls.Add(this.lbFramework, 0, 4);
 			this.tableLayoutPanel1.Controls.Add(this.tbIgnorePattern, 0, 3);
 			this.tableLayoutPanel1.Controls.Add(this.lbIgnorePattern, 0, 3);
@@ -60,6 +59,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.lbOutputName, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.panelWebRoot, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.lbWebRoot, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.cbFramework, 1, 4);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -73,6 +73,17 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(663, 215);
 			this.tableLayoutPanel1.TabIndex = 0;
+			// 
+			// lbFramework
+			// 
+			this.lbFramework.AutoSize = true;
+			this.lbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lbFramework.Location = new System.Drawing.Point(3, 128);
+			this.lbFramework.Name = "lbFramework";
+			this.lbFramework.Size = new System.Drawing.Size(124, 32);
+			this.lbFramework.TabIndex = 24;
+			this.lbFramework.Text = "Framework:";
+			this.lbFramework.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tbIgnorePattern
 			// 
@@ -219,26 +230,20 @@
 			this.lbWebRoot.Text = "Website Root*:";
 			this.lbWebRoot.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// tbFramework
+			// cbFramework
 			// 
-			this.tbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbFramework.Location = new System.Drawing.Point(133, 134);
-			this.tbFramework.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-			this.tbFramework.Name = "tbFramework";
-			this.tbFramework.Size = new System.Drawing.Size(527, 20);
-			this.tbFramework.TabIndex = 25;
-			this.tbFramework.Text = "net461";
-			// 
-			// lbFramework
-			// 
-			this.lbFramework.AutoSize = true;
-			this.lbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbFramework.Location = new System.Drawing.Point(3, 128);
-			this.lbFramework.Name = "lbFramework";
-			this.lbFramework.Size = new System.Drawing.Size(124, 32);
-			this.lbFramework.TabIndex = 24;
-			this.lbFramework.Text = "Framework:";
-			this.lbFramework.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.cbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cbFramework.FormattingEnabled = true;
+			this.cbFramework.Items.AddRange(new object[] {
+            "net461",
+            "netcoreapp1.1",
+            "netcoreapp2.0"});
+			this.cbFramework.Location = new System.Drawing.Point(133, 134);
+			this.cbFramework.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
+			this.cbFramework.Name = "cbFramework";
+			this.cbFramework.Size = new System.Drawing.Size(527, 21);
+			this.cbFramework.TabIndex = 26;
+			this.cbFramework.Text = "net461";
 			// 
 			// MainForm
 			// 
@@ -277,8 +282,8 @@
 		private System.Windows.Forms.Button btnPublishWebsite;
 		private System.Windows.Forms.Label lbIgnorePattern;
 		private System.Windows.Forms.TextBox tbIgnorePattern;
-		private System.Windows.Forms.TextBox tbFramework;
 		private System.Windows.Forms.Label lbFramework;
+		private System.Windows.Forms.ComboBox cbFramework;
 	}
 }
 
