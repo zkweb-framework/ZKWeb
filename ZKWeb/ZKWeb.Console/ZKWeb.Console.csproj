@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="App_Data\**\*.cs" />
+		<!--<Compile Remove="App_Data\**\*.cs" />-->
 	</ItemGroup>
 
 	<ItemGroup>

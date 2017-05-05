@@ -14,6 +14,7 @@
 - Allow provide custom Application class
 	- The initialize process can be customized now
 	- Please see `IApplication` and `DefaultApplication`
+- Improve assembly dependency resolving by preload referenced assemblies
 - Bug fixes
 	- Fix deserialize `string` to `ZKWeb.Localize.T` failed
 	- Support `dynamic` keyword in plugin compilation

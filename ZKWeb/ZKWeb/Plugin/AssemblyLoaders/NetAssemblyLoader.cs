@@ -1,7 +1,6 @@
 ﻿#if !NETCORE
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using ZKWebStandard.Extensions;
 
@@ -9,16 +8,12 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
 	/// Assembly loader for .Net Framework
 	/// </summary>
-	internal class NetAssemblyLoader : IAssemblyLoader {
+	internal class NetAssemblyLoader : AssemblyLoaderBase {
 		/// <summary>
 		/// Possible assembly name suffixes
 		/// Use to load assemblies by short name
 		/// </summary>
 		private IList<string> PossibleAssemblyNameSuffixes { get; set; }
-		/// <summary>
-		/// Replacement assemblies
-		/// </summary>
-		private IDictionary<string, string> ReplacementAssemblies { get; set; }
 
 		/// <summary>
 		/// Initialize
@@ -30,72 +25,66 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
 				", Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
 			};
-			ReplacementAssemblies = new Dictionary<string, string>() {
-				{ "System.FastReflection", "FastReflection" },
-				{ "System.DrawingCore", "ZKWeb.System.Drawing" }
-			};
-			// for `dynamic` support
-			Load("Microsoft.CSharp");
-		}
-
-		/// <summary>
-		/// Get loaded assemblies
-		/// Except dynamic assemblies
-		/// </summary>
-		public IList<Assembly> GetLoadedAssemblies() {
-			return AppDomain.CurrentDomain.GetAssemblies()
-				.Where(assembly => !assembly.IsDynamic)
-				.Where(assembly => !ReplacementAssemblies.ContainsKey(assembly.GetName().Name))
-				.ToList();
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+				HandleLoadedAssembly(assembly);
+			}
 		}
 
 		/// <summary>
 		/// Load assembly by name
 		/// </summary>
-		public Assembly Load(string name) {
+		public override Assembly Load(string name) {
 			// Replace name if replacement exists
 			name = ReplacementAssemblies.GetOrDefault(name, name);
+			Assembly assembly = null;
 			try {
 				// Try load directly
-				return Load(new AssemblyName(name));
+				assembly = Load(new AssemblyName(name));
 			} catch {
 				// If load failed, add suffixes and try again
 				foreach (var suffix in PossibleAssemblyNameSuffixes) {
 					try {
-						return Load(new AssemblyName(name + suffix));
+						assembly = Load(new AssemblyName(name + suffix));
+						break;
 					} catch {
 					}
 				}
-				throw;
+				if (assembly == null) {
+					throw;
+				}
 			}
+			return HandleLoadedAssembly(assembly);
 		}
 
 		/// <summary>
 		/// Load assembly by name object
 		/// </summary>
-		public Assembly Load(AssemblyName assemblyName) {
-			return Assembly.Load(assemblyName);
+		public override Assembly Load(AssemblyName assemblyName) {
+			var assembly = Assembly.Load(assemblyName);
+			return HandleLoadedAssembly(assembly);
 		}
 
 		/// <summary>
 		/// Load assembly from it's binary contents
 		/// </summary>
-		public Assembly Load(byte[] rawAssembly) {
-			return Assembly.Load(rawAssembly);
+		public override Assembly Load(byte[] rawAssembly) {
+			var assembly = Assembly.Load(rawAssembly);
+			return HandleLoadedAssembly(assembly);
 		}
 
 		/// <summary>
 		/// Load assembly from file path
 		/// </summary>
-		public Assembly LoadFile(string path) {
-			return Assembly.LoadFile(path);
+		public override Assembly LoadFile(string path) {
+			var assembly = Assembly.LoadFile(path);
+			return HandleLoadedAssembly(assembly);
 		}
 
 		/// <summary>
 		/// Assembly resolve event handler
 		/// </summary>
 		/// <returns></returns>
-		protected Assembly AssemblyResolver(object sender, ResolveEventArgs args) {
+		private Assembly AssemblyResolver(object sender, ResolveEventArgs args) {
 			// If assembly already loaded, return the loaded instance
 			var requireName = new AssemblyName(args.Name);
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {

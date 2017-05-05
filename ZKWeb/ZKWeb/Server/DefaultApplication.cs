@@ -31,7 +31,7 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public virtual string FullVersion { get { return "1.8.0 beta 2"; } }
+		public virtual string FullVersion { get { return "1.8.0 beta 4"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>
