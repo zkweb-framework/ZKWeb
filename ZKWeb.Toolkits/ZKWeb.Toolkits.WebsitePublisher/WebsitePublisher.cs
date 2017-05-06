@@ -40,7 +40,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			var webRoot = GetWebRoot();
 			var webConfigPath = Path.Combine(webRoot, "Web.config");
 			if (!File.Exists(webConfigPath)) {
-				Path.Combine(Parameters.WebRoot, "web.config"); // 照顾到大小写区分的文件系统
+				webConfigPath = Path.Combine(webRoot, "web.config"); // 照顾到大小写区分的文件系统
 			}
 			if (!File.Exists(webConfigPath)) {
 				throw new FileNotFoundException("web.config not found, \r\n" +
@@ -108,10 +108,16 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 		/// <param name="binDir">bin directory</param>
 		/// <returns></returns>
 		protected virtual string GetAspNetCoreLauncherPath(string binDir) {
-			var exeName = Directory.EnumerateFiles(
-				binDir, "*.exe", SearchOption.TopDirectoryOnly)
+			var exeName = Directory
+				.EnumerateFiles(binDir, "*.exe", SearchOption.TopDirectoryOnly)
 				.Select(path => Path.GetFileName(path))
 				.Where(name => !name.Contains(".vshost.")).FirstOrDefault();
+			if (string.IsNullOrEmpty(exeName)) {
+				exeName = Directory
+					.EnumerateFiles(binDir, "*.dll", SearchOption.TopDirectoryOnly)
+					.Select(path => path.Substring(0, path.Length - ".dll".Length))
+					.Where(path => File.Exists(path)).FirstOrDefault();
+			}
 			if (string.IsNullOrEmpty(exeName)) {
 				throw new FileNotFoundException("Asp.Net Core Launcher exe not found");
 			}
