@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ZKWeb.Toolkits.WebsitePublisher.Model;
 using ZKWeb.Toolkits.WebsitePublisher.Utils;
 
@@ -152,16 +153,18 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				Directory.Delete(appDataDirToRemove, true);
 			}
 			// Copy website binaries
+			var ignorePattern = string.IsNullOrEmpty(Parameters.IgnorePattern) ?
+				null : new Regex(Parameters.IgnorePattern);
 			if (!isCore) {
 				// Asp.Net: copy files to output\bin, and copy Global.asax
 				DirectoryUtils.CopyDirectory(
-					binDir, Path.Combine(outputDir, "bin"), Parameters.IgnorePattern);
+					binDir, Path.Combine(outputDir, "bin"), ignorePattern);
 				File.Copy(webConfigPath, Path.Combine(outputDir, "web.config"), true);
 				File.Copy(Path.Combine(webRoot, "Global.asax"),
 					Path.Combine(outputDir, "Global.asax"), true);
 			} else {
 				// Asp.Net Core: copy files to output\, and replace launcher path in web.config
-				DirectoryUtils.CopyDirectory(binDir, outputDir, Parameters.IgnorePattern);
+				DirectoryUtils.CopyDirectory(binDir, outputDir, ignorePattern);
 				var webConfig = File.ReadAllText(webConfigPath);
 				webConfig = webConfig.Replace("%LAUNCHER_PATH%", GetAspNetCoreLauncherPath(binDir));
 				webConfig = webConfig.Replace("%LAUNCHER_ARGS%", "");
@@ -180,7 +183,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 			foreach (var pluginName in config.Plugins) {
 				var pluginDir = FindPluginDirectory(originalConfig, pluginName);
 				var outputPluginDir = Path.Combine(outputPluginRoot, pluginName);
-				DirectoryUtils.CopyDirectory(pluginDir, outputPluginDir, Parameters.IgnorePattern);
+				DirectoryUtils.CopyDirectory(pluginDir, outputPluginDir, ignorePattern);
 			}
 			// Remove src directory under plugins
 			foreach (var dir in Directory.EnumerateDirectories(

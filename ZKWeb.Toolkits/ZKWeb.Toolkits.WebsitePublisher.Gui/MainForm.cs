@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZKWeb.Toolkits.WebsitePublisher.Model;
@@ -14,7 +15,9 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Gui {
 			var dialog = new FolderBrowserDialog();
 			if (dialog.ShowDialog() == DialogResult.OK) {
 				tbWebRoot.Text = dialog.SelectedPath;
-				tbOutputName.Text = Path.GetFileName(dialog.SelectedPath).Split('.')[0];
+				var parts = Path.GetFileName(dialog.SelectedPath).Split('.');
+				var outputName = string.Join(".", parts.Take(parts.Length - (parts.Length > 1 ? 1 : 0)));
+				tbOutputName.Text = outputName;
 			}
 		}
 
