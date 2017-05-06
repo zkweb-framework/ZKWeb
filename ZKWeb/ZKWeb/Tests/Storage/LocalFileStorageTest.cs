@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using ZKWeb.Storage;
 using ZKWebStandard.Testing;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Storage {
 	[Tests]
@@ -16,7 +17,10 @@ namespace ZKWeb.Tests.Storage {
 				Assert.IsTrue(fileEntry.Exists);
 				Assert.IsTrue(!string.IsNullOrEmpty(fileEntry.Filename));
 				Assert.IsTrue(!string.IsNullOrEmpty(fileEntry.UniqueIdentifier));
-				Assert.IsTrue(fileEntry.CreationTimeUtc != DateTime.MinValue);
+				if (PlatformUtils.RunningOnWindows()) {
+					// on unix there no file creation time
+					Assert.IsTrue(fileEntry.CreationTimeUtc != DateTime.MinValue);
+				}
 				Assert.IsTrue(fileEntry.LastAccessTimeUtc != DateTime.MinValue);
 				Assert.IsTrue(fileEntry.LastWriteTimeUtc != DateTime.MinValue);
 				Assert.Equals(fileEntry.ReadAllText(), "test 1 in plugin b");
