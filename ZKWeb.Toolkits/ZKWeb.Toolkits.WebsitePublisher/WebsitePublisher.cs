@@ -190,11 +190,11 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				var pluginDir = FindPluginDirectory(originalConfig, pluginName);
 				var outputPluginDir = Path.Combine(outputPluginRoot, pluginName);
 				DirectoryUtils.CopyDirectory(pluginDir, outputPluginDir, ignorePattern);
-			}
-			// Remove src directory under plugins
-			foreach (var dir in Directory.EnumerateDirectories(
-				outputPluginRoot, "src", SearchOption.AllDirectories)) {
-				Directory.Delete(dir, true);
+				// Remove src directory under plugin
+				var srcDirectory = Path.Combine(outputPluginDir, "src");
+				if (Directory.Exists(srcDirectory)) {
+					Directory.Delete(srcDirectory, true);
+				}
 			}
 		}
 	}
