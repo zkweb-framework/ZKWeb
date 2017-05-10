@@ -26,7 +26,7 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 			// If error ain't client error, log it
 			if (!(statusCode >= 400 && statusCode < 500)) {
 				var logManager = Application.Ioc.Resolve<LogManager>();
-				logManager.LogError(ex.ToString());
+				logManager.LogError(ex.ToDetailedString());
 			}
 			// Check if it's ajax request
 			var request = HttpManager.CurrentContext.Request;
@@ -34,7 +34,7 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 			if (request.IsAjaxRequest()) {
 				// Only return message for ajax request
 				response.ContentType = "text/plain";
-				response.Write(ex.Message);
+				response.Write(ex.ToSummaryString());
 				response.End();
 			} else {
 				// Return staatus and message for other request
@@ -47,7 +47,7 @@ namespace ZKWeb.Web.HttpRequestHandlers {
 				message.AppendFormat("<h1>{0} {1}</h1>",
 					statusCode, HttpUtils.HtmlEncode(ex.Message));
 				if (displayFullException && httpExcepion == null) {
-					message.AppendFormat("<pre>{0}</pre>", HttpUtils.HtmlEncode(ex));
+					message.AppendFormat("<pre>{0}</pre>", HttpUtils.HtmlEncode(ex.ToDetailedString()));
 				}
 				response.ContentType = "text/html";
 				response.Write(message.ToString());

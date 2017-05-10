@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.8.0</Version>
+		<Version>1.9.0</Version>
 		<TargetFramework>net461</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.Hosting.AspNet</AssemblyName>

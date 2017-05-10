@@ -31,7 +31,7 @@ namespace ZKWeb.Server {
 		/// <summary>
 		/// ZKWeb Version String
 		/// </summary>
-		public virtual string FullVersion { get { return "1.8.0"; } }
+		public virtual string FullVersion { get { return "1.9.0 beta 1"; } }
 		/// <summary>
 		/// ZKWeb Version Object
 		/// </summary>
@@ -142,11 +142,15 @@ namespace ZKWeb.Server {
 			if (Interlocked.Exchange(ref initialized, 1) != 0) {
 				throw new InvalidOperationException("Application already initialized");
 			}
-			WebsiteRootDirectory = websiteRootDirectory;
-			InitializeContainer();
-			InitializeCoreComponents();
-			InitializePlugins();
-			StartServices();
+			try {
+				WebsiteRootDirectory = websiteRootDirectory;
+				InitializeContainer();
+				InitializeCoreComponents();
+				InitializePlugins();
+				StartServices();
+			} catch (Exception ex) {
+				throw new Exception(ex.ToDetailedString(), ex);
+			}
 		}
 
 		/// <summary>

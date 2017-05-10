@@ -34,5 +34,44 @@ namespace ZKWebStandard.Extensions {
 			return expression.GetMemberInfo().GetCustomAttributes(
 				typeof(TAttribute), true).FirstOrDefault() as TAttribute;
 		}
+
+		/// <summary>
+		/// Expression visitor used to replace node in expression
+		/// </summary>
+		public class ReplaceExpressionVisitor : ExpressionVisitor {
+			private readonly Expression _oldValue;
+			private readonly Expression _newValue;
+
+			/// <summary>
+			/// Initialize
+			/// </summary>
+			public ReplaceExpressionVisitor(Expression oldNode, Expression newNode) {
+				_oldValue = oldNode;
+				_newValue = newNode;
+			}
+
+			/// <summary>
+			/// Replace node in expression
+			/// </summary>
+			public override Expression Visit(Expression node) {
+				if (node == _oldValue) {
+					return _newValue;
+				}
+				return base.Visit(node);
+			}
+		}
+
+		/// <summary>
+		/// Replace node in expression recursively
+		/// </summary>
+		/// <param name="expression">Expression</param>
+		/// <param name="oldNode">Old node</param>
+		/// <param name="newNode">New Node</param>
+		/// <returns></returns>
+		public static Expression ReplaceNode(
+			this Expression expression, Expression oldNode, Expression newNode) {
+			var visitor = new ReplaceExpressionVisitor(oldNode, newNode);
+			return visitor.Visit(expression);
+		}
 	}
 }

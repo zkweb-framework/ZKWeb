@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.8.0</Version>
+		<Version>1.9.0</Version>
 		<TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
 		<AssemblyName>ZKWeb.Console</AssemblyName>
 		<OutputType>Exe</OutputType>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.8.0</Version>
+		<Version>1.9.0</Version>
 		<TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.Dapper</AssemblyName>
