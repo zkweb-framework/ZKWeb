@@ -8,3 +8,5 @@
 	- Exception.ToDetailedString
 	- Exception.ToSummaryString
 	- Expression.ReplaceNode
+- Bug fixes
+	- Fix IFileEntry.WriteAllBytes

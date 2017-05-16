@@ -60,7 +60,7 @@ namespace ZKWeb.Storage {
 		/// <param name="entry">File entry</param>
 		/// <param name="bytes">Byte array</param>
 		public static void WriteAllBytes(this IFileEntry entry, byte[] bytes) {
-			using (var stream = entry.OpenRead()) {
+			using (var stream = entry.OpenWrite()) {
 				stream.Write(bytes, 0, bytes.Length);
 			}
 		}
