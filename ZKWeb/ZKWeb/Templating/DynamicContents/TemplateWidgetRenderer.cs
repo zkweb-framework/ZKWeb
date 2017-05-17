@@ -1,6 +1,8 @@
 ﻿using DotLiquid;
 using DotLiquid.Tags;
+using System;
 using System.IO;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
@@ -32,10 +34,14 @@ namespace ZKWeb.Templating.DynamicContents {
 			var scope = templateManager.CreateHash(widget.Args);
 			context.Stack(scope, () => {
 				writer.Write(GetBeforeHtml(context, widget));
-				var includeTag = new Include();
-				var htmlPath = widget.Path + TemplateWidgetInfo.HtmlExtension;
-				includeTag.Initialize("include", htmlPath, null);
-				includeTag.Render(context, writer);
+				try {
+					var includeTag = new Include();
+					var htmlPath = widget.Path + TemplateWidgetInfo.HtmlExtension;
+					includeTag.Initialize("include", htmlPath, null);
+					includeTag.Render(context, writer);
+				} catch (Exception ex) {
+					writer.Write(ex.ToDetailedString());
+				}
 				writer.Write(GetAfterHtml(context, widget));
 			});
 			return writer.ToString();

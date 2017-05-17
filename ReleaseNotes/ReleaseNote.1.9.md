@@ -8,5 +8,7 @@
 	- Exception.ToDetailedString
 	- Exception.ToSummaryString
 	- Expression.ReplaceNode
+- Improve template engine
+	- Keep widget before and after html when render failed
 - Bug fixes
 	- Fix IFileEntry.WriteAllBytes
