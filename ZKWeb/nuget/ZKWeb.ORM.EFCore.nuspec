@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.EFCore</id>
-		<version>1.8.0</version>
+		<version>1.9.0-beta-1</version>
 		<title>ZKWeb.ORM.EFCore</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.8.0" />
+			<dependency id="ZKWeb" version="1.9.0-beta-1" />
 			<dependency id="Microsoft.EntityFrameworkCore" version="1.1.1" />
 			<dependency id="Microsoft.EntityFrameworkCore.Design" version="1.1.1" />
 			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="1.1.1" />
