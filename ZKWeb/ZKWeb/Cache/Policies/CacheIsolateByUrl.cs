@@ -5,11 +5,15 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
-	/// Isolate cache by visiting url and query string
+	/// Isolate cache by http request url and parameters<br/>
+	/// 根据Http请求的Url和参数隔离缓存<br/>
 	/// </summary>
+	/// <seealso cref="CacheFactory"/>
+	/// <seealso cref="CacheFactoryOptions"/>
 	public class CacheIsolateByUrl : ICacheIsolationPolicy {
 		/// <summary>
-		/// Get isolation key
+		/// Get isolation key<br/>
+		/// 获取隔离键<br/>
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {

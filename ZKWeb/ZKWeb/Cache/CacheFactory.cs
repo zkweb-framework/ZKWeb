@@ -4,12 +4,29 @@ using ZKWebStandard.Collections;
 
 namespace ZKWeb.Cache {
 	/// <summary>
-	/// Key-value cache factory
+	/// Factory used to generate a key-value cache instance<br/>
+	/// 用于生成一个键值缓存实例的工厂类<br/>
 	/// </summary>
+	/// <example>
+	/// <code language="cs">
+	/// var cacheFactory = Application.Ioc.Resolve&lt;ICacheFactory&gt;();
+	/// 
+	/// // create simple key value cache
+	/// var simpleCache = cacheFactory.CreateCache&lt;int, int&gt;();
+	/// 
+	/// // create device isolated key value cache
+	/// var options = CacheFactoryOptions.Default.WithIsolationPolicies("Device");
+	/// var isolatedCache = cacheFactory.CreateCache&lt;int, int&gt;(options);
+	/// </code>
+	/// </example>
+	/// <seealso cref="CacheFactoryOptions"/>
 	internal class CacheFactory : ICacheFactory {
 		/// <summary>
-		/// Create cache by given options
+		/// Create cache instance<br/>
+		/// 创建缓存实例<br/>
 		/// </summary>
+		/// <param name="options">Options used to generate the cache instance</param>
+		/// <returns></returns>
 		public virtual IKeyValueCache<TKey, TValue> CreateCache<TKey, TValue>(
 			CacheFactoryOptions options = null) {
 			options = options ?? CacheFactoryOptions.Default;

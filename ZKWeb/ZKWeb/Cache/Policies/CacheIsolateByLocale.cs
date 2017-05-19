@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
@@ -8,11 +7,15 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Cache.Policies {
 	/// <summary>
-	/// Isolate cache by culture and timezone
+	/// Isolate cache by language and timezone<br/>
+	/// 按语言和时区隔离缓存<br/>
 	/// </summary>
+	/// <seealso cref="CacheFactory"/>
+	/// <seealso cref="CacheFactoryOptions"/>
 	public class CacheIsolateByLocale : ICacheIsolationPolicy {
 		/// <summary>
-		/// Get isolation key
+		/// Get isolation key<br/>
+		/// 获取隔离键<br/>
 		/// </summary>
 		/// <returns></returns>
 		public object GetIsolationKey() {

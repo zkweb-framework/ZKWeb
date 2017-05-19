@@ -4,6 +4,9 @@
 		- Update require .net framework to 4.6.2 (if really need)
 	- Support publish to other platform
 		- Provide linux project creator and website publisher
+	- Improve documentation
+		- Provide chinese comment again
+		- Provide examples
 
 Undefined
 - Run all tests on macos

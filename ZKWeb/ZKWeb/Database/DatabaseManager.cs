@@ -6,11 +6,13 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Database {
 	/// <summary>
-	/// Database manager
+	/// Database manager<br/>
+	/// 数据库管理器<br/>
 	/// </summary>
 	public class DatabaseManager {
 		/// <summary>
-		/// Default database context factory
+		/// Default database context factory<br/>
+		/// 默认的数据库上下文生成器<br/>
 		/// </summary>
 		protected virtual IDatabaseContextFactory DefaultContextFactory { get; set; }
 
