@@ -52,6 +52,8 @@ namespace ZKWeb.Database {
 	/// }
 	/// </code> 
 	/// </example>
+	/// <seealso cref="IDatabaseContextFactory"/>
+	/// <seealso cref="DatabaseManager"/>
 	public interface IDatabaseContext : IDisposable {
 		/// <summary>
 		/// ORM name<br/>
