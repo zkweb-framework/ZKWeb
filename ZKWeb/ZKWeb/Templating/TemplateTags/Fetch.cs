@@ -31,6 +31,7 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// 如果Action返回JsonResult或者PlainResult, 则结果会是返回的对象<br/>
 	/// 否则结果会是描画出来的文本 (不支持二进制数据)<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	/// <example>
 	/// Url<br/>
 	/// <code>

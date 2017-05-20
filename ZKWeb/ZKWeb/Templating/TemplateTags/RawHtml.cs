@@ -6,6 +6,7 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// Render text as raw html<br/>
 	/// 把文本作为Html描画<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	/// <example>
 	/// <code>
 	/// {% raw_html variable %}

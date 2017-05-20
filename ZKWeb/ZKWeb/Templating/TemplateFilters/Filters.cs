@@ -6,6 +6,7 @@ namespace ZKWeb.Templating.TemplateFilters {
 	/// Dotliquid template filters
 	/// Dotliquid模板使用的过滤器<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	public static class Filters {
 		/// <summary>
 		/// Translate text<br/>

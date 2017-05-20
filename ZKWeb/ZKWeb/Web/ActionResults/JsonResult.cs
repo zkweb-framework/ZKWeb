@@ -4,25 +4,33 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Json result
+	/// Json result<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class JsonResult : IActionResult {
 		/// <summary>
-		/// The object serialize to json
+		/// The object serialize to json<br/>
+		/// <br/>
 		/// </summary>
 		public object Object { get; set; }
 		/// <summary>
-		/// Serialize formatting
+		/// Serialize formatting<br/>
+		/// <br/>
 		/// </summary>
 		public Formatting SerializeFormatting { get; set; }
 		/// <summary>
 		/// Content Type
-		/// Default is "application/json; charset=utf-8"
+		/// Default is "application/json; charset=utf-8"<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public string ContentType { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">The object serialize to json</param>
 		/// <param name="formatting">Serialize formatting</param>
@@ -33,7 +41,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Write json to http response
+		/// Write json to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {

@@ -2,19 +2,31 @@
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// Interface used to get the action parameters
+	/// Interface used to get the action parameters<br/>
+	/// <br/>
+	/// </summary>
+	/// <example>
 	/// For example:
+	/// 例如:
+	/// <code language="cs">
 	/// public class ExampleController : IController {
 	///		public string ExampleAction(int x) {
 	///			return x.ToString();
 	///		}
 	/// }
-	/// Will call
+	/// </code>
+	/// 
+	/// Will call:
+	/// 会调用:
+	/// <code language="cs">
 	/// provider.GetParameter(
 	///		"x",
 	///		methodof(ExampleAction),
 	///		parameterof(ExampleAction.x));
-	/// </summary>
+	///	</code>
+	/// </example>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public interface IActionParameterProvider {
 		/// <summary>
 		/// Get action parameter

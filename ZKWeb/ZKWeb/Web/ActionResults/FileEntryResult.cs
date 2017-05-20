@@ -21,6 +21,8 @@ namespace ZKWeb.Web.ActionResults {
 	///	}
 	/// </code>
 	/// </example>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class FileEntryResult : IActionResult {
 		/// <summary>
 		/// File path<br/>

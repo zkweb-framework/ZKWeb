@@ -7,6 +7,7 @@ namespace ZKWeb.Testing.TestEventHandlers {
 	/// Test event handler for running tests from console<br/>
 	/// 控制台运行测试使用的事件处理器<br/>
 	/// </summary>
+	/// <seealso cref="TestManager"/>
 	public class TestConsoleEventHandler : ITestEventHandler {
 #pragma warning disable CS1591
 		public void OnAllTestStarting(AllTestStartingInfo info) {

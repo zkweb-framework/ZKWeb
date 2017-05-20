@@ -15,6 +15,9 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template area and widgets manager<br/>
 	/// 模板区域和模块的管理器<br/>
 	/// </summary>
+	/// <seealso cref="TemplateArea"/>
+	/// <seealso cref="TemplateWidget"/>
+	/// <seealso cref="TemplateWidgetInfo"/>
 	public class TemplateAreaManager : ICacheCleaner {
 		/// <summary>
 		/// Widget information cache time<br/>

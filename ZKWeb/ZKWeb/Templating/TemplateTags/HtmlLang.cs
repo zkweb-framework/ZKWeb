@@ -8,6 +8,7 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// 显示当前语言代码<br/>
 	/// <br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	/// <example>
 	/// <code>
 	/// &lt;html lang="{% html_lang %}"&gt;&lt;/html&gt;

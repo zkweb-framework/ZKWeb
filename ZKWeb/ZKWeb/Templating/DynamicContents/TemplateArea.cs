@@ -5,6 +5,9 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template area<br/>
 	/// 模板区域<br/>
 	/// </summary>
+	/// <seealso cref="TemplateWidget"/>
+	/// <seealso cref="TemplateWidgetInfo"/>
+	/// <seealso cref="TemplateAreaManager"/>
 	public class TemplateArea {
 		/// <summary>
 		/// Area Id<br/>

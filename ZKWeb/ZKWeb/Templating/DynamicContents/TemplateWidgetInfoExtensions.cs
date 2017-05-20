@@ -5,6 +5,7 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template widget information extension methods<br/>
 	/// 模板模块的信息的扩展函数<br/>
 	/// </summary>
+	/// <seealso cref="TemplateWidgetInfo"/>
 	public static class TemplateWidgetInfoExtensions {
 		/// <summary>
 		/// Get cache isolation policy names<br/>

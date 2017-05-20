@@ -5,11 +5,15 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionParameterProviders {
 	/// <summary>
-	/// Default action parameter provider
+	/// Default action parameter provider<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class DefaultActionParameterProvider : IActionParameterProvider {
 		/// <summary>
-		/// Get parameter from http request
+		/// Get parameter from http request<br/>
+		/// <br/>
 		/// </summary>
 		public T GetParameter<T>(string name, MethodInfo method, ParameterInfo parameterInfo) {
 			// Get parameter from form or query

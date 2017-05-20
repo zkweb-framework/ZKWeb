@@ -13,6 +13,7 @@ namespace ZKWeb.Templating {
 	/// Dotliquid template file system<br/>
 	/// Dotliquid使用的模板文件系统<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	public class TemplateFileSystem : IFileSystem, ICacheCleaner {
 		/// <summary>
 		/// Parsed template cache time<br/>

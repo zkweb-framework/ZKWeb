@@ -9,6 +9,8 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Built-in template widget renderer<br/>
 	/// 内置的模板模块描画器<br/>
 	/// </summary>
+	/// <seealso cref="TemplateWidget"/>
+	/// <seealso cref="TemplateAreaManager"/>
 	public class TemplateWidgetRenderer : ITemplateWidgetRenderer {
 		/// <summary>
 		/// Get html before widget contents<br/>

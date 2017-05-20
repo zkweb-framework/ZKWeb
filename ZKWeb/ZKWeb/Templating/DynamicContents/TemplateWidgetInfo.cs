@@ -11,6 +11,8 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// 模板模块的信息<br/>
 	/// 从{模块路径}.widget文件反序列化得到<br/>
 	/// </summary>
+	/// <seealso cref="TemplateWidget"/>
+	/// <seealso cref="TemplateAreaManager"/>
 	public class TemplateWidgetInfo : ILiquidizable {
 		/// <summary>
 		/// Widget information file extension<br/>

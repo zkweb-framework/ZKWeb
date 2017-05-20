@@ -2,11 +2,14 @@
 
 namespace ZKWeb.Web.HttpRequestHandlers {
 	/// <summary>
-	/// Add version header to http response
+	/// Add version header to http response<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="IHttpRequestPreHandler"/>
 	public class AddVersionHeaderHandler : IHttpRequestPreHandler {
 		/// <summary>
-		/// Handle request
+		/// Handle request<br/>
+		/// <br/>
 		/// </summary>
 		public void OnRequest() {
 			var response = HttpManager.CurrentContext.Response;

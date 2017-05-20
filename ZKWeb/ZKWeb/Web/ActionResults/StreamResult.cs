@@ -6,31 +6,39 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Stream result
+	/// Stream result<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class StreamResult : IActionResult, IDisposable {
 		/// <summary>
-		/// Stream object, auto dispose after wrote to response
+		/// Stream object, auto dispose after wrote to response<br/>
+		/// <br/>
 		/// </summary>
 		public Stream Stream { get; set; }
 		/// <summary>
-		/// Mime type
+		/// Mime type<br/>
+		/// <br/>
 		/// </summary>
 		public string ContentType { get; set; }
 		/// <summary>
-		/// Range request in bytes
+		/// Range request in bytes<br/>
+		/// <br/>
 		/// </summary>
 		public Pair<long?, long?> BytesRange { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		public StreamResult(Stream stream) :
 			this(stream, "application/octet-stream") { }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="contentType">Mime type</param>
@@ -38,7 +46,8 @@ namespace ZKWeb.Web.ActionResults {
 			this(stream, contentType, Pair.Create<long?, long?>(null, null)) { }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="bytesRange">Range request in bytes</param>
@@ -46,7 +55,8 @@ namespace ZKWeb.Web.ActionResults {
 			this(stream, "application/octet-stream", bytesRange) { }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="contentType">Mime type</param>
@@ -58,7 +68,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Write stream to http response
+		/// Write stream to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {
@@ -91,7 +102,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Dispose stream
+		/// Dispose stream<br/>
+		/// <br/>
 		/// </summary>
 		public void Dispose() {
 			Stream.Dispose();

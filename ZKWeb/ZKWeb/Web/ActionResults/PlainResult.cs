@@ -3,21 +3,28 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Plain test result
+	/// Plain test result<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class PlainResult : IActionResult {
 		/// <summary>
-		/// The text
+		/// The text<br/>
+		/// <br/>
 		/// </summary>
 		public string Text { get; set; }
 		/// <summary>
-		/// Content Type
-		/// Default is "text/plain; charset=utf-8"
+		/// Content Type<br/>
+		/// Default is "text/plain; charset=utf-8"<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public string ContentType { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">It will call ToString to get the text form this object</param>
 		public PlainResult(object obj) {
@@ -26,7 +33,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Write text to http response
+		/// Write text to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {

@@ -17,6 +17,7 @@ namespace ZKWeb.Templating.TemplateTags {
 	/// - 如果有定义自定义模块则描画自定义模块, 否则<br/>
 	/// - 描画默认模块<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	/// <example>
 	/// <code>
 	/// {% area test_area %}

@@ -6,6 +6,7 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template area extension methods<br/>
 	/// 模板区域的扩展函数<br/>
 	/// </summary>
+	/// <seealso cref="TemplateArea"/>
 	public static class TemplateAreaExtensions {
 		/// <summary>
 		/// Add widget<br/>

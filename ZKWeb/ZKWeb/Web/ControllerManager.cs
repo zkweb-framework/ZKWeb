@@ -10,8 +10,10 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// Controller manager
+	/// Controller manager<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="IController"/>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
 		/// { (Path, Method): Action }
@@ -19,15 +21,18 @@ namespace ZKWeb.Web {
 		protected IDictionary<Pair<string, string>, Func<IActionResult>> Actions { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public ControllerManager() {
 			Actions = new ConcurrentDictionary<Pair<string, string>, Func<IActionResult>>();
 		}
 
 		/// <summary>
-		/// Handle http request
-		/// Find the action from the request path, if not found then do nothing
+		/// Handle http request<br/>
+		/// Find the action from the request path, if not found then do nothing<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public virtual void OnRequest() {
 			var context = HttpManager.CurrentContext;
@@ -46,7 +51,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register controller type
+		/// Register controller type<br/>
+		/// <br/>
 		/// </summary>
 		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController<T>() {
@@ -54,7 +60,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register controller type
+		/// Register controller type<br/>
+		/// <br/>
 		/// </summary>
 		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController(Type type) {
@@ -62,8 +69,10 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register controller instance
-		/// Attention: this instance will be used across all requests
+		/// Register controller instance<br/>
+		/// Attention: this instance will be used across all requests<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="controller">Controller instance</param>
 		public virtual void RegisterController(IController controller) {
@@ -91,9 +100,11 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Normalize path
-		/// If path not startswith / then add /
-		/// If path ends / then remove /
+		/// Normalize path<br/>
+		/// If path not startswith / then add /<br/>
+		/// If path ends / then remove /<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <returns></returns>
@@ -108,7 +119,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register action
+		/// Register action<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -118,7 +130,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register action
+		/// Register action<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -141,7 +154,8 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Unregister action
+		/// Unregister action<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -153,8 +167,10 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Get action from path and method
-		/// Return null if not found
+		/// Get action from path and method<br/>
+		/// Return null if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -166,9 +182,12 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Initialize
-		/// Add registered controllers
-		/// Attention: all controllers will be created here
+		/// Initialize<br/>
+		/// Add registered controllers<br/>
+		/// Attention: all controllers will be created here<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		internal static void Initialize() {
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();

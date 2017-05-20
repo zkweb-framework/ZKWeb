@@ -5,6 +5,7 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// Template widget renderer<br/>
 	/// 模板模块描画器<br/>
 	/// </summary>
+	/// <seealso cref="TemplateManager"/>
 	public interface ITemplateWidgetRenderer {
 		/// <summary>
 		/// Render widget<br/>

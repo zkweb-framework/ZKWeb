@@ -2,20 +2,26 @@
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Redirect result
+	/// Redirect result<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class RedirectResult : IActionResult {
 		/// <summary>
-		/// Redirect to url
+		/// Redirect to url<br/>
+		/// <br/>
 		/// </summary>
 		public string Url { get; set; }
 		/// <summary>
-		/// Is permanent
+		/// Is permanent<br/>
+		/// <br/>
 		/// </summary>
 		public bool Permanent { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="url">Redirect to url</param>
 		/// <param name="permanent">Is permanent</param>
@@ -25,7 +31,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Send redirect response
+		/// Send redirect response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {

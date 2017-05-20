@@ -8,11 +8,14 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.HttpRequestHandlers {
 	/// <summary>
-	/// Default error handler
+	/// Default error handler<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="IHttpRequestErrorHandler"/>
 	public class DefaultErrorHandler : IHttpRequestErrorHandler {
 		/// <summary>
-		/// Handler request error
+		/// Handler request error<br/>
+		/// <br/>
 		/// </summary>
 		public void OnError(Exception ex) {
 			// Use most inner exception

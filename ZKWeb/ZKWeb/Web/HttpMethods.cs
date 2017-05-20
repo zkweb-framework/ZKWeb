@@ -1,6 +1,7 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// Common http methods
+	/// Common http methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class HttpMethods {
 		/// <summary>

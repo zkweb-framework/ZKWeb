@@ -3,6 +3,7 @@
 	/// Template widget extension methods<br/>
 	/// 模板模块的扩展函数<br/>
 	/// </summary>
+	/// <seealso cref="TemplateWidget"/>
 	public static class TemplateWidgetExtensions {
 		/// <summary>
 		/// Get cache key for template widget<br/>

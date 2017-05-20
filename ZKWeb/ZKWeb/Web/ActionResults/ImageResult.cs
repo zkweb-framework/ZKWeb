@@ -5,20 +5,26 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Image result
+	/// Image result<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public class ImageResult : IActionResult, IDisposable {
 		/// <summary>
-		/// Image object
+		/// Image object<br/>
+		/// <br/>
 		/// </summary>
 		public Image Image { get; set; }
 		/// <summary>
-		/// Image format
+		/// Image format<br/>
+		/// <br/>
 		/// </summary>
 		public ImageFormat Format { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="format">Image format, default is Jpeg</param>
@@ -27,12 +33,13 @@ namespace ZKWeb.Web.ActionResults {
 			Format = format ?? ImageFormat.Jpeg;
 		}
 
-		/// <summary>
+		/// <summary><br/>
+		/// Write image to http response<br/>
 		/// 写入图片到Http回应
 		/// </summary>
 		/// <param name="response">Http回应</param>
 		public void WriteResponse(IHttpResponse response) {
-			// 设置状态代码和内容类型
+			// Set status code and content type
 			response.StatusCode = 200;
 			if (Format == ImageFormat.Jpeg) {
 				response.ContentType = "image/jpeg";
@@ -45,13 +52,14 @@ namespace ZKWeb.Web.ActionResults {
 			} else if (Format == ImageFormat.Png) {
 				response.ContentType = "image/png";
 			}
-			// 写入图片到回应
+			// Write image to http response
 			Image.Save(response.Body, Format);
 			response.Body.Flush();
 		}
 
 		/// <summary>
-		/// 清理资源
+		/// Clear resources<br/>
+		/// 清理资源<br/>
 		/// </summary>
 		public void Dispose() {
 			Image.Dispose();

@@ -7,11 +7,15 @@ using ZKWeb.Web.ActionResults;
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// IController extension methods
+	/// IController extension methods<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	public static class IControllerExtensions {
 		/// <summary>
-		/// Get action parameter
+		/// Get action parameter<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Parameter type</typeparam>
 		/// <param name="name">Parameter name</param>
@@ -25,21 +29,30 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Method information of GetActionParameter
+		/// Method information of GetActionParameter<br/>
+		/// <br/>
 		/// </summary>
 		private static MethodInfo GetActionParameterMethod =>
 			typeof(IControllerExtensions).GetMethod(nameof(GetActionParameter),
 				BindingFlags.NonPublic | BindingFlags.Static);
 
 		/// <summary>
-		/// Build action delegate from method information
-		/// Result type handling
-		/// - If method returns IActionResult, then use it
-		/// - If method returns string, then wrap result with PlainResult
-		/// - Otherwise wrap result with JsonResult
-		/// Parameters handling
-		/// - Get parameter by it's name from http request
-		/// - There no null check about parameters
+		/// Build action delegate from method information<br/>
+		/// Result type handling<br/>
+		/// - If method returns IActionResult, then use it<br/>
+		/// - If method returns string, then wrap result with PlainResult<br/>
+		/// - Otherwise wrap result with JsonResult<br/>
+		/// Parameters handling<br/>
+		/// - Get parameter by it's name from http request<br/>
+		/// - There no null check about parameters<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="controller">Controller instance</param>
 		/// <param name="method">Method information</param>

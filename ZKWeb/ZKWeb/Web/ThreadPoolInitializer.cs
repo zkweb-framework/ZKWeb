@@ -2,11 +2,14 @@
 
 namespace ZKWeb.Web {
 	/// <summary>
-	/// Thread pool initializer
+	/// Thread pool initializer<br/>
+	/// <br/>
 	/// </summary>
+	/// <seealso cref="Server.IApplication"/>
 	internal static class ThreadPoolInitializer {
 		/// <summary>
-		/// Initialize thread pool
+		/// Initialize thread pool<br/>
+		/// <br/>
 		/// </summary>
 		internal static void Initialize() {
 #if NETCORE

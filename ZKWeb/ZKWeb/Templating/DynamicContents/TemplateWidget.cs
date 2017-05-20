@@ -9,6 +9,8 @@ namespace ZKWeb.Templating.DynamicContents {
 	/// 模板模块<br/>
 	/// 在模块区域之内, 用于显示动态的内容<br/>
 	/// </summary>
+	/// <seealso cref="TemplateArea"/>
+	/// <seealso cref="TemplateAreaManager"/>
 	public class TemplateWidget {
 		/// <summary>
 		/// Widget path<br/>
