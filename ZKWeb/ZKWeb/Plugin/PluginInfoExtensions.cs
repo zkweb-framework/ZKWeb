@@ -9,11 +9,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin {
 	/// <summary>
-	/// Plugin information extension methods
+	/// Plugin information extension methods<br/>
+	/// 插件信息的扩展函数<br/>
 	/// </summary>
 	public static class PluginInfoExtensions {
 		/// <summary>
-		/// Get directory name
+		/// Get directory name<br/>
+		/// 获取目录名称<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -22,7 +24,8 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get source directory
+		/// Get source directory<br/>
+		/// 获取源代码目录的路径<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -31,8 +34,10 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get binary directory
-		/// Path contains target platform name
+		/// Get binary directory<br/>
+		/// Path contains target platform name<br/>
+		/// 获取程序集目录的路径<br/>
+		/// 路径会包含平台名称<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -42,7 +47,8 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get source files 
+		/// Get source files<br/>
+		/// 获取源代码列表<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -55,7 +61,8 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get assembly file path
+		/// Get assembly file path<br/>
+		/// 获取程序集文件的路径<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -64,7 +71,8 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get pdb file path
+		/// Get pdb file path<br/>
+		/// 获取pdb文件的路径<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -73,9 +81,11 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get compile infomation path
-		/// Contains source code paths and it's modify time,
-		/// use to determine if recompile is needed
+		/// Get compile infomation path<br/>
+		/// Contains source code paths and it's modify time,<br/>
+		/// use to determine if recompile is needed<br/>
+		/// 获取编译信息的路径<br/>
+		/// 编译信息包含了源代码列表和它的修改时间, 用于检测是否需要重新编译<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -84,8 +94,10 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get assembly path from plugin's reference directory
-		/// Return null if not found
+		/// Get assembly path from plugin's reference directory<br/>
+		/// Return null if not found<br/>
+		/// 从插件的引用目录获取引用程序集的路径<br/>
+		/// 如果找不到则返回null<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <param name="assemblyName">Assembly name</param>
@@ -106,8 +118,10 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Get plugin version objects
-		/// Return an empty version if parse failed
+		/// Get plugin version objects<br/>
+		/// Return an empty version if parse failed<br/>
+		/// 获取插件的版本对象<br/>
+		/// 如果解析失败则返回空版本<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		/// <returns></returns>
@@ -120,7 +134,8 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
-		/// Compile plugin
+		/// Compile plugin<br/>
+		/// 编译插件<br/>
 		/// </summary>
 		/// <param name="info">Plugin information</param>
 		public static void Compile(this PluginInfo info) {

@@ -12,11 +12,13 @@ using System.Reflection;
 
 namespace ZKWeb.Plugin.CompilerServices {
 	/// <summary>
-	/// Roslyn compiler service
+	/// Roslyn compiler service<br/>
+	/// 基于Roslyn的编译服务<br/>
 	/// </summary>
 	internal class RoslynCompilerService : ICompilerService {
 		/// <summary>
-		/// Target platform name
+		/// Target platform name, net or netstandard<br/>
+		/// 目标平台的名称, net或netstandard<br/>
 		/// </summary>
 #if NETCORE
 		public string TargetPlatform { get { return "netstandard"; } }
@@ -24,20 +26,24 @@ namespace ZKWeb.Plugin.CompilerServices {
 		public string TargetPlatform { get { return "net"; } }
 #endif
 		/// <summary>
-		/// Loaded namespaces, for reducing load time
+		/// Loaded namespaces, for reducing load time<br/>
+		/// 已加载的命名空间, 用于减少加载时间<br/>
 		/// </summary>
 		protected HashSet<string> LoadedNamespaces { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public RoslynCompilerService() {
 			LoadedNamespaces = new HashSet<string>();
 		}
 
 		/// <summary>
-		/// Find all using directive
-		/// And try to load the namespace as assembly
+		/// Find all using directive<br/>
+		/// And try to load the namespace as assembly<br/>
+		/// 寻找源代码中的所有using指令<br/>
+		/// 并尝试加载命名空间对应的程序集<br/>
 		/// </summary>
 		/// <param name="syntaxTrees">Syntax trees</param>
 		protected void LoadAssembliesFromUsings(IList<SyntaxTree> syntaxTrees) {
@@ -86,7 +92,8 @@ namespace ZKWeb.Plugin.CompilerServices {
 		}
 
 		/// <summary>
-		/// Compile source files to assembly
+		/// Compile source files to assembly<br/>
+		/// 编译源代码到程序集<br/>
 		/// </summary>
 		public void Compile(IList<string> sourceFiles,
 			string assemblyName, string assemblyPath, CompilationOptions options) {

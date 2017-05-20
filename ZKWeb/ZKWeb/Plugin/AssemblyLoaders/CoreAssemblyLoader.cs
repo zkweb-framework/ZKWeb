@@ -7,16 +7,19 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
-	/// Assembly loader for .Net Core
+	/// Assembly loader for .Net Core<br/>
+	/// .Net Core使用的程序集加载器<br/>
 	/// </summary>
 	internal class CoreAssemblyLoader : AssemblyLoaderBase {
 		/// <summary>
-		/// The load context
+		/// The load context<br/>
+		/// 加载上下文<br/>
 		/// </summary>
 		private LoadContext Context { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public CoreAssemblyLoader() {
 			Context = new LoadContext();
@@ -28,7 +31,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly by name
+		/// Load assembly by name<br/>
+		/// 根据名称加载程序集<br/>	
 		/// </summary>
 		public override Assembly Load(string name) {
 			name = ReplacementAssemblies.GetOrDefault(name, name);
@@ -37,7 +41,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly by name object
+		/// Load assembly by name object<br/>
+		/// 根据名称对象加载程序集<br/>
 		/// </summary>
 		public override Assembly Load(AssemblyName assemblyName) {
 			var assembly = Context.LoadFromAssemblyName(assemblyName);
@@ -45,7 +50,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly from it's binary contents
+		/// Load assembly from it's binary contents<br/>
+		/// 根据二进制内容加载程序集<br/>
 		/// </summary>
 		public override Assembly Load(byte[] rawAssembly) {
 			using (var stream = new MemoryStream(rawAssembly)) {
@@ -55,7 +61,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly from file path
+		/// Load assembly from file path<br/>
+		/// 根据文件路径加载程序集<br/>
 		/// </summary>
 		public override Assembly LoadFile(string path) {
 			var assembly = Context.LoadFromAssemblyPath(path);
@@ -63,7 +70,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Assembly loading context
+		/// Assembly loading context<br/>
+		/// 程序集的加载上下文<br/>
 		/// </summary>
 		private class LoadContext : AssemblyLoadContext {
 			protected override Assembly Load(AssemblyName assemblyName) {

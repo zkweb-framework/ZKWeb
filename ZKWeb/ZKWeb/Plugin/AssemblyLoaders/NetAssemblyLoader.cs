@@ -6,17 +6,21 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
-	/// Assembly loader for .Net Framework
+	/// Assembly loader for .Net Framework<br/>
+	/// .Net Framework使用的程序集加载器<br/>
 	/// </summary>
 	internal class NetAssemblyLoader : AssemblyLoaderBase {
 		/// <summary>
-		/// Possible assembly name suffixes
-		/// Use to load assemblies by short name
+		/// Possible assembly name suffixes<br/>
+		/// Use to load assemblies by short name<br/>
+		/// 预置的程序集名称后续<br/>
+		/// 用于支持根据短名称加载程序集<br/>
 		/// </summary>
 		private IList<string> PossibleAssemblyNameSuffixes { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public NetAssemblyLoader() {
 			AppDomain.CurrentDomain.AssemblyResolve -= AssemblyResolver;
@@ -31,7 +35,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly by name
+		/// Load assembly by name<br/>
+		/// 根据名称加载程序集<br/>
 		/// </summary>
 		public override Assembly Load(string name) {
 			// Replace name if replacement exists
@@ -57,7 +62,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly by name object
+		/// Load assembly by name object<br/>
+		/// 根据名称对象加载程序集<br/>
 		/// </summary>
 		public override Assembly Load(AssemblyName assemblyName) {
 			var assembly = Assembly.Load(assemblyName);
@@ -65,7 +71,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly from it's binary contents
+		/// Load assembly from it's binary contents<br/>
+		/// 根据二进制内容加载程序集<br/>
 		/// </summary>
 		public override Assembly Load(byte[] rawAssembly) {
 			var assembly = Assembly.Load(rawAssembly);
@@ -73,7 +80,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Load assembly from file path
+		/// Load assembly from file path<br/>
+		/// 根据文件路径加载程序集<br/>
 		/// </summary>
 		public override Assembly LoadFile(string path) {
 			var assembly = Assembly.LoadFile(path);
@@ -81,7 +89,8 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 
 		/// <summary>
-		/// Assembly resolve event handler
+		/// Assembly resolve event handler<br/>
+		/// 程序集解决事件的处理器<br/>
 		/// </summary>
 		/// <returns></returns>
 		private Assembly AssemblyResolver(object sender, ResolveEventArgs args) {

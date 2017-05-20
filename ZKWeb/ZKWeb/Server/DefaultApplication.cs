@@ -25,48 +25,59 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// Default application implementation
+	/// Default application implementation<br/>
+	/// 默认应用类<br/>
 	/// </summary>
 	public class DefaultApplication : IApplication {
 		/// <summary>
-		/// ZKWeb Version String
+		/// ZKWeb Version String<br/>
+		/// ZKWeb的版本字符串<br/>
 		/// </summary>
-		public virtual string FullVersion { get { return "1.9.0 beta 1"; } }
+		public virtual string FullVersion { get { return "1.9.0 beta 2"; } }
 		/// <summary>
-		/// ZKWeb Version Object
+		/// ZKWeb Version Object<br/>
+		/// ZKWeb的版本对象<br/>
 		/// </summary>
 		public virtual Version Version { get { return Version.Parse(FullVersion.Split(' ')[0]); } }
 		/// <summary>
-		/// The IoC Container Instance
+		/// The IoC Container Instance<br/>
+		/// IoC容器的实例<br/>
 		/// </summary>
 		public virtual IContainer Ioc { get { return overrideIoc.Value ?? defaultIoc; } }
 		/// <summary>
 		/// Default IoC Container
+		/// 默认的IoC容器<br/>
 		/// </summary>
 		protected IContainer defaultIoc = new Container();
 		/// <summary>
 		/// Overrided IoC Container
+		/// 在当前线程中重载的IoC容器<br/>
 		/// </summary>
 		protected ThreadLocal<IContainer> overrideIoc = new ThreadLocal<IContainer>();
 		/// <summary>
-		/// In progress requests
+		/// In progress requests<br/>
+		/// 处理中的请求数量<br/>
 		/// </summary>
 		public virtual int InProgressRequests { get { return inProgressRequests; } }
 		/// <summary>
-		/// In progress requests
+		/// In progress requests<br/>
+		/// 处理中的请求数量<br/>
 		/// </summary>
 		protected int inProgressRequests = 0;
 		/// <summary>
-		/// Initialize Flag
+		/// Initialize Flag<br/>
+		/// 初始化标记<br/>
 		/// </summary>
 		protected int initialized = 0;
 		/// <summary>
-		/// Website root directory
+		/// Website root directory<br/>
+		/// 网站根目录的路径<br/>
 		/// </summary>
 		protected string WebsiteRootDirectory { get; set; }
 
 		/// <summary>
-		/// Register components to the default container
+		/// Register components to the default container<br/>
+		/// 注册组件到默认的容器<br/>
 		/// </summary>
 		protected virtual void InitializeContainer() {
 			Ioc.RegisterMany<CacheFactory>(ReuseType.Singleton);

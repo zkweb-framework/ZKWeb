@@ -3,11 +3,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Serialize {
 	/// <summary>
-	/// Set Json.Net default settings
+	/// Set Json.Net's default settings<br/>
+	/// 修改Json.Net的默认设置<br/>
 	/// </summary>
 	internal static class JsonNetInitializer {
 		/// <summary>
-		/// Set Json.Net default settings
+		/// Set Json.Net's default settings<br/>
+		/// 修改Json.Net的默认设置<br/>
 		/// </summary>
 		internal static void Initialize() {
 			JsonConvert.DefaultSettings = () => {
