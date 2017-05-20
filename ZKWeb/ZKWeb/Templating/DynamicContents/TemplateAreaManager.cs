@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using ZKWeb.Cache;
 using ZKWeb.Server;
 using ZKWeb.Storage;
@@ -13,44 +12,56 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// Template area and widgets manager
+	/// Template area and widgets manager<br/>
+	/// 模板区域和模块的管理器<br/>
 	/// </summary>
 	public class TemplateAreaManager : ICacheCleaner {
 		/// <summary>
-		/// Widget information cache time
-		/// Default is 2s, able to override from website configuration
+		/// Widget information cache time<br/>
+		/// Default is 2s, able to override from website configuration<br/>
+		/// 模块信息的缓存时间<br/>
+		/// 默认是2秒, 可以根据网站配置覆盖<br/>
 		/// </summary>
 		public TimeSpan WidgetInfoCacheTime { get; set; }
 		/// <summary>
-		/// Custom widgets cache time
-		/// Default is 2s, able to override from website configuration
+		/// Custom widgets cache time<br/>
+		/// Default is 2s, able to override from website configuration<br/>
+		/// 自定义模块列表的缓存时间<br/>
+		/// 默认是2秒, 可以根据网站配置覆盖<br/>
 		/// </summary>
 		public TimeSpan CustomWidgetsCacheTime { get; set; }
 		/// <summary>
-		/// Areas
-		/// { Area id: Area }
+		/// Areas<br/>
+		/// 区域列表<br/>
+		/// { Area id: Area }<br/>
 		/// </summary>
 		protected Dictionary<string, TemplateArea> Areas { get; set; }
 		/// <summary>
-		/// Widget information cache
-		/// Isolated by client device
+		/// Widget information cache<br/>
+		/// Isolated by client device<br/>
+		/// 模块信息的缓存<br/>
+		/// 根据客户端设备类型隔离<br/>
 		/// { Widget path: widget information }
 		/// </summary>
 		protected IKeyValueCache<string, TemplateWidgetInfo> WidgetInfoCache { get; set; }
 		/// <summary>
-		/// Custom widgets cache
-		/// Isolated by client device
+		/// Custom widgets cache<br/>
+		/// Isolated by client device<br/>
+		/// 自定义模块列表的缓存<br/>
+		/// 根据客户端设备类型隔离<br/>
 		/// { Area id: custom widgets }
 		/// </summary>
 		protected IKeyValueCache<string, IList<TemplateWidget>> CustomWidgetsCache { get; set; }
 		/// <summary>
-		/// Widget render result cache
-		/// { Isolation policy: { Width path and arguments: render result } }
+		/// Widget render result cache<br/>
+		/// 模块描画结果的缓存<br/>
+		/// { Isolation policy: { Widget path and arguments: render result } }
 		/// </summary>
 		protected ConcurrentDictionary<string, IKeyValueCache<string, string>> WidgetRenderCache { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public TemplateAreaManager() {
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
@@ -68,8 +79,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Get area by id
-		/// If not found then create a new area with the given id
+		/// Get area by id<br/>
+		/// If not found then create a new area with the given id<br/>
+		/// 根据Id获取区域<br/>
+		/// 如果找不到则创建一个新的区域, 设置id为指定id并返回<br/>
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <returns></returns>
@@ -78,7 +91,8 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Get widget information
+		/// Get widget information<br/>
+		/// 获取模块信息<br/>
 		/// </summary>
 		/// <param name="widgetPath">Widget path</param>
 		/// <returns></returns>
@@ -92,8 +106,9 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Get json path that store custom widgets for the given area
-		/// Path: App_Data/areas/{areaId}.widgets
+		/// Get json path that store custom widgets for the given area<br/>
+		/// 获取保存指定区域的自定义模块列表的json文件<br/>
+		/// Path: App_Data/areas/{areaId}.widgets<br/>
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <returns></returns>
@@ -104,8 +119,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Get custom widgets for the given area
-		/// Return null if custom widgets are unspecified
+		/// Get custom widgets for the given area<br/>
+		/// Return null if custom widgets are unspecified<br/>
+		/// 获取指定区域的自定义模块列表<br/>
+		/// 如果未指定自定义模块列表则返回null<br/>
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <returns></returns>
@@ -120,8 +137,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Set custom widgets for the given area
-		/// If `widgets` is null then remove the specification
+		/// Set custom widgets for the given area<br/>
+		/// If parameter "widgets" is null then remove the old list<br/>
+		/// 设置指定区域的自定义模块列表<br/>
+		/// 如果参数"widgets"是null则删除旧的列表<br/>
 		/// </summary>
 		/// <param name="areaId">Area id</param>
 		/// <param name="widgets">Custom widgets</param>
@@ -138,8 +157,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Render widget
-		/// Return render result
+		/// Render widget<br/>
+		/// Return render result<br/>
+		/// 描画模块<br/>
+		/// 返回描画结果<br/>
 		/// </summary>
 		/// <param name="context">Template context</param>
 		/// <param name="widget">Template widget</param>
@@ -173,7 +194,8 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Clear cache
+		/// Clear cache<br/>
+		/// 清理缓存<br/>
 		/// </summary>
 		public virtual void ClearCache() {
 			WidgetInfoCache.Clear();

@@ -10,22 +10,27 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating {
 	/// <summary>
-	/// Dotliquid template file system
+	/// Dotliquid template file system<br/>
+	/// Dotliquid使用的模板文件系统<br/>
 	/// </summary>
 	public class TemplateFileSystem : IFileSystem, ICacheCleaner {
 		/// <summary>
-		/// Parsed template cache time
-		/// Default is 180s, able to override from website configuration
+		/// Parsed template cache time<br/>
+		/// Default is 180s, able to override from website configuration<br/>
+		/// 已解析模板的缓存时间<br/>
+		/// 默认是180秒, 可以根据网站配置覆盖<br/>
 		/// </summary>
 		public TimeSpan TemplateCacheTime { get; set; }
 		/// <summary>
-		/// Parsed template cache
-		/// { Full path: (Template object, Modify time) }
+		/// Parsed template cache<br/>
+		/// 已解析模板的缓存<br/>
+		/// { Full path: (Template object, Modify time) }<br/>
 		/// </summary>
 		protected IKeyValueCache<string, Pair<Template, DateTime>> TemplateCache { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public TemplateFileSystem() {
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
@@ -36,7 +41,8 @@ namespace ZKWeb.Templating {
 		}
 
 		/// <summary>
-		/// Read template object from path
+		/// Read template object from path<br/>
+		/// 从路径读取模板对象<br/>
 		/// </summary>
 		/// <param name="context">Template context</param>
 		/// <param name="templateName">Template path</param>
@@ -64,7 +70,8 @@ namespace ZKWeb.Templating {
 		}
 
 		/// <summary>
-		/// Clear cache
+		/// Clear cache<br/>
+		/// 清理缓存<br/>
 		/// </summary>
 		public virtual void ClearCache() {
 			TemplateCache.Clear();

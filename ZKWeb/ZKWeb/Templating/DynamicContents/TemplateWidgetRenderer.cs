@@ -6,11 +6,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// Built-in template widget renderer
+	/// Built-in template widget renderer<br/>
+	/// 内置的模板模块描画器<br/>
 	/// </summary>
 	public class TemplateWidgetRenderer : ITemplateWidgetRenderer {
 		/// <summary>
-		/// Get html before widget contents
+		/// Get html before widget contents<br/>
+		/// 获取描画前的Html内容<br/>
 		/// </summary>
 		protected virtual string GetBeforeHtml(Context context, TemplateWidget widget) {
 			var cacheKey = widget.GetCacheKey();
@@ -18,15 +20,18 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Get html after widget contents
+		/// Get html after widget contents<br/>
+		/// 获取描画后的Html内容<br/>
 		/// </summary>
 		protected virtual string GetAfterHtml(Context context, TemplateWidget widget) {
 			return "</div>";
 		}
 
 		/// <summary>
-		/// Render widget
-		/// Return render result
+		/// Render widget<br/>
+		/// Return render result<br/>
+		/// 描画模板模块<br/>
+		/// 返回描画结果<br/>
 		/// </summary>
 		public string Render(Context context, TemplateWidget widget) {
 			var templateManager = Application.Ioc.Resolve<TemplateManager>();

@@ -1,10 +1,12 @@
 ﻿namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// Template widget extension methods
+	/// Template widget extension methods<br/>
+	/// 模板模块的扩展函数<br/>
 	/// </summary>
 	public static class TemplateWidgetExtensions {
 		/// <summary>
-		/// Get cache key for template widget
+		/// Get cache key for template widget<br/>
+		/// 获取模板模块的缓存键<br/>
 		/// </summary>
 		/// <param name="widget">Template widget</param>
 		/// <returns></returns>

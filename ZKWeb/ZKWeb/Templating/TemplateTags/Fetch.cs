@@ -14,43 +14,63 @@ using ZKWebStandard.Collections;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
-	/// Set template variable from action execute result
-	/// Url can be get or post, will automatic detect
-	/// Url can contains variables, variable can be
-	/// - "*query": all query arguments from the visiting url
-	/// - key: variable from template context
-	/// - key: argument from visiting url
-	/// If the action return JsonResult or PlainResult, the result will be the returned object,
-	/// Otherwise it will be the rendered text of the result (binary data is unsupported)
+	/// Set template variable from action execute result<br/>
+	/// Action can be get or post, will automatic detect<br/>
+	/// Url can contains variables, variable can be<br/>
+	/// - "*query": all query arguments from the visiting url<br/>
+	/// - key: variable from template context<br/>
+	/// - key: argument from visiting url<br/>
+	/// If the action return JsonResult or PlainResult, the result will be the returned object,<br/>
+	/// Otherwise it will be the rendered text of the result (binary data is unsupported)<br/>
+	/// 根据Action结果设置模板变量<br/>
+	/// Action可以是GET或POST, 会自动检测<br/>
+	/// Url可以包含变量, 变量可以是<br/>
+	/// - "*query": 当前请求的所有查询参数<br/>
+	/// - 当前模板中的其他变量<br/>
+	/// - 当前请求中的参数<br/>
+	/// 如果Action返回JsonResult或者PlainResult, 则结果会是返回的对象<br/>
+	/// 否则结果会是描画出来的文本 (不支持二进制数据)<br/>
 	/// </summary>
 	/// <example>
+	/// Url<br/>
+	/// <code>
 	/// {% fetch /api/example_info > example_info %}
 	/// {{ example_info }}
-	///	Url with variable
+	/// </code>
+	/// 
+	///	Url with variable<br/>
+	///	带参数的Url<br/>
+	///	<code>
 	/// {% fetch /api/example_info?id={id} > example_info %}
 	/// {% fetch /api/example_info?{*query} > example_info %}
 	/// {{ example_info }}
+	/// </code>
 	/// </example>
 	public class Fetch : Tag {
 		/// <summary>
-		/// Regex for getting variable in the url
+		/// Regex for getting variable in the url<br/>
+		/// 获取Url中的变量使用的正则表达式<br/>
 		/// </summary>
 		public readonly static Regex VariableInUrlExpression = new Regex("{.+?}");
 		/// <summary>
-		/// The variable name that mean all query arguments from the visiting url
+		/// The variable name that mean all query arguments from the visiting url<br/>
+		/// 用于表示当前请求中所有参数的变量名<br/>
 		/// </summary>
 		public const string VariableNameForAllQueryParameters = "*query";
 		/// <summary>
-		/// Path and query
+		/// Path and query<br/>
+		/// 路径和查询参数<br/>
 		/// </summary>
 		public string PathAndQuery { get; protected set; }
 		/// <summary>
-		/// Target template variable
+		/// Target template variable<br/>
+		/// 保存到的变量名称<br/>
 		/// </summary>
 		public string Variable { get; protected set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public override void Initialize(string tagName, string markup, List<string> tokens) {
 			// Call base method
@@ -65,7 +85,8 @@ namespace ZKWeb.Templating.TemplateTags {
 		}
 
 		/// <summary>
-		/// Set template variable from action execute result
+		/// Set template variable from action execute result<br/>
+		/// 从Action的执行结果设置模板变量<br/>
 		/// </summary>
 		public override void Render(Context context, TextWriter result) {
 			// Replace variables in url
@@ -117,7 +138,8 @@ namespace ZKWeb.Templating.TemplateTags {
 		}
 
 		/// <summary>
-		/// Simulate http context
+		/// Simulated http context<br/>
+		/// 模拟的Http上下文<br/>
 		/// </summary>
 		internal class FetchHttpContext : IHttpContext {
 			public IHttpContext ParentContext { get; set; }
@@ -136,7 +158,8 @@ namespace ZKWeb.Templating.TemplateTags {
 		};
 
 		/// <summary>
-		/// Simulate http request
+		/// Simulated http request<br/>
+		/// 模拟的Http请求<br/>
 		/// </summary>
 		internal class FetchHttpRequest : HttpRequestWrapper {
 			public FetchHttpContext FetchContext { get; set; }

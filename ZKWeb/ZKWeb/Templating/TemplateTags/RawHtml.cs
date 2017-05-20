@@ -3,12 +3,18 @@ using System.IO;
 
 namespace ZKWeb.Templating.TemplateTags {
 	/// <summary>
-	/// Render text as raw html
+	/// Render text as raw html<br/>
+	/// 把文本作为Html描画<br/>
 	/// </summary>
-	/// <example>{% raw_html variable %}</example>
+	/// <example>
+	/// <code>
+	/// {% raw_html variable %}
+	/// </code>
+	/// </example>
 	public class RawHtml : Tag {
 		/// <summary>
-		/// Render contents
+		/// Render contents<br/>
+		/// 描画内容<br/>
 		/// </summary>
 		public override void Render(Context context, TextWriter result) {
 			result.Write(context[Markup.Trim()]);

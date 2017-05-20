@@ -6,57 +6,71 @@ using ZKWeb.Storage;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// Template widget information
-	/// Desirialize from {WidgetPath}.widget
+	/// Template widget information<br/>
+	/// Desirialize from {WidgetPath}.widget<br/>
+	/// 模板模块的信息<br/>
+	/// 从{模块路径}.widget文件反序列化得到<br/>
 	/// </summary>
 	public class TemplateWidgetInfo : ILiquidizable {
 		/// <summary>
-		/// Widget information file extension
+		/// Widget information file extension<br/>
+		/// 模板模块信息的文件后缀名<br/>
 		/// </summary>
 		public const string InfoExtension = ".widget";
 		/// <summary>
-		/// Widget template file extension
+		/// Widget template file extension<br/>
+		/// 模板的文件后缀名<br/>
 		/// </summary>
 		public const string HtmlExtension = ".html";
 		/// <summary>
-		/// Widget path, without extension
+		/// Widget path, without extension<br/>
+		/// 模块的路径, 不包含后缀名<br/>
 		/// </summary>
 		public string WidgetPath { get; set; }
 		/// <summary>
-		/// Widget name
+		/// Widget name<br/>
+		/// 模块的名称<br/>
 		/// </summary>
 		public string Name { get; set; }
 		/// <summary>
-		/// Widget description
+		/// Widget description<br/>
+		/// 模块的描述<br/>
 		/// </summary>
 		public string Description { get; set; }
 		/// <summary>
-		/// Cache time, in seconds
+		/// Cache time, in seconds<br/>
+		/// 缓存时间, 单位是秒<br/>
 		/// </summary>
 		/// <example>15</example>
 		public int CacheTime { get; set; }
 		/// <summary>
-		/// Cache isolation policies, separated by comma
+		/// Cache isolation policies, separated by comma<br/>
+		/// 缓存隔离策略, 使用逗号分割<br/>
 		/// </summary>
 		/// <example>Locale,Url</example>
 		public string CacheBy { get; set; }
 		/// <summary>
-		/// Argument information list
+		/// Argument information list<br/>
+		/// 模板模块的参数列表<br/>
 		/// </summary>
 		/// <example>
+		/// <code>
 		/// "Arguments": [
-		///		{ "Name": "DisplayText", "Type": "TextBoxField" },
-		///		{ "Name": "DisplayStyle", "Type": "DropdownListField", "Provider": "TypeFullName" },
+		///		{ "Name": "DisplayText", "Type": "TextBox" },
+		///		{ "Name": "DisplayStyle", "Type": "DropdownList", "Provider": "ProviderName" },
 		/// ]
+		/// </code>
 		/// </example>
 		public IList<IDictionary<string, object>> Arguments { get; set; }
 		/// <summary>
-		/// Extra data
+		/// Extra data<br/>
+		/// 附加数据<br/>
 		/// </summary>
 		public IDictionary<string, object> Extra { get; set; }
 
 		/// <summary>
-		/// Read template widget information from path
+		/// Read template widget information from path<br/>
+		/// 从文件路径读取模板模块的信息<br/>
 		/// </summary>
 		/// <param name="path">Widget path, must without extension</param>
 		/// <returns></returns>
@@ -76,7 +90,8 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Support render to template
+		/// Support render to template<br/>
+		/// 支持描画到模板<br/>
 		/// </summary>
 		/// <returns></returns>
 		public object ToLiquid() {

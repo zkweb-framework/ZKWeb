@@ -3,11 +3,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Templating.DynamicContents {
 	/// <summary>
-	/// Template area extension methods
+	/// Template area extension methods<br/>
+	/// 模板区域的扩展函数<br/>
 	/// </summary>
 	public static class TemplateAreaExtensions {
 		/// <summary>
-		/// Add widget
+		/// Add widget<br/>
+		/// 向模块列表中添加模块<br/>
 		/// </summary>
 		/// <param name="widgets">Widgets</param>
 		/// <param name="path">Widget path, must without extension</param>
@@ -18,8 +20,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Add widget before the specified widget
-		/// If specified widget not found then add it to the front
+		/// Add widget before the specified widget<br/>
+		/// If specified widget not found then add it to the front<br/>
+		/// 在指定模块前插入模块<br/>
+		/// 如果指定模块不存在则插入到开头<br/>
 		/// </summary>
 		/// <param name="widgets">Widgets</param>
 		/// <param name="beforePath">Add before widget that path equals it</param>
@@ -31,8 +35,10 @@ namespace ZKWeb.Templating.DynamicContents {
 		}
 
 		/// <summary>
-		/// Add widget after the specified widget
-		/// If specified widget not found then add it to the back
+		/// Add widget after the specified widget<br/>
+		/// If specified widget not found then add it to the back<br/>
+		/// 在指定模块后插入模块<br/>
+		/// 如果指定模块不存在则插入到结尾<br/>
 		/// </summary>
 		/// <param name="widgets">Widgets</param>
 		/// <param name="afterPath">Add after widget that path equals it</param>

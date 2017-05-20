@@ -12,11 +12,13 @@ using ZKWebStandard.Testing.Events;
 
 namespace ZKWeb.Testing {
 	/// <summary>
-	/// Testing manager
+	/// Testing manager<br/>
+	/// 测试管理器<br/>
 	/// </summary>
 	public class TestManager {
 		/// <summary>
-		/// Get assemblies for testing
+		/// Get assemblies for testing<br/>
+		/// 获取测试使用的所有程序集<br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual IList<Assembly> GetAssembliesForTest() {
@@ -29,8 +31,10 @@ namespace ZKWeb.Testing {
 		}
 
 		/// <summary>
-		/// Run tests from assembly
-		/// Will block until all tests finished
+		/// Run tests from assembly<br/>
+		/// Will block until all tests finished<br/>
+		/// 运行指定程序集中的所有测试<br/>
+		/// 会阻塞到运行完成<br/>
 		/// </summary>
 		/// <param name="assembly">Assembly</param>
 		/// <param name="eventHandler">Extra test event handler, can be null</param>
@@ -47,8 +51,10 @@ namespace ZKWeb.Testing {
 		}
 
 		/// <summary>
-		/// Run tests from assembly
-		/// Will block until all tests finished
+		/// Run tests from all assemblies<br/>
+		/// Will block until all tests finished<br/>
+		/// 运行所有程序集中的所有测试<br/>
+		/// 会阻塞到运行完成<br/>
 		/// </summary>
 		/// <param name="eventHandler">Extra test event handler, can be null</param>
 		public virtual void RunAllAssemblyTest(ITestEventHandler eventHandler = null) {
@@ -58,7 +64,8 @@ namespace ZKWeb.Testing {
 		}
 
 		/// <summary>
-		/// Use temporary database in the specified scope
+		/// Use temporary database in the specified scope<br/>
+		/// 在指定范围内使用临时数据库<br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual IDisposable UseTemporaryDatabase() {
