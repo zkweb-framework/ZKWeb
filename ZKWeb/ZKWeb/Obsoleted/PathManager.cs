@@ -5,11 +5,11 @@ using ZKWeb.Storage;
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// This class should no longer be using
-	/// Please use IFileStorage or LocalPathManager
-	/// Obsleted in 1.0.2
+	/// This class should no longer be used<br/>
+	/// Please use IFileStorage or LocalPathManager<br/>
+	/// 这个类不应该再被使用, 请使用IFileStorage或LocalPathManager<br/>
 	/// </summary>
-	[Obsolete("This class should no longer be using, please use IFileStorage or LocalPathManager")]
+	[Obsolete("This class should no longer be used, please use IFileStorage or LocalPathManager")]
 	public class PathManager : ICacheCleaner {
 #pragma warning disable CS1591
 		private LocalPathManager Manager { get { return Application.Ioc.Resolve<LocalPathManager>(); } }

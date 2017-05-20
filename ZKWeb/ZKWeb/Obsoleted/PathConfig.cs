@@ -4,11 +4,11 @@ using ZKWeb.Storage;
 
 namespace ZKWeb.Server {
 	/// <summary>
-	/// This class should no longer be using
-	/// Please use IFileStorage or LocalPathConfig
-	/// Obsleted in 1.0.2
+	/// This class should no longer be used<br/>
+	/// Please use IFileStorage or LocalPathConfig<br/>
+	/// 这个类不应该再被使用, 请使用IFileStorage或LocalPathConfig<br/>
 	/// </summary>
-	[Obsolete("This class should no longer be using, please use IFileStorage or LocalPathConfig")]
+	[Obsolete("This class should no longer be used, please use IFileStorage or LocalPathConfig")]
 	public class PathConfig {
 #pragma warning disable CS1591
 		protected LocalPathConfig Config { get { return Application.Ioc.Resolve<LocalPathConfig>(); } }
