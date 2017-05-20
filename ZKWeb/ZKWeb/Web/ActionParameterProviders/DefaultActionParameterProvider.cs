@@ -6,14 +6,14 @@ using ZKWebStandard.Web;
 namespace ZKWeb.Web.ActionParameterProviders {
 	/// <summary>
 	/// Default action parameter provider<br/>
-	/// <br/>
+	/// 默认的Action参数提供器<br/>
 	/// </summary>
 	/// <seealso cref="ControllerManager"/>
 	/// <seealso cref="IController"/>
 	public class DefaultActionParameterProvider : IActionParameterProvider {
 		/// <summary>
 		/// Get parameter from http request<br/>
-		/// <br/>
+		/// 从Http请求获取参数<br/>
 		/// </summary>
 		public T GetParameter<T>(string name, MethodInfo method, ParameterInfo parameterInfo) {
 			// Get parameter from form or query

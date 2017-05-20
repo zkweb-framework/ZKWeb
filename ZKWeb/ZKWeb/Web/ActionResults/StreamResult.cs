@@ -6,31 +6,42 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Stream result<br/>
-	/// <br/>
+	/// Write contents from stream to response<br/>
+	/// 从数据流读取内容并写入到回应<br/>
 	/// </summary>
 	/// <seealso cref="ControllerManager"/>
 	/// <seealso cref="IController"/>
+	/// <example>
+	/// <code language="cs">
+	/// public ExampleController : IController {
+	///		[Action("example")]
+	///		public IActionResult Example() {
+	///			var stream = new MemoryStream(new byte[] { 1, 2, 3 });
+	///			return new StreamResult(stream);
+	///		}
+	///	}
+	/// </code>
+	/// </example>
 	public class StreamResult : IActionResult, IDisposable {
 		/// <summary>
 		/// Stream object, auto dispose after wrote to response<br/>
-		/// <br/>
+		/// 数据流对象, 自动销毁<br/>
 		/// </summary>
 		public Stream Stream { get; set; }
 		/// <summary>
 		/// Mime type<br/>
-		/// <br/>
+		/// MIME类型<br/>
 		/// </summary>
 		public string ContentType { get; set; }
 		/// <summary>
 		/// Range request in bytes<br/>
-		/// <br/>
+		/// 要求返回的内容范围<br/>
 		/// </summary>
 		public Pair<long?, long?> BytesRange { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		public StreamResult(Stream stream) :
@@ -38,7 +49,7 @@ namespace ZKWeb.Web.ActionResults {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="contentType">Mime type</param>
@@ -47,7 +58,7 @@ namespace ZKWeb.Web.ActionResults {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="bytesRange">Range request in bytes</param>
@@ -56,7 +67,7 @@ namespace ZKWeb.Web.ActionResults {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="stream">The stream</param>
 		/// <param name="contentType">Mime type</param>
@@ -68,8 +79,8 @@ namespace ZKWeb.Web.ActionResults {
 		}
 
 		/// <summary>
-		/// Write stream to http response<br/>
-		/// <br/>
+		/// Write contents from stream to http response<br/>
+		/// 从数据流读取内容并写入到http回应<br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		public void WriteResponse(IHttpResponse response) {
@@ -103,7 +114,7 @@ namespace ZKWeb.Web.ActionResults {
 
 		/// <summary>
 		/// Dispose stream<br/>
-		/// <br/>
+		/// 释放数据流<br/>
 		/// </summary>
 		public void Dispose() {
 			Stream.Dispose();

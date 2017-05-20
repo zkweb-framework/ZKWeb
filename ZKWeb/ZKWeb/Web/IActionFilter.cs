@@ -3,14 +3,14 @@
 namespace ZKWeb.Web {
 	/// <summary>
 	/// Action filter<br/>
-	/// <br/>
+	/// Action过滤器<br/>
 	/// </summary>
 	/// <seealso cref="ControllerManager"/>
 	/// <seealso cref="IController"/>
 	public interface IActionFilter {
 		/// <summary>
-		/// Return filtered action from original action<br/>
-		/// <br/>
+		/// Return wrapped action
+		/// 返回包装的Action函数<br/>
 		/// </summary>
 		/// <param name="action">Original action</param>
 		/// <returns></returns>

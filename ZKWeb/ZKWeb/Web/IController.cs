@@ -1,7 +1,7 @@
 ﻿namespace ZKWeb.Web {
 	/// <summary>
-	/// Interface for controller<br/>
-	/// <br/>
+	/// Interface of the controller<br/>
+	/// 控制器的接口<br/>
 	/// </summary>
 	/// <example>
 	/// <code language="cs">

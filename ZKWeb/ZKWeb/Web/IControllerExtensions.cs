@@ -8,14 +8,14 @@ using ZKWeb.Web.ActionResults;
 namespace ZKWeb.Web {
 	/// <summary>
 	/// IController extension methods<br/>
-	/// <br/>
+	/// 控制器的扩展函数<br/>
 	/// </summary>
 	/// <seealso cref="ControllerManager"/>
 	/// <seealso cref="IController"/>
 	public static class IControllerExtensions {
 		/// <summary>
 		/// Get action parameter<br/>
-		/// <br/>
+		/// 获取Action参数<br/>
 		/// </summary>
 		/// <typeparam name="T">Parameter type</typeparam>
 		/// <param name="name">Parameter name</param>
@@ -30,7 +30,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Method information of GetActionParameter<br/>
-		/// <br/>
+		/// GetActionParameter的MethodInfo对象<br/>
 		/// </summary>
 		private static MethodInfo GetActionParameterMethod =>
 			typeof(IControllerExtensions).GetMethod(nameof(GetActionParameter),
@@ -45,14 +45,14 @@ namespace ZKWeb.Web {
 		/// Parameters handling<br/>
 		/// - Get parameter by it's name from http request<br/>
 		/// - There no null check about parameters<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 根据Action函数的信息构建Action委托<br/>
+		/// 结果类型的处理<br/>
+		/// - 如果函数返回IActionResult, 则使用返回的实例<br/>
+		/// - 如果函数返回string, 则包装结果到PlainResult<br/>
+		/// - 其他情况则包装结果到JsonResult<br/>
+		/// 参数的处理<br/>
+		/// - 根据参数的名称从http请求中获取参数值<br/>
+		/// - 不会检查参数是否为null<br/>
 		/// </summary>
 		/// <param name="controller">Controller instance</param>
 		/// <param name="method">Method information</param>

@@ -10,9 +10,12 @@ namespace ZKWeb.Web.ActionResults {
 	/// Read contents from file entry and write to response<br/>
 	/// 从文件中读取内容并写入到回应<br/>
 	/// </summary>
+	/// <seealso cref="ControllerManager"/>
+	/// <seealso cref="IController"/>
 	/// <example>
 	/// <code language="cs">
 	/// public ExampleController : IController {
+	///		[Action("example")]
 	///		public IActionResult Example() {
 	///			var fileStorage = Application.Ioc.Resolve&lt;IFileStorage&gt;();
 	///			var fileEntry = fileStorage.GetResourceFile("static", "1.txt");
@@ -21,8 +24,6 @@ namespace ZKWeb.Web.ActionResults {
 	///	}
 	/// </code>
 	/// </example>
-	/// <seealso cref="ControllerManager"/>
-	/// <seealso cref="IController"/>
 	public class FileEntryResult : IActionResult {
 		/// <summary>
 		/// File path<br/>

@@ -3,7 +3,7 @@
 namespace ZKWeb.Web {
 	/// <summary>
 	/// Interface used to get the action parameters<br/>
-	/// <br/>
+	/// 用于获取Action参数的接口<br/>
 	/// </summary>
 	/// <example>
 	/// For example:
@@ -29,7 +29,8 @@ namespace ZKWeb.Web {
 	/// <seealso cref="IController"/>
 	public interface IActionParameterProvider {
 		/// <summary>
-		/// Get action parameter
+		/// Get action parameter<br/>
+		/// 获取Action参数<br/>
 		/// </summary>>
 		/// <typeparam name="T">Parameter type</typeparam>
 		/// <param name="name">Parameter name</param>

@@ -5,20 +5,31 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
 	/// <summary>
-	/// Image result<br/>
-	/// <br/>
+	/// Write image data to response<br/>
+	/// 写入图片数据到回应<br/>
 	/// </summary>
 	/// <seealso cref="ControllerManager"/>
 	/// <seealso cref="IController"/>
+	/// <example>
+	/// <code language="cs">
+	/// public ExampleController : IController {
+	///		[Action("example")]
+	///		public IActionResult Example() {
+	///			var image = Image.FromFile("c:\\1.jpg");
+	///			return new ImageResult(image);
+	///		}
+	///	}
+	/// </code>
+	/// </example>
 	public class ImageResult : IActionResult, IDisposable {
 		/// <summary>
 		/// Image object<br/>
-		/// <br/>
+		/// 图片对象<br/>
 		/// </summary>
 		public Image Image { get; set; }
 		/// <summary>
 		/// Image format<br/>
-		/// <br/>
+		/// 图片格式<br/>
 		/// </summary>
 		public ImageFormat Format { get; set; }
 

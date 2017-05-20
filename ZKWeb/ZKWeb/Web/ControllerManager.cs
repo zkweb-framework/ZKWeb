@@ -11,9 +11,16 @@ using ZKWebStandard.Web;
 namespace ZKWeb.Web {
 	/// <summary>
 	/// Controller manager<br/>
-	/// <br/>
+	/// 控制器管理器<br/>
 	/// </summary>
 	/// <seealso cref="IController"/>
+	/// <example>
+	/// <code language="cs">
+	/// var controllerManager = Application.Ioc.Resolve&lt;IControllerManager&gt;();
+	/// controllerManager.RegisterAction("example", "GET", () => new PlainResult("abc"));
+	/// var action = controllerManager.GetAction("example", "GET");
+	/// </code>
+	/// </example>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
 		/// { (Path, Method): Action }
@@ -22,7 +29,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public ControllerManager() {
 			Actions = new ConcurrentDictionary<Pair<string, string>, Func<IActionResult>>();
@@ -31,8 +38,8 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// Handle http request<br/>
 		/// Find the action from the request path, if not found then do nothing<br/>
-		/// <br/>
-		/// <br/>
+		/// 处理Http请求<br/>
+		/// 根据请求路径查找对应的Action函数，如果找不到则不做任何事情<br/>
 		/// </summary>
 		public virtual void OnRequest() {
 			var context = HttpManager.CurrentContext;
@@ -52,7 +59,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Register controller type<br/>
-		/// <br/>
+		/// 注册控制器类型<br/>
 		/// </summary>
 		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController<T>() {
@@ -61,7 +68,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Register controller type<br/>
-		/// <br/>
+		/// 注册控制器类型<br/>
 		/// </summary>
 		[Obsolete("Use RegisterController(controller)")]
 		public virtual void RegisterController(Type type) {
@@ -71,8 +78,8 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// Register controller instance<br/>
 		/// Attention: this instance will be used across all requests<br/>
-		/// <br/>
-		/// <br/>
+		/// 注册控制器实例<br/>
+		/// 注意: 这个实例会在所有请求中使用<br/>
 		/// </summary>
 		/// <param name="controller">Controller instance</param>
 		public virtual void RegisterController(IController controller) {
@@ -103,9 +110,9 @@ namespace ZKWeb.Web {
 		/// Normalize path<br/>
 		/// If path not startswith / then add /<br/>
 		/// If path ends / then remove /<br/>
-		/// <br/>
-		/// <br/>
-		/// </summary>
+		/// 正规化路径<br/>
+		/// 如果路径不以/开始则添加/到开始<br/>
+		/// 如果路径以/结尾则删除结尾的/</summary>
 		/// <param name="path">Path</param>
 		/// <returns></returns>
 		public virtual string NormalizePath(string path) {
@@ -120,7 +127,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Register action<br/>
-		/// <br/>
+		/// 注册Action函数<br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -131,7 +138,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Register action<br/>
-		/// <br/>
+		/// 注册Action函数<br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -155,7 +162,7 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Unregister action<br/>
-		/// <br/>
+		/// 注销Action函数<br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -169,8 +176,8 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// Get action from path and method<br/>
 		/// Return null if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据路径和方法获取Action函数<br/>
+		/// 找不到则返回null<br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
@@ -183,11 +190,11 @@ namespace ZKWeb.Web {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// Add registered controllers<br/>
-		/// Attention: all controllers will be created here<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// Add controllers registered to IoC container<br/>
+		/// Attention: all registered controllers will be created here<br/>
+		/// 初始化<br/>
+		/// 添加已注册到IoC容器的控制器<br/>
+		/// 注意: 所有已注册的控制器都会在这里被创建<br/>
 		/// </summary>
 		internal static void Initialize() {
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
