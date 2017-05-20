@@ -117,7 +117,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Initialize core components
+		/// Initialize core components<br/>
+		/// 初始化核心组件<br/>
 		/// </summary>
 		protected virtual void InitializeCoreComponents() {
 			LocalPathConfig.Initialize(WebsiteRootDirectory);
@@ -130,7 +131,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Initialize plugins
+		/// Initialize plugins<br/>
+		/// 初始化插件<br/>
 		/// </summary>
 		protected virtual void InitializePlugins() {
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
@@ -139,7 +141,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Start core services
+		/// Start core services<br/>
+		/// 开启核心服务<br/>
 		/// </summary>
 		protected virtual void StartServices() {
 			PluginReloader.Start();
@@ -147,7 +150,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Intialize main application
+		/// Intialize main application<br/>
+		/// 初始化主应用<br/>
 		/// </summary>
 		public virtual void Initialize(string websiteRootDirectory) {
 			if (Interlocked.Exchange(ref initialized, 1) != 0) {
@@ -165,7 +169,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Handle http request
+		/// Handle http request<br/>
+		/// 处理Http请求<br/>
 		/// </summary>
 		public virtual void OnError(IHttpContext context, Exception ex) {
 			// Detect nested call
@@ -182,7 +187,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Handle http error
+		/// Handle http error<br/>
+		/// 处理Http错误<br/>
 		/// </summary>
 		public virtual void OnRequest(IHttpContext context) {
 			// Detect nested call
@@ -226,7 +232,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Override IoC container
+		/// Override IoC container<br/>
+		/// 重载当前线程中的IoC容器<br/>
 		/// </summary>
 		public virtual IDisposable OverrideIoc() {
 			var previousOverride = overrideIoc.Value;

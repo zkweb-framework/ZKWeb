@@ -2,11 +2,13 @@
 
 namespace ZKWeb.Storage {
 	/// <summary>
-	/// File entry extension methods
+	/// File entry extension methods<br/>
+	/// 文件的扩展函数<br/>
 	/// </summary>
 	public static class IFileEntryExtensions {
 		/// <summary>
-		/// Read file into string
+		/// Read file into string<br/>
+		/// 读取文件内容到字符串<br/>
 		/// </summary>
 		/// <param name="entry">File entry</param>
 		/// <returns></returns>
@@ -18,7 +20,8 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Write string to file
+		/// Write string to file<br/>
+		/// 写入字符串到文件<br/>
 		/// </summary>
 		/// <param name="entry">File entry</param>
 		/// <param name="value">String value</param>
@@ -30,7 +33,8 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Append string to file
+		/// Append string to file<br/>
+		/// 追加字符串到文件末尾<br/>
 		/// </summary>
 		/// <param name="entry">File entry</param>
 		/// <param name="value">String value</param>
@@ -42,7 +46,8 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Read file into byte array
+		/// Read file into byte array<br/>
+		/// 读取文件到字节数组<br/>
 		/// </summary>
 		/// <param name="entry">File entry</param>
 		/// <returns></returns>
@@ -55,7 +60,8 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Write byte array to file
+		/// Write byte array to file<br/>
+		/// 写入字节数组到文件<br/>
 		/// </summary>
 		/// <param name="entry">File entry</param>
 		/// <param name="bytes">Byte array</param>

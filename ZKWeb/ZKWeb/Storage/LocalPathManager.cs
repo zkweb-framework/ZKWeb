@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ZKWeb.Cache;
-using ZKWeb.Cache.Policies;
 using ZKWeb.Plugin;
 using ZKWeb.Server;
 using ZKWebStandard.Collections;
@@ -13,36 +12,47 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Storage {
 	/// <summary>
-	/// Local path manager
-	/// It's better to use IFileStorage
-	/// Unless you really want to access local file system
+	/// Local path manager<br/>
+	/// It's better to use IFileStorage<br/>
+	/// Unless you really want to access local file system<br/>
+	/// 本地路径管理器<br/>
+	/// 一般情况最好使用IFileStorage, 除非你确实想访问本地文件系统<br/>
 	/// </summary>
 	public class LocalPathManager : ICacheCleaner {
 		/// <summary>
-		/// Template path cache time
-		/// Default is 2s, able to override from website configuration
+		/// Template path cache time<br/>
+		/// Default is 2s, able to override from website configuration<br/>
+		/// 模板路径的缓存时间<br/>
+		/// 默认是2秒, 可以根据网站配置覆盖<br/>
 		/// </summary>
 		public TimeSpan TemplatePathCacheTime { get; set; }
 		/// <summary>
-		/// Resource path cache time
-		/// Default is 2s, able to override from website configuration
+		/// Resource path cache time<br/>
+		/// Default is 2s, able to override from website configuration<br/>
+		/// 资源路径的缓存时间<br/>
+		/// 默认是2秒, 可以根据网站配置覆盖<br/>
 		/// </summary>
 		public TimeSpan ResourcePathCacheTime { get; set; }
 		/// <summary>
-		/// Template path cache
-		/// Isolated by client device
+		/// Template path cache<br/>
+		/// Isolated by client device<br/>
+		/// 模板路径的缓存<br/>
+		/// 按客户端设备类型隔离<br/>
 		/// { path: absolute path }
 		/// </summary>
 		protected IKeyValueCache<string, string> TemplatePathCache { get; set; }
 		/// <summary>
-		/// Resource path cache
-		/// Isolated by client device
+		/// Resource path cache<br/>
+		/// Isolated by client device<br/>
+		/// 资源路径的缓存<br/>
+		/// 按客户端设备类型隔离<br/>
 		/// { path: absolute path }
 		/// </summary>
 		protected IKeyValueCache<string, string> ResourcePathCache { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		public LocalPathManager() {
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
@@ -60,8 +70,10 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get plugin root directories in absolute path
-		/// These directories are use to find plugins
+		/// Get plugin root directories in absolute path<br/>
+		/// These directories are use to find plugins<br/>
+		/// 获取保存插件的目录的绝对路径列表<br/>
+		/// 这些路径会用于查找插件<br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual IList<string> GetPluginDirectories() {
@@ -72,23 +84,27 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get template full path candidates
-		/// Rules
-		/// Explicit plugin name
-		/// - Format "PluginName:TemplatePath"
-		/// - Example: "Common.Base:include/header.html"
-		/// - Path candidates
-		///   - {PluginDirectory}\templates.{device}\{TemplatePath}
-		///   - {PluginDirectory}\templates\{TemplatePath}
-		/// No Explicit plugin name
-		/// - Example "include/header.html"
-		/// - Path candidates
-		///   - App_Data\templates.{device}\{TemplatePath}
-		///   - Iterate plugins in reverse order
-		///     - {PluginDirectory}\templates.{device}\{TemplatePath}
-		///   - App_Data\templates\{TemplatePath}
-		///   - Iterate plugins in reverse order
-		///     - {PluginDirectory}\templates\{TemplatePath}
+		/// Get template full path candidates<br/>
+		/// 获取模板文件的完整路径候选列表<br/>
+		/// Rules<br/>
+		/// 规则<br/>
+		/// Explicit plugin name<br/>
+		/// 显式指定插件名称<br/>
+		/// - Format "PluginName:TemplatePath"<br/>
+		/// - Example: "Common.Base:include/header.html"<br/>
+		/// - Path candidates<br/>
+		///   - {PluginDirectory}\templates.{device}\{TemplatePath}<br/>
+		///   - {PluginDirectory}\templates\{TemplatePath}<br/>
+		/// No Explicit plugin name<br/>
+		/// 不指定插件名称<br/>
+		/// - Example "include/header.html"<br/>
+		/// - Path candidates<br/>
+		///   - App_Data\templates.{device}\{TemplatePath}<br/>
+		///   - Iterate plugins in reverse order<br/>
+		///     - {PluginDirectory}\templates.{device}\{TemplatePath}<br/>
+		///   - App_Data\templates\{TemplatePath}<br/>
+		///   - Iterate plugins in reverse order<br/>
+		///     - {PluginDirectory}\templates\{TemplatePath}<br/>
 		/// </summary>
 		/// <param name="path">Template path</param>
 		/// <returns></returns>
@@ -135,9 +151,12 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get template full path
-		/// Return null if template file not found
-		/// Result will cache for a short time
+		/// Get template full path<br/>
+		/// Return null if template file not found<br/>
+		/// Result will cache for a short time<br/>
+		/// 获取模板文件的完整路径<br/>
+		/// 如果找不到则返回null<br/>
+		/// 结果会在短暂的时间内缓存<br/>
 		/// </summary>
 		/// <param name="path">Template path</param>
 		/// <returns></returns>
@@ -153,11 +172,12 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get resource full path candidates
-		/// Path candidates
-		/// - App_Data\{ResourcePath}
-		/// - Iterate plugins in reverse order
-		///   - {PluginDirectory}\{ResourcePath}
+		/// Get resource full path candidates<br/>
+		/// 获取资源文件的完整路径的候选列表<br/>
+		/// Path candidates<br/>
+		/// - App_Data\{ResourcePath}<br/>
+		/// - Iterate plugins in reverse order<br/>
+		///   - {PluginDirectory}\{ResourcePath}<br/>
 		/// </summary>
 		/// <param name="pathParts">Resource path</param>
 		/// <returns></returns>
@@ -174,9 +194,12 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get resource full path
-		/// Return null if resource file not found
-		/// Result will cache for a short time
+		/// Get resource full path<br/>
+		/// Return null if resource file not found<br/>
+		/// Result will cache for a short time<br/>
+		/// 获取资源文件的完整路径<br/>
+		/// 如果找不到则返回null<br/>
+		/// 结果会在短暂的时间内缓存<br/>
 		/// </summary>
 		/// <param name="pathParts">Resource path</param>
 		/// <returns></returns>
@@ -193,8 +216,10 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Get storage file or directory full path
-		/// Return App_Data\{StoragePath} either exist or not exist
+		/// Get storage file or directory full path<br/>
+		/// Return App_Data\{StoragePath} either exist or not exist<br/>
+		/// 获取储存文件或文件夹的完整路径<br/>
+		/// 返回App_Data\{储存路径}, 无论是否存在<br/>
 		/// </summary>
 		/// <param name="pathParts">Storage path</param>
 		/// <returns></returns>
@@ -206,7 +231,8 @@ namespace ZKWeb.Storage {
 		}
 
 		/// <summary>
-		/// Clear cache
+		/// Clear cache<br/>
+		/// 清理缓存<br/>
 		/// </summary>
 		public virtual void ClearCache() {
 			TemplatePathCache.Clear();
