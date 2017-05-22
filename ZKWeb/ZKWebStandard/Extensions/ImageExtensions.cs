@@ -8,11 +8,13 @@ using ZKWebStandard.Utils;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Image extension methods
+	/// Image extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ImageExtensions {
 		/// <summary>
-		/// Resize image
+		/// Resize image<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Original image</param>
 		/// <param name="width">Width</param>
@@ -64,7 +66,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save to jpeg file
+		/// Save to jpeg file<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -78,7 +81,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save to jpeg
+		/// Save to jpeg<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
@@ -92,7 +96,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save to icon file
+		/// Save to icon file<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -105,7 +110,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save to icon, see
+		/// Save to icon, see<br/>
+		/// <br/>
 		/// http://stackoverflow.com/questions/11434673/bitmap-save-to-save-an-icon-actually-saves-a-png
 		/// </summary>
 		/// <param name="image">Image object</param>
@@ -140,8 +146,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save image by it's file extension
-		/// Quality parameter only available for jpeg
+		/// Save image by it's file extension<br/>
+		/// Quality parameter only available for jpeg<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -155,8 +163,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Save image by it's file extension
-		/// Quality parameter only available for jpeg
+		/// Save image by it's file extension<br/>
+		/// Quality parameter only available for jpeg<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
@@ -185,27 +195,33 @@ namespace ZKWebStandard.Extensions {
 	}
 
 	/// <summary>
-	/// Image resize mode
+	/// Image resize mode<br/>
+	/// <br/>
 	/// </summary>
 	public enum ImageResizeMode {
 		/// <summary>
-		/// Resize to the specified size, allow aspect ratio change
+		/// Resize to the specified size, allow aspect ratio change<br/>
+		/// <br/>
 		/// </summary>
 		Fixed,
 		/// <summary>
-		/// Resize to the specified width, height is calculated by the aspect ratio
+		/// Resize to the specified width, height is calculated by the aspect ratio<br/>
+		/// <br/>
 		/// </summary>
 		ByWidth,
 		/// <summary>
-		/// Resize to the specified height, width is calculated by the aspect ratio
+		/// Resize to the specified height, width is calculated by the aspect ratio<br/>
+		/// <br/>
 		/// </summary>
 		ByHeight,
 		/// <summary>
-		/// Resize to the specified size, keep aspect ratio and cut the overflow part
+		/// Resize to the specified size, keep aspect ratio and cut the overflow part<br/>
+		/// <br/>
 		/// </summary>
 		Cut,
 		/// <summary>
-		/// Resize to the specified size, keep aspect ratio and padding the insufficient part
+		/// Resize to the specified size, keep aspect ratio and padding the insufficient part<br/>
+		/// <br/>
 		/// </summary>
 		Padding
 	}

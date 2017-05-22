@@ -2,11 +2,13 @@
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// File utility functions
+	/// File utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class FileUtils {
 		/// <summary>
-		/// Get display name for bytes
+		/// Get display name for bytes<br/>
+		/// <br/>
 		/// Eg: 123KB, 123MB, 123GB
 		/// </summary>
 		/// <param name="bytes">bytes</param>

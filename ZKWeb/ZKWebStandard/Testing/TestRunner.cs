@@ -9,14 +9,22 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Testing {
 	/// <summary>
-	/// Test runner
-	/// Test runner is bound to single assembly
-	/// Testing flow
-	/// - Find all types in assembly have TestsAttribute
-	/// - Find all public methods in test class, every method is a test case and run in separate thread
-	/// - Create test instance
-	/// - Execute test methods and notify event handlers
-	/// - If test instance is disposable, dispose it
+	/// Test runner<br/>
+	/// Test runner is bound to single assembly<br/>
+	/// Testing flow<br/>
+	/// - Find all types in assembly have TestsAttribute<br/>
+	/// - Find all public methods in test class, every method is a test case and run in separate thread<br/>
+	/// - Create test instance<br/>
+	/// - Execute test methods and notify event handlers<br/>
+	/// - If test instance is disposable, dispose it<br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	public class TestRunner {
 		/// <summary>

@@ -2,12 +2,15 @@
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Guid utility functions
+	/// Guid utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class GuidUtils {
 		/// <summary>
-		/// Generate a sequential guid from the specific time and 8 bytes buffer
-		/// The uuid version is 1, clock sequence and mac address are from the buffer
+		/// Generate a sequential guid from the specific time and 8 bytes buffer<br/>
+		/// The uuid version is 1, clock sequence and mac address are from the buffer<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <param name="buffer">A buffer contains atleast 8 bytes</param>
@@ -24,8 +27,10 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Generate a sequential guid from the specific time
-		/// It use random bytes for clock sequence and mac address
+		/// Generate a sequential guid from the specific time<br/>
+		/// It use random bytes for clock sequence and mac address<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>
@@ -36,9 +41,12 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Generate a sequential guid from the specific time
-		/// It use secure random bytes for clock sequence and mac address
-		/// usually use to generate a more secure guid like session id
+		/// Generate a sequential guid from the specific time<br/>
+		/// It use secure random bytes for clock sequence and mac address<br/>
+		/// usually use to generate a more secure guid like session id<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>

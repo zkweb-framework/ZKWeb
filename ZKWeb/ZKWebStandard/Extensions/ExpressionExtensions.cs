@@ -5,12 +5,15 @@ using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Linq expression extension methods
+	/// Linq expression extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ExpressionExtensions {
 		/// <summary>
-		/// Get member information from lambda expression
-		/// The expression should looks like: x => x.Name
+		/// Get member information from lambda expression<br/>
+		/// The expression should looks like: x => x.Name<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
@@ -23,8 +26,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get member's attribute from lambda expression
-		/// The expression should looks like: x => x.Name
+		/// Get member's attribute from lambda expression<br/>
+		/// The expression should looks like: x => x.Name<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="expression">Lambda expression</param>
@@ -36,14 +41,16 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Expression visitor used to replace node in expression
+		/// Expression visitor used to replace node in expression<br/>
+		/// <br/>
 		/// </summary>
 		public class ReplaceExpressionVisitor : ExpressionVisitor {
 			private readonly Expression _oldValue;
 			private readonly Expression _newValue;
 
 			/// <summary>
-			/// Initialize
+			/// Initialize<br/>
+			/// <br/>
 			/// </summary>
 			public ReplaceExpressionVisitor(Expression oldNode, Expression newNode) {
 				_oldValue = oldNode;
@@ -51,7 +58,8 @@ namespace ZKWebStandard.Extensions {
 			}
 
 			/// <summary>
-			/// Replace node in expression
+			/// Replace node in expression<br/>
+			/// <br/>
 			/// </summary>
 			public override Expression Visit(Expression node) {
 				if (node == _oldValue) {
@@ -62,7 +70,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Replace node in expression recursively
+		/// Replace node in expression recursively<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="expression">Expression</param>
 		/// <param name="oldNode">Old node</param>

@@ -3,7 +3,8 @@ using ZKWebStandard.Utils;
 
 namespace ZKWebStandard.Web.Mock {
 	/// <summary>
-	/// Http context mock class
+	/// Http context mock class<br/>
+	/// <br/>
 	/// </summary>
 	public class HttpContextMock : IHttpContext {
 #pragma warning disable CS1591

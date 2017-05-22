@@ -4,11 +4,13 @@ using System.Text;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Password utility functions
+	/// Password utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class PasswordUtils {
 		/// <summary>
-		/// Get PBKDF2 checksum
+		/// Get PBKDF2 checksum<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="data">The data</param>
 		/// <param name="slat">The slat, length should be 8</param>
@@ -22,14 +24,16 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Get md5 checksum
+		/// Get md5 checksum<br/>
+		/// <br/>
 		/// </summary>
 		public static byte[] Md5Sum(byte[] data) {
 			return MD5.Create().ComputeHash(data);
 		}
 
 		/// <summary>
-		/// Get sha1 checksum
+		/// Get sha1 checksum<br/>
+		/// <br/>
 		/// </summary>
 		public static byte[] Sha1Sum(byte[] data) {
 			return SHA1.Create().ComputeHash(data);
@@ -37,15 +41,18 @@ namespace ZKWebStandard.Utils {
 	}
 
 	/// <summary>
-	/// Password information
+	/// Password information<br/>
+	/// <br/>
 	/// </summary>
 	public class PasswordInfo {
 		/// <summary>
-		/// Password type
+		/// Password type<br/>
+		/// <br/>
 		/// </summary>
 		public PasswordHashType Type { get; set; } = PasswordHashType.PBKDF2;
 		/// <summary>
-		/// Slat in base64
+		/// Slat in base64<br/>
+		/// <br/>
 		/// </summary>
 		public string Slat { get; set; }
 		/// <summary>
@@ -54,7 +61,8 @@ namespace ZKWebStandard.Utils {
 		public string Hash { get; set; }
 
 		/// <summary>
-		/// Check password, return true for success
+		/// Check password, return true for success<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="password">The password</param>
 		/// <returns></returns>
@@ -68,7 +76,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Create password information from password
+		/// Create password information from password<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="password">The password</param>
 		/// <param name="slat">Slat, use a random value if gived null</param>
@@ -94,19 +103,23 @@ namespace ZKWebStandard.Utils {
 	}
 
 	/// <summary>
-	/// 密码类型
+	/// Password hash type<br/>
+	/// <br/>
 	/// </summary>
 	public enum PasswordHashType {
 		/// <summary>
-		/// PBKDF2
+		/// PBKDF2<br/>
+		/// <br/>
 		/// </summary>
 		PBKDF2 = 0,
 		/// <summary>
-		/// Md5
+		/// Md5<br/>
+		/// <br/>
 		/// </summary>
 		Md5 = 1,
 		/// <summary>
-		/// Sha1
+		/// Sha1<br/>
+		/// <br/>
 		/// </summary>
 		Sha1 = 2
 	}

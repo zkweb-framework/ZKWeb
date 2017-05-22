@@ -1,19 +1,23 @@
 ﻿namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// Information for debug message
+	/// Information for debug message<br/>
+	/// <br/>
 	/// </summary>
 	public class DebugMessageInfo {
 		/// <summary>
-		/// Test runner
+		/// Test runner<br/>
+		/// <br/>
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// Debug message
+		/// Debug message<br/>
+		/// <br/>
 		/// </summary>
 		public string Message { get; private set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="runner">Test runner</param>
 		/// <param name="message">Debug message</param>

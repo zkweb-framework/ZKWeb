@@ -4,12 +4,15 @@ using ZKWebStandard.Utils;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// ITreeNode extension methods
+	/// ITreeNode extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ITreeNodeExtensions {
 		/// <summary>
-		/// Get all parent nodes
-		/// From bottom to top, return empty sequences if node is root
+		/// Get all parent nodes<br/>
+		/// From bottom to top, return empty sequences if node is root<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>
@@ -23,8 +26,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Visit all nodes recursively
-		/// From top to bottom
+		/// Visit all nodes recursively<br/>
+		/// From top to bottom<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>
@@ -38,8 +43,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Enumerate all nodes
-		/// From top to bottom
+		/// Enumerate all nodes<br/>
+		/// From top to bottom<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>

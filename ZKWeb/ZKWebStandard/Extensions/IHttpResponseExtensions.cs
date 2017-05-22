@@ -6,12 +6,15 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Http response extension methods
+	/// Http response extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IHttpResponseExtensions {
 		/// <summary>
-		/// Redirect to url by javascript
-		/// Use it instead of 301 redirect can make browser send the referer header
+		/// Redirect to url by javascript<br/>
+		/// Use it instead of 301 redirect can make browser send the referer header<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="url">Url</param>
@@ -24,7 +27,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Set last modified time to http response
+		/// Set last modified time to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="date">Last modified time</param>
@@ -34,7 +38,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Write string to http response
+		/// Write string to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="value">String value</param>
@@ -45,7 +50,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Write file to http response
+		/// Write file to http response<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="path">File path</param>

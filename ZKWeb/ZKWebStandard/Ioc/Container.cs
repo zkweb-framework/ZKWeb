@@ -8,9 +8,11 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// IoC container
-	/// Support constructor dependency injection
-	/// Benchmark
+	/// IoC container<br/>
+	/// Support constructor dependency injection<br/>
+	/// <br/>
+	/// <br/>
+	/// Benchmark (性能测试)<br/>
 	/// - Register Transient: 1000000/2.3s (DryIoc: 6.1s)
 	/// - Register Singleton: 1000000/2.6s (DryIoc: 5.2s)
 	/// - Resolve Transient: 10000000/0.27s (DryIoc: 0.54s)
@@ -20,21 +22,25 @@ namespace ZKWebStandard.Ioc {
 	/// </summary>
 	public class Container : IContainer {
 		/// <summary>
-		/// Factories
+		/// Factories<br/>
+		/// <br/>
 		/// { (Type, Service key): (Factory, Implementation Type) }
 		/// </summary>
 		protected IDictionary<Pair<Type, object>, List<ContainerFactoryData>> Factories { get; set; }
 		/// <summary>
-		/// Factories lock
+		/// Factories lock<br/>
+		/// <br/>
 		/// </summary>
 		protected ReaderWriterLockSlim FactoriesLock { get; set; }
 		/// <summary>
-		/// Increase after each modification
+		/// Increase after each modification<br/>
+		/// <br/>
 		/// </summary>
 		internal protected int Revision;
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public Container() {
 			Factories = new Dictionary<Pair<Type, object>, List<ContainerFactoryData>>();
@@ -44,7 +50,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Get base types and interfaces
+		/// Get base types and interfaces<br/>
+		/// <br/>
 		/// </summary>
 		protected static IEnumerable<Type> GetImplementedTypes(Type type) {
 			foreach (var interfaceType in type.GetTypeInfo().GetInterfaces()) {
@@ -58,10 +65,14 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Get base types and interfaces that can be a service type
-		/// What type can't be a service type
-		/// - It's non public and parameter nonPublicServiceTypes is false
-		/// - It's from mscorlib
+		/// Get base types and interfaces that can be a service type<br/>
+		/// What type can't be a service type<br/>
+		/// - It's non public and parameter nonPublicServiceTypes is false<br/>
+		/// - It's from mscorlib<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		protected static IEnumerable<Type> GetImplementedServiceTypes(Type type, bool nonPublicServiceTypes) {
 			var mscorlibAssembly = typeof(int).GetTypeInfo().Assembly;
@@ -75,7 +86,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register self instance
+		/// Register self instance<br/>
+		/// <br/>
 		/// </summary>
 		protected void RegisterSelf() {
 			Unregister<IContainer>(null);
@@ -91,7 +103,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register factory with service type and service key
+		/// Register factory with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		protected void RegisterFactory(
 			Type serviceType, ContainerFactoryData factoryData, object serviceKey) {
@@ -107,7 +120,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register factory with service types and service key
+		/// Register factory with service types and service key<br/>
+		/// <br/>
 		/// </summary>
 		protected void RegisterFactoryMany(
 			IList<Type> serviceTypes, ContainerFactoryData factoryData, object serviceKey) {
@@ -125,7 +139,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register implementation type with service type and service key
+		/// Register implementation type with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
@@ -135,14 +150,16 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register implementation type with service type and service key
+		/// Register implementation type with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void Register<TService, TImplementation>(ReuseType reuseType, object serviceKey) {
 			Register(typeof(TService), typeof(TImplementation), reuseType, serviceKey);
 		}
 
 		/// <summary>
-		/// Register implementation type with service types and service key
+		/// Register implementation type with service types and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
@@ -152,8 +169,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register implementation type with service types and service key
-		/// Service types are obtain from base types and interfaces
+		/// Register implementation type with service types and service key<br/>
+		/// Service types are obtain from base types and interfaces<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterMany(Type implementationType,
 			ReuseType reuseType, object serviceKey, bool nonPublicServiceTypes) {
@@ -163,8 +182,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register implementation type with service types and service key
-		/// Service types are obtain from base types and interfaces
+		/// Register implementation type with service types and service key<br/>
+		/// Service types are obtain from base types and interfaces<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterMany<TImplementation>(
 			ReuseType reuseType, object serviceKey, bool nonPublicServiceTypes) {
@@ -172,8 +193,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register instance with service type and service key
-		/// Reuse type is forced to Singleton
+		/// Register instance with service type and service key<br/>
+		/// Reuse type is forced to Singleton<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
 			var factory = this.BuildFactory(() => instance, ReuseType.Singleton);
@@ -182,15 +205,18 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register instance with service type and service key
-		/// Reuse type is forced to Singleton
+		/// Register instance with service type and service key<br/>
+		/// Reuse type is forced to Singleton<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterInstance<TService>(TService instance, object serviceKey) {
 			RegisterInstance(typeof(TService), instance, serviceKey);
 		}
 
 		/// <summary>
-		/// Register delegate with service type and service key
+		/// Register delegate with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterDelegate(
 			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
@@ -201,7 +227,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Register delegate with service type and service key
+		/// Register delegate with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterDelegate<TService>(
 			Func<TService> factory, ReuseType reuseType, object serviceKey) {
@@ -209,7 +236,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Automatic register types by export attributes
+		/// Automatic register types by export attributes<br/>
+		/// <br/>
 		/// </summary>
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
@@ -238,7 +266,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Unregister all factories with specified service type and service key
+		/// Unregister all factories with specified service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void Unregister(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
@@ -252,14 +281,16 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Unregister all factories with specified service type and service key
+		/// Unregister all factories with specified service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void Unregister<TService>(object serviceKey) {
 			Unregister(typeof(TService), serviceKey);
 		}
 
 		/// <summary>
-		/// Unregister factories with specified implementation type and service key
+		/// Unregister factories with specified implementation type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void UnregisterImplementation(Type implementationType, object serviceKey) {
 			var serviceTypes = GetImplementedServiceTypes(implementationType, true).ToList();
@@ -277,14 +308,16 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Unregister factories with specified implementation type and service key
+		/// Unregister factories with specified implementation type and service key<br/>
+		/// <br/>
 		/// </summary>
 		public void UnregisterImplementation<TImplementation>(object serviceKey) {
 			UnregisterImplementation(typeof(TImplementation), serviceKey);
 		}
 
 		/// <summary>
-		/// Unregister all factories
+		/// Unregister all factories<br/>
+		/// <br/>
 		/// </summary>
 		public void UnregisterAll() {
 			FactoriesLock.EnterWriteLock();
@@ -297,7 +330,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Update factories cache for service type and return newest data
+		/// Update factories cache for service type and return newest data<br/>
+		/// <br/>
 		/// </summary>
 		internal ContainerFactoriesCacheData UpdateFactoriesCache<TService>() {
 			var key = Pair.Create(typeof(TService), (object)null);
@@ -318,8 +352,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Resolve service with type and key
-		/// Throw exception or return default value if not found, dependent on ifUnresolved
+		/// Resolve service with type and key<br/>
+		/// Throw exception or return default value if not found, dependent on ifUnresolved<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public object Resolve(Type serviceType, IfUnresolved ifUnresolved, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
@@ -357,8 +393,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Resolve service with type and key
-		/// Throw exception or return default value if not found, dependent on ifUnresolved
+		/// Resolve service with type and key<br/>
+		/// Throw exception or return default value if not found, dependent on ifUnresolved<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public TService Resolve<TService>(IfUnresolved ifUnresolved, object serviceKey) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
@@ -376,8 +414,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Resolve services with type and key
-		/// Return empty sequence if no service registered
+		/// Resolve services with type and key<br/>
+		/// Return empty sequence if no service registered<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
@@ -400,8 +440,10 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Resolve services with type and key
-		/// Return empty sequence if no service registered
+		/// Resolve services with type and key<br/>
+		/// Return empty sequence if no service registered<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<TService> ResolveMany<TService>(object serviceKey) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
@@ -422,7 +464,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Clone container
+		/// Clone container<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public object Clone() {
@@ -441,7 +484,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Dispose container
+		/// Dispose container<br/>
+		/// <br/>
 		/// </summary>
 		public void Dispose() {
 			GC.Collect();

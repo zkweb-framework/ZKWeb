@@ -8,11 +8,13 @@ using ZKWebStandard.Ioc;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// IContainer extension methods
+	/// IContainer extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IContainerExtensions {
 		/// <summary>
-		/// Build factory from original factory and reuse type
+		/// Build factory from original factory and reuse type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="container">IoC container</param>
 		/// <param name="originalFactory">Original factory</param>
@@ -45,13 +47,15 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Cache for type and it's original factory
+		/// Cache for type and it's original factory<br/>
+		/// <br/>
 		/// </summary>
 		private readonly static ConcurrentDictionary<Type, Func<object>> TypeFactorysCache =
 			new ConcurrentDictionary<Type, Func<object>>();
 
 		/// <summary>
-		/// Build factory from type and reuse type
+		/// Build factory from type and reuse type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="container">IoC container</param>
 		/// <param name="type">The type</param>

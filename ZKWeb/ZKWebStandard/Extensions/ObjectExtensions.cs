@@ -4,11 +4,13 @@ using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Object extension methods
+	/// Object extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ObjectExtensions {
 		/// <summary>
-		/// Compare objects, won't throw exception if any object is null
+		/// Compare objects, won't throw exception if any object is null<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">Object</param>
 		/// <param name="target">Target object</param>
@@ -25,8 +27,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Convert object to specified type
-		/// Return default value if failed
+		/// Convert object to specified type<br/>
+		/// Return default value if failed<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Type convert to</typeparam>
 		/// <param name="obj">Object</param>
@@ -37,14 +41,22 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Convert object to specified type
-		/// Return default value if failed
-		/// Flow
-		/// - If object is Enum and type is int, use Convert.ToInt32
-		/// - If object is string and type is Enum, use Enum.Parse
-		/// - Use Convert.ChangeType
-		/// - If object is string, use json deserialize(obj, type)
-		/// - Use json deserialize(serialize(obj), type)
+		/// Convert object to specified type<br/>
+		/// Return default value if failed<br/>
+		/// Flow<br/>
+		/// - If object is Enum and type is int, use Convert.ToInt32<br/>
+		/// - If object is string and type is Enum, use Enum.Parse<br/>
+		/// - Use Convert.ChangeType<br/>
+		/// - If object is string, use json deserialize(obj, type)<br/>
+		/// - Use json deserialize(serialize(obj), type)<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">Object</param>
 		/// <param name="type">Target type</param>
@@ -85,8 +97,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Use json serializer to clone object
-		/// Please sure the object can serialize and deserialize by json.net
+		/// Use json serializer to clone object<br/>
+		/// Please sure the object can serialize and deserialize by json.net<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Object type</typeparam>
 		/// <param name="obj">Object</param>

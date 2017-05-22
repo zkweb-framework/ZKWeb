@@ -2,11 +2,13 @@
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// System utility functions
+	/// System utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class SystemUtils {
 		/// <summary>
-		/// Get used memory in bytes
+		/// Get used memory in bytes<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static long GetUsedMemoryBytes() {

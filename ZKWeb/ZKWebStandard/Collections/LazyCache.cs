@@ -2,26 +2,32 @@
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Lazy single object cache
-	/// Support reset object and it's thread safe
+	/// Lazy single object cache<br/>
+	/// Support reset object and it's thread safe<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="T">Object type</typeparam>
 	public class LazyCache<T> where T : class {
 		/// <summary>
-		/// Object instance
+		/// Object instance<br/>
+		/// <br/>
 		/// </summary>
 		private T Instance { get; set; }
 		/// <summary>
-		/// Object factory
+		/// Object factory<br/>
+		/// <br/>
 		/// </summary>
 		private Func<T> Factory { get; set; }
 		/// <summary>
-		/// Thread lock
+		/// Thread lock<br/>
+		/// <br/>
 		/// </summary>
 		private object Lock { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="factory">Object factory</param>
 		public LazyCache(Func<T> factory) {
@@ -31,14 +37,16 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Determine object instance is created
+		/// Determine object instance is created<br/>
+		/// <br/>
 		/// </summary>
 		public bool IsValueCreated {
 			get { return Instance != null; }
 		}
 
 		/// <summary>
-		/// Get object instance, create it first if it's not created before
+		/// Get object instance, create it first if it's not created before<br/>
+		/// <br/>
 		/// </summary>
 		public T Value {
 			get {
@@ -58,8 +66,10 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Reset object instance
-		/// Instance will be create again at the next time call `Value`
+		/// Reset object instance<br/>
+		/// Instance will be create again at the next time call `Value`<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void Reset() {
 			if (Instance != null) {
@@ -71,11 +81,13 @@ namespace ZKWebStandard.Collections {
 	}
 
 	/// <summary>
-	/// LazyCache utility functions
+	/// LazyCache utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class LazyCache {
 		/// <summary>
-		/// Create a lazy cached object
+		/// Create a lazy cached object<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Object type</typeparam>
 		/// <param name="factory">Object factory</param>

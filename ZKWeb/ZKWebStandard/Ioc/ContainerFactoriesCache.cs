@@ -4,40 +4,50 @@ using System.Runtime.CompilerServices;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Static ioc container factories cache
+	/// Static ioc container factories cache<br/>
+	/// <br/>
 	/// </summary>
 	public static class ContainerFactoriesCache {
 		/// <summary>
-		/// Set to enable static factories cache
+		/// Set to enable static factories cache<br/>
+		/// <br/>
 		/// </summary>
 		public static bool Enabled = true;
 	}
 
 	/// <summary>
-	/// IoC container factories cache data
+	/// IoC container factories cache data<br/>
+	/// <br/>
 	/// </summary>
 	internal class ContainerFactoriesCacheData {
 		/// <summary>
-		/// Matched container instance
+		/// Matched container instance<br/>
+		/// <br/>
 		/// </summary>
 		internal IContainer Container = null;
 		/// <summary>
-		/// Matched container revision
+		/// Matched container revision<br/>
+		/// <br/>
 		/// </summary>
 		internal int Revision = 0;
 		/// <summary>
-		/// Factories for given services
-		/// Service key should be null
+		/// Factories for given services<br/>
+		/// Service key should be null<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		internal List<Func<object>> Factories = null;
 		/// <summary>
-		/// Single factory
-		/// Available when Factories only contains one element
+		/// Single factory<br/>
+		/// Available when Factories only contains one element<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		internal Func<object> SingleFactory = null;
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal ContainerFactoriesCacheData(
@@ -51,7 +61,8 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
-		/// Check if container matched this cache data
+		/// Check if container matched this cache data<br/>
+		/// <br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal bool IsMatched(Container container) {
@@ -62,12 +73,14 @@ namespace ZKWebStandard.Ioc {
 	}
 
 	/// <summary>
-	/// Static ioc container factories cache
+	/// Static ioc container factories cache<br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="TService">Service Type</typeparam>
 	internal static class ContainerFactoriesCache<TService> {
 		/// <summary>
-		/// Cache data
+		/// Cache data<br/>
+		/// <br/>
 		/// </summary>
 		internal static ContainerFactoriesCacheData Data = null;
 	}

@@ -4,13 +4,17 @@ using System.FastReflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Enum extension methods
+	/// Enum extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class EnumExtensions {
 		/// <summary>
-		/// Get enum value description
-		/// If enum value contains `DescriptionAttribute` then return the description in attribute
-		/// Otherwise return the default name
+		/// Get enum value description<br/>
+		/// If enum value contains `DescriptionAttribute` then return the description in attribute<br/>
+		/// Otherwise return the default name<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="value">Enum value</param>
 		/// <returns></returns>
@@ -32,8 +36,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get attribute from enum value's field
-		/// Return null if not found
+		/// Get attribute from enum value's field<br/>
+		/// Return null if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Attribute type</typeparam>
 		/// <param name="value">Enum value</param>

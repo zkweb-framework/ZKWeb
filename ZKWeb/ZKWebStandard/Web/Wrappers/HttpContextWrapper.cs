@@ -2,7 +2,8 @@
 
 namespace ZKWebStandard.Web.Wrappers {
 	/// <summary>
-	/// Http context wrapper base class
+	/// Http context wrapper base class<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class HttpContextWrapper : IHttpContext {
 #pragma warning disable CS1591
@@ -17,14 +18,10 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual IDictionary<object, object> Items {
 			get { return OriginalContext.Items; }
 		}
-#pragma warning restore CS1591
 
-		/// <summary>
-		/// 初始化
-		/// </summary>
-		/// <param name="originalContext">原始的Http上下文</param>
 		public HttpContextWrapper(IHttpContext originalContext) {
 			OriginalContext = originalContext;
 		}
+#pragma warning restore CS1591
 	}
 }

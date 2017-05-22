@@ -2,13 +2,16 @@
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Singleton reuse attribute
-	/// A convenient attribute from ReuseAttribute
+	/// Singleton reuse attribute<br/>
+	/// A convenient attribute from ReuseAttribute<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
 	public class SingletonReuseAttribute : ReuseAttribute {
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public SingletonReuseAttribute() : base(ReuseType.Singleton) { }
 	}

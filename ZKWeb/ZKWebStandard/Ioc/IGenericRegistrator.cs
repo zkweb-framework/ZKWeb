@@ -2,11 +2,13 @@
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Interface for generic registrator
+	/// Interface for generic registrator<br/>
+	/// <br/>
 	/// </summary>
 	public interface IGenericRegistrator {
 		/// <summary>
-		/// Register implementation type with service type and service key
+		/// Register implementation type with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TService">Service type</typeparam>
 		/// <typeparam name="TImplementation">Implementation type</typeparam>
@@ -16,8 +18,10 @@ namespace ZKWebStandard.Ioc {
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
-		/// Register implementation type with service types and service key
-		/// Service types are obtain from base types and interfaces
+		/// Register implementation type with service types and service key<br/>
+		/// Service types are obtain from base types and interfaces<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TImplementation">Implementation type</typeparam>
 		/// <param name="reuseType">Reuse type</param>
@@ -28,8 +32,10 @@ namespace ZKWebStandard.Ioc {
 			object serviceKey = null, bool nonPublicServiceTypes = false);
 
 		/// <summary>
-		/// Register instance with service type and service key
-		/// Reuse type is forced to Singleton
+		/// Register instance with service type and service key<br/>
+		/// Reuse type is forced to Singleton<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TService">Service type</typeparam>
 		/// <param name="instance">Service instance</param>
@@ -37,7 +43,8 @@ namespace ZKWebStandard.Ioc {
 		void RegisterInstance<TService>(TService instance, object serviceKey = null);
 
 		/// <summary>
-		/// Register delegate with service type and service key
+		/// Register delegate with service type and service key<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TService">Service type</typeparam>
 		/// <param name="factory">Service facotory</param>
@@ -47,16 +54,20 @@ namespace ZKWebStandard.Ioc {
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 
 		/// <summary>
-		/// Unregister all factories with specified service type and service key
-		/// Please see the example in IRegistrator
+		/// Unregister all factories with specified service type and service key<br/>
+		/// Please see the example in IRegistrator<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TService">Service type</typeparam>
 		/// <param name="serviceKey">Service key</param>
 		void Unregister<TService>(object serviceKey = null);
 
 		/// <summary>
-		/// Unregister factories with specified implementation type and service key
-		/// Please see the example in IRegistrator
+		/// Unregister factories with specified implementation type and service key<br/>
+		/// Please see the example in IRegistrator<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TImplementation">Implementation type</typeparam>
 		/// <param name="serviceKey">Service key</param>

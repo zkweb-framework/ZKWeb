@@ -3,11 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Platform utility functions
+	/// Platform utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class PlatformUtils {
 		/// <summary>
-		/// Running platform is linux or mac
+		/// Running platform is linux or mac<br/>
+		/// <br/>
 		/// </summary>
 		private static bool IsLinuxOrMac = false;
 
@@ -22,7 +24,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Check is running on linux or mac
+		/// Check is running on linux or mac<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static bool RunningOnUnix() {
@@ -30,7 +33,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Check is running on windows
+		/// Check is running on windows<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static bool RunningOnWindows() {

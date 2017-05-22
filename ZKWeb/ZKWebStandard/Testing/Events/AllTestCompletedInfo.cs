@@ -1,19 +1,23 @@
 ﻿namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// Information for all test completed
+	/// Information for all test completed<br/>
+	/// <br/>
 	/// </summary>
 	public class AllTestCompletedInfo {
 		/// <summary>
-		/// Test runner
+		/// Test runner<br/>
+		/// <br/>
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// Test result counter
+		/// Test result counter<br/>
+		/// <br/>
 		/// </summary>
 		public TestResultCounter Counter { get; private set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="runner">Test runner</param>
 		/// <param name="counter">Test result counter</param>

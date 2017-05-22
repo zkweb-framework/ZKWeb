@@ -4,11 +4,13 @@ using System.Reflection;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Reflection utility functions
+	/// Reflection utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class ReflectionUtils {
 		/// <summary>
-		/// Make setter for member, member can be non public
+		/// Make setter for member, member can be non public<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Data Type</typeparam>
 		/// <typeparam name="M">Member Type</typeparam>
@@ -23,7 +25,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Make getter for member, member can be non public
+		/// Make getter for member, member can be non public<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Data Type</typeparam>
 		/// <typeparam name="M">Member Type</typeparam>
@@ -36,7 +39,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Get generic arguments from type
+		/// Get generic arguments from type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="type">The type</param>
 		/// <param name="genericType">The generic type</param>

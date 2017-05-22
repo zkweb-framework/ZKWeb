@@ -2,7 +2,8 @@
 
 namespace ZKWebStandard.Web.Mock {
 	/// <summary>
-	/// Http posted file mock
+	/// Http posted file mock<br/>
+	/// <br/>
 	/// </summary>
 	public class HttpPostFileMock : IHttpPostedFile {
 #pragma warning disable CS1591

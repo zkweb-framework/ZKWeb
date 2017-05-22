@@ -3,28 +3,34 @@ using System.Reflection;
 
 namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// Information for single test failed
+	/// Information for single test failed<br/>
+	/// <br/>
 	/// </summary>
 	public class TestFailedInfo {
 		/// <summary>
-		/// Test runner
+		/// Test runner<br/>
+		/// <br/>
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// Test method
+		/// Test method<br/>
+		/// <br/>
 		/// </summary>
 		public MethodInfo Method { get; private set; }
 		/// <summary>
-		/// Test instance
+		/// Test instance<br/>
+		/// <br/>
 		/// </summary>
 		public object Instance { get; private set; }
 		/// <summary>
-		/// Test failed exception
+		/// Test failed exception<br/>
+		/// <br/>
 		/// </summary>
 		public Exception Exception { get; private set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="runner">Test runner</param>
 		/// <param name="method">Test method</param>

@@ -5,11 +5,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Http utility functions
+	/// Http utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class HttpUtils {
 		/// <summary>
-		/// Url encode
+		/// Url encode<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -18,7 +20,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Url decode
+		/// Url decode<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -27,7 +30,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Html encode
+		/// Html encode<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -36,7 +40,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Html decode
+		/// Html decode<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -45,7 +50,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Split path and query string
+		/// Split path and query string<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="pathAndQuery">Path an query string</param>
 		/// <param name="path">Path</param>
@@ -58,7 +64,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Parse query string
+		/// Parse query string<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="queryString">Query string</param>
 		/// <returns></returns>
@@ -90,7 +97,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Build query string
+		/// Build query string<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="queryParams">Query arguments</param>
 		/// <returns></returns>

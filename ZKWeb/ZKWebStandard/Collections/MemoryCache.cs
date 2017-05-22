@@ -5,32 +5,38 @@ using System.Threading;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Key-value cache based on memory
+	/// Key-value cache based on memory<br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="TKey">Key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
 	public class MemoryCache<TKey, TValue> : IKeyValueCache<TKey, TValue> {
 		/// <summary>
-		/// Check interval for revoke expired values
+		/// Check interval for revoke expired values<br/>
+		/// <br/>
 		/// Default is 180s
 		/// </summary>
 		public TimeSpan RevokeExpiresInterval { get; set; }
 		/// <summary>
-		/// Cache
+		/// Cache<br/>
+		/// <br/>
 		/// { Key: (Value, ExpireTime) }
 		/// </summary>
 		protected IDictionary<TKey, Pair<TValue, DateTime>> Cache { get; set; }
 		/// <summary>
-		/// Reader writer lock
+		/// Reader writer lock<br/>
+		/// <br/>
 		/// </summary>
 		protected ReaderWriterLockSlim CacheLock { get; set; }
 		/// <summary>
-		/// Last check time
+		/// Last check time<br/>
+		/// <br/>
 		/// </summary>
 		protected DateTime LastRevokeExpires { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public MemoryCache() {
 			RevokeExpiresInterval = TimeSpan.FromSeconds(180);
@@ -40,7 +46,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Revoke expired values if the check interval has elapsed
+		/// Revoke expired values if the check interval has elapsed<br/>
+		/// <br/>
 		/// </summary>
 		protected void RevokeExpires() {
 			var now = DateTime.UtcNow;
@@ -63,7 +70,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Put value to cache
+		/// Put value to cache<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -83,8 +91,10 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Try to get cached value
-		/// Return false if no exist value or exist value expired
+		/// Try to get cached value<br/>
+		/// Return false if no exist value or exist value expired<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -108,7 +118,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Remove cached value
+		/// Remove cached value<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		public void Remove(TKey key) {
@@ -122,7 +133,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Count all cached values
+		/// Count all cached values<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public int Count() {
@@ -135,7 +147,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Clear all cached values
+		/// Clear all cached values<br/>
+		/// <br/>
 		/// </summary>
 		public void Clear() {
 			CacheLock.EnterWriteLock();

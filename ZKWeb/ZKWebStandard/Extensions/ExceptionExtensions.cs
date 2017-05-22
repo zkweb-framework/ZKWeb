@@ -4,11 +4,13 @@ using System.Reflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Exception extension methods
+	/// Exception extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ExceptionExtensions {
 		/// <summary>
-		/// Get detailed information from exception
+		/// Get detailed information from exception<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static string ToDetailedString(this Exception ex) {
@@ -29,7 +31,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get summary information from exception
+		/// Get summary information from exception<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static string ToSummaryString(this Exception ex) {

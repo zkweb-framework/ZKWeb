@@ -11,11 +11,13 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Http request extension methods
+	/// Http request extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IHttpRequestExtensions {
 		/// <summary>
-		/// Determine it's a ajax http request
+		/// Determine it's a ajax http request<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -24,7 +26,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get user agent from http request
+		/// Get user agent from http request<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -33,7 +36,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get accept languages from http request
+		/// Get accept languages from http request<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -44,8 +48,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get "If-Modified-Since" header's value from http request
-		/// Return DateTime.MinValue if not found
+		/// Get "If-Modified-Since" header's value from http request<br/>
+		/// Return DateTime.MinValue if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -63,8 +69,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get Referer from http request
-		/// Return null if not exist
+		/// Get Referer from http request<br/>
+		/// Return null if not exist<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -81,7 +89,7 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get range request in bytes
+		/// Get range request in bytes<br/>
 		/// http://stackoverflow.com/questions/3303029/http-range-header
 		/// Eg: "Range: bytes=3744-", "Range: bytes=3744-3800"
 		/// </summary>
@@ -103,8 +111,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// If http request content is json then return json string
-		/// otherwise return null
+		/// If http request content is json then return json string<br/>
+		/// otherwise return null<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -117,8 +127,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// If http request content is json then return a dictionary deserialized from content
-		/// otherwise return a empty dictionary
+		/// If http request content is json then return a dictionary deserialized from content<br/>
+		/// otherwise return a empty dictionary<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -133,8 +145,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get argument from http request
-		/// Priority: Form > QueryString > Json > PostedFile
+		/// Get argument from http request<br/>
+		/// Priority: Form > QueryString > Json > PostedFile<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		/// <param name="request">Http request</param>
@@ -168,9 +182,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get all arguments from http request
-		/// Posted files are not included
-		/// Priority: Form > QueryString > Json
+		/// Get all arguments from http request<br/>
+		/// Posted files are not included<br/>
+		/// Priority: Form > QueryString > Json<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -189,9 +206,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get all arguments from http request in dictionary
-		/// Posted files are not included
-		/// Priority: Form > QueryString > Json
+		/// Get all arguments from http request in dictionary<br/>
+		/// Posted files are not included<br/>
+		/// Priority: Form > QueryString > Json<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -206,7 +226,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get all parameters into a given type
+		/// Get all parameters into a given type<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">The type contains parameters</typeparam>
 		/// <param name="request">Http request</param>

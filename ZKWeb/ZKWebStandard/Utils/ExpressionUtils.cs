@@ -3,12 +3,15 @@ using System.Linq.Expressions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Expression utility functions
+	/// Expression utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class ExpressionUtils {
 		/// <summary>
-		/// Make lambda expression that compare member to the given object
-		/// Perform "data => data.{memberName} == {equalsTo}"
+		/// Make lambda expression that compare member to the given object<br/>
+		/// Perform "data => data.{memberName} == {equalsTo}"<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TData">Data type</typeparam>
 		/// <param name="memberName">Member name</param>

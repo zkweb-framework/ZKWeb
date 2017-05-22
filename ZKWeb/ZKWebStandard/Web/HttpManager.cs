@@ -5,12 +5,15 @@ using ZKWebStandard.Web.Mock;
 
 namespace ZKWebStandard.Web {
 	/// <summary>
-	/// Http manager
+	/// Http manager<br/>
+	/// <br/>
 	/// </summary>
 	public static class HttpManager {
 		/// <summary>
-		/// Get using http context
-		/// Throw exception if not exist
+		/// Get using http context<br/>
+		/// Throw exception if not exist<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public static IHttpContext CurrentContext {
 			get {
@@ -23,13 +26,16 @@ namespace ZKWebStandard.Web {
 		}
 		private static ThreadLocal<IHttpContext> currentContext = new ThreadLocal<IHttpContext>();
 		/// <summary>
-		/// Determines if there a http context is using
+		/// Determines if there a http context is using<br/>
+		/// <br/>
 		/// </summary>
 		public static bool CurrentContextExists { get { return currentContext.Value != null; } }
 
 		/// <summary>
-		/// Override using http context
-		/// Restore to previous context after disposed
+		/// Override using http context<br/>
+		/// Restore to previous context after disposed<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <returns></returns>
@@ -45,8 +51,10 @@ namespace ZKWebStandard.Web {
 		}
 
 		/// <summary>
-		/// Override using http context
-		/// Restore to previous context after disposed
+		/// Override using http context<br/>
+		/// Restore to previous context after disposed<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="pathAndQuery">Path and query, "/" will be automatic added to front if needed</param>
 		/// <param name="method">Method, GET or POST</param>

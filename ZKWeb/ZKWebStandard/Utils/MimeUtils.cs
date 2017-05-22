@@ -5,11 +5,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Mime utility functions
+	/// Mime utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class MimeUtils {
 		/// <summary>
-		/// Mime mapping
+		/// Mime mapping<br/>
+		/// <br/>
 		/// </summary>
 		public static readonly IDictionary<string, string> MimeMapping =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -576,7 +578,8 @@ namespace ZKWebStandard.Utils {
 			};
 
 		/// <summary>
-		/// Get mime type from file extension
+		/// Get mime type from file extension<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="filename">File name</param>
 		/// <returns></returns>

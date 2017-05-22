@@ -3,12 +3,15 @@ using ZKWebStandard.Collections;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// IKeyValueCache extension methods
+	/// IKeyValueCache extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IKeyValueCacheExtensions {
 		/// <summary>
-		/// Get cached value
-		/// Return default value if no exist value or exist value expired
+		/// Get cached value<br/>
+		/// Return default value if no exist value or exist value expired<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="cache">Cache</param>
 		/// <param name="key">Key</param>
@@ -25,9 +28,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get cached value
-		/// Generate a new value and store it to cache if the no exist value or exist value expired
-		/// Attention: This is not an atomic operation
+		/// Get cached value<br/>
+		/// Generate a new value and store it to cache if the no exist value or exist value expired<br/>
+		/// Attention: This is not an atomic operation<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="cache">Cache</param>
 		/// <param name="key">Key</param>

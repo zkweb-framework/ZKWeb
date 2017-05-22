@@ -5,11 +5,13 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Testing {
 	/// <summary>
-	/// Assert utility functions
+	/// Assert utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class Assert {
 		/// <summary>
-		/// Test if condition is true
+		/// Test if condition is true<br/>
+		/// <br/>
 		/// </summary>
 		public static void IsTrue(bool condition,
 			[CallerMemberName] string memberName = null,
@@ -22,8 +24,10 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Test if condition is true
-		/// If failed include `obj`'s contents to exception message
+		/// Test if condition is true<br/>
+		/// If failed include `obj`'s contents to exception message<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public static void IsTrueWith(bool condition, object obj,
 			[CallerMemberName] string memberName = null,
@@ -37,7 +41,8 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Test if a and b are equals
+		/// Test if a and b are equals<br/>
+		/// <br/>
 		/// </summary>
 		public static void Equals<T>(T a, T b,
 			[CallerMemberName] string memberName = null,
@@ -50,8 +55,10 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Test if a and b are equals
-		/// Use to avoid calling object.Equals
+		/// Test if a and b are equals<br/>
+		/// Use to avoid calling object.Equals<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public static void Equals(object a, object b,
 			[CallerMemberName] string memberName = null,
@@ -61,7 +68,8 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Test if action throws specified type's exception
+		/// Test if action throws specified type's exception<br/>
+		/// <br/>
 		/// </summary>
 		public static void Throws<TException>(Action action,
 			[CallerMemberName] string memberName = null,
@@ -80,14 +88,16 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Make this test passed
+		/// Make this test passed<br/>
+		/// <br/>
 		/// </summary>
 		public static void Passed() {
 			throw new AssertPassedException();
 		}
 
 		/// <summary>
-		/// Make this test skipped
+		/// Make this test skipped<br/>
+		/// <br/>
 		/// </summary>
 		public static void Skipped(string reason) {
 			throw new AssertSkipedException(reason);

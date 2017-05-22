@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// IDictionary extension methods
+	/// IDictionary extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IDictionaryExtensions {
 		/// <summary>
-		/// Get value, return the default value if not found
+		/// Get value, return the default value if not found<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TKey">Key type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -25,7 +27,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get value, create a new value if not found
+		/// Get value, create a new value if not found<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TKey">Key type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -44,8 +47,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get value and convert it to the given type
-		/// Return the default value if not found
+		/// Get value and convert it to the given type<br/>
+		/// Return the default value if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">The type convert to</typeparam>
 		/// <param name="dict">The dictionary</param>

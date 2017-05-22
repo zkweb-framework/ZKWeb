@@ -3,11 +3,13 @@ using System.IO;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Stream extension methods
+	/// Stream extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class StreamExtensions {
 		/// <summary>
-		/// Copy stream to other stream from `begin` with `size` bytes
+		/// Copy stream to other stream from `begin` with `size` bytes<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="source">Source stream</param>
 		/// <param name="destination">Destination stream</param>

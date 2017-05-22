@@ -8,29 +8,35 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Locale utility languages
+	/// Locale utility languages<br/>
+	/// <br/>
 	/// </summary>
 	public static class LocaleUtils {
 		/// <summary>
-		/// The key for store using language code
+		/// The key for store using language code<br/>
+		/// <br/>
 		/// </summary>
 		public const string LanguageKey = "ZKWeb.Language";
 		/// <summary>
-		/// The key for store using timezone
+		/// The key for store using timezone<br/>
+		/// <br/>
 		/// </summary>
 		public const string TimeZoneKey = "ZKWeb.TimeZone";
 		/// <summary>
-		/// Cache for cluture information
+		/// Cache for cluture information<br/>
+		/// <br/>
 		/// </summary>
 		private static ConcurrentDictionary<string, CultureInfo> ClutureInfoCache =
 			new ConcurrentDictionary<string, CultureInfo>();
 		/// <summary>
-		/// Cache for timezone
+		/// Cache for timezone<br/>
+		/// <br/>
 		/// </summary>
 		private static ConcurrentDictionary<string, TimeZoneInfo> TimeZoneInfoCache =
 			new ConcurrentDictionary<string, TimeZoneInfo>();
 		/// <summary>
-		/// Olson to windows timezone mapping
+		/// Olson to windows timezone mapping<br/>
+		/// <br/>
 		/// http://stackoverflow.com/questions/5996320/net-timezoneinfo-from-olson-time-zone
 		/// </summary>
 		private static IDictionary<string, string> OlsonToWindowsTimezoneMapping =
@@ -159,15 +165,19 @@ namespace ZKWebStandard.Utils {
 				{ "Pacific/Tongatapu", "Tonga Standard Time" }
 			};
 		/// <summary>
-		/// Windows to olson timezone mapping
+		/// Windows to olson timezone mapping<br/>
+		/// <br/>
 		/// </summary>
 		private static IDictionary<string, string> WindowsToOlsonTimezoneMapping =
 			OlsonToWindowsTimezoneMapping.GroupBy(p => p.Value).ToDictionary(g => g.Key, g => g.First().Key);
 
 		/// <summary>
-		/// Get timezone information
-		/// Support use windows timezone name on linux, or use linux timezone name on windows
-		/// Return null if not found
+		/// Get timezone information<br/>
+		/// Support use windows timezone name on linux, or use linux timezone name on windows<br/>
+		/// Return null if not found<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="timezone">Timezone name</param>
 		/// <returns></returns>
@@ -196,8 +206,10 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Get culture information
-		/// Return null if not found
+		/// Get culture information<br/>
+		/// Return null if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="language">Language code</param>
 		/// <returns></returns>
@@ -216,7 +228,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Set using languange code, return true for success
+		/// Set using languange code, return true for success<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="language">Language code</param>
 		/// <returns></returns>
@@ -234,7 +247,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Set using timezone, return true for success
+		/// Set using timezone, return true for success<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="timezone">Timezone name</param>
 		/// <returns></returns>
@@ -251,11 +265,11 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Automatic set using language name, return true for success
-		/// Flow
-		/// - Use language code from cookie
-		/// - Use accept languages from client, if allowed
-		/// - Use default language
+		/// Automatic set using language name, return true for success<br/>
+		/// Flow<br/>
+		/// - Use language code from cookie<br/>
+		/// - Use accept languages from client, if allowed<br/>
+		/// - Use default language<br/>
 		/// </summary>
 		/// <param name="allowDetectLanguageFromBrowser">Allow use accept languages from client</param>
 		/// <param name="defaultLanguage">Default language</param>
@@ -282,10 +296,14 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Automatic set using timezone, return true for success
-		/// Flow
-		/// - Use timezone name from cookies
-		/// - Use default timezone
+		/// Automatic set using timezone, return true for success<br/>
+		/// Flow<br/>
+		/// - Use timezone name from cookies<br/>
+		/// - Use default timezone<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="defaultTimezone">Default timezone</param>
 		/// <returns></returns>

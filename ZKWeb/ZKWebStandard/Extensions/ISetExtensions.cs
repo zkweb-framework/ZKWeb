@@ -2,12 +2,15 @@
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// ISet extension methods
+	/// ISet extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class ISetExtensions {
 		/// <summary>
-		/// Batch add elements
-		/// Return how many elements are not in the set before
+		/// Batch add elements<br/>
+		/// Return how many elements are not in the set before<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="set">Element set</param>

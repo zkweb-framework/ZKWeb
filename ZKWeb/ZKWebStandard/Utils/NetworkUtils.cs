@@ -4,13 +4,17 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Network utility functions
+	/// Network utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class NetworkUtils {
 		/// <summary>
-		/// Get client ip address
-		/// If there a http request then return the remote address
-		/// otherwise return host ip address
+		/// Get client ip address<br/>
+		/// If there a http request then return the remote address<br/>
+		/// otherwise return host ip address<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static IPAddress GetClientIpAddress() {
@@ -22,8 +26,10 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Get host ip address
-		/// Notice if host is in LAN then this function will return lan ip not public ip address
+		/// Get host ip address<br/>
+		/// Notice if host is in LAN then this function will return lan ip not public ip address<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public static IPAddress GetHostIpAddress() {

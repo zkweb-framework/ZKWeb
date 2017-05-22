@@ -6,13 +6,17 @@ using System.FastReflection;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// MemberInfo extensions
+	/// MemberInfo extensions<br/>
+	/// <br/>
 	/// </summary>
 	public static class MemberInfoExtensions {
 		/// <summary>
-		/// Get specified type attribute
-		/// Return null if not found
-		/// Will not search inherited attributes
+		/// Get specified type attribute<br/>
+		/// Return null if not found<br/>
+		/// Will not search inherited attributes<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
@@ -23,7 +27,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get specified type attributes
+		/// Get specified type attributes<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
@@ -34,7 +39,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Get specified type attributes with inherit option
+		/// Get specified type attributes with inherit option<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>

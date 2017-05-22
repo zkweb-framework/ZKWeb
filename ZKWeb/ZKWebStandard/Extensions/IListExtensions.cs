@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// IList Extension methods
+	/// IList Extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IListExtensions {
 		/// <summary>
-		/// Find element index that match the given predicate
-		/// Return -1 if not found
+		/// Find element index that match the given predicate<br/>
+		/// Return -1 if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -29,8 +32,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Find element index that match the given predicate
-		/// Return -1 if not found
+		/// Find element index that match the given predicate<br/>
+		/// Return -1 if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -42,8 +47,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Find element index that match the given predicate from back to front
-		/// Return -1 if not found
+		/// Find element index that match the given predicate from back to front<br/>
+		/// Return -1 if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -64,8 +71,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Find element index that match the given predicate from back to front
-		/// Return -1 if not found
+		/// Find element index that match the given predicate from back to front<br/>
+		/// Return -1 if not found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -77,8 +86,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Add element before the other element that match the given predicate
-		/// If no other elements matched then add the element to front
+		/// Add element before the other element that match the given predicate<br/>
+		/// If no other elements matched then add the element to front<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -97,8 +108,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Add element after the other element that match the given predicate
-		/// If no other elements matched then add the element to front
+		/// Add element after the other element that match the given predicate<br/>
+		/// If no other elements matched then add the element to front<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -114,7 +127,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Batch add elements
+		/// Batch add elements<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="list">Elements</param>

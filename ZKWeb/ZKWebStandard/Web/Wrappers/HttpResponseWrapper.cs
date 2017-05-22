@@ -2,7 +2,8 @@
 
 namespace ZKWebStandard.Web.Wrappers {
 	/// <summary>
-	/// Http response wrapper base class
+	/// Http response wrapper base class<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class HttpResponseWrapper : IHttpResponse {
 #pragma warning disable CS1591
@@ -34,14 +35,10 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual void Redirect(string url, bool permanent) {
 			OriginalResponse.Redirect(url, permanent);
 		}
-#pragma warning restore CS1591
 
-		/// <summary>
-		/// 初始化
-		/// </summary>
-		/// <param name="originalResponse">原始的Http回应</param>
 		public HttpResponseWrapper(IHttpResponse originalResponse) {
 			OriginalResponse = originalResponse;
 		}
+#pragma warning restore CS1591
 	}
 }

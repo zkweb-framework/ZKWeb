@@ -2,24 +2,29 @@
 
 namespace ZKWebStandard.Testing.Events {
 	/// <summary>
-	/// Information for single test starting
+	/// Information for single test starting<br/>
+	/// <br/>
 	/// </summary>
 	public class TestStartingInfo {
 		/// <summary>
-		/// Test runner
+		/// Test runner<br/>
+		/// <br/>
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
-		/// Test method
+		/// Test method<br/>
+		/// <br/>
 		/// </summary>
 		public MethodInfo Method { get; private set; }
 		/// <summary>
-		/// Test instance
+		/// Test instance<br/>
+		/// <br/>
 		/// </summary>
 		public object Instance { get; private set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="runner">Test runner</param>
 		/// <param name="method">Test method</param>

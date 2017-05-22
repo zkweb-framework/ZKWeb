@@ -6,12 +6,15 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Tree utility functions
+	/// Tree utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class TreeUtils {
 		/// <summary>
-		/// Create tree from elements
-		/// Return root node, root node doesn't have a value
+		/// Create tree from elements<br/>
+		/// Return root node, root node doesn't have a value<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -32,8 +35,10 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Transform tree
-		/// If the given node isn't root node, it will lose it's parent
+		/// Transform tree<br/>
+		/// If the given node isn't root node, it will lose it's parent<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Original type</typeparam>
 		/// <typeparam name="U">Target type</typeparam>
@@ -49,33 +54,39 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Tree node
+		/// Tree node<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		class TreeNode<T> : ITreeNode<T> {
 			/// <summary>
-			/// Value
+			/// Value<br/>
+			/// <br/>
 			/// </summary>
 			public T Value { get; set; }
 			/// <summary>
-			/// Parent node, maybe null
+			/// Parent node, maybe null<br/>
+			/// <br/>
 			/// </summary>
 			[JsonIgnore]
 			public ITreeNode<T> Parent { get; set; }
 			/// <summary>
-			/// Child nodes
+			/// Child nodes<br/>
+			/// <br/>
 			/// </summary>
 			[JsonIgnore]
 			List<ITreeNode<T>> ChildList { get; set; }
 			/// <summary>
-			/// Child nodes, for interface
+			/// Child nodes, for interface<br/>
+			/// <br/>
 			/// </summary>
 			public IEnumerable<ITreeNode<T>> Childs {
 				get { return ChildList; }
 			}
 
 			/// <summary>
-			/// Initialize
+			/// Initialize<br/>
+			/// <br/>
 			/// </summary>
 			/// <param name="value"></param>
 			public TreeNode(T value) {
@@ -85,7 +96,8 @@ namespace ZKWebStandard.Utils {
 			}
 
 			/// <summary>
-			/// Add child node, throw exception if failed
+			/// Add child node, throw exception if failed<br/>
+			/// <br/>
 			/// </summary>
 			public void AddChildNode(ITreeNode<T> node) {
 				if (node == null) {
@@ -102,7 +114,8 @@ namespace ZKWebStandard.Utils {
 			}
 
 			/// <summary>
-			/// Remove child node, do nothing if not found
+			/// Remove child node, do nothing if not found<br/>
+			/// <br/>
 			/// </summary>
 			public void RemoveChildNode(ITreeNode<T> node) {
 				if (node.Parent == this) {
@@ -112,7 +125,8 @@ namespace ZKWebStandard.Utils {
 			}
 
 			/// <summary>
-			/// Serialize tree to json
+			/// Serialize tree to json<br/>
+			/// <br/>
 			/// </summary>
 			/// <returns></returns>
 			public override string ToString() {
@@ -122,30 +136,36 @@ namespace ZKWebStandard.Utils {
 	}
 
 	/// <summary>
-	/// Interface for tree node
+	/// Interface for tree node<br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public interface ITreeNode<T> {
 		/// <summary>
-		/// Value
+		/// Value<br/>
+		/// <br/>
 		/// </summary>
 		T Value { get; set; }
 		/// <summary>
-		/// Parent node maybe null
+		/// Parent node maybe null<br/>
+		/// <br/>
 		/// </summary>
 		[JsonIgnore]
 		ITreeNode<T> Parent { get; set; }
 		/// <summary>
-		/// Child nodes
+		/// Child nodes<br/>
+		/// <br/>
 		/// </summary>
 		IEnumerable<ITreeNode<T>> Childs { get; }
 		/// <summary>
-		/// Add child node, throw exception if failed
+		/// Add child node, throw exception if failed<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="node">Node to add</param>
 		void AddChildNode(ITreeNode<T> node);
 		/// <summary>
-		/// Remove child node, do nothing if not found
+		/// Remove child node, do nothing if not found<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="node">Node to remove</param>
 		void RemoveChildNode(ITreeNode<T> node);

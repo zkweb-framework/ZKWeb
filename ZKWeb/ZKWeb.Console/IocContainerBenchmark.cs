@@ -3,7 +3,8 @@
 	using ZKWebStandard.Ioc;
 
 	/// <summary>
-	/// Benchmark for builtin IoC Container
+	/// Benchmark for builtin IoC Container<br/>
+	/// 内置IoC容器的性能测试<br/>
 	/// </summary>
 	public static class IocContainerBenchmark {
 		public interface BenchmarkInterface { }
@@ -86,7 +87,8 @@
 		}
 
 		/// <summary>
-		/// Start benchmark
+		/// Start benchmark<br/>
+		/// 开始性能测试<br/>
 		/// </summary>
 		public static void Start() {
 			BenchmarkRegisterTransient();

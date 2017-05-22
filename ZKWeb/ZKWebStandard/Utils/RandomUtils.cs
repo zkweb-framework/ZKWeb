@@ -5,16 +5,19 @@ using System.Security.Cryptography;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Random utility functions
+	/// Random utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class RandomUtils {
 		/// <summary>
-		/// Random generator
+		/// Random generator<br/>
+		/// <br/>
 		/// </summary>
 		public static Random Generator { get; } = new Random(SystemRandomInt());
 
 		/// <summary>
-		/// Create secure random bytes in given length
+		/// Create secure random bytes in given length<br/>
+		/// <br/>
 		/// </summary>
 		public static byte[] SystemRandomBytes(int length) {
 			byte[] buffer = new byte[length];
@@ -25,14 +28,16 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Create secure random integer
+		/// Create secure random integer<br/>
+		/// <br/>
 		/// </summary>
 		public static int SystemRandomInt() {
 			return BitConverter.ToInt32(SystemRandomBytes(4), 0);
 		}
 
 		/// <summary>
-		/// Create random integer
+		/// Create random integer<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="minValue">Min value, inclusive</param>
 		/// <param name="maxValue">Max value, exclusive</param>
@@ -42,7 +47,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Randomly select a value from collection
+		/// Randomly select a value from collection<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Type</typeparam>
 		/// <param name="values">Values</param>
@@ -55,8 +61,10 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Randonly select a enum value from enum type
-		/// If enum type is empty, then return 0
+		/// Randonly select a enum value from enum type<br/>
+		/// If enum type is empty, then return 0<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TEnum">Enum type</typeparam>
 		/// <returns></returns>
@@ -67,7 +75,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Generate random string in given length
+		/// Generate random string in given length<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="length">String length</param>
 		/// <param name="chars">With chars, default is a-zA-Z0-9</param>

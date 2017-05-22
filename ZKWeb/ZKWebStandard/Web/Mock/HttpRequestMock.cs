@@ -6,7 +6,8 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Web.Mock {
 	/// <summary>
-	/// Http request mock class
+	/// Http request mock class<br/>
+	/// <br/>
 	/// </summary>
 	public class HttpRequestMock : IHttpRequest {
 #pragma warning disable CS1591

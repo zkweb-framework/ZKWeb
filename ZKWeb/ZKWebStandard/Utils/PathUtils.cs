@@ -3,12 +3,15 @@ using System.IO;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
-	/// Path utility functions
+	/// Path utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class PathUtils {
 		/// <summary>
-		/// Secure path combining
-		/// Throw exception if any part contains ".." or other invalid value
+		/// Secure path combining<br/>
+		/// Throw exception if any part contains ".." or other invalid value<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="paths">Path parts</param>
 		/// <returns></returns>
@@ -29,7 +32,8 @@ namespace ZKWebStandard.Utils {
 		}
 
 		/// <summary>
-		/// Ensure parent directories are exist
+		/// Ensure parent directories are exist<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		public static void EnsureParentDirectory(string path) {

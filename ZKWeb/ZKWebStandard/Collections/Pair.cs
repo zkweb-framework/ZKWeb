@@ -3,26 +3,34 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Pair type
-	/// Why use it instead of Tuple: Tuple is class, not fast as struct for creating object
-	/// Why use it instead of KeyValuePair:
-	/// - KeyValuePair didn't override GetHashCode,
-	/// - it will be very slow to use KeyValuePair for dictionary key
+	/// Pair type<br/>
+	/// Why use it instead of Tuple: Tuple is class, not fast as struct for creating object<br/>
+	/// Why use it instead of KeyValuePair:<br/>
+	/// - KeyValuePair didn't override GetHashCode,<br/>
+	/// - it will be very slow to use KeyValuePair for dictionary key<br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="TFirst">First value's type</typeparam>
 	/// <typeparam name="TSecond">Second value's type</typeparam>
 	public struct Pair<TFirst, TSecond> : IEquatable<Pair<TFirst, TSecond>> {
 		/// <summary>
-		/// First value
+		/// First value<br/>
+		/// <br/>
 		/// </summary>
 		public TFirst First { get; private set; }
 		/// <summary>
-		/// Second value
+		/// Second value<br/>
+		/// <br/>
 		/// </summary>
 		public TSecond Second { get; private set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="first">First value</param>
 		/// <param name="second">Second value</param>
@@ -32,7 +40,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Compare to the given object for equality
+		/// Compare to the given object for equality<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">Other object</param>
 		/// <returns></returns>
@@ -41,7 +50,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Compare to the given object for equality
+		/// Compare to the given object for equality<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="obj">Other object</param>
 		/// <returns></returns>
@@ -50,7 +60,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Get hash code
+		/// Get hash code<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public override int GetHashCode() {
@@ -62,11 +73,13 @@ namespace ZKWebStandard.Collections {
 	}
 
 	/// <summary>
-	/// Pair type utility functions
+	/// Pair type utility functions<br/>
+	/// <br/>
 	/// </summary>
 	public static class Pair {
 		/// <summary>
-		/// Create pair
+		/// Create pair<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="TFirst">First value's type</typeparam>
 		/// <typeparam name="TSecond">Second value's type</typeparam>

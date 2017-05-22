@@ -4,11 +4,13 @@ using System.Linq;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// IEnumerable extension methods
+	/// IEnumerable extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class IEnumerableExtensions {
 		/// <summary>
-		/// Concat object if it's not null
+		/// Concat object if it's not null<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="elements">Elements</param>
@@ -23,7 +25,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Perform the given action to each element
+		/// Perform the given action to each element<br/>
+		/// <br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="elements">Elements</param>

@@ -4,11 +4,13 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
-	/// Date time extension methods
+	/// Date time extension methods<br/>
+	/// <br/>
 	/// </summary>
 	public static class DateTimeExtensions {
 		/// <summary>
-		/// Convert UTC time to client time, use the timezone from client
+		/// Convert UTC time to client time, use the timezone from client<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">UTC time</param>
 		/// <returns></returns>
@@ -25,8 +27,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Convert UTC time to client time as string
-		/// Format is yyyy/MM/dd HH:mm:ss
+		/// Convert UTC time to client time as string<br/>
+		/// Format is yyyy/MM/dd HH:mm:ss<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">UTC time</param>
 		/// <returns></returns>
@@ -35,9 +39,10 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Convert client time to UTC time, use the timezone from client
+		/// Convert client time to UTC time, use the timezone from client<br/>
+		/// <br/>
 		/// </summary>
-		/// <param name="time">本地时间</param>
+		/// <param name="time">Client time</param>
 		/// <returns></returns>
 		public static DateTime FromClientTime(this DateTime time) {
 			// Get timezone from client
@@ -52,7 +57,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Truncate datetime, only keep seconds
+		/// Truncate datetime, only keep seconds<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>
@@ -61,9 +67,12 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Return unix style timestamp
-		/// Return a minus value if the time early than 1970-1-1
-		/// The given time will be converted to UTC time first
+		/// Return unix style timestamp<br/>
+		/// Return a minus value if the time early than 1970-1-1<br/>
+		/// The given time will be converted to UTC time first<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>

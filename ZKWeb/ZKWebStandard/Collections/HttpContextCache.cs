@@ -6,28 +6,35 @@ using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
-	/// Key-value cache based on http context
-	/// All cached value will be destroy after context end
+	/// Key-value cache based on http context<br/>
+	/// All cached value will be destroy after context end<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="TKey">Key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
 	public class HttpContextCache<TKey, TValue> : IKeyValueCache<TKey, TValue> {
 		/// <summary>
-		/// Http context key
-		/// Default is "HttpContextCache_" + random string
+		/// Http context key<br/>
+		/// Default is "HttpContextCache_" + random string<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public string ContextKey { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public HttpContextCache() {
 			ContextKey = "HttpContextCache_" + RandomUtils.RandomString(12);
 		}
 
 		/// <summary>
-		/// Get cache storage from http context
-		/// Use normal dictionary because thread race is impossible
+		/// Get cache storage from http context<br/>
+		/// Use normal dictionary because thread race is impossible<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		protected IDictionary<TKey, TValue> GetStorage() {
@@ -36,7 +43,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Put value to cache
+		/// Put value to cache<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -50,8 +58,10 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Try to get cached value
-		/// Return false if no exist value or exist value expired
+		/// Try to get cached value<br/>
+		/// Return false if no exist value or exist value expired<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -66,7 +76,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Remove cached value
+		/// Remove cached value<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		public void Remove(TKey key) {
@@ -78,7 +89,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Count all cached values
+		/// Count all cached values<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public int Count() {
@@ -90,7 +102,8 @@ namespace ZKWebStandard.Collections {
 		}
 
 		/// <summary>
-		/// Clear all cached values
+		/// Clear all cached values<br/>
+		/// <br/>
 		/// </summary>
 		public void Clear() {
 			if (!HttpManager.CurrentContextExists) {
