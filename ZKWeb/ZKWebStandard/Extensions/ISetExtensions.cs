@@ -16,6 +16,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="set">Element set</param>
 		/// <param name="items">Elements want's to add</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// set = new SortedSet&lt;int&gt;();
+		/// set.AddRange(new[] { 1, 2, 3 });
+		/// </code>
+		/// </example>
 		public static long AddRange<T>(this ISet<T> set, IEnumerable<T> items) {
 			long result = 0;
 			foreach (var item in items) {

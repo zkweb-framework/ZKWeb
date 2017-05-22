@@ -21,6 +21,12 @@ namespace ZKWebStandard.Extensions {
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var info = typeof(TestData).FastGetProperty("TestProperty");
+		/// var attribute = info.GetAttribute&lt;DescriptionAttribute&gt;();
+		/// </code>
+		/// </example>
 		public static TAttribute GetAttribute<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
 			return info.GetAttributes<TAttribute>().FirstOrDefault();
@@ -33,6 +39,12 @@ namespace ZKWebStandard.Extensions {
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var info = typeof(TestData).FastGetProperty("TestProperty");
+		/// var attributes = info.GetAttributes&lt;Attribute&gt;();
+		/// </code>
+		/// </example>
 		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info)
 			where TAttribute : Attribute {
 			return info.FastGetCustomAttributes(typeof(TAttribute)).OfType<TAttribute>();
@@ -46,6 +58,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="info">Member infomation</param>
 		/// <param name="inherit">Should search override method or property's attributes</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var info = typeof(TestData).FastGetProperty("TestProperty");
+		/// var attributes = info.GetAttributes&lt;Attribute&gt;(true);
+		/// </code>
+		/// </example>
 		public static IEnumerable<TAttribute> GetAttributes<TAttribute>(this MemberInfo info, bool inherit)
 			where TAttribute : Attribute {
 			return info.FastGetCustomAttributes(typeof(TAttribute), inherit).OfType<TAttribute>();

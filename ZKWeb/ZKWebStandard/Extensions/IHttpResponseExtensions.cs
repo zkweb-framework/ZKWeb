@@ -18,6 +18,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="url">Url</param>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.Response.RedirectByScript("/login");
+		/// </code>
+		/// </example>
 		public static void RedirectByScript(this IHttpResponse response, string url) {
 			var urlJson = JsonConvert.SerializeObject(url);
 			response.ContentType = "text/html";
@@ -32,6 +37,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="date">Last modified time</param>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.Response.SetLastModified(new DateTime(2016, 06, 13, 03, 09, 22, DateTimeKind.Utc));
+		/// </code>
+		/// </example>
 		public static void SetLastModified(this IHttpResponse response, DateTime date) {
 			var value = date.ToUniversalTime().ToString("R", DateTimeFormatInfo.InvariantInfo);
 			response.AddHeader("Last-Modified", value);
@@ -43,6 +53,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="value">String value</param>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.Response.Write("string contents");
+		/// </code>
+		/// </example>
 		public static void Write(this IHttpResponse response, string value) {
 			var writer = new StreamWriter(response.Body);
 			writer.Write(value);
@@ -55,6 +70,13 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="path">File path</param>
+		/// <example>
+		/// <code language="cs">
+		/// var path = Path.GetTempFileName();
+		/// File.WriteAllText(path, "file contents");
+		/// HttpManager.CurrentContext.Response.WriteFile(path);
+		/// </code>
+		/// </example>
 		public static void WriteFile(this IHttpResponse response, string path) {
 			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)) {
 				stream.CopyTo(response.Body);

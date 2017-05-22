@@ -22,6 +22,11 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="mode">Resize mode</param>
 		/// <param name="background">Background, default is transparent</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var newImage = oldImage.Resize(100, 100, ImageResizeMode.Fixed);
+		/// </code>
+		/// </example>
 		public static Image Resize(this Image image,
 			int width, int height, ImageResizeMode mode, Color? background = null) {
 			var src = new Rectangle(0, 0, image.Width, image.Height);
@@ -87,6 +92,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
 		/// <param name="quality">Compress quality, 1~100</param>
+		/// <example>
+		/// <code language="cs">
+		/// using (var stream = new MemoryStream()) {
+		///		image.SaveJpeg(stream, 90);
+		/// }
+		/// </code>
+		/// </example>
 		private static void SaveJpeg(this Image image, Stream stream, long quality) {
 			var encoder = ImageCodecInfo.GetImageEncoders().First(
 				c => c.FormatID == ImageFormat.Jpeg.Guid);
@@ -116,6 +128,13 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
+		/// <example>
+		/// <code language="cs">
+		/// using (var stream = new MemoryStream()) {
+		///		image.SaveIcon(stream);
+		/// }
+		/// </code>
+		/// </example>
 		private static void SaveIcon(this Image image, Stream stream) {
 			// Header (ico, 1 photo)
 			stream.Write(new byte[] { 0, 0, 1, 0, 1, 0 }, 0, 6);
@@ -154,6 +173,11 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
 		/// <param name="quality">Compress quality, 1~100</param>
+		/// <example>
+		/// <code language="cs">
+		/// image.SaveAuto("d:\\1.jpg", 90);
+		/// </code>
+		/// </example>
 		public static void SaveAuto(this Image image, string filename, long quality) {
 			PathUtils.EnsureParentDirectory(filename);
 			var extension = Path.GetExtension(filename).ToLower();
@@ -172,6 +196,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="stream">Stream object</param>
 		/// <param name="extension">File extension, eg: ".jpg"</param>
 		/// <param name="quality">Compress quality, 1~100</param>
+		/// <example>
+		/// <code language="cs">
+		/// using (var stream = new MemoryStream()) {
+		///		image.SaveIcon(stream);
+		/// }
+		/// </code>
+		/// </example>
 		public static void SaveAuto(this Image image, Stream stream, string extension, long quality) {
 			if (extension == ".jpg" || extension == ".jpeg") {
 				image.SaveJpeg(stream, quality);

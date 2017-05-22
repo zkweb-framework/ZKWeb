@@ -14,6 +14,12 @@ namespace ZKWebStandard.Extensions {
 		/// 包括类型的全名和函数名称<br/>
 		/// </summary>
 		/// <param name="info">Method information</param>
+		/// <example>
+		/// <code language="cs">
+		/// var methodInfo = this.GetType().FastGetMethod("GetFullName");
+		/// var fullname = methodInfo.GetFullName();
+		/// </code>
+		/// </example>
 		public static string GetFullName(this MethodInfo info) {
 			var result = new StringBuilder();
 			result.Append(info.DeclaringType.FullName).Append('.').Append(info.Name);

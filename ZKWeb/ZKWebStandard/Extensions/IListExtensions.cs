@@ -18,6 +18,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="startIndex">Start position</param>
 		/// <param name="match">The predicate</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// IList&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// var index = list.FindIndex(2, x =&gt; x % 2 == 0); // 2
+		/// </code>
+		/// </example>
 		public static int FindIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
 			if (startIndex < 0) {
@@ -41,6 +47,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="items">Elements</param>
 		/// <param name="match">The predicate</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// IList&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// var index = list.FindIndex(x =&gt; x % 2 == 0); // 1
+		/// </code>
+		/// </example>
 		public static int FindIndex<T>(
 			this IList<T> items, Predicate<T> match) {
 			return FindIndex(items, 0, match);
@@ -57,6 +69,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="startIndex">Start position from back</param>
 		/// <param name="match">The predicate</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// IList&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// var index = list.FindLastIndex(1, x => x % 2 == 0); // 1
+		/// </code>
+		/// </example>
 		public static int FindLastIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
 			if (startIndex > items.Count - 1) {
@@ -80,6 +98,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="items">Elements</param>
 		/// <param name="match">The predicate</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// IList&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// var index = list.FindLastIndex(x =&gt; x % 2 == 0); // 2
+		/// </code>
+		/// </example>
 		public static int FindLastIndex<T>(
 			this IList<T> items, Predicate<T> match) {
 			return FindLastIndex(items, items.Count - 1, match);
@@ -95,6 +119,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="items">Elements</param>
 		/// <param name="before">The predicate</param>
 		/// <param name="obj">Element want's to add</param>
+		/// <example>
+		/// <code language="cs">
+		/// var list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// list.AddBefore(x =&gt; x == 4, 3); // 1, 2, 3, 4
+		/// </code>
+		/// </example>
 		public static void AddBefore<T>(
 			this IList<T> items, Predicate<T> before, T obj) {
 			var a = new List<int>();
@@ -117,6 +147,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="items">Elements</param>
 		/// <param name="after">The predicate</param>
 		/// <param name="obj">Element want's to add</param>
+		/// <example>
+		/// <code language="cs">
+		/// var list = new List&lt;int&gt;() { 1, 2, 4 };
+		/// list.AddAfter(x =&gt; x == 2, 3); // 1, 2, 3, 4
+		/// </code>
+		/// </example>
 		public static void AddAfter<T>(
 			this IList<T> items, Predicate<T> after, T obj) {
 			var index = items.FindLastIndex(x => after(x));
@@ -134,6 +170,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="list">Elements</param>
 		/// <param name="items">Elements want's to add</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// IList&lt;int&gt; list = new List&lt;int&gt;();
+		/// list.AddRange(new[] { 1, 2, 3 });
+		/// </code>
+		/// </example>
 		public static void AddRange<T>(this IList<T> list, IEnumerable<T> items) {
 			foreach (var item in items) {
 				list.Add(item);

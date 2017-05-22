@@ -23,12 +23,12 @@ namespace ZKWebStandard.Extensions {
 		///	using (var desitination = new MemoryStream()) {
 		///		source.CopyTo(desitination, 1024, 1, 3);
 		///		desitination.Seek(0, SeekOrigin.Begin);
-		///		Assert.Equals(new StreamReader(desitination).ReadToEnd(), "123");
+		///		var str = new StreamReader(desitination).ReadToEnd(); // "123"
 		///
 		///		desitination.Seek(0, SeekOrigin.Begin);
 		///		source.CopyTo(desitination, 1024, 7, 5);
 		///		desitination.Seek(0, SeekOrigin.Begin);
-		///		Assert.Equals(new StreamReader(desitination).ReadToEnd(), "789");
+		///		str = new StreamReader(desitination).ReadToEnd(); // "789"
 		///	}
 		///	</code>
 		/// </example>

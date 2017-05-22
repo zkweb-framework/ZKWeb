@@ -17,6 +17,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var cache = new MemoryCache&lt;int, string&gt;();
+		/// var cached = cache.GetOrDefault(1, "default");
+		/// </code>
+		/// </example>
 		public static TValue GetOrDefault<TKey, TValue>(
 			this IKeyValueCache<TKey, TValue> cache,
 			TKey key, TValue defaultValue = default(TValue)) {
@@ -39,6 +45,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="creator">Function to create default value</param>
 		/// <param name="keepTime">Keep time</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var cache = new MemoryCache&lt;int, string&gt;();
+		/// var cached = cache.GetOrDefault(1, () =&gt; "123", TimeSpan.FromSeconds(100));
+		/// </code>
+		/// </example>
 		public static TValue GetOrCreate<TKey, TValue>(
 			this IKeyValueCache<TKey, TValue> cache,
 			TKey key, Func<TValue> creator, TimeSpan keepTime) {

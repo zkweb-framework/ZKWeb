@@ -17,10 +17,10 @@ namespace ZKWebStandard.Extensions {
 		/// <returns></returns>
 		/// <example>
 		/// <code language="cs">
-		/// Assert.Equals(((string)null).EqualsSupportsNull(""), false);
-		/// Assert.Equals("".EqualsSupportsNull(null), false);
-		///	Assert.Equals(((string)null).EqualsSupportsNull(null), true);
-		///	Assert.Equals("abc".EqualsSupportsNull("abc"), true);
+		/// ((string)null).EqualsSupportsNull("") == false
+		/// "".EqualsSupportsNull(null) == false
+		///	((string)null).EqualsSupportsNull(null) == true
+		///	"abc".EqualsSupportsNull("abc") == true
 		/// </code>
 		/// </example>
 		public static bool EqualsSupportsNull(this object obj, object target) {
@@ -46,22 +46,22 @@ namespace ZKWebStandard.Extensions {
 		/// <returns></returns>
 		/// <example>
 		/// <code language="cs">
-		/// Assert.Equals("1".ConvertOrDefault&lt;int&gt;(), 1);
-		/// Assert.Equals((1).ConvertOrDefault&lt;int&gt;(), 1);
-		///	Assert.Equals("abc".ConvertOrDefault&lt;int?&gt;(), null);
-		///	Assert.Equals("abc".ConvertOrDefault&lt;int?&gt;(100), 100);
-		///	Assert.Equals("1.0".ConvertOrDefault&lt;decimal?&gt;(), 1.0M);
-		///	Assert.Equals("1".ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
-		///	Assert.Equals((1).ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
-		///	Assert.Equals("One".ConvertOrDefault&lt;TestEnum&gt;(), TestEnum.One);
-		///	Assert.Equals("One".ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
-		///	Assert.Equals(TestEnum.One.ConvertOrDefault&lt;int&gt;(), 1);
-		///	Assert.Equals(TestEnum.One.ConvertOrDefault&lt;string&gt;(), "One");
-		///	Assert.Equals(new List&lt;int&gt;().ConvertOrDefault&lt;int?&gt;(), null);
-		///	Assert.Equals((100).ConvertOrDefault&lt;string&gt;(), "100");
-		///	Assert.Equals("test".ConvertOrDefault&lt;string&gt;(), "test");
+		/// "1".ConvertOrDefault&lt;int&gt;() == 1
+		/// (1).ConvertOrDefault&lt;int&gt;() == 1
+		///	"abc".ConvertOrDefault&lt;int?&gt;() == null
+		///	"abc".ConvertOrDefault&lt;int?&gt;(100) == 100
+		///	"1.0".ConvertOrDefault&lt;decimal?&gt;() == 1.0M
+		///	"1".ConvertOrDefault&lt;TestEnum?&gt;() == TestEnum.One
+		///	(1).ConvertOrDefault&lt;TestEnum?&gt;() == TestEnum.One
+		///	"One".ConvertOrDefault&lt;TestEnum&gt;() == TestEnum.One
+		///	"One".ConvertOrDefault&lt;TestEnum?&gt;() == TestEnum.One
+		///	TestEnum.One.ConvertOrDefault&lt;int&gt;() == 1
+		///	TestEnum.One.ConvertOrDefault&lt;string&gt;() == "One"
+		///	new List&lt;int&gt;().ConvertOrDefault&lt;int?&gt;() == null
+		///	(100).ConvertOrDefault&lt;string&gt;() == "100"
+		///	"test".ConvertOrDefault&lt;string&gt;() == "test"
 		///	var lst = "[1]".ConvertOrDefault&lt;List&lt;int&gt;&gt;();
-		/// Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
+		/// lst.SequenceEqual(new[] { 1 })
 		/// </code>
 		/// </example>
 		public static T ConvertOrDefault<T>(this object obj, T defaultValue = default(T)) {
@@ -92,22 +92,22 @@ namespace ZKWebStandard.Extensions {
 		/// <returns></returns>
 		/// <example>
 		/// <code language="cs">
-		/// Assert.Equals("1".ConvertOrDefault(typeof(int), 0), 1);
-		/// Assert.Equals((1).ConvertOrDefault(typeof(int), 0), 1);
-		///	Assert.Equals("abc".ConvertOrDefault(typeof(int?), null), null);
-		///	Assert.Equals("abc".ConvertOrDefault(typeof(int?), 100), 100);
-		///	Assert.Equals("1.0".ConvertOrDefault(typeof(decimal?), null), 1.0M);
-		///	Assert.Equals("1".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-		///	Assert.Equals((1).ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-		///	Assert.Equals("One".ConvertOrDefault(typeof(TestEnum), null), TestEnum.One);
-		///	Assert.Equals("One".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-		///	Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(int), null), 1);
-		///	Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(string), null), "One");
-		///	Assert.Equals(new List&lt;int&gt;().ConvertOrDefault(typeof(int?), null), null);
-		///	Assert.Equals((100).ConvertOrDefault(typeof(string), null), "100");
-		///	Assert.Equals("test".ConvertOrDefault(typeof(string), null), "test");
+		/// "1".ConvertOrDefault(typeof(int), 0) == 1
+		/// (1).ConvertOrDefault(typeof(int), 0) == 1
+		///	"abc".ConvertOrDefault(typeof(int?), null) == null
+		///	"abc".ConvertOrDefault(typeof(int?), 100) == 100
+		///	"1.0".ConvertOrDefault(typeof(decimal?), null) == 1.0M
+		///	"1".ConvertOrDefault(typeof(TestEnum?), null) == TestEnum.One
+		///	(1).ConvertOrDefault(typeof(TestEnum?), null) == TestEnum.One
+		///	"One".ConvertOrDefault(typeof(TestEnum), null) == TestEnum.One
+		///	"One".ConvertOrDefault(typeof(TestEnum?), null) == TestEnum.One
+		///	TestEnum.One.ConvertOrDefault(typeof(int), null) == 1
+		///	TestEnum.One.ConvertOrDefault(typeof(string), null) == "One"
+		///	new List&lt;int&gt;().ConvertOrDefault(typeof(int?), null) == null
+		///	(100).ConvertOrDefault(typeof(string), null) == "100"
+		///	"test".ConvertOrDefault(typeof(string), null) == "test"
 		///	var lst = "[1]".ConvertOrDefault(typeof(List&lt;int&gt;), null) as List&lt;int&gt;;
-		/// Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
+		/// lst.SequenceEqual(new[] { 1 })
 		/// </code>
 		/// </example>
 		public static object ConvertOrDefault(this object obj, Type type, object defaultValue) {
@@ -163,12 +163,7 @@ namespace ZKWebStandard.Extensions {
 		/// 
 		/// var data = new TestData() { A = 100, B = "TestString", C = true };
 		/// var dataClone = data.CloneByJson();
-		/// Assert.IsTrue(!object.ReferenceEquals(data, dataClone));
-		///	Assert.Equals(dataClone.A, 100);
-		///	Assert.Equals(dataClone.B, "TestString");
-		///	Assert.Equals(dataClone.C, true);
-		///	data.A = 101;
-		///	Assert.Equals(dataClone.A, 100);
+		/// // !object.ReferenceEquals(data, dataClone)
 		/// </code>
 		/// </example>
 		public static T CloneByJson<T>(this T obj) {
