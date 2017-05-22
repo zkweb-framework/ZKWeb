@@ -5,12 +5,12 @@ using System.Reflection;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Exception extension methods<br/>
-	/// <br/>
+	/// 例外的扩展函数<br/>
 	/// </summary>
 	public static class ExceptionExtensions {
 		/// <summary>
 		/// Get detailed information from exception<br/>
-		/// <br/>
+		/// 获取例外的详细信息<br/>
 		/// </summary>
 		/// <returns></returns>
 		public static string ToDetailedString(this Exception ex) {
@@ -32,7 +32,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get summary information from exception<br/>
-		/// <br/>
+		/// 获取例外的简要信息<br/>
 		/// </summary>
 		/// <returns></returns>
 		public static string ToSummaryString(this Exception ex) {

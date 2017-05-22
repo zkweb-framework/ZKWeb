@@ -9,12 +9,12 @@ using ZKWebStandard.Utils;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Image extension methods<br/>
-	/// <br/>
+	/// 图片的扩展函数<br/>
 	/// </summary>
 	public static class ImageExtensions {
 		/// <summary>
 		/// Resize image<br/>
-		/// <br/>
+		/// 改变图片大小<br/>
 		/// </summary>
 		/// <param name="image">Original image</param>
 		/// <param name="width">Width</param>
@@ -67,7 +67,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Save to jpeg file<br/>
-		/// <br/>
+		/// 保存到jpeg文件<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -82,7 +82,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Save to jpeg<br/>
-		/// <br/>
+		/// 保存到jpeg<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
@@ -97,7 +97,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Save to icon file<br/>
-		/// <br/>
+		/// 保存到图标文件<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -111,7 +111,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Save to icon, see<br/>
-		/// <br/>
+		/// 保存到图标, 请查看<br/>
 		/// http://stackoverflow.com/questions/11434673/bitmap-save-to-save-an-icon-actually-saves-a-png
 		/// </summary>
 		/// <param name="image">Image object</param>
@@ -148,8 +148,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Save image by it's file extension<br/>
 		/// Quality parameter only available for jpeg<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据文件后缀保存图片<br/>
+		/// quality参数只在图片类型是jpeg时生效<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="filename">File path, will automatic create parent directories</param>
@@ -165,8 +165,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Save image by it's file extension<br/>
 		/// Quality parameter only available for jpeg<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据文件后缀保存图片<br/>
+		/// quality参数只在图片类型是jpeg时生效<br/>
 		/// </summary>
 		/// <param name="image">Image object</param>
 		/// <param name="stream">Stream object</param>
@@ -196,32 +196,32 @@ namespace ZKWebStandard.Extensions {
 
 	/// <summary>
 	/// Image resize mode<br/>
-	/// <br/>
+	/// 图片改变大小的模式<br/>
 	/// </summary>
 	public enum ImageResizeMode {
 		/// <summary>
 		/// Resize to the specified size, allow aspect ratio change<br/>
-		/// <br/>
+		/// 改变到指定大小, 允许纵横比的变更<br/>
 		/// </summary>
 		Fixed,
 		/// <summary>
 		/// Resize to the specified width, height is calculated by the aspect ratio<br/>
-		/// <br/>
+		/// 改变到指定宽度, 高度根据纵横比自动计算<br/>
 		/// </summary>
 		ByWidth,
 		/// <summary>
 		/// Resize to the specified height, width is calculated by the aspect ratio<br/>
-		/// <br/>
+		/// 改变到指定高度, 宽度根据纵横比自动计算<br/>
 		/// </summary>
 		ByHeight,
 		/// <summary>
 		/// Resize to the specified size, keep aspect ratio and cut the overflow part<br/>
-		/// <br/>
+		/// 改变到指定大小, 保持纵横比并剪切移除的部分<br/>
 		/// </summary>
 		Cut,
 		/// <summary>
 		/// Resize to the specified size, keep aspect ratio and padding the insufficient part<br/>
-		/// <br/>
+		/// 改变到指定大小, 保持纵横比并填充不足的部分<br/>
 		/// </summary>
 		Padding
 	}

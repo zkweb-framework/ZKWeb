@@ -4,14 +4,14 @@ using ZKWebStandard.Collections;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// IKeyValueCache extension methods<br/>
-	/// <br/>
+	/// 键值缓存的扩展函数<br/>
 	/// </summary>
 	public static class IKeyValueCacheExtensions {
 		/// <summary>
 		/// Get cached value<br/>
 		/// Return default value if no exist value or exist value expired<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取缓存值<br/>
+		/// 如果值不存在或已过期则返回默认值<br/>
 		/// </summary>
 		/// <param name="cache">Cache</param>
 		/// <param name="key">Key</param>
@@ -31,9 +31,9 @@ namespace ZKWebStandard.Extensions {
 		/// Get cached value<br/>
 		/// Generate a new value and store it to cache if the no exist value or exist value expired<br/>
 		/// Attention: This is not an atomic operation<br/>
-		/// <br/>
-		/// <br/>
-		/// </summary>
+		/// 获取缓存值<br/>
+		/// 如果值不存在或已过期则创建一个新的值并储存<br/>
+		/// 注意: 这不是原子操作</summary>
 		/// <param name="cache">Cache</param>
 		/// <param name="key">Key</param>
 		/// <param name="creator">Function to create default value</param>

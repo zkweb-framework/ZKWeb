@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// IDictionary extension methods<br/>
-	/// <br/>
+	/// 词典的扩展函数<br/>
 	/// </summary>
 	public static class IDictionaryExtensions {
 		/// <summary>
 		/// Get value, return the default value if not found<br/>
-		/// <br/>
+		/// 获取值, 找不到时返回默认值<br/>
 		/// </summary>
 		/// <typeparam name="TKey">Key type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -28,7 +28,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get value, create a new value if not found<br/>
-		/// <br/>
+		/// 获取值, 不存在时创建新值<br/>
 		/// </summary>
 		/// <typeparam name="TKey">Key type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -49,8 +49,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get value and convert it to the given type<br/>
 		/// Return the default value if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取值并转换到指定类型<br/>
+		/// 找不到时返回默认值<br/>
 		/// </summary>
 		/// <typeparam name="T">The type convert to</typeparam>
 		/// <param name="dict">The dictionary</param>

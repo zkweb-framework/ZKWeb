@@ -6,12 +6,12 @@ using ZKWebStandard.Web;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// IHttpContext extension methods<br/>
-	/// <br/>
+	/// Http上下文的扩展函数<br/>
 	/// </summary>
 	public static class IHttpContextExtensions {
 		/// <summary>
 		/// Put associated data to http context<br/>
-		/// <br/>
+		/// 插入Http上下文的关联数据<br/>
 		/// </summary>
 		/// <typeparam name="T">Data type</typeparam>
 		/// <param name="context">Http context</param>
@@ -23,7 +23,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get associated data from http context<br/>
-		/// <br/>
+		/// 获取Http上下文的关联数据<br/>
 		/// </summary>
 		/// <typeparam name="T">Data type</typeparam>
 		/// <param name="context">Http context</param>
@@ -41,7 +41,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get associated data from http context, create it first if not exist<br/>
-		/// <br/>
+		/// 获取Http上下文的关联数据, 如果不存在则创建<br/>
 		/// </summary>
 		/// <typeparam name="T">Data type</typeparam>
 		/// <param name="context">Http context</param>
@@ -60,7 +60,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Remove associated data from http context<br/>
-		/// <br/>
+		/// 删除Http上下文的关联数据<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <param name="key">Key</param>
@@ -73,15 +73,15 @@ namespace ZKWebStandard.Extensions {
 		/// Data key prefix for previous set cookie value<br/>
 		/// If we write a cookie value and read it later in the same http context,<br/>
 		/// we will need to know what value is wrote before<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 设置Cookie时使用的关联键的前缀<br/>
+		/// 如果我们写了一个Cookie值然后又想在Http上下文结束前读取它,<br/>
+		/// 我们需要知道之前写入了什么值<br/>
 		/// </summary>
 		public const string SetCookieDataKeyPrefix = "__ZKWeb.SetCookie.";
 
 		/// <summary>
 		/// Get cookie value from http context<br/>
-		/// <br/>
+		/// 获取Http上下文中的Cookie值<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <param name="key">Cookie key</param>
@@ -102,7 +102,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Put cookie value to http context<br/>
-		/// <br/>
+		/// 设置Http上下文中的Cookie值<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <param name="key">Cookie key</param>
@@ -121,7 +121,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Remove cookie value<br/>
-		/// <br/>
+		/// 删除Cookie值<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <param name="key">Cookie key</param>
@@ -134,8 +134,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Determines client is visiting from mobile device<br/>
 		/// Ignore some device for performance<br/>
-		/// <br/>
-		/// <br/>
+		/// 检测客户端是否移动端设备<br/>
+		/// 为了性能忽略部分设备<br/>
 		/// See: http://stackoverflow.com/questions/13086856/mobile-device-detection-in-asp-net
 		/// </summary>
 		private static Regex MobileCheckRegex = new Regex(
@@ -148,17 +148,17 @@ namespace ZKWebStandard.Extensions {
 		/// Client device key name, used for<br/>
 		/// - Cache the device type for performance<br/>
 		/// - Get from cookie if client want to provide a specified device type<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 客户端设备的储存键, 用于<br/>
+		/// - 为了性能缓存检测出来的设备类型<br/>
+		/// - 从Cookie获取如果客户端想手动指定设备类型<br/>
 		/// </summary>
 		public const string DeviceKey = "ZKWeb.Device";
 
 		/// <summary>
 		/// Get client device type<br/>
-		/// From Cache => Cookie => UserAgent<br/>
-		/// <br/>
-		/// <br/>
+		/// From Cache => Cookie => User-Agent<br/>
+		/// 获取客户端的设备类型<br/>
+		/// 顺序 缓存 => Cookie值 => User-Agent<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <returns></returns>
@@ -181,8 +181,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Set device type to cookies<br/>
 		/// Next time will use this value instead of the value detect from user agent<br/>
-		/// <br/>
-		/// <br/>
+		/// 设置客户端的设备类型<br/>
+		/// 下次请求将会使用这个值代替User-Agent中的值<br/>
 		/// </summary>
 		/// <param name="context">Http ccontext</param>
 		/// <param name="type">Device type</param>
@@ -193,17 +193,17 @@ namespace ZKWebStandard.Extensions {
 
 	/// <summary>
 	/// Device type<br/>
-	/// <br/>
+	/// 设备类型<br/>
 	/// </summary>
 	public enum DeviceTypes {
 		/// <summary>
 		/// Desktop<br/>
-		/// <br/>
+		/// PC端<br/>
 		/// </summary>
 		Desktop = 0,
 		/// <summary>
 		/// Mobile<br/>
-		/// <br/>
+		/// 移动端<br/>
 		/// </summary>
 		Mobile = 1
 	}

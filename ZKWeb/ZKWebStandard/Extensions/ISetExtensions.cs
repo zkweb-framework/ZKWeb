@@ -3,14 +3,14 @@
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// ISet extension methods<br/>
-	/// <br/>
+	/// 集合的扩展函数<br/>
 	/// </summary>
 	public static class ISetExtensions {
 		/// <summary>
 		/// Batch add elements<br/>
 		/// Return how many elements are not in the set before<br/>
-		/// <br/>
-		/// <br/>
+		/// 批量添加元素<br/>
+		/// 返回有多少个元素之前不在集合中<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="set">Element set</param>

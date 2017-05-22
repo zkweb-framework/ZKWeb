@@ -9,12 +9,12 @@ using ZKWebStandard.Ioc;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// IContainer extension methods<br/>
-	/// <br/>
+	/// 容器的扩展函数<br/>
 	/// </summary>
 	public static class IContainerExtensions {
 		/// <summary>
 		/// Build factory from original factory and reuse type<br/>
-		/// <br/>
+		/// 根据原工厂函数和重用类型构建新的工厂函数<br/>
 		/// </summary>
 		/// <param name="container">IoC container</param>
 		/// <param name="originalFactory">Original factory</param>
@@ -48,14 +48,14 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Cache for type and it's original factory<br/>
-		/// <br/>
+		/// 缓存类型和它的原始工厂函数<br/>
 		/// </summary>
 		private readonly static ConcurrentDictionary<Type, Func<object>> TypeFactorysCache =
 			new ConcurrentDictionary<Type, Func<object>>();
 
 		/// <summary>
 		/// Build factory from type and reuse type<br/>
-		/// <br/>
+		/// 根据类型和重用类型构建工厂函数<br/>
 		/// </summary>
 		/// <param name="container">IoC container</param>
 		/// <param name="type">The type</param>

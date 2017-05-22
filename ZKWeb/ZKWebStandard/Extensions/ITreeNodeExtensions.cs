@@ -5,14 +5,14 @@ using ZKWebStandard.Utils;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// ITreeNode extension methods<br/>
-	/// <br/>
+	/// 树节点接口的扩展函数<br/>
 	/// </summary>
 	public static class ITreeNodeExtensions {
 		/// <summary>
 		/// Get all parent nodes<br/>
 		/// From bottom to top, return empty sequences if node is root<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取所有上级节点<br/>
+		/// 从下到上, 返回空列表如果节点是根节点<br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>
@@ -27,9 +27,9 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Visit all nodes recursively<br/>
-		/// From top to bottom<br/>
-		/// <br/>
-		/// <br/>
+		/// From top to bottom (DFS)<br/>
+		/// 递归访问所有节点<br/>
+		/// 从上到下 (DFS)<br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>
@@ -45,8 +45,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Enumerate all nodes<br/>
 		/// From top to bottom<br/>
-		/// <br/>
-		/// <br/>
+		/// 枚举所有节点 (DFS)<br/>
+		/// 从上到下 (DFS)<br/>
 		/// </summary>
 		/// <typeparam name="T">Node value type</typeparam>
 		/// <param name="node">The node</param>

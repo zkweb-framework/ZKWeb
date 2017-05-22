@@ -7,6 +7,7 @@ namespace ZKWebStandard.Collections {
 	/// 键值缓存的接口<br/>
 	/// 它应该是线程安全的<br/>
 	/// </summary>
+	/// <seealso cref="MemoryCache{TKey, TValue}"/>
 	public interface IKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Put value to cache<br/>

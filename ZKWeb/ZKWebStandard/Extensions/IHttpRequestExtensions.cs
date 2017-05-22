@@ -5,19 +5,18 @@ using System.FastReflection;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Web;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Http request extension methods<br/>
-	/// <br/>
+	/// Http请求的扩展函数<br/>
 	/// </summary>
 	public static class IHttpRequestExtensions {
 		/// <summary>
 		/// Determine it's a ajax http request<br/>
-		/// <br/>
+		/// 检测Http请求是否ajax请求<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -27,7 +26,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get user agent from http request<br/>
-		/// <br/>
+		/// 获取Http请求的User-Agent<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -37,7 +36,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get accept languages from http request<br/>
-		/// <br/>
+		/// 获取Http请求的Accept-Language<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -50,8 +49,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get "If-Modified-Since" header's value from http request<br/>
 		/// Return DateTime.MinValue if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取Http请求的If-Modified-Since<br/>
+		/// 如果无则返回DateTime.MinValue<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -71,8 +70,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get Referer from http request<br/>
 		/// Return null if not exist<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取Http请求的Referer<br/>
+		/// 如果无则返回null<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -90,6 +89,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get range request in bytes<br/>
+		/// 获取Http请求的Range<br/>
 		/// http://stackoverflow.com/questions/3303029/http-range-header
 		/// Eg: "Range: bytes=3744-", "Range: bytes=3744-3800"
 		/// </summary>
@@ -113,8 +113,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// If http request content is json then return json string<br/>
 		/// otherwise return null<br/>
-		/// <br/>
-		/// <br/>
+		/// 如果Http请求的内容是json则返回json字符串<br/>
+		/// 否则返回null<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -129,8 +129,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// If http request content is json then return a dictionary deserialized from content<br/>
 		/// otherwise return a empty dictionary<br/>
-		/// <br/>
-		/// <br/>
+		/// 如果Http请求的内容是json则返回一个反序列化后的词典对象<br/>
+		/// 否则返回一个空词典<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -147,8 +147,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get argument from http request<br/>
 		/// Priority: Form > QueryString > Json > PostedFile<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取Http请求中的参数<br/>
+		/// 优先度: 表单内容 > Url参数 > Json > 提交文件<br/>
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		/// <param name="request">Http request</param>
@@ -185,9 +185,9 @@ namespace ZKWebStandard.Extensions {
 		/// Get all arguments from http request<br/>
 		/// Posted files are not included<br/>
 		/// Priority: Form > QueryString > Json<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 获取Http请求中的所有参数<br/>
+		/// 不包含提交文件<br/>
+		/// 优先度: 表单内容 > Url参数 > Json<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -209,9 +209,9 @@ namespace ZKWebStandard.Extensions {
 		/// Get all arguments from http request in dictionary<br/>
 		/// Posted files are not included<br/>
 		/// Priority: Form > QueryString > Json<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 获取Http请求中的所有参数, 形式是词典<br/>
+		/// 不包含提交文件<br/>
+		/// 优先度: 表单内容 > Url参数 > Json<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -227,7 +227,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get all parameters into a given type<br/>
-		/// <br/>
+		/// 获取Http请求中的所有参数, 以指定类型返回<br/>
 		/// </summary>
 		/// <typeparam name="T">The type contains parameters</typeparam>
 		/// <param name="request">Http request</param>

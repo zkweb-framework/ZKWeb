@@ -7,14 +7,14 @@ using ZKWebStandard.Web;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Http response extension methods<br/>
-	/// <br/>
+	/// Http回应的扩展函数<br/>
 	/// </summary>
 	public static class IHttpResponseExtensions {
 		/// <summary>
 		/// Redirect to url by javascript<br/>
 		/// Use it instead of 301 redirect can make browser send the referer header<br/>
-		/// <br/>
-		/// <br/>
+		/// 使用javascript重定向到Url<br/>
+		/// 用来代替301跳转可以让浏览器发送Referer头<br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="url">Url</param>
@@ -28,7 +28,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Set last modified time to http response<br/>
-		/// <br/>
+		/// 设置内容的最后修改时间到Http回应<br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="date">Last modified time</param>
@@ -39,7 +39,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Write string to http response<br/>
-		/// <br/>
+		/// 写入字符串到Http回应<br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="value">String value</param>
@@ -51,7 +51,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Write file to http response<br/>
-		/// <br/>
+		/// 写入文件到Http回应<br/>
 		/// </summary>
 		/// <param name="response">Http response</param>
 		/// <param name="path">File path</param>

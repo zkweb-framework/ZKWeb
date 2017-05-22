@@ -10,6 +10,7 @@ namespace ZKWebStandard.Collections {
 	/// </summary>
 	/// <typeparam name="TKey">Key type</typeparam>
 	/// <typeparam name="TValue">Value type</typeparam>
+	/// <seealso cref="IKeyValueCache{TKey, TValue}"/>
 	/// <example>
 	/// var cache = new MemoryCache&lt;int, string&gt;();
 	/// cache.Put(1, "value of 1", TimeSpan.FromSeconds(100));

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// IList Extension methods<br/>
-	/// <br/>
+	/// 列表的扩展函数<br/>
 	/// </summary>
 	public static class IListExtensions {
 		/// <summary>
 		/// Find element index that match the given predicate<br/>
 		/// Return -1 if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 返回第一个符合指定条件的索引<br/>
+		/// 如果无则返回-1<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -34,8 +34,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Find element index that match the given predicate<br/>
 		/// Return -1 if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 返回第一个符合指定条件的索引<br/>
+		/// 如果无则返回-1<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -49,8 +49,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Find element index that match the given predicate from back to front<br/>
 		/// Return -1 if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 返回最后一个符合指定条件的索引<br/>
+		/// 如果无则返回-1<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -73,8 +73,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Find element index that match the given predicate from back to front<br/>
 		/// Return -1 if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 返回最后一个符合指定条件的索引<br/>
+		/// 如果无则返回-1<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -88,8 +88,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Add element before the other element that match the given predicate<br/>
 		/// If no other elements matched then add the element to front<br/>
-		/// <br/>
-		/// <br/>
+		/// 在符合指定条件的元素前添加元素<br/>
+		/// 如果无元素符合条件则添加到开头<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -110,8 +110,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Add element after the other element that match the given predicate<br/>
 		/// If no other elements matched then add the element to front<br/>
-		/// <br/>
-		/// <br/>
+		/// 在符合指定条件的元素后添加元素<br/>
+		/// 如果无元素符合条件则添加到末尾<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="items">Elements</param>
@@ -128,7 +128,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Batch add elements<br/>
-		/// <br/>
+		/// 批量添加元素<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <param name="list">Elements</param>

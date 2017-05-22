@@ -5,16 +5,16 @@ using System.FastReflection;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Enum extension methods<br/>
-	/// <br/>
+	/// 枚举值的扩展函数<br/>
 	/// </summary>
 	public static class EnumExtensions {
 		/// <summary>
 		/// Get enum value description<br/>
 		/// If enum value contains `DescriptionAttribute` then return the description in attribute<br/>
 		/// Otherwise return the default name<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 获取枚举值的描述<br/>
+		/// 如果枚举值包含了`DescriptionAttribute`属性则返回属性中的描述<br/>
+		/// 否则返回默认名称<br/>
 		/// </summary>
 		/// <param name="value">Enum value</param>
 		/// <returns></returns>
@@ -38,8 +38,8 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get attribute from enum value's field<br/>
 		/// Return null if not found<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取枚举值的属性<br/>
+		/// 找不到时返回null<br/>
 		/// </summary>
 		/// <typeparam name="T">Attribute type</typeparam>
 		/// <param name="value">Enum value</param>

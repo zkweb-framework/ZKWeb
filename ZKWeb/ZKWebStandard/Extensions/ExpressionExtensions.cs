@@ -6,14 +6,14 @@ using System.Reflection;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Linq expression extension methods<br/>
-	/// <br/>
+	/// Linq表达式的扩展函数<br/>
 	/// </summary>
 	public static class ExpressionExtensions {
 		/// <summary>
 		/// Get member information from lambda expression<br/>
-		/// The expression should looks like: x => x.Name<br/>
-		/// <br/>
-		/// <br/>
+		/// The expression should looks like: x =&gt; x.Name<br/>
+		/// 获取表达式中的成员信息<br/>
+		/// 表达式的格式应该是: x =&gt; x.Name<br/>
 		/// </summary>
 		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
@@ -27,8 +27,9 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get member's attribute from lambda expression<br/>
-		/// The expression should looks like: x => x.Name<br/>
-		/// <br/>
+		/// The expression should looks like: x =&gt; x.Name<br/>
+		/// 获取表达式中的成员信息上的属性<br/>
+		/// 表达式的格式应该是: x =&gt; x.Name<br/>
 		/// <br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
@@ -42,7 +43,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Expression visitor used to replace node in expression<br/>
-		/// <br/>
+		/// 用于替换节点的表达式访问器<br/>
 		/// </summary>
 		public class ReplaceExpressionVisitor : ExpressionVisitor {
 			private readonly Expression _oldValue;
@@ -50,7 +51,7 @@ namespace ZKWebStandard.Extensions {
 
 			/// <summary>
 			/// Initialize<br/>
-			/// <br/>
+			/// 初始化<br/>
 			/// </summary>
 			public ReplaceExpressionVisitor(Expression oldNode, Expression newNode) {
 				_oldValue = oldNode;
@@ -59,7 +60,7 @@ namespace ZKWebStandard.Extensions {
 
 			/// <summary>
 			/// Replace node in expression<br/>
-			/// <br/>
+			/// 替换表达式中的节点<br/>
 			/// </summary>
 			public override Expression Visit(Expression node) {
 				if (node == _oldValue) {
@@ -71,7 +72,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Replace node in expression recursively<br/>
-		/// <br/>
+		/// 递归替换表达式中的节点<br/>
 		/// </summary>
 		/// <param name="expression">Expression</param>
 		/// <param name="oldNode">Old node</param>

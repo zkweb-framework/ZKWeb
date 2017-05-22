@@ -7,16 +7,16 @@ using System.FastReflection;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// MemberInfo extensions<br/>
-	/// <br/>
+	/// 成员信息的扩展函数<br/>
 	/// </summary>
 	public static class MemberInfoExtensions {
 		/// <summary>
 		/// Get specified type attribute<br/>
 		/// Return null if not found<br/>
 		/// Will not search inherited attributes<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 获取指定类型的属性<br/>
+		/// 不存在时返回null<br/>
+		/// 不搜索继承的属性<br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
@@ -28,7 +28,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get specified type attributes<br/>
-		/// <br/>
+		/// 获取指定类型的属性<br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>
@@ -40,7 +40,7 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get specified type attributes with inherit option<br/>
-		/// <br/>
+		/// 获取指定类型的属性, 可以指定是否搜索继承<br/>
 		/// </summary>
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="info">Member infomation</param>

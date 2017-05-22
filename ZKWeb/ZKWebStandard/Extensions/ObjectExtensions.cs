@@ -5,16 +5,24 @@ using System.Reflection;
 namespace ZKWebStandard.Extensions {
 	/// <summary>
 	/// Object extension methods<br/>
-	/// <br/>
+	/// 对象的扩展函数<br/>
 	/// </summary>
 	public static class ObjectExtensions {
 		/// <summary>
 		/// Compare objects, won't throw exception if any object is null<br/>
-		/// <br/>
+		/// 比较对象, 对象为null时不会抛出例外<br/>
 		/// </summary>
 		/// <param name="obj">Object</param>
 		/// <param name="target">Target object</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Assert.Equals(((string)null).EqualsSupportsNull(""), false);
+		/// Assert.Equals("".EqualsSupportsNull(null), false);
+		///	Assert.Equals(((string)null).EqualsSupportsNull(null), true);
+		///	Assert.Equals("abc".EqualsSupportsNull("abc"), true);
+		/// </code>
+		/// </example>
 		public static bool EqualsSupportsNull(this object obj, object target) {
 			if (obj == null && target == null) {
 				return true;
@@ -29,13 +37,33 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Convert object to specified type<br/>
 		/// Return default value if failed<br/>
-		/// <br/>
-		/// <br/>
+		/// 转换对象到指定的类型<br/>
+		/// 失败时返回默认值<br/>
 		/// </summary>
 		/// <typeparam name="T">Type convert to</typeparam>
 		/// <param name="obj">Object</param>
 		/// <param name="defaultValue">Default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Assert.Equals("1".ConvertOrDefault&lt;int&gt;(), 1);
+		/// Assert.Equals((1).ConvertOrDefault&lt;int&gt;(), 1);
+		///	Assert.Equals("abc".ConvertOrDefault&lt;int?&gt;(), null);
+		///	Assert.Equals("abc".ConvertOrDefault&lt;int?&gt;(100), 100);
+		///	Assert.Equals("1.0".ConvertOrDefault&lt;decimal?&gt;(), 1.0M);
+		///	Assert.Equals("1".ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
+		///	Assert.Equals((1).ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
+		///	Assert.Equals("One".ConvertOrDefault&lt;TestEnum&gt;(), TestEnum.One);
+		///	Assert.Equals("One".ConvertOrDefault&lt;TestEnum?&gt;(), TestEnum.One);
+		///	Assert.Equals(TestEnum.One.ConvertOrDefault&lt;int&gt;(), 1);
+		///	Assert.Equals(TestEnum.One.ConvertOrDefault&lt;string&gt;(), "One");
+		///	Assert.Equals(new List&lt;int&gt;().ConvertOrDefault&lt;int?&gt;(), null);
+		///	Assert.Equals((100).ConvertOrDefault&lt;string&gt;(), "100");
+		///	Assert.Equals("test".ConvertOrDefault&lt;string&gt;(), "test");
+		///	var lst = "[1]".ConvertOrDefault&lt;List&lt;int&gt;&gt;();
+		/// Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
+		/// </code>
+		/// </example>
 		public static T ConvertOrDefault<T>(this object obj, T defaultValue = default(T)) {
 			return (T)obj.ConvertOrDefault(typeof(T), defaultValue);
 		}
@@ -49,19 +77,39 @@ namespace ZKWebStandard.Extensions {
 		/// - Use Convert.ChangeType<br/>
 		/// - If object is string, use json deserialize(obj, type)<br/>
 		/// - Use json deserialize(serialize(obj), type)<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 转换对象到指定的类型<br/>
+		/// 失败时返回默认值<br/>
+		/// 流程<br/>
+		/// - 如果对象是枚举并且类型是int, 使用Convert.ToInt32<br/>
+		/// - 如果对象是字符串且类型是枚举, 使用Enum.Parse<br/>
+		/// - 使用Convert.ChangeType<br/>
+		/// - 如果对象是字符串, 使用json反序列化<br/>
+		/// - 使用json反序列化对象的json序列化<br/>
 		/// </summary>
 		/// <param name="obj">Object</param>
 		/// <param name="type">Target type</param>
 		/// <param name="defaultValue">Default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Assert.Equals("1".ConvertOrDefault(typeof(int), 0), 1);
+		/// Assert.Equals((1).ConvertOrDefault(typeof(int), 0), 1);
+		///	Assert.Equals("abc".ConvertOrDefault(typeof(int?), null), null);
+		///	Assert.Equals("abc".ConvertOrDefault(typeof(int?), 100), 100);
+		///	Assert.Equals("1.0".ConvertOrDefault(typeof(decimal?), null), 1.0M);
+		///	Assert.Equals("1".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
+		///	Assert.Equals((1).ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
+		///	Assert.Equals("One".ConvertOrDefault(typeof(TestEnum), null), TestEnum.One);
+		///	Assert.Equals("One".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
+		///	Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(int), null), 1);
+		///	Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(string), null), "One");
+		///	Assert.Equals(new List&lt;int&gt;().ConvertOrDefault(typeof(int?), null), null);
+		///	Assert.Equals((100).ConvertOrDefault(typeof(string), null), "100");
+		///	Assert.Equals("test".ConvertOrDefault(typeof(string), null), "test");
+		///	var lst = "[1]".ConvertOrDefault(typeof(List&lt;int&gt;), null) as List&lt;int&gt;;
+		/// Assert.IsTrueWith(lst.SequenceEqual(new[] { 1 }), lst);
+		/// </code>
+		/// </example>
 		public static object ConvertOrDefault(this object obj, Type type, object defaultValue) {
 			// If object is null, we don't need to convert
 			if (obj == null) {
@@ -99,12 +147,30 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Use json serializer to clone object<br/>
 		/// Please sure the object can serialize and deserialize by json.net<br/>
-		/// <br/>
-		/// <br/>
+		/// 使用json序列化来克隆对象<br/>
+		/// 请确保对象可以通过json.net序列化和反序列化<br/>
 		/// </summary>
 		/// <typeparam name="T">Object type</typeparam>
 		/// <param name="obj">Object</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// class TestData {
+		///		public long A { get; set; }
+		///		public string B { get; set; }
+		///		public bool C;
+		/// }
+		/// 
+		/// var data = new TestData() { A = 100, B = "TestString", C = true };
+		/// var dataClone = data.CloneByJson();
+		/// Assert.IsTrue(!object.ReferenceEquals(data, dataClone));
+		///	Assert.Equals(dataClone.A, 100);
+		///	Assert.Equals(dataClone.B, "TestString");
+		///	Assert.Equals(dataClone.C, true);
+		///	data.A = 101;
+		///	Assert.Equals(dataClone.A, 100);
+		/// </code>
+		/// </example>
 		public static T CloneByJson<T>(this T obj) {
 			var json = JsonConvert.SerializeObject(obj);
 			var objClone = JsonConvert.DeserializeObject<T>(json);
