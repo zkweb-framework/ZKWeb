@@ -5,26 +5,33 @@ namespace ZKWebStandard.Collections {
 	/// <summary>
 	/// Simple dispose object<br/>
 	/// Execute the given method when disposed,<br/>
-	/// the given method execute not more than once<br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
+	/// The function will only be executed once<br/>
+	/// 简单的可销毁对象<br/>
+	/// 在销毁时执行指定的函数<br/>
+	/// 函数只会被执行一次<br/>
 	/// </summary>
+	/// <example>
+	/// <code>
+	/// using (new SimpleDisposable(() =&gt; Console.WriteLine("release resources")) {
+	///		Console.WriteLine("using resources");
+	/// }
+	/// </code>
+	/// </example>
 	public class SimpleDisposable : IDisposable {
 		/// <summary>
-		/// Method execute when dispoed<br/>
-		/// <br/>
+		/// The function that is called when dispose<br/>
+		/// 在销毁时调用的函数<br/>
 		/// </summary>
 		protected Action OnDispose { get; set; }
 		/// <summary>
 		/// Is method executed<br/>
-		/// <br/>
+		/// 函数是否已执行<br/>
 		/// </summary>
 		protected int Disposed = 0;
 
 		/// <summary>
 		/// Initialized<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public SimpleDisposable(Action onDispose) {
 			OnDispose = onDispose;
@@ -32,7 +39,7 @@ namespace ZKWebStandard.Collections {
 
 		/// <summary>
 		/// Call the method if it's not called before<br/>
-		/// <br/>
+		/// 调用函数, 如果函数之前未被执行<br/>
 		/// </summary>
 		public void Dispose() {
 			if (Interlocked.Exchange(ref Disposed, 1) == 0) {
@@ -42,7 +49,7 @@ namespace ZKWebStandard.Collections {
 
 		/// <summary>
 		/// Finalizer<br/>
-		/// <br/>
+		/// 析构函数<br/>
 		/// </summary>
 		~SimpleDisposable() {
 			Dispose();

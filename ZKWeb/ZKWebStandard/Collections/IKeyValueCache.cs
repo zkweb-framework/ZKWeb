@@ -4,13 +4,13 @@ namespace ZKWebStandard.Collections {
 	/// <summary>
 	/// Interface of key-value cache<br/>
 	/// It should be thread safe<br/>
-	/// <br/>
-	/// <br/>
+	/// 键值缓存的接口<br/>
+	/// 它应该是线程安全的<br/>
 	/// </summary>
 	public interface IKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Put value to cache<br/>
-		/// <br/>
+		/// 插入值到缓存<br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -20,8 +20,8 @@ namespace ZKWebStandard.Collections {
 		/// <summary>
 		/// Try to get cached value<br/>
 		/// Return false if no exist value or exist value expired<br/>
-		/// <br/>
-		/// <br/>
+		/// 尝试获取缓存制<br/>
+		/// 如果值不存在或者已过期则返回false<br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		/// <param name="value">Cache value</param>
@@ -30,21 +30,21 @@ namespace ZKWebStandard.Collections {
 
 		/// <summary>
 		/// Remove cached value<br/>
-		/// <br/>
+		/// 删除已缓存的值<br/>
 		/// </summary>
 		/// <param name="key">Cache key</param>
 		void Remove(TKey key);
 
 		/// <summary>
 		/// Count all cached values<br/>
-		/// <br/>
+		/// 获取缓存值的数量<br/>
 		/// </summary>
 		/// <returns></returns>
 		int Count();
 
 		/// <summary>
 		/// Clear all cached values<br/>
-		/// <br/>
+		/// 删除所有缓存值<br/>
 		/// </summary>
 		void Clear();
 	}
