@@ -17,6 +17,13 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Expression&lt;Func&lt;TestClass, string&gt;&gt; expr = t =&gt; t.TestMember;
+		/// var memberInfo = expr.GetMemberInfo();
+		/// Assert.Equals(memberInfo.Name, "TestMember");
+		/// </code>
+		/// </example>
 		public static MemberInfo GetMemberInfo(this LambdaExpression expression) {
 			var memberExpression = expression.Body as MemberExpression;
 			if (memberExpression == null) {
@@ -35,6 +42,13 @@ namespace ZKWebStandard.Extensions {
 		/// <typeparam name="TAttribute">Attribute type</typeparam>
 		/// <param name="expression">Lambda expression</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Expression&lt;Func&lt;TestClass, string&gt;&gt; expr = t =&gt; t.TestMember;
+		/// var attr = expr.GetMemberAttribute&lt;DescriptionAttribute&gt;();
+		/// Assert.Equals(attr.Description, "TestMember_Description");
+		/// </code>
+		/// </example>
 		public static TAttribute GetMemberAttribute<TAttribute>(this LambdaExpression expression)
 			where TAttribute : Attribute {
 			return expression.GetMemberInfo().GetCustomAttributes(
@@ -78,6 +92,20 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="oldNode">Old node</param>
 		/// <param name="newNode">New Node</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Expression&lt;Func&lt;TestClass, bool&gt;&gt; exprA = a =&gt; a.TestMember.Contains("abc");
+		/// Expression&lt;Func&lt;TestClass, bool&gt;&gt; exprB = a =&gt; a.TestMember.Contains("asd");
+		/// var exprMerged = Expression.Lambda&lt;Func&lt;TestClass, bool&gt;&gt;(
+		///		Expression.AndAlso(
+		///			exprA.Body,
+		///			exprB.Body.ReplaceNode(exprB.Parameters[0], exprA.Parameters[0])),
+		///		exprA.Parameters[0]);
+		/// var method = exprMerged.Compile();
+		/// Assert.IsTrue(method(new TestClass() { TestMember = "abcasd" }));
+		/// Assert.IsTrue(!method(new TestClass() { TestMember = "abcasp" }));
+		/// </code>
+		/// </example>
 		public static Expression ReplaceNode(
 			this Expression expression, Expression oldNode, Expression newNode) {
 			var visitor = new ReplaceExpressionVisitor(oldNode, newNode);

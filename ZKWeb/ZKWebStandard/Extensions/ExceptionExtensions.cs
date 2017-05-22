@@ -13,6 +13,13 @@ namespace ZKWebStandard.Extensions {
 		/// 获取例外的详细信息<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var ex = new Exception("qwert", new Exception("inner qwert"));
+		/// var str = ex.ToDetailedString();
+		/// Assert.IsTrueWith(str.Contains("inner qwert"), str);
+		/// </code>
+		/// </example>
 		public static string ToDetailedString(this Exception ex) {
 			var messageBuilder = new StringBuilder();
 			messageBuilder.AppendLine(ex.ToString());
@@ -35,6 +42,13 @@ namespace ZKWebStandard.Extensions {
 		/// 获取例外的简要信息<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var ex = new Exception("qwert", new Exception("inner qwert"));
+		/// var str = ex.ToSummaryString();
+		/// Assert.IsTrueWith(str.Contains("inner qwert"), str);
+		/// </code>
+		/// </example>
 		public static string ToSummaryString(this Exception ex) {
 			while (ex.InnerException != null) {
 				ex = ex.InnerException;

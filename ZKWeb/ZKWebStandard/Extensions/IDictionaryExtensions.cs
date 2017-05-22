@@ -17,6 +17,16 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key, if it's null then the default value will be returned</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var dict = new Dictionary&lt;string, string&gt;() { { "exist", "1" } };
+		/// Assert.Equals(dict.GetOrDefault("exist"), "1");
+		/// Assert.Equals(dict.GetOrDefault("notexist"), null);
+		/// Assert.Equals(dict.GetOrDefault("notexist", "default"), "default");
+		/// Assert.Equals(dict.GetOrDefault(null, "default"), "default");
+		/// Assert.Equals(dict.GetOrDefault("", "default"), "default");
+		/// </code>
+		/// </example>
 		public static TValue GetOrDefault<TKey, TValue>(
 			this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue)) {
 			TValue value;
@@ -36,6 +46,14 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var dict = new Dictionary&lt;string, string&gt;() { { "exist", "1" } };
+		/// Assert.Equals(dict.GetOrCreate("exist", () =&gt; "create"), "1");
+		/// Assert.Equals(dict.GetOrCreate("notexist", () =&gt; "create"), "create");
+		/// Assert.Equals(dict["notexist"], "create");
+		/// </code>
+		/// </example>
 		public static TValue GetOrCreate<TKey, TValue>(
 			this IDictionary<TKey, TValue> dict, TKey key, Func<TValue> defaultValue) {
 			TValue value;
@@ -57,6 +75,18 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// enum TestEnum { Zero = 0, One = 1 }
+		/// 
+		/// var dict = new Dictionary&lt;string, object&gt;() { { "exist", 1 } };
+		/// Assert.Equals(dict.GetOrDefault&lt;int&gt;("exist"), 1);
+		/// Assert.Equals(dict.GetOrDefault&lt;int&gt;("notexist"), 0);
+		/// Assert.Equals(dict.GetOrDefault("notexist", 100), 100);
+		/// Assert.Equals(dict.GetOrDefault&lt;TestEnum&gt;("exist"), TestEnum.One);
+		/// Assert.Equals(dict.GetOrDefault&lt;TestEnum&gt;("notexist"), TestEnum.Zero);
+		/// </code>
+		/// </example>
 		public static T GetOrDefault<T>(
 			this IDictionary<string, object> dict, string key, T defaultValue = default(T)) {
 			object result = dict.GetOrDefault(key);

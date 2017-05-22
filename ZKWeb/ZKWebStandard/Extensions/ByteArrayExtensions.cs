@@ -12,6 +12,12 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="data">Byte array</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var bytes = new byte[] { 1, 0x12, 0x13 };
+		/// Assert.Equals(bytes.ToHex(), "011213");
+		/// </code>
+		/// </example>
 		public static string ToHex(this byte[] data) {
 			if (data == null) {
 				return "";

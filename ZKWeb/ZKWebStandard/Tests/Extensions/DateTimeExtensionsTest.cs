@@ -11,17 +11,17 @@ namespace ZKWebStandard.Tests.Extensions {
 			HttpManager.CurrentContext.RemoveData(LocaleUtils.TimeZoneKey);
 			var time = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 			Assert.Equals(time.ToClientTime(), time.ToLocalTime());
-			Assert.IsTrue(LocaleUtils.SetThreadTimezone("China Standard Time"));
+			Assert.IsTrue(LocaleUtils.SetThreadTimezone("Asia/Shanghai"));
 			var localTime = time.ToClientTime();
 			Assert.Equals(localTime, new DateTime(2000, 1, 1, 8, 0, 0, DateTimeKind.Local));
-			Assert.IsTrue(LocaleUtils.SetThreadTimezone("GMT Standard Time"));
+			Assert.IsTrue(LocaleUtils.SetThreadTimezone("Etc/GMT"));
 			localTime = time.ToClientTime();
 			Assert.Equals(localTime, new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Local));
 		}
 
 		public void ToClientTimeString() {
 			HttpManager.CurrentContext.RemoveData(LocaleUtils.TimeZoneKey);
-			Assert.IsTrue(LocaleUtils.SetThreadTimezone("China Standard Time"));
+			Assert.IsTrue(LocaleUtils.SetThreadTimezone("Asia/Shanghai"));
 			var time = new DateTime(2000, 1, 2, 13, 14, 50, DateTimeKind.Utc);
 			var timeString = time.ToClientTimeString();
 			Assert.Equals(timeString, "2000/01/02 21:14:50");
@@ -31,10 +31,10 @@ namespace ZKWebStandard.Tests.Extensions {
 			HttpManager.CurrentContext.RemoveData(LocaleUtils.TimeZoneKey);
 			var time = new DateTime(2000, 1, 1, 8, 0, 0, DateTimeKind.Local);
 			Assert.Equals(time.FromClientTime(), time.ToUniversalTime());
-			Assert.IsTrue(LocaleUtils.SetThreadTimezone("China Standard Time"));
+			Assert.IsTrue(LocaleUtils.SetThreadTimezone("Asia/Shanghai"));
 			var utcTime = time.FromClientTime();
 			Assert.Equals(utcTime, new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-			Assert.IsTrue(LocaleUtils.SetThreadTimezone("GMT Standard Time"));
+			Assert.IsTrue(LocaleUtils.SetThreadTimezone("Etc/GMT"));
 			utcTime = time.FromClientTime();
 			Assert.Equals(utcTime, new DateTime(2000, 1, 1, 8, 0, 0, DateTimeKind.Utc));
 		}

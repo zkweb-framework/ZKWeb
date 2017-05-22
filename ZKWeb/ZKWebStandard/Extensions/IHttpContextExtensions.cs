@@ -17,6 +17,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="context">Http context</param>
 		/// <param name="key">Key</param>
 		/// <param name="data">Data</param>
+		/// <example>
+		/// <code language="cs">
+		/// var list = new string[] { "a", "b", "c" };
+		/// HttpManager.CurrentContext.PutData("TestPutData", list);
+		/// Assert.Equals(HttpManager.CurrentContext.GetData&lt;string[]&gt;("TestPutData"), list);
+		/// </code>
+		/// </example>
 		public static void PutData<T>(this IHttpContext context, string key, T data) {
 			context.Items[key] = data;
 		}
@@ -30,6 +37,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var list = new string[] { "a", "b", "c" };
+		/// HttpManager.CurrentContext.PutData("TestPutData", list);
+		/// Assert.Equals(HttpManager.CurrentContext.GetData&lt;string[]&gt;("TestPutData"), list); 
+		/// </code>
+		/// </example>
 		public static T GetData<T>(
 			this IHttpContext context, string key, T defaultValue = default(T)) {
 			var obj = context.Items.GetOrDefault(key);
@@ -48,6 +62,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultCreater">Default value factory</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.PutData("TestGetData", "abc");
+		/// Assert.Equals(HttpManager.CurrentContext.GetOrCreateData("TestGetData", () =&gt; "def"), "abc");
+		/// Assert.Equals(HttpManager.CurrentContext.GetOrCreateData("TestCreateData", () =&gt; "def"), "def");
+		/// </code>
+		/// </example>
 		public static T GetOrCreateData<T>(
 			this IHttpContext context, string key, Func<T> defaultCreater) {
 			var value = context.GetData<T>(key);
@@ -64,6 +85,13 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <param name="key">Key</param>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.PutData("TestRemoveData", "abc");
+		/// HttpManager.CurrentContext.RemoveData("TestRemoveData");
+		/// Assert.Equals(HttpManager.CurrentContext.GetData&lt;string&gt;("TestRemoveData"), null);
+		/// </code>
+		/// </example>
 		public static void RemoveData(
 			this IHttpContext context, string key) {
 			context.Items.Remove(key);
@@ -86,6 +114,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="context">Http context</param>
 		/// <param name="key">Cookie key</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.PutCookie("TestGetCookie", "abc");
+		/// Assert.Equals(HttpManager.CurrentContext.GetCookie("TestGetCookie"), "abc");
+		/// </code>
+		/// </example>
 		public static string GetCookie(
 			this IHttpContext context, string key) {
 			// Check if this cookie is set before
@@ -109,6 +143,12 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="value">Cookie value</param>
 		/// <param name="options">Cookie options</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// HttpManager.CurrentContext.PutCookie("TestPutCookie", "abc");
+		/// Assert.Equals(HttpManager.CurrentContext.GetCookie("TestPutCookie"), "abc");
+		/// </code>
+		/// </example>
 		public static void PutCookie(
 			this IHttpContext context, string key, string value, HttpCookieOptions options = null) {
 			// Record the value to http context
@@ -126,6 +166,13 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="context">Http context</param>
 		/// <param name="key">Cookie key</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code>
+		/// HttpManager.CurrentContext.PutCookie("TestRemoveCookie", "abc");
+		/// HttpManager.CurrentContext.RemoveCookie("TestRemoveCookie");
+		/// Assert.Equals(HttpManager.CurrentContext.GetCookie("TestRemoveCookie"), "");
+		/// </code>
+		/// </example>
 		public static void RemoveCookie(this IHttpContext context, string key) {
 			var options = new HttpCookieOptions() { Expires = new DateTime(1970, 1, 1) };
 			context.PutCookie(key, "", options);
@@ -162,6 +209,21 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// Assert.Equals(HttpManager.CurrentContext.GetClientDevice(), DeviceTypes.Desktop);
+		/// using (HttpManager.OverrideContext("", "GET")) {
+		/// 	var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+		///		request.headers["User-Agent"] = "Mozilla/5.0 (Linux; U; Android 2.3; en-us) AppleWebKit/999+";
+		/// 	Assert.Equals(HttpManager.CurrentContext.GetClientDevice(), DeviceTypes.Mobile);
+		/// }
+		/// using (HttpManager.OverrideContext("", "GET")) {
+		/// 	var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+		///		request.headers["User-Agent"] = "Mozilla/5.0 (Linux) AppleWebKit/999+";
+		/// 	Assert.Equals(HttpManager.CurrentContext.GetClientDevice(), DeviceTypes.Desktop);
+		/// }
+		/// </code>
+		/// </example>
 		public static DeviceTypes GetClientDevice(this IHttpContext context) {
 			var device = context.GetData<object>(DeviceKey);
 			if (device != null) {
@@ -186,6 +248,18 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="context">Http ccontext</param>
 		/// <param name="type">Device type</param>
+		/// <example>
+		/// <code language="cs">
+		/// using (HttpManager.OverrideContext("", "GET")) {
+		/// HttpManager.CurrentContext.SetClientDeviceToCookies(DeviceTypes.Desktop);
+		///		Assert.Equals(HttpManager.CurrentContext.GetClientDevice(), DeviceTypes.Desktop);
+		///	}
+		///	using (HttpManager.OverrideContext("", "GET")) {
+		///		HttpManager.CurrentContext.SetClientDeviceToCookies(DeviceTypes.Mobile);
+		///		Assert.Equals(HttpManager.CurrentContext.GetClientDevice(), DeviceTypes.Mobile);
+		///	}
+		/// </code>
+		/// </example>
 		public static void SetClientDeviceToCookies(this IHttpContext context, DeviceTypes type) {
 			context.PutCookie(DeviceKey, type.ToString());
 		}

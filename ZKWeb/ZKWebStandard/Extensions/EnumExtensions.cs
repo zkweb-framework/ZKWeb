@@ -18,6 +18,16 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="value">Enum value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// enum TestEnum { [Description("TestEnum_A")]A, [Description("TestEnum_B")]B, C }
+		/// 
+		/// Assert.Equals(TestEnum.A.GetDescription(), "TestEnum_A");
+		/// Assert.Equals(TestEnum.B.GetDescription(), "TestEnum_B");
+		/// Assert.Equals(TestEnum.C.GetDescription(), "C");
+		/// Assert.Equals(((TestEnum)100).GetDescription(), "100");
+		/// </code>
+		/// </example>
 		public static string GetDescription(this Enum value) {
 			// Get enum type and name
 			Type type = value.GetType();
@@ -44,6 +54,15 @@ namespace ZKWebStandard.Extensions {
 		/// <typeparam name="T">Attribute type</typeparam>
 		/// <param name="value">Enum value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// enum TestEnum { [Description("TestEnum_A")]A, [Description("TestEnum_B")]B, C }
+		/// 
+		/// Assert.Equals(TestEnum.A.GetAttribute&lt;DescriptionAttribute&gt;().Description, "TestEnum_A");
+		/// Assert.Equals(TestEnum.B.GetAttribute&lt;DescriptionAttribute&gt;().Description, "TestEnum_B");
+		/// Assert.Equals(TestEnum.C.GetAttribute&lt;DescriptionAttribute&gt;(), null);
+		/// </code>
+		/// </example>
 		public static T GetAttribute<T>(this Enum value)
 			where T : Attribute {
 			Type type = value.GetType();

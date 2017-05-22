@@ -20,6 +20,17 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="originalFactory">Original factory</param>
 		/// <param name="reuseType">Reuse type</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// class TestData { }
+		/// 
+		/// var container = new Container();
+		/// var factoryA = container.BuildFactory(() =&gt; new TestData(), ReuseType.Transient);
+		/// Assert.IsTrue(!object.ReferenceEquals(factoryA(), factoryA()));
+		/// var factoryB = container.BuildFactory(() =&gt; new TestData(), ReuseType.Singleton);
+		/// Assert.IsTrue(object.ReferenceEquals(factoryB(), factoryB()));
+		/// </code>
+		/// </example>
 		public static Func<object> BuildFactory(
 			this IContainer container, Func<object> originalFactory, ReuseType reuseType) {
 			if (reuseType == ReuseType.Transient) {
@@ -61,6 +72,27 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="type">The type</param>
 		/// <param name="reuseType">Reuse type</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// class TestData { }
+		/// 
+		/// class TestInjection {
+		/// 	public TestData Data { get; set; }
+		/// 	public TestInjection(TestData data) { Data = data; }
+		/// }
+		/// 
+		/// IContainer container = new Container();
+		/// container.RegisterMany&lt;TestData&gt;();
+		/// var factoryA = container.BuildFactory(typeof(TestInjection), ReuseType.Transient);
+		/// var testInjectionA = (TestInjection)factoryA();
+		/// Assert.IsTrueWith(testInjectionA.Data != null, testInjectionA);
+		/// 	Assert.IsTrue(!object.ReferenceEquals(testInjectionA, factoryA()));
+		/// 	var factoryB = container.BuildFactory(typeof(TestInjection), ReuseType.Singleton);
+		/// var testInjectionB = (TestInjection)factoryB();
+		/// Assert.IsTrueWith(testInjectionB.Data != null, testInjectionB);
+		/// Assert.IsTrue(object.ReferenceEquals(testInjectionB, factoryB()));
+		/// </code>
+		/// </example>
 		public static Func<object> BuildFactory(
 			this IContainer container, Type type, ReuseType reuseType) {
 			var typeFactor = TypeFactorysCache.GetOrAdd(type, t => {
