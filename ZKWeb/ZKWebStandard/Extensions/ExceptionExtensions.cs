@@ -17,7 +17,6 @@ namespace ZKWebStandard.Extensions {
 		/// <code language="cs">
 		/// var ex = new Exception("qwert", new Exception("inner qwert"));
 		/// var str = ex.ToDetailedString();
-		/// Assert.IsTrueWith(str.Contains("inner qwert"), str);
 		/// </code>
 		/// </example>
 		public static string ToDetailedString(this Exception ex) {
@@ -46,7 +45,6 @@ namespace ZKWebStandard.Extensions {
 		/// <code language="cs">
 		/// var ex = new Exception("qwert", new Exception("inner qwert"));
 		/// var str = ex.ToSummaryString();
-		/// Assert.IsTrueWith(str.Contains("inner qwert"), str);
 		/// </code>
 		/// </example>
 		public static string ToSummaryString(this Exception ex) {

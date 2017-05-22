@@ -26,9 +26,9 @@ namespace ZKWebStandard.Extensions {
 		/// 
 		/// var container = new Container();
 		/// var factoryA = container.BuildFactory(() =&gt; new TestData(), ReuseType.Transient);
-		/// Assert.IsTrue(!object.ReferenceEquals(factoryA(), factoryA()));
+		/// // !object.ReferenceEquals(factoryA(), factoryA())
 		/// var factoryB = container.BuildFactory(() =&gt; new TestData(), ReuseType.Singleton);
-		/// Assert.IsTrue(object.ReferenceEquals(factoryB(), factoryB()));
+		/// // object.ReferenceEquals(factoryB(), factoryB())
 		/// </code>
 		/// </example>
 		public static Func<object> BuildFactory(
@@ -83,14 +83,8 @@ namespace ZKWebStandard.Extensions {
 		/// 
 		/// IContainer container = new Container();
 		/// container.RegisterMany&lt;TestData&gt;();
-		/// var factoryA = container.BuildFactory(typeof(TestInjection), ReuseType.Transient);
-		/// var testInjectionA = (TestInjection)factoryA();
-		/// Assert.IsTrueWith(testInjectionA.Data != null, testInjectionA);
-		/// 	Assert.IsTrue(!object.ReferenceEquals(testInjectionA, factoryA()));
-		/// 	var factoryB = container.BuildFactory(typeof(TestInjection), ReuseType.Singleton);
-		/// var testInjectionB = (TestInjection)factoryB();
-		/// Assert.IsTrueWith(testInjectionB.Data != null, testInjectionB);
-		/// Assert.IsTrue(object.ReferenceEquals(testInjectionB, factoryB()));
+		/// var factory = container.BuildFactory(typeof(TestInjection), ReuseType.Transient);
+		/// var testInjection = (TestInjection)factory();
 		/// </code>
 		/// </example>
 		public static Func<object> BuildFactory(

@@ -20,11 +20,9 @@ namespace ZKWebStandard.Extensions {
 		/// <code language="cs">
 		/// var a = new[] { "a", "b", "c" };
 		/// var b = a.ConcatIfNotNull("d");
-		/// Assert.Equals(b.Count(), 4);
-		/// Assert.IsTrueWith(b.Contains("d"), b);
+		/// // b.Count() == 4
 		/// var c = a.ConcatIfNotNull(null);
-		/// Assert.Equals(c.Count(), 3);
-		/// Assert.IsTrueWith(!c.Contains(null), c);
+		/// // c.Count() == 3
 		/// </code>
 		/// </example>
 		public static IEnumerable<T> ConcatIfNotNull<T>(
@@ -48,9 +46,7 @@ namespace ZKWebStandard.Extensions {
 		/// var a = new[] { "a", "b", "c" };
 		/// var b = new List&lt;string&gt;();
 		/// a.ForEach(c =&gt; b.Add(c));
-		/// Assert.Equals(b.Count, 3);
-		/// Assert.IsTrueWith(a.SequenceEqual(b), new { a, b
-		/// });
+		/// // b.Count == 3
 		/// </code>
 		/// </example>
 		public static void ForEach<T>(

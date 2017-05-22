@@ -12,9 +12,9 @@
 		/// </summary>
 		/// <example>
 		/// <code language="cs">
-		/// Assert.Equals((12.3000M).Normalize().ToString(), "12.3");
-		/// Assert.Equals((0.0001M).Normalize().ToString(), "0.0001");
-		/// Assert.Equals((0.000001000M).Normalize().ToString(), "0.000001");
+		/// (12.3000M).Normalize().ToString() == "12.3"
+		/// (0.0001M).Normalize().ToString() == "0.0001"
+		/// (0.000001000M).Normalize().ToString() == "0.000001"
 		/// </code>
 		/// </example>
 		public static decimal Normalize(this decimal value) {

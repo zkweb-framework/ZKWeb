@@ -20,6 +20,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var isAjaxRequest = HttpManager.CurrentContext.Request.IsAjaxRequest();
+		/// </code>
+		/// </example>
 		public static bool IsAjaxRequest(this IHttpRequest request) {
 			return request.GetHeader("X-Requested-With") == "XMLHttpRequest";
 		}
@@ -30,6 +35,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var userAgent = HttpManager.CurrentContext.Request.GetUserAgent();
+		/// </code>
+		/// </example>
 		public static string GetUserAgent(this IHttpRequest request) {
 			return request.GetHeader("User-Agent");
 		}
@@ -40,6 +50,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var acceptLanguages = HttpManager.CurrentContext.Request.GetAcceptLanguages();
+		/// </code>
+		/// </example>
 		public static IList<string> GetAcceptLanguages(this IHttpRequest request) {
 			var acceptLanguages = request.GetHeader("Accept-Language") ?? "";
 			var result = acceptLanguages.Split(',').Select(s => s.Split(';')[0]).ToList();
@@ -54,6 +69,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var ifModifiedSince = HttpManager.CurrentContext.Request.GetIfModifiedSince();
+		/// </code>
+		/// </example>
 		public static DateTime GetIfModifiedSince(this IHttpRequest request) {
 			var value = request.GetHeader("If-Modified-Since");
 			if (string.IsNullOrEmpty(value)) {
@@ -75,6 +95,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var referer = HttpManager.CurrentContext.Request.GetReferer();
+		/// </code>
+		/// </example>
 		public static Uri GetReferer(this IHttpRequest request) {
 			var referer = request.GetHeader("Referer");
 			if (referer == null) {
@@ -95,6 +120,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request"></param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var range = HttpManager.CurrentContext.Request.GetBytesRange();
+		/// </code>
+		/// </example>
 		public static Pair<long?, long?> GetBytesRange(this IHttpRequest request) {
 			var rangeHeader = request.GetHeader("Range");
 			if (string.IsNullOrEmpty(rangeHeader)) {
@@ -118,6 +148,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var jsonBody = HttpManager.CurrentContext.Request.GetJsonBody();
+		/// </code>
+		/// </example>
 		public static string GetJsonBody(this IHttpRequest request) {
 			if (request.ContentType?.StartsWith("application/json") ?? false) {
 				return (string)request.HttpContext.Items.GetOrCreate(
@@ -134,6 +169,11 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var jsonBodyDictionary = HttpManager.CurrentContext.Request.GetJsonBodyDictionary();
+		/// </code>
+		/// </example>
 		public static IDictionary<string, object> GetJsonBodyDictionary(this IHttpRequest request) {
 			return (IDictionary<string, object>)request.HttpContext.Items.GetOrCreate(
 				"__json_body_dictionary", () => {
@@ -155,6 +195,14 @@ namespace ZKWebStandard.Extensions {
 		/// <param name="key">Key</param>
 		/// <param name="defaultValue">The default value</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var request = HttpManager.CurrentContext.Request;
+		///	var a = request.Get&lt;string&gt;("a");
+		/// var b = request.Get&lt;int&gt;("b");
+		/// var c = request.Get&lt;object&gt;("c");
+		/// </code>
+		/// </example>
 		public static T Get<T>(this IHttpRequest request, string key, T defaultValue = default(T)) {
 			// Form
 			object value = request.GetFormValue(key)?.FirstOrDefault();
@@ -191,6 +239,12 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var request = HttpManager.CurrentContext.Request;
+		/// var allParams = request.GetAllDictionary();
+		/// </code>
+		/// </example>
 		public static IEnumerable<Pair<string, IList<string>>> GetAll(this IHttpRequest request) {
 			foreach (var pair in request.GetFormValues()) {
 				yield return Pair.Create(pair.First, pair.Second);
@@ -215,6 +269,12 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var request = HttpManager.CurrentContext.Request;
+		/// var allParams = request.GetAllDictionary();
+		/// </code>
+		/// </example>
 		public static IDictionary<string, IList<string>> GetAllDictionary(this IHttpRequest request) {
 			var result = new Dictionary<string, IList<string>>();
 			foreach (var pair in request.GetAll()) {
@@ -232,6 +292,12 @@ namespace ZKWebStandard.Extensions {
 		/// <typeparam name="T">The type contains parameters</typeparam>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var request = HttpManager.CurrentContext.Request;
+		/// var result = request.GetAllAs&lt;TestData&gt;();
+		/// </code>
+		/// </example>
 		public static T GetAllAs<T>(this IHttpRequest request) {
 			var jsonBody = request.GetJsonBody();
 			if (!string.IsNullOrEmpty(jsonBody)) {

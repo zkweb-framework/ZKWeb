@@ -20,11 +20,11 @@ namespace ZKWebStandard.Extensions {
 		/// <example>
 		/// <code language="cs">
 		/// var dict = new Dictionary&lt;string, string&gt;() { { "exist", "1" } };
-		/// Assert.Equals(dict.GetOrDefault("exist"), "1");
-		/// Assert.Equals(dict.GetOrDefault("notexist"), null);
-		/// Assert.Equals(dict.GetOrDefault("notexist", "default"), "default");
-		/// Assert.Equals(dict.GetOrDefault(null, "default"), "default");
-		/// Assert.Equals(dict.GetOrDefault("", "default"), "default");
+		/// var value = dict.GetOrDefault("exist"); // "1"
+		/// value = dict.GetOrDefault("notexist"); // null
+		/// value = dict.GetOrDefault("notexist", "default"); // "default"
+		/// value = dict.GetOrDefault(null, "default"); // "default"
+		/// value = dict.GetOrDefault("", "default"); // "default"
 		/// </code>
 		/// </example>
 		public static TValue GetOrDefault<TKey, TValue>(
@@ -49,9 +49,9 @@ namespace ZKWebStandard.Extensions {
 		/// <example>
 		/// <code language="cs">
 		/// var dict = new Dictionary&lt;string, string&gt;() { { "exist", "1" } };
-		/// Assert.Equals(dict.GetOrCreate("exist", () =&gt; "create"), "1");
-		/// Assert.Equals(dict.GetOrCreate("notexist", () =&gt; "create"), "create");
-		/// Assert.Equals(dict["notexist"], "create");
+		/// var value = dict.GetOrCreate("exist", () =&gt; "create"); // "1"
+		/// value = dict.GetOrCreate("notexist", () =&gt; "create"); // "create"
+		/// value = dict["notexist"]; // "create"
 		/// </code>
 		/// </example>
 		public static TValue GetOrCreate<TKey, TValue>(
@@ -80,11 +80,11 @@ namespace ZKWebStandard.Extensions {
 		/// enum TestEnum { Zero = 0, One = 1 }
 		/// 
 		/// var dict = new Dictionary&lt;string, object&gt;() { { "exist", 1 } };
-		/// Assert.Equals(dict.GetOrDefault&lt;int&gt;("exist"), 1);
-		/// Assert.Equals(dict.GetOrDefault&lt;int&gt;("notexist"), 0);
-		/// Assert.Equals(dict.GetOrDefault("notexist", 100), 100);
-		/// Assert.Equals(dict.GetOrDefault&lt;TestEnum&gt;("exist"), TestEnum.One);
-		/// Assert.Equals(dict.GetOrDefault&lt;TestEnum&gt;("notexist"), TestEnum.Zero);
+		/// var value = dict.GetOrDefault&lt;int&gt;("exist"); // 1
+		/// value = dict.GetOrDefault&lt;int&gt;("notexist"); // 0
+		/// value = dict.GetOrDefault("notexist", 100); // 100
+		/// value = dict.GetOrDefault&lt;TestEnum&gt;("exist"); // TestEnum.One
+		/// value = dict.GetOrDefault&lt;TestEnum&gt;("notexist"); // TestEnum.Zero
 		/// </code>
 		/// </example>
 		public static T GetOrDefault<T>(

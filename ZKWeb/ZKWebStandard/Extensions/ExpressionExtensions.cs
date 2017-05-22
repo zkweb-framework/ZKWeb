@@ -21,7 +21,6 @@ namespace ZKWebStandard.Extensions {
 		/// <code language="cs">
 		/// Expression&lt;Func&lt;TestClass, string&gt;&gt; expr = t =&gt; t.TestMember;
 		/// var memberInfo = expr.GetMemberInfo();
-		/// Assert.Equals(memberInfo.Name, "TestMember");
 		/// </code>
 		/// </example>
 		public static MemberInfo GetMemberInfo(this LambdaExpression expression) {
@@ -46,7 +45,6 @@ namespace ZKWebStandard.Extensions {
 		/// <code language="cs">
 		/// Expression&lt;Func&lt;TestClass, string&gt;&gt; expr = t =&gt; t.TestMember;
 		/// var attr = expr.GetMemberAttribute&lt;DescriptionAttribute&gt;();
-		/// Assert.Equals(attr.Description, "TestMember_Description");
 		/// </code>
 		/// </example>
 		public static TAttribute GetMemberAttribute<TAttribute>(this LambdaExpression expression)
@@ -102,8 +100,6 @@ namespace ZKWebStandard.Extensions {
 		///			exprB.Body.ReplaceNode(exprB.Parameters[0], exprA.Parameters[0])),
 		///		exprA.Parameters[0]);
 		/// var method = exprMerged.Compile();
-		/// Assert.IsTrue(method(new TestClass() { TestMember = "abcasd" }));
-		/// Assert.IsTrue(!method(new TestClass() { TestMember = "abcasp" }));
 		/// </code>
 		/// </example>
 		public static Expression ReplaceNode(

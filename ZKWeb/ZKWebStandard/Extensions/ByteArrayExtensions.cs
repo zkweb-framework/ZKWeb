@@ -15,7 +15,7 @@ namespace ZKWebStandard.Extensions {
 		/// <example>
 		/// <code language="cs">
 		/// var bytes = new byte[] { 1, 0x12, 0x13 };
-		/// Assert.Equals(bytes.ToHex(), "011213");
+		/// var hex = bytes.ToHex(); // "011213"
 		/// </code>
 		/// </example>
 		public static string ToHex(this byte[] data) {

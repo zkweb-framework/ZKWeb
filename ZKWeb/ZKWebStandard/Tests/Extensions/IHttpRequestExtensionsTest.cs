@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
 using ZKWebStandard.Testing;
 using ZKWebStandard.Web;
@@ -53,6 +54,19 @@ namespace ZKWebStandard.Tests.Extensions {
 				Assert.Equals(request.GetReferer(), null);
 				request.headers["Referer"] = "http://abc.com/abc.html";
 				Assert.Equals(request.GetReferer().ToString(), "http://abc.com/abc.html");
+			}
+		}
+
+		public void GetBytesRange() {
+			using (HttpManager.OverrideContext("", "POST")) {
+				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
+				Assert.Equals(request.GetBytesRange(), Pair.Create<long?, long?>(null, null));
+				request.headers["Range"] = "bytes=123-";
+				Assert.Equals(request.GetBytesRange(), Pair.Create<long?, long?>(123, null));
+				request.headers["Range"] = "bytes=-321";
+				Assert.Equals(request.GetBytesRange(), Pair.Create<long?, long?>(null, 321));
+				request.headers["Range"] = "bytes=123-321";
+				Assert.Equals(request.GetBytesRange(), Pair.Create<long?, long?>(123, 321));
 			}
 		}
 

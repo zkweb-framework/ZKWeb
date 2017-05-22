@@ -78,6 +78,15 @@ namespace ZKWebStandard.Collections {
 			var hash_2 = Second?.GetHashCode() ?? 0;
 			return (hash_1 << 5) + hash_1 ^ hash_2;
 		}
+
+		/// <summary>
+		/// To string<br/>
+		/// 转换到字符串<br/>
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString() {
+			return $"({First?.ToString() ?? "null"}, {Second.ToString() ?? "null"})";
+		}
 	}
 
 	/// <summary>
