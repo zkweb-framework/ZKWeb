@@ -4,50 +4,50 @@ using System.Runtime.CompilerServices;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
-	/// Static ioc container factories cache<br/>
-	/// <br/>
+	/// Static IoC container factories cache<br/>
+	/// 静态的IoC容器工厂函数缓存<br/>
 	/// </summary>
 	public static class ContainerFactoriesCache {
 		/// <summary>
 		/// Set to enable static factories cache<br/>
-		/// <br/>
+		/// 是否启用静态工厂函数缓存<br/>
 		/// </summary>
 		public static bool Enabled = true;
 	}
 
 	/// <summary>
 	/// IoC container factories cache data<br/>
-	/// <br/>
+	/// IoC容器工厂函数缓存的数据<br/>
 	/// </summary>
 	internal class ContainerFactoriesCacheData {
 		/// <summary>
 		/// Matched container instance<br/>
-		/// <br/>
+		/// 容器的实例<br/>
 		/// </summary>
 		internal IContainer Container = null;
 		/// <summary>
 		/// Matched container revision<br/>
-		/// <br/>
+		/// 容器的版本<br/>
 		/// </summary>
 		internal int Revision = 0;
 		/// <summary>
 		/// Factories for given services<br/>
 		/// Service key should be null<br/>
-		/// <br/>
-		/// <br/>
+		/// 服务的工厂函数列表<br/>
+		/// 服务键应该为null<br/>
 		/// </summary>
 		internal List<Func<object>> Factories = null;
 		/// <summary>
 		/// Single factory<br/>
 		/// Available when Factories only contains one element<br/>
-		/// <br/>
-		/// <br/>
+		/// 单个工厂函数<br/>
+		/// 只在工厂函数列表只包含一个元素时有值<br/>
 		/// </summary>
 		internal Func<object> SingleFactory = null;
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal ContainerFactoriesCacheData(
@@ -62,7 +62,7 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Check if container matched this cache data<br/>
-		/// <br/>
+		/// 检查容器是否匹配这个缓存数据<br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal bool IsMatched(Container container) {
@@ -73,14 +73,14 @@ namespace ZKWebStandard.Ioc {
 	}
 
 	/// <summary>
-	/// Static ioc container factories cache<br/>
-	/// <br/>
+	/// Static IoC container factories cache<br/>
+	/// 静态IoC容器的工厂函数缓存<br/>
 	/// </summary>
 	/// <typeparam name="TService">Service Type</typeparam>
 	internal static class ContainerFactoriesCache<TService> {
 		/// <summary>
 		/// Cache data<br/>
-		/// <br/>
+		/// 缓存数据<br/>
 		/// </summary>
 		internal static ContainerFactoriesCacheData Data = null;
 	}

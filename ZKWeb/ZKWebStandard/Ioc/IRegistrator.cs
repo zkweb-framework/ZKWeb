@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace ZKWebStandard.Ioc {
 	/// <summary>
 	/// Interface for registrator<br/>
-	/// <br/>
+	/// 注册器的接口<br/>
 	/// </summary>
 	public interface IRegistrator {
 		/// <summary>
 		/// Register implementation type with service type and service key<br/>
-		/// <br/>
+		/// 根据服务类型和服务键注册实现类型<br/>
 		/// </summary>
 		/// <param name="serviceType">Service type</param>
 		/// <param name="implementationType">Implementation type</param>
@@ -20,7 +20,7 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Register implementation type with service types and service key<br/>
-		/// <br/>
+		/// 根据多个服务类型和服务键注册实现类型<br/>
 		/// </summary>
 		/// <param name="serviceTypes">Service types</param>
 		/// <param name="implementationType">Implementation type</param>
@@ -32,8 +32,8 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Register implementation type with service types and service key<br/>
 		/// Service types are obtain from base types and interfaces<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据多个服务类型和服务键注册实现类型<br/>
+		/// 服务类型是实现类型的基类和接口<br/>
 		/// </summary>
 		/// <param name="implementationType">Implementation type</param>
 		/// <param name="reuseType">Reuse type</param>
@@ -46,8 +46,8 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Register instance with service type and service key<br/>
 		/// Reuse type is forced to Singleton<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据服务类型和服务键注册实例<br/>
+		/// 重用类型强制为单例<br/>
 		/// </summary>
 		/// <param name="serviceType">Service type</param>
 		/// <param name="instance">Service instance</param>
@@ -56,7 +56,7 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Register delegate with service type and service key<br/>
-		/// <br/>
+		/// 根据服务类型和服务键注册工厂函数<br/>
 		/// </summary>
 		/// <param name="serviceType">Implementation type</param>
 		/// <param name="factory">Service factory</param>
@@ -67,7 +67,7 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Automatic register types by export attributes<br/>
-		/// <br/>
+		/// 按Export属性自动注册类型到容器<br/>
 		/// </summary>
 		/// <param name="types">Implementation types</param>
 		void RegisterExports(IEnumerable<Type> types);
@@ -81,14 +81,14 @@ namespace ZKWebStandard.Ioc {
 		/// { A: A, I: [A, B], J: A, B: B }<br/>
 		/// After unregister I the factory mapping will be<br/>
 		/// { A: A, I: [], J: A, B: B }<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 注销所有注册到指定服务类型和服务键的工厂函数<br/>
+		/// 例如:<br/>
+		/// 类 A 继承 类 I 和 J<br/>
+		/// 类 B 继承 类 I<br/>
+		/// 工厂函数的集合是<br/>
+		/// { A: A, I: [A, B], J: A, B: B }<br/>
+		/// 按I注销后，工厂函数的集合是<br/>
+		/// { A: A, I: [], J: A, B: B }<br/>
 		/// </summary>
 		/// <param name="serviceType">Service type</param>
 		/// <param name="serviceKey">Service key</param>
@@ -103,14 +103,14 @@ namespace ZKWebStandard.Ioc {
 		/// { A: A, I: [A, B], J: A, B: B }<br/>
 		/// After unregister A the factory mapping will be<br/>
 		/// { A: [], I: [B], J: [], B: B }<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 注销所有注册到指定服务类型和服务键的工厂函数<br/>
+		/// 例如:<br/>
+		/// 类 A 继承 类 I 和 J<br/>
+		/// 类 B 继承 类 I<br/>
+		/// 工厂函数的集合是<br/>
+		/// { A: A, I: [A, B], J: A, B: B }<br/>
+		/// 按A注销后, 工厂函数的集合是<br/>
+		/// { A: [], I: [B], J: [], B: B }<br/>
 		/// </summary>
 		/// <param name="implementationType">Implementation type</param>
 		/// <param name="serviceKey">Service key</param>
@@ -118,7 +118,7 @@ namespace ZKWebStandard.Ioc {
 
 		/// <summary>
 		/// Unregister all factories<br/>
-		/// <br/>
+		/// 注销所有工厂函数<br/>
 		/// </summary>
 		void UnregisterAll();
 	}

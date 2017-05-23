@@ -3,7 +3,7 @@
 namespace ZKWebStandard.Ioc {
 	/// <summary>
 	/// Choose which constructor to inject explicitly<br/>
-	/// <br/>
+	/// 选择注入哪个构造函数时使用的属性<br/>
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Constructor)]
 	public class InjectAttribute : Attribute {
