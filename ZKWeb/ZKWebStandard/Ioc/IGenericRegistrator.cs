@@ -5,6 +5,8 @@ namespace ZKWebStandard.Ioc {
 	/// Interface for generic registrator<br/>
 	/// 泛型注册器的接口<br/>
 	/// </summary>
+	/// <seealso cref="IContainer"/>
+	/// <seealso cref="Container"/>
 	public interface IGenericRegistrator {
 		/// <summary>
 		/// Register implementation type with service type and service key<br/>

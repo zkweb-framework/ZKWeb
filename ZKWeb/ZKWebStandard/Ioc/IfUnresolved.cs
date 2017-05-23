@@ -3,6 +3,8 @@
 	/// Action when service unresolved<br/>
 	/// 服务解决失败时的操作<br/>
 	/// </summary>
+	/// <seealso cref="IContainer"/>
+	/// <seealso cref="Container"/>
 	public enum IfUnresolved {
 		/// <summary>
 		/// Throw exception<br/>

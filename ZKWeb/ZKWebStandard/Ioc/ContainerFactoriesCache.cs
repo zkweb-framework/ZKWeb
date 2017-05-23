@@ -7,6 +7,9 @@ namespace ZKWebStandard.Ioc {
 	/// Static IoC container factories cache<br/>
 	/// 静态的IoC容器工厂函数缓存<br/>
 	/// </summary>
+	/// <seealso cref="Container"/>
+	/// <seealso cref="ContainerFactoriesCacheData"/>
+	/// <seealso cref="ContainerFactoriesCache{TService}"/>
 	public static class ContainerFactoriesCache {
 		/// <summary>
 		/// Set to enable static factories cache<br/>
@@ -19,6 +22,9 @@ namespace ZKWebStandard.Ioc {
 	/// IoC container factories cache data<br/>
 	/// IoC容器工厂函数缓存的数据<br/>
 	/// </summary>
+	/// <seealso cref="Container"/>
+	/// <seealso cref="ContainerFactoriesCache"/>
+	/// <seealso cref="ContainerFactoriesCache{TService}"/>
 	internal class ContainerFactoriesCacheData {
 		/// <summary>
 		/// Matched container instance<br/>
@@ -77,6 +83,9 @@ namespace ZKWebStandard.Ioc {
 	/// 静态IoC容器的工厂函数缓存<br/>
 	/// </summary>
 	/// <typeparam name="TService">Service Type</typeparam>
+	/// <seealso cref="Container"/>
+	/// <seealso cref="ContainerFactoriesCache"/>
+	/// <seealso cref="ContainerFactoriesCacheData"/>
 	internal static class ContainerFactoriesCache<TService> {
 		/// <summary>
 		/// Cache data<br/>

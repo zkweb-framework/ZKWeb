@@ -5,6 +5,8 @@ namespace ZKWebStandard.Ioc {
 	/// Attribute for register type to IoC container with itself and it's base type and interfaces<br/>
 	/// 用于根据类型的基类和接口，注册类型到IoC容器的属性<br/>
 	/// </summary>
+	/// <seealso cref="Container"/>
+	/// <seealso cref="IContainer"/>
 	[AttributeUsage(
 		AttributeTargets.Class | AttributeTargets.Struct,
 		Inherited = false,

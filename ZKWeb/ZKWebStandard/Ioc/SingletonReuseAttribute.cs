@@ -7,6 +7,8 @@ namespace ZKWebStandard.Ioc {
 	/// 标记单例的属性<br/>
 	/// 继承了ReuseAttribute的便捷属性<br/>
 	/// </summary>
+	/// <seealso cref="IContainer"/>
+	/// <seealso cref="Container"/>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false)]
 	public class SingletonReuseAttribute : ReuseAttribute {
 		/// <summary>

@@ -3,6 +3,8 @@
 	/// Service reuse type<br/>
 	/// 重用类型<br/>
 	/// </summary>
+	/// <see cref="IContainer"/>
+	/// <seealso cref="Container"/>
 	public enum ReuseType {
 		/// <summary>
 		/// Transient, no reuse<br/>

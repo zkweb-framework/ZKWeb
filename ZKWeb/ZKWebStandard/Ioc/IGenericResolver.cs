@@ -5,6 +5,8 @@ namespace ZKWebStandard.Ioc {
 	/// Interface for generic resolver<br/>
 	/// 泛型解决器的接口<br/>
 	/// </summary>
+	/// <seealso cref="IContainer"/>
+	/// <seealso cref="Container"/>
 	public interface IGenericResolver {
 		/// <summary>
 		/// Resolve service with type and key<br/>

@@ -20,6 +20,42 @@ namespace ZKWebStandard.Ioc {
 	/// - ResolveMany Transient: 10000000/0.84s (DryIoc: 14.7s)
 	/// - ResolveMany Singleton: 10000000/0.88s (DryIoc: 12.9s)
 	/// </summary>
+	/// <seealso cref="IContainer"/>
+	/// <seealso cref="IRegistrator"/>
+	/// <seealso cref="IGenericRegistrator"/>
+	/// <seealso cref="IResolver"/>
+	/// <seealso cref="IGenericResolver"/>
+	/// <seealso cref="IContainerExtensions"/>
+	/// <example>
+	/// <code language="cs">
+	/// void Example() {
+	/// 	var animals = Application.Ioc.ResolveMany&lt;IAnimal&gt;()
+	/// 	// animals contains instances of Dog and Cow
+	///
+	/// 	var animalManager = Application.Ioc.Resolve&lt;IAnimalManager&gt;();
+	/// 	// animalManager is AnimalManager
+	/// 	
+	/// 	var otherAnimalManager = Application.Ioc.Resolve&lt;IAnimalManager&gt;();
+	/// 	// animalManager only create once, otherAnimalManager == animalManager
+	/// }
+	///
+	/// public interface IAnimal { }
+	///
+	/// [ExportMany]
+	/// public class Dog : IAnimal { }
+	///
+	/// [ExportMany]
+	/// public class Cow : IAnimal { }
+	///
+	/// public interface IAnimalManager { }
+	///
+	/// [ExportMany, SingletonUsage]
+	/// public class AnimalManager : IAnimalManager {
+	/// 	// inject animals
+	/// 	public AnimalManager(IEnumerable&lt;IAnimal&gt; animals) { }
+	/// }
+	///	/// </code>
+	///	/// </example>
 	public class Container : IContainer {
 		/// <summary>
 		/// Factories<br/>
