@@ -3,33 +3,33 @@
 namespace ZKWebStandard.Testing.Events {
 	/// <summary>
 	/// Information for single test skipped<br/>
-	/// <br/>
+	/// 单个测试跳过的信息<br/>
 	/// </summary>
 	public class TestSkippedInfo {
 		/// <summary>
 		/// Test runner<br/>
-		/// <br/>
+		/// 测试运行器<br/>
 		/// </summary>
 		public TestRunner Runner { get; private set; }
 		/// <summary>
 		/// Test method<br/>
-		/// <br/>
+		/// 测试函数<br/>
 		/// </summary>
 		public MethodInfo Method { get; private set; }
 		/// <summary>
 		/// Test instance<br/>
-		/// <br/>
+		/// 测试实例<br/>
 		/// </summary>
 		public object Instance { get; private set; }
 		/// <summary>
 		/// Test skipped exception<br/>
-		/// <br/>
+		/// 测试跳过的例外<br/>
 		/// </summary>
 		public AssertSkipedException Exception { get; private set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="runner">Test runner</param>
 		/// <param name="method">Test method</param>

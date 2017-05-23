@@ -33,8 +33,8 @@
 			// Initialize application
 			Application.Initialize(GetWebsiteRootDirectory());
 			// Run all tests
-			var unitTestManager = Application.Ioc.Resolve<TestManager>();
-			unitTestManager.RunAllAssemblyTest(new TestConsoleEventHandler());
+			var testManager = Application.Ioc.Resolve<TestManager>();
+			testManager.RunAllAssemblyTest(new TestConsoleEventHandler());
 			// Done
 			Console.WriteLine("done");
 			Console.ReadLine();

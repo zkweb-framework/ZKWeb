@@ -17,33 +17,93 @@ namespace ZKWebStandard.Testing {
 	/// - Create test instance<br/>
 	/// - Execute test methods and notify event handlers<br/>
 	/// - If test instance is disposable, dispose it<br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
+	/// 测试运行器<br/>
+	/// 单个测试运行器与单个程序集绑定<br/>
+	/// 测试流程<br/>
+	/// - 查找程序集中的类型，找出标记了TestsAttribute的类型<br/>
+	/// - 查找类型中所有公开的函数，函数是单独的测试并且会运行在不同的线程中<br/>
+	/// - 创建类型的实例<br/>
+	/// - 执行测试函数并且通知事件处理器<br/>
+	/// - 如果类型的实例有销毁函数(Dispose)，则调用销毁函数<br/>
 	/// </summary>
+	/// <seealso cref="Assert"/>
+	/// <seealso cref="ITestEventHandler"/>
+	/// <example>
+	/// <code language="cs">
+	/// [Tests]
+	/// class ExampleTest {
+	/// 	public void MethodA() {
+	/// 		Assert.IsTrue(1 == 1);
+	/// 		Assert.IsTrueWith(1 == 1, "if failed this item will be outputed");
+	/// 		Assert.Equals(true, true);
+	/// 		Assert.Throws&lt;ArgumentException&gt;(() =&gt; { throw new ArgumentException(); });
+	/// 	}
+	/// }
+	///
+	/// public class TestConsoleEventHandler : ITestEventHandler {
+	/// 	public void OnAllTestStarting(AllTestStartingInfo info) {
+	/// 		Console.WriteLine($"starting {info.Runner.Assembly.GetName().Name} tests...");
+	/// 	}
+	///
+	/// 	public void OnAllTestCompleted(AllTestCompletedInfo info) {
+	/// 		Console.WriteLine($"complete {info.Runner.Assembly.GetName().Name} tests: " +
+	/// 			$"{info.Counter.Passed} passed, {info.Counter.Failed} failed, {info.Counter.Skipped} skiped.");
+	/// 		Console.WriteLine();
+	/// 	}
+	///
+	/// 	public void OnDebugMessage(DebugMessageInfo info) {
+	/// 		Console.WriteLine($"debug: {info.Message}");
+	/// 	}
+	///
+	/// 	public void OnErrorMessage(ErrorMessageInfo info) {
+	/// 		Console.WriteLine($"error: {info.Message}");
+	/// 	}
+	///
+	/// 	public void OnTestFailed(TestFailedInfo info) {
+	/// 		Console.WriteLine($"failed: {info.Exception}");
+	/// 	}
+	///
+	/// 	public void OnTestPassed(TestPassedInfo info) {
+	/// 	}
+	///
+	/// 	public void OnTestSkipped(TestSkippedInfo info) {
+	/// 		Console.WriteLine($"skipped: {info.Exception.Message}");
+	/// 	}
+	///
+	/// 	public void OnTestStarting(TestStartingInfo info) {
+	/// 		Console.WriteLine($"test: {info.Method.GetFullName()}");
+	/// 	}
+	/// }
+	/// 
+	/// var assembly = typeof(ExampleTest).GetTypeInfo().Assembly;
+	/// var handler = new TestConsoleEventHandler();
+	/// var runner = new TestRunner(assembly, handler);
+	/// runner.Run();
+	/// </code>
+	/// </example>
 	public class TestRunner {
 		/// <summary>
-		/// Test assembly
+		/// Test assembly<br/>
+		/// 测试的程序集<br/>
 		/// </summary>
 		public Assembly Assembly { get; private set; }
 		/// <summary>
-		/// Test event handlers
+		/// Test event handlers<br/>
+		/// 事件处理器列表<br/>
 		/// </summary>
 		public IList<ITestEventHandler> EventHandlers { get; private set; }
 		/// <summary>
-		/// The running test runner
-		/// It should be null if no test runner is running
+		/// The running test runner<br/>
+		/// It should be null if no test runner is running<br/>
+		/// 测试运行器的实例<br/>
+		/// 如果当前无测试运行应该是null<br/>
 		/// </summary>
 		public static TestRunner CurrentRunner { get { return currentRunner.Value; } }
 		private static ThreadLocal<TestRunner> currentRunner = new ThreadLocal<TestRunner>();
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="assembly">Test assembly</param>
 		/// <param name="eventHandlers">Test event handlers</param>
@@ -53,8 +113,10 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Triggering test event
-		/// Will notify event handlers
+		/// Triggering test event<br/>
+		/// Will notify event handlers<br/>
+		/// 触发测试事件<br/>
+		/// 会通知事件处理器<br/>
 		/// </summary>
 		/// <typeparam name="T">Information type</typeparam>
 		/// <param name="getAction">Event handle method</param>
@@ -64,8 +126,10 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Write error message
-		/// Will notify event handlers
+		/// Write error message<br/>
+		/// Will notify event handlers<br/>
+		/// 写入错误消息<br/>
+		/// 会触发事件处理器<br/>
 		/// </summary>
 		/// <param name="message">Error message</param>
 		public void WriteErrorMessage(string message) {
@@ -73,8 +137,10 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Write debug message
-		/// Will notify event handlers
+		/// Write debug message<br/>
+		/// Will notify event handlers<br/>
+		/// 写入除错消息<br/>
+		/// 会触发事件处理器<br/>
 		/// </summary>
 		/// <param name="message">Debug message</param>
 		public void WriteDebugMessage(string message) {
@@ -82,7 +148,8 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Run test method
+		/// Run the test function in a separate thread<br/>
+		/// 在独立的线程中运行测试函数<br/>
 		/// </summary>
 		/// <param name="method">Test method</param>
 		/// <param name="counter">Test result counter</param>
@@ -134,7 +201,8 @@ namespace ZKWebStandard.Testing {
 		}
 
 		/// <summary>
-		/// Run all test cases in assembly
+		/// Run all tests in assembly<br/>
+		/// 运行程序集中包含的所有测试<br/>
 		/// </summary>
 		public void Run() {
 			// Triggering starting event
