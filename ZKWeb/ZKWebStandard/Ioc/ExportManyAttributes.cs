@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
@@ -11,7 +12,7 @@ namespace ZKWebStandard.Ioc {
 		AttributeTargets.Class | AttributeTargets.Struct,
 		Inherited = false,
 		AllowMultiple = false)]
-	public class ExportManyAttribute : Attribute {
+	public class ExportManyAttribute : ExportAttributeBase {
 		/// <summary>
 		/// Service key<br/>
 		/// 服务键<br/>
@@ -34,5 +35,26 @@ namespace ZKWebStandard.Ioc {
 		/// 请确保它不会意外的移除无辜的实现<br/>
 		/// </summary>
 		public bool ClearExists { get; set; }
+
+		/// <summary>
+		/// Register implementation type to container<br/>
+		/// 注册实现类型到容器<br/>
+		/// </summary>
+		public override void RegisterToContainer(IContainer container, Type type, ReuseType reuseType) {
+			var serviceTypes = Container.GetImplementedServiceTypes(type, NonPublic);
+			// Apply except types
+			if (Except != null && Except.Any()) {
+				serviceTypes = serviceTypes.Where(t => !Except.Contains(t));
+			}
+			var serviceTypesArray = serviceTypes.ToList();
+			// Apply clear exist
+			if (ClearExists) {
+				foreach (var serviceType in serviceTypesArray) {
+					container.Unregister(serviceType, ContractKey);
+				}
+			}
+			// Register to container
+			container.RegisterMany(serviceTypesArray, type, reuseType, ContractKey);
+		}
 	}
 }

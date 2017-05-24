@@ -16,7 +16,7 @@ namespace ZKWeb.Web.ActionResults {
 	///		}
 	///	}
 	/// </code>
-	/// </example
+	/// </example>
 	public class RedirectResult : IActionResult {
 		/// <summary>
 		/// Redirect to url<br/>

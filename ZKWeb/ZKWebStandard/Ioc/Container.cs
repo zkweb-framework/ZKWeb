@@ -89,7 +89,7 @@ namespace ZKWebStandard.Ioc {
 		/// Get base types and interfaces<br/>
 		/// 获取类型的所有基类和接口类<br/>
 		/// </summary>
-		protected static IEnumerable<Type> GetImplementedTypes(Type type) {
+		public static IEnumerable<Type> GetImplementedTypes(Type type) {
 			foreach (var interfaceType in type.GetTypeInfo().GetInterfaces()) {
 				yield return interfaceType;
 			}
@@ -110,7 +110,7 @@ namespace ZKWebStandard.Ioc {
 		/// - 类型是非公开, 并且参数nonPublicServiceTypes是false<br/>
 		/// - 类型来源于mscorlib<br/>
 		/// </summary>
-		protected static IEnumerable<Type> GetImplementedServiceTypes(Type type, bool nonPublicServiceTypes) {
+		public static IEnumerable<Type> GetImplementedServiceTypes(Type type, bool nonPublicServiceTypes) {
 			var mscorlibAssembly = typeof(int).GetTypeInfo().Assembly;
 			foreach (var serviceType in GetImplementedTypes(type)) {
 				var serviceTypeInfo = serviceType.GetTypeInfo();
@@ -278,26 +278,17 @@ namespace ZKWebStandard.Ioc {
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
 				var typeInfo = type.GetTypeInfo();
-				var exportManyAttribute = typeInfo.GetAttribute<ExportManyAttribute>();
-				if (exportManyAttribute == null) {
+				// Get export attributes
+				var exportAttributes = typeInfo.GetAttributes<ExportAttributeBase>();
+				if (!exportAttributes.Any()) {
 					continue;
 				}
-				// From ExportManyAttribute
+				// Get reuse attribute
 				var reuseType = typeInfo.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
-				var contractKey = exportManyAttribute.ContractKey;
-				var except = exportManyAttribute.Except;
-				var nonPublic = exportManyAttribute.NonPublic;
-				var clearExists = exportManyAttribute.ClearExists;
-				var serviceTypes = GetImplementedServiceTypes(type, nonPublic).ToList();
-				if (except != null && except.Any()) {
-					// Apply except types
-					serviceTypes = serviceTypes.Where(t => !except.Contains(t)).ToList();
+				// Call RegisterToContainer
+				foreach (var attribute in exportAttributes) {
+					attribute.RegisterToContainer(this, type, reuseType);
 				}
-				if (clearExists) {
-					// Apply clear exist
-					serviceTypes.ForEach(t => Unregister(t, contractKey));
-				}
-				RegisterMany(serviceTypes, type, reuseType, contractKey);
 			}
 		}
 

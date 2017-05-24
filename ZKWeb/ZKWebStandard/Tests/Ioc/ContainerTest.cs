@@ -128,6 +128,18 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void RegisterSingleExport() {
+			using (var container = new Container()) {
+				container.RegisterExports(new[] { typeof(SingleExportImplementation) });
+				Assert.Equals(((InterfaceService)container.Resolve(
+					typeof(InterfaceService), IfUnresolved.Throw, null)).Name, "SingleExport");
+				Assert.Equals(((ClassService)container.Resolve(
+					typeof(ClassService), IfUnresolved.Throw, "a")).GetName(), "SingleExport");
+				Assert.Equals(((SingleExportImplementation)container.Resolve(
+					typeof(SingleExportImplementation), IfUnresolved.ReturnDefault, null)), null);
+			}
+		}
+
 		public void Unregister() {
 			using (var container = new Container()) {
 				container.RegisterExports(new[] { typeof(TransientImplementation) });
@@ -284,6 +296,13 @@ namespace ZKWebStandard.Tests.IocContainer {
 		[ExportMany(ContractKey = "b", ClearExists = true)]
 		public class ReplaceImplementation : ClassService, InterfaceService {
 			public string Name { get { return "Replace"; } }
+			public override string GetName() { return Name; }
+		}
+
+		[Export(ServiceType = typeof(InterfaceService))]
+		[Export(ServiceType = typeof(ClassService), ContractKey = "a")]
+		public class SingleExportImplementation : ClassService, InterfaceService {
+			public string Name { get { return "SingleExport"; } }
 			public override string GetName() { return Name; }
 		}
 
