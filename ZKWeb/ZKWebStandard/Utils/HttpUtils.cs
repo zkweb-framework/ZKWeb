@@ -6,12 +6,12 @@ using ZKWebStandard.Extensions;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Http utility functions<br/>
-	/// <br/>
+	/// Http的工具函数<br/>
 	/// </summary>
 	public static class HttpUtils {
 		/// <summary>
 		/// Url encode<br/>
-		/// <br/>
+		/// 编码到Url<br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -21,7 +21,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Url decode<br/>
-		/// <br/>
+		/// 从Url解码<br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -31,7 +31,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Html encode<br/>
-		/// <br/>
+		/// 编码到Html<br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -41,7 +41,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Html decode<br/>
-		/// <br/>
+		/// 从Html解码<br/>
 		/// </summary>
 		/// <param name="value">Original value</param>
 		/// <returns></returns>
@@ -51,7 +51,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Split path and query string<br/>
-		/// <br/>
+		/// 分割路径和查询字符串<br/>
 		/// </summary>
 		/// <param name="pathAndQuery">Path an query string</param>
 		/// <param name="path">Path</param>
@@ -65,7 +65,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Parse query string<br/>
-		/// <br/>
+		/// 解析查询字符串<br/>
 		/// </summary>
 		/// <param name="queryString">Query string</param>
 		/// <returns></returns>
@@ -98,7 +98,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Build query string<br/>
-		/// <br/>
+		/// 构建查询字符串<br/>
 		/// </summary>
 		/// <param name="queryParams">Query arguments</param>
 		/// <returns></returns>

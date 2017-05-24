@@ -3,14 +3,14 @@
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Guid utility functions<br/>
-	/// <br/>
+	/// Guid的工具函数<br/>
 	/// </summary>
 	public static class GuidUtils {
 		/// <summary>
 		/// Generate a sequential guid from the specific time and 8 bytes buffer<br/>
 		/// The uuid version is 1, clock sequence and mac address are from the buffer<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据8个字节的缓冲区和指定时间生成序列Guid<br/>
+		/// UUID Version是1, 时钟序号和MAC地址由缓冲区得到<br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <param name="buffer">A buffer contains atleast 8 bytes</param>
@@ -29,8 +29,8 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// Generate a sequential guid from the specific time<br/>
 		/// It use random bytes for clock sequence and mac address<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据指定时间生成序列GUID<br/>
+		/// 它使用了随机值代替时钟序列和MAC地址<br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>
@@ -44,9 +44,9 @@ namespace ZKWebStandard.Utils {
 		/// Generate a sequential guid from the specific time<br/>
 		/// It use secure random bytes for clock sequence and mac address<br/>
 		/// usually use to generate a more secure guid like session id<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 根据指定时间生成序列GUID<br/>
+		/// 它使用了安全的随机值代替时钟序列和MAC地址<br/>
+		/// 通常用于生成更安全的Guid值, 例如会话Id<br/>
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>

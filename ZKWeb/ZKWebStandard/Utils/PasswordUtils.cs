@@ -5,12 +5,12 @@ using System.Text;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Password utility functions<br/>
-	/// <br/>
+	/// 密码的工具函数<br/>
 	/// </summary>
 	public static class PasswordUtils {
 		/// <summary>
 		/// Get PBKDF2 checksum<br/>
-		/// <br/>
+		/// 获取PBKDF2的校验值<br/>
 		/// </summary>
 		/// <param name="data">The data</param>
 		/// <param name="slat">The slat, length should be 8</param>
@@ -25,7 +25,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Get md5 checksum<br/>
-		/// <br/>
+		/// 获取MD5的校验值<br/>
 		/// </summary>
 		public static byte[] Md5Sum(byte[] data) {
 			return MD5.Create().ComputeHash(data);
@@ -33,7 +33,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Get sha1 checksum<br/>
-		/// <br/>
+		/// 获取SHA1的校验值<br/>
 		/// </summary>
 		public static byte[] Sha1Sum(byte[] data) {
 			return SHA1.Create().ComputeHash(data);
@@ -42,27 +42,27 @@ namespace ZKWebStandard.Utils {
 
 	/// <summary>
 	/// Password information<br/>
-	/// <br/>
+	/// 密码信息<br/>
 	/// </summary>
 	public class PasswordInfo {
 		/// <summary>
 		/// Password type<br/>
-		/// <br/>
+		/// 密码类型<br/>
 		/// </summary>
 		public PasswordHashType Type { get; set; } = PasswordHashType.PBKDF2;
 		/// <summary>
 		/// Slat in base64<br/>
-		/// <br/>
+		/// base64格式的盐<br/>
 		/// </summary>
 		public string Slat { get; set; }
 		/// <summary>
 		/// Hash in base64
-		/// </summary>
+		/// base64格式的校验值</summary>
 		public string Hash { get; set; }
 
 		/// <summary>
 		/// Check password, return true for success<br/>
-		/// <br/>
+		/// 检查密码, 成功时返回true<br/>
 		/// </summary>
 		/// <param name="password">The password</param>
 		/// <returns></returns>
@@ -77,7 +77,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Create password information from password<br/>
-		/// <br/>
+		/// 根据密码创建密码信息<br/>
 		/// </summary>
 		/// <param name="password">The password</param>
 		/// <param name="slat">Slat, use a random value if gived null</param>
@@ -104,22 +104,19 @@ namespace ZKWebStandard.Utils {
 
 	/// <summary>
 	/// Password hash type<br/>
-	/// <br/>
+	/// 密码的校验类型<br/>
 	/// </summary>
 	public enum PasswordHashType {
 		/// <summary>
 		/// PBKDF2<br/>
-		/// <br/>
 		/// </summary>
 		PBKDF2 = 0,
 		/// <summary>
 		/// Md5<br/>
-		/// <br/>
 		/// </summary>
 		Md5 = 1,
 		/// <summary>
 		/// Sha1<br/>
-		/// <br/>
 		/// </summary>
 		Sha1 = 2
 	}

@@ -4,14 +4,14 @@ using System.Linq.Expressions;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Expression utility functions<br/>
-	/// <br/>
+	/// Linq表达式的工具函数<br/>
 	/// </summary>
 	public static class ExpressionUtils {
 		/// <summary>
 		/// Make lambda expression that compare member to the given object<br/>
-		/// Perform "data => data.{memberName} == {equalsTo}"<br/>
-		/// <br/>
-		/// <br/>
+		/// Perform "data =&gt; data.{memberName} == {equalsTo}"<br/>
+		/// 生成比较成员和指定对象是否相等的表达式<br/>
+		/// 生成 "data =&gt; data.{memberName} == {equalsTo}"<br/>
 		/// </summary>
 		/// <typeparam name="TData">Data type</typeparam>
 		/// <param name="memberName">Member name</param>

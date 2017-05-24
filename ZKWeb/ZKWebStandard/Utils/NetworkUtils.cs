@@ -5,16 +5,16 @@ using ZKWebStandard.Web;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Network utility functions<br/>
-	/// <br/>
+	/// 网络的工具函数<br/>
 	/// </summary>
 	public static class NetworkUtils {
 		/// <summary>
 		/// Get client ip address<br/>
 		/// If there a http request then return the remote address<br/>
 		/// otherwise return host ip address<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 获取客户端的IP地址<br/>
+		/// 如果当前有Http连接则返回远程的IP地址<br/>
+		/// 否则返回本机地址<br/>
 		/// </summary>
 		/// <returns></returns>
 		public static IPAddress GetClientIpAddress() {
@@ -28,8 +28,8 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// Get host ip address<br/>
 		/// Notice if host is in LAN then this function will return lan ip not public ip address<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取本机IP地址<br/>
+		/// 注意如果本机在局域网中这个函数会返回局域网IP, 而不是公网IP<br/>
 		/// </summary>
 		/// <returns></returns>
 		public static IPAddress GetHostIpAddress() {

@@ -7,14 +7,14 @@ using ZKWebStandard.Extensions;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Tree utility functions<br/>
-	/// <br/>
+	/// 树的工具函数<br/>
 	/// </summary>
 	public static class TreeUtils {
 		/// <summary>
 		/// Create tree from elements<br/>
 		/// Return root node, root node doesn't have a value<br/>
-		/// <br/>
-		/// <br/>
+		/// 根据元素列表创建树<br/>
+		/// 返回根节点, 根节点不包含值<br/>
 		/// </summary>
 		/// <typeparam name="T">Element type</typeparam>
 		/// <typeparam name="TValue">Value type</typeparam>
@@ -37,8 +37,8 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// Transform tree<br/>
 		/// If the given node isn't root node, it will lose it's parent<br/>
-		/// <br/>
-		/// <br/>
+		/// 转换树<br/>
+		/// 如果传入的节点不是根节点, 会失去它的所有上级节点<br/>
 		/// </summary>
 		/// <typeparam name="T">Original type</typeparam>
 		/// <typeparam name="U">Target type</typeparam>
@@ -55,30 +55,30 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Tree node<br/>
-		/// <br/>
+		/// 树节点<br/>
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		class TreeNode<T> : ITreeNode<T> {
 			/// <summary>
 			/// Value<br/>
-			/// <br/>
+			/// 值<br/>
 			/// </summary>
 			public T Value { get; set; }
 			/// <summary>
 			/// Parent node, maybe null<br/>
-			/// <br/>
+			/// 上级节点, 可能是null<br/>
 			/// </summary>
 			[JsonIgnore]
 			public ITreeNode<T> Parent { get; set; }
 			/// <summary>
 			/// Child nodes<br/>
-			/// <br/>
+			/// 子节点列表<br/>
 			/// </summary>
 			[JsonIgnore]
 			List<ITreeNode<T>> ChildList { get; set; }
 			/// <summary>
 			/// Child nodes, for interface<br/>
-			/// <br/>
+			/// 子节点列表, 接口用<br/>
 			/// </summary>
 			public IEnumerable<ITreeNode<T>> Childs {
 				get { return ChildList; }
@@ -86,7 +86,7 @@ namespace ZKWebStandard.Utils {
 
 			/// <summary>
 			/// Initialize<br/>
-			/// <br/>
+			/// 初始化<br/>
 			/// </summary>
 			/// <param name="value"></param>
 			public TreeNode(T value) {
@@ -97,7 +97,7 @@ namespace ZKWebStandard.Utils {
 
 			/// <summary>
 			/// Add child node, throw exception if failed<br/>
-			/// <br/>
+			/// 添加子节点, 失败时抛出例外<br/>
 			/// </summary>
 			public void AddChildNode(ITreeNode<T> node) {
 				if (node == null) {
@@ -115,7 +115,7 @@ namespace ZKWebStandard.Utils {
 
 			/// <summary>
 			/// Remove child node, do nothing if not found<br/>
-			/// <br/>
+			/// 删除子节点, 不存在时忽略<br/>
 			/// </summary>
 			public void RemoveChildNode(ITreeNode<T> node) {
 				if (node.Parent == this) {
@@ -126,7 +126,7 @@ namespace ZKWebStandard.Utils {
 
 			/// <summary>
 			/// Serialize tree to json<br/>
-			/// <br/>
+			/// 序列化树到json<br/>
 			/// </summary>
 			/// <returns></returns>
 			public override string ToString() {
@@ -137,35 +137,35 @@ namespace ZKWebStandard.Utils {
 
 	/// <summary>
 	/// Interface for tree node<br/>
-	/// <br/>
+	/// 树节点的接口<br/>
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public interface ITreeNode<T> {
 		/// <summary>
 		/// Value<br/>
-		/// <br/>
+		/// 值<br/>
 		/// </summary>
 		T Value { get; set; }
 		/// <summary>
-		/// Parent node maybe null<br/>
-		/// <br/>
+		/// Parent node, maybe null<br/>
+		/// 上级节点, 可能是null<br/>
 		/// </summary>
 		[JsonIgnore]
 		ITreeNode<T> Parent { get; set; }
 		/// <summary>
 		/// Child nodes<br/>
-		/// <br/>
+		/// 子节点列表<br/>
 		/// </summary>
 		IEnumerable<ITreeNode<T>> Childs { get; }
 		/// <summary>
 		/// Add child node, throw exception if failed<br/>
-		/// <br/>
+		/// 添加子节点, 失败时抛出例外<br/>
 		/// </summary>
 		/// <param name="node">Node to add</param>
 		void AddChildNode(ITreeNode<T> node);
 		/// <summary>
 		/// Remove child node, do nothing if not found<br/>
-		/// <br/>
+		/// 删除子节点, 不存在时忽略<br/>
 		/// </summary>
 		/// <param name="node">Node to remove</param>
 		void RemoveChildNode(ITreeNode<T> node);

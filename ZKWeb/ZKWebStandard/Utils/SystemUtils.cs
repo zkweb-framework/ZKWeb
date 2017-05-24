@@ -3,12 +3,12 @@
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// System utility functions<br/>
-	/// <br/>
+	/// 系统的工具函数<br/>
 	/// </summary>
 	public static class SystemUtils {
 		/// <summary>
 		/// Get used memory in bytes<br/>
-		/// <br/>
+		/// 获取占用的内存大小<br/>
 		/// </summary>
 		/// <returns></returns>
 		public static long GetUsedMemoryBytes() {

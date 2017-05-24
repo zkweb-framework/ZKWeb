@@ -3,12 +3,12 @@
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// File utility functions<br/>
-	/// <br/>
+	/// 文件的工具函数<br/>
 	/// </summary>
 	public static class FileUtils {
 		/// <summary>
 		/// Get display name for bytes<br/>
-		/// <br/>
+		/// 获取字节的表示名称<br/>
 		/// Eg: 123KB, 123MB, 123GB
 		/// </summary>
 		/// <param name="bytes">bytes</param>

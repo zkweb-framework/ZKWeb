@@ -5,12 +5,12 @@ using System.Reflection;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Reflection utility functions<br/>
-	/// <br/>
+	/// 反射的工具函数<br/>
 	/// </summary>
 	public static class ReflectionUtils {
 		/// <summary>
 		/// Make setter for member, member can be non public<br/>
-		/// <br/>
+		/// 获取成员的setter函数, 成员可以是非公开的<br/>
 		/// </summary>
 		/// <typeparam name="T">Data Type</typeparam>
 		/// <typeparam name="M">Member Type</typeparam>
@@ -26,7 +26,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Make getter for member, member can be non public<br/>
-		/// <br/>
+		/// 获取成员的getter函数, 成员可以是非公开的<br/>
 		/// </summary>
 		/// <typeparam name="T">Data Type</typeparam>
 		/// <typeparam name="M">Member Type</typeparam>
@@ -40,11 +40,17 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Get generic arguments from type<br/>
-		/// <br/>
+		/// 获取类型继承的指定泛型类型的参数<br/>
 		/// </summary>
 		/// <param name="type">The type</param>
 		/// <param name="genericType">The generic type</param>
-		/// <example>GetGenericArguments(typeof(MyList), typeof(IList[]))</example>
+		/// <example>
+		/// <code>
+		/// class MyList : List&lt;int&gt; { }
+		/// 
+		/// var args = GetGenericArguments(typeof(MyList), typeof(IList&lt;&gt;)); // [ typeof(int) ]
+		/// </code>
+		/// </example>
 		/// <returns></returns>
 		public static Type[] GetGenericArguments(Type type, Type genericType) {
 			var typeInfo = type.GetTypeInfo();

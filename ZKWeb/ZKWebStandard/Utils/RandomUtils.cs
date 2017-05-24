@@ -6,18 +6,18 @@ using System.Security.Cryptography;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Random utility functions<br/>
-	/// <br/>
+	/// 随机的工具函数<br/>
 	/// </summary>
 	public static class RandomUtils {
 		/// <summary>
 		/// Random generator<br/>
-		/// <br/>
+		/// 全局使用的随机数生成器<br/>
 		/// </summary>
 		public static Random Generator { get; } = new Random(SystemRandomInt());
 
 		/// <summary>
 		/// Create secure random bytes in given length<br/>
-		/// <br/>
+		/// 获取安全的指定长度的随机内容<br/>
 		/// </summary>
 		public static byte[] SystemRandomBytes(int length) {
 			byte[] buffer = new byte[length];
@@ -29,7 +29,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Create secure random integer<br/>
-		/// <br/>
+		/// 获取安全的随机数值<br/>
 		/// </summary>
 		public static int SystemRandomInt() {
 			return BitConverter.ToInt32(SystemRandomBytes(4), 0);
@@ -37,7 +37,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Create random integer<br/>
-		/// <br/>
+		/// 获取随机数值<br/>
 		/// </summary>
 		/// <param name="minValue">Min value, inclusive</param>
 		/// <param name="maxValue">Max value, exclusive</param>
@@ -48,7 +48,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Randomly select a value from collection<br/>
-		/// <br/>
+		/// 从集合获取随机的元素<br/>
 		/// </summary>
 		/// <typeparam name="T">Type</typeparam>
 		/// <param name="values">Values</param>
@@ -63,8 +63,8 @@ namespace ZKWebStandard.Utils {
 		/// <summary>
 		/// Randonly select a enum value from enum type<br/>
 		/// If enum type is empty, then return 0<br/>
-		/// <br/>
-		/// <br/>
+		/// 从枚举获取随机的值<br/>
+		/// 如果枚举不包含任何值则返回0<br/>
 		/// </summary>
 		/// <typeparam name="TEnum">Enum type</typeparam>
 		/// <returns></returns>
@@ -76,7 +76,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Generate random string in given length<br/>
-		/// <br/>
+		/// 生成指定长度的随机字符串<br/>
 		/// </summary>
 		/// <param name="length">String length</param>
 		/// <param name="chars">With chars, default is a-zA-Z0-9</param>

@@ -6,12 +6,12 @@ using ZKWebStandard.Extensions;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Mime utility functions<br/>
-	/// <br/>
+	/// Mime类型的工具函数<br/>
 	/// </summary>
 	public static class MimeUtils {
 		/// <summary>
 		/// Mime mapping<br/>
-		/// <br/>
+		/// Mime类型<br/>
 		/// </summary>
 		public static readonly IDictionary<string, string> MimeMapping =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -579,7 +579,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Get mime type from file extension<br/>
-		/// <br/>
+		/// 根据文件后缀获取Mime类型<br/>
 		/// </summary>
 		/// <param name="filename">File name</param>
 		/// <returns></returns>

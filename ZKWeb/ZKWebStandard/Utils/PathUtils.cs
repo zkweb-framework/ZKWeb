@@ -4,14 +4,14 @@ using System.IO;
 namespace ZKWebStandard.Utils {
 	/// <summary>
 	/// Path utility functions<br/>
-	/// <br/>
+	/// 路径的工具函数<br/>
 	/// </summary>
 	public static class PathUtils {
 		/// <summary>
 		/// Secure path combining<br/>
 		/// Throw exception if any part contains ".." or other invalid value<br/>
-		/// <br/>
-		/// <br/>
+		/// 安全的合并路径<br/>
+		/// 如果路径中有..或其他不合法的值则抛出例外<br/>
 		/// </summary>
 		/// <param name="paths">Path parts</param>
 		/// <returns></returns>
@@ -33,7 +33,7 @@ namespace ZKWebStandard.Utils {
 
 		/// <summary>
 		/// Ensure parent directories are exist<br/>
-		/// <br/>
+		/// 确保路径的上级文件夹存在<br/>
 		/// </summary>
 		/// <param name="path">Path</param>
 		public static void EnsureParentDirectory(string path) {
