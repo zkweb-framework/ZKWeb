@@ -33,6 +33,12 @@ namespace ZKWeb.Database {
 		string ORM { get; }
 
 		/// <summary>
+		/// Native builder, can be any type or null<br/>
+		/// 原生的构建器, 可以是任何类型或null<br/>
+		/// </summary>
+		object NativeBuilder { get; set; }
+
+		/// <summary>
 		/// Specify the primary key for this entity<br/>
 		/// 指定实体的主键<br/>
 		/// </summary>

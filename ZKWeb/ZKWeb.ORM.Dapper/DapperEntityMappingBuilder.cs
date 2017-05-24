@@ -25,6 +25,7 @@ namespace ZKWeb.ORM.Dapper {
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
 		private IList<MemberInfo> ordinaryMembers;
 		public string ORM { get { return DapperDatabaseContext.ConstORM; } }
+		public object NativeBuilder { get { return this; } set { } }
 
 		/// <summary>
 		/// Initialize

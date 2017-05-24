@@ -12,6 +12,8 @@
 	- Keep widget before and after html when render failed
 - Improve IoC container
 	- Add ExportAttributeBase for support customize registration by attribute
+- Improve ORM layer
+	- Add NativeBuilder in IEntityMappingBuilder<T>
 - Update project template
 	- Allow Asp.Net Core hosting take configuration from command line and json
 - Bug fixes

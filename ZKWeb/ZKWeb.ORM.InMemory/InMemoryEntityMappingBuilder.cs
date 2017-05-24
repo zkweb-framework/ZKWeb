@@ -19,6 +19,7 @@ namespace ZKWeb.ORM.InMemory {
 		public IList<MemberInfo> OneToManyMembers { get; set; }
 		public IList<MemberInfo> ManyToManyMembers { get; set; }
 		public string ORM { get { return InMemoryDatabaseContext.ConstORM; } }
+		public object NativeBuilder { get { return this; } set { } }
 
 		/// <summary>
 		/// Initialize

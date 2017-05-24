@@ -15,10 +15,8 @@ namespace ZKWeb.ORM.NHibernate {
 	internal class NHibernateEntityMappingBuilder<T> :
 		ClassMap<T>, IEntityMappingBuilder<T>
 		where T : class, IEntity {
-		/// <summary>
-		/// ORM name
-		/// </summary>
 		public string ORM { get { return "NHibernate"; } }
+		public object NativeBuilder { get { return this; } set { } }
 
 		/// <summary>
 		/// Initialize

@@ -19,14 +19,12 @@ namespace ZKWeb.ORM.EFCore {
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class EFCoreEntityMappingBuilder<T> : IEntityMappingBuilder<T>
 		where T : class, IEntity {
-		/// <summary>
-		/// Entity Framework Core type builder
-		/// </summary>
 		private EntityTypeBuilder<T> Builder { get; set; }
-		/// <summary>
-		/// ORM name
-		/// </summary>
 		public string ORM { get { return EFCoreDatabaseContext.ConstORM; } }
+		public object NativeBuilder {
+			get { return Builder; }
+			set { Builder = (EntityTypeBuilder<T>)value; }
+		}
 
 		/// <summary>
 		/// Initialize
