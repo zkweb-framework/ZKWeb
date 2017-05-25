@@ -7,6 +7,11 @@ namespace ZKWebStandard.Web {
 	/// Http例外<br/>
 	/// 请使用这个类型代替Asp.Net和Asp.Net Core中的类型<br/>
 	/// </summary>
+	/// <example>
+	/// <code language="cs">
+	/// throw new HttpException(404, "Not Found");
+	/// </code>
+	/// </example>
 	public class HttpException : Exception {
 		/// <summary>
 		/// Status code<br/>

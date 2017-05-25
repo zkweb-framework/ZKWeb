@@ -15,6 +15,11 @@ namespace ZKWebStandard.Web {
 		/// 获取当前的Http上下文<br/>
 		/// 如果不存在则抛出例外<br/>
 		/// </summary>
+		/// <example>
+		/// <code language="cs">
+		/// var context = HttpManager.CurrentContext;
+		/// </code>
+		/// </example>
 		public static IHttpContext CurrentContext {
 			get {
 				var context = currentContext.Value;
@@ -39,6 +44,13 @@ namespace ZKWebStandard.Web {
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var context = new MyContext();
+		/// using (HttpManager.OverrideContext(context)) {
+		/// }
+		/// </code>
+		/// </example>
 		public static IDisposable OverrideContext(IHttpContext context) {
 			var original = currentContext.Value;
 			currentContext.Value = context;
@@ -59,6 +71,12 @@ namespace ZKWebStandard.Web {
 		/// <param name="pathAndQuery">Path and query, "/" will be automatic added to front if needed</param>
 		/// <param name="method">Method, GET or POST</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// using (HttpManager.OverrideContext("abc", "GET")) {
+		/// }
+		/// </code>
+		/// </example>
 		public static IDisposable OverrideContext(string pathAndQuery, string method) {
 			return OverrideContext(new HttpContextMock(pathAndQuery, method));
 		}
