@@ -11,16 +11,19 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
-	/// Dapper entity mappings
+	/// Dapper entity mappings<br/>
+	/// <br/>
 	/// </summary>
 	internal class DapperEntityMappings {
 		/// <summary>
-		/// Type to mapping definition
+		/// Type to mapping definition<br/>
+		/// <br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IDapperEntityMapping> Mappings { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public DapperEntityMappings() {
 			Mappings = new ConcurrentDictionary<Type, IDapperEntityMapping>();
@@ -47,7 +50,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Get mapping for entity type
+		/// Get mapping for entity type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="type">Entity type</param>
 		/// <returns></returns>

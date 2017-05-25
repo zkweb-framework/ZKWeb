@@ -2,28 +2,37 @@
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
-	/// Dapper database context factory
-	/// Attention:
-	/// There no database migration support for dapper,
-	/// you should create the database scheme manually or use other ORM as a bootstrap
-	/// And because dapper not support relational mapping at all, you need explicit create join tables
+	/// Dapper database context factory<br/>
+	/// Attention:<br/>
+	/// There no database migration support for dapper,<br/>
+	/// you should create the database scheme manually or use other ORM as a bootstrap<br/>
+	/// And because dapper not support relational mapping at all, you need explicit create join tables<br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	internal class DapperDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// Dapper entity mappings
+		/// Dapper entity mappings<br/>
+		/// <br/>
 		/// </summary>
 		private DapperEntityMappings Mappings { get; set; }
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		public string Database { get; set; }
 		/// <summary>
-		/// Connection string
+		/// Connection string<br/>
+		/// <br/>
 		/// </summary>
 		public string ConnectionString { get; set; }
- 
+
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -34,7 +43,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Create a database context
+		/// Create a database context<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

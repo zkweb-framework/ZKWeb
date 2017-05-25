@@ -12,32 +12,40 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Http request wrapper for Owin
+	/// Http request wrapper for Owin<br/>
+	/// <br/>
 	/// </summary>
 	internal class OwinHttpRequestWrapper : IHttpRequest {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected OwinHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http request
+		/// Original http request<br/>
+		/// <br/>
 		/// </summary>
 		protected IOwinRequest OwinRequest { get; set; }
 		/// <summary>
-		/// Http content object, used for read form contents
+		/// Http content object, used for read form contents<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpContent OwinContent { get; set; }
 		/// <summary>
-		/// Owin form collection
+		/// Owin form collection<br/>
+		/// <br/>
 		/// </summary>
 		protected Lazy<NameValueCollection> OwinFormCollection { get; set; }
 		/// <summary>
-		/// Owin multipart form collection
+		/// Owin multipart form collection<br/>
+		/// <br/>
 		/// </summary>
 		protected Lazy<Dictionary<string, IList<HttpContent>>> OwinMultipartFormCollection { get; set; }
 		/// <summary>
-		/// Read contents
-		/// Because contents can only read once, it need a variable to store previous read result
+		/// Read contents<br/>
+		/// Because contents can only read once, it need a variable to store previous read result<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		protected Dictionary<HttpContent, string> HttpContentReadResults { get; set; }
 
@@ -169,7 +177,8 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="parentContext">Parent context</param>
 		/// <param name="owinRequest">Original http request</param>

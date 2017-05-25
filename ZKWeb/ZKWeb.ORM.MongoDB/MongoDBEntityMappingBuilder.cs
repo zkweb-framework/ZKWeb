@@ -10,33 +10,40 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// MongoDB entity mapping builder
-	/// Attention: The entity type can only be mapped once, the following mapping configuration will be ignored
+	/// MongoDB entity mapping builder<br/>
+	/// Attention: The entity type can only be mapped once, the following mapping configuration will be ignored<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class MongoDBEntityMappingBuilder<T> :
 		IEntityMappingBuilder<T>, IMongoDBEntityMapping
 		where T : class, IEntity {
 		/// <summary>
-		/// Actions perform to bson class mapping
+		/// Actions perform to bson class mapping<br/>
+		/// <br/>
 		/// </summary>
 		private IList<Action<BsonClassMap<T>>> MapActions { get; set; }
 		/// <summary>
-		/// Actions perform to data collection
+		/// Actions perform to data collection<br/>
+		/// <br/>
 		/// </summary>
 		private IList<Action<IMongoCollection<T>>> CollectionActions { get; set; }
 		/// <summary>
-		/// Collection name
+		/// Collection name<br/>
+		/// <br/>
 		/// </summary>
 		public string CollectionName { get { return collectionName; } }
 		private string collectionName;
 		/// <summary>
-		/// Id member
+		/// Id member<br/>
+		/// <br/>
 		/// </summary>
 		public MemberInfo IdMember { get { return idMember; } }
 		private MemberInfo idMember;
 		/// <summary>
-		/// Ordinary members
+		/// Ordinary members<br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
 		private IList<MemberInfo> ordinaryMembers;
@@ -44,7 +51,8 @@ namespace ZKWeb.ORM.MongoDB {
 		public object NativeBuilder { get { return this; } set { } }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database object</param>
 		public MongoDBEntityMappingBuilder(IMongoDatabase database) {
@@ -78,7 +86,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Specify the primary key for this entity
+		/// Specify the primary key for this entity<br/>
+		/// <br/>
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
@@ -96,7 +105,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Create a member mapping
+		/// Create a member mapping<br/>
+		/// <br/>
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
@@ -133,7 +143,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Create a reference to another entity, this is a many-to-one relationship.
+		/// Create a reference to another entity, this is a many-to-one relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
@@ -145,7 +156,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Maps a collection of entities as a one-to-many relationship.
+		/// Maps a collection of entities as a one-to-many relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
@@ -157,7 +169,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Maps a collection of entities as a many-to-many relationship.
+		/// Maps a collection of entities as a many-to-many relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,

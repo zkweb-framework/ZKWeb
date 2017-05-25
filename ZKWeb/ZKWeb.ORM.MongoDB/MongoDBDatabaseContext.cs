@@ -11,34 +11,42 @@ using MongoDB.Bson;
 
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// Dapper database context
+	/// Dapper database context<br/>
+	/// <br/>
 	/// </summary>
 	internal class MongoDBDatabaseContext : IDatabaseContext {
 		/// <summary>
-		/// MongoDB entity mappings
+		/// MongoDB entity mappings<br/>
+		/// <br/>
 		/// </summary>
 		private MongoDBEntityMappings Mappings { get; set; }
 		/// <summary>
-		/// Database object
+		/// Database object<br/>
+		/// <br/>
 		/// </summary>
 		private IMongoDatabase MongoDatabase { get; set; }
 		/// <summary>
-		/// ORM name
+		/// ORM name<br/>
+		/// <br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		public const string ConstORM = "MongoDB";
 		/// <summary>
-		/// Database type
-		/// Same as ORM name
+		/// Database type<br/>
+		/// Same as ORM name<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public string Database { get { return ConstORM; } }
 		/// <summary>
-		/// Underlying database connection
+		/// Underlying database connection<br/>
+		/// <br/>
 		/// </summary>
 		public object DbConnection { get { return MongoDatabase; } }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="connectionUrl">Connection url</param>
 		/// <param name="mappings">Dapper entity mappings</param>
@@ -50,22 +58,26 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Do nothing
+		/// Do nothing<br/>
+		/// <br/>
 		/// </summary>
 		public void Dispose() { }
 
 		/// <summary>
-		/// Do Nothing
+		/// Do Nothing<br/>
+		/// <br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel = null) { }
 
 		/// <summary>
-		/// Do Nothing
+		/// Do Nothing<br/>
+		/// <br/>
 		/// </summary>
 		public void FinishTransaction() { }
 
 		/// <summary>
-		/// Get mongo collection
+		/// Get mongo collection<br/>
+		/// <br/>
 		/// </summary>
 		private IMongoCollection<T> GetCollection<T>()
 			where T : class {
@@ -74,7 +86,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Get the query object for specific entity
+		/// Get the query object for specific entity<br/>
+		/// <br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -82,8 +95,10 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Get single entity that matched the given predicate
-		/// It should return null if no matched entity found
+		/// Get single entity that matched the given predicate<br/>
+		/// It should return null if no matched entity found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -91,7 +106,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Get how many entities that matched the given predicate
+		/// Get how many entities that matched the given predicate<br/>
+		/// <br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -99,8 +115,10 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Make expression for filter entity by id
-		/// Result is (e => e.Id == entity.Id)
+		/// Make expression for filter entity by id<br/>
+		/// Result is (e => e.Id == entity.Id)<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		private Expression<Func<T, bool>> MakeIdExpression<T>(T entity) {
 			var mapping = Mappings.GetMapping(typeof(T));
@@ -109,7 +127,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Save entity to database
+		/// Save entity to database<br/>
+		/// <br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -125,7 +144,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Delete entity from database
+		/// Delete entity from database<br/>
+		/// <br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -136,7 +156,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch save entities
+		/// Batch save entities<br/>
+		/// <br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -155,7 +176,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch update entities
+		/// Batch update entities<br/>
+		/// <br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -165,7 +187,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch delete entities
+		/// Batch delete entities<br/>
+		/// <br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
@@ -182,7 +205,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch save entities in faster way
+		/// Batch save entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -192,7 +216,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Batch delete entities in faster way
+		/// Batch delete entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -202,7 +227,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Perform a raw update to database
+		/// Perform a raw update to database<br/>
+		/// <br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			if (query is Command<int>) {
@@ -221,7 +247,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Perform a raw query to database
+		/// Perform a raw query to database<br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

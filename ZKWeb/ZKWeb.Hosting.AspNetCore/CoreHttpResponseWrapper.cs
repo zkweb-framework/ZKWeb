@@ -6,15 +6,18 @@ using System.Diagnostics;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// Http response wrapper for Asp.Net Core
+	/// Http response wrapper for Asp.Net Core<br/>
+	/// <br/>
 	/// </summary>
 	internal class CoreHttpResponseWrapper : IHttpResponse {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected CoreHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http response
+		/// Original http response<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpResponse CoreResponse { get; set; }
 
@@ -75,7 +78,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
 		/// <param name="coreResponse">Original http response</param>

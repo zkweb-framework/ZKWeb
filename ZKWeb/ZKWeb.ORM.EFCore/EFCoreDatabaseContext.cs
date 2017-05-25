@@ -12,34 +12,41 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
-	/// Entity Framework Core database context
+	/// Entity Framework Core database context<br/>
+	/// <br/>
 	/// </summary>
 	public class EFCoreDatabaseContext : EFCoreDatabaseContextBase, IDatabaseContext {
 		/// <summary>
-		/// Entity Framework Core transaction
+		/// Entity Framework Core transaction<br/>
+		/// <br/>
 		/// </summary>
 		private IDbContextTransaction Transaction { get; set; }
 		/// <summary>
-		/// Transaction level counter
+		/// Transaction level counter<br/>
+		/// <br/>
 		/// </summary>
 		private int TransactionLevel;
 		/// <summary>
-		/// ORM name
+		/// ORM name<br/>
+		/// <br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		internal const string ConstORM = "EFCore";
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		string IDatabaseContext.Database { get { return databaseType; } }
 		private string databaseType;
 		/// <summary>
-		/// Underlying database connection
+		/// Underlying database connection<br/>
+		/// <br/>
 		/// </summary>
 		public object DbConnection { get { return Database.GetDbConnection(); } }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -51,7 +58,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Configure entity model
+		/// Configure entity model<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="modelBuilder">Model builder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -67,7 +75,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Dispose context and transaction
+		/// Dispose context and transaction<br/>
+		/// <br/>
 		/// </summary>
 		public override void Dispose() {
 			Transaction?.Dispose();
@@ -76,7 +85,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Begin a transaction
+		/// Begin a transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel = null) {
 			var level = Interlocked.Increment(ref TransactionLevel);
@@ -91,7 +101,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Finish the transaction
+		/// Finish the transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void FinishTransaction() {
 			var level = Interlocked.Decrement(ref TransactionLevel);
@@ -110,7 +121,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Get the query object for specific entity
+		/// Get the query object for specific entity<br/>
+		/// <br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -118,8 +130,10 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Get single entity that matched the given predicate
-		/// It should return null if no matched entity found
+		/// Get single entity that matched the given predicate<br/>
+		/// It should return null if no matched entity found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -127,7 +141,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Get how many entities that matched the given predicate
+		/// Get how many entities that matched the given predicate<br/>
+		/// <br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -135,7 +150,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Insert or update entity
+		/// Insert or update entity<br/>
+		/// <br/>
 		/// </summary>
 		private void InsertOrUpdate<T>(T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -164,7 +180,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Save entity to database
+		/// Save entity to database<br/>
+		/// <br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -178,7 +195,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Delete entity from database
+		/// Delete entity from database<br/>
+		/// <br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -190,7 +208,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Batch save entities
+		/// Batch save entities<br/>
+		/// <br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -208,7 +227,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Batch update entities
+		/// Batch update entities<br/>
+		/// <br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -218,7 +238,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Batch delete entities
+		/// Batch delete entities<br/>
+		/// <br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
@@ -237,7 +258,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Batch save entities in faster way
+		/// Batch save entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -248,7 +270,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Batch delete entities in faster way
+		/// Batch delete entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -260,14 +283,16 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Perform a raw update to database
+		/// Perform a raw update to database<br/>
+		/// <br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			return Database.ExecuteSqlCommand((string)query, (object[])parameters);
 		}
 
 		/// <summary>
-		/// Perform a raw query to database
+		/// Perform a raw query to database<br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

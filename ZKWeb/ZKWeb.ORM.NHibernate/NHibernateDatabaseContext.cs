@@ -10,38 +10,46 @@ using ZKWeb.Database;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
-	/// NHibernate database context
+	/// NHibernate database context<br/>
+	/// <br/>
 	/// </summary>
 	internal class NHibernateDatabaseContext : IDatabaseContext {
 		/// <summary>
-		/// NHibernate session
+		/// NHibernate session<br/>
+		/// <br/>
 		/// </summary>
 		private ISession Session { get; set; }
 		/// <summary>
-		/// NHibernate transaction, maybe null if not used
+		/// NHibernate transaction, maybe null if not used<br/>
+		/// <br/>
 		/// </summary>
 		private ITransaction Transaction { get; set; }
 		/// <summary>
-		/// Transaction level counter
+		/// Transaction level counter<br/>
+		/// <br/>
 		/// </summary>
 		private int TransactionLevel;
 		/// <summary>
-		/// ORM name
+		/// ORM name<br/>
+		/// <br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		public const string ConstORM = "NHibernate";
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
 		/// <summary>
-		/// Underlying database connection
+		/// Underlying database connection<br/>
+		/// <br/>
 		/// </summary>
 		public object DbConnection { get { return Session.Connection; } }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="session">NHibernate session</param>
 		/// <param name="database">Database type</param>
@@ -53,14 +61,16 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Finalize
+		/// Finalize<br/>
+		/// <br/>
 		/// </summary>
 		~NHibernateDatabaseContext() {
 			Dispose();
 		}
 
 		/// <summary>
-		/// Dispose nhibernate session and transaction
+		/// Dispose nhibernate session and transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void Dispose() {
 			Transaction?.Dispose();
@@ -70,7 +80,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Begin a transaction
+		/// Begin a transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel) {
 			var level = Interlocked.Increment(ref TransactionLevel);
@@ -85,7 +96,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Finish the transaction
+		/// Finish the transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void FinishTransaction() {
 			var level = Interlocked.Decrement(ref TransactionLevel);
@@ -104,7 +116,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Get the query object for specific entity
+		/// Get the query object for specific entity<br/>
+		/// <br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -112,7 +125,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Get single entity that matched the given predicate
+		/// Get single entity that matched the given predicate<br/>
+		/// <br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -120,7 +134,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Get how many entities that matched the given predicate
+		/// Get how many entities that matched the given predicate<br/>
+		/// <br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -128,7 +143,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Save entity to database
+		/// Save entity to database<br/>
+		/// <br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -143,7 +159,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Delete entity from database
+		/// Delete entity from database<br/>
+		/// <br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -155,7 +172,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Batch save entities
+		/// Batch save entities<br/>
+		/// <br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -176,7 +194,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Batch update entities
+		/// Batch update entities<br/>
+		/// <br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -205,7 +224,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Batch save entities in faster way
+		/// Batch save entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -216,7 +236,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Batch delete entities in faster way
+		/// Batch delete entities in faster way<br/>
+		/// <br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -231,7 +252,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Create a sql query from query string and parameters
+		/// Create a sql query from query string and parameters<br/>
+		/// <br/>
 		/// </summary>
 		private IQuery CreateSQLQuery(object query, object parameters) {
 			var sqlQueryString = (string)query;
@@ -246,14 +268,16 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Perform a raw update to database
+		/// Perform a raw update to database<br/>
+		/// <br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			return CreateSQLQuery(query, parameters).ExecuteUpdate();
 		}
 
 		/// <summary>
-		/// Perform a raw query to database
+		/// Perform a raw query to database<br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

@@ -4,21 +4,26 @@ using ZKWeb.Database;
 
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// MongoDB database context factory
-	/// MongoDB doesn't need to migrate database scheme
+	/// MongoDB database context factory<br/>
+	/// MongoDB doesn't need to migrate database scheme<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	internal class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// Connection url
+		/// Connection url<br/>
+		/// <br/>
 		/// </summary>
 		private MongoUrl ConnectionUrl { get; set; }
 		/// <summary>
-		/// MongoDB entity mappings
+		/// MongoDB entity mappings<br/>
+		/// <br/>
 		/// </summary>
 		private MongoDBEntityMappings Mappings { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -34,7 +39,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Create database context
+		/// Create database context<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

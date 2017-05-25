@@ -5,15 +5,18 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Http response wrapper for Owin
+	/// Http response wrapper for Owin<br/>
+	/// <br/>
 	/// </summary>
 	internal class OwinHttpResponseWrapper : IHttpResponse {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected OwinHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http response
+		/// Original http response<br/>
+		/// <br/>
 		/// </summary>
 		protected IOwinResponse OwinResponse { get; set; }
 
@@ -69,7 +72,8 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
 		/// <param name="owinResponse">Original http response</param>

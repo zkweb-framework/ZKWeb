@@ -14,7 +14,8 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
-	/// Entity Framework Core entity mapping builder
+	/// Entity Framework Core entity mapping builder<br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class EFCoreEntityMappingBuilder<T> : IEntityMappingBuilder<T>
@@ -27,7 +28,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="builder">Model builder</param>
 		public EFCoreEntityMappingBuilder(
@@ -46,7 +48,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Specify the primary key for this entity
+		/// Specify the primary key for this entity<br/>
+		/// <br/>
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
@@ -63,7 +66,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Create a member mapping
+		/// Create a member mapping<br/>
+		/// <br/>
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
@@ -108,8 +112,10 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Use navigation property name from options, or
-		/// Automatic determine navigation property name on the other side
+		/// Use navigation property name from options, or<br/>
+		/// Automatic determine navigation property name on the other side<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		private string GetNavigationPropertyName<TOther, TNavigationType>(
 			EntityMappingOptions options) {
@@ -123,7 +129,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Create a reference to another entity, this is a many-to-one relationship.
+		/// Create a reference to another entity, this is a many-to-one relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
@@ -152,7 +159,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Maps a collection of entities as a one-to-many relationship.
+		/// Maps a collection of entities as a one-to-many relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
@@ -172,7 +180,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Maps a collection of entities as a many-to-many relationship.
+		/// Maps a collection of entities as a many-to-many relationship.<br/>
+		/// <br/>
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,

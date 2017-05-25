@@ -5,20 +5,23 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// Base application class for Asp.Net
+	/// Base application class for Asp.Net<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class GlobalBase : GlobalBase<DefaultApplication> {
 
 	}
 
 	/// <summary>
-	/// Base application class for Asp.Net
+	/// Base application class for Asp.Net<br/>
+	/// <br/>
 	/// </summary>
 	/// <typeparam name="TApplication">Application type</typeparam>
 	public abstract class GlobalBase<TApplication> : System.Web.HttpApplication
 		where TApplication : IApplication, new() {
 		/// <summary>
-		/// On website start
+		/// On website start<br/>
+		/// <br/>
 		/// </summary>
 		protected virtual void Application_Start(object sender, EventArgs e) {
 			ZKWeb.Application.Initialize<TApplication>(Server.MapPath("~/"));
@@ -26,7 +29,8 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// On http request
+		/// On http request<br/>
+		/// <br/>
 		/// </summary>
 		[DebuggerNonUserCode]
 		protected virtual void Application_BeginRequest(object sender, EventArgs e) {

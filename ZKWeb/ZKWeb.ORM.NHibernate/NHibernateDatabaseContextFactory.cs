@@ -14,24 +14,29 @@ using ZKWeb.Storage;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
-	/// NHibernate database context factory
+	/// NHibernate database context factory<br/>
+	/// <br/>
 	/// </summary>
 	internal class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// Batch size
+		/// Batch size<br/>
+		/// <br/>
 		/// </summary>
 		private const int BatchSize = 1024;
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		private string Database { get; set; }
 		/// <summary>
-		/// NHibernate session factory
+		/// NHibernate session factory<br/>
+		/// <br/>
 		/// </summary>
 		private ISessionFactory SessionFactory { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -108,7 +113,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Create database context
+		/// Create database context<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

@@ -6,19 +6,22 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Base startup class for owin
+	/// Base startup class for owin<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class StartupBase : StartupBase<DefaultApplication> {
 
 	}
 
 	/// <summary>
-	/// Base startup class for owin
+	/// Base startup class for owin<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class StartupBase<TApplication>
 		where TApplication : IApplication, new() {
 		/// <summary>
-		/// Get website root directory
+		/// Get website root directory<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual string GetWebsiteRootDirectory() {
@@ -30,12 +33,14 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// Allow child class to configure middlewares
+		/// Allow child class to configure middlewares<br/>
+		/// <br/>
 		/// </summary>
 		protected virtual void ConfigureMiddlewares(IAppBuilder app) { }
 
 		/// <summary>
-		/// Configure owin application
+		/// Configure owin application<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="app">Owin application</param>
 		public virtual void Configuration(IAppBuilder app) {

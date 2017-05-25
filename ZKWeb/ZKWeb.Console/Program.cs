@@ -6,12 +6,15 @@
 	using Testing.TestEventHandlers;
 
 	/// <summary>
-	/// Console program
-	/// Used for internal testing
+	/// Console program<br/>
+	/// Used for internal testing<br/>
+	/// 控制台程序<br/>
+	/// 用于内部测试<br/>
 	/// </summary>
 	internal class Program {
 		/// <summary>
-		/// Get website root directory
+		/// Get website root directory<br/>
+		/// 获取网站的根目录<br/>
 		/// </summary>
 		/// <returns></returns>
 		private static string GetWebsiteRootDirectory() {
@@ -26,7 +29,8 @@
 		}
 
 		/// <summary>
-		/// Program entry
+		/// Program entry<br/>
+		/// 程序入口点<br/>
 		/// </summary>
 		/// <param name="args"></param>
 		private static void Main(string[] args) {

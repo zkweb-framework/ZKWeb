@@ -5,20 +5,24 @@ using ZKWeb.Storage;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
-	/// A base database context only contains migration history table
+	/// A base database context only contains migration history table<br/>
+	/// <br/>
 	/// </summary>
 	public class EFCoreDatabaseContextBase : DbContext {
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		private string DatabaseName { get; set; }
 		/// <summary>
-		/// Connection string
+		/// Connection string<br/>
+		/// <br/>
 		/// </summary>
 		private string ConnectionString { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -28,7 +32,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Configure context options
+		/// Configure context options<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="optionsBuilder">Options builder</param>
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
@@ -51,7 +56,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Configure entity model
+		/// Configure entity model<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="modelBuilder">Model builder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {

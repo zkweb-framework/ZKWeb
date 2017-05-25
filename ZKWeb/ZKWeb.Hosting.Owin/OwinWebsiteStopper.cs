@@ -3,11 +3,13 @@ using ZKWeb.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Owin website stopper
+	/// Owin website stopper<br/>
+	/// <br/>
 	/// </summary>
 	public class OwinWebsiteStopper : IWebsiteStopper {
 		/// <summary>
-		/// Unload app domain
+		/// Unload app domain<br/>
+		/// <br/>
 		/// </summary>
 		public void StopWebsite() {
 			// Owin didn't provide interface for stopping website

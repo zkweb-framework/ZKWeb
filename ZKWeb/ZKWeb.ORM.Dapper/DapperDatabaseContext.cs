@@ -16,42 +16,51 @@ using Dommel;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
-	/// Dapper database context
+	/// Dapper database context<br/>
+	/// <br/>
 	/// </summary>
 	internal class DapperDatabaseContext : IDatabaseContext {
 		/// <summary>
-		/// Dapper entity mappings
+		/// Dapper entity mappings<br/>
+		/// <br/>
 		/// </summary>
 		private DapperEntityMappings Mappings { get; set; }
 		/// <summary>
-		/// Database connection
+		/// Database connection<br/>
+		/// <br/>
 		/// </summary>
 		private IDbConnection Connection { get; set; }
 		/// <summary>
-		/// Database transaction
+		/// Database transaction<br/>
+		/// <br/>
 		/// </summary>
 		private IDbTransaction Transaction { get; set; }
 		/// <summary>
-		/// Transaction level counter
+		/// Transaction level counter<br/>
+		/// <br/>
 		/// </summary>
 		private int TransactionLevel;
 		/// <summary>
-		/// ORM name
+		/// ORM name<br/>
+		/// <br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		public const string ConstORM = "Dapper";
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
 		/// <summary>
-		/// Underlying database connection
+		/// Underlying database connection<br/>
+		/// <br/>
 		/// </summary>
 		public object DbConnection { get { return Connection; } }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="mappings">Dapper entity mappings</param>
 		/// <param name="database">Database type</param>
@@ -81,14 +90,16 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Finalize
+		/// Finalize<br/>
+		/// <br/>
 		/// </summary>
 		~DapperDatabaseContext() {
 			Dispose();
 		}
 
 		/// <summary>
-		/// Dispose connection and transaction
+		/// Dispose connection and transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void Dispose() {
 			Transaction?.Dispose();
@@ -98,7 +109,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Begin a transaction
+		/// Begin a transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel = null) {
 			var level = Interlocked.Increment(ref TransactionLevel);
@@ -113,7 +125,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Finish the transaction
+		/// Finish the transaction<br/>
+		/// <br/>
 		/// </summary>
 		public void FinishTransaction() {
 			var level = Interlocked.Decrement(ref TransactionLevel);
@@ -132,8 +145,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Get the query object for specific entity
-		/// Attention: It's slow, you should use RawQuery
+		/// Get the query object for specific entity<br/>
+		/// Attention: It's slow, you should use RawQuery<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -141,8 +156,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Get single entity that matched the given predicate
-		/// It should return null if no matched entity found
+		/// Get single entity that matched the given predicate<br/>
+		/// It should return null if no matched entity found<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -162,8 +179,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Get how many entities that matched the given predicate
-		/// Attention: It's slow, you should use RawQuery
+		/// Get how many entities that matched the given predicate<br/>
+		/// Attention: It's slow, you should use RawQuery<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -171,7 +190,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Insert or update entity
+		/// Insert or update entity<br/>
+		/// <br/>
 		/// </summary>
 		private void InsertOrUpdate<T>(T entity)
 			where T : class, IEntity {
@@ -191,7 +211,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Save entity to database
+		/// Save entity to database<br/>
+		/// <br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -205,7 +226,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Delete entity from database
+		/// Delete entity from database<br/>
+		/// <br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -216,7 +238,8 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Batch save entities
+		/// Batch save entities<br/>
+		/// <br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -232,8 +255,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Batch update entities
-		/// Attention: It's slow, you should use RawUpdate
+		/// Batch update entities<br/>
+		/// Attention: It's slow, you should use RawUpdate<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -243,8 +268,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Batch delete entities
-		/// Attention: It's slow, you should use RawUpdate
+		/// Batch delete entities<br/>
+		/// Attention: It's slow, you should use RawUpdate<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
@@ -260,8 +287,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Batch save entities in faster way
-		/// Attention: It's still slow, you should use RawUpdate
+		/// Batch save entities in faster way<br/>
+		/// Attention: It's still slow, you should use RawUpdate<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -271,8 +300,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Batch delete entities in faster way
-		/// Attention: It's still slow, you should use RawUpdate
+		/// Batch delete entities in faster way<br/>
+		/// Attention: It's still slow, you should use RawUpdate<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -282,14 +313,16 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Perform a raw update to database
+		/// Perform a raw update to database<br/>
+		/// <br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			return Connection.Execute((string)query, parameters, Transaction);
 		}
 
 		/// <summary>
-		/// Perform a raw query to database
+		/// Perform a raw query to database<br/>
+		/// <br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

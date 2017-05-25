@@ -7,16 +7,19 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
-	/// MongoDB entity mappings
+	/// MongoDB entity mappings<br/>
+	/// <br/>
 	/// </summary>
 	internal class MongoDBEntityMappings {
 		/// <summary>
-		/// Type to mapping definition
+		/// Type to mapping definition<br/>
+		/// <br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IMongoDBEntityMapping> Mappings { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="connectionUrl">Connection url</param>
 		public MongoDBEntityMappings(MongoUrl connectionUrl) {
@@ -37,7 +40,8 @@ namespace ZKWeb.ORM.MongoDB {
 		}
 
 		/// <summary>
-		/// Get mapping for entity type
+		/// Get mapping for entity type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="type">Entity type</param>
 		/// <returns></returns>

@@ -5,19 +5,23 @@ using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// <summary>
-	/// Handle guid type
-	/// It's needed because mysql use varchar for guid
+	/// Handle guid type<br/>
+	/// It's needed because mysql use varchar for guid<br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	internal class GuidTypeHandler : SqlMapper.TypeHandler<Guid> {
 		/// <summary>
-		/// Convert value to guid field
+		/// Convert value to guid field<br/>
+		/// <br/>
 		/// </summary>
 		public override Guid Parse(object value) {
 			return value.ConvertOrDefault<Guid>();
 		}
 
 		/// <summary>
-		/// Convert guid field to value
+		/// Convert guid field to value<br/>
+		/// <br/>
 		/// </summary>
 		public override void SetValue(IDbDataParameter parameter, Guid value) {
 			if (parameter.DbType == DbType.Guid) {

@@ -4,11 +4,13 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Http poested file wrapper for Owin
+	/// Http poested file wrapper for Owin<br/>
+	/// <br/>
 	/// </summary>
 	internal class OwinHttpPostedFileWrapper : IHttpPostedFile {
 		/// <summary>
-		/// Http content object
+		/// Http content object<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpContent OwinFile { get; set; }
 
@@ -27,7 +29,8 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="owinFile">Http content object</param>
 		public OwinHttpPostedFileWrapper(HttpContent owinFile) {

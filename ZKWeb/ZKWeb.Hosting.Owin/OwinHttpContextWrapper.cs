@@ -4,23 +4,28 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
-	/// Http context wrapper for Owin
+	/// Http context wrapper for Owin<br/>
+	/// <br/>
 	/// </summary>
 	internal class OwinHttpContextWrapper : IHttpContext {
 		/// <summary>
-		/// Original Http context
+		/// Original Http context<br/>
+		/// <br/>
 		/// </summary>
 		protected IOwinContext OwinContext { get; set; }
 		/// <summary>
-		/// Wrapped http request
+		/// Wrapped http request<br/>
+		/// <br/>
 		/// </summary>
 		protected OwinHttpRequestWrapper ChildRequest { get; set; }
 		/// <summary>
-		/// Wrapped http response
+		/// Wrapped http response<br/>
+		/// <br/>
 		/// </summary>
 		protected OwinHttpResponseWrapper ChildResponse { get; set; }
 		/// <summary>
-		/// Http context bound items
+		/// Http context bound items<br/>
+		/// <br/>
 		/// </summary>
 		protected Dictionary<object, object> ChildItems { get; set; }
 
@@ -35,7 +40,8 @@ namespace ZKWeb.Hosting.Owin {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="owinContext">Original http context</param>
 		public OwinHttpContextWrapper(IOwinContext owinContext) {

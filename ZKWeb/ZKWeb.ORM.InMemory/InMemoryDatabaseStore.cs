@@ -8,32 +8,40 @@ using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
-	/// A simple memory database store
-	/// It shouldn't use in production environment,
-	/// The performance will be very poor
+	/// A simple memory database store<br/>
+	/// It shouldn't use in production environment,<br/>
+	/// The performance will be very poor<br/>
+	/// <br/>
+	/// <br/>
+	/// <br/>
 	/// </summary>
 	internal class InMemoryDatabaseStore {
 		/// <summary>
-		/// Data store
+		/// Data store<br/>
+		/// <br/>
 		/// { Type: { key: object } }
 		/// </summary>
 		private ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
 			Store { get; set; }
 		/// <summary>
-		/// Type to mapping definition
+		/// Type to mapping definition<br/>
+		/// <br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IInMemoryEntityMapping> Mappings { get; set; }
 		/// <summary>
-		/// Type to primary key sequence, only for integer type
+		/// Type to primary key sequence, only for integer type<br/>
+		/// <br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
 		/// <summary>
-		/// The lock for the sequence increment
+		/// The lock for the sequence increment<br/>
+		/// <br/>
 		/// </summary>
 		private object PrimaryKeySequenceLock { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		public InMemoryDatabaseStore() {
 			Store = new ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>();
@@ -53,7 +61,8 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
-		/// Get data store for specified type
+		/// Get data store for specified type<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="entityType">Entity type</param>
 		/// <returns></returns>
@@ -62,7 +71,8 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
-		/// Get the primary key object from entity
+		/// Get the primary key object from entity<br/>
+		/// <br/>
 		/// </summary>
 		public object GetPrimaryKey<T>(T entity) {
 			var mapping = Mappings[typeof(T)];
@@ -70,9 +80,12 @@ namespace ZKWeb.ORM.InMemory {
 		}
 
 		/// <summary>
-		/// If an entity have a integer or guid primary key, and it's empty,
-		/// then generate a new primary key for it.
-		/// Return the final primary key.
+		/// If an entity have a integer or guid primary key, and it's empty,<br/>
+		/// then generate a new primary key for it.<br/>
+		/// Return the final primary key.<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public object EnsurePrimaryKey<T>(T entity) {
 			var mapping = Mappings[typeof(T)];

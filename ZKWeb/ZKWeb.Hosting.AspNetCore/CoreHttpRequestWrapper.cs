@@ -8,21 +8,27 @@ using System;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// Http request wrapper for Asp.net Core
+	/// Http request wrapper for Asp.net Core<br/>
+	/// <br/>
 	/// </summary>
 	internal class CoreHttpRequestWrapper : IHttpRequest {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected CoreHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http request
+		/// Original http request<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpRequest CoreRequest { get; set; }
 		/// <summary>
-		/// Detect request contains form values
-		/// It's necessary for Asp.Net Core
-		/// And because ContentType ain't arrived when construct, it should be a lazy method
+		/// Detect request contains form values<br/>
+		/// It's necessary for Asp.Net Core<br/>
+		/// And because ContentType ain't arrived when construct, it should be a lazy method<br/>
+		/// <br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		protected Lazy<bool> ContainsFormValues { get; set; }
 
@@ -130,7 +136,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="parentContext">Parent context</param>
 		/// <param name="coreRequest">Original http request</param>

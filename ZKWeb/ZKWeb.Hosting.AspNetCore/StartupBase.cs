@@ -7,19 +7,22 @@ using ZKWeb.Server;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
-	/// Base startup class for Asp.Net Core
+	/// Base startup class for Asp.Net Core<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class StartupBase : StartupBase<DefaultApplication> {
 
 	}
 
 	/// <summary>
-	/// Base startup class for Asp.Net Core
+	/// Base startup class for Asp.Net Core<br/>
+	/// <br/>
 	/// </summary>
 	public abstract class StartupBase<TApplication>
 		where TApplication : IApplication, new() {
 		/// <summary>
-		/// Get website root directory
+		/// Get website root directory<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual string GetWebsiteRootDirectory() {
@@ -35,7 +38,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// Stop application after error reported to browser
+		/// Stop application after error reported to browser<br/>
+		/// <br/>
 		/// </summary>
 		protected virtual void StopApplicationAfter(IApplicationBuilder app, int milliseconds) {
 			var lifetime = (IApplicationLifetime)app.ApplicationServices.GetService(typeof(IApplicationLifetime));
@@ -45,12 +49,14 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 
 		/// <summary>
-		/// Allow child class to configure other middlewares before zkweb middleware
+		/// Allow child class to configure other middlewares before zkweb middleware<br/>
+		/// <br/>
 		/// </summary>
 		protected virtual void ConfigureMiddlewares(IApplicationBuilder app) { }
 
 		/// <summary>
-		/// Configure application
+		/// Configure application<br/>
+		/// <br/>
 		/// </summary>
 		public virtual void Configure(IApplicationBuilder app) {
 			try {

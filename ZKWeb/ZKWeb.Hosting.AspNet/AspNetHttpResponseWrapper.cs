@@ -5,15 +5,18 @@ using System.Diagnostics;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// Http response wrapper for Asp.Net
+	/// Http response wrapper for Asp.Net<br/>
+	/// <br/>
 	/// </summary>
 	internal class AspNetHttpResponseWrapper : IHttpResponse {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected AspNetHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http response
+		/// Original http response<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpResponse OriginalResponse { get; set; }
 

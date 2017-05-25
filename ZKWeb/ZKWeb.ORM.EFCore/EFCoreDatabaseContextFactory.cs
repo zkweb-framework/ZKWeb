@@ -16,32 +16,39 @@ using System.Reflection;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
-	/// Entity Framework Core database context factory
+	/// Entity Framework Core database context factory<br/>
+	/// <br/>
 	/// </summary>
 	internal class EFCoreDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
-		/// Filename prefix for model snapshot
+		/// Filename prefix for model snapshot<br/>
+		/// <br/>
 		/// </summary>
 		private const string ModelSnapshotFilePrefix = "EFModelSnapshot_";
 		/// <summary>
-		/// Namespace for model snapshot
+		/// Namespace for model snapshot<br/>
+		/// <br/>
 		/// </summary>
 		private const string ModelSnapshotNamespace = "ZKWeb.ORM.EFCore.Migrations";
 		/// <summary>
-		/// Class name prefix for model snapshot
+		/// Class name prefix for model snapshot<br/>
+		/// <br/>
 		/// </summary>
 		private const string ModelSnapshotClassPrefix = "Migration_";
 		/// <summary>
-		/// Database type
+		/// Database type<br/>
+		/// <br/>
 		/// </summary>
 		private string Database { get; set; }
 		/// <summary>
-		/// Connection string
+		/// Connection string<br/>
+		/// <br/>
 		/// </summary>
 		private string ConnectionString { get; set; }
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -70,7 +77,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Create and apply the migration for relational database
+		/// Create and apply the migration for relational database<br/>
+		/// <br/>
 		/// See: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
 		/// </summary>
 		/// <param name="context">Entity Framework Core database context</param>
@@ -139,7 +147,8 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Create database context
+		/// Create database context<br/>
+		/// <br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

@@ -7,15 +7,18 @@ using System.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// Http request wrapper for Asp.net
+	/// Http request wrapper for Asp.net<br/>
+	/// <br/>
 	/// </summary>
 	internal class AspNetHttpRequestWrapper : IHttpRequest {
 		/// <summary>
-		/// Parent http context
+		/// Parent http context<br/>
+		/// <br/>
 		/// </summary>
 		protected AspNetHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
-		/// Original http request
+		/// Original http request<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpRequest OriginalRequest { get; set; }
 

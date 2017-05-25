@@ -4,11 +4,13 @@ using ZKWebStandard.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// Http posted file wrapper for Asp.Net
+	/// Http posted file wrapper for Asp.Net<br/>
+	/// <br/>
 	/// </summary>
 	internal class AspNetHttpPostedFileWrapper : IHttpPostedFile {
 		/// <summary>
-		/// Original posted file
+		/// Original posted file<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpPostedFile OriginalFile { get; set; }
 

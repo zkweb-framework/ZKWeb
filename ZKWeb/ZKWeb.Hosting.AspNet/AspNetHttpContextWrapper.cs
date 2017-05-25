@@ -4,24 +4,30 @@ using System.Web;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
-	/// Http context wrapper for Asp.Net
+	/// Http context wrapper for Asp.Net<br/>
+	/// <br/>
 	/// </summary>
 	internal class AspNetHttpContextWrapper : IHttpContext {
 		/// <summary>
-		/// Original http context
+		/// Original http context<br/>
+		/// <br/>
 		/// </summary>
 		protected HttpContext OriginalContext { get; set; }
 		/// <summary>
-		/// Wrapped http request
+		/// Wrapped http request<br/>
+		/// <br/>
 		/// </summary>
 		protected AspNetHttpRequestWrapper ChildRequest { get; set; }
 		/// <summary>
-		/// Wrapped http response
+		/// Wrapped http response<br/>
+		/// <br/>
 		/// </summary>
 		protected AspNetHttpResponseWrapper ChildResponse { get; set; }
 		/// <summary>
-		/// Http context bound items
-		/// Items from original context is not using
+		/// Http context bound items<br/>
+		/// Items from original context is not using<br/>
+		/// <br/>
+		/// <br/>
 		/// </summary>
 		public Dictionary<object, object> ChildItems { get; set; }
 
@@ -36,7 +42,8 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// <br/>
 		/// </summary>
 		/// <param name="originalContext">Orignal http context</param>
 		public AspNetHttpContextWrapper(HttpContext originalContext) {
