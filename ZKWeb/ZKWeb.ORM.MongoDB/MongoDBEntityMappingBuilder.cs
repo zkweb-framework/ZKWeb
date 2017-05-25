@@ -12,8 +12,8 @@ namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
 	/// MongoDB entity mapping builder<br/>
 	/// Attention: The entity type can only be mapped once, the following mapping configuration will be ignored<br/>
-	/// <br/>
-	/// <br/>
+	/// MongoDB的实体映射构建器<br/>
+	/// 注意: 各个实体类型全局只能映射一次, 后面的映射会被忽略<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class MongoDBEntityMappingBuilder<T> :
@@ -21,29 +21,29 @@ namespace ZKWeb.ORM.MongoDB {
 		where T : class, IEntity {
 		/// <summary>
 		/// Actions perform to bson class mapping<br/>
-		/// <br/>
+		/// 应用到Bson类型映射的操作<br/>
 		/// </summary>
 		private IList<Action<BsonClassMap<T>>> MapActions { get; set; }
 		/// <summary>
 		/// Actions perform to data collection<br/>
-		/// <br/>
+		/// 应用到数据集合的操作<br/>
 		/// </summary>
 		private IList<Action<IMongoCollection<T>>> CollectionActions { get; set; }
 		/// <summary>
 		/// Collection name<br/>
-		/// <br/>
+		/// 数据集合名词<br/>
 		/// </summary>
 		public string CollectionName { get { return collectionName; } }
 		private string collectionName;
 		/// <summary>
 		/// Id member<br/>
-		/// <br/>
+		/// Id成员<br/>
 		/// </summary>
 		public MemberInfo IdMember { get { return idMember; } }
 		private MemberInfo idMember;
 		/// <summary>
 		/// Ordinary members<br/>
-		/// <br/>
+		/// 普通成员<br/>
 		/// </summary>
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
 		private IList<MemberInfo> ordinaryMembers;
@@ -52,7 +52,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="database">Database object</param>
 		public MongoDBEntityMappingBuilder(IMongoDatabase database) {
@@ -87,7 +87,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Specify the primary key for this entity<br/>
-		/// <br/>
+		/// 指定实体的主键<br/>
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
@@ -106,7 +106,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Create a member mapping<br/>
-		/// <br/>
+		/// 创建成员映射<br/>
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
@@ -144,7 +144,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Create a reference to another entity, this is a many-to-one relationship.<br/>
-		/// <br/>
+		/// 创建到其他实体的映射, 这是多对一的关系<br/>
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
@@ -157,7 +157,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Maps a collection of entities as a one-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是一对多的关系<br/>
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
@@ -170,7 +170,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Maps a collection of entities as a many-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是多对多的关系<br/>
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,

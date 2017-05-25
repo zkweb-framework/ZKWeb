@@ -6,24 +6,24 @@ namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
 	/// MongoDB database context factory<br/>
 	/// MongoDB doesn't need to migrate database scheme<br/>
-	/// <br/>
-	/// <br/>
+	/// MongoDB的数据库上下文生成器<br/>
+	/// MongoDB不需要迁移数据库<br/>
 	/// </summary>
 	internal class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Connection url<br/>
-		/// <br/>
+		/// 连接字符串<br/>
 		/// </summary>
 		private MongoUrl ConnectionUrl { get; set; }
 		/// <summary>
 		/// MongoDB entity mappings<br/>
-		/// <br/>
+		/// MongoDB的实体映射<br/>
 		/// </summary>
 		private MongoDBEntityMappings Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -40,7 +40,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Create database context<br/>
-		/// <br/>
+		/// 创建数据库上下文<br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

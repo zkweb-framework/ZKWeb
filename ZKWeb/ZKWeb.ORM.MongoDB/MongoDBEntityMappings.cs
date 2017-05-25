@@ -8,18 +8,18 @@ using ZKWebStandard.Utils;
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
 	/// MongoDB entity mappings<br/>
-	/// <br/>
+	/// MongoDB的实体映射集合<br/>
 	/// </summary>
 	internal class MongoDBEntityMappings {
 		/// <summary>
 		/// Type to mapping definition<br/>
-		/// <br/>
+		/// 类型到映射的定义<br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IMongoDBEntityMapping> Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="connectionUrl">Connection url</param>
 		public MongoDBEntityMappings(MongoUrl connectionUrl) {
@@ -41,7 +41,7 @@ namespace ZKWeb.ORM.MongoDB {
 
 		/// <summary>
 		/// Get mapping for entity type<br/>
-		/// <br/>
+		/// 获取实体类型对应的映射<br/>
 		/// </summary>
 		/// <param name="type">Entity type</param>
 		/// <returns></returns>
