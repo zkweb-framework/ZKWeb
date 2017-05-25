@@ -11,37 +11,37 @@ namespace ZKWeb.ORM.InMemory {
 	/// A simple memory database store<br/>
 	/// It shouldn't use in production environment,<br/>
 	/// The performance will be very poor<br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
+	/// 一个简单的内存数据库储存<br/>
+	/// 它不应该用在生产环境<br/>
+	/// 性能会很差<br/>
 	/// </summary>
 	internal class InMemoryDatabaseStore {
 		/// <summary>
 		/// Data store<br/>
-		/// <br/>
+		/// 数据储存<br/>
 		/// { Type: { key: object } }
 		/// </summary>
 		private ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
 			Store { get; set; }
 		/// <summary>
 		/// Type to mapping definition<br/>
-		/// <br/>
+		/// 类型到映射的定义<br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IInMemoryEntityMapping> Mappings { get; set; }
 		/// <summary>
 		/// Type to primary key sequence, only for integer type<br/>
-		/// <br/>
+		/// 类型到主键的序号, 只供int主键使用<br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
 		/// <summary>
 		/// The lock for the sequence increment<br/>
-		/// <br/>
+		/// 增加序号时使用的锁<br/>
 		/// </summary>
 		private object PrimaryKeySequenceLock { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public InMemoryDatabaseStore() {
 			Store = new ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>();
@@ -62,7 +62,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Get data store for specified type<br/>
-		/// <br/>
+		/// 获取类型对应的数据储存<br/>
 		/// </summary>
 		/// <param name="entityType">Entity type</param>
 		/// <returns></returns>
@@ -72,7 +72,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Get the primary key object from entity<br/>
-		/// <br/>
+		/// 获取实体的主键对象<br/>
 		/// </summary>
 		public object GetPrimaryKey<T>(T entity) {
 			var mapping = Mappings[typeof(T)];
@@ -83,9 +83,9 @@ namespace ZKWeb.ORM.InMemory {
 		/// If an entity have a integer or guid primary key, and it's empty,<br/>
 		/// then generate a new primary key for it.<br/>
 		/// Return the final primary key.<br/>
-		/// <br/>
-		/// <br/>
-		/// <br/>
+		/// 如果实体有一个数值或者guid主键, 并且主键为空<br/>
+		/// 则生成一个新的主键<br/>
+		/// 返回最终的主键<br/>
 		/// </summary>
 		public object EnsurePrimaryKey<T>(T entity) {
 			var mapping = Mappings[typeof(T)];

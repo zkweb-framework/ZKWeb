@@ -7,7 +7,7 @@ using ZKWeb.Database;
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
 	/// Defines a mapping for an entity<br/>
-	/// <br/>
+	/// 定义实体的映射<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class InMemoryEntityMappingBuilder<T> :
@@ -24,7 +24,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public InMemoryEntityMappingBuilder() {
 			OrdinaryMembers = new List<MemberInfo>();
@@ -40,7 +40,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Specify the primary key for this entity<br/>
-		/// <br/>
+		/// 指定实体的主键<br/>
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
@@ -50,7 +50,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Create a member mapping<br/>
-		/// <br/>
+		/// 创建成员映射<br/>
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
@@ -60,7 +60,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Create a reference to another entity, this is a many-to-one relationship.<br/>
-		/// <br/>
+		/// 创建到其他实体的映射, 这是多对一的关系<br/>
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
@@ -71,7 +71,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Maps a collection of entities as a one-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是一对多的关系<br/>
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
@@ -82,7 +82,7 @@ namespace ZKWeb.ORM.InMemory {
 
 		/// <summary>
 		/// Maps a collection of entities as a many-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是多对多的关系<br/>
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
