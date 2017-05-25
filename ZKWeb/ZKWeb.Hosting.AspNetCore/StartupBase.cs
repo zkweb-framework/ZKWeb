@@ -8,7 +8,7 @@ using ZKWeb.Server;
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
 	/// Base startup class for Asp.Net Core<br/>
-	/// <br/>
+	/// Asp.Net Core的启动类的基类<br/>
 	/// </summary>
 	public abstract class StartupBase : StartupBase<DefaultApplication> {
 
@@ -16,13 +16,13 @@ namespace ZKWeb.Hosting.AspNetCore {
 
 	/// <summary>
 	/// Base startup class for Asp.Net Core<br/>
-	/// <br/>
+	/// Asp.Net Core的启动类的基类<br/>
 	/// </summary>
 	public abstract class StartupBase<TApplication>
 		where TApplication : IApplication, new() {
 		/// <summary>
 		/// Get website root directory<br/>
-		/// <br/>
+		/// 获取网站根目录<br/>
 		/// </summary>
 		/// <returns></returns>
 		public virtual string GetWebsiteRootDirectory() {
@@ -39,7 +39,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 
 		/// <summary>
 		/// Stop application after error reported to browser<br/>
-		/// <br/>
+		/// 在网站报告错误给浏览器后停止网站 (延迟一段时间)<br/>
 		/// </summary>
 		protected virtual void StopApplicationAfter(IApplicationBuilder app, int milliseconds) {
 			var lifetime = (IApplicationLifetime)app.ApplicationServices.GetService(typeof(IApplicationLifetime));
@@ -50,13 +50,13 @@ namespace ZKWeb.Hosting.AspNetCore {
 
 		/// <summary>
 		/// Allow child class to configure other middlewares before zkweb middleware<br/>
-		/// <br/>
+		/// 允许子类配置其他在zkweb之前的中间件<br/>
 		/// </summary>
 		protected virtual void ConfigureMiddlewares(IApplicationBuilder app) { }
 
 		/// <summary>
 		/// Configure application<br/>
-		/// <br/>
+		/// 配置应用程序<br/>
 		/// </summary>
 		public virtual void Configure(IApplicationBuilder app) {
 			try {

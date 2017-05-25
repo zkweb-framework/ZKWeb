@@ -6,17 +6,17 @@ using ZKWebStandard.Web;
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// Http response wrapper for Owin<br/>
-	/// <br/>
+	/// Owin的Http回应的包装类<br/>
 	/// </summary>
 	internal class OwinHttpResponseWrapper : IHttpResponse {
 		/// <summary>
 		/// Parent http context<br/>
-		/// <br/>
+		/// 所属的Http上下文<br/>
 		/// </summary>
 		protected OwinHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
 		/// Original http response<br/>
-		/// <br/>
+		/// 原始的Http回应<br/>
 		/// </summary>
 		protected IOwinResponse OwinResponse { get; set; }
 
@@ -73,7 +73,7 @@ namespace ZKWeb.Hosting.Owin {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
 		/// <param name="owinResponse">Original http response</param>

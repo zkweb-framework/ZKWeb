@@ -7,17 +7,17 @@ using System.Diagnostics;
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
 	/// Http response wrapper for Asp.Net Core<br/>
-	/// <br/>
+	/// Asp.Net Core的Http回应包装类<br/>
 	/// </summary>
 	internal class CoreHttpResponseWrapper : IHttpResponse {
 		/// <summary>
 		/// Parent http context<br/>
-		/// <br/>
+		/// 所属的Http上下文<br/>
 		/// </summary>
 		protected CoreHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
 		/// Original http response<br/>
-		/// <br/>
+		/// 原始的Http回应<br/>
 		/// </summary>
 		protected HttpResponse CoreResponse { get; set; }
 
@@ -79,7 +79,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
 		/// <param name="coreResponse">Original http response</param>

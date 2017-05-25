@@ -13,39 +13,39 @@ using ZKWebStandard.Web;
 namespace ZKWeb.Hosting.Owin {
 	/// <summary>
 	/// Http request wrapper for Owin<br/>
-	/// <br/>
+	/// Owin的Http请求的包装类<br/>
 	/// </summary>
 	internal class OwinHttpRequestWrapper : IHttpRequest {
 		/// <summary>
 		/// Parent http context<br/>
-		/// <br/>
+		/// 所属的Http上下文<br/>
 		/// </summary>
 		protected OwinHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
 		/// Original http request<br/>
-		/// <br/>
+		/// 原始的Http请求<br/>
 		/// </summary>
 		protected IOwinRequest OwinRequest { get; set; }
 		/// <summary>
 		/// Http content object, used for read form contents<br/>
-		/// <br/>
+		/// Http内容对象, 用于读取内容<br/>
 		/// </summary>
 		protected HttpContent OwinContent { get; set; }
 		/// <summary>
 		/// Owin form collection<br/>
-		/// <br/>
+		/// Owin的表单集合<br/>
 		/// </summary>
 		protected Lazy<NameValueCollection> OwinFormCollection { get; set; }
 		/// <summary>
 		/// Owin multipart form collection<br/>
-		/// <br/>
+		/// Owin的multipart表单集合<br/>
 		/// </summary>
 		protected Lazy<Dictionary<string, IList<HttpContent>>> OwinMultipartFormCollection { get; set; }
 		/// <summary>
 		/// Read contents<br/>
 		/// Because contents can only read once, it need a variable to store previous read result<br/>
-		/// <br/>
-		/// <br/>
+		/// 已读取的内容<br/>
+		/// 因为内容只能读取一次, 需要一个值来保存之前读取的结果<br/>
 		/// </summary>
 		protected Dictionary<HttpContent, string> HttpContentReadResults { get; set; }
 
@@ -178,7 +178,7 @@ namespace ZKWeb.Hosting.Owin {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="parentContext">Parent context</param>
 		/// <param name="owinRequest">Original http request</param>

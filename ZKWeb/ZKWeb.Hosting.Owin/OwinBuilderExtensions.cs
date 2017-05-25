@@ -9,13 +9,13 @@ using ZKWebStandard.Web;
 
 namespace Owin {
 	/// <summary>
-	/// Owin application builder extensions<br/>
-	/// <br/>
+	/// Owin application builder extension function<br/>
+	/// Owin的应用构建器的扩展函数<br/>
 	/// </summary>
 	public static class OwinBuilderExtensions {
 		/// <summary>
 		/// Use zkweb middleware<br/>
-		/// <br/>
+		/// 使用zkweb中间件<br/>
 		/// </summary>
 		/// <param name="app">application builder</param>
 		/// <param name="websiteRootDirectory">website root directory</param>
@@ -27,7 +27,7 @@ namespace Owin {
 
 		/// <summary>
 		/// Use zkweb middleware<br/>
-		/// <br/>
+		/// 使用zkweb中间件<br/>
 		/// </summary>
 		/// <typeparam name="TApplication">application type</typeparam>
 		/// <param name="app">application builder</param>

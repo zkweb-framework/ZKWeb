@@ -10,13 +10,13 @@ using ZKWebStandard.Web;
 
 namespace Microsoft.AspNetCore.Builder {
 	/// <summary>
-	/// Asp.net Core application builder extensions<br/>
-	/// <br/>
+	/// Asp.net Core application builder extension functions<br/>
+	/// Asp.Net Core应用构建器的扩展函数<br/>
 	/// </summary>
 	public static class CoreBuilderExtensions {
 		/// <summary>
 		/// Use zkweb middleware<br/>
-		/// <br/>
+		/// 使用zkweb中间件<br/>
 		/// </summary>
 		/// <param name="app">application builder</param>
 		/// <param name="websiteRootDirectory">website root directory</param>
@@ -28,7 +28,7 @@ namespace Microsoft.AspNetCore.Builder {
 
 		/// <summary>
 		/// Use zkweb middleware<br/>
-		/// <br/>
+		/// 使用zkweb中间件<br/>
 		/// </summary>
 		/// <typeparam name="TApplication">application type</typeparam>
 		/// <param name="app">application builder</param>

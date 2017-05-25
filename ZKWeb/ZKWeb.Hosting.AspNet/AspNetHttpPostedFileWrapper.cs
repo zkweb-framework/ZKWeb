@@ -5,12 +5,12 @@ using ZKWebStandard.Web;
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
 	/// Http posted file wrapper for Asp.Net<br/>
-	/// <br/>
+	/// Asp.Net 提交文件的包装类<br/>
 	/// </summary>
 	internal class AspNetHttpPostedFileWrapper : IHttpPostedFile {
 		/// <summary>
 		/// Original posted file<br/>
-		/// <br/>
+		/// 原始的提交文件<br/>
 		/// </summary>
 		protected HttpPostedFile OriginalFile { get; set; }
 
@@ -29,7 +29,8 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="originalFile">Original posted file</param>
 		public AspNetHttpPostedFileWrapper(HttpPostedFile originalFile) {

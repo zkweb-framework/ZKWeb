@@ -6,7 +6,7 @@ using ZKWeb.Server;
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
 	/// Base application class for Asp.Net<br/>
-	/// <br/>
+	/// Asp.Net的基础应用类<br/>
 	/// </summary>
 	public abstract class GlobalBase : GlobalBase<DefaultApplication> {
 
@@ -14,14 +14,14 @@ namespace ZKWeb.Hosting.AspNet {
 
 	/// <summary>
 	/// Base application class for Asp.Net<br/>
-	/// <br/>
+	/// Asp.Net的基础应用类<br/>
 	/// </summary>
 	/// <typeparam name="TApplication">Application type</typeparam>
 	public abstract class GlobalBase<TApplication> : System.Web.HttpApplication
 		where TApplication : IApplication, new() {
 		/// <summary>
 		/// On website start<br/>
-		/// <br/>
+		/// 网站启动时的处理<br/>
 		/// </summary>
 		protected virtual void Application_Start(object sender, EventArgs e) {
 			ZKWeb.Application.Initialize<TApplication>(Server.MapPath("~/"));
@@ -30,7 +30,7 @@ namespace ZKWeb.Hosting.AspNet {
 
 		/// <summary>
 		/// On http request<br/>
-		/// <br/>
+		/// 收到Http请求时的处理<br/>
 		/// </summary>
 		[DebuggerNonUserCode]
 		protected virtual void Application_BeginRequest(object sender, EventArgs e) {

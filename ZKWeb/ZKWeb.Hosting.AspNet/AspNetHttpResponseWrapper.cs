@@ -6,17 +6,17 @@ using System.Diagnostics;
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
 	/// Http response wrapper for Asp.Net<br/>
-	/// <br/>
+	/// Asp.Net Http回应的包装类<br/>
 	/// </summary>
 	internal class AspNetHttpResponseWrapper : IHttpResponse {
 		/// <summary>
 		/// Parent http context<br/>
-		/// <br/>
+		/// 所属的Http上下文<br/>
 		/// </summary>
 		protected AspNetHttpContextWrapper ParentContext { get; set; }
 		/// <summary>
 		/// Original http response<br/>
-		/// <br/>
+		/// 原始的Http回应<br/>
 		/// </summary>
 		protected HttpResponse OriginalResponse { get; set; }
 
@@ -68,7 +68,8 @@ namespace ZKWeb.Hosting.AspNet {
 		}
 
 		/// <summary>
-		/// Initialize
+		/// Initialize<br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="parentContext">Parent http context</param>
 		/// <param name="originalResponse">Original http response</param>
