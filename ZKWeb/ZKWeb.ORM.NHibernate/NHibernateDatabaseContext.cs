@@ -11,45 +11,45 @@ using ZKWeb.Database;
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
 	/// NHibernate database context<br/>
-	/// <br/>
+	/// Nhibernate的数据库上下文<br/>
 	/// </summary>
 	internal class NHibernateDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// NHibernate session<br/>
-		/// <br/>
+		/// NHibernate的会话<br/>
 		/// </summary>
 		private ISession Session { get; set; }
 		/// <summary>
 		/// NHibernate transaction, maybe null if not used<br/>
-		/// <br/>
+		/// NHibernate的事务, 不使用时等于null<br/>
 		/// </summary>
 		private ITransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter<br/>
-		/// <br/>
+		/// 事务嵌套计数<br/>
 		/// </summary>
 		private int TransactionLevel;
 		/// <summary>
 		/// ORM name<br/>
-		/// <br/>
+		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		public const string ConstORM = "NHibernate";
 		/// <summary>
 		/// Database type<br/>
-		/// <br/>
+		/// 数据库类型<br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
 		/// <summary>
 		/// Underlying database connection<br/>
-		/// <br/>
+		/// 底层的数据库连接<br/>
 		/// </summary>
 		public object DbConnection { get { return Session.Connection; } }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="session">NHibernate session</param>
 		/// <param name="database">Database type</param>
@@ -62,7 +62,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Finalize<br/>
-		/// <br/>
+		/// 析构函数<br/>
 		/// </summary>
 		~NHibernateDatabaseContext() {
 			Dispose();
@@ -70,7 +70,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Dispose nhibernate session and transaction<br/>
-		/// <br/>
+		/// 销毁NHibernate会话和事务<br/>
 		/// </summary>
 		public void Dispose() {
 			Transaction?.Dispose();
@@ -81,7 +81,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Begin a transaction<br/>
-		/// <br/>
+		/// 开始一个事务<br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel) {
 			var level = Interlocked.Increment(ref TransactionLevel);
@@ -97,7 +97,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Finish the transaction<br/>
-		/// <br/>
+		/// 结束一个事务<br/>
 		/// </summary>
 		public void FinishTransaction() {
 			var level = Interlocked.Decrement(ref TransactionLevel);
@@ -117,7 +117,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Get the query object for specific entity<br/>
-		/// <br/>
+		/// 获取指定实体类型的查询对象<br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -126,7 +126,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Get single entity that matched the given predicate<br/>
-		/// <br/>
+		/// 获取符合传入条件的单个实体<br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -135,7 +135,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Get how many entities that matched the given predicate<br/>
-		/// <br/>
+		/// 获取符合传入条件的实体数量<br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -144,7 +144,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Save entity to database<br/>
-		/// <br/>
+		/// 保存实体到数据库<br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -160,7 +160,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Delete entity from database<br/>
-		/// <br/>
+		/// 删除数据库中的实体<br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -173,7 +173,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Batch save entities<br/>
-		/// <br/>
+		/// 批量保存实体<br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -195,7 +195,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Batch update entities<br/>
-		/// <br/>
+		/// 批量更新实体<br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -205,7 +205,8 @@ namespace ZKWeb.ORM.NHibernate {
 		}
 
 		/// <summary>
-		/// Batch delete entities
+		/// Batch delete entities<br/>
+		/// 批量删除实体<br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
@@ -225,7 +226,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Batch save entities in faster way<br/>
-		/// <br/>
+		/// 快速批量保存实体<br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -237,7 +238,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Batch delete entities in faster way<br/>
-		/// <br/>
+		/// 快速批量删除实体<br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -253,7 +254,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Create a sql query from query string and parameters<br/>
-		/// <br/>
+		/// 根据查询字符串和参数创建SQL查询<br/>
 		/// </summary>
 		private IQuery CreateSQLQuery(object query, object parameters) {
 			var sqlQueryString = (string)query;
@@ -269,7 +270,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Perform a raw update to database<br/>
-		/// <br/>
+		/// 执行一个原生的更新操作<br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			return CreateSQLQuery(query, parameters).ExecuteUpdate();
@@ -277,7 +278,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Perform a raw query to database<br/>
-		/// <br/>
+		/// 执行一个原生的查询操作<br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

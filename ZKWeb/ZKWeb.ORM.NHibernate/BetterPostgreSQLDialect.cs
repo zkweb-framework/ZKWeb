@@ -6,14 +6,14 @@ namespace ZKWeb.ORM.NHibernate {
 	/// Better pgsql dialect<br/>
 	/// What's improved<br/>
 	/// - Support Guid type<br/>
-	/// <br/>
-	/// <br/>
-	/// <br/>
+	/// 更好的pgsql配置<br/>
+	/// 改进点<br/>
+	/// - 支持Guid类型<br/>
 	/// </summary>
 	internal class BetterPostgreSQLDialect : PostgreSQLDialect {
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public BetterPostgreSQLDialect() {
 			RegisterColumnType(DbType.Guid, "uuid");

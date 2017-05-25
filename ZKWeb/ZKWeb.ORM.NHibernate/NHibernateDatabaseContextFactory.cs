@@ -15,28 +15,28 @@ using ZKWeb.Storage;
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
 	/// NHibernate database context factory<br/>
-	/// <br/>
+	/// NHibernate的数据库上下文生成器<br/>
 	/// </summary>
 	internal class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Batch size<br/>
-		/// <br/>
+		/// 批量操作的命令数量<br/>
 		/// </summary>
 		private const int BatchSize = 1024;
 		/// <summary>
 		/// Database type<br/>
-		/// <br/>
+		/// 数据库类型<br/>
 		/// </summary>
 		private string Database { get; set; }
 		/// <summary>
 		/// NHibernate session factory<br/>
-		/// <br/>
+		/// NHibernate的会话生成器<br/>
 		/// </summary>
 		private ISessionFactory SessionFactory { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -114,7 +114,7 @@ namespace ZKWeb.ORM.NHibernate {
 
 		/// <summary>
 		/// Create database context<br/>
-		/// <br/>
+		/// 创建数据库上下文<br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
