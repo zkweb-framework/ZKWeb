@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ZKWeb;
 using ZKWeb.Hosting.Owin;
@@ -29,6 +30,7 @@ namespace Owin {
 		/// <param name="app">application builder</param>
 		/// <param name="websiteRootDirectory">website root directory</param>
 		/// <returns></returns>
+		[DebuggerNonUserCode]
 		public static IAppBuilder UseZKWeb<TApplication>(
 			this IAppBuilder app, string websiteRootDirectory)
 			where TApplication : IApplication, new() {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using System.Diagnostics;
 using System.IO;
 using ZKWebStandard.Web;
 
@@ -61,6 +62,7 @@ namespace ZKWeb.Hosting.Owin {
 			OwinResponse.StatusCode = permanent ? 301 : 302;
 			End();
 		}
+		[DebuggerNonUserCode]
 		public void End() {
 			Body.Flush();
 			throw new OwinHttpResponseEndException();

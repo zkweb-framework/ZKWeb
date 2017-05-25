@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using ZKWebStandard.Web;
 using System.Web;
+using System.Diagnostics;
 
 namespace ZKWeb.Hosting.AspNet {
 	/// <summary>
@@ -57,6 +58,7 @@ namespace ZKWeb.Hosting.AspNet {
 			OriginalResponse.Redirect(url, permanent);
 			End();
 		}
+		[DebuggerNonUserCode]
 		public void End() {
 			Body.Flush();
 			OriginalResponse.End();

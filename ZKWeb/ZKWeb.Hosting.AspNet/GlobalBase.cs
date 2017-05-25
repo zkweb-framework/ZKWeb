@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using ZKWeb.Server;
 
@@ -27,6 +28,7 @@ namespace ZKWeb.Hosting.AspNet {
 		/// <summary>
 		/// On http request
 		/// </summary>
+		[DebuggerNonUserCode]
 		protected virtual void Application_BeginRequest(object sender, EventArgs e) {
 			var context = new AspNetHttpContextWrapper(Context);
 			try {

@@ -6,14 +6,14 @@ using ZKWebStandard.Web.Mock;
 namespace ZKWebStandard.Web {
 	/// <summary>
 	/// Http manager<br/>
-	/// <br/>
+	/// Http管理器<br/>
 	/// </summary>
 	public static class HttpManager {
 		/// <summary>
 		/// Get using http context<br/>
 		/// Throw exception if not exist<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取当前的Http上下文<br/>
+		/// 如果不存在则抛出例外<br/>
 		/// </summary>
 		public static IHttpContext CurrentContext {
 			get {
@@ -27,15 +27,15 @@ namespace ZKWebStandard.Web {
 		private static ThreadLocal<IHttpContext> currentContext = new ThreadLocal<IHttpContext>();
 		/// <summary>
 		/// Determines if there a http context is using<br/>
-		/// <br/>
+		/// 检测当前是否有Http上下文<br/>
 		/// </summary>
 		public static bool CurrentContextExists { get { return currentContext.Value != null; } }
 
 		/// <summary>
 		/// Override using http context<br/>
 		/// Restore to previous context after disposed<br/>
-		/// <br/>
-		/// <br/>
+		/// 重载当前的Http上下文<br/>
+		/// Dispose后恢复为原来的上下文<br/>
 		/// </summary>
 		/// <param name="context">Http context</param>
 		/// <returns></returns>
@@ -53,8 +53,8 @@ namespace ZKWebStandard.Web {
 		/// <summary>
 		/// Override using http context<br/>
 		/// Restore to previous context after disposed<br/>
-		/// <br/>
-		/// <br/>
+		/// 重载当前的Http上下文<br/>
+		/// Dispose后恢复为原来的上下文<br/>
 		/// </summary>
 		/// <param name="pathAndQuery">Path and query, "/" will be automatic added to front if needed</param>
 		/// <param name="method">Method, GET or POST</param>

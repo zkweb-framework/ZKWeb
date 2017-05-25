@@ -4,19 +4,19 @@ namespace ZKWebStandard.Web {
 	/// <summary>
 	/// Http exception<br/>
 	/// Please use this type instead of Asp.Net and Asp.Net Core's<br/>
-	/// <br/>
-	/// <br/>
+	/// Http例外<br/>
+	/// 请使用这个类型代替Asp.Net和Asp.Net Core中的类型<br/>
 	/// </summary>
 	public class HttpException : Exception {
 		/// <summary>
 		/// Status code<br/>
-		/// <br/>
+		/// 状态码<br/>
 		/// </summary>
 		public int StatusCode { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="statusCode">Status code</param>
 		/// <param name="message">Exception message</param>

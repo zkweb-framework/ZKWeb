@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using ZKWebStandard.Web;
 using System;
+using System.Diagnostics;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
@@ -59,6 +60,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 			CoreResponse.Redirect(url, permanent);
 			End();
 		}
+		[DebuggerNonUserCode]
 		public void End() {
 			// Fix kesterl 1.0.0 304 => 502 error
 			// See https://github.com/aspnet/KestrelHttpServer/issues/952

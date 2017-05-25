@@ -3,7 +3,7 @@
 namespace ZKWebStandard.Web.Wrappers {
 	/// <summary>
 	/// Http context wrapper base class<br/>
-	/// <br/>
+	/// Http上下文包装类的基类<br/>
 	/// </summary>
 	public abstract class HttpContextWrapper : IHttpContext {
 #pragma warning disable CS1591

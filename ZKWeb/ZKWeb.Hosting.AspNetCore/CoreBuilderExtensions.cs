@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using ZKWeb;
 using ZKWeb.Hosting.AspNetCore;
@@ -30,6 +31,7 @@ namespace Microsoft.AspNetCore.Builder {
 		/// <param name="app">application builder</param>
 		/// <param name="websiteRootDirectory">website root directory</param>
 		/// <returns></returns>
+		[DebuggerNonUserCode]
 		public static IApplicationBuilder UseZKWeb<TApplication>(
 			this IApplicationBuilder app, string websiteRootDirectory)
 			where TApplication : IApplication, new() {
