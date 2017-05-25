@@ -101,8 +101,8 @@ namespace ZKWeb.Database {
 		void FinishTransaction();
 
 		/// <summary>
-		/// Get the query object for specific entity<br/>
-		/// 获取指定实体的查询对象<br/>
+		/// Get the query object for specific entity type<br/>
+		/// 获取指定实体类型的查询对象<br/>
 		/// </summary>
 		/// <typeparam name="T">Entity Type</typeparam>
 		/// <returns></returns>

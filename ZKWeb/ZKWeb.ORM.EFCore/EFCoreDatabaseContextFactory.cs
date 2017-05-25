@@ -17,38 +17,38 @@ using System.Reflection;
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// Entity Framework Core database context factory<br/>
-	/// <br/>
+	/// Entity Framework Core的数据库上下文生成器<br/>
 	/// </summary>
 	internal class EFCoreDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Filename prefix for model snapshot<br/>
-		/// <br/>
+		/// 模型快照的文件名前缀<br/>
 		/// </summary>
 		private const string ModelSnapshotFilePrefix = "EFModelSnapshot_";
 		/// <summary>
 		/// Namespace for model snapshot<br/>
-		/// <br/>
+		/// 模型快照的命名空间<br/>
 		/// </summary>
 		private const string ModelSnapshotNamespace = "ZKWeb.ORM.EFCore.Migrations";
 		/// <summary>
 		/// Class name prefix for model snapshot<br/>
-		/// <br/>
+		/// 模型快照的类名前缀<br/>
 		/// </summary>
 		private const string ModelSnapshotClassPrefix = "Migration_";
 		/// <summary>
 		/// Database type<br/>
-		/// <br/>
+		/// 数据库类型<br/>
 		/// </summary>
 		private string Database { get; set; }
 		/// <summary>
 		/// Connection string<br/>
-		/// <br/>
+		/// 连接字符串<br/>
 		/// </summary>
 		private string ConnectionString { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -78,7 +78,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Create and apply the migration for relational database<br/>
-		/// <br/>
+		/// 创建并且迁移数据库<br/>
 		/// See: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
 		/// </summary>
 		/// <param name="context">Entity Framework Core database context</param>
@@ -148,7 +148,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Create database context<br/>
-		/// <br/>
+		/// 创建数据库上下文<br/>
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {

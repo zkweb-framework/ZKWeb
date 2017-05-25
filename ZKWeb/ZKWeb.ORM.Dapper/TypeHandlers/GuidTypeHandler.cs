@@ -7,13 +7,13 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// <summary>
 	/// Handle guid type<br/>
 	/// It's needed because mysql use varchar for guid<br/>
-	/// <br/>
+	/// 处理guid类型<br/>
 	/// <br/>
 	/// </summary>
 	internal class GuidTypeHandler : SqlMapper.TypeHandler<Guid> {
 		/// <summary>
 		/// Convert value to guid field<br/>
-		/// <br/>
+		/// 转换值到guid字段<br/>
 		/// </summary>
 		public override Guid Parse(object value) {
 			return value.ConvertOrDefault<Guid>();
@@ -21,7 +21,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 
 		/// <summary>
 		/// Convert guid field to value<br/>
-		/// <br/>
+		/// 转换值到guid字段<br/>
 		/// </summary>
 		public override void SetValue(IDbDataParameter parameter, Guid value) {
 			if (parameter.DbType == DbType.Guid) {

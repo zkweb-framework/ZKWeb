@@ -17,50 +17,50 @@ using Dommel;
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
 	/// Dapper database context<br/>
-	/// <br/>
+	/// Dapper的数据库上下文<br/>
 	/// </summary>
 	internal class DapperDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// Dapper entity mappings<br/>
-		/// <br/>
+		/// Dapper的实体映射<br/>
 		/// </summary>
 		private DapperEntityMappings Mappings { get; set; }
 		/// <summary>
 		/// Database connection<br/>
-		/// <br/>
+		/// 数据库连接<br/>
 		/// </summary>
 		private IDbConnection Connection { get; set; }
 		/// <summary>
 		/// Database transaction<br/>
-		/// <br/>
+		/// 数据库事务<br/>
 		/// </summary>
 		private IDbTransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter<br/>
-		/// <br/>
+		/// 事务嵌套计数<br/>
 		/// </summary>
 		private int TransactionLevel;
 		/// <summary>
 		/// ORM name<br/>
-		/// <br/>
+		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
 		public const string ConstORM = "Dapper";
 		/// <summary>
 		/// Database type<br/>
-		/// <br/>
+		/// 数据库类型<br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
 		private string databaseType;
 		/// <summary>
 		/// Underlying database connection<br/>
-		/// <br/>
+		/// 返回底层的数据库连接<br/>
 		/// </summary>
 		public object DbConnection { get { return Connection; } }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="mappings">Dapper entity mappings</param>
 		/// <param name="database">Database type</param>
@@ -91,7 +91,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Finalize<br/>
-		/// <br/>
+		/// 析构函数<br/>
 		/// </summary>
 		~DapperDatabaseContext() {
 			Dispose();
@@ -99,7 +99,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Dispose connection and transaction<br/>
-		/// <br/>
+		/// 销毁连接和事务<br/>
 		/// </summary>
 		public void Dispose() {
 			Transaction?.Dispose();
@@ -110,7 +110,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Begin a transaction<br/>
-		/// <br/>
+		/// 开始一个事务<br/>
 		/// </summary>
 		public void BeginTransaction(IsolationLevel? isolationLevel = null) {
 			var level = Interlocked.Increment(ref TransactionLevel);
@@ -126,7 +126,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Finish the transaction<br/>
-		/// <br/>
+		/// 结束一个事务<br/>
 		/// </summary>
 		public void FinishTransaction() {
 			var level = Interlocked.Decrement(ref TransactionLevel);
@@ -145,10 +145,10 @@ namespace ZKWeb.ORM.Dapper {
 		}
 
 		/// <summary>
-		/// Get the query object for specific entity<br/>
+		/// Get the query object for specific entity type<br/>
 		/// Attention: It's slow, you should use RawQuery<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取指定实体类型的查询对象<br/>
+		/// 注意: 它很慢, 你应该使用RawQuery<br/>
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
@@ -158,8 +158,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Get single entity that matched the given predicate<br/>
 		/// It should return null if no matched entity found<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取符合传入条件的单个实体<br/>
+		/// 如果无符合条件的实体应该返回null<br/>
 		/// </summary>
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -181,8 +181,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Get how many entities that matched the given predicate<br/>
 		/// Attention: It's slow, you should use RawQuery<br/>
-		/// <br/>
-		/// <br/>
+		/// 获取符合传入条件的实体数量<br/>
+		/// 注意: 它很慢, 你应该使用RawQuery<br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
@@ -191,7 +191,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Insert or update entity<br/>
-		/// <br/>
+		/// 插入或更新实体<br/>
 		/// </summary>
 		private void InsertOrUpdate<T>(T entity)
 			where T : class, IEntity {
@@ -212,7 +212,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Save entity to database<br/>
-		/// <br/>
+		/// 保存实体到数据库<br/>
 		/// </summary>
 		public void Save<T>(ref T entity, Action<T> update = null)
 			where T : class, IEntity {
@@ -227,7 +227,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Delete entity from database<br/>
-		/// <br/>
+		/// 删除数据库中的实体<br/>
 		/// </summary>
 		public void Delete<T>(T entity)
 			where T : class, IEntity {
@@ -239,7 +239,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Batch save entities<br/>
-		/// <br/>
+		/// 批量保存实体<br/>
 		/// </summary>
 		public void BatchSave<T>(ref IEnumerable<T> entities, Action<T> update = null)
 			where T : class, IEntity {
@@ -257,8 +257,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Batch update entities<br/>
 		/// Attention: It's slow, you should use RawUpdate<br/>
-		/// <br/>
-		/// <br/>
+		/// 批量更新实体<br/>
+		/// 注意: 它很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
@@ -270,8 +270,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Batch delete entities<br/>
 		/// Attention: It's slow, you should use RawUpdate<br/>
-		/// <br/>
-		/// <br/>
+		/// 批量删除实体<br/>
+		/// 注意: 它很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
@@ -288,9 +288,8 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Batch save entities in faster way<br/>
-		/// Attention: It's still slow, you should use RawUpdate<br/>
-		/// <br/>
-		/// <br/>
+		/// 快速批量保存实体<br/>
+		/// 注意: 它仍然很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -302,8 +301,8 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Batch delete entities in faster way<br/>
 		/// Attention: It's still slow, you should use RawUpdate<br/>
-		/// <br/>
-		/// <br/>
+		/// 快速批量删除实体<br/>
+		/// 注意: 它仍然很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -314,7 +313,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Perform a raw update to database<br/>
-		/// <br/>
+		/// 执行一个原生的更新操作<br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
 			return Connection.Execute((string)query, parameters, Transaction);
@@ -322,7 +321,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Perform a raw query to database<br/>
-		/// <br/>
+		/// 执行一个原生的查询操作<br/>
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {

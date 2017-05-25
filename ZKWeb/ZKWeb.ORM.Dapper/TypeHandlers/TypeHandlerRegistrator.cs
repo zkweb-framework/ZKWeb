@@ -4,12 +4,12 @@ using System;
 namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// <summary>
 	/// Dapper type handler registrator<br/>
-	/// <br/>
+	/// 注册dapper类型处理器<br/>
 	/// </summary>
 	internal static class TypeHandlerRegistrator {
 		/// <summary>
 		/// Register dapper type handler<br/>
-		/// <br/>
+		/// 注册dapper类型处理器<br/>
 		/// </summary>
 		public static void Register(Type type, SqlMapper.ITypeHandler handler) {
 			// Dapper will replace exists handler, and no need to clone typeHandlers
@@ -18,7 +18,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 
 		/// <summary>
 		/// Register dapper type handler for json serialized type<br/>
-		/// <br/>
+		/// 注册dapper类型处理器, 用于json序列化的类型<br/>
 		/// </summary>
 		/// <param name="type">Serialized type</param>
 		public static void RegisterJsonSerializedType(Type type) {

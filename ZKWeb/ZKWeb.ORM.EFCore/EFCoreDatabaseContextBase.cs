@@ -6,23 +6,23 @@ using ZKWeb.Storage;
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// A base database context only contains migration history table<br/>
-	/// <br/>
+	/// 一个数据库上下文的基类, 只包含迁移历史表<br/>
 	/// </summary>
 	public class EFCoreDatabaseContextBase : DbContext {
 		/// <summary>
 		/// Database type<br/>
-		/// <br/>
+		/// 数据库类型<br/>
 		/// </summary>
 		private string DatabaseName { get; set; }
 		/// <summary>
 		/// Connection string<br/>
-		/// <br/>
+		/// 连接字符串<br/>
 		/// </summary>
 		private string ConnectionString { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="database">Database type</param>
 		/// <param name="connectionString">Connection string</param>
@@ -33,7 +33,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Configure context options<br/>
-		/// <br/>
+		/// 配置上下文选项<br/>
 		/// </summary>
 		/// <param name="optionsBuilder">Options builder</param>
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
@@ -57,7 +57,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Configure entity model<br/>
-		/// <br/>
+		/// 配置实体模型<br/>
 		/// </summary>
 		/// <param name="modelBuilder">Model builder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {

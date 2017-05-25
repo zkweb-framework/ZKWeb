@@ -12,18 +12,18 @@ using ZKWebStandard.Utils;
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
 	/// Dapper entity mappings<br/>
-	/// <br/>
+	/// Dapper的实体映射集合<br/>
 	/// </summary>
 	internal class DapperEntityMappings {
 		/// <summary>
 		/// Type to mapping definition<br/>
-		/// <br/>
+		/// 类型到映射的定义<br/>
 		/// </summary>
 		private ConcurrentDictionary<Type, IDapperEntityMapping> Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		public DapperEntityMappings() {
 			Mappings = new ConcurrentDictionary<Type, IDapperEntityMapping>();
@@ -51,7 +51,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Get mapping for entity type<br/>
-		/// <br/>
+		/// 获取实体类型对应的映射<br/>
 		/// </summary>
 		/// <param name="type">Entity type</param>
 		/// <returns></returns>

@@ -15,7 +15,7 @@ using ZKWebStandard.Extensions;
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// Entity Framework Core entity mapping builder<br/>
-	/// <br/>
+	/// Entity Framework Core的实体映射构建器<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
 	internal class EFCoreEntityMappingBuilder<T> : IEntityMappingBuilder<T>
@@ -29,7 +29,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Initialize<br/>
-		/// <br/>
+		/// 初始化<br/>
 		/// </summary>
 		/// <param name="builder">Model builder</param>
 		public EFCoreEntityMappingBuilder(
@@ -49,7 +49,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Specify the primary key for this entity<br/>
-		/// <br/>
+		/// 指定实体的主键<br/>
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
@@ -67,7 +67,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Create a member mapping<br/>
-		/// <br/>
+		/// 创建成员映射<br/>
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
@@ -114,8 +114,8 @@ namespace ZKWeb.ORM.EFCore {
 		/// <summary>
 		/// Use navigation property name from options, or<br/>
 		/// Automatic determine navigation property name on the other side<br/>
-		/// <br/>
-		/// <br/>
+		/// 从选项获取导航属性名称<br/>
+		/// 或自动检测另一端的导航属性<br/>
 		/// </summary>
 		private string GetNavigationPropertyName<TOther, TNavigationType>(
 			EntityMappingOptions options) {
@@ -130,7 +130,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Create a reference to another entity, this is a many-to-one relationship.<br/>
-		/// <br/>
+		/// 创建到其他实体的映射, 这是多对一的关系<br/>
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
@@ -160,7 +160,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Maps a collection of entities as a one-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是一对多的关系<br/>
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
@@ -181,7 +181,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Maps a collection of entities as a many-to-many relationship.<br/>
-		/// <br/>
+		/// 创建到实体集合的映射, 这是多对多的关系<br/>
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,

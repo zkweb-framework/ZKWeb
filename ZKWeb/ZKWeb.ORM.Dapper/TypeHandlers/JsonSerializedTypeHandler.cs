@@ -4,14 +4,14 @@ using Newtonsoft.Json;
 namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// <summary>
 	/// Handle json serialized type<br/>
-	/// <br/>
+	/// 处理json序列化的类型<br/>
 	/// </summary>
 	/// <typeparam name="T">Json serialized type</typeparam>
 	internal class JsonSerializedTypeHandler<T> : SqlMapper.StringTypeHandler<T>
 		where T : new() {
 		/// <summary>
 		/// Parse from json<br/>
-		/// <br/>
+		/// 从json解析<br/>
 		/// </summary>
 		protected override T Parse(string value) {
 			var json = value?.ToString();
@@ -23,7 +23,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 
 		/// <summary>
 		/// Serialize to json<br/>
-		/// <br/>
+		/// 序列化到json<br/>
 		/// </summary>
 		protected override string Format(T value) {
 			return JsonConvert.SerializeObject(value);
