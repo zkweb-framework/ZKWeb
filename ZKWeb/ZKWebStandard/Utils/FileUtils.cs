@@ -13,6 +13,18 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="bytes">bytes</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// FileUtils.GetSizeDisplayName(0) == "0Bytes"
+		/// FileUtils.GetSizeDisplayName(1023) == "1023Bytes"
+		/// FileUtils.GetSizeDisplayName(1024) == "1KB"
+		/// FileUtils.GetSizeDisplayName((int)(1024 * 1.5M)) == "1.5KB"
+		/// FileUtils.GetSizeDisplayName(1048576) == "1MB"
+		/// FileUtils.GetSizeDisplayName((int)(1048576 * 1.5M)) == "1.5MB"
+		/// FileUtils.GetSizeDisplayName(1073741824) == "1GB"
+		/// FileUtils.GetSizeDisplayName((int)(1073741824 * 1.5M)) == "1.5GB"
+		/// </code>
+		/// </example>
 		public static string GetSizeDisplayName(long bytes) {
 			if (bytes >= 1073741824) {
 				return $"{Math.Round((decimal)bytes / 1073741824, 2)}GB";

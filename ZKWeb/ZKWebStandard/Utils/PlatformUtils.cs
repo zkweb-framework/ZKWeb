@@ -28,6 +28,11 @@ namespace ZKWebStandard.Utils {
 		/// 判断运行的系统是否Linux或Mac<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var isOnUnix = PlatformUtils.RunningOnUnix();
+		/// </code>
+		/// </example>
 		public static bool RunningOnUnix() {
 			return IsLinuxOrMac;
 		}
@@ -37,6 +42,11 @@ namespace ZKWebStandard.Utils {
 		/// 判断运行的系统是否Windows<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var isOnWindows = PlatformUtils.RunningOnWindows();
+		/// </code>
+		/// </example>
 		public static bool RunningOnWindows() {
 			return !IsLinuxOrMac;
 		}

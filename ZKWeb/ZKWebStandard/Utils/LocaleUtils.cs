@@ -181,6 +181,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="timezone">Timezone name</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var timezone = LocaleUtils.GetTimezoneInfo("America/New_York");
+		/// </code>
+		/// </example>
 		public static TimeZoneInfo GetTimezoneInfo(string timezone) {
 			// Try original
 			try {
@@ -213,6 +218,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="language">Language code</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var cluture = LocaleUtils.GetCultureInfo("zh-CN");
+		/// </code>
+		/// </example>
 		public static CultureInfo GetCultureInfo(string language) {
 			try {
 				var cultureInfo = new CultureInfo(language);
@@ -233,6 +243,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="language">Language code</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// LocaleUtils.SetThreadLanguage("zh-CN");
+		/// </code>
+		/// </example>
 		public static bool SetThreadLanguage(string language) {
 			if (string.IsNullOrEmpty(language)) {
 				return false;
@@ -252,6 +267,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="timezone">Timezone name</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// LocaleUtils.SetThreadTimezone("America/New_York");
+		/// </code>
+		/// </example>
 		public static bool SetThreadTimezone(string timezone) {
 			if (string.IsNullOrEmpty(timezone)) {
 				return false;
@@ -279,6 +299,11 @@ namespace ZKWebStandard.Utils {
 		/// <param name="allowDetectLanguageFromBrowser">Allow use accept languages from client</param>
 		/// <param name="defaultLanguage">Default language</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// LocaleUtils.SetThreadLanguageAutomatic(true, "zh-CN");
+		/// </code>
+		/// </example>
 		public static bool SetThreadLanguageAutomatic(
 			bool allowDetectLanguageFromBrowser, string defaultLanguage) {
 			// Use language code from cookie
@@ -312,6 +337,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="defaultTimezone">Default timezone</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// LocaleUtils.SetThreadTimezoneAutomatic("America/New_York");
+		/// </code>
+		/// </example>
 		public static bool SetThreadTimezoneAutomatic(string defaultTimezone) {
 			// Use timezone name from cookies
 			var context = HttpManager.CurrentContext;

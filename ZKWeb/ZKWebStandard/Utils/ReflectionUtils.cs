@@ -16,6 +16,20 @@ namespace ZKWebStandard.Utils {
 		/// <typeparam name="M">Member Type</typeparam>
 		/// <param name="memberName">Member name</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// class TestData {
+		/// 	int a;
+		/// 	public int GetA() { return a; }
+		/// 	public void SetA(int value) { a = value; }
+		/// }
+		/// 
+		/// var setter = ReflectionUtils.MakeSetter&lt;TestData, int&gt;("a");
+		/// var data = new TestData();
+		/// setter(data, 1);
+		/// data.GetA() == 1
+		/// </code>
+		/// </example>
 		public static Action<T, M> MakeSetter<T, M>(string memberName) {
 			var objParam = Expression.Parameter(typeof(T), "obj");
 			var memberParam = Expression.Parameter(typeof(M), "member");
@@ -32,6 +46,20 @@ namespace ZKWebStandard.Utils {
 		/// <typeparam name="M">Member Type</typeparam>
 		/// <param name="memberName">Member name</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// class TestData {
+		/// 	int a;
+		/// 	public int GetA() { return a; }
+		/// 	public void SetA(int value) { a = value; }
+		/// }
+		/// 
+		/// var getter = ReflectionUtils.MakeGetter&lt;TestData, int&gt;("a");
+		/// var data = new TestData();
+		/// data.SetA(1);
+		/// Assert.Equals(getter(data), 1);
+		/// </code>
+		/// </example>
 		public static Func<T, M> MakeGetter<T, M>(string memberName) {
 			var objParam = Expression.Parameter(typeof(T), "obj");
 			var body = Expression.Convert(Expression.PropertyOrField(objParam, memberName), typeof(M));

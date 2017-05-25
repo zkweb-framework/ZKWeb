@@ -17,6 +17,11 @@ namespace ZKWebStandard.Utils {
 		/// 否则返回本机地址<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var address = NetworkUtils.GetClientIpAddress();
+		/// </code>
+		/// </example>
 		public static IPAddress GetClientIpAddress() {
 			if (HttpManager.CurrentContextExists) {
 				return HttpManager.CurrentContext.Request.RemoteIpAddress;
@@ -32,6 +37,11 @@ namespace ZKWebStandard.Utils {
 		/// 注意如果本机在局域网中这个函数会返回局域网IP, 而不是公网IP<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var address = NetworkUtils.GetHostIpAddress();
+		/// </code>
+		/// </example>
 		public static IPAddress GetHostIpAddress() {
 			using (var socket =
 					new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)) {

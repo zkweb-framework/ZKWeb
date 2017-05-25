@@ -17,6 +17,15 @@ namespace ZKWebStandard.Utils {
 		/// <param name="iterations">Iteration times</param>
 		/// <param name="hashLength">Hash length</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var hash = PasswordUtils.PBKDF2Sum(
+		///		Encoding.UTF8.GetBytes("123456"),
+		///		Encoding.UTF8.GetBytes("12344321"));
+		///	hash.ToHex() ==
+		///		"47e00677444b6d16c36d347a4fea584792fb4a50fe93e762c7e1adf4f73e2475"
+		/// </code>
+		/// </example>
 		public static byte[] PBKDF2Sum(
 			byte[] data, byte[] slat, int iterations = 1024, int hashLength = 32) {
 			var hash = new Rfc2898DeriveBytes(data, slat, iterations).GetBytes(hashLength);
@@ -27,6 +36,12 @@ namespace ZKWebStandard.Utils {
 		/// Get md5 checksum<br/>
 		/// 获取MD5的校验值<br/>
 		/// </summary>
+		/// <example>
+		/// <code language="cs">
+		/// var hash = PasswordUtils.Md5Sum(Encoding.UTF8.GetBytes("123456"));
+		/// hash.ToHex() == "e10adc3949ba59abbe56e057f20f883e")
+		/// </code>
+		/// </example>
 		public static byte[] Md5Sum(byte[] data) {
 			return MD5.Create().ComputeHash(data);
 		}
@@ -35,6 +50,12 @@ namespace ZKWebStandard.Utils {
 		/// Get sha1 checksum<br/>
 		/// 获取SHA1的校验值<br/>
 		/// </summary>
+		/// <example>
+		/// <code language="cs">
+		/// var hash = PasswordUtils.Sha1Sum(Encoding.UTF8.GetBytes("123456"));
+		/// hash.ToHex() == "7c4a8d09ca3762af61e59520943dc26494f8941b"
+		/// </code>
+		/// </example>
 		public static byte[] Sha1Sum(byte[] data) {
 			return SHA1.Create().ComputeHash(data);
 		}
@@ -44,6 +65,13 @@ namespace ZKWebStandard.Utils {
 	/// Password information<br/>
 	/// 密码信息<br/>
 	/// </summary>
+	/// <example>
+	/// <code language="cs">
+	/// var info = PasswordInfo.FromPassword("123456");
+	/// info.Check("12345") == false
+	/// info.Check("123456") == true
+	/// </code>
+	/// </example>
 	public class PasswordInfo {
 		/// <summary>
 		/// Password type<br/>

@@ -11,6 +11,11 @@ namespace ZKWebStandard.Utils {
 		/// 获取占用的内存大小<br/>
 		/// </summary>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var value = SystemUtils.GetUsedMemoryBytes();
+		/// </code>
+		/// </example>
 		public static long GetUsedMemoryBytes() {
 			using (var process = Process.GetCurrentProcess()) {
 				return process.WorkingSet64;

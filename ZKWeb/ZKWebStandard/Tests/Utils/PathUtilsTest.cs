@@ -14,5 +14,17 @@ namespace ZKWebStandard.Tests.Functions {
 			Assert.Throws<ArgumentException>(() => PathUtils.SecureCombine("a", "..", "c"));
 			Assert.Throws<ArgumentException>(() => PathUtils.SecureCombine("a/../b", "c"));
 		}
+
+		public void EnsureParentDirectory() {
+			var tempPath = Path.GetTempPath();
+			var dirPath = Path.Combine(tempPath, "EnsureParentDirectoryTest");
+			var filePath = Path.Combine(dirPath, "1.txt");
+			if (Directory.Exists(dirPath)) {
+				Directory.Delete(dirPath, true);
+			}
+			PathUtils.EnsureParentDirectory(filePath);
+			Assert.IsTrue(Directory.Exists(dirPath));
+			Directory.Delete(dirPath, true);
+		}
 	}
 }

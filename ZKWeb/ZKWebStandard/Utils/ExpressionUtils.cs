@@ -17,6 +17,12 @@ namespace ZKWebStandard.Utils {
 		/// <param name="memberName">Member name</param>
 		/// <param name="equalsTo">Compare to</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var expression = ExpressionUtils.MakeMemberEqualiventExpression&lt;ICollection&lt;int&gt;&gt;("Count", 3);
+		/// var method = expression.Compile();
+		/// </code>
+		/// </example>
 		public static Expression<Func<TData, bool>> MakeMemberEqualiventExpression<TData>(
 			string memberName, object equalsTo) {
 			var dataParam = Expression.Parameter(typeof(TData), "data");

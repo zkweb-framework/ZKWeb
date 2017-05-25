@@ -1,5 +1,6 @@
 ﻿using ZKWebStandard.Utils;
 using ZKWebStandard.Testing;
+using System.Collections.Generic;
 
 namespace ZKWebStandard.Tests.Functions {
 	[Tests]
@@ -22,6 +23,13 @@ namespace ZKWebStandard.Tests.Functions {
 			var data = new TestData();
 			data.SetA(1);
 			Assert.Equals(getter(data), 1);
+		}
+
+		public void GetGenericArguments() {
+			var args = ReflectionUtils.GetGenericArguments(typeof(Dictionary<string, int>), typeof(IDictionary<,>));
+			Assert.Equals(args.Length, 2);
+			Assert.Equals(args[0], typeof(string));
+			Assert.Equals(args[1], typeof(int));
 		}
 	}
 }

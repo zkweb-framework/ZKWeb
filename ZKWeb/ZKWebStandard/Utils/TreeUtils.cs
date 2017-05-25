@@ -22,6 +22,22 @@ namespace ZKWebStandard.Utils {
 		/// <param name="getValue">Method for get value from element</param>
 		/// <param name="getParent">Method for get parent element, return null if no parent</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var elements = new List&lt;TestData&gt;() {
+		/// 	new TestData(1, 0, "A"),
+		/// 	new TestData(2, 1, "AA"),
+		/// 	new TestData(3, 1, "AB"),
+		/// 	new TestData(4, 0, "B"),
+		/// 	new TestData(5, 4, "BA"),
+		/// 	new TestData(6, 4, "BB"),
+		/// 	new TestData(7, 6, "BBB"),
+		/// };
+		/// var elementsMapping = elements.ToDictionary(e =&gt; e.Id, e =&gt; e);
+		/// var tree = TreeUtils.CreateTree(elements,
+		/// 	e =&gt; e, e =&gt; elementsMapping.GetOrDefault(e.ParentId));
+		/// </code>
+		/// </example>
 		public static ITreeNode<TValue> CreateTree<T, TValue>(
 			IEnumerable<T> elements, Func<T, TValue> getValue, Func<T, T> getParent) {
 			var root = new TreeNode<TValue>(default(TValue));
@@ -45,6 +61,23 @@ namespace ZKWebStandard.Utils {
 		/// <param name="node">The node</param>
 		/// <param name="convertor">Method for convert value from original to target</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var elements = new List&lt;TestData&gt;() {
+		/// 	new TestData(1, 0, "A"),
+		/// 	new TestData(2, 1, "AA"),
+		/// 	new TestData(3, 1, "AB"),
+		/// 	new TestData(4, 0, "B"),
+		/// 	new TestData(5, 4, "BA"),
+		/// 	new TestData(6, 4, "BB"),
+		/// 	new TestData(7, 6, "BBB"),
+		/// };
+		/// var elementsMapping = elements.ToDictionary(e =&gt; e.Id, e =&gt; e);
+		/// var tree = TreeUtils.CreateTree(elements,
+		/// 	e =&gt; e, e =&gt; elementsMapping.GetOrDefault(e.ParentId));
+		/// var newTree = TreeUtils.Transform(TestData.GetTestTree(), d =&gt; d?.Name);
+		/// </code>
+		/// </example>
 		public static ITreeNode<U> Transform<T, U>(ITreeNode<T> node, Func<T, U> convertor) {
 			var unode = new TreeNode<U>(convertor(node.Value));
 			foreach (var childNode in node.Childs) {

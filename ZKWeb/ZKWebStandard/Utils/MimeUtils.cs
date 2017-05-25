@@ -583,6 +583,12 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="filename">File name</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// MimeUtils.GetMimeType("1.html") == "text/html"
+		/// MimeUtils.GetMimeType("1.vbs") == "text/vbscript"
+		/// </code>
+		/// </example>
 		public static string GetMimeType(string filename) {
 			var extension = Path.GetExtension(filename);
 			var mime = MimeMapping.GetOrDefault(extension);

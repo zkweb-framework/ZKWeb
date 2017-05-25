@@ -15,6 +15,11 @@ namespace ZKWebStandard.Utils {
 		/// <param name="time">The time</param>
 		/// <param name="buffer">A buffer contains atleast 8 bytes</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var guid = GuidUtils.SequentialGuid(new DateTime(2016, 8, 8), new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+		/// </code>
+		/// </example>
 		private static Guid SequentialGuid(DateTime time, byte[] buffer) {
 			var ticks = (time - new DateTime(1900, 1, 1)).Ticks;
 			var guid = new Guid(
@@ -34,6 +39,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var guid = GuidUtils.SequentialGuid(new DateTime(2016, 8, 8));
+		/// </code>
+		/// </example>
 		public static Guid SequentialGuid(DateTime time) {
 			var buffer = new byte[8];
 			RandomUtils.Generator.NextBytes(buffer);
@@ -50,6 +60,11 @@ namespace ZKWebStandard.Utils {
 		/// </summary>
 		/// <param name="time">The time</param>
 		/// <returns></returns>
+		/// <example>
+		/// <code language="cs">
+		/// var guid = GuidUtils.SecureSequentialGuid(new DateTime(2016, 8, 8)); 
+		/// </code>
+		/// </example>
 		public static Guid SecureSequentialGuid(DateTime time) {
 			return SequentialGuid(time, RandomUtils.SystemRandomBytes(8));
 		}
