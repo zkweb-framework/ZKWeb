@@ -248,7 +248,7 @@ namespace ZKWeb.ORM.EFCore {
 			foreach (var entity in entities) {
 				beforeDelete?.Invoke(entity);
 				callbacks.ForEach(c => c.BeforeDelete(this, entity)); // notify before delete
-				Delete(entity);
+				Remove(entity);
 			}
 			SaveChanges(); // send commands to database
 			foreach (var entity in entities) {
