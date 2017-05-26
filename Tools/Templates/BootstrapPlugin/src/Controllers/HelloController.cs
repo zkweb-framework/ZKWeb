@@ -3,6 +3,7 @@ using ZKWeb.Storage;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
 
 namespace ${ProjectName}.Plugins.${ProjectName}.src.Controllers {
@@ -32,7 +33,8 @@ namespace ${ProjectName}.Plugins.${ProjectName}.src.Controllers {
 			var path = context.Request.Path;
 			if (path.StartsWith(Prefix)) {
 				var fileStorage = Application.Ioc.Resolve<IFileStorage>();
-				var fileEntry = fileStorage.GetResourceFile("static", path.Substring(Prefix.Length));
+				var subPath = HttpUtils.UrlDecode(path.Substring(Prefix.Length));
+				var fileEntry = fileStorage.GetResourceFile("static", subPath);
 				if (fileEntry.Exists) {
 					var ifModifiedSince = context.Request.GetIfModifiedSince();
 					new FileEntryResult(fileEntry, ifModifiedSince).WriteResponse(context.Response);
