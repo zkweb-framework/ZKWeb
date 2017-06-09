@@ -6,7 +6,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// Dapper type handler registrator<br/>
 	/// 注册dapper类型处理器<br/>
 	/// </summary>
-	internal static class TypeHandlerRegistrator {
+	public static class TypeHandlerRegistrator {
 		/// <summary>
 		/// Register dapper type handler<br/>
 		/// 注册dapper类型处理器<br/>

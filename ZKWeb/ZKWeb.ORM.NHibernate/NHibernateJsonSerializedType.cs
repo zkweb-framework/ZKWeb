@@ -15,7 +15,8 @@ namespace ZKWeb.ORM.NHibernate {
 	/// 如果从数据库得到的值是null, 它会new一个代替<br/>
 	/// </summary>
 	/// <typeparam name="T">Member type</typeparam>
-	public class NHibernateJsonSerializedType<T> : IUserType
+	public class NHibernateJsonSerializedType<T> :
+		IUserType
 		where T : class, new() {
 		/// <summary>
 		/// Is mutable<br/>

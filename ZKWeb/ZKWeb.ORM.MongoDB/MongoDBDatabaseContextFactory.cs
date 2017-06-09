@@ -9,17 +9,17 @@ namespace ZKWeb.ORM.MongoDB {
 	/// MongoDB的数据库上下文生成器<br/>
 	/// MongoDB不需要迁移数据库<br/>
 	/// </summary>
-	internal class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
+	public class MongoDBDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Connection url<br/>
 		/// 连接字符串<br/>
 		/// </summary>
-		private MongoUrl ConnectionUrl { get; set; }
+		protected MongoUrl ConnectionUrl { get; set; }
 		/// <summary>
 		/// MongoDB entity mappings<br/>
 		/// MongoDB的实体映射<br/>
 		/// </summary>
-		private MongoDBEntityMappings Mappings { get; set; }
+		protected MongoDBEntityMappings Mappings { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>

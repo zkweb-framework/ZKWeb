@@ -17,22 +17,22 @@ namespace ZKWeb.ORM.NHibernate {
 	/// NHibernate database context factory<br/>
 	/// NHibernate的数据库上下文生成器<br/>
 	/// </summary>
-	internal class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
+	public class NHibernateDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Batch size<br/>
 		/// 批量操作的命令数量<br/>
 		/// </summary>
-		private const int BatchSize = 1024;
+		protected const int BatchSize = 1024;
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
-		private string Database { get; set; }
+		protected string Database { get; set; }
 		/// <summary>
 		/// NHibernate session factory<br/>
 		/// NHibernate的会话生成器<br/>
 		/// </summary>
-		private ISessionFactory SessionFactory { get; set; }
+		protected ISessionFactory SessionFactory { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -61,11 +61,16 @@ namespace ZKWeb.ORM.NHibernate {
 			configuration.Database(db);
 			// register entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers.Select(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
-			configuration.Mappings(m => entityTypes.ForEach(t => m.FluentMappings.Add(
-				typeof(NHibernateEntityMappingBuilder<>).MakeGenericType(t))));
+			var entityTypes = providers
+				.Select(p => ReflectionUtils.GetGenericArguments(
+					p.GetType(), typeof(IEntityMappingProvider<>))[0])
+				.Distinct().ToList();
+			configuration.Mappings(m => {
+				foreach (var entityType in entityTypes) {
+					var builder = typeof(NHibernateEntityMappingBuilder<>).MakeGenericType(entityType);
+					m.FluentMappings.Add(builder);
+				}
+			});
 			// call initialize handlers
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			configuration.Mappings(m => {

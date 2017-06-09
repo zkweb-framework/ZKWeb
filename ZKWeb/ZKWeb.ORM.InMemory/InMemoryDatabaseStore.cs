@@ -15,29 +15,29 @@ namespace ZKWeb.ORM.InMemory {
 	/// 它不应该用在生产环境<br/>
 	/// 性能会很差<br/>
 	/// </summary>
-	internal class InMemoryDatabaseStore {
+	public class InMemoryDatabaseStore {
 		/// <summary>
 		/// Data store<br/>
 		/// 数据储存<br/>
 		/// { Type: { key: object } }
 		/// </summary>
-		private ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
+		protected ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>
 			Store { get; set; }
 		/// <summary>
 		/// Type to mapping definition<br/>
 		/// 类型到映射的定义<br/>
 		/// </summary>
-		private ConcurrentDictionary<Type, IInMemoryEntityMapping> Mappings { get; set; }
+		protected ConcurrentDictionary<Type, IInMemoryEntityMapping> Mappings { get; set; }
 		/// <summary>
 		/// Type to primary key sequence, only for integer type<br/>
 		/// 类型到主键的序号, 只供int主键使用<br/>
 		/// </summary>
-		private ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
+		protected ConcurrentDictionary<Type, long> PrimaryKeySequence { get; set; }
 		/// <summary>
 		/// The lock for the sequence increment<br/>
 		/// 增加序号时使用的锁<br/>
 		/// </summary>
-		private object PrimaryKeySequenceLock { get; set; }
+		protected object PrimaryKeySequenceLock { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -50,13 +50,14 @@ namespace ZKWeb.ORM.InMemory {
 			PrimaryKeySequenceLock = new object();
 			// Build entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var groupedProviders = providers.GroupBy(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]);
-			foreach (var group in groupedProviders) {
-				var builder = (IInMemoryEntityMapping)Activator.CreateInstance(
-					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(group.Key));
-				Mappings[group.Key] = builder;
+			var entityTypes = providers
+				.Select(p => ReflectionUtils.GetGenericArguments(
+					p.GetType(), typeof(IEntityMappingProvider<>))[0])
+				.Distinct().ToList();
+			foreach (var entityType in entityTypes) {
+				var builder = Activator.CreateInstance(
+					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(entityType));
+				Mappings[entityType] = (IInMemoryEntityMapping)builder;
 			}
 		}
 

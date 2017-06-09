@@ -13,7 +13,7 @@
 - Improve IoC container
 	- Add ExportAttributeBase for support customize registration by attribute
 - Improve ORM layer
-	- Add NativeBuilder in IEntityMappingBuilder<T>
+	(Removed) - Add NativeBuilder in IEntityMappingBuilder<T>
 - Improve visual studio support
 	- Mark Response.End as DebuggerNonUserCode to make visual studio ignore the special exception
 - Update project template

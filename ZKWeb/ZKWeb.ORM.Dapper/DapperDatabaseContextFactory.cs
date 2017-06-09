@@ -13,22 +13,22 @@ namespace ZKWeb.ORM.Dapper {
 	/// 你应该手动创建好数据库表, 或者先用其他ORM创建<br/>
 	/// 并且因为Dapper不支持关系映射, 你应该明确的创建join使用的表<br/>
 	/// </summary>
-	internal class DapperDatabaseContextFactory : IDatabaseContextFactory {
+	public class DapperDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Dapper entity mappings<br/>
 		/// Dapper的实体映射<br/>
 		/// </summary>
-		private DapperEntityMappings Mappings { get; set; }
+		public DapperEntityMappings Mappings { get; protected set; }
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
-		public string Database { get; set; }
+		public string Database { get; protected set; }
 		/// <summary>
 		/// Connection string<br/>
 		/// 连接字符串<br/>
 		/// </summary>
-		public string ConnectionString { get; set; }
+		public string ConnectionString { get; protected set; }
 
 		/// <summary>
 		/// Initialize<br/>

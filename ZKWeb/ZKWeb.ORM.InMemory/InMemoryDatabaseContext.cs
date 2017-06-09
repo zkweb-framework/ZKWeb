@@ -10,18 +10,20 @@ namespace ZKWeb.ORM.InMemory {
 	/// InMemory database context<br/>
 	/// 内存数据库的上下文<br/>
 	/// </summary>
-	internal class InMemoryDatabaseContext : IDatabaseContext {
+	public class InMemoryDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// The database object<br/>
 		/// 数据库对象<br/>
 		/// </summary>
-		private InMemoryDatabaseStore Store { get; set; }
+		protected InMemoryDatabaseStore Store { get; set; }
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
+#pragma warning disable CS1591
 		public const string ConstORM = "InMemory";
+#pragma warning restore CS1591
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>

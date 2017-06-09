@@ -14,12 +14,12 @@ namespace ZKWeb.ORM.Dapper {
 	/// Dapper entity mappings<br/>
 	/// Dapper的实体映射集合<br/>
 	/// </summary>
-	internal class DapperEntityMappings {
+	public class DapperEntityMappings {
 		/// <summary>
 		/// Type to mapping definition<br/>
 		/// 类型到映射的定义<br/>
 		/// </summary>
-		private ConcurrentDictionary<Type, IDapperEntityMapping> Mappings { get; set; }
+		public ConcurrentDictionary<Type, IDapperEntityMapping> Mappings { get; protected set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -29,14 +29,14 @@ namespace ZKWeb.ORM.Dapper {
 			Mappings = new ConcurrentDictionary<Type, IDapperEntityMapping>();
 			// Build entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var groupedProviders = providers.GroupBy(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]);
-			foreach (var group in groupedProviders) {
-				var builder = (IDapperEntityMapping)Activator.CreateInstance(
-					typeof(DapperEntityMappingBuilder<>).MakeGenericType(group.Key));
-				builder.IgnoreExtraMembers();
-				Mappings[group.Key] = builder;
+			var entityTypes = providers
+				.Select(p => ReflectionUtils.GetGenericArguments(
+					p.GetType(), typeof(IEntityMappingProvider<>))[0])
+				.Distinct().ToList();
+			foreach (var entityType in entityTypes) {
+				var builder = Activator.CreateInstance(
+					typeof(DapperEntityMappingBuilder<>).MakeGenericType(entityType));
+				Mappings[entityType] = (IDapperEntityMapping)builder;
 			}
 			// Setup dommel mappings
 			FluentMapper.Initialize(config => {

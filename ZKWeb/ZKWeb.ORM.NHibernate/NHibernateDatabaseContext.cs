@@ -13,34 +13,38 @@ namespace ZKWeb.ORM.NHibernate {
 	/// NHibernate database context<br/>
 	/// Nhibernate的数据库上下文<br/>
 	/// </summary>
-	internal class NHibernateDatabaseContext : IDatabaseContext {
+	public class NHibernateDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// NHibernate session<br/>
 		/// NHibernate的会话<br/>
 		/// </summary>
-		private ISession Session { get; set; }
+		protected ISession Session { get; set; }
 		/// <summary>
 		/// NHibernate transaction, maybe null if not used<br/>
 		/// NHibernate的事务, 不使用时等于null<br/>
 		/// </summary>
-		private ITransaction Transaction { get; set; }
+		protected ITransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter<br/>
 		/// 事务嵌套计数<br/>
 		/// </summary>
-		private int TransactionLevel;
+		protected int TransactionLevel;
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
+#pragma warning disable CS1591
 		public const string ConstORM = "NHibernate";
+#pragma warning restore CS1591
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
-		private string databaseType;
+#pragma warning disable CS1591
+		protected string databaseType;
+#pragma warning restore CS1591
 		/// <summary>
 		/// Underlying database connection<br/>
 		/// 底层的数据库连接<br/>
@@ -256,7 +260,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Create a sql query from query string and parameters<br/>
 		/// 根据查询字符串和参数创建SQL查询<br/>
 		/// </summary>
-		private IQuery CreateSQLQuery(object query, object parameters) {
+		protected IQuery CreateSQLQuery(object query, object parameters) {
 			var sqlQueryString = (string)query;
 			IQuery sqlQuery = Session.CreateSQLQuery(sqlQueryString);
 			if (parameters != null) {

@@ -5,7 +5,7 @@ namespace ZKWeb.ORM.NHibernate {
 	/// Better postgre sql configuration<br/>
 	/// 更好的PostgreSQL配置类<br/>
 	/// </summary>
-	internal class BetterPostgreSQLConfiguration : PostgreSQLConfiguration {
+	public class BetterPostgreSQLConfiguration : PostgreSQLConfiguration {
 		/// <summary>
 		/// Better configuration<br/>
 		/// 获取更好的配置<br/>

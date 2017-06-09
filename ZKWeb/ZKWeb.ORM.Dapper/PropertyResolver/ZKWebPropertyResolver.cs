@@ -9,7 +9,7 @@ namespace ZKWeb.ORM.Dapper.PropertyResolver {
 	/// 替换dommel的属性解决器<br/>
 	/// 不过滤复杂类型<br/>
 	/// </summary>
-	internal class ZKWebPropertyResolver : DommelPropertyResolver {
+	public class ZKWebPropertyResolver : DommelPropertyResolver {
 		/// <summary>
 		/// Don't filter complex types<br/>
 		/// 不过滤复杂类型<br/>

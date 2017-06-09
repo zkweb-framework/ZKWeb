@@ -14,23 +14,25 @@ namespace ZKWeb.ORM.MongoDB {
 	/// MongoDB database context<br/>
 	/// MongoDB的数据库上下文<br/>
 	/// </summary>
-	internal class MongoDBDatabaseContext : IDatabaseContext {
+	public class MongoDBDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// MongoDB entity mappings<br/>
 		/// MongoDB的实体映射集合<br/>
 		/// </summary>
-		private MongoDBEntityMappings Mappings { get; set; }
+		protected MongoDBEntityMappings Mappings { get; set; }
 		/// <summary>
 		/// Database object<br/>
 		/// 数据库对象<br/>
 		/// </summary>
-		private IMongoDatabase MongoDatabase { get; set; }
+		protected IMongoDatabase MongoDatabase { get; set; }
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
+#pragma warning disable CS1591
 		public const string ConstORM = "MongoDB";
+#pragma warning restore CS1591
 		/// <summary>
 		/// Database type<br/>
 		/// Same as ORM name<br/>
@@ -79,7 +81,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Get mongo collection<br/>
 		/// 获取数据集合<br/>
 		/// </summary>
-		private IMongoCollection<T> GetCollection<T>()
+		protected IMongoCollection<T> GetCollection<T>()
 			where T : class {
 			var mapping = Mappings.GetMapping(typeof(T));
 			return MongoDatabase.GetCollection<T>(mapping.CollectionName);
@@ -121,7 +123,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// 生成根据实体Id过滤的表达式<br/>
 		/// 结果是 (e =&gt; e.Id == entity.Id)<br/>
 		/// </summary>
-		private Expression<Func<T, bool>> MakeIdExpression<T>(T entity) {
+		protected Expression<Func<T, bool>> MakeIdExpression<T>(T entity) {
 			var mapping = Mappings.GetMapping(typeof(T));
 			return ExpressionUtils.MakeMemberEqualiventExpression<T>(
 				mapping.IdMember.Name, mapping.IdMember.FastGetValue(entity));

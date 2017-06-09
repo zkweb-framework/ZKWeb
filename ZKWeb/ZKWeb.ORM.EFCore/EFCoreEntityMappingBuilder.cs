@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.FastReflection;
@@ -18,14 +17,24 @@ namespace ZKWeb.ORM.EFCore {
 	/// Entity Framework Core的实体映射构建器<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
-	internal class EFCoreEntityMappingBuilder<T> : IEntityMappingBuilder<T>
+	public class EFCoreEntityMappingBuilder<T> :
+		IEntityMappingBuilder<T>
 		where T : class, IEntity {
-		private EntityTypeBuilder<T> Builder { get; set; }
+		/// <summary>
+		/// Entity Framework's native builder<br/>
+		/// 原生的EF实体映射构建器<br/>
+		/// </summary>
+		protected EntityTypeBuilder<T> Builder { get; set; }
+		/// <summary>
+		/// ORM name<br/>
+		/// ORM名称<br/>
+		/// </summary>
 		public string ORM { get { return EFCoreDatabaseContext.ConstORM; } }
-		public object NativeBuilder {
-			get { return Builder; }
-			set { Builder = (EntityTypeBuilder<T>)value; }
-		}
+		/// <summary>
+		/// Custom table name<br/>
+		/// 自定义表名<br/>
+		/// </summary>
+		protected string CustomTableName { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -35,16 +44,25 @@ namespace ZKWeb.ORM.EFCore {
 		public EFCoreEntityMappingBuilder(
 			ModelBuilder builder) {
 			Builder = builder.Entity<T>();
-			// Set table name with registered handlers
-			var tableName = typeof(T).Name;
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			handlers.ForEach(h => h.ConvertTableName(ref tableName));
-			Builder = Builder.ToTable(tableName);
 			// Configure with registered providers
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+			// Set table name with registered handlers
+			var tableName = CustomTableName ?? typeof(T).Name;
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			handlers.ForEach(h => h.ConvertTableName(ref tableName));
+			Builder = Builder.ToTable(tableName);
+		}
+
+		/// <summary>
+		/// Specify the custom table name<br/>
+		/// 指定自定义表名<br/>
+		/// </summary>
+		/// <param name="tableName"></param>
+		public void TableName(string tableName) {
+			CustomTableName = tableName;
 		}
 
 		/// <summary>
@@ -117,7 +135,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// 从选项获取导航属性名称<br/>
 		/// 或自动检测另一端的导航属性<br/>
 		/// </summary>
-		private string GetNavigationPropertyName<TOther, TNavigationType>(
+		protected string GetNavigationPropertyName<TOther, TNavigationType>(
 			EntityMappingOptions options) {
 			if (!string.IsNullOrEmpty(options.Navigation)) {
 				return options.Navigation;

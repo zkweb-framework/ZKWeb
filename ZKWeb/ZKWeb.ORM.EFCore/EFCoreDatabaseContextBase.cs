@@ -13,12 +13,12 @@ namespace ZKWeb.ORM.EFCore {
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
-		private string DatabaseName { get; set; }
+		protected string DatabaseName { get; set; }
 		/// <summary>
 		/// Connection string<br/>
 		/// 连接字符串<br/>
 		/// </summary>
-		private string ConnectionString { get; set; }
+		protected string ConnectionString { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>

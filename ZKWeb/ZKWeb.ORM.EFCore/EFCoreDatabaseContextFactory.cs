@@ -19,32 +19,32 @@ namespace ZKWeb.ORM.EFCore {
 	/// Entity Framework Core database context factory<br/>
 	/// Entity Framework Core的数据库上下文生成器<br/>
 	/// </summary>
-	internal class EFCoreDatabaseContextFactory : IDatabaseContextFactory {
+	public class EFCoreDatabaseContextFactory : IDatabaseContextFactory {
 		/// <summary>
 		/// Filename prefix for model snapshot<br/>
 		/// 模型快照的文件名前缀<br/>
 		/// </summary>
-		private const string ModelSnapshotFilePrefix = "EFModelSnapshot_";
+		protected const string ModelSnapshotFilePrefix = "EFModelSnapshot_";
 		/// <summary>
 		/// Namespace for model snapshot<br/>
 		/// 模型快照的命名空间<br/>
 		/// </summary>
-		private const string ModelSnapshotNamespace = "ZKWeb.ORM.EFCore.Migrations";
+		protected const string ModelSnapshotNamespace = "ZKWeb.ORM.EFCore.Migrations";
 		/// <summary>
 		/// Class name prefix for model snapshot<br/>
 		/// 模型快照的类名前缀<br/>
 		/// </summary>
-		private const string ModelSnapshotClassPrefix = "Migration_";
+		protected const string ModelSnapshotClassPrefix = "Migration_";
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
-		private string Database { get; set; }
+		protected string Database { get; set; }
 		/// <summary>
 		/// Connection string<br/>
 		/// 连接字符串<br/>
 		/// </summary>
-		private string ConnectionString { get; set; }
+		protected string ConnectionString { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -83,7 +83,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <param name="context">Entity Framework Core database context</param>
 		/// <param name="initialModel">Initial model, only contains migration history</param>
-		private void MigrateRelationalDatabase(DbContext context, IModel initialModel) {
+		protected void MigrateRelationalDatabase(DbContext context, IModel initialModel) {
 			var serviceProvider = ((IInfrastructure<IServiceProvider>)context).Instance;
 			// Get the last migration model
 			var lastModel = initialModel;

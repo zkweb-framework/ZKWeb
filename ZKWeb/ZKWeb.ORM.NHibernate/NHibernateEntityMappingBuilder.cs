@@ -12,11 +12,15 @@ namespace ZKWeb.ORM.NHibernate {
 	/// See: http://stackoverflow.com/questions/1152060/nhibernate-cascade-save-update
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
-	internal class NHibernateEntityMappingBuilder<T> :
-		ClassMap<T>, IEntityMappingBuilder<T>
+	public class NHibernateEntityMappingBuilder<T> :
+		ClassMap<T>,
+		IEntityMappingBuilder<T>
 		where T : class, IEntity {
-		public string ORM { get { return "NHibernate"; } }
-		public object NativeBuilder { get { return this; } set { } }
+		/// <summary>
+		/// ORM name<br/>
+		/// ORM名称<br/>
+		/// </summary>
+		public string ORM { get { return NHibernateDatabaseContext.ConstORM; } }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -28,6 +32,15 @@ namespace ZKWeb.ORM.NHibernate {
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+		}
+
+		/// <summary>
+		/// Specify the custom table name<br/>
+		/// 指定自定义表名<br/>
+		/// </summary>
+		/// <param name="tableName">The table name</param>
+		public void TableName(string tableName) {
+			base.Table(tableName);
 		}
 
 		/// <summary>

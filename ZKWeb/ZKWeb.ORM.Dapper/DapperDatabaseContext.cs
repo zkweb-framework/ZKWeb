@@ -19,39 +19,43 @@ namespace ZKWeb.ORM.Dapper {
 	/// Dapper database context<br/>
 	/// Dapper的数据库上下文<br/>
 	/// </summary>
-	internal class DapperDatabaseContext : IDatabaseContext {
+	public class DapperDatabaseContext : IDatabaseContext {
 		/// <summary>
 		/// Dapper entity mappings<br/>
 		/// Dapper的实体映射<br/>
 		/// </summary>
-		private DapperEntityMappings Mappings { get; set; }
+		public DapperEntityMappings Mappings { get; protected set; }
 		/// <summary>
 		/// Database connection<br/>
 		/// 数据库连接<br/>
 		/// </summary>
-		private IDbConnection Connection { get; set; }
+		protected IDbConnection Connection { get; set; }
 		/// <summary>
 		/// Database transaction<br/>
 		/// 数据库事务<br/>
 		/// </summary>
-		private IDbTransaction Transaction { get; set; }
+		protected IDbTransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter<br/>
 		/// 事务嵌套计数<br/>
 		/// </summary>
-		private int TransactionLevel;
+		protected int TransactionLevel;
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return ConstORM; } }
+#pragma warning disable CS1591
 		public const string ConstORM = "Dapper";
+#pragma warning restore CS1591
 		/// <summary>
 		/// Database type<br/>
 		/// 数据库类型<br/>
 		/// </summary>
 		public string Database { get { return databaseType; } }
-		private string databaseType;
+#pragma warning disable CS1591
+		protected string databaseType;
+#pragma warning restore CS1591
 		/// <summary>
 		/// Underlying database connection<br/>
 		/// 返回底层的数据库连接<br/>
@@ -193,7 +197,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// Insert or update entity<br/>
 		/// 插入或更新实体<br/>
 		/// </summary>
-		private void InsertOrUpdate<T>(T entity)
+		protected void InsertOrUpdate<T>(T entity)
 			where T : class, IEntity {
 			// If the primary key is empty, insert it
 			var mapping = Mappings.GetMapping(typeof(T));

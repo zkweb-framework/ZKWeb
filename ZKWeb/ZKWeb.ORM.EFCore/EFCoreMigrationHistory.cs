@@ -6,7 +6,7 @@ namespace ZKWeb.ORM.EFCore {
 	/// Custom migration history entity<br/>
 	/// 自定义的迁移历史实体<br/>
 	/// </summary>
-	internal class EFCoreMigrationHistory {
+	public class EFCoreMigrationHistory {
 		/// <summary>
 		/// Migration revision<br/>
 		/// 迁移版本<br/>

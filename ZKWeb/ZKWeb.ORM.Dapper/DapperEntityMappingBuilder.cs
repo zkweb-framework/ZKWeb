@@ -15,18 +15,42 @@ namespace ZKWeb.ORM.Dapper {
 	/// 定义一个实体的映射<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
-	internal class DapperEntityMappingBuilder<T> :
+	public class DapperEntityMappingBuilder<T> :
 		DommelEntityMap<T>,
 		IEntityMappingBuilder<T>,
 		IDapperEntityMapping
 		where T : class, IEntity {
+		/// <summary>
+		/// Entity type<br/>
+		/// 实体类型<br/>
+		/// </summary>
 		public Type EntityType { get { return typeof(T); } }
+		/// <summary>
+		/// Id member<br/>
+		/// Id成员<br/>
+		/// </summary>
 		public MemberInfo IdMember { get { return idMember; } }
-		private MemberInfo idMember;
+#pragma warning disable CS1591
+		protected MemberInfo idMember;
+#pragma warning restore CS1591
+		/// <summary>
+		/// Ordinary members<br/>
+		/// 普通成员列表<br/>
+		/// </summary>
 		public IEnumerable<MemberInfo> OrdinaryMembers { get { return ordinaryMembers; } }
-		private IList<MemberInfo> ordinaryMembers;
+#pragma warning disable CS1591
+		protected IList<MemberInfo> ordinaryMembers;
+#pragma warning restore CS1591
+		/// <summary>
+		/// ORM name<br/>
+		/// ORM名称<br/>
+		/// </summary>
 		public string ORM { get { return DapperDatabaseContext.ConstORM; } }
-		public object NativeBuilder { get { return this; } set { } }
+		/// <summary>
+		/// Custom table name<br/>
+		/// 自定义表名<br/>
+		/// </summary>
+		protected string CustomTableName { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -40,11 +64,35 @@ namespace ZKWeb.ORM.Dapper {
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+			// Ignore members that not mapped by this builder
+			var existMembers = new HashSet<MemberInfo>();
+			existMembers.Add(idMember);
+			existMembers.AddRange(ordinaryMembers);
+			foreach (var property in typeof(T).FastGetProperties()) {
+				if (existMembers.Contains(property)) {
+					continue;
+				}
+				var parameter = Expression.Parameter(typeof(T));
+				var memberExpression = Expression.Lambda<Func<T, object>>(
+					Expression.Convert(Expression.Property(parameter, property), typeof(object)),
+					parameter);
+				base.Map(memberExpression).Ignore();
+			}
 			// Set table name with registered handlers
-			var tableName = typeof(T).Name;
+			var tableName = CustomTableName ?? typeof(T).Name;
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			handlers.ForEach(h => h.ConvertTableName(ref tableName));
+			foreach (var handle in handlers) {
+				handle.ConvertTableName(ref tableName);
+			}
 			base.ToTable(tableName);
+		}
+
+		/// <summary>
+		/// Specify the custom table name<br/>
+		/// 指定自定义表名<br/>
+		/// </summary>
+		void IEntityMappingBuilder<T>.TableName(string tableName) {
+			CustomTableName = tableName;
 		}
 
 		/// <summary>
@@ -128,26 +176,6 @@ namespace ZKWeb.ORM.Dapper {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();
 			logManager.LogError($"HasManyToMany is unsupported with dapper, expression: {memberExpression}");
-		}
-
-		/// <summary>
-		/// Ignore members that not mapped by this builder<br/>
-		/// 忽略构建器未指定的成员<br/>
-		/// </summary>
-		public void IgnoreExtraMembers() {
-			var existMembers = new HashSet<MemberInfo>();
-			existMembers.Add(idMember);
-			existMembers.AddRange(ordinaryMembers);
-			foreach (var property in typeof(T).FastGetProperties()) {
-				if (existMembers.Contains(property)) {
-					continue;
-				}
-				var parameter = Expression.Parameter(typeof(T));
-				var memberExpression = Expression.Lambda<Func<T, object>>(
-					Expression.Convert(Expression.Property(parameter, property), typeof(object)),
-					parameter);
-				base.Map(memberExpression).Ignore();
-			}
 		}
 	}
 }

@@ -20,12 +20,12 @@ namespace ZKWeb.ORM.EFCore {
 		/// Entity Framework Core transaction<br/>
 		/// Entity Framework Core的事务<br/>
 		/// </summary>
-		private IDbContextTransaction Transaction { get; set; }
+		protected IDbContextTransaction Transaction { get; set; }
 		/// <summary>
 		/// Transaction level counter<br/>
 		/// 事务的嵌套计数<br/>
 		/// </summary>
-		private int TransactionLevel;
+		protected int TransactionLevel;
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
@@ -37,7 +37,9 @@ namespace ZKWeb.ORM.EFCore {
 		/// 数据库类型<br/>
 		/// </summary>
 		string IDatabaseContext.Database { get { return databaseType; } }
-		private string databaseType;
+#pragma warning disable CS1591
+		protected string databaseType;
+#pragma warning restore CS1591
 		/// <summary>
 		/// Underlying database connection<br/>
 		/// 底层的数据库连接<br/>
@@ -67,11 +69,14 @@ namespace ZKWeb.ORM.EFCore {
 			base.OnModelCreating(modelBuilder);
 			// Register entity mappings
 			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers.Select(p =>
-				ReflectionUtils.GetGenericArguments(
-				p.GetType(), typeof(IEntityMappingProvider<>))[0]).ToList();
-			entityTypes.ForEach(t => Activator.CreateInstance(
-				typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(t), modelBuilder));
+			var entityTypes = providers
+				.Select(p => ReflectionUtils.GetGenericArguments(
+					p.GetType(), typeof(IEntityMappingProvider<>))[0])
+				.Distinct().ToList();
+			foreach (var entityType in entityTypes) {
+				Activator.CreateInstance(
+					typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(entityType), modelBuilder);
+			}
 		}
 
 		/// <summary>
@@ -153,7 +158,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// Insert or update entity<br/>
 		/// 插入或更新实体<br/>
 		/// </summary>
-		private void InsertOrUpdate<T>(T entity, Action<T> update = null)
+		protected void InsertOrUpdate<T>(T entity, Action<T> update = null)
 			where T : class, IEntity {
 			var entityInfo = Entry(entity);
 			update?.Invoke(entity);

@@ -7,7 +7,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// 处理json序列化的类型<br/>
 	/// </summary>
 	/// <typeparam name="T">Json serialized type</typeparam>
-	internal class JsonSerializedTypeHandler<T> : SqlMapper.StringTypeHandler<T>
+	public class JsonSerializedTypeHandler<T> : SqlMapper.StringTypeHandler<T>
 		where T : new() {
 		/// <summary>
 		/// Parse from json<br/>

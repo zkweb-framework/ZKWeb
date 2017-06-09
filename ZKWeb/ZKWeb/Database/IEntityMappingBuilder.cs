@@ -33,10 +33,11 @@ namespace ZKWeb.Database {
 		string ORM { get; }
 
 		/// <summary>
-		/// Native builder, can be any type or null<br/>
-		/// 原生的构建器, 可以是任何类型或null<br/>
+		/// Specify the custom table name<br/>
+		/// 指定自定义表名<br/>
 		/// </summary>
-		object NativeBuilder { get; set; }
+		/// <param name="tableName">The table name</param>
+		void TableName(string tableName);
 
 		/// <summary>
 		/// Specify the primary key for this entity<br/>

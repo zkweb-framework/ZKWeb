@@ -10,7 +10,7 @@ namespace ZKWeb.ORM.NHibernate {
 	/// 改进点<br/>
 	/// - 支持Guid类型<br/>
 	/// </summary>
-	internal class BetterPostgreSQLDialect : PostgreSQLDialect {
+	public class BetterPostgreSQLDialect : PostgreSQLDialect {
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>

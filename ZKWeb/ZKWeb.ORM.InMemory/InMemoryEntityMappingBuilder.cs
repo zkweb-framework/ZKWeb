@@ -10,17 +10,45 @@ namespace ZKWeb.ORM.InMemory {
 	/// 定义实体的映射<br/>
 	/// </summary>
 	/// <typeparam name="T">Entity type</typeparam>
-	internal class InMemoryEntityMappingBuilder<T> :
-		IEntityMappingBuilder<T>, IInMemoryEntityMapping
+	public class InMemoryEntityMappingBuilder<T> :
+		IEntityMappingBuilder<T>,
+		IInMemoryEntityMapping
 		where T : class, IEntity {
+		/// <summary>
+		/// Entity type<br/>
+		/// 实体类型<br/>
+		/// </summary>
 		public Type EntityType { get { return typeof(T); } }
+		/// <summary>
+		/// Id member<br/>
+		/// Id成员<br/>
+		/// </summary>
 		public MemberInfo IdMember { get; set; }
+		/// <summary>
+		/// Ordinary members<br/>
+		/// 普通成员列表<br/>
+		/// </summary>
 		public IList<MemberInfo> OrdinaryMembers { get; set; }
+		/// <summary>
+		/// Many-to-one members<br/>
+		/// 多对一的成员列表<br/>
+		/// </summary>
 		public IList<MemberInfo> ManyToOneMembers { get; set; }
+		/// <summary>
+		/// One-to-many embers<br/>
+		/// 一对多的成员列表<br/>
+		/// </summary>
 		public IList<MemberInfo> OneToManyMembers { get; set; }
+		/// <summary>
+		/// Many-to-many members<br/>
+		/// 多对多的成员列表<br/>
+		/// </summary>
 		public IList<MemberInfo> ManyToManyMembers { get; set; }
+		/// <summary>
+		/// ORM name<br/>
+		/// ORM名称<br/>
+		/// </summary>
 		public string ORM { get { return InMemoryDatabaseContext.ConstORM; } }
-		public object NativeBuilder { get { return this; } set { } }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -36,6 +64,15 @@ namespace ZKWeb.ORM.InMemory {
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+		}
+
+		/// <summary>
+		/// Specify the custom table name<br/>
+		/// 指定自定义表名<br/>
+		/// </summary>
+		/// <param name="tableName">The table name</param>
+		public void TableName(string tableName) {
+			// Do nothing
 		}
 
 		/// <summary>

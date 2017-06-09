@@ -6,7 +6,7 @@ namespace ZKWeb.ORM.MongoDB {
 	/// Interface for MongoDB entity mapping<br/>
 	/// MongoDB的实体映射接口<br/>
 	/// </summary>
-	internal interface IMongoDBEntityMapping {
+	public interface IMongoDBEntityMapping {
 		/// <summary>
 		/// Collection name<br/>
 		/// 集合名词<br/>

@@ -10,7 +10,7 @@ namespace ZKWeb.ORM.Dapper.TypeHandlers {
 	/// 处理guid类型<br/>
 	/// <br/>
 	/// </summary>
-	internal class GuidTypeHandler : SqlMapper.TypeHandler<Guid> {
+	public class GuidTypeHandler : SqlMapper.TypeHandler<Guid> {
 		/// <summary>
 		/// Convert value to guid field<br/>
 		/// 转换值到guid字段<br/>

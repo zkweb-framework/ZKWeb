@@ -7,7 +7,7 @@ namespace ZKWeb.ORM.InMemory {
 	/// The non-generic interface for entity mapping<br/>
 	/// 实体映射的非泛型接口<br/>
 	/// </summary>
-	internal interface IInMemoryEntityMapping {
+	public interface IInMemoryEntityMapping {
 		/// <summary>
 		/// The entity type<br/>
 		/// 实体类型<br/>
