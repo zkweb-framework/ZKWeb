@@ -21,6 +21,11 @@ namespace ZKWeb.ORM.NHibernate {
 		/// ORM名称<br/>
 		/// </summary>
 		public string ORM { get { return NHibernateDatabaseContext.ConstORM; } }
+		/// <summary>
+		/// Custom table name<br/>
+		/// 自定义表名<br/>
+		/// </summary>
+		protected string CustomTableName { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -32,6 +37,13 @@ namespace ZKWeb.ORM.NHibernate {
 			foreach (var provider in providers) {
 				provider.Configure(this);
 			}
+			// Set table name with registered handlers
+			var tableName = CustomTableName ?? typeof(T).Name;
+			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
+			foreach (var handler in handlers) {
+				handler.ConvertTableName(ref tableName);
+			}
+			base.Table(tableName);
 		}
 
 		/// <summary>
@@ -40,7 +52,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		/// <param name="tableName">The table name</param>
 		public void TableName(string tableName) {
-			base.Table(tableName);
+			CustomTableName = tableName;
 		}
 
 		/// <summary>

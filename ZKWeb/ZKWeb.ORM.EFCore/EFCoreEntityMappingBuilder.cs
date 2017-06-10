@@ -52,7 +52,9 @@ namespace ZKWeb.ORM.EFCore {
 			// Set table name with registered handlers
 			var tableName = CustomTableName ?? typeof(T).Name;
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			handlers.ForEach(h => h.ConvertTableName(ref tableName));
+			foreach (var handler in handlers) {
+				handler.ConvertTableName(ref tableName);
+			}
 			Builder = Builder.ToTable(tableName);
 		}
 

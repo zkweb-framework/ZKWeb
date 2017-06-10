@@ -71,18 +71,14 @@ namespace ZKWeb.ORM.NHibernate {
 					m.FluentMappings.Add(builder);
 				}
 			});
-			// call initialize handlers
+			// set many-to-many table name
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			configuration.Mappings(m => {
-				m.FluentMappings.Conventions.Add(ConventionBuilder.Class.Always(x => {
-					var tableName = x.EntityType.Name;
-					handlers.ForEach(h => h.ConvertTableName(ref tableName));
-					x.Table(tableName);
-				}));
 				m.FluentMappings.Conventions.Add(ConventionBuilder.HasManyToMany.Always(x => {
-					var tableName = string.Format(
-						"{0}To{1}", x.EntityType.Name, x.ChildType.Name);
-					handlers.ForEach(h => h.ConvertTableName(ref tableName));
+					var tableName = string.Format("{0}To{1}", x.EntityType.Name, x.ChildType.Name);
+					foreach (var handler in handlers) {
+						handler.ConvertTableName(ref tableName);
+					}
 					x.Table(tableName);
 				}));
 			});

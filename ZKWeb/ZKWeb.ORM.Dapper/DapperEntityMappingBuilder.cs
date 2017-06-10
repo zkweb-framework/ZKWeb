@@ -81,8 +81,8 @@ namespace ZKWeb.ORM.Dapper {
 			// Set table name with registered handlers
 			var tableName = CustomTableName ?? typeof(T).Name;
 			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			foreach (var handle in handlers) {
-				handle.ConvertTableName(ref tableName);
+			foreach (var handler in handlers) {
+				handler.ConvertTableName(ref tableName);
 			}
 			base.ToTable(tableName);
 		}
