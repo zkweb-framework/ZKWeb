@@ -13,7 +13,8 @@
 - Improve IoC container
 	- Add ExportAttributeBase for support customize registration by attribute
 - Improve ORM layer
-	(Removed) - Add NativeBuilder in IEntityMappingBuilder<T>
+	- Support specify table name in mapping builder, eg: builder.TableName("MyTable")
+	- Mark internal classes as public
 - Improve visual studio support
 	- Mark Response.End as DebuggerNonUserCode to make visual studio ignore the special exception
 - Update project template
