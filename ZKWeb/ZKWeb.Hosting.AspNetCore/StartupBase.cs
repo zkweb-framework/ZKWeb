@@ -69,7 +69,6 @@ namespace ZKWeb.Hosting.AspNetCore {
 				StopApplicationAfter(app, 3000);
 				throw;
 			}
-
 		}
 	}
 }

@@ -3,20 +3,23 @@
 ### Changes
 
 - Update toolkit
-	- improve linux support
+	- Improve linux support
 - Add utility functions
 	- Exception.ToDetailedString
 	- Exception.ToSummaryString
 	- Expression.ReplaceNode
+- Improve application initialization
+	- Log emergency log when initialize failed
+	- Change protect level of `Initialize` methods, from "internal static" to "internal protected virtual"
 - Improve template engine
 	- Keep widget before and after html when render failed
 - Improve IoC container
-	- Add ExportAttributeBase for support customize registration by attribute
+	- Add ExportAttributeBase
 - Improve ORM layer
 	- Support specify table name in mapping builder, eg: builder.TableName("MyTable")
-	- Mark internal classes as public
+	- Change protect level of classes, from "internal" to "public"
 - Improve visual studio support
-	- Mark Response.End as DebuggerNonUserCode to make visual studio ignore the special exception
+	- Mark Response.End as DebuggerNonUserCode to make visual studio ignore the exception
 - Update project template
 	- Allow Asp.Net Core hosting take configuration from command line and json
 - Bug fixes

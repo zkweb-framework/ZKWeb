@@ -50,7 +50,7 @@ namespace ZKWeb.Storage {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public static void Initialize(string websiteRootDirectory) {
+		internal protected virtual void Initialize(string websiteRootDirectory) {
 			var config = Application.Ioc.Resolve<LocalPathConfig>();
 			config.WebsiteRootDirectory = Path.GetFullPath(websiteRootDirectory);
 			config.AppDataDirectory = Path.Combine(config.WebsiteRootDirectory, "App_Data");

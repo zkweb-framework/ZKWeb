@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using ZKWeb.Cache;
@@ -33,7 +34,7 @@ namespace ZKWeb.Server {
 		/// ZKWeb Version String<br/>
 		/// ZKWeb的版本字符串<br/>
 		/// </summary>
-		public virtual string FullVersion { get { return "1.9.0 beta 5"; } }
+		public virtual string FullVersion { get { return "1.9.0 beta 6"; } }
 		/// <summary>
 		/// ZKWeb Version Object<br/>
 		/// ZKWeb的版本对象<br/>
@@ -80,6 +81,7 @@ namespace ZKWeb.Server {
 		/// 注册组件到默认的容器<br/>
 		/// </summary>
 		protected virtual void InitializeContainer() {
+			Ioc.RegisterMany<AutomaticCacheCleaner>(ReuseType.Singleton);
 			Ioc.RegisterMany<CacheFactory>(ReuseType.Singleton);
 			Ioc.RegisterMany<DatabaseManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
@@ -92,6 +94,8 @@ namespace ZKWeb.Server {
 #endif
 			Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<PluginReloader>(ReuseType.Singleton);
+			Ioc.RegisterMany<JsonNetInitializer>(ReuseType.Singleton);
 #pragma warning disable CS0618
 			Ioc.RegisterMany<ConfigManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PathConfig>(ReuseType.Singleton);
@@ -110,6 +114,7 @@ namespace ZKWeb.Server {
 			Ioc.RegisterMany<AddVersionHeaderHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<DefaultErrorHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<ThreadPoolInitializer>(ReuseType.Singleton);
 			Ioc.RegisterMany<CacheIsolateByDevice>(ReuseType.Singleton, serviceKey: "Device");
 			Ioc.RegisterMany<CacheIsolateByLocale>(ReuseType.Singleton, serviceKey: "Locale");
 			Ioc.RegisterMany<CacheIsolateByUrl>(ReuseType.Singleton, serviceKey: "Url");
@@ -121,13 +126,13 @@ namespace ZKWeb.Server {
 		/// 初始化核心组件<br/>
 		/// </summary>
 		protected virtual void InitializeCoreComponents() {
-			LocalPathConfig.Initialize(WebsiteRootDirectory);
-			WebsiteConfigManager.Initialize();
-			PluginManager.Initialize();
-			JsonNetInitializer.Initialize();
-			TemplateManager.Initialize();
-			ThreadPoolInitializer.Initialize();
-			DatabaseManager.Initialize();
+			Ioc.Resolve<LocalPathConfig>().Initialize(WebsiteRootDirectory);
+			Ioc.Resolve<WebsiteConfigManager>().Initialize();
+			Ioc.Resolve<PluginManager>().Initialize();
+			Ioc.Resolve<JsonNetInitializer>().Initialize();
+			Ioc.Resolve<TemplateManager>().Initialize();
+			Ioc.Resolve<ThreadPoolInitializer>().Initialize();
+			Ioc.Resolve<DatabaseManager>().Initialize();
 		}
 
 		/// <summary>
@@ -136,7 +141,7 @@ namespace ZKWeb.Server {
 		/// </summary>
 		protected virtual void InitializePlugins() {
 			Ioc.ResolveMany<IPlugin>().ForEach(p => { });
-			ControllerManager.Initialize();
+			Ioc.Resolve<ControllerManager>().Initialize();
 			Ioc.ResolveMany<IWebsiteStartHandler>().ForEach(h => h.OnWebsiteStart());
 		}
 
@@ -145,8 +150,26 @@ namespace ZKWeb.Server {
 		/// 开启核心服务<br/>
 		/// </summary>
 		protected virtual void StartServices() {
-			PluginReloader.Start();
-			AutomaticCacheCleaner.Start();
+			Ioc.Resolve<PluginReloader>().Start();
+			Ioc.Resolve<AutomaticCacheCleaner>().Start();
+		}
+
+		/// <summary>
+		/// Log emergency error<br/>
+		/// 记录紧急错误<br/>
+		/// </summary>
+		/// <param name="message"></param>
+		protected virtual void LogEmergencyError(string message) {
+			try {
+				Console.WriteLine(message);
+				var rootDirectory = WebsiteRootDirectory;
+				if (string.IsNullOrEmpty(rootDirectory)) {
+					rootDirectory = Path.GetTempPath();
+				}
+				var logPath = Path.Combine(rootDirectory, "emergencyError.log");
+				File.AppendAllText(logPath, message + "\r\n");
+			} catch {
+			}
 		}
 
 		/// <summary>
@@ -164,7 +187,9 @@ namespace ZKWeb.Server {
 				InitializePlugins();
 				StartServices();
 			} catch (Exception ex) {
-				throw new Exception(ex.ToDetailedString(), ex);
+				var message = ex.ToDetailedString();
+				LogEmergencyError(message);
+				throw new Exception(message, ex);
 			}
 		}
 

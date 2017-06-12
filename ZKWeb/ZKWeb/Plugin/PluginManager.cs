@@ -55,12 +55,11 @@ namespace ZKWeb.Plugin {
 		/// - 插件不会在这里初始化, 因为我们可能需要在这之前初始化数据库<br/>
 		///   你需要在调用这个函数后手动调用IPlugin接口<br/>
 		/// </summary>
-		internal static void Initialize() {
+		internal protected virtual void Initialize() {
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var pathManager = Application.Ioc.Resolve<LocalPathManager>();
-			var pluginManager = Application.Ioc.Resolve<PluginManager>();
-			pluginManager.Plugins.Clear();
-			pluginManager.PluginAssemblies.Clear();
+			Plugins.Clear();
+			PluginAssemblies.Clear();
 			// Get plugin names from website configuration
 			var pluginDirectories = pathManager.GetPluginDirectories();
 			foreach (var pluginName in configManager.WebsiteConfig.Plugins) {
@@ -71,11 +70,11 @@ namespace ZKWeb.Plugin {
 					throw new DirectoryNotFoundException($"Plugin directory of {pluginName} not found");
 				}
 				var info = PluginInfo.FromDirectory(dir);
-				pluginManager.Plugins.Add(info);
+				Plugins.Add(info);
 			}
 			// Load plugins
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
-			foreach (var plugin in pluginManager.Plugins) {
+			foreach (var plugin in Plugins) {
 				// Compile plugin
 				plugin.Compile();
 				// Load compiled assembly, some plugin may not have an assembly
@@ -83,12 +82,12 @@ namespace ZKWeb.Plugin {
 				if (File.Exists(assemblyPath)) {
 					var assembly = assemblyLoader.LoadFile(assemblyPath);
 					plugin.Assembly = assembly;
-					pluginManager.PluginAssemblies.Add(assembly);
+					PluginAssemblies.Add(assembly);
 				}
 			}
 			// Register types in assembly to IoC container
 			// Only public types will be registered
-			foreach (var assembly in pluginManager.PluginAssemblies) {
+			foreach (var assembly in PluginAssemblies) {
 				var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsPublic);
 				Application.Ioc.RegisterExports(types);
 			}

@@ -18,18 +18,18 @@ namespace ZKWeb.Plugin {
 	/// - App_Data/*.json (No recursion)<br/>
 	/// - App_Data/*.ddl (No recursion)<br/>
 	/// </summary>
-	internal static class PluginReloader {
+	public class PluginReloader {
 		/// <summary>
 		/// Is website stopping<br/>
 		/// 是否正在停止网站<br/>
 		/// </summary>
-		internal static int Stopping = 0;
+		internal protected static int Stopping = 0;
 
 		/// <summary>
 		/// Stop website<br/>
 		/// 停止网站<br/>
 		/// </summary>
-		internal static void StopWebsite() {
+		internal protected static void StopWebsite() {
 			if (Interlocked.Exchange(ref Stopping, 1) == 1) {
 				return;
 			}
@@ -52,7 +52,7 @@ namespace ZKWeb.Plugin {
 		/// Start reloader<br/>
 		/// 启动重加载器<br/>
 		/// </summary>
-		internal static void Start() {
+		internal protected virtual void Start() {
 			// Function use to handle file changed
 			Action<string> onFileChanged = (path) => {
 				var ext = Path.GetExtension(path).ToLower();

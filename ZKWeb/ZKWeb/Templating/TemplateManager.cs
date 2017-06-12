@@ -90,7 +90,7 @@ namespace ZKWeb.Templating {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		internal static void Initialize() {
+		internal protected virtual void Initialize() {
 			// Force all string and object encode with html by default
 			Template.RegisterValueTypeTransformer(typeof(string), s => HttpUtils.HtmlEncode(s));
 			Template.RegisterValueTypeTransformer(typeof(object), s => HttpUtils.HtmlEncode(s));

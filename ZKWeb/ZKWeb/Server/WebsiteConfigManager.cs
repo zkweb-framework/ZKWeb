@@ -22,10 +22,9 @@ namespace ZKWeb.Server {
 		/// Load website configuration<br/>
 		/// 加载网站配置<br/>
 		/// </summary>
-		internal static void Initialize() {
-			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+		internal protected virtual void Initialize() {
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
-			configManager.WebsiteConfig = WebsiteConfig.FromFile(pathConfig.WebsiteConfigPath);
+			WebsiteConfig = WebsiteConfig.FromFile(pathConfig.WebsiteConfigPath);
 		}
 	}
 }

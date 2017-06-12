@@ -196,10 +196,9 @@ namespace ZKWeb.Web {
 		/// 添加已注册到IoC容器的控制器<br/>
 		/// 注意: 所有已注册的控制器都会在这里被创建<br/>
 		/// </summary>
-		internal static void Initialize() {
-			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+		internal protected virtual void Initialize() {
 			foreach (var controller in Application.Ioc.ResolveMany<IController>()) {
-				controllerManager.RegisterController(controller);
+				RegisterController(controller);
 			}
 		}
 	}

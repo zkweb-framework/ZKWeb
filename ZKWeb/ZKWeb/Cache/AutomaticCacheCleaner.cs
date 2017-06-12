@@ -15,12 +15,12 @@ namespace ZKWeb.Cache {
 	/// AutomaticCacheCleaner.Start();
 	/// </code>
 	/// </example>
-	internal static class AutomaticCacheCleaner {
+	public class AutomaticCacheCleaner {
 		/// <summary>
 		/// Start clean thread<br/>
 		/// 启动清理线程<br/>
 		/// </summary>
-		internal static void Start() {
+		internal protected virtual void Start() {
 			// Read memory usage threshold settings.
 			// If no settings present, do not start the cleaner thread.
 			// Default check interval is 15s.
