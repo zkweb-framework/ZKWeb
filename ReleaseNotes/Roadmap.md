@@ -1,5 +1,3 @@
-1.9
-	- Fix appveyor support (including tests)
 2.0
 	- Update .Net standard requirement to 2.0
 	- Update Nhibernate to 5.0
