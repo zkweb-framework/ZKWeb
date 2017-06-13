@@ -10,6 +10,8 @@ namespace ZKWeb.Testing.TestEventHandlers {
 	/// <seealso cref="TestManager"/>
 	public class TestConsoleEventHandler : ITestEventHandler {
 #pragma warning disable CS1591
+		public AllTestCompletedInfo CompletedInfo { get; set; }
+
 		public void OnAllTestStarting(AllTestStartingInfo info) {
 			Console.WriteLine($"starting {info.Runner.Assembly.GetName().Name} tests...");
 		}
@@ -20,6 +22,7 @@ namespace ZKWeb.Testing.TestEventHandlers {
 				$"{info.Counter.Passed} passed, {info.Counter.Failed} failed, {info.Counter.Skipped} skiped.");
 			Console.WriteLine();
 			Console.ResetColor();
+			CompletedInfo = info;
 		}
 
 		public void OnDebugMessage(DebugMessageInfo info) {

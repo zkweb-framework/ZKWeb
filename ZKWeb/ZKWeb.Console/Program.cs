@@ -38,10 +38,15 @@
 			Application.Initialize(GetWebsiteRootDirectory());
 			// Run all tests
 			var testManager = Application.Ioc.Resolve<TestManager>();
-			testManager.RunAllAssemblyTest(new TestConsoleEventHandler());
-			// Done
-			Console.WriteLine("done");
-			Console.ReadLine();
+			var testEventHandler = new TestConsoleEventHandler();
+			testManager.RunAllAssemblyTest(testEventHandler);
+			if (testEventHandler.CompletedInfo.Counter.Failed > 0) {
+				throw new Exception("Some test failed");
+			} else {
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine("All tests passed");
+				Console.ResetColor();
+			}
 		}
 	}
 }
