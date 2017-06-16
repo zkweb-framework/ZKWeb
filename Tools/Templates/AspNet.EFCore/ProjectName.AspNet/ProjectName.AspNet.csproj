@@ -310,18 +310,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.9.0-beta-6\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.9.0\lib\net461\ZKWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.Hosting.AspNet, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.9.0-beta-6\lib\net461\ZKWeb.Hosting.AspNet.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.AspNet.1.9.0\lib\net461\ZKWeb.Hosting.AspNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.ORM.EFCore, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.EFCore.1.9.0-beta-6\lib\net461\ZKWeb.ORM.EFCore.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.EFCore.1.9.0\lib\net461\ZKWeb.ORM.EFCore.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.InMemory, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.9.0-beta-6\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.1.9.0\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -329,7 +329,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.1.9.0-beta-6\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.1.9.0\lib\net461\ZKWebStandard.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
