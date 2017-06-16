@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.EFCore</id>
-		<version>1.9.0</version>
+		<version>1.9.0.1</version>
 		<title>ZKWeb.ORM.EFCore</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>

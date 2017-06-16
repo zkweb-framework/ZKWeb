@@ -24,7 +24,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// Entity Framework's native builder<br/>
 		/// 原生的EF实体映射构建器<br/>
 		/// </summary>
-		protected EntityTypeBuilder<T> Builder { get; set; }
+		public EntityTypeBuilder<T> Builder { get; protected set; }
 		/// <summary>
 		/// ORM name<br/>
 		/// ORM名称<br/>
