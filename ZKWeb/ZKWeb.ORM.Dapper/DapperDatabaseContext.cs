@@ -200,16 +200,17 @@ namespace ZKWeb.ORM.Dapper {
 		protected void InsertOrUpdate<T>(T entity)
 			where T : class, IEntity {
 			// If the primary key is empty, insert it
+			// Otherwise try update first, if not exist then perform the insert
 			var mapping = Mappings.GetMapping(typeof(T));
 			var primaryKey = mapping.IdMember.FastGetValue(entity);
 			if (primaryKey == null ||
 				object.Equals(primaryKey, 0) ||
 				object.Equals(primaryKey, -1) ||
 				object.Equals(primaryKey, Guid.Empty)) {
-				Connection.Insert(entity, Transaction);
-			}
-			// Try update first, if not exist then perform the insert
-			if (!Connection.Update(entity, Transaction)) {
+				// Update generated primary key
+				primaryKey = Connection.Insert(entity, Transaction);
+				mapping.IdMember.FastSetValue(entity, primaryKey);
+			} else if (!Connection.Update(entity, Transaction)) {
 				Connection.Insert(entity, Transaction);
 			}
 		}

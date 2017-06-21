@@ -107,6 +107,11 @@ namespace ZKWeb.ORM.Dapper {
 				Expression.Convert(memberExpression.Body, typeof(object)),
 				memberExpression.Parameters));
 			idMap = idMap.IsKey();
+			if (typeof(TPrimaryKey) == typeof(int) || typeof(TPrimaryKey) == typeof(long)) {
+				// Recognize integer primary key as auto increment
+				// For now there non explicit option for this
+				idMap = idMap.IsIdentity();
+			}
 			if (!string.IsNullOrEmpty(options.Column)) {
 				idMap = idMap.ToColumn(options.Column);
 			}
