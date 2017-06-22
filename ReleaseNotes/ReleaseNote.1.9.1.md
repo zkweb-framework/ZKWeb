@@ -4,7 +4,7 @@
 
 - Improve ORM layer
 	- Allow disable database auto migration for NHibernate or EFCore
-		- Add `"ZKWeb.DisableEFCoreDatabaseAutoMigration": false` under `Extra` in `App_Data\config.json`
-		- Add `"ZKWeb.DisableNHibernateDatabaseAutoMigration": false` under `Extra` in `App_Data\config.json`
+		- Add `"ZKWeb.DisableEFCoreDatabaseAutoMigration": true` under `Extra` in `App_Data\config.json`
+		- Add `"ZKWeb.DisableNHibernateDatabaseAutoMigration": true` under `Extra` in `App_Data\config.json`
 - Bug fixes
 	- Fix auto increment primary key support for dapper
