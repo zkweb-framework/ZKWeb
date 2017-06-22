@@ -13,6 +13,8 @@ using ZKWeb.Plugin.CompilerServices;
 using System.IO;
 using ZKWeb.Plugin.AssemblyLoaders;
 using System.Reflection;
+using ZKWeb.Server;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -55,6 +57,20 @@ namespace ZKWeb.ORM.EFCore {
 		public EFCoreDatabaseContextFactory(string database, string connectionString) {
 			Database = database;
 			ConnectionString = connectionString;
+			// Check if database auto migration is disabled
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+			var noAutoMigration = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
+				EFCoreExtraConfigKeys.DisableEFCoreDatabaseAutoMigration) ?? false;
+			if (!noAutoMigration) {
+				MigrateDatabase();
+			}
+		}
+
+		/// <summary>
+		/// Perform database migration<br/>
+		/// 迁移数据库<br/>
+		/// </summary>
+		protected void MigrateDatabase() {
 			// Prepare database migration
 			IModel initialModel = null;
 			using (var context = new EFCoreDatabaseContextBase(Database, ConnectionString)) {
@@ -78,7 +94,7 @@ namespace ZKWeb.ORM.EFCore {
 
 		/// <summary>
 		/// Create and apply the migration for relational database<br/>
-		/// 创建并且迁移数据库<br/>
+		/// 创建并迁移关系数据库中的数据库<br/>
 		/// See: https://github.com/aspnet/EntityFramework/blob/master/src/Microsoft.EntityFrameworkCore.Relational/Storage/RelationalDatabaseCreator.cs
 		/// </summary>
 		/// <param name="context">Entity Framework Core database context</param>

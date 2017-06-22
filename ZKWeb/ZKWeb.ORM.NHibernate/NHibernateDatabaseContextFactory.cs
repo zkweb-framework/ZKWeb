@@ -11,6 +11,7 @@ using NHibernate.Tool.hbm2ddl;
 using NHibernate;
 using ZKWeb.Logging;
 using ZKWeb.Storage;
+using ZKWeb.Server;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -29,6 +30,11 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		protected string Database { get; set; }
 		/// <summary>
+		/// Connection string<br/>
+		/// 连接字符串<br/>
+		/// </summary>
+		protected string ConnectionString { get; set; }
+		/// <summary>
 		/// NHibernate session factory<br/>
 		/// NHibernate的会话生成器<br/>
 		/// </summary>
@@ -43,7 +49,6 @@ namespace ZKWeb.ORM.NHibernate {
 		public NHibernateDatabaseContextFactory(string database, string connectionString) {
 			// create database configuration
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
-			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			IPersistenceConfigurer db;
 			if (string.Compare(database, "PostgreSQL", true) == 0) {
 				db = BetterPostgreSQLConfiguration.Better.ConnectionString(connectionString);
@@ -82,12 +87,32 @@ namespace ZKWeb.ORM.NHibernate {
 					x.Table(tableName);
 				}));
 			});
+			// check if database auto migration is disabled
+			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
+			var noAutoMigration = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
+				NHibernateExtraConfigKeys.DisableNHibernateDatabaseAutoMigration) ?? false;
+			if (!noAutoMigration) {
+				MigrateDatabase(database, connectionString, configuration);
+			}
+			// create nhibernate session
+			Database = database;
+			ConnectionString = connectionString;
+			SessionFactory = configuration.BuildSessionFactory();
+		}
+
+		/// <summary>
+		/// Perform database migration<br/>
+		/// 迁移数据库<br/>
+		/// </summary>
+		protected void MigrateDatabase(
+			string database, string connectionString, FluentConfiguration configuration) {
 			// initialize database scheme
 			// flow:
 			// - generate ddl script
 			// - compare to App_Data\nh_{hash}.ddl
 			// - if they are different, upgrade database scheme and write ddl script to file
 			// it can make the website startup faster
+			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			var hash = PasswordUtils.Sha1Sum(
 				Encoding.UTF8.GetBytes(database + connectionString)).ToHex();
 			var ddlFileEntry = fileStorage.GetStorageFile($"nh_{hash}.ddl");
@@ -107,9 +132,7 @@ namespace ZKWeb.ORM.NHibernate {
 					onBuildFactorySuccess = () => ddlFileEntry.WriteAllText(script);
 				}
 			});
-			// create nhibernate session factory and write ddl script to file
-			Database = database;
-			SessionFactory = configuration.BuildSessionFactory();
+			// write ddl script to file
 			onBuildFactorySuccess?.Invoke();
 		}
 
