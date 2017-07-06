@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ZKWeb.Toolkits.ProjectCreator.Model;
 using ZKWeb.Toolkits.ProjectCreator.Utils;
 using System.Linq;
+using System.Text;
 
 namespace ZKWeb.Toolkits.ProjectCreator {
 	/// <summary>
@@ -72,7 +73,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				Plugins = plugins
 			}, Formatting.Indented);
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-			File.WriteAllText(outputPath, json);
+			File.WriteAllText(outputPath, json, Encoding.UTF8);
 		}
 
 		/// <summary>
@@ -89,7 +90,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				contents = contents.Replace(expr, property.GetValue(parameters)?.ToString());
 			}
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-			File.WriteAllText(outputPath, contents);
+			File.WriteAllText(outputPath, contents, Encoding.UTF8);
 		}
 
 		/// <summary>
