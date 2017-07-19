@@ -6,16 +6,15 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWebStandard</AssemblyName>
 		<PackageId>ZKWebStandard</PackageId>
-		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard2.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
 		<PackageReference Include="NSubstitute" Version="2.0.3" />
-		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.1.1" />
+		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.2.0" />
 		<PackageReference Include="ZKWeb.System.Drawing" Version="3.0.0" />
 	</ItemGroup>
 

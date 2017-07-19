@@ -6,11 +6,9 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.EFCore</AssemblyName>
 		<PackageId>ZKWeb.ORM.EFCore</PackageId>
-		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard2.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-		<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,13 +17,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="1.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="1.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0-preview2-final" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.0-preview2-10046" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
