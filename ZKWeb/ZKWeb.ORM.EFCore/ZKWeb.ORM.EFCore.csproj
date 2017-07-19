@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.9.1</Version>
-		<TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
+		<Version>2.0.0</Version>
+		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.EFCore</AssemblyName>
 		<PackageId>ZKWeb.ORM.EFCore</PackageId>
-		<NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard2.0' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -34,7 +33,7 @@
 		<Reference Include="Microsoft.CSharp" />
 	</ItemGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
 

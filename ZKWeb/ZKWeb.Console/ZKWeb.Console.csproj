@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.9.1</Version>
-		<TargetFrameworks>net461;netcoreapp1.1</TargetFrameworks>
+		<Version>2.0.0</Version>
+		<TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
 		<AssemblyName>ZKWeb.Console</AssemblyName>
 		<OutputType>Exe</OutputType>
 		<PackageId>ZKWeb.Console</PackageId>
-		<NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-		<RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">1.1.1</RuntimeFrameworkVersion>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -36,7 +34,7 @@
 		<PackageReference Include="NSubstitute" Version="2.0.3" />
 	</ItemGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
 
