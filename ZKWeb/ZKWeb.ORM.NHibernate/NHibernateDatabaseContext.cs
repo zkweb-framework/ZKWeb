@@ -1,6 +1,9 @@
-﻿using NHibernate;
+﻿using DotLiquid;
+using NHibernate;
 using NHibernate.Linq;
+using NHibernate.Transform;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -18,12 +21,12 @@ namespace ZKWeb.ORM.NHibernate {
 		/// NHibernate session<br/>
 		/// NHibernate的会话<br/>
 		/// </summary>
-		protected ISession Session { get; set; }
+		public ISession Session { get; protected set; }
 		/// <summary>
 		/// NHibernate transaction, maybe null if not used<br/>
 		/// NHibernate的事务, 不使用时等于null<br/>
 		/// </summary>
-		protected ITransaction Transaction { get; set; }
+		public ITransaction Transaction { get; protected set; }
 		/// <summary>
 		/// Transaction level counter<br/>
 		/// 事务嵌套计数<br/>
@@ -260,13 +263,20 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Create a sql query from query string and parameters<br/>
 		/// 根据查询字符串和参数创建SQL查询<br/>
 		/// </summary>
-		protected IQuery CreateSQLQuery(object query, object parameters) {
+		public IQuery CreateSQLQuery(object query, object parameters) {
 			var sqlQueryString = (string)query;
 			IQuery sqlQuery = Session.CreateSQLQuery(sqlQueryString);
-			if (parameters != null) {
-				var sqlParameters = (IDictionary<string, object>)parameters;
+			if (parameters != null && !(parameters is IDictionary<string, object>)) {
+				parameters = Hash.FromAnonymousObject(parameters);
+			}
+			var sqlParameters = parameters as IDictionary<string, object>;
+			if (sqlParameters != null) {
 				foreach (var pair in sqlParameters) {
-					sqlQuery = sqlQuery.SetParameter(pair.Key, pair.Value);
+					if (pair.Value is IEnumerable) {
+						sqlQuery = sqlQuery.SetParameterList(pair.Key, (IEnumerable)pair.Value);
+					} else {
+						sqlQuery = sqlQuery.SetParameter(pair.Key, pair.Value);
+					}
 				}
 			}
 			return sqlQuery;
@@ -286,7 +296,9 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {
-			return CreateSQLQuery(query, parameters).Enumerable<T>();
+			return CreateSQLQuery(query, parameters)
+				.SetResultTransformer(Transformers.AliasToBean<T>())
+				.List<T>();
 		}
 	}
 }

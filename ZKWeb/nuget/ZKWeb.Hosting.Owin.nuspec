@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.Hosting.Owin</id>
-		<version>1.9.1-beta-1</version>
+		<version>1.9.1-beta-2</version>
 		<title>ZKWeb.Hosting.Owin</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.9.1-beta-1" />
+			<dependency id="ZKWeb" version="1.9.1-beta-2" />
 			<dependency id="Microsoft.Owin" version="3.1.0" />
 			<dependency id="System.Net.Http.Formatting.Extension" version="5.2.3" />
 		</dependencies>
