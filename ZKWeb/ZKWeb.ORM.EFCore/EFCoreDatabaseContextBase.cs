@@ -2,6 +2,7 @@
 using System;
 using ZKWeb.Server;
 using ZKWeb.Storage;
+using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -49,11 +50,14 @@ namespace ZKWeb.ORM.EFCore {
 			} else if (string.Compare(DatabaseName, "PostgreSQL", true) == 0) {
 				optionsBuilder.UseNpgsql(ConnectionString);
 			} else if (string.Compare(DatabaseName, "InMemory", true) == 0) {
-				optionsBuilder.UseInMemoryDatabase();
+				optionsBuilder.UseInMemoryDatabase(
+					string.IsNullOrEmpty(ConnectionString) ?
+					GuidUtils.SequentialGuid(DateTime.UtcNow).ToString() : ConnectionString);
 			} else {
 				throw new ArgumentException($"unsupported database type {Database}");
 			}
 		}
+
 
 		/// <summary>
 		/// Configure entity model<br/>

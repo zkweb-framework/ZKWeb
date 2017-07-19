@@ -15,6 +15,7 @@ using ZKWeb.Plugin.AssemblyLoaders;
 using System.Reflection;
 using ZKWeb.Server;
 using ZKWebStandard.Extensions;
+using Microsoft.EntityFrameworkCore.Design.Internal;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -142,9 +143,12 @@ namespace ZKWeb.ORM.EFCore {
 			// Take a snapshot to the newest model
 			var codeHelper = new CSharpHelper();
 			var generator = new CSharpMigrationsGenerator(
-				codeHelper,
-				new CSharpMigrationOperationGenerator(codeHelper),
-				new CSharpSnapshotGenerator(codeHelper));
+				new MigrationsCodeGeneratorDependencies(),
+				new CSharpMigrationsGeneratorDependencies(
+					codeHelper,
+					new CSharpMigrationOperationGenerator(
+						new CSharpMigrationOperationGeneratorDependencies(codeHelper)),
+						new CSharpSnapshotGenerator(new CSharpSnapshotGeneratorDependencies(codeHelper))));
 			var modelSnapshot = generator.GenerateSnapshot(
 				ModelSnapshotNamespace, context.GetType(),
 				ModelSnapshotClassPrefix + DateTime.UtcNow.Ticks, context.Model);
