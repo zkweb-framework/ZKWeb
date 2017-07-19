@@ -8,3 +8,4 @@
 		- Add `"ZKWeb.DisableNHibernateDatabaseAutoMigration": true` under `Extra` in `App_Data\config.json`
 - Bug fixes
 	- Fix auto increment primary key support for dapper
+	- Make project creator write files with utf-8 bom

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using ZKWeb.Server;
 using ZKWeb.Storage;
 using ZKWebStandard.Utils;
 
@@ -57,7 +56,6 @@ namespace ZKWeb.ORM.EFCore {
 				throw new ArgumentException($"unsupported database type {Database}");
 			}
 		}
-
 
 		/// <summary>
 		/// Configure entity model<br/>
