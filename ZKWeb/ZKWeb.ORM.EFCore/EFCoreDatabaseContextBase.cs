@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using ZKWeb.Storage;
 using ZKWebStandard.Utils;
@@ -55,6 +56,8 @@ namespace ZKWeb.ORM.EFCore {
 			} else {
 				throw new ArgumentException($"unsupported database type {Database}");
 			}
+			// EF 2.0 make some warnings as error, just ignore them
+			optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning));
 		}
 
 		/// <summary>

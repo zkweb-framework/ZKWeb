@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb</id>
-		<version>1.9.1-beta-2</version>
+		<version>2.0.0-beta-1</version>
 		<title>ZKWeb</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -15,25 +15,26 @@
 		<tags></tags>
 		<dependencies>
 			<group targetFramework="net461">
-				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.1.0" />
+				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.3.0" />
 				<dependency id="Microsoft.CSharp" version="4.3.0" />
-				<dependency id="Newtonsoft.Json" version="10.0.2" />
+				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0-preview2-25407-01" />
+				<dependency id="Newtonsoft.Json" version="10.0.3" />
 				<dependency id="NSubstitute" version="2.0.3" />
 				<dependency id="System.Data.Common" version="4.3.0" />
-				<dependency id="ZKWeb.Fork.DotLiquid" version="2.1.1" />
-				<dependency id="ZKWeb.Fork.FastReflection" version="2.1.1" />
+				<dependency id="ZKWeb.Fork.DotLiquid" version="2.2.0" />
+				<dependency id="ZKWeb.Fork.FastReflection" version="2.2.0" />
 				<dependency id="ZKWeb.System.Drawing" version="3.0.0" />
 			</group>
-			<group targetFramework="netstandard1.6">
+			<group targetFramework="netstandard2.0">
 				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.1.0" />
 				<dependency id="Microsoft.CSharp" version="4.3.0" />
-				<dependency id="Newtonsoft.Json" version="10.0.2" />
+				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0-preview2-25407-01" />
+				<dependency id="Newtonsoft.Json" version="10.0.3" />
 				<dependency id="NSubstitute" version="2.0.3" />
 				<dependency id="System.Data.Common" version="4.3.0" />
-				<dependency id="ZKWeb.Fork.DotLiquid" version="2.1.1" />
-				<dependency id="ZKWeb.Fork.FastReflection" version="2.1.1" />
+				<dependency id="ZKWeb.Fork.DotLiquid" version="2.2.0" />
+				<dependency id="ZKWeb.Fork.FastReflection" version="2.2.0" />
 				<dependency id="ZKWeb.System.Drawing" version="3.0.0" />
-				<dependency id="Microsoft.Extensions.DependencyModel" version="1.1.1" />
 				<dependency id="System.IO.FileSystem.Watcher" version="4.3.0" />
 				<dependency id="System.Runtime.Loader" version="4.3.0" />
 				<dependency id="Microsoft.DiaSymReader.Native" version="1.5.0" />
@@ -52,11 +53,11 @@
 		<file src="..\ZKWeb\bin\Release\net461\ZKWebStandard.dll" target="lib\net461" />
 		<file src="..\ZKWeb\bin\Release\net461\ZKWebStandard.xml" target="lib\net461" />
 		<file src="..\ZKWeb\bin\Release\net461\ZKWebStandard.pdb" target="lib\net461" />
-		<file src="..\ZKWeb\bin\Release\netstandard1.6\ZKWeb.dll" target="lib\netstandard1.6" />
-		<file src="..\ZKWeb\bin\Release\netstandard1.6\ZKWeb.xml" target="lib\netstandard1.6" />
-		<file src="..\ZKWeb\bin\Release\netstandard1.6\ZKWeb.pdb" target="lib\netstandard1.6" />
-		<file src="..\ZKWebStandard\bin\Release\netstandard1.6\ZKWebStandard.dll" target="lib\netstandard1.6" />
-		<file src="..\ZKWebStandard\bin\Release\netstandard1.6\ZKWebStandard.xml" target="lib\netstandard1.6" />
-		<file src="..\ZKWebStandard\bin\Release\netstandard1.6\ZKWebStandard.pdb" target="lib\netstandard1.6" />
+		<file src="..\ZKWeb\bin\Release\netstandard2.0\ZKWeb.dll" target="lib\netstandard2.0" />
+		<file src="..\ZKWeb\bin\Release\netstandard2.0\ZKWeb.xml" target="lib\netstandard2.0" />
+		<file src="..\ZKWeb\bin\Release\netstandard2.0\ZKWeb.pdb" target="lib\netstandard2.0" />
+		<file src="..\ZKWebStandard\bin\Release\netstandard2.0\ZKWebStandard.dll" target="lib\netstandard2.0" />
+		<file src="..\ZKWebStandard\bin\Release\netstandard2.0\ZKWebStandard.xml" target="lib\netstandard2.0" />
+		<file src="..\ZKWebStandard\bin\Release\netstandard2.0\ZKWebStandard.pdb" target="lib\netstandard2.0" />
 	</files>
 </package>

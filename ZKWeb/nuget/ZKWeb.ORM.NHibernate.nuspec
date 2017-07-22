@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.NHibernate</id>
-		<version>1.9.1-beta-2</version>
+		<version>2.0.0-beta-1</version>
 		<title>ZKWeb.ORM.NHibernate</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,12 +14,12 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="1.9.1-beta-2" />
+			<dependency id="ZKWeb" version="2.0.0-beta-1" />
 			<dependency id="FluentNHibernate" version="2.0.3" />
-			<dependency id="ZKWeb.Repack.SQLite" version="1.0.104" />
 			<dependency id="MySql.Data" version="6.9.9" />
 			<dependency id="NHibernate" version="4.1.1.4000" />
-			<dependency id="Npgsql" version="3.2.2" />
+			<dependency id="Npgsql" version="3.2.4.1" />
+			<dependency id="ZKWeb.Repack.SQLite" version="1.0.104" />
 		</dependencies>
 	</metadata>
 	<files>
