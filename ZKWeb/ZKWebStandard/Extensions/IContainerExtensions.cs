@@ -116,11 +116,22 @@ namespace ZKWebStandard.Extensions {
 							parameterTypeInfo.GetGenericArguments(),
 							Expression.Constant(null)));
 					} else {
-						argumentExpressions.Add(Expression.Call(
+						Expression argumentExpression = Expression.Call(
 							Expression.Constant(container), nameof(IContainer.Resolve),
 							new[] { parameterType },
 							Expression.Constant(IfUnresolved.ReturnDefault),
-							Expression.Constant(null)));
+							Expression.Constant(null));
+						if (parameter.HasDefaultValue) {
+							// it will resolve twice if result isn't default value, but it should work
+							var valueIfUnresolved = parameterType.IsValueType ?
+								Activator.CreateInstance(parameterType) : null;
+							argumentExpression = Expression.Condition(
+								Expression.Equal(argumentExpression,
+									Expression.Constant(valueIfUnresolved)),
+								Expression.Convert(Expression.Constant(parameter.DefaultValue), parameterType),
+								argumentExpression);
+						}
+						argumentExpressions.Add(argumentExpression);
 					}
 				}
 				var newExpression = Expression.New(constructor, argumentExpressions);
