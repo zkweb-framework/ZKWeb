@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using ZKWebStandard.Ioc;
 
 namespace ZKWebStandard.Extensions {
@@ -51,6 +52,21 @@ namespace ZKWebStandard.Extensions {
 						value = originalFactory();
 						return value;
 					}
+				};
+			} else if (reuseType == ReuseType.Scoped) {
+				// Scoped, no need to lock
+				var local = new AsyncLocal<object>();
+				return () => {
+					var value = local.Value;
+					if (value != null) {
+						return value;
+					}
+					value = originalFactory();
+					local.Value = value;
+					if (value is IDisposable disposable) {
+						container.DisposeWhenScopeFinished(disposable);
+					}
+					return value;
 				};
 			} else {
 				throw new NotSupportedException(string.Format("unsupported reuse type {0}", reuseType));

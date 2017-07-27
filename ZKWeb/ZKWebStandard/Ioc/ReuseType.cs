@@ -16,5 +16,10 @@
 		/// 单例，会在将来重用，并保证线程安全<br/>
 		/// </summary>
 		Singleton = 1,
+		/// <summary>
+		/// Scoped, reuse in the same scope, it's granted to be thread safe<br/>
+		/// 区域, 会在同一个区域中重用, 并保证线程安全<br/>
+		/// </summary>
+		Scoped = 2
 	}
 }

@@ -37,8 +37,12 @@ namespace ZKWebStandard.Ioc {
 	///	/// </code>
 	///	/// </example>
 	public interface IContainer :
-		IRegistrator, IGenericRegistrator,
-		IResolver, IGenericResolver, IDisposable {
+		IRegistrator,
+		IGenericRegistrator,
+		IResolver,
+		IGenericResolver,
+		IScopeDisposer,
+		IDisposable {
 		/// <summary>
 		/// Clone the container<br/>
 		/// 克隆容器<br/>

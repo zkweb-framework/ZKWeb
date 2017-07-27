@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Testing;
 
@@ -274,6 +277,38 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void ResolveScopedService() {
+			using (IContainer container = new Container()) {
+				container.RegisterExports(new[] { typeof(ScopedImplementation) });
+				var tasks = new List<Task>();
+				var resolvedServices = new List<ScopedImplementation>();
+				var taskFinished = 0;
+				for (var x = 0; x < 100; ++x) {
+					tasks.Add(Task.Run(async () => {
+						var service = container.Resolve<InterfaceService>();
+						lock (resolvedServices) {
+							resolvedServices.Add((ScopedImplementation)service);
+						}
+						var childTask = Task.Run(async () => {
+							await Task.Delay(100);
+							var serviceInChildTask = container.Resolve<InterfaceService>();
+							Assert.Equals(service, serviceInChildTask);
+						});
+						await childTask;
+						var serviceAfterAwait = container.Resolve<InterfaceService>();
+						Assert.Equals(service, serviceAfterAwait);
+						container.ScopeFinished();
+						Interlocked.Increment(ref taskFinished);
+					}));
+				}
+				Task.WaitAll(tasks.ToArray());
+				Assert.Equals(100, taskFinished);
+				Assert.Equals(100, resolvedServices.Count);
+				Assert.Equals(100, resolvedServices.Distinct().Count());
+				Assert.IsTrue(resolvedServices.All(s => s.DisposeCount == 1));
+			}
+		}
+
 		public interface InterfaceService {
 			string Name { get; }
 		}
@@ -308,26 +343,37 @@ namespace ZKWebStandard.Tests.IocContainer {
 			public override string GetName() { return Name; }
 		}
 
+		[Export(ServiceType = typeof(InterfaceService))]
+		[ScopedReuse]
+		public class ScopedImplementation : InterfaceService, IDisposable {
+			public string Name { get { return "Scoped"; } }
+			public int DisposeCount;
+
+			public void Dispose() {
+				Interlocked.Increment(ref DisposeCount);
+			}
+		}
+
 		[ExportMany]
 		public class TestResolveFromConstructor {
 			public IEnumerable<ClassService> ClassServices { get; set; }
 			public InterfaceService InterfaceService { get; set; }
 			public bool? TestResolveFailed { get; set; }
 			public string TestDefaultString { get; set; }
-            public int TestDefaultInt { get; set; }
+			public int TestDefaultInt { get; set; }
 
 			public TestResolveFromConstructor(
 				IEnumerable<ClassService> classServices,
 				InterfaceService interfaceService,
 				bool testResolveFailed,
 				string testDefaultString = "default string",
-                int testDefaultInt = 123) {
+				int testDefaultInt = 123) {
 				ClassServices = classServices;
 				InterfaceService = interfaceService;
 				TestResolveFailed = testResolveFailed;
-                TestDefaultString = testDefaultString;
-                TestDefaultInt = testDefaultInt;
-            }
+				TestDefaultString = testDefaultString;
+				TestDefaultInt = testDefaultInt;
+			}
 		}
 
 		[ExportMany]

@@ -251,6 +251,8 @@ namespace ZKWeb.Server {
 					} finally {
 						// Decrease requests count
 						Interlocked.Decrement(ref inProgressRequests);
+						// Notify scope finished
+						Ioc.ScopeFinished();
 					}
 				}
 			}

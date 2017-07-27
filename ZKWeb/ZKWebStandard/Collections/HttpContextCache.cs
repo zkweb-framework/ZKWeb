@@ -16,18 +16,16 @@ namespace ZKWebStandard.Collections {
 	public class HttpContextCache<TKey, TValue> : IKeyValueCache<TKey, TValue> {
 		/// <summary>
 		/// Http context key<br/>
-		/// Default is "HttpContextCache_" + random string<br/>
 		/// Http上下文中的键<br/>
-		/// 默认是"HttpContextCache_" + 随机字符串<br/>
 		/// </summary>
-		public string ContextKey { get; set; }
+		public object ContextKey { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
 		public HttpContextCache() {
-			ContextKey = "HttpContextCache_" + RandomUtils.RandomString(12);
+			ContextKey = new object();
 		}
 
 		/// <summary>
