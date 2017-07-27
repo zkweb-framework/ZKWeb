@@ -56,19 +56,26 @@ namespace ZKWebStandard.Extensions {
 					}
 				};
 			} else if (reuseType == ReuseType.Scoped) {
-				// Scoped, no need to lock
+				// Scoped
 				var local = new AsyncLocal<object>();
+				var localLock = new object();
 				return () => {
 					var value = local.Value;
 					if (value != null) {
 						return value;
 					}
-					value = originalFactory();
-					local.Value = value;
-					if (value is IDisposable disposable) {
-						container.DisposeWhenScopeFinished(disposable);
+					lock (localLock) {
+						value = local.Value;
+						if (value != null) {
+							return value; // double check
+						}
+						value = originalFactory();
+						local.Value = value;
+						if (value is IDisposable disposable) {
+							container.DisposeWhenScopeFinished(disposable);
+						}
+						return value;
 					}
-					return value;
 				};
 			} else {
 				throw new NotSupportedException(string.Format("unsupported reuse type {0}", reuseType));

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -72,7 +73,7 @@ namespace ZKWebStandard.Ioc {
 		/// Objects needs to call Dispose when scope finished<br/>
 		/// 储存当前范围中需要调用Dispose函数的对象的队列<br/>
 		/// </summary>
-		protected AsyncLocal<IList<IDisposable>> ScopedDisposeQueue { get; set; }
+		protected AsyncLocal<ConcurrentQueue<IDisposable>> ScopedDisposeQueue { get; set; }
 		/// <summary>
 		/// Increase after each modification<br/>
 		/// 更新后自动增加<br/>
@@ -86,7 +87,7 @@ namespace ZKWebStandard.Ioc {
 		public Container() {
 			Factories = new Dictionary<Pair<Type, object>, List<ContainerFactoryData>>();
 			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
-			ScopedDisposeQueue = new AsyncLocal<IList<IDisposable>>();
+			ScopedDisposeQueue = new AsyncLocal<ConcurrentQueue<IDisposable>>();
 			Revision = 0;
 			RegisterSelf();
 		}
@@ -500,9 +501,14 @@ namespace ZKWebStandard.Ioc {
 		public void DisposeWhenScopeFinished(IDisposable disposable) {
 			var queue = ScopedDisposeQueue.Value;
 			if (queue == null) {
-				ScopedDisposeQueue.Value = queue = new List<IDisposable>();
+				lock (ScopedDisposeQueue) {
+					queue = ScopedDisposeQueue.Value;
+					if (queue == null) {
+						ScopedDisposeQueue.Value = queue = new ConcurrentQueue<IDisposable>();
+					}
+				}
 			}
-			queue.Add(disposable);
+			queue.Enqueue(disposable);
 		}
 
 		/// <summary>
@@ -510,12 +516,15 @@ namespace ZKWebStandard.Ioc {
 		/// 通知当前范围已结束<br/>
 		/// </summary>
 		public void ScopeFinished() {
-			var queue = ScopedDisposeQueue.Value;
+			ConcurrentQueue<IDisposable> queue;
+			lock (ScopedDisposeQueue) {
+				queue = ScopedDisposeQueue.Value;
+				ScopedDisposeQueue.Value = null;
+			}
 			if (queue != null) {
 				foreach (var obj in queue) {
 					obj.Dispose();
 				}
-				ScopedDisposeQueue.Value = null;
 			}
 		}
 
