@@ -111,27 +111,31 @@ namespace ZKWebStandard.Extensions {
 					var parameterTypeInfo = parameterType.GetTypeInfo();
 					if (parameterTypeInfo.IsGenericType &&
 						parameterTypeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
+						// paramerer is IEnumeable<T>
 						argumentExpressions.Add(Expression.Call(
 							Expression.Constant(container), nameof(IContainer.ResolveMany),
 							parameterTypeInfo.GetGenericArguments(),
 							Expression.Constant(null)));
-					} else {
-						Expression argumentExpression = Expression.Call(
+					} else if (!parameter.HasDefaultValue) {
+						// parameter didn't have a default value, use generic resolve
+						argumentExpressions.Add(Expression.Call(
 							Expression.Constant(container), nameof(IContainer.Resolve),
 							new[] { parameterType },
 							Expression.Constant(IfUnresolved.ReturnDefault),
-							Expression.Constant(null));
-						if (parameter.HasDefaultValue) {
-							// it will resolve twice if result isn't default value, but it should work
-							var valueIfUnresolved = parameterType.IsValueType ?
-								Activator.CreateInstance(parameterType) : null;
-							argumentExpression = Expression.Condition(
-								Expression.Equal(argumentExpression,
-									Expression.Constant(valueIfUnresolved)),
-								Expression.Convert(Expression.Constant(parameter.DefaultValue), parameterType),
-								argumentExpression);
-						}
-						argumentExpressions.Add(argumentExpression);
+							Expression.Constant(null)));
+					} else {
+						// parameter have a default value, use non generic resolve
+						argumentExpressions.Add(
+							Expression.Convert(
+								Expression.Coalesce(
+									Expression.Call(
+										Expression.Constant(container), nameof(IContainer.Resolve),
+										new Type[] { },
+										Expression.Constant(parameterType),
+										Expression.Constant(IfUnresolved.ReturnDefault),
+										Expression.Constant(null)),
+									Expression.Convert(Expression.Constant(parameter.DefaultValue), typeof(object))),
+								parameterType));
 					}
 				}
 				var newExpression = Expression.New(constructor, argumentExpressions);

@@ -411,8 +411,7 @@ namespace ZKWebStandard.Ioc {
 				throw new KeyNotFoundException(string.Format(messageFormat, serviceType, serviceKey));
 			} else if (ifUnresolved == IfUnresolved.ReturnDefault) {
 				// Error, return default value
-				return serviceType.GetTypeInfo().IsValueType ?
-					Activator.CreateInstance(serviceType) : null;
+				return null;
 			} else {
 				throw new NotSupportedException(string.Format(
 					"unsupported ifUnresolved type {0}", ifUnresolved));
@@ -437,7 +436,7 @@ namespace ZKWebStandard.Ioc {
 				}
 			}
 			// Use default method
-			return (TService)Resolve(typeof(TService), ifUnresolved, serviceKey);
+			return (TService)(Resolve(typeof(TService), ifUnresolved, serviceKey) ?? default(TService));
 		}
 
 		/// <summary>
