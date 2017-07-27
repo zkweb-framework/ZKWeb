@@ -126,35 +126,84 @@ namespace ZKWebStandard.Extensions {
 				}
 				foreach (var parameter in constructor.GetParameters()) {
 					var parameterType = parameter.ParameterType;
-					var parameterTypeInfo = parameterType.GetTypeInfo();
-					if (parameterTypeInfo.IsGenericType &&
-						parameterTypeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-						// paramerer is IEnumeable<T>
-						argumentExpressions.Add(Expression.Call(
+					var isFunc = false;
+					var isLazy = false;
+					var isIList = false;
+					var isIEnumerable = false;
+					// Detect Func<T>
+					if (parameterType.IsGenericType &&
+						parameterType.GetGenericTypeDefinition() == typeof(Func<>)) {
+						isFunc = true;
+						parameterType = parameterType.GetGenericArguments()[0];
+					}
+					// Detect Lazy<T>
+					if (parameterType.IsGenericType &&
+						parameterType.GetGenericTypeDefinition() == typeof(Lazy<>)) {
+						isLazy = true;
+						parameterType = parameterType.GetGenericArguments()[0];
+					}
+					// Detect IList<T> and IEnumerable<T>
+					if (!parameterType.IsGenericType) {
+					} else if (parameterType.GetGenericTypeDefinition() == typeof(List<>) ||
+						parameterType.GetGenericTypeDefinition() == typeof(IList<>) ||
+						parameterType.GetGenericTypeDefinition() == typeof(ICollection<>)) {
+						isIList = true;
+						parameterType = parameterType.GetGenericArguments()[0];
+					} else if (parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
+						isIEnumerable = true;
+						parameterType = parameterType.GetGenericArguments()[0];
+					}
+					// Build resolve expression
+					Expression argumentExpression;
+					if (isIList || isIEnumerable) {
+						// Use ResolveMany<T>
+						argumentExpression = Expression.Call(
 							Expression.Constant(container), nameof(IContainer.ResolveMany),
-							parameterTypeInfo.GetGenericArguments(),
-							Expression.Constant(null)));
+							new[] { parameterType },
+							Expression.Constant(null));
+						if (isIList) {
+							argumentExpression = Expression.Call(
+								typeof(Enumerable),
+								nameof(Enumerable.ToList),
+								new Type[] { parameterType },
+								argumentExpression);
+						}
 					} else if (!parameter.HasDefaultValue) {
-						// parameter didn't have a default value, use generic resolve
-						argumentExpressions.Add(Expression.Call(
+						// Use Resolve<T>
+						argumentExpression = Expression.Call(
 							Expression.Constant(container), nameof(IContainer.Resolve),
 							new[] { parameterType },
 							Expression.Constant(IfUnresolved.ReturnDefault),
-							Expression.Constant(null)));
+							Expression.Constant(null));
 					} else {
-						// parameter have a default value, use non generic resolve
-						argumentExpressions.Add(
-							Expression.Convert(
-								Expression.Coalesce(
-									Expression.Call(
-										Expression.Constant(container), nameof(IContainer.Resolve),
-										new Type[] { },
-										Expression.Constant(parameterType),
-										Expression.Constant(IfUnresolved.ReturnDefault),
-										Expression.Constant(null)),
-									Expression.Convert(Expression.Constant(parameter.DefaultValue), typeof(object))),
-								parameterType));
+						// Use generic Resolve with ?? operator
+						argumentExpression = Expression.Convert(
+							Expression.Coalesce(
+								Expression.Call(
+									Expression.Constant(container), nameof(IContainer.Resolve),
+									new Type[0],
+									Expression.Constant(parameterType),
+									Expression.Constant(IfUnresolved.ReturnDefault),
+									Expression.Constant(null)),
+								Expression.Convert(Expression.Constant(parameter.DefaultValue), typeof(object))),
+							parameterType);
 					}
+					if (isLazy) {
+						// Wrap with Lazy<T>
+						var argumentFactoryType = typeof(Func<>).MakeGenericType(argumentExpression.Type);
+						var argumentFactory = Expression.Lambda(argumentFactoryType, argumentExpression).Compile();
+						var lazyConstructor = typeof(Lazy<>).MakeGenericType(argumentExpression.Type).GetConstructors()
+							.First(c => c.GetParameters().Length == 1 &&
+								c.GetParameters()[0].ParameterType == argumentFactoryType);
+						argumentExpression = Expression.New(lazyConstructor, Expression.Constant(argumentFactory));
+					}
+					if (isFunc) {
+						// Pass factory
+						var argumentFactoryType = typeof(Func<>).MakeGenericType(argumentExpression.Type);
+						var argumentFactory = Expression.Lambda(argumentFactoryType, argumentExpression).Compile();
+						argumentExpression = Expression.Constant(argumentFactory);
+					}
+					argumentExpressions.Add(argumentExpression);
 				}
 				var newExpression = Expression.New(constructor, argumentExpressions);
 				return Expression.Lambda<Func<object>>(newExpression).Compile();
@@ -224,9 +273,9 @@ namespace ZKWebStandard.Extensions {
 
 			public ServiceProviderAdapter(IContainer container) {
 				Container = container;
-				ListFactoryMethod = GetType().GetMethod(nameof(ListFactory));
-				IEnumerableFactoryMethod = GetType().GetMethod(nameof(IEnumerableFactory));
-				LazyFactoryMethod = GetType().GetMethod(nameof(LazyFactory));
+				ListFactoryMethod = GetType().FastGetMethod(nameof(ListFactory));
+				IEnumerableFactoryMethod = GetType().FastGetMethod(nameof(IEnumerableFactory));
+				LazyFactoryMethod = GetType().FastGetMethod(nameof(LazyFactory));
 			}
 
 			public List<T> ListFactory<T>() {
@@ -242,27 +291,33 @@ namespace ZKWebStandard.Extensions {
 			}
 
 			public object GetService(Type serviceType) {
-				// Detect wrapper
+				var isFunc = false;
 				var isLazy = false;
 				var isIList = false;
 				var isIEnumerable = false;
-				if (serviceType.IsGenericType) {
-					// Detect Lazy<T>
-					if (serviceType.GetGenericTypeDefinition() == typeof(Lazy<>)) {
-						isLazy = true;
-						serviceType = serviceType.GetGenericArguments()[0];
-					}
-					// Detect IList<T> and IEnumerable<T>
-					if (!serviceType.IsGenericType) {
-					} else if (serviceType.GetGenericTypeDefinition() == typeof(List<>) ||
-						serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
-						serviceType.GetGenericTypeDefinition() == typeof(ICollection<>)) {
-						isIList = true;
-						serviceType = serviceType.GetGenericArguments()[0];
-					} else if (serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
-						isIEnumerable = true;
-						serviceType = serviceType.GetGenericArguments()[0];
-					}
+				// Detect Func<T>
+				Type funcReturnType = null;
+				if (serviceType.IsGenericType &&
+					serviceType.GetGenericTypeDefinition() == typeof(Func<>)) {
+					isFunc = true;
+					serviceType = funcReturnType = serviceType.GetGenericArguments()[0];
+				}
+				// Detect Lazy<T>
+				if (serviceType.IsGenericType &&
+					serviceType.GetGenericTypeDefinition() == typeof(Lazy<>)) {
+					isLazy = true;
+					serviceType = serviceType.GetGenericArguments()[0];
+				}
+				// Detect IList<T> and IEnumerable<T>
+				if (!serviceType.IsGenericType) {
+				} else if (serviceType.GetGenericTypeDefinition() == typeof(List<>) ||
+					serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
+					serviceType.GetGenericTypeDefinition() == typeof(ICollection<>)) {
+					isIList = true;
+					serviceType = serviceType.GetGenericArguments()[0];
+				} else if (serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>)) {
+					isIEnumerable = true;
+					serviceType = serviceType.GetGenericArguments()[0];
 				}
 				// Resolve implementation
 				var resolve = new Func<object>(() => {
@@ -274,7 +329,16 @@ namespace ZKWebStandard.Extensions {
 					return Container.Resolve(serviceType, IfUnresolved.ReturnDefault);
 				});
 				if (isLazy) {
-					return LazyFactoryMethod.MakeGenericMethod(serviceType).FastInvoke(this, resolve);
+					var originalResolve = resolve;
+					resolve = () => LazyFactoryMethod.MakeGenericMethod(serviceType).FastInvoke(this, originalResolve);
+				}
+				if (isFunc) {
+					var originalResolve = resolve;
+					resolve = () => Expression.Lambda(
+						typeof(Func<>).MakeGenericType(funcReturnType),
+						Expression.Convert(
+							Expression.Invoke(Expression.Constant(originalResolve)),
+							funcReturnType)).Compile();
 				}
 				return resolve();
 			}

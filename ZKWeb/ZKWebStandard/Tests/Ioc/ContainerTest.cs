@@ -263,7 +263,15 @@ namespace ZKWebStandard.Tests.IocContainer {
 				Assert.Equals(instance.ClassServices.Count(), 2);
 				Assert.IsTrue(instance.ClassServices.Any(s => s is TransientImplementation));
 				Assert.IsTrue(instance.ClassServices.Any(s => s is SingletonImplementation));
+				Assert.Equals(instance.ClassServicesLazy.Value.Count(), 2);
+				Assert.IsTrue(instance.ClassServicesLazy.Value.Any(s => s is TransientImplementation));
+				Assert.IsTrue(instance.ClassServicesLazy.Value.Any(s => s is SingletonImplementation));
+				Assert.Equals(instance.ClassServicesList.Count, 2);
+				Assert.IsTrue(instance.ClassServicesList.Any(s => s is TransientImplementation));
+				Assert.IsTrue(instance.ClassServicesList.Any(s => s is SingletonImplementation));
 				Assert.Equals(instance.InterfaceService.GetType(), typeof(TransientImplementation));
+				Assert.Equals(instance.InterfaceServiceLazy.Value.GetType(), typeof(TransientImplementation));
+				Assert.Equals(instance.InterfaceServiceFunc().GetType(), typeof(TransientImplementation));
 				Assert.Equals(instance.TestResolveFailed, false);
 				Assert.Equals(instance.TestDefaultString, "default string");
 				Assert.Equals(instance.TestDefaultInt, 123);
@@ -357,19 +365,31 @@ namespace ZKWebStandard.Tests.IocContainer {
 		[ExportMany]
 		public class TestResolveFromConstructor {
 			public IEnumerable<ClassService> ClassServices { get; set; }
+			public Lazy<IEnumerable<ClassService>> ClassServicesLazy { get; set; }
+			public IList<ClassService> ClassServicesList { get; set; }
 			public InterfaceService InterfaceService { get; set; }
+			public Lazy<InterfaceService> InterfaceServiceLazy { get; set; }
+			public Func<InterfaceService> InterfaceServiceFunc { get; set; }
 			public bool? TestResolveFailed { get; set; }
 			public string TestDefaultString { get; set; }
 			public int TestDefaultInt { get; set; }
 
 			public TestResolveFromConstructor(
 				IEnumerable<ClassService> classServices,
+				Lazy<IEnumerable<ClassService>> classServicesLazy,
+				IList<ClassService> classServicesList,
 				InterfaceService interfaceService,
+				Lazy<InterfaceService> interfaceServiceLazy,
+				Func<InterfaceService> interfaceServiceFunc,
 				bool testResolveFailed,
 				string testDefaultString = "default string",
 				int testDefaultInt = 123) {
 				ClassServices = classServices;
+				ClassServicesLazy = classServicesLazy;
+				ClassServicesList = classServicesList;
 				InterfaceService = interfaceService;
+				InterfaceServiceLazy = interfaceServiceLazy;
+				InterfaceServiceFunc = interfaceServiceFunc;
 				TestResolveFailed = testResolveFailed;
 				TestDefaultString = testDefaultString;
 				TestDefaultInt = testDefaultInt;

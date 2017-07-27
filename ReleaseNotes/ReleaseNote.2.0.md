@@ -26,5 +26,7 @@
 	- ZKWeb.Fork.FastReflection 2.2.0
 - Improve IoC container
 	- Support scoped reuse
+	- Support inject more wrapper types such as Func<T>, Lazy<T> and List<T> to constructor
+	- Add Microsoft.Extensions.DependencyInjection integration
 - Bug fixes
 	- Support pass parameter's default value to constructor from IoC container

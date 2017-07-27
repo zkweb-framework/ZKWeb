@@ -37,6 +37,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals(provider, container.AsServiceProvider());
 			Assert.Equals(provider, container.Resolve<IServiceProvider>());
 			Assert.IsTrue(provider.GetService(typeof(TestData)) != null);
+			Assert.IsTrue(((Func<TestData>)provider.GetService(typeof(Func<TestData>)))() != null);
 			Assert.IsTrue(((Lazy<TestData>)provider.GetService(typeof(Lazy<TestData>))).Value != null);
 			Assert.Equals(((List<TestData>)provider.GetService(typeof(List<TestData>))).Count, 1);
 			Assert.Equals(((IList<TestData>)provider.GetService(typeof(IList<TestData>))).Count, 1);

@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading;
 using ZKWeb.Server;
-using ZKWebStandard.Ioc;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
@@ -62,20 +62,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// 配置IoC容器的服务<br/>
 		/// </summary>
 		public virtual IServiceProvider ConfigureServices(IServiceCollection services) {
-			var originalProvider = services.BuildServiceProvider();
-			foreach (var descriptor in services) {
-				// Convert ReuseType
-				ReuseType reuse;
-				if (descriptor.Lifetime == ServiceLifetime.Transient) {
-					reuse = ReuseType.Transient;
-				} else if (descriptor.Lifetime == ServiceLifetime.Singleton) {
-					reuse = ReuseType.Singleton;
-				} else if (descriptor.Lifetime == ServiceLifetime.Scoped) {
-					reuse = ReuseType.Scoped;
-				}
-				return reuse.
-			}
-
+			Application.Ioc.RegisterFromServiceCollection(services);
+			return Application.Ioc.AsServiceProvider();
 		}
 
 		/// <summary>
