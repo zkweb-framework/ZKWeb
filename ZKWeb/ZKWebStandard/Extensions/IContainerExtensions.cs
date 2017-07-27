@@ -229,7 +229,9 @@ namespace ZKWebStandard.Extensions {
 			if (provider == null) {
 				provider = new ServiceProviderAdapter(container);
 				container.Unregister<IServiceProvider>();
+				container.Unregister<IServiceScopeFactory>();
 				container.RegisterInstance<IServiceProvider>(provider);
+				container.RegisterInstance<IServiceScopeFactory>(new ServiceScopeFactory(container));
 			}
 			return provider;
 		}
@@ -270,7 +272,8 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// IContainer => IServiceProvider Adapter
+		/// IContainer => IServiceProvider Adapter<br/>
+		/// 转换IContainer到IServiceProvider的接口<br/>
 		/// </summary>
 		private class ServiceProviderAdapter : IServiceProvider {
 			public IContainer Container { get; set; }
@@ -348,6 +351,36 @@ namespace ZKWebStandard.Extensions {
 							funcReturnType)).Compile();
 				}
 				return resolve();
+			}
+		}
+
+		/// <summary>
+		/// Service scope factory<br/>
+		/// 范围的工厂类<br/>
+		/// </summary>
+		private class ServiceScopeFactory : IServiceScopeFactory {
+			public IContainer Container { get; }
+
+			public ServiceScopeFactory(IContainer container) {
+				Container = container;
+			}
+
+			public IServiceScope CreateScope() {
+				return new ServiceScope(Container);
+			}
+
+			private class ServiceScope : IServiceScope {
+				public IContainer Container { get; }
+				public IServiceProvider ServiceProvider { get; }
+
+				public ServiceScope(IContainer container) {
+					Container = container;
+					ServiceProvider = container.AsServiceProvider();
+				}
+
+				public void Dispose() {
+					Container.ScopeFinished();
+				}
 			}
 		}
 	}
