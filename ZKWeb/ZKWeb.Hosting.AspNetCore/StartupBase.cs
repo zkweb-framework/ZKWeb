@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using System;
 using System.IO;
 using System.Threading;
 using ZKWeb.Server;
+using ZKWebStandard.Ioc;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
@@ -25,7 +28,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// 获取网站根目录<br/>
 		/// </summary>
 		/// <returns></returns>
-		public virtual string GetWebsiteRootDirectory() {
+		protected virtual string GetWebsiteRootDirectory() {
 			var path = PlatformServices.Default.Application.ApplicationBasePath;
 			while (!(File.Exists(Path.Combine(path, "Web.config")) ||
 				File.Exists(Path.Combine(path, "web.config")))) {
@@ -53,6 +56,27 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// 允许子类配置其他在zkweb之前的中间件<br/>
 		/// </summary>
 		protected virtual void ConfigureMiddlewares(IApplicationBuilder app) { }
+
+		/// <summary>
+		/// Configure services for IoC container<br/>
+		/// 配置IoC容器的服务<br/>
+		/// </summary>
+		public virtual IServiceProvider ConfigureServices(IServiceCollection services) {
+			var originalProvider = services.BuildServiceProvider();
+			foreach (var descriptor in services) {
+				// Convert ReuseType
+				ReuseType reuse;
+				if (descriptor.Lifetime == ServiceLifetime.Transient) {
+					reuse = ReuseType.Transient;
+				} else if (descriptor.Lifetime == ServiceLifetime.Singleton) {
+					reuse = ReuseType.Singleton;
+				} else if (descriptor.Lifetime == ServiceLifetime.Scoped) {
+					reuse = ReuseType.Scoped;
+				}
+				return reuse.
+			}
+
+		}
 
 		/// <summary>
 		/// Configure application<br/>

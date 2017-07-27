@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<Version>2.0.0</Version>
 		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
@@ -12,6 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0-preview2-final" />
 		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
 		<PackageReference Include="NSubstitute" Version="2.0.3" />
 		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.2.0" />
@@ -32,5 +32,4 @@
 		<PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
 		<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
 	</ItemGroup>
-
 </Project>
