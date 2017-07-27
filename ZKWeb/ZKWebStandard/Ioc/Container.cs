@@ -96,13 +96,13 @@ namespace ZKWebStandard.Ioc {
 		/// 获取类型的所有基类和接口类<br/>
 		/// </summary>
 		public static IEnumerable<Type> GetImplementedTypes(Type type) {
-			foreach (var interfaceType in type.GetTypeInfo().GetInterfaces()) {
+			foreach (var interfaceType in type.GetInterfaces()) {
 				yield return interfaceType;
 			}
 			var baseType = type;
 			while (baseType != null) {
 				yield return baseType;
-				baseType = baseType.GetTypeInfo().BaseType;
+				baseType = baseType.BaseType;
 			}
 		}
 
@@ -117,11 +117,10 @@ namespace ZKWebStandard.Ioc {
 		/// - 类型来源于mscorlib<br/>
 		/// </summary>
 		public static IEnumerable<Type> GetImplementedServiceTypes(Type type, bool nonPublicServiceTypes) {
-			var mscorlibAssembly = typeof(int).GetTypeInfo().Assembly;
+			var mscorlibAssembly = typeof(int).Assembly;
 			foreach (var serviceType in GetImplementedTypes(type)) {
-				var serviceTypeInfo = serviceType.GetTypeInfo();
-				if ((!serviceTypeInfo.IsNotPublic || nonPublicServiceTypes) &&
-					(serviceTypeInfo.Assembly != mscorlibAssembly)) {
+				if ((!serviceType.IsNotPublic || nonPublicServiceTypes) &&
+					(serviceType.Assembly != mscorlibAssembly)) {
 					yield return serviceType;
 				}
 			}
@@ -283,14 +282,13 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterExports(IEnumerable<Type> types) {
 			foreach (var type in types) {
-				var typeInfo = type.GetTypeInfo();
 				// Get export attributes
-				var exportAttributes = typeInfo.GetAttributes<ExportAttributeBase>();
+				var exportAttributes = type.GetAttributes<ExportAttributeBase>();
 				if (!exportAttributes.Any()) {
 					continue;
 				}
 				// Get reuse attribute
-				var reuseType = typeInfo.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
+				var reuseType = type.GetAttribute<ReuseAttribute>()?.ReuseType ?? default(ReuseType);
 				// Call RegisterToContainer
 				foreach (var attribute in exportAttributes) {
 					attribute.RegisterToContainer(this, type, reuseType);

@@ -75,7 +75,7 @@ namespace ZKWebStandard.Testing {
 	/// 	}
 	/// }
 	/// 
-	/// var assembly = typeof(ExampleTest).GetTypeInfo().Assembly;
+	/// var assembly = typeof(ExampleTest).Assembly;
 	/// var handler = new TestConsoleEventHandler();
 	/// var runner = new TestRunner(assembly, handler);
 	/// runner.Run();
@@ -211,7 +211,7 @@ namespace ZKWebStandard.Testing {
 			var counter = new TestResultCounter();
 			// Find all types in assembly have TestsAttribute 
 			foreach (var type in Assembly.GetTypes()) {
-				if (type.GetTypeInfo().GetCustomAttribute<TestsAttribute>() == null) {
+				if (type.GetCustomAttribute<TestsAttribute>() == null) {
 					continue;
 				}
 				// Find and run public methods

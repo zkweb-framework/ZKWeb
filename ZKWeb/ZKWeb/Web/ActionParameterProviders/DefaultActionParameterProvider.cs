@@ -23,10 +23,10 @@ namespace ZKWeb.Web.ActionParameterProviders {
 				return result;
 			}
 			// Get parameter from all form or query values if type isn't basic type
-			var typeInfo = typeof(T).GetTypeInfo();
-			if (!typeInfo.IsValueType && typeof(T) != typeof(string) &&
-				!(typeInfo.IsGenericType &&
-				typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))) {
+			var type = typeof(T);
+			if (!type.IsValueType && typeof(T) != typeof(string) &&
+				!(type.IsGenericType &&
+				type.GetGenericTypeDefinition() == typeof(Nullable<>))) {
 				return request.GetAllAs<T>();
 			}
 			// Return default value

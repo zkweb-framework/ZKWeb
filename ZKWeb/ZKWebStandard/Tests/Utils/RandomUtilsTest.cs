@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Testing;
 
-namespace ZKWebStandard.Tests.Functions {
+namespace ZKWebStandard.Tests.Utils {
 	[Tests]
 	class RandomUtilsTest {
 		public void SystemRandomBytes() {

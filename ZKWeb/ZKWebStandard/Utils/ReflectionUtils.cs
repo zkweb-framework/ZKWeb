@@ -81,20 +81,18 @@ namespace ZKWebStandard.Utils {
 		/// </example>
 		/// <returns></returns>
 		public static Type[] GetGenericArguments(Type type, Type genericType) {
-			var typeInfo = type.GetTypeInfo();
-			foreach (var interfaceType in typeInfo.GetInterfaces()) {
-				var interfaceTypeInfo = interfaceType.GetTypeInfo();
-				if (interfaceTypeInfo.IsGenericType &&
-					interfaceTypeInfo.GetGenericTypeDefinition() == genericType) {
-					return interfaceTypeInfo.GetGenericArguments();
+			foreach (var interfaceType in type.GetInterfaces()) {
+				if (interfaceType.IsGenericType &&
+					interfaceType.GetGenericTypeDefinition() == genericType) {
+					return interfaceType.GetGenericArguments();
 				}
 			}
-			while (typeInfo != null) {
-				if (typeInfo.IsGenericType &&
-					typeInfo.GetGenericTypeDefinition() == genericType) {
-					return typeInfo.GetGenericArguments();
+			while (type != null) {
+				if (type.IsGenericType &&
+					type.GetGenericTypeDefinition() == genericType) {
+					return type.GetGenericArguments();
 				}
-				typeInfo = typeInfo.BaseType?.GetTypeInfo();
+				type = type.BaseType;
 			}
 			return null;
 		}

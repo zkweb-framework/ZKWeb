@@ -23,8 +23,8 @@ namespace ZKWeb.Testing {
 		/// <returns></returns>
 		public virtual IList<Assembly> GetAssembliesForTest() {
 			var result = new List<Assembly>();
-			result.Add(typeof(TestManager).GetTypeInfo().Assembly); // ZKWeb
-			result.Add(typeof(TestRunner).GetTypeInfo().Assembly); // ZKWebStandard
+			result.Add(typeof(TestManager).Assembly); // ZKWeb
+			result.Add(typeof(TestRunner).Assembly); // ZKWebStandard
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			result.AddRange(pluginManager.PluginAssemblies); // 插件程序集列表}
 			return result;

@@ -2,7 +2,7 @@
 using ZKWebStandard.Testing;
 using System.Collections.Generic;
 
-namespace ZKWebStandard.Tests.Functions {
+namespace ZKWebStandard.Tests.Utils {
 	[Tests]
 	class ReflectionUtilsTest {
 		class TestData {

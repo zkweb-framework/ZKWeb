@@ -18,7 +18,7 @@
 		/// </summary>
 		/// <returns></returns>
 		private static string GetWebsiteRootDirectory() {
-			var path = Path.GetDirectoryName(typeof(Program).GetTypeInfo().Assembly.Location);
+			var path = Path.GetDirectoryName(typeof(Program).Assembly.Location);
 			while (!Directory.Exists(Path.Combine(path, "App_Data"))) {
 				path = Path.GetDirectoryName(path);
 				if (string.IsNullOrEmpty(path)) {

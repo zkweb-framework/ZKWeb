@@ -125,7 +125,7 @@ namespace ZKWeb.ORM.EFCore {
 				var assembly = assemblyLoader.LoadFile(assemblyPath);
 				var snapshot = (ModelSnapshot)Activator.CreateInstance(
 					assembly.GetTypes().First(t =>
-					typeof(ModelSnapshot).GetTypeInfo().IsAssignableFrom(t)));
+					typeof(ModelSnapshot).IsAssignableFrom(t)));
 				lastModel = snapshot.Model;
 			}
 			// Compare with the newest model

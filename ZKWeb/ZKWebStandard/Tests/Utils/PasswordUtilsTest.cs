@@ -4,7 +4,7 @@ using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Testing;
 
-namespace ZKWebStandard.Tests.Functions {
+namespace ZKWebStandard.Tests.Utils {
 	[Tests]
 	class PasswordUtilsTest {
 		public void PBKDF2Sum() {

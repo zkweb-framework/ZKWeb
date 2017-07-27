@@ -71,17 +71,17 @@ namespace ZKWeb.Web {
 					Expression.Constant(parameter)));
 			}
 			// Determines if we need wrap the result
-			var actionResultType = typeof(IActionResult).GetTypeInfo();
+			var actionResultType = typeof(IActionResult);
 			if (actionResultType.IsAssignableFrom(method.ReturnType)) {
 				return Expression.Lambda<Func<IActionResult>>(
 					Expression.Call(instanceExpr, method, parametersExpr)).Compile();
 			} else if (method.ReturnType == typeof(string)) {
-				var plainResultType = typeof(PlainResult).GetTypeInfo();
+				var plainResultType = typeof(PlainResult);
 				return Expression.Lambda<Func<IActionResult>>(
 					Expression.New(plainResultType.GetConstructors()[0],
 						Expression.Call(instanceExpr, method, parametersExpr))).Compile();
 			} else {
-				var jsonResultType = typeof(JsonResult).GetTypeInfo();
+				var jsonResultType = typeof(JsonResult);
 				return Expression.Lambda<Func<IActionResult>>(
 					Expression.New(jsonResultType.GetConstructors()[0],
 						Expression.Call(instanceExpr, method, parametersExpr),

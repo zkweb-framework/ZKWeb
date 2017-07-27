@@ -88,7 +88,7 @@ namespace ZKWeb.Plugin {
 			// Register types in assembly to IoC container
 			// Only public types will be registered
 			foreach (var assembly in PluginAssemblies) {
-				var types = assembly.GetTypes().Where(t => t.GetTypeInfo().IsPublic);
+				var types = assembly.GetTypes().Where(t => t.IsPublic);
 				Application.Ioc.RegisterExports(types);
 			}
 		}

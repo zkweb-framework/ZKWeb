@@ -117,15 +117,15 @@ namespace ZKWebStandard.Extensions {
 			}
 			// If object can convert to type directly, we don't need to convert
 			var objType = obj.GetType();
-			if (type.GetTypeInfo().IsAssignableFrom(objType)) {
+			if (type.IsAssignableFrom(objType)) {
 				return obj;
 			}
 			// Handle enum and use Convert
 			try {
-				if (objType.GetTypeInfo().IsEnum && type == typeof(int)) {
+				if (objType.IsEnum && type == typeof(int)) {
 					// enum => int
 					return Convert.ToInt32(obj);
-				} else if (objType == typeof(string) && type.GetTypeInfo().IsEnum) {
+				} else if (objType == typeof(string) && type.IsEnum) {
 					// string => enum
 					return Enum.Parse(type, (string)obj);
 				}

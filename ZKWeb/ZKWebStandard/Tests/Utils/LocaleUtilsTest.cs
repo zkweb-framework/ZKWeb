@@ -7,7 +7,7 @@ using ZKWebStandard.Web;
 using ZKWebStandard.Web.Mock;
 using System.Globalization;
 
-namespace ZKWebStandard.Tests.Functions {
+namespace ZKWebStandard.Tests.Utils {
 	[Tests]
 	class LocaleUtilsTest {
 		public void SetThreadLanguage() {

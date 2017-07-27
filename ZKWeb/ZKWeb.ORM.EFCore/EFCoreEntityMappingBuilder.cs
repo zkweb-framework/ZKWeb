@@ -142,9 +142,9 @@ namespace ZKWeb.ORM.EFCore {
 			if (!string.IsNullOrEmpty(options.Navigation)) {
 				return options.Navigation;
 			}
-			var navigationTypeInfo = typeof(TNavigationType).GetTypeInfo();
+			var navigationType = typeof(TNavigationType);
 			var navigationProperty = typeof(TOther).FastGetProperties()
-				.FirstOrDefault(p => navigationTypeInfo.IsAssignableFrom(p.PropertyType));
+				.FirstOrDefault(p => navigationType.IsAssignableFrom(p.PropertyType));
 			return navigationProperty?.Name;
 		}
 
