@@ -75,6 +75,24 @@ Backward compatibility is provided as much as possible.
 - Multi-Currency and Region support
 - And More...
 
+## Getting Started
+
+Open "Tools\ProjectCreator.Gui.exe",<br/>
+create your own project with specified hosting and ORM then open it.<br/>
+For more information please see the documents.<br/>
+
+## Packages
+
+- ZKWeb: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.svg)](http://www.nuget.org/packages/ZKWeb)
+- ZKWeb.Hosting.AspNet: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.Hosting.AspNet.svg)](http://www.nuget.org/packages/ZKWeb.Hosting.AspNet)
+- ZKWeb.Hosting.AspNetCore: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.Hosting.AspNetCore.svg)](http://www.nuget.org/packages/ZKWeb.Hosting.AspNetCore)
+- ZKWeb.Hosting.Owin: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.Hosting.Owin.svg)](http://www.nuget.org/packages/ZKWeb.Hosting.Owin)
+- ZKWeb.ORM.Dapper: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.ORM.Dapper.svg)](http://www.nuget.org/packages/ZKWeb.ORM.Dapper)
+- ZKWeb.ORM.EFCore: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.ORM.EFCore.svg)](http://www.nuget.org/packages/ZKWeb.ORM.EFCore)
+- ZKWeb.ORM.InMemory: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.ORM.InMemory.svg)](http://www.nuget.org/packages/ZKWeb.ORM.InMemory)
+- ZKWeb.ORM.MongoDB: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.ORM.MongoDB.svg)](http://www.nuget.org/packages/ZKWeb.ORM.MongoDB)
+- ZKWeb.ORM.NHibernate: [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.ORM.NHibernate.svg)](http://www.nuget.org/packages/ZKWeb.ORM.NHibernate)
+
 ## Links and License
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
@@ -87,9 +105,3 @@ Demo Account: demo 123456
 MIT License<br/>
 Copyright © 2016~2017 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>
-
-## Getting Started
-
-Open "Tools\ProjectCreator.Gui.exe",<br/>
-create your own project with specified hosting and ORM then open it.<br/>
-For more information please see the documents.<br/>
