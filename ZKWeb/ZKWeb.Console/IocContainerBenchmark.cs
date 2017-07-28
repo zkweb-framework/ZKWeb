@@ -38,7 +38,7 @@
 				container.RegisterMany<BenchmarkClass>(ReuseType.Transient, i);
 			}
 			var begin = DateTime.UtcNow;
-			for (var i = 0; i < 10000000; ++i) {
+			for (var i = 0; i < 100000000; ++i) {
 				container.Resolve<BenchmarkInterface>();
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
@@ -52,7 +52,7 @@
 				container.RegisterMany<BenchmarkClass>(ReuseType.Singleton, i);
 			}
 			var begin = DateTime.UtcNow;
-			for (var i = 0; i < 10000000; ++i) {
+			for (var i = 0; i < 100000000; ++i) {
 				container.Resolve<BenchmarkInterface>();
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
@@ -91,12 +91,12 @@
 		/// 开始性能测试<br/>
 		/// </summary>
 		public static void Start() {
-			BenchmarkRegisterTransient();
-			BenchmarkRegisterSingleton();
+			//BenchmarkRegisterTransient();
+			//BenchmarkRegisterSingleton();
 			BenchmarkResolveTransient();
 			BenchmarkResolveSingleton();
-			BenchmarkResolveManyTransient();
-			BenchmarkResolveManySingleton();
+			//BenchmarkResolveManyTransient();
+			//BenchmarkResolveManySingleton();
 		}
 	}
 }

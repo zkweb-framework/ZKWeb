@@ -8,7 +8,7 @@ namespace ZKWebStandard.Ioc {
 	/// 静态的IoC容器工厂函数缓存<br/>
 	/// </summary>
 	/// <seealso cref="Container"/>
-	/// <seealso cref="ContainerFactoriesCacheData"/>
+	/// <seealso cref="ContainerFactoriesCacheData{TService}"/>
 	/// <seealso cref="ContainerFactoriesCache{TService}"/>
 	public static class ContainerFactoriesCache {
 		/// <summary>
@@ -25,7 +25,7 @@ namespace ZKWebStandard.Ioc {
 	/// <seealso cref="Container"/>
 	/// <seealso cref="ContainerFactoriesCache"/>
 	/// <seealso cref="ContainerFactoriesCache{TService}"/>
-	internal class ContainerFactoriesCacheData {
+	internal class ContainerFactoriesCacheData<TService> {
 		/// <summary>
 		/// Matched container instance<br/>
 		/// 容器的实例<br/>
@@ -42,14 +42,14 @@ namespace ZKWebStandard.Ioc {
 		/// 服务的工厂函数列表<br/>
 		/// 服务键应该为null<br/>
 		/// </summary>
-		internal List<Func<object>> Factories = null;
+		internal List<Func<TService>> Factories = null;
 		/// <summary>
 		/// Single factory<br/>
 		/// Available when Factories only contains one element<br/>
 		/// 单个工厂函数<br/>
 		/// 只在工厂函数列表只包含一个元素时有值<br/>
 		/// </summary>
-		internal Func<object> SingleFactory = null;
+		internal Func<TService> SingleFactory = null;
 
 		/// <summary>
 		/// Initialize<br/>
@@ -57,7 +57,7 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		internal ContainerFactoriesCacheData(
-			Container container, List<Func<object>> factories) {
+			Container container, List<Func<TService>> factories) {
 			Container = container;
 			Revision = container.Revision;
 			Factories = factories;
@@ -85,12 +85,12 @@ namespace ZKWebStandard.Ioc {
 	/// <typeparam name="TService">Service Type</typeparam>
 	/// <seealso cref="Container"/>
 	/// <seealso cref="ContainerFactoriesCache"/>
-	/// <seealso cref="ContainerFactoriesCacheData"/>
+	/// <seealso cref="ContainerFactoriesCacheData{TService}"/>
 	internal static class ContainerFactoriesCache<TService> {
 		/// <summary>
 		/// Cache data<br/>
 		/// 缓存数据<br/>
 		/// </summary>
-		internal static ContainerFactoriesCacheData Data = null;
+		internal static ContainerFactoriesCacheData<TService> Data = null;
 	}
 }

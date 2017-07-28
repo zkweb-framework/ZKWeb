@@ -20,12 +20,12 @@ namespace ZKWebStandard.Tests.Extensions {
 		public void BuildFactoryWithType() {
 			IContainer container = new Container();
 			container.RegisterMany<TestData>();
-			var factoryA = container.BuildFactory(typeof(TestInjection), ReuseType.Transient);
-			var testInjectionA = (TestInjection)factoryA();
+			var factoryA = container.BuildFactory<TestInjection>(ReuseType.Transient);
+			var testInjectionA = factoryA();
 			Assert.IsTrueWith(testInjectionA.Data != null, testInjectionA);
 			Assert.IsTrue(!object.ReferenceEquals(testInjectionA, factoryA()));
-			var factoryB = container.BuildFactory(typeof(TestInjection), ReuseType.Singleton);
-			var testInjectionB = (TestInjection)factoryB();
+			var factoryB = container.BuildFactory<TestInjection>(ReuseType.Singleton);
+			var testInjectionB = factoryB();
 			Assert.IsTrueWith(testInjectionB.Data != null, testInjectionB);
 			Assert.IsTrue(object.ReferenceEquals(testInjectionB, factoryB()));
 		}

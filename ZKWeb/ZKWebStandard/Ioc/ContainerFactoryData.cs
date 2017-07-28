@@ -10,10 +10,15 @@ namespace ZKWebStandard.Ioc {
 	/// <seealso cref="Container"/>
 	public struct ContainerFactoryData {
 		/// <summary>
-		/// Function object<br/>
-		/// 函数对象<br/>
+		/// Function returns implementation type<br/>
+		/// 返回实现类型的函数<br/>
 		/// </summary>
-		public Func<object> Factory { get; set; }
+		public object GenericFactory { get; set; }
+		/// <summary>
+		/// Function returns object type<br/>
+		/// 返回object类型的函数<br/>
+		/// </summary>
+		public Func<object> ObjectFactory { get; set; }
 		/// <summary>
 		/// Implementation type hint<br/>
 		/// Usually it's the type factory function will return<br/>
@@ -28,10 +33,12 @@ namespace ZKWebStandard.Ioc {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="factory">Function object</param>
+		/// <param name="genericFactory">Function returns implementation type</param>
+		/// <param name="objectFactory">Function returns object type</param>
 		/// <param name="implementationTypeHint">Implementation type hint</param>
-		public ContainerFactoryData(Func<object> factory, Type implementationTypeHint) {
-			Factory = factory;
+		public ContainerFactoryData(object genericFactory, Func<object> objectFactory, Type implementationTypeHint) {
+			GenericFactory = genericFactory;
+			ObjectFactory = objectFactory;
 			ImplementationTypeHint = implementationTypeHint;
 		}
 	}

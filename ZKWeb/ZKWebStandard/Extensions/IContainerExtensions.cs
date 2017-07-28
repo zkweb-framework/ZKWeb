@@ -7,7 +7,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
+using ZKWebStandard.Collections;
 using ZKWebStandard.Ioc;
+using ZKWebStandard.Utils;
 
 namespace ZKWebStandard.Extensions {
 	/// <summary>
@@ -15,6 +17,19 @@ namespace ZKWebStandard.Extensions {
 	/// 容器的扩展函数<br/>
 	/// </summary>
 	public static class IContainerExtensions {
+		private readonly static ConcurrentDictionary<Type, object> TypeFactoriesCache =
+			new ConcurrentDictionary<Type, object>();
+		private readonly static MethodInfo BuildFactoryT_3 = typeof(IContainerExtensions)
+			.FastGetMethods().First(f => f.Name == nameof(BuildFactory) && f.IsGenericMethod && f.GetParameters().Length == 3);
+		private readonly static MethodInfo BuildFactoryT_2 = typeof(IContainerExtensions)
+			.FastGetMethods().First(f => f.Name == nameof(BuildFactory) && f.IsGenericMethod && f.GetParameters().Length == 2);
+		private readonly static MethodInfo ToGenericFactory = typeof(IContainerExtensions)
+			.FastGetMethod(nameof(ToGenericFactoryImpl), BindingFlags.NonPublic | BindingFlags.Static);
+		private readonly static MethodInfo ToObjectFactory = typeof(IContainerExtensions)
+			.FastGetMethod(nameof(ToObjectFactoryImpl), BindingFlags.NonPublic | BindingFlags.Static);
+		private static Func<T> ToGenericFactoryImpl<T>(Func<object> objectFactory) => () => (T)objectFactory();
+		private static Func<object> ToObjectFactoryImpl<T>(Func<T> genericFactory) => () => genericFactory();
+
 		/// <summary>
 		/// Build factory from original factory and reuse type<br/>
 		/// 根据原工厂函数和重用类型构建新的工厂函数<br/>
@@ -34,47 +49,50 @@ namespace ZKWebStandard.Extensions {
 		/// // object.ReferenceEquals(factoryB(), factoryB())
 		/// </code>
 		/// </example>
-		public static Func<object> BuildFactory(
-			this IContainer container, Func<object> originalFactory, ReuseType reuseType) {
+		public static Func<T> BuildFactory<T>(
+			this IContainer container, Func<T> originalFactory, ReuseType reuseType) {
 			if (reuseType == ReuseType.Transient) {
 				// Transient
 				return originalFactory;
 			} else if (reuseType == ReuseType.Singleton) {
 				// Singleton
-				object value = null;
-				object valueLock = new object();
+				var value = default(T);
+				var valueCreated = false;
+				var valueLock = new object();
 				return () => {
-					if (value != null) {
+					if (valueCreated) {
 						return value;
 					}
 					lock (valueLock) {
-						if (value != null) {
+						if (valueCreated) {
 							return value; // double check
 						}
 						value = originalFactory();
+						Interlocked.MemoryBarrier();
+						valueCreated = true;
 						return value;
 					}
 				};
 			} else if (reuseType == ReuseType.Scoped) {
 				// Scoped
-				var local = new AsyncLocal<object>();
-				var localLock = new object();
+				var value = new AsyncLocal<Pair<bool, T>>();
+				var valueLock = new object();
 				return () => {
-					var value = local.Value;
-					if (value != null) {
-						return value;
+					var pair = value.Value;
+					if (pair.First) {
+						return pair.Second;
 					}
-					lock (localLock) {
-						value = local.Value;
-						if (value != null) {
-							return value; // double check
+					lock (valueLock) {
+						pair = value.Value;
+						if (pair.First) {
+							return pair.Second; // double check
 						}
-						value = originalFactory();
-						local.Value = value;
-						if (value is IDisposable disposable) {
+						pair = Pair.Create(true, originalFactory());
+						if (pair.Second is IDisposable disposable) {
 							container.DisposeWhenScopeFinished(disposable);
 						}
-						return value;
+						value.Value = pair;
+						return pair.Second;
 					}
 				};
 			} else {
@@ -83,18 +101,11 @@ namespace ZKWebStandard.Extensions {
 		}
 
 		/// <summary>
-		/// Cache for type and it's original factory<br/>
-		/// 缓存类型和它的原始工厂函数<br/>
-		/// </summary>
-		private readonly static ConcurrentDictionary<Type, Func<object>> TypeFactorysCache =
-			new ConcurrentDictionary<Type, Func<object>>();
-
-		/// <summary>
 		/// Build factory from type and reuse type<br/>
 		/// 根据类型和重用类型构建工厂函数<br/>
 		/// </summary>
+		/// <typeparam name="T">The type</typeparam>
 		/// <param name="container">IoC container</param>
-		/// <param name="type">The type</param>
 		/// <param name="reuseType">Reuse type</param>
 		/// <returns></returns>
 		/// <example>
@@ -108,13 +119,13 @@ namespace ZKWebStandard.Extensions {
 		/// 
 		/// IContainer container = new Container();
 		/// container.RegisterMany&lt;TestData&gt;();
-		/// var factory = container.BuildFactory(typeof(TestInjection), ReuseType.Transient);
-		/// var testInjection = (TestInjection)factory();
+		/// var factory = container.BuildFactory&gt;TestInjection&lt;(ReuseType.Transient);
+		/// var testInjection = factory();
 		/// </code>
 		/// </example>
-		public static Func<object> BuildFactory(
-			this IContainer container, Type type, ReuseType reuseType) {
-			var typeFactor = TypeFactorysCache.GetOrAdd(type, t => {
+		public static Func<T> BuildFactory<T>(this IContainer container, ReuseType reuseType) {
+			var type = typeof(T);
+			var typeFactory = TypeFactoriesCache.GetOrAdd(type, t => {
 				// Support constructor dependency injection
 				// First detect Inject attribute, then use the constructor that have most parameters	
 				var argumentExpressions = new List<Expression>();
@@ -213,9 +224,38 @@ namespace ZKWebStandard.Extensions {
 					argumentExpressions.Add(argumentExpression);
 				}
 				var newExpression = Expression.New(constructor, argumentExpressions);
-				return Expression.Lambda<Func<object>>(newExpression).Compile();
+				return Expression.Lambda<Func<T>>(newExpression).Compile();
 			});
-			return container.BuildFactory(typeFactor, reuseType);
+			return container.BuildFactory((Func<T>)typeFactory, reuseType);
+		}
+
+		/// <summary>
+		/// Build factory from original factory and reuse type<br/>
+		/// Return genericFactory for Func&lt;T&gt; and objectFactory for Func&lt;object&gt;<br/>
+		/// 根据原工厂函数和重用类型构建新的工厂函数<br/>
+		/// 返回Func&lt;T&gt;类型的genericFactory和Func&lt;object&gt;类型的objectFactory<br/>
+		/// </summary>
+		/// <seealso cref="BuildFactory{T}(IContainer, Func{T}, ReuseType)"/>
+		public static void BuildFactory(
+			this IContainer container, Type type, Func<object> originalFactory, ReuseType reuseType,
+			out object genericFactory, out Func<object> objectFactory) {
+			var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_3, typeof(object));
+			objectFactory = (Func<object>)invoker(null, new object[] { container, originalFactory, reuseType });
+			genericFactory = ReflectionUtils.MakeInvoker(ToGenericFactory, type)(null, new object[] { objectFactory });
+		}
+
+		/// <summary>
+		/// Build factory from type and reuse type<br/>
+		/// Return genericFactory for Func&lt;T&gt; and objectFactory for Func&lt;object&gt;<br/>
+		/// 根据类型和重用类型构建工厂函数<br/>
+		/// 返回Func&lt;T&gt;类型的genericFactory和Func&lt;object&gt;类型的objectFactory<br/>
+		/// </summary>
+		/// <seealso cref="BuildFactory{T}(IContainer, ReuseType)"/>
+		public static void BuildFactory(
+			this IContainer container, Type type, ReuseType reuseType, out object genericFactory, out Func<object> objectFactory) {
+			var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_2, type);
+			genericFactory = invoker(null, new object[] { container, reuseType });
+			objectFactory = (Func<object>)ReflectionUtils.MakeInvoker(ToObjectFactory, type)(null, new object[] { genericFactory });
 		}
 
 		/// <summary>
@@ -260,9 +300,10 @@ namespace ZKWebStandard.Extensions {
 				// Build factory
 				Func<object> factory;
 				if (descriptor.ImplementationType != null) {
-					factory = container.BuildFactory(descriptor.ImplementationType, reuseType);
+					container.BuildFactory(descriptor.ImplementationType, reuseType, out var genericFactory, out factory);
 				} else if (descriptor.ImplementationFactory != null) {
-					factory = container.BuildFactory(() => descriptor.ImplementationFactory(provider), reuseType);
+					container.BuildFactory(descriptor.ServiceType,
+						() => descriptor.ImplementationFactory(provider), reuseType, out var genericFactory, out factory);
 				} else {
 					factory = () => descriptor.ImplementationInstance;
 				}
@@ -332,23 +373,21 @@ namespace ZKWebStandard.Extensions {
 				// Resolve implementation
 				var resolve = new Func<object>(() => {
 					if (isIList) {
-						return ListFactoryMethod.MakeGenericMethod(serviceType).FastInvoke(this);
+						return ReflectionUtils.MakeInvoker(ListFactoryMethod, serviceType)(this, null);
 					} else if (isIEnumerable) {
-						return IEnumerableFactoryMethod.MakeGenericMethod(serviceType).FastInvoke(this);
+						return ReflectionUtils.MakeInvoker(IEnumerableFactoryMethod, serviceType)(this, null);
 					}
 					return Container.Resolve(serviceType, IfUnresolved.ReturnDefault);
 				});
 				if (isLazy) {
 					var originalResolve = resolve;
-					resolve = () => LazyFactoryMethod.MakeGenericMethod(serviceType).FastInvoke(this, originalResolve);
+					var invoker = ReflectionUtils.MakeInvoker(LazyFactoryMethod, serviceType);
+					resolve = () => invoker(this, new object[] { originalResolve });
 				}
 				if (isFunc) {
 					var originalResolve = resolve;
-					resolve = () => Expression.Lambda(
-						typeof(Func<>).MakeGenericType(funcReturnType),
-						Expression.Convert(
-							Expression.Invoke(Expression.Constant(originalResolve)),
-							funcReturnType)).Compile();
+					var invoker = ReflectionUtils.MakeInvoker(ToGenericFactory, funcReturnType);
+					resolve = () => invoker(null, new object[] { originalResolve });
 				}
 				return resolve();
 			}
