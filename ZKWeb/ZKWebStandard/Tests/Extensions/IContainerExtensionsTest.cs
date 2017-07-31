@@ -51,6 +51,8 @@ namespace ZKWebStandard.Tests.Extensions {
 			serviceCollection.Add(new ServiceDescriptor(
 				typeof(TestInjection), typeof(TestInjection), ServiceLifetime.Transient));
 			serviceCollection.Add(new ServiceDescriptor(typeof(string), "abc"));
+			serviceCollection.Add(new ServiceDescriptor(
+				typeof(ITestGenericService<,>), typeof(TestGenericService<,>), ServiceLifetime.Transient));
 			IContainer container = new Container();
 			container.RegisterFromServiceCollection(serviceCollection);
 			var provider = container.AsServiceProvider();
@@ -59,6 +61,8 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.IsTrue(injection.Data != null);
 			var str = (string)provider.GetRequiredService(typeof(string));
 			Assert.Equals(str, "abc");
+			var list = provider.GetRequiredService(typeof(ITestGenericService<int, string>));
+			Assert.Equals(list.GetType(), typeof(TestGenericService<int, string>));
 		}
 
 		class TestData { }
@@ -71,5 +75,9 @@ namespace ZKWebStandard.Tests.Extensions {
 		}
 
 		class TestServiceCollection : List<ServiceDescriptor>, IServiceCollection { }
+
+		interface ITestGenericService<Key, Value> { }
+
+		class TestGenericService<Key, Value> : ITestGenericService<Key, Value> { }
 	}
 }

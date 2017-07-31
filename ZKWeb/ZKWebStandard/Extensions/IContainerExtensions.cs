@@ -239,6 +239,9 @@ namespace ZKWebStandard.Extensions {
 		public static void BuildFactory(
 			this IContainer container, Type type, Func<object> originalFactory, ReuseType reuseType,
 			out object genericFactory, out Func<object> objectFactory) {
+			if (type.IsGenericTypeDefinition) {
+				throw new NotSupportedException("Register generic definition with factory is unsupported");
+			}
 			var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_3, typeof(object));
 			objectFactory = (Func<object>)invoker(null, new object[] { container, originalFactory, reuseType });
 			genericFactory = ReflectionUtils.MakeInvoker(ToGenericFactory, type)(null, new object[] { objectFactory });
@@ -257,7 +260,7 @@ namespace ZKWebStandard.Extensions {
 			if (type.IsGenericTypeDefinition) {
 				// Register Implementation<T> to Service<T>
 				var factoryCache = new ConcurrentDictionary<Type, Func<object>>();
-				objectFactory = () => {
+				var factoryFactory = new Func<Func<Type, object>>(() => {
 					return new Func<Type, object>(serviceType => {
 						var bindType = type.MakeGenericType(serviceType.GetGenericArguments());
 						var factory = factoryCache.GetOrAdd(serviceType, _ => {
@@ -269,7 +272,8 @@ namespace ZKWebStandard.Extensions {
 						});
 						return factory();
 					});
-				};
+				});
+				objectFactory = factoryFactory;
 				genericFactory = objectFactory;
 			} else {
 				// Normal case
@@ -318,18 +322,17 @@ namespace ZKWebStandard.Extensions {
 				} else {
 					throw new NotSupportedException($"Unsupported ServiceLifetime: {descriptor.Lifetime}");
 				}
-				// Build factory
-				Func<object> factory;
+				// Register service
 				if (descriptor.ImplementationType != null) {
-					container.BuildFactory(descriptor.ImplementationType, reuseType, out var genericFactory, out factory);
+					container.Register(descriptor.ServiceType,
+						descriptor.ImplementationType, reuseType, null);
 				} else if (descriptor.ImplementationFactory != null) {
-					container.BuildFactory(descriptor.ServiceType,
-						() => descriptor.ImplementationFactory(provider), reuseType, out var genericFactory, out factory);
+					container.RegisterDelegate(descriptor.ServiceType,
+						() => descriptor.ImplementationFactory(provider), reuseType, null);
 				} else {
-					factory = () => descriptor.ImplementationInstance;
+					container.RegisterInstance(
+						descriptor.ServiceType, descriptor.ImplementationInstance, null);
 				}
-				// Register to container, don't wrap the factory again
-				container.RegisterDelegate(descriptor.ServiceType, factory, ReuseType.Transient, null);
 			}
 		}
 

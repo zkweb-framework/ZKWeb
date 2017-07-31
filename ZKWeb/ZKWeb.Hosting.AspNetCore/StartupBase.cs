@@ -6,8 +6,6 @@ using System;
 using System.IO;
 using System.Threading;
 using ZKWeb.Server;
-using ZKWebStandard.Extensions;
-using ZKWebStandard.Ioc;
 
 namespace ZKWeb.Hosting.AspNetCore {
 	/// <summary>
@@ -75,18 +73,8 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// 配置IoC容器的服务<br/>
 		/// </summary>
 		public virtual IServiceProvider ConfigureServices(IServiceCollection services) {
-			try {
-				// Add other services
-				ConfigureOtherServices(services);
-				// Add zkweb services
-				return services.AddZKWeb<TApplication>(GetWebsiteRootDirectory());
-			} catch {
-				// Stop application after error reported to browser
-				var container = new Container();
-				container.RegisterFromServiceCollection(services);
-				StopApplicationAfter(container.AsServiceProvider(), StopApplicationDelay);
-				throw;
-			}
+			ConfigureOtherServices(services);
+			return services.BuildServiceProvider();
 		}
 
 		/// <summary>
@@ -98,7 +86,7 @@ namespace ZKWeb.Hosting.AspNetCore {
 				// Configure other middlewares
 				ConfigureMiddlewares(app);
 				// Configure zkweb middleware
-				app.UseZKWeb();
+				app.UseZKWeb(GetWebsiteRootDirectory());
 			} catch {
 				// stop application after error reported to browser
 				StopApplicationAfter(app.ApplicationServices, StopApplicationDelay);
