@@ -95,8 +95,8 @@
 			BenchmarkRegisterSingleton();
 			BenchmarkResolveTransient();
 			BenchmarkResolveSingleton();
-			//BenchmarkResolveManyTransient();
-			//BenchmarkResolveManySingleton();
+			BenchmarkResolveManyTransient();
+			BenchmarkResolveManySingleton();
 		}
 	}
 }

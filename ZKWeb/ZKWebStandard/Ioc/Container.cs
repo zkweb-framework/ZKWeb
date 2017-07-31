@@ -13,12 +13,14 @@ namespace ZKWebStandard.Ioc {
 	/// IoC容器<br/>
 	/// 支持构造函数注入<br/>
 	/// Benchmark (性能测试)<br/>
-	/// - Register Transient: 1000000/2.3s (DryIoc: 6.1s)
-	/// - Register Singleton: 1000000/2.6s (DryIoc: 5.2s)
-	/// - Resolve Transient: 10000000/0.27s (DryIoc: 0.54s)
-	/// - Resolve Singleton: 10000000/0.27s (DryIoc: 0.43s)
-	/// - ResolveMany Transient: 10000000/0.84s (DryIoc: 14.7s)
-	/// - ResolveMany Singleton: 10000000/0.88s (DryIoc: 12.9s)
+	/// ZKWeb: 2.0<br/>
+	/// DryIoc: 2.11<br/>
+	/// - Register Transient: 1000000/2.38s (DryIoc: 5.76s)
+	/// - Register Singleton: 1000000/3.43s (DryIoc: 5.76s)
+	/// - Resolve Transient: 100000000/2.18s (DryIoc: 1.55s)
+	/// - Resolve Singleton: 100000000/2.15s (DryIoc: 1.49s)
+	/// - ResolveMany Transient: 10000000/0.82s (DryIoc: 21.01s)
+	/// - ResolveMany Singleton: 10000000/0.83s (DryIoc: 7.97s)
 	/// </summary>
 	/// <seealso cref="IContainer"/>
 	/// <seealso cref="IRegistrator"/>
