@@ -252,10 +252,31 @@ namespace ZKWebStandard.Extensions {
 		/// </summary>
 		/// <seealso cref="BuildFactory{T}(IContainer, ReuseType)"/>
 		public static void BuildFactory(
-			this IContainer container, Type type, ReuseType reuseType, out object genericFactory, out Func<object> objectFactory) {
-			var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_2, type);
-			genericFactory = invoker(null, new object[] { container, reuseType });
-			objectFactory = (Func<object>)ReflectionUtils.MakeInvoker(ToObjectFactory, type)(null, new object[] { genericFactory });
+			this IContainer container, Type type, ReuseType reuseType,
+			out object genericFactory, out Func<object> objectFactory) {
+			if (type.IsGenericTypeDefinition) {
+				// Register Implementation<T> to Service<T>
+				var factoryCache = new ConcurrentDictionary<Type, Func<object>>();
+				objectFactory = () => {
+					return new Func<Type, object>(serviceType => {
+						var bindType = type.MakeGenericType(serviceType.GetGenericArguments());
+						var factory = factoryCache.GetOrAdd(serviceType, _ => {
+							var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_2, bindType);
+							var innerGenericFactory = invoker(null, new object[] { container, reuseType });
+							var innerObjectFactory = (Func<object>)ReflectionUtils.MakeInvoker(
+								ToObjectFactory, bindType)(null, new object[] { innerGenericFactory });
+							return innerObjectFactory;
+						});
+						return factory();
+					});
+				};
+				genericFactory = objectFactory;
+			} else {
+				// Normal case
+				var invoker = ReflectionUtils.MakeInvoker(BuildFactoryT_2, type);
+				genericFactory = invoker(null, new object[] { container, reuseType });
+				objectFactory = (Func<object>)ReflectionUtils.MakeInvoker(ToObjectFactory, type)(null, new object[] { genericFactory });
+			}
 		}
 
 		/// <summary>

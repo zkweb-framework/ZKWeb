@@ -91,8 +91,8 @@
 		/// 开始性能测试<br/>
 		/// </summary>
 		public static void Start() {
-			//BenchmarkRegisterTransient();
-			//BenchmarkRegisterSingleton();
+			BenchmarkRegisterTransient();
+			BenchmarkRegisterSingleton();
 			BenchmarkResolveTransient();
 			BenchmarkResolveSingleton();
 			//BenchmarkResolveManyTransient();

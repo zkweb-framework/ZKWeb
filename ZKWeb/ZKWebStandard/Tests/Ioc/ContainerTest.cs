@@ -317,6 +317,36 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void ResolveGenericDefinition() {
+			using (IContainer container = new Container()) {
+				container.Register(typeof(IEnumerable<>), typeof(List<>));
+				Assert.Equals(container.Resolve<IEnumerable<int>>().GetType(), typeof(List<int>));
+				Assert.Equals(container.Resolve<IEnumerable<string>>().GetType(), typeof(List<string>));
+			}
+
+			using (IContainer container = new Container()) {
+				container.Register(typeof(IEnumerable<>), typeof(List<>), ReuseType.Singleton);
+				Assert.IsTrue(object.ReferenceEquals(
+					container.Resolve<IEnumerable<int>>(),
+					container.Resolve<IEnumerable<int>>()));
+				Assert.IsTrue(object.ReferenceEquals(
+					container.Resolve<IEnumerable<string>>(),
+					container.Resolve<IEnumerable<string>>()));
+				Assert.IsTrue(!object.ReferenceEquals(
+					container.Resolve<IEnumerable<int>>(),
+					container.Resolve<IEnumerable<string>>()));
+			}
+
+			using (IContainer container = new Container()) {
+				container.Register(typeof(IEnumerable<>), typeof(List<>));
+				container.Register(typeof(IEnumerable<>), typeof(SortedSet<>));
+				var resolved = container.ResolveMany<IEnumerable<int>>().ToList();
+				Assert.Equals(resolved.Count, 2);
+				Assert.Equals(resolved[0].GetType(), typeof(List<int>));
+				Assert.Equals(resolved[1].GetType(), typeof(SortedSet<int>));
+			}
+		}
+
 		public interface InterfaceService {
 			string Name { get; }
 		}

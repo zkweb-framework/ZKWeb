@@ -402,16 +402,24 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public object Resolve(Type serviceType, IfUnresolved ifUnresolved, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			Func<object> factory = null;
-			long factoriesCount = 0;
+			Func<object> factory;
+			long factoriesCount;
 			FactoriesLock.EnterReadLock();
 			try {
 				// Get factories
-				// Only success if there single factory
+				// Success unless there zero or more than one factories
 				var factories = Factories.GetOrDefault(key);
-				factoriesCount = factories?.Count ?? 0;
-				if (factoriesCount == 1) {
-					factory = factories[0].ObjectFactory;
+				if (factories == null && serviceType.IsGenericType) {
+					// Use factory from generic definition
+					var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
+					factories = Factories.GetOrDefault(baseKey);
+					factoriesCount = factories?.Count ?? 0;
+					factory = (factoriesCount == 1) ?
+						() => ((Func<Type, object>)factories[0].ObjectFactory.Invoke())(serviceType) : (Func<object>)null;
+				} else {
+					// Use normal factory
+					factoriesCount = factories?.Count ?? 0;
+					factory = (factoriesCount == 1) ? factories[0].ObjectFactory : null;
 				}
 			} finally {
 				FactoriesLock.ExitReadLock();
@@ -468,7 +476,17 @@ namespace ZKWebStandard.Ioc {
 			try {
 				// Copy factories
 				var factories = Factories.GetOrDefault(key);
-				if (factories != null) {
+				if (factories == null && serviceType.IsGenericType) {
+					// Use factories from generic definition
+					var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
+					factories = Factories.GetOrDefault(baseKey);
+					if (factories != null) {
+						factoriesCopy.Capacity = factories.Capacity;
+						factoriesCopy.AddRange(factories.Select(f => new Func<object>(() =>
+							((Func<Type, object>)f.ObjectFactory.Invoke())(serviceType))));
+					}
+				} else if (factories != null) {
+					// Use normal factories
 					factoriesCopy.Capacity = factories.Count;
 					factoriesCopy.AddRange(factories.Select(f => f.ObjectFactory));
 				}
@@ -494,14 +512,16 @@ namespace ZKWebStandard.Ioc {
 				if (data == null || !data.IsMatched(this)) {
 					data = UpdateFactoriesCache<TService>();
 				}
-				foreach (var factory in data.Factories) {
-					yield return factory();
+				if (data.Factories.Count > 0) {
+					foreach (var factory in data.Factories) {
+						yield return factory();
+					}
+					yield break;
 				}
-			} else {
-				// Use default method
-				foreach (var instance in ResolveMany(typeof(TService), serviceKey)) {
-					yield return (TService)instance;
-				}
+			}
+			// Use default method
+			foreach (var instance in ResolveMany(typeof(TService), serviceKey)) {
+				yield return (TService)instance;
 			}
 		}
 

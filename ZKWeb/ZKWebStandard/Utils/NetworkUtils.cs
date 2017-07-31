@@ -45,8 +45,12 @@ namespace ZKWebStandard.Utils {
 		public static IPAddress GetHostIpAddress() {
 			using (var socket =
 					new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)) {
-				socket.Connect(new IPEndPoint(IPAddress.Parse("8.8.8.8"), 53));
-				return ((IPEndPoint)socket.LocalEndPoint).Address;
+				try {
+					socket.Connect(new IPEndPoint(IPAddress.Parse("8.8.8.8"), 53));
+					return ((IPEndPoint)socket.LocalEndPoint).Address;
+				} catch (SocketException) {
+					return IPAddress.Loopback;
+				}
 			}
 		}
 	}

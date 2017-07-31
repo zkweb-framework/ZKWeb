@@ -8,7 +8,7 @@ using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
-	class IContainerTest {
+	class IContainerExtensionsTest {
 		public void BuildFactoryWithFactory() {
 			var container = new Container();
 			var factoryA = container.BuildFactory(() => new TestData(), ReuseType.Transient);
