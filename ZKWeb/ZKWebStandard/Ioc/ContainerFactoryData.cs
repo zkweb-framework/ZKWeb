@@ -8,7 +8,7 @@ namespace ZKWebStandard.Ioc {
 	/// 包括函数对象和实现类型<br/>
 	/// </summary>
 	/// <seealso cref="Container"/>
-	public struct ContainerFactoryData {
+	public class ContainerFactoryData {
 		/// <summary>
 		/// Function returns implementation type<br/>
 		/// 返回实现类型的函数<br/>

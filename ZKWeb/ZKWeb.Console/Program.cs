@@ -1,7 +1,6 @@
 ﻿namespace ZKWeb.Console {
 	using System;
 	using System.IO;
-	using System.Reflection;
 	using Testing;
 	using Testing.TestEventHandlers;
 
