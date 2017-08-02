@@ -73,8 +73,17 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// 配置IoC容器的服务<br/>
 		/// </summary>
 		public virtual IServiceProvider ConfigureServices(IServiceCollection services) {
-			ConfigureOtherServices(services);
-			return services.BuildServiceProvider();
+			try {
+				// Configure other services
+				ConfigureOtherServices(services);
+				// Configure zkweb services
+				return services.AddZKWeb<TApplication>(GetWebsiteRootDirectory());
+			} catch {
+				// Stop application after error reported to browser
+				var serviceProvider = services.BuildServiceProvider();
+				StopApplicationAfter(serviceProvider, StopApplicationDelay);
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -86,9 +95,9 @@ namespace ZKWeb.Hosting.AspNetCore {
 				// Configure other middlewares
 				ConfigureMiddlewares(app);
 				// Configure zkweb middleware
-				app.UseZKWeb(GetWebsiteRootDirectory());
+				app.UseZKWeb();
 			} catch {
-				// stop application after error reported to browser
+				// Stop application after error reported to browser
 				StopApplicationAfter(app.ApplicationServices, StopApplicationDelay);
 				throw;
 			}

@@ -32,7 +32,6 @@
 	- Support register Implement<> to Service<>
 	- Support register services from IServiceCollection
 	- Provider IServiceProvider adapter
-		- It can't use with Asp.Net Core, because dynamic constructor determination is unsupported
 	- Change constructor determine rule
 		- First, use constructor marked with InjectAttribute
 		- Second, use the only public constructor
@@ -43,5 +42,5 @@
 		- Support List<T>, ICollection<T>, IEnumerable<T>
 		- Support Lazy<List<T>>, Func<List<T>> and so on
 		- If parameter has default value, use IfUnresolved.ReturnDefault, otherwise use IfUnresolved.Throw
-- Bug fixes
-	- Support pass parameter's default value to constructor from IoC container
+- Use IServiceProvider adapted from zkweb on Asp.Net Core by default
+	- Asp.Net Core and ZKWeb can use services from each other now
