@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Ioc.Extensions;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
@@ -27,7 +28,6 @@ namespace ZKWebStandard.Ioc {
 	/// <seealso cref="IGenericRegistrator"/>
 	/// <seealso cref="IResolver"/>
 	/// <seealso cref="IGenericResolver"/>
-	/// <seealso cref="IContainerExtensions"/>
 	/// <example>
 	/// <code language="cs">
 	/// void Example() {
@@ -62,14 +62,15 @@ namespace ZKWebStandard.Ioc {
 		/// <summary>
 		/// Factories<br/>
 		/// 工厂函数的集合<br/>
-		/// { (Type, Service key): (Factory, Implementation Type) }
+		/// { (Service Type, Service Key): [Factory Data] }
 		/// </summary>
-		protected IDictionary<Pair<Type, object>, List<ContainerFactoryData>> Factories { get; set; }
+		protected ConcurrentDictionary<Pair<Type, object>, ConcurrentQueue<ContainerFactoryData>> Factories { get; set; }
 		/// <summary>
-		/// Factories lock<br/>
-		/// 访问工厂函数的集合时使用的锁<br/>
+		/// Cache for FactoryData<br/>
+		/// 工厂函数的缓存<br/>
+		/// { (Implementation Type, Reuse Type): Factory Data }
 		/// </summary>
-		protected ReaderWriterLockSlim FactoriesLock { get; set; }
+		protected ConcurrentDictionary<Pair<Type, ReuseType>, ContainerFactoryData> FactoryDataCache { get; set; }
 		/// <summary>
 		/// Objects needs to call Dispose when scope finished<br/>
 		/// 储存当前范围中需要调用Dispose函数的对象的队列<br/>
@@ -86,8 +87,8 @@ namespace ZKWebStandard.Ioc {
 		/// 初始化<br/>
 		/// </summary>
 		public Container() {
-			Factories = new Dictionary<Pair<Type, object>, List<ContainerFactoryData>>();
-			FactoriesLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+			Factories = new ConcurrentDictionary<Pair<Type, object>, ConcurrentQueue<ContainerFactoryData>>();
+			FactoryDataCache = new ConcurrentDictionary<Pair<Type, ReuseType>, ContainerFactoryData>();
 			ScopedDisposeQueue = new AsyncLocal<ConcurrentQueue<IDisposable>>();
 			Revision = 0;
 			RegisterSelf();
@@ -152,14 +153,8 @@ namespace ZKWebStandard.Ioc {
 		protected void RegisterFactory(
 			Type serviceType, ContainerFactoryData factoryData, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			FactoriesLock.EnterWriteLock();
-			try {
-				var factories = Factories.GetOrCreate(key, () => new List<ContainerFactoryData>());
-				factories.Add(factoryData);
-			} finally {
-				Interlocked.Increment(ref Revision);
-				FactoriesLock.ExitWriteLock();
-			}
+			var factories = Factories.GetOrAdd(key, _ => new ConcurrentQueue<ContainerFactoryData>());
+			factories.Enqueue(factoryData);
 		}
 
 		/// <summary>
@@ -168,16 +163,14 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		protected void RegisterFactoryMany(
 			IEnumerable<Type> serviceTypes, ContainerFactoryData factoryData, object serviceKey) {
-			FactoriesLock.EnterWriteLock();
 			try {
 				foreach (var serviceType in serviceTypes) {
 					var key = Pair.Create(serviceType, serviceKey);
-					var factories = Factories.GetOrCreate(key, () => new List<ContainerFactoryData>());
-					factories.Add(factoryData);
+					var factories = Factories.GetOrAdd(key, _ => new ConcurrentQueue<ContainerFactoryData>());
+					factories.Enqueue(factoryData);
 				}
 			} finally {
 				Interlocked.Increment(ref Revision);
-				FactoriesLock.ExitWriteLock();
 			}
 		}
 
@@ -187,8 +180,13 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Register(
 			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
-			this.BuildFactory(implementationType, reuseType, out var genericFactory, out var objectFactory);
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, implementationType);
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(implementationType, reuseType),
+				pair => {
+					this.NonGenericBuildAndWrapFactory(
+						pair.First, pair.Second, out var genericFactory, out var objectFactory);
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
@@ -197,8 +195,13 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册实现类型<br/>
 		/// </summary>
 		public void Register<TService, TImplementation>(ReuseType reuseType, object serviceKey) {
-			var genericFactory = this.BuildFactory<TImplementation>(reuseType);
-			var factoryData = new ContainerFactoryData(genericFactory, () => genericFactory(), typeof(TImplementation));
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(typeof(TImplementation), reuseType),
+				pair => {
+					var genericFactory = this.GenericBuildAndWrapFactory<TImplementation>(pair.Second);
+					var objectFactory = new Func<object>(() => genericFactory());
+					return new ContainerFactoryData(genericFactory, objectFactory, typeof(TImplementation));
+				});
 			RegisterFactory(typeof(TService), factoryData, serviceKey);
 		}
 
@@ -208,8 +211,13 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterMany(
 			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
-			this.BuildFactory(implementationType, reuseType, out var genericFactory, out var objectFactory);
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, implementationType);
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(implementationType, reuseType),
+				pair => {
+					this.NonGenericBuildAndWrapFactory(
+						pair.First, pair.Second, out var genericFactory, out var objectFactory);
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactoryMany(serviceTypes, factoryData, serviceKey);
 		}
 
@@ -234,9 +242,14 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void RegisterMany<TImplementation>(
 			ReuseType reuseType, object serviceKey, bool nonPublicServiceTypes) {
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(typeof(TImplementation), reuseType),
+				pair => {
+					var genericFactory = this.GenericBuildAndWrapFactory<TImplementation>(pair.Second);
+					var objectFactory = new Func<object>(() => genericFactory());
+					return new ContainerFactoryData(genericFactory, objectFactory, typeof(TImplementation));
+				});
 			var serviceTypes = GetImplementedServiceTypes(typeof(TImplementation), nonPublicServiceTypes);
-			var genericFactory = this.BuildFactory<TImplementation>(reuseType);
-			var factoryData = new ContainerFactoryData(genericFactory, () => genericFactory(), typeof(TImplementation));
 			RegisterFactoryMany(serviceTypes, factoryData, serviceKey);
 		}
 
@@ -247,8 +260,14 @@ namespace ZKWebStandard.Ioc {
 		/// 重用类型强制为单例<br/>
 		/// </summary>
 		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
-			this.BuildFactory(serviceType, () => instance, ReuseType.Singleton, out var genericFactory, out var objectFactory);
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, instance.GetType());
+			var implementationType = instance.GetType();
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(implementationType, ReuseType.Singleton),
+				pair => {
+					this.NonGenericWrapFactory(implementationType,
+						() => instance, pair.Second, out var genericFactory, out var objectFactory);
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
@@ -259,9 +278,14 @@ namespace ZKWebStandard.Ioc {
 		/// 重用类型强制为单例<br/>
 		/// </summary>
 		public void RegisterInstance<TService>(TService instance, object serviceKey) {
-			var genericFactory = this.BuildFactory<TService>(() => instance, ReuseType.Singleton);
-			var objectFactory = new Func<object>(() => genericFactory());
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, instance.GetType());
+			var implementationType = instance.GetType();
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(implementationType, ReuseType.Singleton),
+				pair => {
+					var genericFactory = this.GenericWrapFactory<TService>(() => instance, pair.Second);
+					var objectFactory = new Func<object>(() => genericFactory());
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactory(typeof(TService), factoryData, serviceKey);
 		}
 
@@ -272,8 +296,13 @@ namespace ZKWebStandard.Ioc {
 		public void RegisterDelegate(
 			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
 			// We can't figure out what type will returned from factory, the hint type will be the service type
-			this.BuildFactory(serviceType, factory, reuseType, out var genericFactory, out var objectFactory);
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, serviceType);
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(serviceType, reuseType),
+				pair => {
+					this.NonGenericWrapFactory(
+						pair.First, factory, pair.Second, out var genericFactory, out var objectFactory);
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactory(serviceType, factoryData, serviceKey);
 		}
 
@@ -284,9 +313,13 @@ namespace ZKWebStandard.Ioc {
 		public void RegisterDelegate<TService>(
 			Func<TService> factory, ReuseType reuseType, object serviceKey) {
 			// We can't figure out what type will returned from factory, the hint type will be the service type
-			var genericFactory = this.BuildFactory<TService>(factory, reuseType);
-			var objectFactory = new Func<object>(() => genericFactory());
-			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, typeof(TService));
+			var factoryData = FactoryDataCache.GetOrAdd(
+				Pair.Create(typeof(TService), reuseType),
+				pair => {
+					var genericFactory = this.GenericWrapFactory<TService>(factory, pair.Second);
+					var objectFactory = new Func<object>(() => genericFactory());
+					return new ContainerFactoryData(genericFactory, objectFactory, pair.First);
+				});
 			RegisterFactory(typeof(TService), factoryData, serviceKey);
 		}
 
@@ -316,12 +349,10 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		public void Unregister(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
-			FactoriesLock.EnterWriteLock();
 			try {
-				Factories.Remove(key);
+				Factories.TryRemove(key, out var _);
 			} finally {
 				Interlocked.Increment(ref Revision);
-				FactoriesLock.ExitWriteLock();
 			}
 		}
 
@@ -340,15 +371,17 @@ namespace ZKWebStandard.Ioc {
 		public void UnregisterImplementation(Type implementationType, object serviceKey) {
 			var serviceTypes = GetImplementedServiceTypes(implementationType, true).ToList();
 			var keys = serviceTypes.Select(t => Pair.Create(t, serviceKey)).ToList();
-			FactoriesLock.EnterWriteLock();
 			try {
 				foreach (var key in keys) {
 					var factories = Factories.GetOrDefault(key);
-					factories?.RemoveAll(f => f.ImplementationTypeHint == implementationType);
+					if (factories != null) {
+						factories = new ConcurrentQueue<ContainerFactoryData>(
+							factories.Where(f => f.ImplementationTypeHint != implementationType));
+						Factories[key] = factories;
+					}
 				}
 			} finally {
 				Interlocked.Increment(ref Revision);
-				FactoriesLock.ExitWriteLock();
 			}
 		}
 
@@ -365,11 +398,10 @@ namespace ZKWebStandard.Ioc {
 		/// 注销所有工厂函数<br/>
 		/// </summary>
 		public void UnregisterAll() {
-			FactoriesLock.EnterWriteLock();
 			try {
 				Factories.Clear();
 			} finally {
-				FactoriesLock.ExitWriteLock();
+				Interlocked.Increment(ref Revision);
 			}
 			GC.Collect();
 		}
@@ -381,19 +413,14 @@ namespace ZKWebStandard.Ioc {
 		internal ContainerFactoriesCacheData<TService> UpdateFactoriesCache<TService>() {
 			var key = Pair.Create(typeof(TService), (object)null);
 			var factoriesCopy = new List<Func<TService>>();
-			FactoriesLock.EnterReadLock();
-			try {
-				var factories = Factories.GetOrDefault(key);
-				if (factories != null) {
-					factoriesCopy.Capacity = factories.Count;
-					factoriesCopy.AddRange(factories.Select(f => (Func<TService>)f.GenericFactory));
-				}
-				var data = new ContainerFactoriesCacheData<TService>(this, factoriesCopy);
-				ContainerFactoriesCache<TService>.Data = data;
-				return data;
-			} finally {
-				FactoriesLock.ExitReadLock();
+			var factories = Factories.GetOrDefault(key);
+			if (factories != null) {
+				factoriesCopy.Capacity = factories.Count;
+				factoriesCopy.AddRange(factories.Select(f => (Func<TService>)f.GenericFactory));
 			}
+			var data = new ContainerFactoriesCacheData<TService>(this, factoriesCopy);
+			ContainerFactoriesCache<TService>.Data = data;
+			return data;
 		}
 
 		/// <summary>
@@ -406,25 +433,29 @@ namespace ZKWebStandard.Ioc {
 			var key = Pair.Create(serviceType, serviceKey);
 			Func<object> factory;
 			long factoriesCount;
-			FactoriesLock.EnterReadLock();
-			try {
-				// Get factories
-				// Success unless there zero or more than one factories
-				var factories = Factories.GetOrDefault(key);
-				if (factories == null && serviceType.IsGenericType) {
-					// Use factory from generic definition
-					var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
-					factories = Factories.GetOrDefault(baseKey);
-					factoriesCount = factories?.Count ?? 0;
-					factory = (factoriesCount == 1) ?
-						() => ((Func<Type, object>)factories[0].ObjectFactory.Invoke())(serviceType) : (Func<object>)null;
+			// Get factories
+			// Success unless there zero or more than one factories
+			var factories = Factories.GetOrDefault(key);
+			if (factories == null && serviceType.IsGenericType) {
+				// Use factory from generic definition
+				var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
+				factories = Factories.GetOrDefault(baseKey);
+				factoriesCount = factories?.Count ?? 0;
+				if (factoriesCount == 1) {
+					factories.TryPeek(out var factoryData);
+					factory = () => ((Func<Type, object>)factoryData.ObjectFactory.Invoke())(serviceType);
 				} else {
-					// Use normal factory
-					factoriesCount = factories?.Count ?? 0;
-					factory = (factoriesCount == 1) ? factories[0].ObjectFactory : null;
+					factory = null;
 				}
-			} finally {
-				FactoriesLock.ExitReadLock();
+			} else {
+				// Use normal factory
+				factoriesCount = factories?.Count ?? 0;
+				if (factoriesCount == 1) {
+					factories.TryPeek(out var factoryData);
+					factory = factoryData.ObjectFactory;
+				} else {
+					factory = null;
+				}
 			}
 			if (factory != null) {
 				// Success
@@ -474,26 +505,21 @@ namespace ZKWebStandard.Ioc {
 		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey) {
 			var key = Pair.Create(serviceType, serviceKey);
 			var factoriesCopy = new List<Func<object>>();
-			FactoriesLock.EnterReadLock();
-			try {
-				// Copy factories
-				var factories = Factories.GetOrDefault(key);
-				if (factories == null && serviceType.IsGenericType) {
-					// Use factories from generic definition
-					var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
-					factories = Factories.GetOrDefault(baseKey);
-					if (factories != null) {
-						factoriesCopy.Capacity = factories.Capacity;
-						factoriesCopy.AddRange(factories.Select(f => new Func<object>(() =>
-							((Func<Type, object>)f.ObjectFactory.Invoke())(serviceType))));
-					}
-				} else if (factories != null) {
-					// Use normal factories
+			// Copy factories
+			var factories = Factories.GetOrDefault(key);
+			if (factories == null && serviceType.IsGenericType) {
+				// Use factories from generic definition
+				var baseKey = Pair.Create(serviceType.GetGenericTypeDefinition(), serviceKey);
+				factories = Factories.GetOrDefault(baseKey);
+				if (factories != null) {
 					factoriesCopy.Capacity = factories.Count;
-					factoriesCopy.AddRange(factories.Select(f => f.ObjectFactory));
+					factoriesCopy.AddRange(factories.Select(f => new Func<object>(() =>
+						((Func<Type, object>)f.ObjectFactory.Invoke())(serviceType))));
 				}
-			} finally {
-				FactoriesLock.ExitReadLock();
+			} else if (factories != null) {
+				// Use normal factories
+				factoriesCopy.Capacity = factories.Count;
+				factoriesCopy.AddRange(factories.Select(f => f.ObjectFactory));
 			}
 			// Get service instances
 			foreach (var factory in factoriesCopy) {
@@ -568,16 +594,13 @@ namespace ZKWebStandard.Ioc {
 		/// <returns></returns>
 		public object Clone() {
 			var clone = new Container();
-			FactoriesLock.EnterReadLock();
-			try {
-				foreach (var pair in Factories) {
-					clone.Factories[pair.Key] = pair.Value.ToList();
-				}
-				clone.RegisterSelf(); // replace self instances
-				clone.Revision = Revision; // inherit revision
-			} finally {
-				FactoriesLock.ExitReadLock();
+			foreach (var pair in Factories) {
+				// BUG: Constructor injection will still reference to old container
+				// Make factory take parameter should resolve this problem but will impact performance
+				clone.Factories[pair.Key] = new ConcurrentQueue<ContainerFactoryData>(pair.Value);
 			}
+			clone.RegisterSelf(); // replace self instances
+			clone.Revision = Revision; // inherit revision
 			return clone;
 		}
 

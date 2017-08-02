@@ -23,5 +23,14 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals(b.Count, 3);
 			Assert.IsTrueWith(a.SequenceEqual(b), new { a, b });
 		}
+
+		public void SingleOrDefaultNotThrow() {
+			var a = new string[] { };
+			var b = new[] { "a" };
+			var c = new[] { "a", "b", "c" };
+			Assert.Equals(a.SingleOrDefaultNotThrow(), null);
+			Assert.Equals(b.SingleOrDefaultNotThrow(), "a");
+			Assert.Equals(c.SingleOrDefaultNotThrow(), null);
+		}
 	}
 }

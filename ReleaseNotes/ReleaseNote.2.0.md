@@ -24,9 +24,19 @@
 	- Newtonsoft.Json 10.0.3
 	- ZKWeb.Fork.DotLiquid 2.2.0
 	- ZKWeb.Fork.FastReflection 2.2.0
+- Add packages
+	- Pomelo.EntityFrameworkCore.Extensions.ToSql 2.0.0-preview3-10000
+		- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
 - Improve IoC container
 	- Support scoped reuse
 	- Support inject more wrapper types such as Func<T>, Lazy<T> and List<T> to constructor
 	- Support register Implement<> to Service<>
+	- Support register services from IServiceCollection
+	- Provider IServiceProvider adapter
+		- It can't use with Asp.Net Core, because dynamic constructor determination is unsupported
+	- Change constructor determine rule
+		- First, use constructor marked with InjectAttribute
+		- Second, use the only public constructor
+		- Third, use runtime resolver IMultiConstructorResolver, if not exist then throw exception
 - Bug fixes
 	- Support pass parameter's default value to constructor from IoC container

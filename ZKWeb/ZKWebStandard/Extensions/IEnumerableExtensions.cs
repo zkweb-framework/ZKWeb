@@ -55,5 +55,32 @@ namespace ZKWebStandard.Extensions {
 				action(element);
 			}
 		}
+
+		/// <summary>
+		/// Not throw version of SingleOrDefault<br/>
+		/// 不会抛出异常的SingleOrDefault<br/>
+		/// </summary>
+		/// <example>
+		/// <code language="cs">
+		/// var a = new [] { "a" };
+		/// var b = new [] { "a", "b" };
+		/// Console.WriteLine(a.SingleOrDefaultNotThrow()); // "a"
+		/// Console.WriteLine(b.SingleOrDefaultNotThrow()); // null
+		/// </code>
+		/// </example>
+		public static T SingleOrDefaultNotThrow<T>(this IEnumerable<T> elements) {
+			T first = default(T);
+			bool isFirst = true;
+			foreach (var element in elements) {
+				if (isFirst) {
+					first = element;
+					isFirst = false;
+				} else {
+					first = default(T);
+					break;
+				}
+			}
+			return first;
+		}
 	}
 }

@@ -2,34 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
+using ZKWebStandard.Ioc.Extensions;
 using ZKWebStandard.Testing;
 
-namespace ZKWebStandard.Tests.Extensions {
+namespace ZKWebStandard.Tests.Ioc {
 	[Tests]
-	class IContainerExtensionsTest {
-		public void BuildFactoryWithFactory() {
-			var container = new Container();
-			var factoryA = container.BuildFactory(() => new TestData(), ReuseType.Transient);
-			Assert.IsTrue(!object.ReferenceEquals(factoryA(), factoryA()));
-			var factoryB = container.BuildFactory(() => new TestData(), ReuseType.Singleton);
-			Assert.IsTrue(object.ReferenceEquals(factoryB(), factoryB()));
-		}
-
-		public void BuildFactoryWithType() {
-			IContainer container = new Container();
-			container.RegisterMany<TestData>();
-			var factoryA = container.BuildFactory<TestInjection>(ReuseType.Transient);
-			var testInjectionA = factoryA();
-			Assert.IsTrueWith(testInjectionA.Data != null, testInjectionA);
-			Assert.IsTrue(!object.ReferenceEquals(testInjectionA, factoryA()));
-			var factoryB = container.BuildFactory<TestInjection>(ReuseType.Singleton);
-			var testInjectionB = factoryB();
-			Assert.IsTrueWith(testInjectionB.Data != null, testInjectionB);
-			Assert.IsTrue(object.ReferenceEquals(testInjectionB, factoryB()));
-		}
-
+	class ServiceProviderIntegrationTest {
 		public void AsServiceProvider() {
 			IContainer container = new Container();
 			container.RegisterMany<TestData>();

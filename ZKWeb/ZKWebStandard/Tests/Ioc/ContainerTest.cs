@@ -272,7 +272,6 @@ namespace ZKWebStandard.Tests.IocContainer {
 				Assert.Equals(instance.InterfaceService.GetType(), typeof(TransientImplementation));
 				Assert.Equals(instance.InterfaceServiceLazy.Value.GetType(), typeof(TransientImplementation));
 				Assert.Equals(instance.InterfaceServiceFunc().GetType(), typeof(TransientImplementation));
-				Assert.Equals(instance.TestResolveFailed, false);
 				Assert.Equals(instance.TestDefaultString, "default string");
 				Assert.Equals(instance.TestDefaultInt, 123);
 			}
@@ -319,31 +318,36 @@ namespace ZKWebStandard.Tests.IocContainer {
 
 		public void ResolveGenericDefinition() {
 			using (IContainer container = new Container()) {
-				container.Register(typeof(IEnumerable<>), typeof(List<>));
-				Assert.Equals(container.Resolve<IEnumerable<int>>().GetType(), typeof(List<int>));
-				Assert.Equals(container.Resolve<IEnumerable<string>>().GetType(), typeof(List<string>));
+				container.Register(typeof(IGenericService<>), typeof(GenericServiceA<>));
+				Assert.Equals(
+					container.Resolve<IGenericService<int>>().GetType(),
+					typeof(GenericServiceA<int>));
+				Assert.Equals(
+					container.Resolve<IGenericService<string>>().GetType(),
+					typeof(GenericServiceA<string>));
 			}
 
 			using (IContainer container = new Container()) {
-				container.Register(typeof(IEnumerable<>), typeof(List<>), ReuseType.Singleton);
+				container.Register(
+					typeof(IGenericService<>), typeof(GenericServiceA<>), ReuseType.Singleton);
 				Assert.IsTrue(object.ReferenceEquals(
-					container.Resolve<IEnumerable<int>>(),
-					container.Resolve<IEnumerable<int>>()));
+					container.Resolve<IGenericService<int>>(),
+					container.Resolve<IGenericService<int>>()));
 				Assert.IsTrue(object.ReferenceEquals(
-					container.Resolve<IEnumerable<string>>(),
-					container.Resolve<IEnumerable<string>>()));
+					container.Resolve<IGenericService<string>>(),
+					container.Resolve<IGenericService<string>>()));
 				Assert.IsTrue(!object.ReferenceEquals(
-					container.Resolve<IEnumerable<int>>(),
-					container.Resolve<IEnumerable<string>>()));
+					container.Resolve<IGenericService<int>>(),
+					container.Resolve<IGenericService<string>>()));
 			}
 
 			using (IContainer container = new Container()) {
-				container.Register(typeof(IEnumerable<>), typeof(List<>));
-				container.Register(typeof(IEnumerable<>), typeof(SortedSet<>));
-				var resolved = container.ResolveMany<IEnumerable<int>>().ToList();
+				container.Register(typeof(IGenericService<>), typeof(GenericServiceA<>));
+				container.Register(typeof(IGenericService<>), typeof(GenericServiceB<>));
+				var resolved = container.ResolveMany<IGenericService<int>>().ToList();
 				Assert.Equals(resolved.Count, 2);
-				Assert.Equals(resolved[0].GetType(), typeof(List<int>));
-				Assert.Equals(resolved[1].GetType(), typeof(SortedSet<int>));
+				Assert.Equals(resolved[0].GetType(), typeof(GenericServiceA<int>));
+				Assert.Equals(resolved[1].GetType(), typeof(GenericServiceB<int>));
 			}
 		}
 
@@ -400,7 +404,6 @@ namespace ZKWebStandard.Tests.IocContainer {
 			public InterfaceService InterfaceService { get; set; }
 			public Lazy<InterfaceService> InterfaceServiceLazy { get; set; }
 			public Func<InterfaceService> InterfaceServiceFunc { get; set; }
-			public bool? TestResolveFailed { get; set; }
 			public string TestDefaultString { get; set; }
 			public int TestDefaultInt { get; set; }
 
@@ -411,7 +414,6 @@ namespace ZKWebStandard.Tests.IocContainer {
 				InterfaceService interfaceService,
 				Lazy<InterfaceService> interfaceServiceLazy,
 				Func<InterfaceService> interfaceServiceFunc,
-				bool testResolveFailed,
 				string testDefaultString = "default string",
 				int testDefaultInt = 123) {
 				ClassServices = classServices;
@@ -420,7 +422,6 @@ namespace ZKWebStandard.Tests.IocContainer {
 				InterfaceService = interfaceService;
 				InterfaceServiceLazy = interfaceServiceLazy;
 				InterfaceServiceFunc = interfaceServiceFunc;
-				TestResolveFailed = testResolveFailed;
 				TestDefaultString = testDefaultString;
 				TestDefaultInt = testDefaultInt;
 			}
@@ -433,8 +434,14 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 
 			[Inject]
-			public TestResolveFromInjectConstructor(string b) {
+			public TestResolveFromInjectConstructor(string b = "right") {
 			}
 		}
+
+		interface IGenericService<T> { }
+
+		class GenericServiceA<T> : IGenericService<T> { }
+
+		class GenericServiceB<T> : IGenericService<T> { }
 	}
 }
