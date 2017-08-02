@@ -29,7 +29,6 @@
 		- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
 - Improve IoC container
 	- Support scoped reuse
-	- Support inject more wrapper types such as Func<T>, Lazy<T> and List<T> to constructor
 	- Support register Implement<> to Service<>
 	- Support register services from IServiceCollection
 	- Provider IServiceProvider adapter
@@ -38,5 +37,11 @@
 		- First, use constructor marked with InjectAttribute
 		- Second, use the only public constructor
 		- Third, use runtime resolver IMultiConstructorResolver, if not exist then throw exception
+	- Change constructor injection rule
+		- Support Func<T>
+		- Support Lazy<T>
+		- Support List<T>, ICollection<T>, IEnumerable<T>
+		- Support Lazy<List<T>>, Func<List<T>> and so on
+		- If parameter has default value, use IfUnresolved.ReturnDefault, otherwise use IfUnresolved.Throw
 - Bug fixes
 	- Support pass parameter's default value to constructor from IoC container
