@@ -14,12 +14,20 @@ namespace ZKWebStandard.Ioc.Extensions {
 		/// <returns></returns>
 		public static IServiceProvider AsServiceProvider(this IContainer container) {
 			var provider = container.Resolve<IServiceProvider>(IfUnresolved.ReturnDefault);
+			// Register IServiceProvider
 			if (provider == null) {
 				provider = new ServiceProviderAdapter(container);
-				container.Unregister<IServiceProvider>();
-				container.Unregister<IServiceScopeFactory>();
 				container.RegisterInstance<IServiceProvider>(provider);
-				container.RegisterInstance<IServiceScopeFactory>(new ServiceScopeFactory(container));
+			}
+			// Register IServiceScopeFactory
+			if (container.Resolve<IServiceScopeFactory>(IfUnresolved.ReturnDefault) == null) {
+				container.RegisterInstance<IServiceScopeFactory>(
+					new ServiceScopeFactory(container));
+			}
+			// Register IMultiConstructorResolver
+			if (container.Resolve<IMultiConstructorResolver>(IfUnresolved.ReturnDefault) == null) {
+				container.RegisterInstance<IMultiConstructorResolver>(
+					new MultiConstructorResolver(container));
 			}
 			return provider;
 		}

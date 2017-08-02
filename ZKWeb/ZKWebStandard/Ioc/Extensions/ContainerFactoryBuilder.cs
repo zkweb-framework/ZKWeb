@@ -206,7 +206,7 @@ namespace ZKWebStandard.Ioc.Extensions {
 							$"Type {type} have multi constructor and no one is marked with [Inject]," +
 							"please mark one with [Inject] or provide IMultiConstructorResolver");
 					} else {
-						return resolver.Resolve<T>(container);
+						return resolver.Resolve<T>();
 					}
 				};
 			}
