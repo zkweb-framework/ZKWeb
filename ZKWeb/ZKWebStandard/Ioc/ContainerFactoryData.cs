@@ -13,12 +13,12 @@ namespace ZKWebStandard.Ioc {
 		/// Function returns implementation type<br/>
 		/// 返回实现类型的函数<br/>
 		/// </summary>
-		public object GenericFactory { get; set; }
+		public object GenericFactory { get; internal set; }
 		/// <summary>
 		/// Function returns object type<br/>
 		/// 返回object类型的函数<br/>
 		/// </summary>
-		public Func<object> ObjectFactory { get; set; }
+		public Func<object> ObjectFactory { get; internal set; }
 		/// <summary>
 		/// Implementation type hint<br/>
 		/// Usually it's the type factory function will return<br/>
@@ -27,7 +27,7 @@ namespace ZKWebStandard.Ioc {
 		/// 通常它会是工厂函数返回的对象的类型<br/>
 		/// 除非用户使用"RegisterDelegate", 我们不知道什么类型会被返回<br/>
 		/// </summary>
-		public Type ImplementationTypeHint { get; set; }
+		public Type ImplementationTypeHint { get; internal set; }
 
 		/// <summary>
 		/// Initialize<br/>
