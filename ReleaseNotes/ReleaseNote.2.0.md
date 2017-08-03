@@ -44,3 +44,5 @@
 		- If parameter has default value, use IfUnresolved.ReturnDefault, otherwise use IfUnresolved.Throw
 - Use IServiceProvider adapted from zkweb on Asp.Net Core by default
 	- Asp.Net Core and ZKWeb can use services from each other now
+- Improve controller and router
+	- Respect controller reuse type in container, prior to this version controllers are treat as singleton

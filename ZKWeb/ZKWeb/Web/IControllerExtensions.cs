@@ -32,9 +32,8 @@ namespace ZKWeb.Web {
 		/// Method information of GetActionParameter<br/>
 		/// GetActionParameter的MethodInfo对象<br/>
 		/// </summary>
-		private static MethodInfo GetActionParameterMethod =>
-			typeof(IControllerExtensions).GetMethod(nameof(GetActionParameter),
-				BindingFlags.NonPublic | BindingFlags.Static);
+		private readonly static MethodInfo GetActionParameterMethod = typeof(IControllerExtensions)
+			.GetMethod(nameof(GetActionParameter), BindingFlags.NonPublic | BindingFlags.Static);
 
 		/// <summary>
 		/// Build action delegate from method information<br/>
@@ -54,13 +53,14 @@ namespace ZKWeb.Web {
 		/// - 根据参数的名称从http请求中获取参数值<br/>
 		/// - 不会检查参数是否为null<br/>
 		/// </summary>
-		/// <param name="controller">Controller instance</param>
+		/// <param name="controllerFactory">Controller factory</param>
 		/// <param name="method">Method information</param>
 		/// <returns></returns>
 		public static Func<IActionResult> BuildActionDelegate(
-			this IController controller, MethodInfo method) {
+			this Func<IController> controllerFactory, MethodInfo method) {
 			var parameters = method.GetParameters();
-			var instanceExpr = method.IsStatic ? null : Expression.Constant(controller);
+			var instanceExpr = method.IsStatic ? null :
+				Expression.Invoke(Expression.Constant(controllerFactory));
 			var parametersExpr = new List<Expression>();
 			foreach (var parameter in parameters) {
 				// Get parameters from request by it's name
@@ -84,9 +84,25 @@ namespace ZKWeb.Web {
 				var jsonResultType = typeof(JsonResult);
 				return Expression.Lambda<Func<IActionResult>>(
 					Expression.New(jsonResultType.GetConstructors()[0],
-						Expression.Call(instanceExpr, method, parametersExpr),
+						Expression.Convert(
+							Expression.Call(instanceExpr, method, parametersExpr),
+							typeof(object)),
 						Expression.Constant(Formatting.None))).Compile();
 			}
+		}
+
+		/// <summary>
+		/// Build action delegate from method information<br/>
+		/// 根据Action函数的信息构建Action委托<br/>
+		/// </summary>
+		/// <param name="controller">Controller instance</param>
+		/// <param name="method">Method information</param>
+		/// <returns></returns>
+		/// <seealso cref="BuildActionDelegate(Func{IController}, MethodInfo)"/>
+		public static Func<IActionResult> BuildActionDelegate(
+			this IController controller, MethodInfo method) {
+			var controllerFactory = new Func<IController>(() => controller);
+			return controllerFactory.BuildActionDelegate(method);
 		}
 	}
 }

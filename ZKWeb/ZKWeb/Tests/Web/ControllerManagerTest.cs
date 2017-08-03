@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using ZKWeb.Web;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Extensions;
@@ -14,12 +15,15 @@ using ZKWebStandard.Web.Mock;
 namespace ZKWeb.Tests.Web {
 	[Tests]
 	class ControllerManagerTest {
-		private void OnRequestTest(Action action) {
+		private void OnRequestTest(
+			Action action, ReuseType reuseType = ReuseType.Transient) {
 			using (Application.OverrideIoc()) {
 				Application.Ioc.Unregister<ControllerManager>();
 				Application.Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
+				Application.Ioc.Unregister<IController>();
+				Application.Ioc.Register<IController, TestController>(reuseType);
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-				controllerManager.RegisterController(new TestController());
+				controllerManager.Initialize();
 				action();
 			}
 		}
@@ -183,12 +187,36 @@ namespace ZKWeb.Tests.Web {
 			}
 		}
 
-		public void RegisterController() {
-			using (Application.OverrideIoc()) {
-				Application.Ioc.Unregister<ControllerManager>();
-				Application.Ioc.RegisterMany<ControllerManager>();
+		public void OnRequestTest_I_Reuse() {
+			OnRequestTest(() => {
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
-				controllerManager.RegisterController(new TestController());
+				var result = new HashSet<string>();
+				for (var i = 1; i <= 3; ++i) {
+					using (HttpManager.OverrideContext("__test_action_i", HttpMethods.GET)) {
+						var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+						controllerManager.OnRequest();
+						result.Add(response.GetContentsFromBody());
+					}
+				}
+				Assert.Equals(result.Count, 3);
+			}, ReuseType.Transient);
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				var result = new HashSet<string>();
+				for (var i = 1; i <= 3; ++i) {
+					using (HttpManager.OverrideContext("__test_action_i", HttpMethods.GET)) {
+						var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+						controllerManager.OnRequest();
+						result.Add(response.GetContentsFromBody());
+					}
+				}
+				Assert.Equals(result.Count, 1);
+			}, ReuseType.Singleton);
+		}
+
+		public void RegisterController() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				Assert.Equals(
 					((PlainResult)controllerManager.GetAction("__test_action_a", HttpMethods.GET)()).Text,
 					"test action a");
@@ -199,7 +227,7 @@ namespace ZKWeb.Tests.Web {
 				var obj = ((JsonResult)controllerManager
 					.GetAction("__test_action_b", HttpMethods.POST)()).Object;
 				Assert.Equals(JsonConvert.SerializeObject(obj), JsonConvert.SerializeObject(new { a = 1 }));
-			}
+			});
 		}
 
 		public void NormalizePath() {
@@ -265,6 +293,9 @@ namespace ZKWeb.Tests.Web {
 		}
 
 		public class TestController : IController {
+			private static int _counter = 0;
+			public int Value { get; } = Interlocked.Increment(ref _counter);
+
 			[Action("__test_action_a")]
 			[Action("__test_action_a", HttpMethods.POST)]
 			public string TestActionA() {
@@ -307,6 +338,11 @@ namespace ZKWeb.Tests.Web {
 			[Action("__test_action_h", HttpMethods.GET)]
 			public string TestActionH() {
 				return "H";
+			}
+
+			[Action("__test_action_i", HttpMethods.GET)]
+			public int TestActionI() {
+				return Value;
 			}
 		}
 

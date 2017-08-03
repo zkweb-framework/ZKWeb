@@ -232,6 +232,21 @@ namespace ZKWebStandard.Tests.IocContainer {
 			}
 		}
 
+		public void ResolveFactories() {
+			using (var container = new Container()) {
+				container.Register<InterfaceService, TransientImplementation>(ReuseType.Transient, null);
+				container.Register<InterfaceService, SingletonImplementation>(ReuseType.Singleton, null);
+				var factories = container.ResolveFactories(typeof(InterfaceService), null);
+				Assert.Equals(factories.Count(), 2);
+				Assert.Equals(factories.First().ImplementationTypeHint, typeof(TransientImplementation));
+				Assert.Equals(factories.Last().ImplementationTypeHint, typeof(SingletonImplementation));
+				factories = container.ResolveFactories<InterfaceService>(null);
+				Assert.Equals(factories.Count(), 2);
+				Assert.Equals(factories.First().ImplementationTypeHint, typeof(TransientImplementation));
+				Assert.Equals(factories.Last().ImplementationTypeHint, typeof(SingletonImplementation));
+			}
+		}
+
 		public void Clone() {
 			using (var container = new Container()) {
 				container.RegisterExports(new[] {

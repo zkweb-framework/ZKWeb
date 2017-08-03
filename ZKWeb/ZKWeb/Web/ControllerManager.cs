@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using ZKWebStandard.Collections;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Ioc;
+using ZKWebStandard.Ioc.Extensions;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web {
@@ -58,33 +60,13 @@ namespace ZKWeb.Web {
 		}
 
 		/// <summary>
-		/// Register controller type<br/>
-		/// 注册控制器类型<br/>
+		/// Register controller factory data<br/>
+		/// 注册控制器工厂函数<br/>
 		/// </summary>
-		[Obsolete("Use RegisterController(controller)")]
-		public virtual void RegisterController<T>() {
-			RegisterController(typeof(T));
-		}
-
-		/// <summary>
-		/// Register controller type<br/>
-		/// 注册控制器类型<br/>
-		/// </summary>
-		[Obsolete("Use RegisterController(controller)")]
-		public virtual void RegisterController(Type type) {
-			RegisterController((IController)Activator.CreateInstance(type));
-		}
-
-		/// <summary>
-		/// Register controller instance<br/>
-		/// Attention: this instance will be used across all requests<br/>
-		/// 注册控制器实例<br/>
-		/// 注意: 这个实例会在所有请求中使用<br/>
-		/// </summary>
-		/// <param name="controller">Controller instance</param>
-		public virtual void RegisterController(IController controller) {
+		public virtual void RegisterController(ContainerFactoryData factoryData) {
 			// Get all public methods with ActionAttribute
-			var type = controller.GetType();
+			var type = factoryData.ImplementationTypeHint;
+			var factory = (Func<IController>)factoryData.GenericFactory;
 			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
 				// Get action attributes
@@ -93,7 +75,7 @@ namespace ZKWeb.Web {
 					continue;
 				}
 				// Build action
-				var action = controller.BuildActionDelegate(method);
+				var action = factory.BuildActionDelegate(method);
 				// Apply action filters
 				var filterAttributes = method.GetCustomAttributes<ActionFilterAttribute>();
 				foreach (var filterAttribute in filterAttributes) {
@@ -104,6 +86,41 @@ namespace ZKWeb.Web {
 					RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Register controller type, reuse type will be Transient<br/>
+		/// 注册控制器类型, 重用类型是Transient<br/>
+		/// </summary>
+		public virtual void RegisterController(Type type) {
+			Application.Ioc.NonGenericBuildAndWrapFactory(
+				type, ReuseType.Transient, out var genericFactory, out var objectFactory);
+			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, type);
+			RegisterController(factoryData);
+		}
+
+		/// <summary>
+		/// Register controller type, reuse type will be Transient<br/>
+		/// 注册控制器类型, 重用类型是Transient<br/>
+		/// </summary>
+		public virtual void RegisterController<T>() {
+			var genericFactory = Application.Ioc.GenericBuildAndWrapFactory<T>(ReuseType.Transient);
+			var objectFactory = new Func<object>(() => genericFactory());
+			var factoryData = new ContainerFactoryData(genericFactory, objectFactory, typeof(T));
+			RegisterController(factoryData);
+		}
+
+		/// <summary>
+		/// Register controller instance, reuse type will be Singleton<br/>
+		/// 注册控制器实例, 重用类型是Singleton<br/>
+		/// </summary>
+		public virtual void RegisterController(IController controller) {
+			Application.Ioc.NonGenericWrapFactory(
+				controller.GetType(), () => controller, ReuseType.Transient,
+				out var genericFactory, out var objectFactory);
+			var factoryData = new ContainerFactoryData(
+				genericFactory, objectFactory, controller.GetType());
+			RegisterController(factoryData);
 		}
 
 		/// <summary>
@@ -197,8 +214,8 @@ namespace ZKWeb.Web {
 		/// 注意: 所有已注册的控制器都会在这里被创建<br/>
 		/// </summary>
 		internal protected virtual void Initialize() {
-			foreach (var controller in Application.Ioc.ResolveMany<IController>()) {
-				RegisterController(controller);
+			foreach (var factories in Application.Ioc.ResolveFactories(typeof(IController))) {
+				RegisterController(factories);
 			}
 		}
 	}

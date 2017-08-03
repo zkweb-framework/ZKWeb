@@ -585,6 +585,37 @@ namespace ZKWebStandard.Ioc {
 		}
 
 		/// <summary>
+		/// 根据服务类型和服务键获取工厂函数<br/>
+		/// 如果无注册的服务则返回空列表<br/>
+		/// </summary>
+		public IEnumerable<ContainerFactoryData> ResolveFactories(
+			Type serviceType, object serviceKey) {
+			var key = Pair.Create(serviceType, serviceKey);
+			var factoriesCopy = new List<ContainerFactoryData>();
+			// Copy factories
+			FactoriesLock.EnterReadLock();
+			try {
+				var factories = Factories.GetOrDefault(key);
+				if (factories != null) {
+					factoriesCopy.Capacity = factories.Count;
+					factoriesCopy.AddRange(factories);
+				}
+			} finally {
+				FactoriesLock.ExitReadLock();
+			}
+			// Return Copied
+			return factoriesCopy;
+		}
+
+		/// <summary>
+		/// 根据服务类型和服务键获取工厂函数<br/>
+		/// 如果无注册的服务则返回空列表<br/>
+		/// </summary>
+		public IEnumerable<ContainerFactoryData> ResolveFactories<TService>(object serviceKey) {
+			return ResolveFactories(typeof(TService), serviceKey);
+		}
+
+		/// <summary>
 		/// Dispose specific object when scope finished<br/>
 		/// 在范围结束后调用指定对象的Dispose函数<br/>
 		/// </summary>

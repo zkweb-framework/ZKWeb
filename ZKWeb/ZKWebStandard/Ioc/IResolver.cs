@@ -31,5 +31,17 @@ namespace ZKWebStandard.Ioc {
 		/// <param name="serviceKey">Service key</param>
 		/// <returns></returns>
 		IEnumerable<object> ResolveMany(Type serviceType, object serviceKey = null);
+
+		/// <summary>
+		/// Retrive factories with type and key<br/>
+		/// Return empty sequence if no service registered<br/>
+		/// 根据服务类型和服务键获取工厂函数<br/>
+		/// 如果无注册的服务则返回空列表<br/>
+		/// </summary>
+		/// <param name="serviceType">Service type</param>
+		/// <param name="serviceKey">Service key</param>
+		/// <returns></returns>
+		IEnumerable<ContainerFactoryData> ResolveFactories(
+			Type serviceType, object serviceKey = null);
 	}
 }
