@@ -1,5 +1,11 @@
 2.0
-	- Respect controller reuse type, don't resolve them at initilaize
+	- Support action url like "action/{id}"
+		- Solution A (faster):
+			- Split them into two part, base url part and parameter url part
+			- Register base url part to action mapping
+		- Solution B (powerful):
+			- Convert to regexp
+			- Match them during request handling
 	- Update .Net standard requirement to 2.0
 	- Update Nhibernate to 5.0
 	- Support NHibernate sql logging
