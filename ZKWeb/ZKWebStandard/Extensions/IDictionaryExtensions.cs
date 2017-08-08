@@ -30,7 +30,7 @@ namespace ZKWebStandard.Extensions {
 		public static TValue GetOrDefault<TKey, TValue>(
 			this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue)) {
 			TValue value;
-			if (key != null && dict.TryGetValue(key, out value)) {
+			if (dict.Count > 0 && key != null && dict.TryGetValue(key, out value)) {
 				return value;
 			}
 			return defaultValue;
@@ -57,7 +57,7 @@ namespace ZKWebStandard.Extensions {
 		public static TValue GetOrCreate<TKey, TValue>(
 			this IDictionary<TKey, TValue> dict, TKey key, Func<TValue> defaultValue) {
 			TValue value;
-			if (dict.TryGetValue(key, out value)) {
+			if (dict.Count > 0 && dict.TryGetValue(key, out value)) {
 				return value;
 			}
 			dict[key] = (value = defaultValue());

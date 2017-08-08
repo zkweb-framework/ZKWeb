@@ -82,6 +82,11 @@ namespace ZKWebStandard.Web {
 		/// </summary>
 		/// <example>65535</example>
 		int RemotePort { get; }
+		/// <summary>
+		/// Custom parameters, can use to override other parameters(query, form, ...)<br/>
+		/// 自定义参数, 可用于重写其他参数(请求, 表单, ...)<br/>
+		/// </summary>
+		IDictionary<string, object> CustomParameters { get; }
 
 		/// <summary>
 		/// Get cookie value<br/>

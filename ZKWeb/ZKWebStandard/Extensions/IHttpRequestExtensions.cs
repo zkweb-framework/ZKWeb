@@ -186,9 +186,9 @@ namespace ZKWebStandard.Extensions {
 
 		/// <summary>
 		/// Get argument from http request<br/>
-		/// Priority: Form > QueryString > Json > PostedFile<br/>
+		/// Priority: CustomParameters > Form > QueryString > Json > PostedFile<br/>
 		/// 获取Http请求中的参数<br/>
-		/// 优先度: 表单内容 > Url参数 > Json > 提交文件<br/>
+		/// 优先度: 自定义参数 > 表单内容 > Url参数 > Json > 提交文件<br/>
 		/// </summary>
 		/// <typeparam name="T">Value type</typeparam>
 		/// <param name="request">Http request</param>
@@ -204,8 +204,13 @@ namespace ZKWebStandard.Extensions {
 		/// </code>
 		/// </example>
 		public static T Get<T>(this IHttpRequest request, string key, T defaultValue = default(T)) {
+			// CustomParameters
+			object value = request.CustomParameters.GetOrDefault(key);
+			if (value != null) {
+				return value.ConvertOrDefault<T>(defaultValue);
+			}
 			// Form
-			object value = request.GetFormValue(key)?.FirstOrDefault();
+			value = request.GetFormValue(key)?.FirstOrDefault();
 			if (value != null) {
 				return value.ConvertOrDefault<T>(defaultValue);
 			}
@@ -232,10 +237,10 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get all arguments from http request<br/>
 		/// Posted files are not included<br/>
-		/// Priority: Form > QueryString > Json<br/>
+		/// Priority: CustomParameters > Form > QueryString > Json<br/>
 		/// 获取Http请求中的所有参数<br/>
 		/// 不包含提交文件<br/>
-		/// 优先度: 表单内容 > Url参数 > Json<br/>
+		/// 优先度: 自定义参数 > 表单内容 > Url参数 > Json<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>
@@ -246,6 +251,15 @@ namespace ZKWebStandard.Extensions {
 		/// </code>
 		/// </example>
 		public static IEnumerable<Pair<string, IList<string>>> GetAll(this IHttpRequest request) {
+			foreach (var pair in request.CustomParameters) {
+				if (pair.Value is string str) {
+					yield return Pair.Create<string, IList<string>>(pair.Key, new[] { str });
+				} else if (pair.Value is string[] strArray) {
+					yield return Pair.Create<string, IList<string>>(pair.Key, strArray);
+				} else {
+					yield return Pair.Create<string, IList<string>>(pair.Key, new[] { pair.Value?.ToString() });
+				}
+			}
 			foreach (var pair in request.GetFormValues()) {
 				yield return Pair.Create(pair.First, pair.Second);
 			}
@@ -262,10 +276,10 @@ namespace ZKWebStandard.Extensions {
 		/// <summary>
 		/// Get all arguments from http request in dictionary<br/>
 		/// Posted files are not included<br/>
-		/// Priority: Form > QueryString > Json<br/>
+		/// Priority: CustomParameters > Form > QueryString > Json<br/>
 		/// 获取Http请求中的所有参数, 形式是词典<br/>
 		/// 不包含提交文件<br/>
-		/// 优先度: 表单内容 > Url参数 > Json<br/>
+		/// 优先度: 自定义参数 > 表单内容 > Url参数 > Json<br/>
 		/// </summary>
 		/// <param name="request">Http request</param>
 		/// <returns></returns>

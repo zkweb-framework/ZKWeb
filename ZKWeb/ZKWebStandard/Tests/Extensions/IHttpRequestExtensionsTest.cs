@@ -105,6 +105,16 @@ namespace ZKWebStandard.Tests.Extensions {
 		}
 
 		public void Get() {
+			// CustomParameters
+			using (HttpManager.OverrideContext("/?a=1&b=2", "POST")) {
+				var request = HttpManager.CurrentContext.Request;
+				Assert.Equals(request.Get<string>("a"), "1");
+				request.CustomParameters["a"] = "123";
+				Assert.Equals(request.Get<string>("a"), "123");
+				request.CustomParameters["x"] = 0.1M;
+				Assert.Equals(request.Get<decimal>("x"), 0.1M);
+			}
+
 			// QueryString
 			using (HttpManager.OverrideContext("/?a=1&b=2", "GET")) {
 				var request = HttpManager.CurrentContext.Request;
@@ -144,10 +154,23 @@ namespace ZKWebStandard.Tests.Extensions {
 		}
 
 		public void GetAll() {
+			// CustomParameters
+			using (HttpManager.OverrideContext("/?a=1&b=2", "POST")) {
+				var request = HttpManager.CurrentContext.Request;
+				request.CustomParameters["a"] = "123";
+				request.CustomParameters["x"] = 0.1M;
+				var allParams = request.GetAllDictionary();
+				Assert.Equals(allParams.Count, 3);
+				Assert.Equals(allParams.GetOrDefault("a")[0], "123");
+				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
+				Assert.Equals(allParams.GetOrDefault("x")[0].ConvertOrDefault<decimal>(), 0.1M);
+			}
+
 			// QueryString
 			using (HttpManager.OverrideContext("/?a=1&b=2", "GET")) {
 				var request = HttpManager.CurrentContext.Request;
 				var allParams = request.GetAllDictionary();
+				Assert.Equals(allParams.Count, 2);
 				Assert.Equals(allParams.GetOrDefault("a")[0], "1");
 				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
 				Assert.Equals(allParams.GetOrDefault("c"), null);
@@ -157,6 +180,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			using (HttpManager.OverrideContext("/?a=1&b=2", "POST")) {
 				var request = HttpManager.CurrentContext.Request;
 				var allParams = request.GetAll().ToDictionary(p => p.First, p => p.Second);
+				Assert.Equals(allParams.Count, 2);
 				Assert.Equals(allParams.GetOrDefault("a")[0], "1");
 				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
 				Assert.Equals(allParams.GetOrDefault("c"), null);
@@ -168,6 +192,7 @@ namespace ZKWebStandard.Tests.Extensions {
 				request.contentType = "application/json";
 				request.body = new MemoryStream(Encoding.UTF8.GetBytes("{ a: 1, b: 2 }"));
 				var allParams = request.GetAll().ToDictionary(p => p.First, p => p.Second);
+				Assert.Equals(allParams.Count, 2);
 				Assert.Equals(allParams.GetOrDefault("a")[0], "1");
 				Assert.Equals(allParams.GetOrDefault("b")[0], "2");
 				Assert.Equals(allParams.GetOrDefault("c"), null);

@@ -51,6 +51,9 @@ namespace ZKWebStandard.Web.Wrappers {
 		public virtual string Scheme {
 			get { return OriginalRequest.Scheme; }
 		}
+		public virtual IDictionary<string, object> CustomParameters {
+			get { return OriginalRequest.CustomParameters; }
+		}
 		public virtual string GetCookie(string key) {
 			return OriginalRequest.GetCookie(key);
 		}

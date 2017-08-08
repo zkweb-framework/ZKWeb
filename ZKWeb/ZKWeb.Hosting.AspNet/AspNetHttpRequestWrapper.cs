@@ -61,6 +61,7 @@ namespace ZKWeb.Hosting.AspNet {
 		public int RemotePort {
 			get { return int.Parse(OriginalRequest.ServerVariables["REMOTE_PORT"]); }
 		}
+		public IDictionary<string, object> CustomParameters { get; }
 
 		public string GetCookie(string key) {
 			return OriginalRequest.Cookies[key]?.Value;
@@ -127,6 +128,7 @@ namespace ZKWeb.Hosting.AspNet {
 			AspNetHttpContextWrapper parentContext, HttpRequest originalRequest) {
 			ParentContext = parentContext;
 			OriginalRequest = originalRequest;
+			CustomParameters = new Dictionary<string, object>();
 		}
 	}
 }

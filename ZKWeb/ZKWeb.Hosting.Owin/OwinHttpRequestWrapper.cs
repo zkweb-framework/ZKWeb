@@ -88,6 +88,7 @@ namespace ZKWeb.Hosting.Owin {
 		public int RemotePort {
 			get { return OwinRequest.RemotePort ?? 0; }
 		}
+		public IDictionary<string, object> CustomParameters { get; }
 
 		public string GetCookie(string key) {
 			return OwinRequest.Cookies[key];
@@ -210,6 +211,7 @@ namespace ZKWeb.Hosting.Owin {
 				return null;
 			});
 			HttpContentReadResults = new Dictionary<HttpContent, string>();
+			CustomParameters = new Dictionary<string, object>();
 		}
 	}
 }

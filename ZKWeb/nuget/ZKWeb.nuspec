@@ -34,8 +34,8 @@
 				<dependency id="Newtonsoft.Json" version="10.0.3" />
 				<dependency id="NSubstitute" version="2.0.3" />
 				<dependency id="System.Data.Common" version="4.3.0" />
-				<dependency id="ZKWeb.Fork.DotLiquid" version="2.2.0" />
-				<dependency id="ZKWeb.Fork.FastReflection" version="2.2.0" />
+				<dependency id="ZKWeb.Fork.DotLiquid" version="2.3.0" />
+				<dependency id="ZKWeb.Fork.FastReflection" version="2.3.0" />
 				<dependency id="ZKWeb.System.Drawing" version="3.0.0" />
 				<dependency id="System.IO.FileSystem.Watcher" version="4.3.0" />
 				<dependency id="System.Runtime.Loader" version="4.3.0" />

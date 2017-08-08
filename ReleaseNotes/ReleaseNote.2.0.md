@@ -22,8 +22,8 @@
 	- Microsoft.CodeAnalysis.CSharp 2.3.0
 	- Microsoft.Extensions.DependencyModel 2.0.0-preview2-25407-01
 	- Newtonsoft.Json 10.0.3
-	- ZKWeb.Fork.DotLiquid 2.2.0
-	- ZKWeb.Fork.FastReflection 2.2.0
+	- ZKWeb.Fork.DotLiquid 2.3.0
+	- ZKWeb.Fork.FastReflection 2.3.0
 - Add packages
 	- Pomelo.EntityFrameworkCore.Extensions.ToSql 2.0.0-preview3-10000
 		- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
@@ -46,3 +46,4 @@
 	- Asp.Net Core and ZKWeb can use services from each other now
 - Improve controller and router
 	- Respect controller reuse type in container, prior to this version controllers are treat as singleton
+	- Allow override parameters by setting IHttpRequest.CustomParameters

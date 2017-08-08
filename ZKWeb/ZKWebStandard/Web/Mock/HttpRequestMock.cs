@@ -29,6 +29,7 @@ namespace ZKWebStandard.Web.Mock {
 		public IDictionary<string, string> headers { get; set; }
 		public IDictionary<string, IList<string>> query { get; set; }
 		public IDictionary<string, IHttpPostedFile> postedFiles { get; set; }
+		public IDictionary<string, object> customParameters { get; set; }
 
 		public virtual Stream Body { get { return body; } }
 		public virtual long? ContentLength { get { return contentLength; } }
@@ -43,6 +44,7 @@ namespace ZKWebStandard.Web.Mock {
 		public virtual IPAddress RemoteIpAddress { get { return remoteIpAddress; } }
 		public virtual int RemotePort { get { return remotePort; } }
 		public virtual string Scheme { get { return Scheme; } }
+		public virtual IDictionary<string, object> CustomParameters { get { return customParameters; } }
 
 		public HttpRequestMock(IHttpContext context) {
 			body = new MemoryStream();
@@ -63,6 +65,7 @@ namespace ZKWebStandard.Web.Mock {
 			headers = new Dictionary<string, string>();
 			query = new Dictionary<string, IList<string>>();
 			postedFiles = new Dictionary<string, IHttpPostedFile>();
+			customParameters = new Dictionary<string, object>();
 		}
 
 		public virtual string GetCookie(string key) {
