@@ -46,4 +46,4 @@
 	- Asp.Net Core and ZKWeb can use services from each other now
 - Improve controller and router
 	- Respect controller reuse type in container, prior to this version controllers are treat as singleton
-	- Allow override parameters by setting IHttpRequest.CustomParameters
+	- Allow override request parameters by setting IHttpRequest.CustomParameters
