@@ -87,6 +87,17 @@ namespace ZKWebStandard.Collections {
 		public override string ToString() {
 			return $"({First?.ToString() ?? "null"}, {Second.ToString() ?? "null"})";
 		}
+
+		/// <summary>
+		/// Support deconstruction<br/>
+		/// 支持解构<br/>
+		/// </summary>
+		/// <param name="first">First value</param>
+		/// <param name="second">Second value</param>
+		public void Deconstruct(out TFirst first, out TSecond second) {
+			first = First;
+			second = Second;
+		}
 	}
 
 	/// <summary>
