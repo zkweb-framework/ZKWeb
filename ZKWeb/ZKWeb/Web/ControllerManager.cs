@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.FastReflection;
 using System.Linq;
 using System.Reflection;
-using ZKWebStandard.Collections;
-using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Ioc.Extensions;
 using ZKWebStandard.Web;
@@ -25,16 +21,17 @@ namespace ZKWeb.Web {
 	/// </example>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
-		/// { (Path, Method): Action }
+		/// Action Collection<br/>
+		/// Action函数的集合<br/>
 		/// </summary>
-		protected IDictionary<Pair<string, string>, Func<IActionResult>> Actions { get; set; }
+		public IActionCollection Actions { get; private set; }
 
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
 		public ControllerManager() {
-			Actions = new ConcurrentDictionary<Pair<string, string>, Func<IActionResult>>();
+			Actions = Application.Ioc.Resolve<IActionCollection>();
 		}
 
 		/// <summary>
@@ -160,7 +157,7 @@ namespace ZKWeb.Web {
 		/// <param name="path">Path</param>
 		/// <param name="method">Method</param>
 		/// <param name="action">Action</param>
-		/// <param name="overrideExists">Allow override exist actions</param>
+		/// <param name="overrideExists">Allow override exists action</param>
 		public virtual void RegisterAction(
 			string path, string method, Func<IActionResult> action, bool overrideExists) {
 			// Apply global registered action filter
@@ -170,11 +167,7 @@ namespace ZKWeb.Web {
 			}
 			// Associate path and method with action
 			path = NormalizePath(path);
-			var key = Pair.Create(path, method);
-			if (!overrideExists && Actions.ContainsKey(key)) {
-				throw new ArgumentException($"action for {path} already registered, try option `overrideExists`");
-			}
-			Actions[key] = action;
+			Actions.Set(path, method, action, overrideExists);
 		}
 
 		/// <summary>
@@ -186,8 +179,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual bool UnregisterAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = Pair.Create(path, method);
-			return Actions.Remove(key);
+			return Actions.Remove(path, method);
 		}
 
 		/// <summary>
@@ -201,8 +193,7 @@ namespace ZKWeb.Web {
 		/// <returns></returns>
 		public virtual Func<IActionResult> GetAction(string path, string method) {
 			path = NormalizePath(path);
-			var key = Pair.Create(path, method);
-			return Actions.GetOrDefault(key);
+			return Actions.Get(path, method);
 		}
 
 		/// <summary>

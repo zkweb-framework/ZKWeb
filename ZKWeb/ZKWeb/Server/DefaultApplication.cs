@@ -17,6 +17,7 @@ using ZKWeb.Templating;
 using ZKWeb.Templating.DynamicContents;
 using ZKWeb.Testing;
 using ZKWeb.Web;
+using ZKWeb.Web.ActionCollections;
 using ZKWeb.Web.ActionParameterProviders;
 using ZKWeb.Web.HttpRequestHandlers;
 using ZKWebStandard.Collections;
@@ -34,7 +35,7 @@ namespace ZKWeb.Server {
 		/// ZKWeb Version String<br/>
 		/// ZKWeb的版本字符串<br/>
 		/// </summary>
-		public virtual string FullVersion { get { return "2.0.0 beta 8"; } }
+		public virtual string FullVersion { get { return "2.0.0 beta 9"; } }
 		/// <summary>
 		/// ZKWeb Version Object<br/>
 		/// ZKWeb的版本对象<br/>
@@ -110,6 +111,7 @@ namespace ZKWeb.Server {
 			Ioc.RegisterMany<TemplateFileSystem>(ReuseType.Singleton);
 			Ioc.RegisterMany<TemplateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<TestManager>(ReuseType.Singleton);
+			Ioc.RegisterMany<DefaultActionCollection>(ReuseType.Transient);
 			Ioc.RegisterMany<DefaultActionParameterProvider>(ReuseType.Singleton);
 			Ioc.RegisterMany<AddVersionHeaderHandler>(ReuseType.Singleton);
 			Ioc.RegisterMany<DefaultErrorHandler>(ReuseType.Singleton);
