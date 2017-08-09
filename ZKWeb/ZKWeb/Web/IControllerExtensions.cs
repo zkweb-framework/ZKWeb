@@ -60,7 +60,9 @@ namespace ZKWeb.Web {
 			this Func<IController> controllerFactory, MethodInfo method) {
 			var parameters = method.GetParameters();
 			var instanceExpr = method.IsStatic ? null :
-				Expression.Invoke(Expression.Constant(controllerFactory));
+				Expression.Convert(
+					Expression.Invoke(Expression.Constant(controllerFactory)),
+					method.DeclaringType);
 			var parametersExpr = new List<Expression>();
 			foreach (var parameter in parameters) {
 				// Get parameters from request by it's name

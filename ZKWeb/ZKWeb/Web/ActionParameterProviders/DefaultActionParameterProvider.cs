@@ -30,6 +30,9 @@ namespace ZKWeb.Web.ActionParameterProviders {
 				return request.GetAllAs<T>();
 			}
 			// Return default value
+			if (parameterInfo.HasDefaultValue) {
+				return (T)parameterInfo.DefaultValue;
+			}
 			return default(T);
 		}
 	}
