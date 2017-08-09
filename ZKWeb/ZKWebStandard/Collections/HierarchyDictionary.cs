@@ -6,7 +6,9 @@ using System.Linq;
 namespace ZKWebStandard.Collections {
 	/// <summary>
 	/// Dictionary use to search hierarchy key(such as path)<br/>
+	/// Not thread safe<br/>
 	/// 用于搜索有层级关系的键(例如路径)的词典<br/>
+	/// 非线程安全<br/>
 	/// </summary>
 	/// <typeparam name="TKeyElement"></typeparam>
 	/// <typeparam name="TValue"></typeparam>

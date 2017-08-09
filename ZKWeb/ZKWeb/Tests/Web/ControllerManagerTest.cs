@@ -214,6 +214,27 @@ namespace ZKWeb.Tests.Web {
 			}, ReuseType.Singleton);
 		}
 
+		public void OnRequestTest_J_Regex() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_j/id_value", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.GetContentsFromBody(), "TestActionJ_1Param_id_value");
+				}
+				using (HttpManager.OverrideContext("__test_action_j/id_value/extra_value", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.GetContentsFromBody(), "TestActionJ_2Param_id_value_extra_value");
+				}
+				using (HttpManager.OverrideContext("__test_action_j/child/id_value", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.GetContentsFromBody(), "TestActionJ_Child_1Param_id_value");
+				}
+			});
+		}
+
 		public void RegisterController() {
 			OnRequestTest(() => {
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
@@ -290,6 +311,20 @@ namespace ZKWeb.Tests.Web {
 				Assert.Equals(controllerManager.GetAction("__test_action", HttpMethods.POST), actionPost);
 				Assert.Equals(controllerManager.GetAction("__not_exist", HttpMethods.GET), null);
 			}
+			using (Application.OverrideIoc()) {
+				Application.Ioc.Unregister<ControllerManager>();
+				Application.Ioc.RegisterMany<ControllerManager>();
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				var actionGet = new Func<IActionResult>(() => { return new PlainResult("get"); });
+				var actionPost = new Func<IActionResult>(() => { return new PlainResult("post"); });
+
+				controllerManager.RegisterAction("__test_action/{id}", HttpMethods.GET, actionGet);
+				controllerManager.RegisterAction("__test_action/{id}", HttpMethods.POST, actionPost);
+
+				Assert.Equals(controllerManager.GetAction("__test_action/id", HttpMethods.GET), actionGet);
+				Assert.Equals(controllerManager.GetAction("__test_action/id", HttpMethods.POST), actionPost);
+				Assert.Equals(controllerManager.GetAction("__not_exist", HttpMethods.GET), null);
+			}
 		}
 
 		public class TestController : IController {
@@ -343,6 +378,21 @@ namespace ZKWeb.Tests.Web {
 			[Action("__test_action_i", HttpMethods.GET)]
 			public int TestActionI() {
 				return Value;
+			}
+
+			[Action("__test_action_j/{id}", HttpMethods.GET)]
+			public string TestActionJ_1Param(string id) {
+				return $"TestActionJ_1Param_{id}";
+			}
+
+			[Action("__test_action_j/{id}/{extra}", HttpMethods.GET)]
+			public string TestActionJ_2Param(string id, string extra) {
+				return $"TestActionJ_2Param_{id}_{extra}";
+			}
+
+			[Action("__test_action_j/child/{id}", HttpMethods.GET)]
+			public string TestActionJ_Child_1Param(string id) {
+				return $"TestActionJ_Child_1Param_{id}";
 			}
 		}
 

@@ -47,3 +47,4 @@
 - Improve controller and router
 	- Respect controller reuse type in container, prior to this version controllers are treat as singleton
 	- Allow override request parameters by setting IHttpRequest.CustomParameters
+	- Support url parameter such as "get/{id}"
