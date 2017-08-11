@@ -188,6 +188,10 @@ namespace ZKWeb.Plugin {
 				// Remove old files, maybe they are locking but that's not matter
 				Directory.EnumerateFiles(info.BinDirectory(), "*.old")
 					.ForEach(path => { try { File.Delete(path); } catch { } });
+				// Call gc collect to avoid OOM
+				GC.Collect();
+				GC.WaitForFullGCComplete(-1);
+				GC.WaitForPendingFinalizers();
 			}
 		}
 	}
