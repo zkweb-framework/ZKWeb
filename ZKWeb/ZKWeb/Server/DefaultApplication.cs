@@ -35,7 +35,7 @@ namespace ZKWeb.Server {
 		/// ZKWeb Version String<br/>
 		/// ZKWeb的版本字符串<br/>
 		/// </summary>
-		public virtual string FullVersion { get { return "2.0.0 beta 9a"; } }
+		public virtual string FullVersion { get { return "2.0.0 beta 10"; } }
 		/// <summary>
 		/// ZKWeb Version Object<br/>
 		/// ZKWeb的版本对象<br/>

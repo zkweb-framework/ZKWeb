@@ -20,8 +20,8 @@
 		<PackageReference Include="Dommel" Version="1.8.1" />
 		<PackageReference Include="Dapper.FluentMap" Version="1.5.3" />
 		<PackageReference Include="Dapper.FluentMap.Dommel" Version="1.4.5" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.0-preview2-final" />
-		<PackageReference Include="Npgsql" Version="3.2.4.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.0" />
+		<PackageReference Include="Npgsql" Version="3.2.5" />
 		<PackageReference Include="Pomelo.Data.MySql" Version="1.0.0" />
 	</ItemGroup>
 
