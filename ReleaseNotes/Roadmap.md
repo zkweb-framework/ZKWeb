@@ -9,3 +9,10 @@
 
 Undefined
 - Run all tests on macos
+
+Misc
+	- Rewrite document for 2.0
+	- Provide better instruction for beginner
+	- Provide disinct home site
+	- Provide disinct demo site
+	- Enable SSL for demo site (money$$$)
