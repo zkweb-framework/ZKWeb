@@ -1,64 +1,64 @@
 # ZKWeb [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb) [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.svg)](http://www.nuget.org/packages/ZKWeb) [![Member project of .NET China Foundation](https://img.shields.io/badge/member_project_of-.NET_CHINA-red.svg?style=flat&colorB=9E20C8)](https://github.com/dotnetcore)
 
-
 ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
-The goal of this framework is to increase code reusability and decrease dependence on frameworks and tools such as Asp.Net and Visual Studio.
 
-Backward compatibility is provided as much as possible.
+Why create this framework?
+
+- I want a better plugin system, one folder one plugin just like django
+- I want a independent mvc framework, because MS change their architecture too often
+- I want a powerful template system enough to implemente a visual page editor
 
 ## Features
 
 - .Net Core Support
 	- Support both .Net Framework and .Net Core
 - Plugin System
-	- Using Roslyn
-	- Support runtime plugin reload
-	- Support automatic compile and reload when plugin source code changed
+	- One folder one plugin, each contains everything it needs
+	- Automatic compile and reload after source code has changed
+	- Based on Roslyn
 - Template System
-	- Using DotLiquid
-	- Support django style template overriding
-	- Support mobile specialized templates
-	- Support dynamic contents (by area tag)
-	- Support per-widget render cache (for extremely fast rending)
+	- Django style overlapping template file system
+		- One plugin can just override other plugin's template
+	- Template specialization for mobile or pc
+	- Area-Widget style dynamic contents system
+		- Able to implement a visual page editor based on this feature
+	- Per-widget render cache
+		- Most times it's better than cache the whole page
+	- Based on DotLiquid
 - IoC Container
-	- Using custom lightweight IoC container
-	- Support register by MEF style attributes
+	- Fast
+	- Provide IServiceProvider integration
+	- ZKWeb own implementation
 - Multiple Host Environment
-	- Support running on Asp.Net
-	- Support running on Asp.Net Core
-	- Support running on Owin
-	- All host environment based on same abstraction layer
+	- Support Asp.Net
+	- Support Asp.Net Core
+	- Support Owin
+	- Use the common abstraction layer can make a plugin support all of this without different code
 - Multiple ORM
 	- Support Dapper
-	- Support EntityFramework Core
+	- Support EntityFramework Core (with full automatic database migration)
 	- Support InMemory
 	- Support MongoDB
-	- Support NHibernate
-		- No support for .Net Core yet
-	- Support runtime database scheme migration
-	- All ORM based on same abstraction layer
+	- Support NHibernate (with full automatic database migration)
+	- Use the common abstraction layer can make a plugin support all of this with less different code
 - Localization
-	- Support multi-language
-	- Support multi-timezone
-	- Support gettext style translation
+	- Multi-language support, with gettext style translation
+	- Multi-timezone support
 - Caching
-	- Support policy based isolated cache
+	- Policy based isolated cache
 		- Isolated by device, request url, and more...
-	- Provide abstraction layer for key-value cache
-		- Easy to provider your own cache for distributed cache
+	- Abstraction layer for key-value cache
 - File Storage
-	- Provide abstraction layer for file storage
-		- Easy to provide your own storage for distributed file store
+	- Abstraction layer for file storage
 - Testing
-	- Provide console and web test runner
+	- Console and web test runner
 	- Support IoC container overridden
-	- Support http context overridden
+	- Support Http context overridden
 	- Support temporary database
 - Project Toolkits
-	- Project Creator for creating ZKWeb project
-	- Website Publisher for publishing ZKWeb project
+	- Project Creator
+	- Website Publisher
 - Linux support
-	- These distributions are tested
 	- Ubuntu 16.04 LTS 64bit
 	- CentOS 7.2 64bit
 	- Fedora 24 64bit
@@ -71,11 +71,13 @@ Backward compatibility is provided as much as possible.
 - Scheduled Tasks
 - Captcha
 - Admin Panel
-- Automatic pesudo static support
-- Multi-Currency and Region support
+- Automatic pesudo static
+- Multi-Currency and Region
 - And More...
 
 ## Getting Started
+
+TODO: refactoring this
 
 Open "Tools\ProjectCreator.Gui.exe",<br/>
 create your own project with specified hosting and ORM then open it.<br/>

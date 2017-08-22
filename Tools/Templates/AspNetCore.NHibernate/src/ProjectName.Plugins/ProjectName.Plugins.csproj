@@ -7,12 +7,10 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <DisableImplicitFrameworkReferences Condition=" '$(TargetFramework)' == 'net461' ">true</DisableImplicitFrameworkReferences>
-
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ZKWeb" Version="1.9.0" />
+    <PackageReference Include="ZKWeb" Version="2.0.0-rc-1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
