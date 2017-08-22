@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZKWeb.Toolkits.ProjectCreator.Properties;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Model {
 	/// <summary>
@@ -83,29 +84,29 @@ namespace ZKWeb.Toolkits.ProjectCreator.Model {
 		public void Check() {
 			if (!AvailableProductTypes.Contains(ProjectType)) {
 				throw new ArgumentException(
-					"Project type must be one of " +
+					Resources.ProjectTypeMustBeOneOf +
 					string.Join(", ", AvailableProductTypes));
 			} else if (string.IsNullOrEmpty(ProjectName)) {
-				throw new ArgumentException("Project name can't be empty");
+				throw new ArgumentException(Resources.ProjectNameCantBeEmpty);
 			} else if (!AvailableORM.Contains(ORM)) {
 				throw new ArgumentException(
-					"ORM must be one of " +
+					Resources.ORMMustBeOneOf +
 					string.Join(", ", AvailableORM));
 			} else if (!AvailableDatabases[ORM].Contains(Database)) {
 				throw new ArgumentException(
-					"Database must be one of " +
+					Resources.DatabaseMustBeOneOf +
 					string.Join(", ", AvailableDatabases[ORM]));
 			} else if (string.IsNullOrEmpty(ConnectionString)) {
-				throw new ArgumentException("Connection string can't be empty");
+				throw new ArgumentException(Resources.ConnectionStringCantBeEmpty);
 			} else if (string.IsNullOrEmpty(OutputDirectory)) {
-				throw new ArgumentException("Output directory can't be empty");
+				throw new ArgumentException(Resources.OutputDirectoryCantBeEmpty);
 			}
 			if (!string.IsNullOrEmpty(UseDefaultPlugins)) {
 				var pluginCollection = PluginCollection.FromFile(UseDefaultPlugins);
 				if (!pluginCollection.SupportedORM.Any(o =>
 					string.Equals(o, ORM, StringComparison.OrdinalIgnoreCase))) {
 					throw new ArgumentException(
-						"This plugin collection only support following ORM: " +
+						Resources.ThisPluginCollectionOnlySupportTheseORM +
 						string.Join(", ", pluginCollection.SupportedORM));
 				}
 			}

@@ -7,6 +7,7 @@ using ZKWeb.Toolkits.ProjectCreator.Model;
 using ZKWeb.Toolkits.ProjectCreator.Utils;
 using System.Linq;
 using System.Text;
+using ZKWeb.Toolkits.ProjectCreator.Properties;
 
 namespace ZKWeb.Toolkits.ProjectCreator {
 	/// <summary>
@@ -36,7 +37,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 			while (!Directory.Exists(Path.Combine(path, "Tools"))) {
 				path = Path.GetDirectoryName(path);
 				if (string.IsNullOrEmpty(path)) {
-					throw new DirectoryNotFoundException("Detect templates directory failed");
+					throw new DirectoryNotFoundException(Resources.DetectTemplatesDirectoryFailed);
 				}
 			}
 			return Path.Combine(path, "Tools", "Templates");
