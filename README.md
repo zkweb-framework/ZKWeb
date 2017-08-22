@@ -99,7 +99,7 @@ For more information please see the documents.<br/>
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Documents: http://zkweb-framework.github.io (Chinese)<br/>
-References: http://zkweb-framework.github.io/cn/references/zkweb/index.html<br/>
+References: http://zkweb-framework.github.io/cn/references/zkweb/ZKWebReferences.chm<br/>
 
 Demo Website: http://zkweb.org/admin<br/>
 Demo Account: demo 123456
