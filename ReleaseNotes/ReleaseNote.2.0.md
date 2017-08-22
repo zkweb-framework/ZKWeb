@@ -19,15 +19,19 @@
 	- Microsoft.EntityFrameworkCore.Sqlite 2.0.0
 	- Microsoft.EntityFrameworkCore.SqlServer 2.0.0
 	- Npgsql.EntityFrameworkCore.PostgreSQL 2.0.0
-	- Pomelo.EntityFrameworkCore.MySql 2.0.0-preview2-10046
+	- Pomelo.EntityFrameworkCore.MySql 2.0.0-rtm-10057
 	- MongoDB.Driver 2.4.4
 	- ZKWeb.Repack.SQLite 1.0.104
+	- Microsoft.CSharp 4.4.0
 	- Microsoft.CodeAnalysis.CSharp 2.3.0
 	- Newtonsoft.Json 10.0.3
 	- ZKWeb.Fork.DotLiquid 2.3.0
 	- ZKWeb.Fork.FastReflection 2.3.0
+	- Dommel 1.9.0
+	- Dapper.FluentMap 1.6.0
+	- Dapper.FluentMap.Dommel 1.5.0
 - Add packages
-	- Pomelo.EntityFrameworkCore.Extensions.ToSql 2.0.0-preview3-10000
+	- Pomelo.EntityFrameworkCore.Extensions.ToSql
 		- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
 - Improve IoC container
 	- Support scoped reuse

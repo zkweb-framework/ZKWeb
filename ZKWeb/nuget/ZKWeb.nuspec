@@ -16,7 +16,7 @@
 		<dependencies>
 			<group targetFramework="net461">
 				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.3.0" />
-				<dependency id="Microsoft.CSharp" version="4.3.0" />
+				<dependency id="Microsoft.CSharp" version="4.4.0" />
 				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0" />
 				<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
 				<dependency id="Newtonsoft.Json" version="10.0.3" />
@@ -28,7 +28,7 @@
 			</group>
 			<group targetFramework="netstandard2.0">
 				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.1.0" />
-				<dependency id="Microsoft.CSharp" version="4.3.0" />
+				<dependency id="Microsoft.CSharp" version="4.4.0" />
 				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0" />
 				<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
 				<dependency id="Newtonsoft.Json" version="10.0.3" />

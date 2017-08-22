@@ -16,9 +16,9 @@
 		<dependencies>
 			<dependency id="ZKWeb" version="2.0.0-beta-10" />
 			<dependency id="Dapper" version="1.50.2" />
-			<dependency id="Dommel" version="1.8.1" />
-			<dependency id="Dapper.FluentMap" version="1.5.3" />
-			<dependency id="Dapper.FluentMap.Dommel" version="1.4.5" />
+			<dependency id="Dommel" version="1.9.0" />
+			<dependency id="Dapper.FluentMap" version="1.6.0" />
+			<dependency id="Dapper.FluentMap.Dommel" version="1.5.0" />
 			<dependency id="Microsoft.Data.Sqlite" version="2.0.0" />
 			<dependency id="Npgsql" version="3.2.5" />
 			<dependency id="Pomelo.Data.MySql" version="1.0.0" />
