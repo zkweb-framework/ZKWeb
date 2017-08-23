@@ -77,11 +77,14 @@ Why create this framework?
 
 ## Getting Started
 
-TODO: refactoring this
+In Short:<br/>
+Open 'Tools\ProjectCreator.Gui.Windows\ZKWeb.Toolkits.ProjectCreator.Gui.exe' and create the project.<br/>
 
-Open "Tools\ProjectCreator.Gui.exe",<br/>
-create your own project with specified hosting and ORM then open it.<br/>
-For more information please see the documents.<br/>
+![project creator](Tools/project_creator.png)
+
+You can read [README.md](Tools/README.md) under Tools first, for more information please see the documents.<br/>
+For now there only chinese documents, if you can't read chinese please ask the questions in 'Issues'.<br/>
+For those chinese software engineers, is recommended to join QQ group 522083886 for further discuss.<br/>
 
 ## Packages
 
