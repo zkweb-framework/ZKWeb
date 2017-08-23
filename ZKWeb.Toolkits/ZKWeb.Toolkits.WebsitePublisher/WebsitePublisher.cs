@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ZKWeb.Toolkits.WebsitePublisher.Model;
+using ZKWeb.Toolkits.WebsitePublisher.Properties;
 using ZKWeb.Toolkits.WebsitePublisher.Utils;
 
 namespace ZKWeb.Toolkits.WebsitePublisher {
@@ -43,9 +44,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 				webConfigPath = Path.Combine(webRoot, "web.config"); // 照顾到大小写区分的文件系统
 			}
 			if (!File.Exists(webConfigPath)) {
-				throw new FileNotFoundException("web.config not found, \r\n" +
-					"please choose the project directory contains `web.config`, " +
-					"for example: 'Hello.World\\src\\Hello.World.AspNetCore'");
+				throw new FileNotFoundException(Resources.WebConfigNotFound);
 			}
 			return webConfigPath;
 		}
@@ -78,13 +77,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 					dllPath = dllPaths.FirstOrDefault();
 				}
 				if (dllPath == null) {
-					throw new DirectoryNotFoundException(
-						"Bin directory not found, please follow these instructions:\r\n" +
-						"First, please choose directory contains `web.config` as the `website root`, " +
-						"for example 'Hello.World\\src\\Hello.World.AspNetCore'\r\n" +
-						"Second, if your project type is Asp.Net or Owin, please compile it with `Release` configuration\r\n" +
-						"and if your project type is Asp.Net Core, you need to run the folowing command:\r\n" +
-						"dotnet publish -f netcoreapp1.1 -c Release -r win10-x64");
+					throw new DirectoryNotFoundException(Resources.BinDirectoryNotFound);
 				}
 				binDir = Path.GetDirectoryName(dllPath);
 			} else {
@@ -119,7 +112,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 					.Where(path => File.Exists(path)).FirstOrDefault();
 			}
 			if (string.IsNullOrEmpty(exeName)) {
-				throw new FileNotFoundException("Asp.Net Core Launcher exe not found");
+				throw new FileNotFoundException(Resources.AspNetCoreLauncherExeNotFound);
 			}
 			return "." + Path.DirectorySeparatorChar + exeName;
 		}
@@ -139,7 +132,8 @@ namespace ZKWeb.Toolkits.WebsitePublisher {
 					return pluginDir;
 				}
 			}
-			throw new DirectoryNotFoundException($"Plugin directory for {pluginName} not found");
+			throw new DirectoryNotFoundException(
+				string.Format(Resources.PluginDirectoryFor_0_NotFound, pluginName));
 		}
 
 		/// <summary>

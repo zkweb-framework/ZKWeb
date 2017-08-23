@@ -1,4 +1,5 @@
 ﻿using System;
+using ZKWeb.Toolkits.WebsitePublisher.Properties;
 
 namespace ZKWeb.Toolkits.WebsitePublisher.Model {
 	/// <summary>
@@ -45,15 +46,15 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Model {
 		/// </summary>
 		public void Check() {
 			if (string.IsNullOrEmpty(WebRoot)) {
-				throw new ArgumentException("WebRoot can't be empty");
+				throw new ArgumentException(Resources.WebRootCantBeEmpty);
 			} else if (string.IsNullOrEmpty(OutputName)) {
-				throw new ArgumentException("OutputName can't be empty");
+				throw new ArgumentException(Resources.OutputNameCantBeRmpty);
 			} else if (string.IsNullOrEmpty(OutputDirectory)) {
-				throw new ArgumentException("OutputDirectory can't be empty");
+				throw new ArgumentException(Resources.OutputDirectoryCantBeEmpty);
 			} else if (string.IsNullOrEmpty(Configuration)) {
-				throw new ArgumentException("Configuration can't be empty");
+				throw new ArgumentException(Resources.ConfigurationCantBeEmpty);
 			} else if (string.IsNullOrEmpty(Framework)) {
-				throw new ArgumentException("Framework can't be empty");
+				throw new ArgumentException(Resources.FrameworkCantBeEmpty);
 			}
 		}
 	}
