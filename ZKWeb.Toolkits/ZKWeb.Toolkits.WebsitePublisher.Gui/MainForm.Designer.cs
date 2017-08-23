@@ -23,7 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.lbFramework = new System.Windows.Forms.Label();
 			this.tbIgnorePattern = new System.Windows.Forms.TextBox();
 			this.lbIgnorePattern = new System.Windows.Forms.Label();
@@ -39,236 +39,172 @@
 			this.tbWebRoot = new System.Windows.Forms.TextBox();
 			this.lbWebRoot = new System.Windows.Forms.Label();
 			this.cbFramework = new System.Windows.Forms.ComboBox();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.lbConfiguration = new System.Windows.Forms.Label();
+			this.cbConfiguration = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
 			this.panelOutputDirectory.SuspendLayout();
 			this.panelWebRoot.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.lbFramework, 0, 4);
-			this.tableLayoutPanel1.Controls.Add(this.tbIgnorePattern, 0, 3);
-			this.tableLayoutPanel1.Controls.Add(this.lbIgnorePattern, 0, 3);
-			this.tableLayoutPanel1.Controls.Add(this.btnPublishWebsite, 1, 5);
-			this.tableLayoutPanel1.Controls.Add(this.panelOutputDirectory, 1, 2);
-			this.tableLayoutPanel1.Controls.Add(this.lbOutputDirectory, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.tbOutputName, 1, 1);
-			this.tableLayoutPanel1.Controls.Add(this.lbOutputName, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.panelWebRoot, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.lbWebRoot, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.cbFramework, 1, 4);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 6;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(663, 215);
-			this.tableLayoutPanel1.TabIndex = 0;
-			// 
 			// lbFramework
 			// 
-			this.lbFramework.AutoSize = true;
-			this.lbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbFramework.Location = new System.Drawing.Point(3, 128);
+			resources.ApplyResources(this.lbFramework, "lbFramework");
 			this.lbFramework.Name = "lbFramework";
-			this.lbFramework.Size = new System.Drawing.Size(124, 32);
-			this.lbFramework.TabIndex = 24;
-			this.lbFramework.Text = "Framework:";
-			this.lbFramework.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tbIgnorePattern
 			// 
-			this.tbIgnorePattern.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbIgnorePattern.Location = new System.Drawing.Point(133, 102);
-			this.tbIgnorePattern.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
+			resources.ApplyResources(this.tbIgnorePattern, "tbIgnorePattern");
 			this.tbIgnorePattern.Name = "tbIgnorePattern";
-			this.tbIgnorePattern.Size = new System.Drawing.Size(527, 20);
-			this.tbIgnorePattern.TabIndex = 23;
-			this.tbIgnorePattern.Text = ".*node_modules.*";
 			// 
 			// lbIgnorePattern
 			// 
-			this.lbIgnorePattern.AutoSize = true;
-			this.lbIgnorePattern.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbIgnorePattern.Location = new System.Drawing.Point(3, 96);
+			resources.ApplyResources(this.lbIgnorePattern, "lbIgnorePattern");
 			this.lbIgnorePattern.Name = "lbIgnorePattern";
-			this.lbIgnorePattern.Size = new System.Drawing.Size(124, 32);
-			this.lbIgnorePattern.TabIndex = 22;
-			this.lbIgnorePattern.Text = "Ignore Pattern:";
-			this.lbIgnorePattern.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// btnPublishWebsite
 			// 
-			this.btnPublishWebsite.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnPublishWebsite.Location = new System.Drawing.Point(133, 168);
-			this.btnPublishWebsite.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
+			resources.ApplyResources(this.btnPublishWebsite, "btnPublishWebsite");
 			this.btnPublishWebsite.Name = "btnPublishWebsite";
-			this.btnPublishWebsite.Size = new System.Drawing.Size(527, 39);
-			this.btnPublishWebsite.TabIndex = 21;
-			this.btnPublishWebsite.Text = "Publish Website";
 			this.btnPublishWebsite.UseVisualStyleBackColor = true;
 			this.btnPublishWebsite.Click += new System.EventHandler(this.btnPublishWebsite_Click);
 			// 
 			// panelOutputDirectory
 			// 
-			this.panelOutputDirectory.ColumnCount = 2;
-			this.panelOutputDirectory.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.panelOutputDirectory.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+			resources.ApplyResources(this.panelOutputDirectory, "panelOutputDirectory");
 			this.panelOutputDirectory.Controls.Add(this.btnBrowseOutputDirectory, 0, 0);
 			this.panelOutputDirectory.Controls.Add(this.tbOutputDirectory, 0, 0);
-			this.panelOutputDirectory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelOutputDirectory.Location = new System.Drawing.Point(133, 67);
 			this.panelOutputDirectory.Name = "panelOutputDirectory";
-			this.panelOutputDirectory.RowCount = 1;
-			this.panelOutputDirectory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.panelOutputDirectory.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-			this.panelOutputDirectory.Size = new System.Drawing.Size(527, 26);
-			this.panelOutputDirectory.TabIndex = 19;
 			// 
 			// btnBrowseOutputDirectory
 			// 
-			this.btnBrowseOutputDirectory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnBrowseOutputDirectory.Location = new System.Drawing.Point(455, 3);
+			resources.ApplyResources(this.btnBrowseOutputDirectory, "btnBrowseOutputDirectory");
 			this.btnBrowseOutputDirectory.Name = "btnBrowseOutputDirectory";
-			this.btnBrowseOutputDirectory.Size = new System.Drawing.Size(69, 20);
-			this.btnBrowseOutputDirectory.TabIndex = 11;
-			this.btnBrowseOutputDirectory.Text = "Browse";
 			this.btnBrowseOutputDirectory.UseVisualStyleBackColor = true;
 			this.btnBrowseOutputDirectory.Click += new System.EventHandler(this.btnBrowseOutputDirectory_Click);
 			// 
 			// tbOutputDirectory
 			// 
-			this.tbOutputDirectory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbOutputDirectory.Location = new System.Drawing.Point(3, 3);
+			resources.ApplyResources(this.tbOutputDirectory, "tbOutputDirectory");
 			this.tbOutputDirectory.Name = "tbOutputDirectory";
-			this.tbOutputDirectory.Size = new System.Drawing.Size(446, 20);
-			this.tbOutputDirectory.TabIndex = 10;
 			// 
 			// lbOutputDirectory
 			// 
-			this.lbOutputDirectory.AutoSize = true;
-			this.lbOutputDirectory.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbOutputDirectory.Location = new System.Drawing.Point(3, 64);
+			resources.ApplyResources(this.lbOutputDirectory, "lbOutputDirectory");
 			this.lbOutputDirectory.Name = "lbOutputDirectory";
-			this.lbOutputDirectory.Size = new System.Drawing.Size(124, 32);
-			this.lbOutputDirectory.TabIndex = 18;
-			this.lbOutputDirectory.Text = "Output Directory*:";
-			this.lbOutputDirectory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// tbOutputName
 			// 
-			this.tbOutputName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbOutputName.Location = new System.Drawing.Point(133, 38);
-			this.tbOutputName.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
+			resources.ApplyResources(this.tbOutputName, "tbOutputName");
 			this.tbOutputName.Name = "tbOutputName";
-			this.tbOutputName.Size = new System.Drawing.Size(527, 20);
-			this.tbOutputName.TabIndex = 17;
 			// 
 			// lbOutputName
 			// 
-			this.lbOutputName.AutoSize = true;
-			this.lbOutputName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbOutputName.Location = new System.Drawing.Point(3, 32);
+			resources.ApplyResources(this.lbOutputName, "lbOutputName");
 			this.lbOutputName.Name = "lbOutputName";
-			this.lbOutputName.Size = new System.Drawing.Size(124, 32);
-			this.lbOutputName.TabIndex = 16;
-			this.lbOutputName.Text = "Output Name*:";
-			this.lbOutputName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// panelWebRoot
 			// 
-			this.panelWebRoot.ColumnCount = 2;
-			this.panelWebRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.panelWebRoot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+			resources.ApplyResources(this.panelWebRoot, "panelWebRoot");
 			this.panelWebRoot.Controls.Add(this.btnBrowseWebRoot, 0, 0);
 			this.panelWebRoot.Controls.Add(this.tbWebRoot, 0, 0);
-			this.panelWebRoot.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelWebRoot.Location = new System.Drawing.Point(133, 3);
 			this.panelWebRoot.Name = "panelWebRoot";
-			this.panelWebRoot.RowCount = 1;
-			this.panelWebRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.panelWebRoot.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-			this.panelWebRoot.Size = new System.Drawing.Size(527, 26);
-			this.panelWebRoot.TabIndex = 15;
 			// 
 			// btnBrowseWebRoot
 			// 
-			this.btnBrowseWebRoot.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.btnBrowseWebRoot.Location = new System.Drawing.Point(455, 3);
+			resources.ApplyResources(this.btnBrowseWebRoot, "btnBrowseWebRoot");
 			this.btnBrowseWebRoot.Name = "btnBrowseWebRoot";
-			this.btnBrowseWebRoot.Size = new System.Drawing.Size(69, 20);
-			this.btnBrowseWebRoot.TabIndex = 11;
-			this.btnBrowseWebRoot.Text = "Browse";
 			this.btnBrowseWebRoot.UseVisualStyleBackColor = true;
 			this.btnBrowseWebRoot.Click += new System.EventHandler(this.btnBrowseWebRoot_Click);
 			// 
 			// tbWebRoot
 			// 
-			this.tbWebRoot.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbWebRoot.Location = new System.Drawing.Point(3, 3);
+			resources.ApplyResources(this.tbWebRoot, "tbWebRoot");
 			this.tbWebRoot.Name = "tbWebRoot";
-			this.tbWebRoot.Size = new System.Drawing.Size(446, 20);
-			this.tbWebRoot.TabIndex = 10;
 			// 
 			// lbWebRoot
 			// 
-			this.lbWebRoot.AutoSize = true;
-			this.lbWebRoot.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lbWebRoot.Location = new System.Drawing.Point(3, 0);
+			resources.ApplyResources(this.lbWebRoot, "lbWebRoot");
 			this.lbWebRoot.Name = "lbWebRoot";
-			this.lbWebRoot.Size = new System.Drawing.Size(124, 32);
-			this.lbWebRoot.TabIndex = 1;
-			this.lbWebRoot.Text = "Website Root*:";
-			this.lbWebRoot.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// cbFramework
 			// 
-			this.cbFramework.Dock = System.Windows.Forms.DockStyle.Fill;
+			resources.ApplyResources(this.cbFramework, "cbFramework");
+			this.cbFramework.AutoCompleteCustomSource.AddRange(new string[] {
+            resources.GetString("cbFramework.AutoCompleteCustomSource"),
+            resources.GetString("cbFramework.AutoCompleteCustomSource1")});
 			this.cbFramework.FormattingEnabled = true;
 			this.cbFramework.Items.AddRange(new object[] {
-            "net461",
-            "netcoreapp1.1",
-            "netcoreapp2.0"});
-			this.cbFramework.Location = new System.Drawing.Point(133, 134);
-			this.cbFramework.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
+            resources.GetString("cbFramework.Items"),
+            resources.GetString("cbFramework.Items1")});
 			this.cbFramework.Name = "cbFramework";
-			this.cbFramework.Size = new System.Drawing.Size(527, 21);
-			this.cbFramework.TabIndex = 26;
-			this.cbFramework.Text = "net461";
+			// 
+			// lbConfiguration
+			// 
+			resources.ApplyResources(this.lbConfiguration, "lbConfiguration");
+			this.lbConfiguration.Name = "lbConfiguration";
+			// 
+			// cbConfiguration
+			// 
+			resources.ApplyResources(this.cbConfiguration, "cbConfiguration");
+			this.cbConfiguration.FormattingEnabled = true;
+			this.cbConfiguration.Items.AddRange(new object[] {
+            resources.GetString("cbConfiguration.Items"),
+            resources.GetString("cbConfiguration.Items1")});
+			this.cbConfiguration.Name = "cbConfiguration";
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.ForeColor = System.Drawing.Color.Red;
+			this.label1.Name = "label1";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.ForeColor = System.Drawing.Color.Red;
+			this.label2.Name = "label2";
+			// 
+			// label3
+			// 
+			resources.ApplyResources(this.label3, "label3");
+			this.label3.ForeColor = System.Drawing.Color.Red;
+			this.label3.Name = "label3";
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(663, 215);
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.cbConfiguration);
+			this.Controls.Add(this.lbConfiguration);
+			this.Controls.Add(this.btnPublishWebsite);
+			this.Controls.Add(this.lbFramework);
+			this.Controls.Add(this.cbFramework);
+			this.Controls.Add(this.tbIgnorePattern);
+			this.Controls.Add(this.lbWebRoot);
+			this.Controls.Add(this.lbIgnorePattern);
+			this.Controls.Add(this.panelWebRoot);
+			this.Controls.Add(this.lbOutputName);
+			this.Controls.Add(this.panelOutputDirectory);
+			this.Controls.Add(this.tbOutputName);
+			this.Controls.Add(this.lbOutputDirectory);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.Name = "MainForm";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "ZKWeb Website Publisher";
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
 			this.panelOutputDirectory.ResumeLayout(false);
 			this.panelOutputDirectory.PerformLayout();
 			this.panelWebRoot.ResumeLayout(false);
 			this.panelWebRoot.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.Label lbWebRoot;
 		private System.Windows.Forms.TableLayoutPanel panelWebRoot;
 		private System.Windows.Forms.Button btnBrowseWebRoot;
@@ -284,6 +220,11 @@
 		private System.Windows.Forms.TextBox tbIgnorePattern;
 		private System.Windows.Forms.Label lbFramework;
 		private System.Windows.Forms.ComboBox cbFramework;
+		private System.Windows.Forms.Label lbConfiguration;
+		private System.Windows.Forms.ComboBox cbConfiguration;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

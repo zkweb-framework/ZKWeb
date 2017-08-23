@@ -117,4 +117,583 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnBrowseWebRoot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>455, 3</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 20</value>
+  </data>
+  <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cbConfiguration.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 6</value>
+  </data>
+  <data name="cbFramework.AutoCompleteCustomSource" xml:space="preserve">
+    <value>net461</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseWebRoot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lbFramework.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="lbIgnorePattern.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnBrowseWebRoot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 20</value>
+  </data>
+  <data name="lbOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 20</value>
+  </data>
+  <data name="&gt;&gt;cbFramework.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lbFramework.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 271</value>
+  </data>
+  <data name="lbIgnorePattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 165</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cbFramework.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;cbConfiguration.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cbConfiguration.Items" xml:space="preserve">
+    <value>release</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbWebRoot.Name" xml:space="preserve">
+    <value>lbWebRoot</value>
+  </data>
+  <data name="btnPublishWebsite.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 325</value>
+  </data>
+  <data name="&gt;&gt;tbIgnorePattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lbIgnorePattern.Text" xml:space="preserve">
+    <value>Ignore Pattern:</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>551, 373</value>
+  </data>
+  <data name="&gt;&gt;cbFramework.Name" xml:space="preserve">
+    <value>cbFramework</value>
+  </data>
+  <data name="lbFramework.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="panelWebRoot.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelOutputDirectory.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseOutputDirectory.Parent" xml:space="preserve">
+    <value>panelOutputDirectory</value>
+  </data>
+  <data name="&gt;&gt;lbOutputDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="cbConfiguration.Items1" xml:space="preserve">
+    <value>debug</value>
+  </data>
+  <data name="&gt;&gt;tbWebRoot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ZKWeb Website Publisher 2.0</value>
+  </data>
+  <data name="panelWebRoot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 26</value>
+  </data>
+  <data name="panelOutputDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="lbOutputName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="tbIgnorePattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 191</value>
+  </data>
+  <data name="lbOutputDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="btnPublishWebsite.Text" xml:space="preserve">
+    <value>Publish Website</value>
+  </data>
+  <data name="&gt;&gt;tbOutputDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tbOutputName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 20</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="lbOutputName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 61</value>
+  </data>
+  <data name="&gt;&gt;cbConfiguration.Name" xml:space="preserve">
+    <value>cbConfiguration</value>
+  </data>
+  <data name="&gt;&gt;lbIgnorePattern.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="tbOutputName.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="cbFramework.Items" xml:space="preserve">
+    <value>net461</value>
+  </data>
+  <data name="&gt;&gt;lbOutputDirectory.Name" xml:space="preserve">
+    <value>lbOutputDirectory</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="panelWebRoot.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnBrowseWebRoot" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tbWebRoot" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,75" /&gt;&lt;Rows Styles="Percent,100,Absolute,26" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Please use `dotnet publish` with this framework first</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseWebRoot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;cbConfiguration.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="cbConfiguration.Text" xml:space="preserve">
+    <value>release</value>
+  </data>
+  <data name="&gt;&gt;lbOutputDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lbWebRoot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 9</value>
+  </data>
+  <data name="&gt;&gt;tbOutputName.Name" xml:space="preserve">
+    <value>tbOutputName</value>
+  </data>
+  <data name="&gt;&gt;btnPublishWebsite.Name" xml:space="preserve">
+    <value>btnPublishWebsite</value>
+  </data>
+  <data name="&gt;&gt;lbIgnorePattern.Name" xml:space="preserve">
+    <value>lbIgnorePattern</value>
+  </data>
+  <data name="&gt;&gt;lbOutputName.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;lbFramework.Name" xml:space="preserve">
+    <value>lbFramework</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 113</value>
+  </data>
+  <data name="&gt;&gt;tbWebRoot.Name" xml:space="preserve">
+    <value>tbWebRoot</value>
+  </data>
+  <data name="btnBrowseOutputDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="btnBrowseWebRoot.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="lbConfiguration.Text" xml:space="preserve">
+    <value>Configuration(Required):</value>
+  </data>
+  <data name="btnPublishWebsite.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 39</value>
+  </data>
+  <data name="lbIgnorePattern.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;panelWebRoot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbOutputName.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelOutputDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cbFramework.Text" xml:space="preserve">
+    <value>net461</value>
+  </data>
+  <data name="btnBrowseOutputDirectory.Text" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 9</value>
+  </data>
+  <data name="lbConfiguration.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="lbFramework.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 20</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>MainForm</value>
+  </data>
+  <data name="&gt;&gt;btnPublishWebsite.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tbOutputName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 6</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cbFramework.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbConfiguration.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="panelOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 26</value>
+  </data>
+  <data name="lbWebRoot.Text" xml:space="preserve">
+    <value>Website Root(Required):</value>
+  </data>
+  <data name="&gt;&gt;lbWebRoot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tbWebRoot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 20</value>
+  </data>
+  <data name="&gt;&gt;lbIgnorePattern.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="&gt;&gt;lbFramework.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;tbOutputName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbOutputDirectory.Name" xml:space="preserve">
+    <value>tbOutputDirectory</value>
+  </data>
+  <data name="panelOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 136</value>
+  </data>
+  <data name="cbFramework.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 6</value>
+  </data>
+  <data name="tbOutputName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 87</value>
+  </data>
+  <data name="&gt;&gt;tbWebRoot.Parent" xml:space="preserve">
+    <value>panelWebRoot</value>
+  </data>
+  <data name="panelWebRoot.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="panelOutputDirectory.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lbFramework.Text" xml:space="preserve">
+    <value>Framework(Required):</value>
+  </data>
+  <data name="&gt;&gt;btnPublishWebsite.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbIgnorePattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnPublishWebsite.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;tbIgnorePattern.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="tbIgnorePattern.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 6, 3, 6</value>
+  </data>
+  <data name="&gt;&gt;tbWebRoot.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelOutputDirectory.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnBrowseOutputDirectory" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tbOutputDirectory" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,75" /&gt;&lt;Rows Styles="Percent,100,Absolute,26" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="cbConfiguration.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;lbOutputName.Name" xml:space="preserve">
+    <value>lbOutputName</value>
+  </data>
+  <data name="&gt;&gt;tbOutputDirectory.Parent" xml:space="preserve">
+    <value>panelOutputDirectory</value>
+  </data>
+  <data name="&gt;&gt;lbOutputName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbOutputName.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="tbOutputDirectory.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lbOutputDirectory.Text" xml:space="preserve">
+    <value>Output Directory(Required):</value>
+  </data>
+  <data name="cbFramework.Items1" xml:space="preserve">
+    <value>netcoreapp2.0</value>
+  </data>
+  <data name="btnBrowseOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 20</value>
+  </data>
+  <data name="&gt;&gt;lbConfiguration.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="tbIgnorePattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>524, 20</value>
+  </data>
+  <data name="lbOutputName.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 271</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="lbWebRoot.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelOutputDirectory.Name" xml:space="preserve">
+    <value>panelOutputDirectory</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseOutputDirectory.Name" xml:space="preserve">
+    <value>btnBrowseOutputDirectory</value>
+  </data>
+  <data name="tbWebRoot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;panelOutputDirectory.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="tbIgnorePattern.Text" xml:space="preserve">
+    <value>.*node_modules.*</value>
+  </data>
+  <data name="tbOutputDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnBrowseOutputDirectory.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;cbConfiguration.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnBrowseWebRoot.Text" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="&gt;&gt;lbOutputDirectory.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="lbOutputName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 20</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseWebRoot.Parent" xml:space="preserve">
+    <value>panelWebRoot</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Please use `dotnet publish` with this configuration first</value>
+  </data>
+  <data name="&gt;&gt;lbFramework.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="panelWebRoot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 32</value>
+  </data>
+  <data name="&gt;&gt;tbIgnorePattern.Name" xml:space="preserve">
+    <value>tbIgnorePattern</value>
+  </data>
+  <data name="tbIgnorePattern.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 20</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>291, 20</value>
+  </data>
+  <data name="cbConfiguration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 21</value>
+  </data>
+  <data name="cbFramework.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 297</value>
+  </data>
+  <data name="&gt;&gt;lbFramework.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Please choose the folder contains web.config</value>
+  </data>
+  <data name="&gt;&gt;tbOutputName.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lbOutputName.Text" xml:space="preserve">
+    <value>Output Name(Required):</value>
+  </data>
+  <data name="cbFramework.AutoCompleteCustomSource1" xml:space="preserve">
+    <value>netcoreapp2.0</value>
+  </data>
+  <data name="&gt;&gt;lbWebRoot.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="cbFramework.Size" type="System.Drawing.Size, System.Drawing">
+    <value>527, 21</value>
+  </data>
+  <data name="tbWebRoot.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="lbWebRoot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 20</value>
+  </data>
+  <data name="panelOutputDirectory.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lbWebRoot.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lbConfiguration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 218</value>
+  </data>
+  <data name="&gt;&gt;lbConfiguration.Name" xml:space="preserve">
+    <value>lbConfiguration</value>
+  </data>
+  <data name="tbWebRoot.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;lbWebRoot.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseWebRoot.Name" xml:space="preserve">
+    <value>btnBrowseWebRoot</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 218</value>
+  </data>
+  <data name="tbOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
+    <value>446, 20</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseOutputDirectory.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnBrowseOutputDirectory.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnBrowseOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>455, 3</value>
+  </data>
+  <data name="&gt;&gt;panelWebRoot.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelWebRoot.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tbOutputDirectory.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;tbIgnorePattern.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lbConfiguration.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;tbOutputDirectory.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnPublishWebsite.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panelWebRoot.Name" xml:space="preserve">
+    <value>panelWebRoot</value>
+  </data>
+  <data name="lbConfiguration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 20</value>
+  </data>
+  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;cbFramework.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;lbConfiguration.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lbOutputDirectory.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="btnBrowseWebRoot.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelWebRoot.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="cbConfiguration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 244</value>
+  </data>
+  <data name="btnPublishWebsite.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 8, 3, 8</value>
+  </data>
+  <data name="lbIgnorePattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 20</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

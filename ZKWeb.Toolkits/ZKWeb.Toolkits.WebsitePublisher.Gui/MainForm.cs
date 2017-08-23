@@ -36,6 +36,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Gui {
 				parameters.OutputName = tbOutputName.Text;
 				parameters.OutputDirectory = tbOutputDirectory.Text;
 				parameters.IgnorePattern = tbIgnorePattern.Text;
+				parameters.Configuration = cbConfiguration.Text;
 				parameters.Framework = cbFramework.Text;
 				var publisher = new WebsitePublisher(parameters);
 				await Task.Run(() => publisher.PublishWebsite());
