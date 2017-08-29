@@ -64,16 +64,17 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database object</param>
-		public MongoDBEntityMappingBuilder(IMongoDatabase database) {
+		public MongoDBEntityMappingBuilder(
+			IMongoDatabase database,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			MapActions = new List<Action<BsonClassMap<T>>>();
 			CollectionActions = new List<Action<IMongoCollection<T>>>();
 			collectionName = typeof(T).Name;
 			idMember = null;
 			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered provider
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
-			foreach (var provider in providers) {
+			foreach (IEntityMappingProvider<T> provider in providers) {
 				provider.Configure(this);
 			}
 			// Register mapping
@@ -84,7 +85,6 @@ namespace ZKWeb.ORM.MongoDB {
 				});
 			}
 			// Convert collection name with registered hanlders
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			foreach (var handler in handlers) {
 				handler.ConvertTableName(ref collectionName);
 			}

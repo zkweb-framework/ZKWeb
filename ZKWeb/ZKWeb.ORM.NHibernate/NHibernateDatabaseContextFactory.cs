@@ -12,6 +12,7 @@ using NHibernate;
 using ZKWeb.Logging;
 using ZKWeb.Storage;
 using ZKWeb.Server;
+using System.Collections.Generic;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -44,9 +45,19 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public NHibernateDatabaseContextFactory(string database, string connectionString) {
+		public NHibernateDatabaseContextFactory(string database, string connectionString) :
+			this(database, connectionString,
+				Application.Ioc.ResolveMany<IDatabaseInitializeHandler>(),
+				Application.Ioc.ResolveMany<IEntityMappingProvider>()) { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public NHibernateDatabaseContextFactory(
+			string database, string connectionString,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			// create database configuration
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			IPersistenceConfigurer db;
@@ -65,19 +76,19 @@ namespace ZKWeb.ORM.NHibernate {
 			var configuration = Fluently.Configure();
 			configuration.Database(db);
 			// register entity mappings
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers
-				.Select(p => ReflectionUtils.GetGenericArguments(
+			var entityProviders = providers
+				.GroupBy(p => ReflectionUtils.GetGenericArguments(
 					p.GetType(), typeof(IEntityMappingProvider<>))[0])
-				.Distinct().ToList();
+				.ToList();
 			configuration.Mappings(m => {
-				foreach (var entityType in entityTypes) {
-					var builder = typeof(NHibernateEntityMappingBuilder<>).MakeGenericType(entityType);
+				// FIXME: fluent nhibernate doesn't support passing arguments to builder
+				// so it still retrieve providers and handers from IoC container
+				foreach (var group in entityProviders) {
+					var builder = typeof(NHibernateEntityMappingBuilder<>).MakeGenericType(group.Key);
 					m.FluentMappings.Add(builder);
 				}
 			});
 			// set many-to-many table name
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			configuration.Mappings(m => {
 				m.FluentMappings.Conventions.Add(ConventionBuilder.HasManyToMany.Always(x => {
 					var tableName = string.Format("{0}To{1}", x.EntityType.Name, x.ChildType.Name);

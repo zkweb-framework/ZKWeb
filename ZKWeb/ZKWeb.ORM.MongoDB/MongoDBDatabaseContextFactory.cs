@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using ZKWeb.Database;
 
 namespace ZKWeb.ORM.MongoDB {
@@ -25,9 +26,19 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public MongoDBDatabaseContextFactory(string database, string connectionString) {
+		public MongoDBDatabaseContextFactory(string database, string connectionString) :
+			this(database, connectionString,
+				Application.Ioc.ResolveMany<IDatabaseInitializeHandler>(),
+				Application.Ioc.ResolveMany<IEntityMappingProvider>()) { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public MongoDBDatabaseContextFactory(
+			string database, string connectionString,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			if (string.Compare(database, "MongoDB", true) != 0) {
 				throw new ArgumentException($"Database type should be MongoDB");
 			}
@@ -35,7 +46,7 @@ namespace ZKWeb.ORM.MongoDB {
 			if (string.IsNullOrEmpty(ConnectionUrl.DatabaseName)) {
 				throw new ArgumentException("Please set the database name in connection string");
 			}
-			Mappings = new MongoDBEntityMappings(ConnectionUrl);
+			Mappings = new MongoDBEntityMappings(ConnectionUrl, handlers, providers);
 		}
 
 		/// <summary>

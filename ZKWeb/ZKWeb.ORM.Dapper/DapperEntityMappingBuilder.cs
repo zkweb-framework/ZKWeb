@@ -56,12 +56,13 @@ namespace ZKWeb.ORM.Dapper {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public DapperEntityMappingBuilder() {
+		public DapperEntityMappingBuilder(
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			idMember = null;
 			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered providers
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
-			foreach (var provider in providers) {
+			foreach (IEntityMappingProvider<T> provider in providers) {
 				provider.Configure(this);
 			}
 			// Ignore members that not mapped by this builder
@@ -80,7 +81,6 @@ namespace ZKWeb.ORM.Dapper {
 			}
 			// Set table name with registered handlers
 			var tableName = CustomTableName ?? typeof(T).Name;
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			foreach (var handler in handlers) {
 				handler.ConvertTableName(ref tableName);
 			}

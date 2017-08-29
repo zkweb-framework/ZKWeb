@@ -1,4 +1,5 @@
-﻿using ZKWeb.Database;
+﻿using System.Collections.Generic;
+using ZKWeb.Database;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
@@ -34,10 +35,20 @@ namespace ZKWeb.ORM.Dapper {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public DapperDatabaseContextFactory(string database, string connectionString) {
-			Mappings = new DapperEntityMappings();
+		public DapperDatabaseContextFactory(string database, string connectionString) :
+			this(database, connectionString,
+				Application.Ioc.ResolveMany<IDatabaseInitializeHandler>(),
+				Application.Ioc.ResolveMany<IEntityMappingProvider>()) { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public DapperDatabaseContextFactory(
+			string database, string connectionString,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
+			Mappings = new DapperEntityMappings(handlers, providers);
 			Database = database;
 			ConnectionString = connectionString;
 		}

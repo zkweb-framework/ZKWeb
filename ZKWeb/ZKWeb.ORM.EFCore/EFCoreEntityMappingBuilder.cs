@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.FastReflection;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using ZKWeb.Database;
 using ZKWeb.Logging;
-using ZKWebStandard.Extensions;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -40,18 +37,17 @@ namespace ZKWeb.ORM.EFCore {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="builder">Model builder</param>
 		public EFCoreEntityMappingBuilder(
-			ModelBuilder builder) {
+			ModelBuilder builder,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			Builder = builder.Entity<T>();
 			// Configure with registered providers
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
-			foreach (var provider in providers) {
+			foreach (IEntityMappingProvider<T> provider in providers) {
 				provider.Configure(this);
 			}
 			// Set table name with registered handlers
 			var tableName = CustomTableName ?? typeof(T).Name;
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
 			foreach (var handler in handlers) {
 				handler.ConvertTableName(ref tableName);
 			}

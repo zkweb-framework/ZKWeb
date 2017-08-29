@@ -8,14 +8,13 @@ using System;
 using System.Linq;
 using ZKWeb.Database;
 using Microsoft.EntityFrameworkCore.Migrations.Design;
-using Microsoft.CodeAnalysis.CSharp;
 using ZKWeb.Plugin.CompilerServices;
 using System.IO;
 using ZKWeb.Plugin.AssemblyLoaders;
-using System.Reflection;
 using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 using Microsoft.EntityFrameworkCore.Design.Internal;
+using System.Collections.Generic;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
@@ -48,16 +47,38 @@ namespace ZKWeb.ORM.EFCore {
 		/// 连接字符串<br/>
 		/// </summary>
 		protected string ConnectionString { get; set; }
+		/// <summary>
+		/// Database Initialize Handlers<br/>
+		/// 数据库初始化处理器的列表<br/>
+		/// </summary>
+		protected IList<IDatabaseInitializeHandler> Handlers { get; set; }
+		/// <summary>
+		/// Entity Mapping Providers<br/>
+		/// 实体映射构建器的列表<br/>
+		/// </summary>
+		protected IList<IEntityMappingProvider> Providers { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public EFCoreDatabaseContextFactory(string database, string connectionString) {
+		public EFCoreDatabaseContextFactory(string database, string connectionString) :
+			this(database, connectionString,
+				Application.Ioc.ResolveMany<IDatabaseInitializeHandler>(),
+				Application.Ioc.ResolveMany<IEntityMappingProvider>()) { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public EFCoreDatabaseContextFactory(
+			string database, string connectionString,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			Database = database;
 			ConnectionString = connectionString;
+			Handlers = handlers.ToList();
+			Providers = providers.ToList();
 			// Check if database auto migration is disabled
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var noAutoMigration = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
@@ -81,7 +102,7 @@ namespace ZKWeb.ORM.EFCore {
 				initialModel = context.Model;
 			}
 			// Perform database migration
-			using (var context = new EFCoreDatabaseContext(Database, ConnectionString)) {
+			using (var context = new EFCoreDatabaseContext(Database, ConnectionString, Handlers, Providers)) {
 				var serviceProvider = ((IInfrastructure<IServiceProvider>)context).Instance;
 				var databaseCreator = serviceProvider.GetService<IDatabaseCreator>();
 				if (databaseCreator is IRelationalDatabaseCreator) {
@@ -172,7 +193,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
-			return new EFCoreDatabaseContext(Database, ConnectionString);
+			return new EFCoreDatabaseContext(Database, ConnectionString, Handlers, Providers);
 		}
 	}
 }

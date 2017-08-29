@@ -45,18 +45,31 @@ namespace ZKWeb.ORM.EFCore {
 		/// 底层的数据库连接<br/>
 		/// </summary>
 		public object DbConnection { get { return Database.GetDbConnection(); } }
+		/// <summary>
+		/// Database Initialize Handlers<br/>
+		/// 数据库初始化处理器的列表<br/>
+		/// </summary>
+		protected IList<IDatabaseInitializeHandler> Handlers { get; set; }
+		/// <summary>
+		/// Entity Mapping Providers<br/>
+		/// 实体映射构建器的列表<br/>
+		/// </summary>
+		protected IList<IEntityMappingProvider> Providers { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
-		public EFCoreDatabaseContext(string database, string connectionString)
-			: base(database, connectionString) {
+		public EFCoreDatabaseContext(
+			string database, string connectionString,
+			IList<IDatabaseInitializeHandler> handlers,
+			IList<IEntityMappingProvider> providers) :
+			base(database, connectionString) {
 			Transaction = null;
 			TransactionLevel = 0;
 			databaseType = database;
+			Handlers = handlers;
+			Providers = providers;
 		}
 
 		/// <summary>
@@ -68,14 +81,14 @@ namespace ZKWeb.ORM.EFCore {
 			// Call base method
 			base.OnModelCreating(modelBuilder);
 			// Register entity mappings
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers
-				.Select(p => ReflectionUtils.GetGenericArguments(
+			var entityProviders = Providers
+				.GroupBy(p => ReflectionUtils.GetGenericArguments(
 					p.GetType(), typeof(IEntityMappingProvider<>))[0])
-				.Distinct().ToList();
-			foreach (var entityType in entityTypes) {
+				.ToList();
+			foreach (var group in entityProviders) {
 				Activator.CreateInstance(
-					typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(entityType), modelBuilder);
+					typeof(EFCoreEntityMappingBuilder<>).MakeGenericType(group.Key),
+					modelBuilder, Handlers, group.AsEnumerable());
 			}
 		}
 

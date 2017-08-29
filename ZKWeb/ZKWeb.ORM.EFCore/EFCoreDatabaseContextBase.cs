@@ -25,8 +25,6 @@ namespace ZKWeb.ORM.EFCore {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Database type</param>
-		/// <param name="connectionString">Connection string</param>
 		public EFCoreDatabaseContextBase(string database, string connectionString) {
 			DatabaseName = database;
 			ConnectionString = connectionString;

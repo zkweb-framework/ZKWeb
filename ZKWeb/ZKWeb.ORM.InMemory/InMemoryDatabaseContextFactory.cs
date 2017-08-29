@@ -1,4 +1,5 @@
-﻿using ZKWeb.Database;
+﻿using System.Collections.Generic;
+using ZKWeb.Database;
 
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
@@ -18,10 +19,20 @@ namespace ZKWeb.ORM.InMemory {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="database">Not using</param>
-		/// <param name="connectionString">Not using</param>
-		public InMemoryDatabaseContextFactory(string database, string connectionString) {
-			Store = new InMemoryDatabaseStore();
+		public InMemoryDatabaseContextFactory(string database, string connectionString) :
+			this(database, connectionString,
+				Application.Ioc.ResolveMany<IDatabaseInitializeHandler>(),
+				Application.Ioc.ResolveMany<IEntityMappingProvider>()) { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public InMemoryDatabaseContextFactory(
+			string database, string connectionString,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
+			Store = new InMemoryDatabaseStore(handlers, providers);
 		}
 
 		/// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
@@ -54,14 +55,15 @@ namespace ZKWeb.ORM.InMemory {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public InMemoryEntityMappingBuilder() {
+		public InMemoryEntityMappingBuilder(
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			OrdinaryMembers = new List<MemberInfo>();
 			ManyToOneMembers = new List<MemberInfo>();
 			OneToManyMembers = new List<MemberInfo>();
 			ManyToManyMembers = new List<MemberInfo>();
 			// Configure with registered providers
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider<T>>();
-			foreach (var provider in providers) {
+			foreach (IEntityMappingProvider<T> provider in providers) {
 				provider.Configure(this);
 			}
 		}

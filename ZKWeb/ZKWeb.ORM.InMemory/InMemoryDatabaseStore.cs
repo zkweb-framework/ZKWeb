@@ -43,21 +43,23 @@ namespace ZKWeb.ORM.InMemory {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public InMemoryDatabaseStore() {
+		public InMemoryDatabaseStore(
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			Store = new ConcurrentDictionary<Type, ConcurrentDictionary<object, object>>();
 			Mappings = new ConcurrentDictionary<Type, IInMemoryEntityMapping>();
 			PrimaryKeySequence = new ConcurrentDictionary<Type, long>();
 			PrimaryKeySequenceLock = new object();
 			// Build entity mappings
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers
-				.Select(p => ReflectionUtils.GetGenericArguments(
+			var entityProviders = providers
+				.GroupBy(p => ReflectionUtils.GetGenericArguments(
 					p.GetType(), typeof(IEntityMappingProvider<>))[0])
-				.Distinct().ToList();
-			foreach (var entityType in entityTypes) {
+				.ToList();
+			foreach (var group in entityProviders) {
 				var builder = Activator.CreateInstance(
-					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(entityType));
-				Mappings[entityType] = (IInMemoryEntityMapping)builder;
+					typeof(InMemoryEntityMappingBuilder<>).MakeGenericType(group.Key),
+					handlers, group.AsEnumerable());
+				Mappings[group.Key] = (IInMemoryEntityMapping)builder;
 			}
 		}
 

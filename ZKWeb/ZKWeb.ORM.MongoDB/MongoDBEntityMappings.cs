@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using ZKWeb.Database;
 using ZKWebStandard.Utils;
@@ -21,22 +22,23 @@ namespace ZKWeb.ORM.MongoDB {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="connectionUrl">Connection url</param>
-		public MongoDBEntityMappings(MongoUrl connectionUrl) {
+		public MongoDBEntityMappings(
+			MongoUrl connectionUrl,
+			IEnumerable<IDatabaseInitializeHandler> handlers,
+			IEnumerable<IEntityMappingProvider> providers) {
 			Mappings = new ConcurrentDictionary<Type, IMongoDBEntityMapping>();
 			// Build entity mappings
-			var handlers = Application.Ioc.ResolveMany<IDatabaseInitializeHandler>();
-			var providers = Application.Ioc.ResolveMany<IEntityMappingProvider>();
-			var entityTypes = providers
-				.Select(p => ReflectionUtils.GetGenericArguments(
+			var entityProviders = providers
+				.GroupBy(p => ReflectionUtils.GetGenericArguments(
 					p.GetType(), typeof(IEntityMappingProvider<>))[0])
-				.Distinct().ToList();
+				.ToList();
 			var client = new MongoClient(connectionUrl);
 			var database = client.GetDatabase(connectionUrl.DatabaseName);
-			foreach (var entityType in entityTypes) {
+			foreach (var group in entityProviders) {
 				var builder = Activator.CreateInstance(
-					typeof(MongoDBEntityMappingBuilder<>).MakeGenericType(entityType), database);
-				Mappings[entityType] = (IMongoDBEntityMapping)builder;
+					typeof(MongoDBEntityMappingBuilder<>).MakeGenericType(group.Key),
+					database, handlers, group.AsEnumerable());
+				Mappings[group.Key] = (IMongoDBEntityMapping)builder;
 			}
 		}
 
