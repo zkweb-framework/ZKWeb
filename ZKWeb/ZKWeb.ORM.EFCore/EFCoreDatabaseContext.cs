@@ -55,6 +55,11 @@ namespace ZKWeb.ORM.EFCore {
 		/// 实体映射构建器的列表<br/>
 		/// </summary>
 		protected IList<IEntityMappingProvider> Providers { get; set; }
+		/// <summary>
+		/// Database context pool<br/>
+		/// 数据库上下文的缓存池<br/>
+		/// </summary>
+		protected internal EFCoreDatabaseContextPool Pool { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -93,13 +98,17 @@ namespace ZKWeb.ORM.EFCore {
 		}
 
 		/// <summary>
-		/// Dispose context and transaction<br/>
-		/// 销毁上下文和事务<br/>
+		/// Dispose transaction, if pool exist then try return to pool, otherwise dispose the context<br/>
+		/// 释放事务, 如果池存在则尝试返回给池, 否则释放上下文<br/>
 		/// </summary>
 		public override void Dispose() {
 			Transaction?.Dispose();
 			Transaction = null;
-			base.Dispose();
+			if (Pool != null && Pool.Return(this)) {
+				// Returned to pool
+			} else {
+				base.Dispose();
+			}
 		}
 
 		/// <summary>

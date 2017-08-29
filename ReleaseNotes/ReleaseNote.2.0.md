@@ -56,3 +56,4 @@
 	- Support url parameter such as "get/{id}"
 - Improve ORM
 	- Support construct context factory with custom entity types for secondary database
+	- Add EFCoreDatabaseContextPool
