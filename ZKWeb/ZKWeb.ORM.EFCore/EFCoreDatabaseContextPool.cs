@@ -27,7 +27,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public EFCoreDatabaseContextPool(Func<EFCoreDatabaseContext> factory, int? limit) {
+		public EFCoreDatabaseContextPool(Func<EFCoreDatabaseContext> factory, int? limit = null) {
 			Contexts = new ConcurrentQueue<EFCoreDatabaseContext>();
 			Factory = factory;
 			Limit = limit ?? 100;

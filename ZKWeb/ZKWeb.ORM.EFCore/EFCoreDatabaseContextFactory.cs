@@ -57,6 +57,11 @@ namespace ZKWeb.ORM.EFCore {
 		/// 实体映射构建器的列表<br/>
 		/// </summary>
 		protected IList<IEntityMappingProvider> Providers { get; set; }
+		/// <summary>
+		/// Database context pool<br/>
+		/// 数据库上下文的缓存池<br/>
+		/// </summary>
+		protected EFCoreDatabaseContextPool Pool { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -79,6 +84,8 @@ namespace ZKWeb.ORM.EFCore {
 			ConnectionString = connectionString;
 			Handlers = handlers.ToList();
 			Providers = providers.ToList();
+			Pool = new EFCoreDatabaseContextPool(() =>
+				new EFCoreDatabaseContext(Database, ConnectionString, Handlers, Providers));
 			// Check if database auto migration is disabled
 			var configManager = Application.Ioc.Resolve<WebsiteConfigManager>();
 			var noAutoMigration = configManager.WebsiteConfig.Extra.GetOrDefault<bool?>(
@@ -193,7 +200,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
-			return new EFCoreDatabaseContext(Database, ConnectionString, Handlers, Providers);
+			return Pool.Get();
 		}
 	}
 }
