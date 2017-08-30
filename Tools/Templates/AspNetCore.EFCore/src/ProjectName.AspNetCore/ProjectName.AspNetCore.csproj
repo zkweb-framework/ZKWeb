@@ -20,10 +20,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0" />
-    <PackageReference Include="ZKWeb" Version="2.0.0-rc-1" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="2.0.0-rc-1" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="2.0.0-rc-1" />
-    <PackageReference Include="ZKWeb.ORM.EFCore" Version="2.0.0-rc-1" />
+    <PackageReference Include="ZKWeb" Version="2.0.0-rc-2" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="2.0.0-rc-2" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="2.0.0-rc-2" />
+    <PackageReference Include="ZKWeb.ORM.EFCore" Version="2.0.0-rc-2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
