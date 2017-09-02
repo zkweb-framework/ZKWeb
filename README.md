@@ -104,8 +104,9 @@ Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Documents: http://zkweb-framework.github.io (Chinese)<br/>
 References: http://zkweb-framework.github.io/cn_v1.0/references/zkweb/ZKWebReferences.chm<br/>
 
-Demo Website: http://zkweb.org/admin<br/>
-Demo Account: demo 123456
+Project Homepage: http://www.zkweb.org<br/>
+Demo: http://demo.zkweb.org (Account: demo, Password: 123456)<br/>
+MVVM Demo: http://mvvmdemo.zkweb.org (Account: admin, Password: 123456)<br/>
 
 MIT License<br/>
 Copyright © 2016~2017 303248153@github<br/>
