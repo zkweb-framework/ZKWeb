@@ -19,7 +19,6 @@
 		<PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-		<PackageReference Include="NSubstitute" Version="2.0.3" />
 		<PackageReference Include="System.Data.Common" Version="4.3.0" />
 		<PackageReference Include="ZKWeb.Fork.DotLiquid" Version="2.3.0" />
 		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.3.0" />

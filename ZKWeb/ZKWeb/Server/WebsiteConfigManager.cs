@@ -16,7 +16,7 @@ namespace ZKWeb.Server {
 		/// Website configuration<br/>
 		/// 网站配置<br/>
 		/// </summary>
-		public virtual WebsiteConfig WebsiteConfig { get; protected set; }
+		public virtual WebsiteConfig WebsiteConfig { get; protected internal set; }
 
 		/// <summary>
 		/// Load website configuration<br/>

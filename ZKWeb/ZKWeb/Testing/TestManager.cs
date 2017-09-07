@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -78,8 +77,8 @@ namespace ZKWeb.Testing {
 			var contextFactory = DatabaseManager.CreateContextFactor(orm, database, connectionString);
 			// Override database manager with above factory
 			var overrideIoc = Application.OverrideIoc();
-			var databaseManagerMock = Substitute.For<DatabaseManager>();
-			databaseManagerMock.CreateContext().Returns(callInfo => contextFactory.CreateContext());
+			var databaseManagerMock = new DatabaseManager();
+			databaseManagerMock.DefaultContextFactory = contextFactory;
 			Application.Ioc.Unregister<DatabaseManager>();
 			Application.Ioc.RegisterInstance(databaseManagerMock);
 			// Finish override when disposed

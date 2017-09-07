@@ -30,6 +30,7 @@
 	- Dommel 1.9.0
 	- Dapper.FluentMap 1.6.0
 	- Dapper.FluentMap.Dommel 1.5.0
+	- Remove NSubstitute dependency
 - Add packages
 	- Pomelo.EntityFrameworkCore.Extensions.ToSql
 		- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated

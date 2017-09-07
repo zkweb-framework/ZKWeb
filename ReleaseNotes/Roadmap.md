@@ -18,3 +18,4 @@ Misc
 	- Provide disinct home site
 	- Provide disinct demo site
 	- Enable SSL for demo site (money$$$)
+	- Remove NSubstitute in project templates

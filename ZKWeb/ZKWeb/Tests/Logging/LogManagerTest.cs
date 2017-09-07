@@ -1,23 +1,28 @@
-﻿using NSubstitute;
+﻿using System;
 using ZKWeb.Logging;
 using ZKWebStandard.Testing;
 
 namespace ZKWeb.Tests.Logging {
 	[Tests]
 	class LogManagerTest {
+		private class TestLogManager : LogManager {
+			internal Action<string, string> WhenLog { get; set; }
+			public override void Log(string filename, string message) {
+				WhenLog(filename, message);
+			}
+		}
+
 		public void All() {
 			using (Application.OverrideIoc()) {
-				var logManagerMock = Substitute.ForPartsOf<LogManager>();
+				var logManagerMock = new TestLogManager();
 				var lastFileName = "";
 				var lastMessage = "";
-				var whenCall = logManagerMock.When(l => l.Log(Arg.Any<string>(), Arg.Any<string>()));
-				whenCall.DoNotCallBase();
-				whenCall.Do(callInfo => {
-					lastFileName = callInfo.ArgAt<string>(0);
-					lastMessage = callInfo.ArgAt<string>(1);
-				});
+				logManagerMock.WhenLog = (filename, message) => {
+					lastFileName = filename;
+					lastMessage = message;
+				};
 				Application.Ioc.Unregister<LogManager>();
-				Application.Ioc.RegisterInstance(logManagerMock);
+				Application.Ioc.RegisterInstance<LogManager>(logManagerMock);
 				var logManager = Application.Ioc.Resolve<LogManager>();
 				logManager.LogDebug("Test Debug Message");
 				Assert.IsTrueWith(lastFileName.Contains("Debug"), lastFileName);

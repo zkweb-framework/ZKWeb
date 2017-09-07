@@ -1,5 +1,4 @@
 ﻿using DotLiquid;
-using NSubstitute;
 using ZKWeb.Localize;
 using ZKWeb.Templating;
 using ZKWebStandard.Ioc;
@@ -8,18 +7,23 @@ using ZKWebStandard.Testing;
 namespace ZKWeb.Tests.Templating.TemplateFilters {
 	[Tests]
 	class FiltersTest {
+		private class TestTranslateProvider : ITranslateProvider {
+			public bool CanTranslate(string code) {
+				return true;
+			}
+
+			public string Translate(string text) {
+				return text == "Original" ? "Translated" : null;
+			}
+		}
+
 		public void Trans() {
 			using (Application.OverrideIoc()) {
 				Application.Ioc.Unregister<TranslateManager>();
 				Application.Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
-				var translateProviderMock = Substitute.For<ITranslateProvider>();
-				translateProviderMock.CanTranslate(Arg.Any<string>()).Returns(true);
-				translateProviderMock.Translate(Arg.Any<string>())
-					.Returns(callInfo => {
-						return callInfo.ArgAt<string>(0) == "Original" ? "Translated" : null;
-					});
+				var translateProviderMock = new TestTranslateProvider();
 				Application.Ioc.Unregister<ITranslateProvider>();
-				Application.Ioc.RegisterInstance(translateProviderMock);
+				Application.Ioc.RegisterInstance<ITranslateProvider>(translateProviderMock);
 				Assert.Equals(Template.Parse("{{ 'Original' | trans }}").Render(), "Translated");
 				Assert.Equals(Template.Parse("{{ 'NotExist' | trans }}").Render(), "NotExist");
 			}

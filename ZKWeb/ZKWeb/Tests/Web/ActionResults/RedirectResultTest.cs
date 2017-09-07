@@ -1,7 +1,6 @@
-﻿using NSubstitute;
-using ZKWeb.Web.ActionResults;
+﻿using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Testing;
-using ZKWebStandard.Web;
+using ZKWebStandard.Web.Mock;
 
 namespace ZKWeb.Tests.Web.ActionResults {
 	[Tests]
@@ -9,14 +8,16 @@ namespace ZKWeb.Tests.Web.ActionResults {
 		public void WriteResponse() {
 			var url = "test_url";
 			var result = new RedirectResult(url);
-			var responseMock = Substitute.For<IHttpResponse>();
+			var responseMock = new HttpResponseMock(null);
 			result.WriteResponse(responseMock);
-			responseMock.Received().Redirect(url, false);
+			Assert.Equals(responseMock.lastRedirect, url);
+			Assert.IsTrue(!responseMock.lastRedirectIsPermanent);
 
 			result = new RedirectResult(url, true);
-			responseMock.ClearReceivedCalls();
+			responseMock = new HttpResponseMock(null);
 			result.WriteResponse(responseMock);
-			responseMock.Received().Redirect(url, true);
+			Assert.Equals(responseMock.lastRedirect, url);
+			Assert.IsTrue(responseMock.lastRedirectIsPermanent);
 		}
 	}
 }

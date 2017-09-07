@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using ZKWeb.Cache;
@@ -37,8 +36,8 @@ namespace ZKWeb.Tests.Storage {
 			};
 			CleanupPaths = new List<string>();
 			// Mock WebsiteConfigManager, LocalPathManager, PluginManager, IFileStorage
-			var configManagerMock = Substitute.ForPartsOf<WebsiteConfigManager>();
-			configManagerMock.WebsiteConfig.Returns(WebsiteConfig);
+			var configManagerMock = new WebsiteConfigManager();
+			configManagerMock.WebsiteConfig = WebsiteConfig;
 			Application.Ioc.Unregister<WebsiteConfigManager>();
 			Application.Ioc.Unregister<LocalPathManager>();
 			Application.Ioc.Unregister<PluginManager>();

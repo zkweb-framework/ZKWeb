@@ -29,7 +29,7 @@ namespace ZKWeb.Database {
 		/// Default database context factory<br/>
 		/// 默认的数据库上下文生成器<br/>
 		/// </summary>
-		protected virtual IDatabaseContextFactory DefaultContextFactory { get; set; }
+		protected internal virtual IDatabaseContextFactory DefaultContextFactory { get; set; }
 
 		/// <summary>
 		/// Create database context from the default factory<br/>
