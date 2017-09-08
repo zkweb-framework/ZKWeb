@@ -141,10 +141,6 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -300,23 +296,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWeb.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.Hosting.Owin, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-2\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-3\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.InMemory, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-2\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-3\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.MongoDB, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.MongoDB.2.0.0-rc-2\lib\net461\ZKWeb.ORM.MongoDB.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.MongoDB.2.0.0-rc-3\lib\net461\ZKWeb.ORM.MongoDB.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.System.Drawing.3.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWebStandard.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -101,9 +101,6 @@
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
-    </Reference>
     <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
     </Reference>
@@ -239,23 +236,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWeb.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.Hosting.Owin, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-2\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-3\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.InMemory, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-2\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-3\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.NHibernate, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.NHibernate.2.0.0-rc-2\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.NHibernate.2.0.0-rc-3\lib\net461\ZKWeb.ORM.NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.System.Drawing.3.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWebStandard.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

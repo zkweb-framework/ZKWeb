@@ -101,10 +101,6 @@
     <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.3.2.5\lib\net451\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -264,23 +260,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWeb.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.Hosting.Owin, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-2\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.Hosting.Owin.2.0.0-rc-3\lib\net461\ZKWeb.Hosting.Owin.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.Dapper.2.0.0-rc-2\lib\net461\ZKWeb.ORM.Dapper.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.Dapper.2.0.0-rc-3\lib\net461\ZKWeb.ORM.Dapper.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.ORM.InMemory, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-2\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.ORM.InMemory.2.0.0-rc-3\lib\net461\ZKWeb.ORM.InMemory.dll</HintPath>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ZKWeb.System.Drawing.3.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.2.0.0-rc-2\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.2.0.0-rc-3\lib\net461\ZKWebStandard.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
