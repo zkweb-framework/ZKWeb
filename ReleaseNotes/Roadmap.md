@@ -13,9 +13,10 @@ Undefined
 - Run all tests on macos
 
 Misc
-	- Rewrite document for 2.0
-	- Provide better instruction for beginner
-	- Provide disinct home site
-	- Provide disinct demo site
+	* Rewrite document for 2.0
+	* Provide better instruction for beginner
+	* Provide disinct home site
+	* Provide disinct demo site
+	* Remove NSubstitute in project templates
 	- Enable SSL for demo site (money$$$)
-	- Remove NSubstitute in project templates
+	- Update document for visual page editor
