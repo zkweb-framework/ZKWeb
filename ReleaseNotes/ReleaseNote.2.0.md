@@ -58,3 +58,4 @@
 - Improve ORM
 	- Support construct context factory with custom entity types for secondary database
 	- Add EFCoreDatabaseContextPool
+	- Evict entities when flush failed for NHibernate

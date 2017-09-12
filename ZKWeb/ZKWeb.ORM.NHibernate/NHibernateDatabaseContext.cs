@@ -159,8 +159,13 @@ namespace ZKWeb.ORM.NHibernate {
 			var entityLocal = entity; // can't use ref parameter in lambda
 			callbacks.ForEach(c => c.BeforeSave(this, entityLocal)); // notify before save
 			update?.Invoke(entityLocal);
-			entityLocal = Session.Merge(entityLocal);
-			Session.Flush(); // send commands to database
+			try {
+				entityLocal = Session.Merge(entityLocal);
+				Session.Flush(); // send commands to database
+			} catch {
+				Session.Evict(entityLocal); // remove entity from cache if any error
+				throw;
+			}
 			callbacks.ForEach(c => c.AfterSave(this, entityLocal)); // notify after save
 			entity = entityLocal;
 		}
@@ -186,14 +191,21 @@ namespace ZKWeb.ORM.NHibernate {
 			where T : class, IEntity {
 			var entitiesLocal = entities.ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
-			for (int i = 0; i < entitiesLocal.Count; ++i) {
-				var entity = entitiesLocal[i];
-				callbacks.ForEach(c => c.BeforeSave(this, entity)); // notify before save
-				update?.Invoke(entity);
-				entity = Session.Merge(entity);
-				entitiesLocal[i] = entity;
+			try {
+				for (int i = 0; i < entitiesLocal.Count; ++i) {
+					var entity = entitiesLocal[i];
+					callbacks.ForEach(c => c.BeforeSave(this, entity)); // notify before save
+					update?.Invoke(entity);
+					entity = Session.Merge(entity);
+					entitiesLocal[i] = entity;
+				}
+				Session.Flush(); // send commands to database
+			} catch {
+				foreach (var entity in entitiesLocal) {
+					Session.Evict(entity); // remove entities from cache if any error
+				}
+				throw;
 			}
-			Session.Flush(); // send commands to database
 			foreach (var entity in entitiesLocal) {
 				callbacks.ForEach(c => c.AfterSave(this, entity)); // notify after save
 			}
