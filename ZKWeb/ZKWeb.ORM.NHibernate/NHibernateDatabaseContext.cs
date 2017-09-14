@@ -284,7 +284,7 @@ namespace ZKWeb.ORM.NHibernate {
 			var sqlParameters = parameters as IDictionary<string, object>;
 			if (sqlParameters != null) {
 				foreach (var pair in sqlParameters) {
-					if (pair.Value is IEnumerable) {
+					if (pair.Value is IEnumerable && !(pair.Value is string)) {
 						sqlQuery = sqlQuery.SetParameterList(pair.Key, (IEnumerable)pair.Value);
 					} else {
 						sqlQuery = sqlQuery.SetParameter(pair.Key, pair.Value);
