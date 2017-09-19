@@ -194,10 +194,10 @@ namespace ZKWeb.Server {
 				throw new Exception(message, ex);
 			}
 		}
-
+		
 		/// <summary>
-		/// Handle http request<br/>
-		/// 处理Http请求<br/>
+		/// Handle http error<br/>
+		/// 处理Http错误<br/>
 		/// </summary>
 		public virtual void OnError(IHttpContext context, Exception ex) {
 			// Detect nested call
@@ -214,8 +214,8 @@ namespace ZKWeb.Server {
 		}
 
 		/// <summary>
-		/// Handle http error<br/>
-		/// 处理Http错误<br/>
+		/// Handle http request<br/>
+		/// 处理Http请求<br/>
 		/// </summary>
 		public virtual void OnRequest(IHttpContext context) {
 			// Detect nested call

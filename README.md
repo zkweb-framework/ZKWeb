@@ -102,7 +102,7 @@ For those chinese software engineers, is recommended to join QQ group 522083886 
 
 Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
 Documents: http://zkweb-framework.github.io (Chinese)<br/>
-References: http://zkweb-framework.github.io/cn_v1.0/references/zkweb/ZKWebReferences.chm<br/>
+References: http://zkweb-framework.github.io/cn_v2.0/references/zkweb/ZKWebReferences.chm<br/>
 
 Project Homepage: http://www.zkweb.org<br/>
 Demo: http://demo.zkweb.org (Account: demo, Password: 123456)<br/>

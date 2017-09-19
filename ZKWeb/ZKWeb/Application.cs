@@ -66,7 +66,8 @@ namespace ZKWeb {
 		/// Handle http request<br/>
 		/// Method "Response.End" will be called if processing completed without errors
 		/// 处理Http请求<br/>
-		/// 如果处理成功完成将会调用"Response.End"函数<br/>		/// </summary>
+		/// 如果处理成功完成将会调用"Response.End"函数<br/>
+		/// </summary>
 		public static void OnRequest(IHttpContext context) {
 			Instance.OnRequest(context);
 		}
