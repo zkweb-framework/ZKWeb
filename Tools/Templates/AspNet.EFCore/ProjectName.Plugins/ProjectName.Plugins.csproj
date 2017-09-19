@@ -149,7 +149,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.System.Drawing.3.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.System.Drawing.4.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWebStandard, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">

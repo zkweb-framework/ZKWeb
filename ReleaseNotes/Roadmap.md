@@ -1,8 +1,12 @@
 2.1
 	- Update Nhibernate to 5.0
-	- Support NHibernate sql logging
 	- Add EFCoreDatabaseContextPool
 		- https://github.com/aspnet/EntityFrameworkCore/blob/a661feb049d92533021d7377ad0d289b64a722f0/src/EFCore/Internal/DbContextPool.cs
+	- Change Pomelo.Data.MySql to MySqlConnector
+	- Provide sql logging support
+		- NHibernate logging
+		- Pomelo.EntityFrameworkCore.Extensions.ToSql
+			- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
 2.2~
 	- More execution performance improvement
 	- More database performance improvement

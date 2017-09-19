@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using ZKWeb.Server;
@@ -51,7 +52,13 @@ namespace ZKWeb.Hosting.AspNetCore {
 		/// </summary>
 		protected virtual void StopApplicationAfter(IServiceProvider serviceProvider, int milliseconds) {
 			var lifetime = (IApplicationLifetime)serviceProvider.GetService(typeof(IApplicationLifetime));
-			var thread = new Thread(() => { Thread.Sleep(milliseconds); lifetime.StopApplication(); });
+			var thread = new Thread(() => {
+				Thread.Sleep(milliseconds);
+				lifetime.StopApplication();
+				// not always work, do the failback
+				Environment.Exit(0);
+				Process.GetCurrentProcess().Kill();
+			});
 			thread.IsBackground = true;
 			thread.Start();
 		}

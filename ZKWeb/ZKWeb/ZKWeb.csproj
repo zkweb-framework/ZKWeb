@@ -22,7 +22,7 @@
 		<PackageReference Include="System.Data.Common" Version="4.3.0" />
 		<PackageReference Include="ZKWeb.Fork.DotLiquid" Version="2.3.0" />
 		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.3.0" />
-		<PackageReference Include="ZKWeb.System.Drawing" Version="4.0.0-beta-1" />
+		<PackageReference Include="ZKWeb.System.Drawing" Version="4.0.0" />
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
