@@ -7,6 +7,8 @@
 		- NHibernate logging
 		- Pomelo.EntityFrameworkCore.Extensions.ToSql
 			- Support IQueryable<T>.ToSql and IQueryable<T>.ToUnevaluated
+	- Add option support disable code change detect
+	- Support plugin load verification
 2.2~
 	- More execution performance improvement
 	- More database performance improvement
