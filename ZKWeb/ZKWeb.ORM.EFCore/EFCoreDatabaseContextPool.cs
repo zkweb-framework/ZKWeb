@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Concurrent;
 
 namespace ZKWeb.ORM.EFCore {
 	/// <summary>
 	/// Database context pool<br/>
 	/// 数据库上下文的缓存池<br/>
+	/// https://github.com/aspnet/EntityFrameworkCore/blob/master/src/EFCore/Internal/DbContextPool.cs
 	/// </summary>
 	public class EFCoreDatabaseContextPool : IDisposable {
 		/// <summary>
@@ -39,6 +41,9 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public EFCoreDatabaseContext Get() {
 			if (Contexts.TryDequeue(out var context)) {
+				// set _leased.Value = true
+				var configuration = ((IDbContextPoolable)context).SnapshotConfiguration();
+				((IDbContextPoolable)context).Resurrect(configuration);
 				return context;
 			}
 			context = Factory();
@@ -51,6 +56,8 @@ namespace ZKWeb.ORM.EFCore {
 		/// 返回数据库上下文给池<br/>
 		/// </summary>
 		public bool Return(EFCoreDatabaseContext context) {
+			// always set _leased.Value = false, because SetPool is not used
+			((IDbContextPoolable)context).ResetState();
 			if (Contexts.Count < Limit) {
 				Contexts.Enqueue(context);
 				return true;
