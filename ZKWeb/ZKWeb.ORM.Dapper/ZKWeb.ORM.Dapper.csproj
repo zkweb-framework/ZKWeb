@@ -22,7 +22,7 @@
 		<PackageReference Include="Dapper.FluentMap.Dommel" Version="1.5.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="2.0.0" />
 		<PackageReference Include="Npgsql" Version="3.2.5" />
-		<PackageReference Include="Pomelo.Data.MySql" Version="1.0.0" />
+		<PackageReference Include="MySqlConnector" Version="0.28.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

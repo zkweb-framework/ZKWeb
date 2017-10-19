@@ -2,7 +2,6 @@
 using System.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using ZKWeb.Database;
-using Pomelo.Data.MySql;
 using Npgsql;
 using System;
 using System.Threading;
@@ -13,6 +12,7 @@ using System.FastReflection;
 using System.Collections.Generic;
 using ZKWeb.Storage;
 using Dommel;
+using MySql.Data.MySqlClient;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
