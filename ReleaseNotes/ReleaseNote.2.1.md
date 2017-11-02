@@ -10,7 +10,7 @@
 - Improve ORM
 	- Change dapper's mysql provider to MySqlConnector (previous is Pomelo.Data.MySql)
 	- Support command logger (see IDatabaseContext.CommandLogger)
-		- Dapper: TBD
+		- Dapper: Log insert, update and select
 		- EFCore: TBD
 		- InMemory: No logging
 		- MongoDB: TBD
