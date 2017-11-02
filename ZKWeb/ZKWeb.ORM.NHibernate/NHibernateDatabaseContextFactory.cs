@@ -127,7 +127,6 @@ namespace ZKWeb.ORM.NHibernate {
 			var hash = PasswordUtils.Sha1Sum(
 				Encoding.UTF8.GetBytes(database + connectionString)).ToHex();
 			var ddlFileEntry = fileStorage.GetStorageFile($"nh_{hash}.ddl");
-			Action onBuildFactorySuccess = null;
 			configuration.ExposeConfiguration(c => {
 				var scriptBuilder = new StringBuilder();
 				scriptBuilder.AppendLine("/* this file is for database migration checking, don't execute it */");
@@ -140,11 +139,11 @@ namespace ZKWeb.ORM.NHibernate {
 					foreach (var ex in schemaUpdate.Exceptions) {
 						logManager.LogError($"NHibernate schema update error: ({ex.GetType()}) {ex.Message}");
 					}
-					onBuildFactorySuccess = () => ddlFileEntry.WriteAllText(script);
+					// Write ddl script to file
+					// Since Nhibernate 5.0 ExposeConfiguration is executed on fly
+					ddlFileEntry.WriteAllText(script);
 				}
 			});
-			// write ddl script to file
-			onBuildFactorySuccess?.Invoke();
 		}
 
 		/// <summary>
