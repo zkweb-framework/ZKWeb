@@ -61,6 +61,11 @@ namespace ZKWeb.ORM.Dapper {
 		/// 返回底层的数据库连接<br/>
 		/// </summary>
 		public object DbConnection { get { return Connection; } }
+		/// <summary>
+		/// Database command logger<br/>
+		/// 数据库命令记录器<br/>
+		/// </summary>
+		public IDatabaseCommandLogger CommandLogger { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -79,14 +84,18 @@ namespace ZKWeb.ORM.Dapper {
 			// Create database connection
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			if (string.Compare(database, "MSSQL", true) == 0) {
-				Connection = new SqlConnection(connectionString);
+				Connection = new Wrappers.SqlConnection(
+					new SqlConnection(connectionString), this);
 			} else if (string.Compare(database, "SQLite", true) == 0) {
-				Connection = new SqliteConnection(
-					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
+				connectionString = connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory);
+				Connection = new Wrappers.SqliteConnection(
+					new SqliteConnection(connectionString), this);
 			} else if (string.Compare(database, "MySQL", true) == 0) {
-				Connection = new MySqlConnection(connectionString);
+				Connection = new Wrappers.MySqlConnection(
+					new MySqlConnection(connectionString), this);
 			} else if (string.Compare(database, "PostgreSQL", true) == 0) {
-				Connection = new NpgsqlConnection(connectionString);
+				Connection = new Wrappers.NpgsqlConnection(
+					new NpgsqlConnection(connectionString), this);
 			} else {
 				throw new ArgumentException($"unsupported database type {database}");
 			}
@@ -150,7 +159,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Get the query object for specific entity type<br/>
-		/// Attention: It's slow, you should use RawQuery<br/>
+		/// Attention: It's very slow, you should use RawQuery<br/>
 		/// 获取指定实体类型的查询对象<br/>
 		/// 注意: 它很慢, 你应该使用RawQuery<br/>
 		/// </summary>
@@ -184,13 +193,11 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Get how many entities that matched the given predicate<br/>
-		/// Attention: It's slow, you should use RawQuery<br/>
 		/// 获取符合传入条件的实体数量<br/>
-		/// 注意: 它很慢, 你应该使用RawQuery<br/>
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
-			return Query<T>().LongCount(predicate);
+			return Connection.Select(predicate).LongCount();
 		}
 
 		/// <summary>
@@ -261,26 +268,22 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Batch update entities<br/>
-		/// Attention: It's slow, you should use RawUpdate<br/>
 		/// 批量更新实体<br/>
-		/// 注意: 它很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
-			var entities = Query<T>().Where(predicate).AsEnumerable();
+			var entities = Connection.Select(predicate).AsEnumerable();
 			BatchSave(ref entities, update);
 			return entities.LongCount();
 		}
 
 		/// <summary>
 		/// Batch delete entities<br/>
-		/// Attention: It's slow, you should use RawUpdate<br/>
 		/// 批量删除实体<br/>
-		/// 注意: 它很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
-			var entities = Query<T>().Where(predicate).ToList();
+			var entities = Connection.Select(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			foreach (var entity in entities) {
 				beforeDelete?.Invoke(entity);
@@ -294,7 +297,6 @@ namespace ZKWeb.ORM.Dapper {
 		/// <summary>
 		/// Batch save entities in faster way<br/>
 		/// 快速批量保存实体<br/>
-		/// 注意: 它仍然很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public void FastBatchSave<T, TPrimaryKey>(IEnumerable<T> entities)
 			where T : class, IEntity<TPrimaryKey> {
@@ -305,9 +307,7 @@ namespace ZKWeb.ORM.Dapper {
 
 		/// <summary>
 		/// Batch delete entities in faster way<br/>
-		/// Attention: It's still slow, you should use RawUpdate<br/>
 		/// 快速批量删除实体<br/>
-		/// 注意: 它仍然很慢, 你应该使用RawUpdate<br/>
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
@@ -321,6 +321,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// 执行一个原生的更新操作<br/>
 		/// </summary>
 		public long RawUpdate(object query, object parameters) {
+			CommandLogger?.LogCommand(this, (string)query, parameters);
 			return Connection.Execute((string)query, parameters, Transaction);
 		}
 
@@ -330,6 +331,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {
+			CommandLogger?.LogCommand(this, (string)query, parameters);
 			return Connection.Query<T>((string)query, parameters, Transaction);
 		}
 	}

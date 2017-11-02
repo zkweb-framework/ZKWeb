@@ -45,6 +45,11 @@ namespace ZKWeb.ORM.MongoDB {
 		/// 底层的数据库连接<br/>
 		/// </summary>
 		public object DbConnection { get { return MongoDatabase; } }
+		/// <summary>
+		/// Database command logger<br/>
+		/// 数据库命令记录器<br/>
+		/// </summary>
+		public IDatabaseCommandLogger CommandLogger { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>

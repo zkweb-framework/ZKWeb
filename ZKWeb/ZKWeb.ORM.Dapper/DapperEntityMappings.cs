@@ -41,15 +41,15 @@ namespace ZKWeb.ORM.Dapper {
 					handlers, group.AsEnumerable());
 				Mappings[group.Key] = (IDapperEntityMapping)builder;
 			}
-			// Setup dommel mappings
+			// Setup dommel
 			FluentMapper.Initialize(config => {
 				var addMap = config.GetType().FastGetMethod(nameof(config.AddMap));
 				foreach (var mapping in Mappings) {
 					addMap.MakeGenericMethod(mapping.Key).FastInvoke(config, mapping.Value);
 				}
 				config.ForDommel();
-				DommelMapper.SetPropertyResolver(new ZKWebPropertyResolver());
 			});
+			DommelMapper.SetPropertyResolver(new ZKWebPropertyResolver());
 		}
 
 		/// <summary>

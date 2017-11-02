@@ -60,6 +60,11 @@ namespace ZKWeb.ORM.EFCore {
 		/// 数据库上下文的缓存池<br/>
 		/// </summary>
 		protected internal EFCoreDatabaseContextPool Pool { get; set; }
+		/// <summary>
+		/// Database command logger<br/>
+		/// 数据库命令记录器<br/>
+		/// </summary>
+		public IDatabaseCommandLogger CommandLogger { get; set; }
 
 		/// <summary>
 		/// Initialize<br/>

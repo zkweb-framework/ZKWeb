@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using NHibernate;
+using NHibernate.Engine;
 using NHibernate.SqlTypes;
 using NHibernate.UserTypes;
 using System;
 using System.Data;
+using System.Data.Common;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -88,8 +90,8 @@ namespace ZKWeb.ORM.NHibernate {
 		/// 从数据库获取后反序列化值<br/>
 		/// 如果等于null则返回一个新对象<br/>
 		/// </summary>
-		public object NullSafeGet(IDataReader rs, string[] names, object owner) {
-			var json = NHibernateUtil.String.NullSafeGet(rs, names[0]) as string;
+		public object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner) {
+			var json = NHibernateUtil.String.NullSafeGet(rs, names, session, owner) as string;
 			if (string.IsNullOrEmpty(json)) {
 				return new T();
 			}
@@ -100,7 +102,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Serialize value before store into database<br/>
 		/// 保存到数据库前序列化值<br/>
 		/// </summary>
-		public void NullSafeSet(IDbCommand cmd, object value, int index) {
+		public void NullSafeSet(DbCommand cmd, object value, int index, ISessionImplementor session) {
 			var json = JsonConvert.SerializeObject(value);
 			((IDataParameter)cmd.Parameters[index]).Value = json;
 		}

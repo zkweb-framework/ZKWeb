@@ -74,6 +74,11 @@ namespace ZKWeb.Database {
 		/// 它可能返回任何类型的对象或返回null<br/>
 		/// </summary>
 		object DbConnection { get; }
+		/// <summary>
+		/// Database command logger, some ORM may not support this feature<br/>
+		/// 数据库命令记录器, 某些ORM可能不支持这项功能<br/>
+		/// </summary>
+		IDatabaseCommandLogger CommandLogger { get; set; }
 
 		/// <summary>
 		/// Begin a transaction<br/>

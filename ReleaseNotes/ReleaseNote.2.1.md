@@ -2,7 +2,16 @@
 
 ### Changes
 
-- Dapper Changes
-	- Change mysql provider from Pomelo.Data.MySql to MySqlConnector
+- Update packages
+	- NHibernate 5.0.0
+	- Microsoft.CodeAnalysis.CSharp 2.4.0
 - Bug fixes
-	- fix state didn't reset during EFCore dbcontext recycle
+	- Fix state didn't reset during EFCore dbcontext recycle
+- Improve ORM
+	- Change dapper's mysql provider to MySqlConnector (previous is Pomelo.Data.MySql)
+	- Support command logger (see IDatabaseContext.CommandLogger)
+		- Dapper: TBD
+		- EFCore: TBD
+		- InMemory: No logging
+		- MongoDB: TBD
+		- NHibernate: TBD
