@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using ZKWeb.Storage;
 using Dommel;
 using MySql.Data.MySqlClient;
+using ZKWebStandard.Ioc;
+using System.Data.Common;
 
 namespace ZKWeb.ORM.Dapper {
 	/// <summary>
@@ -81,6 +83,8 @@ namespace ZKWeb.ORM.Dapper {
 			Transaction = null;
 			TransactionLevel = 0;
 			databaseType = database;
+			// Get default command logger
+			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 			// Create database connection
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			if (string.Compare(database, "MSSQL", true) == 0) {
@@ -188,7 +192,11 @@ namespace ZKWeb.ORM.Dapper {
 					return Connection.Get<T>(primaryKey);
 				}
 			}
-			return Connection.Select(predicate).FirstOrDefault();
+			try {
+				return Connection.Select(predicate).FirstOrDefault();
+			} catch (DbException) {
+				return Query<T>().Where(predicate).FirstOrDefault(); // fallback
+			}
 		}
 
 		/// <summary>
@@ -197,7 +205,11 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public long Count<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
-			return Connection.Select(predicate).LongCount();
+			try {
+				return Connection.Select(predicate).LongCount();
+			} catch (DbException) {
+				return Query<T>().Where(predicate).LongCount(); // fallback
+			}
 		}
 
 		/// <summary>
@@ -272,7 +284,12 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public long BatchUpdate<T>(Expression<Func<T, bool>> predicate, Action<T> update)
 			where T : class, IEntity {
-			var entities = Connection.Select(predicate).AsEnumerable();
+			IEnumerable<T> entities;
+			try {
+				entities = Connection.Select(predicate);
+			} catch (DbException) {
+				entities = Query<T>().Where(predicate).AsEnumerable(); // fallback
+			}
 			BatchSave(ref entities, update);
 			return entities.LongCount();
 		}
@@ -283,7 +300,12 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
 			where T : class, IEntity {
-			var entities = Connection.Select(predicate).ToList();
+			List<T> entities;
+			try {
+				entities = Connection.Select(predicate).ToList();
+			} catch (DbException) {
+				entities = Query<T>().Where(predicate).ToList(); // fallback
+			}
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();
 			foreach (var entity in entities) {
 				beforeDelete?.Invoke(entity);
@@ -311,9 +333,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public long FastBatchDelete<T, TPrimaryKey>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity<TPrimaryKey>, new() {
-			var count = Connection.Select(predicate).LongCount();
-			Connection.DeleteMultiple(predicate, Transaction);
-			return count;
+			return Connection.DeleteMultiple(predicate, Transaction) ? int.MaxValue : 0;
 		}
 
 		/// <summary>

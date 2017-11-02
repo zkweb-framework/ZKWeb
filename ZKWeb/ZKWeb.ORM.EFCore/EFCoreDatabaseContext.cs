@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using ZKWeb.Database;
+using ZKWebStandard.Ioc;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.ORM.EFCore {
@@ -80,6 +81,7 @@ namespace ZKWeb.ORM.EFCore {
 			databaseType = database;
 			Handlers = handlers;
 			Providers = providers;
+			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
 
 		/// <summary>

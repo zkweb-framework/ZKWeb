@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using ZKWeb.Database;
+using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.InMemory {
 	/// <summary>
@@ -46,6 +47,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// </summary>
 		public InMemoryDatabaseContext(InMemoryDatabaseStore store) {
 			Store = store;
+			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
 
 		/// <summary>

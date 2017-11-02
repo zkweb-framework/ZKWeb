@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using ZKWeb.Database;
+using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -70,6 +71,7 @@ namespace ZKWeb.ORM.NHibernate {
 			Transaction = null;
 			TransactionLevel = 0;
 			databaseType = database;
+			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
 
 		/// <summary>

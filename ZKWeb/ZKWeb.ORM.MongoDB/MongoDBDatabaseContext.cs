@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using ZKWebStandard.Utils;
 using MongoDB.Bson;
+using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.MongoDB {
 	/// <summary>
@@ -62,6 +63,7 @@ namespace ZKWeb.ORM.MongoDB {
 			MongoDBEntityMappings mappings) {
 			Mappings = mappings;
 			MongoDatabase = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
+			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
 
 		/// <summary>
