@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -82,6 +85,10 @@ namespace ZKWeb.ORM.EFCore {
 			Handlers = handlers;
 			Providers = providers;
 			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
+			// Register logger
+			var serviceProvider = this.GetInfrastructure<IServiceProvider>();
+			var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+			loggerFactory.AddProvider(new EFCoreLoggerProvider(this));
 		}
 
 		/// <summary>
