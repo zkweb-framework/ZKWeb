@@ -169,7 +169,11 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public IQueryable<T> Query<T>()
 			where T : class, IEntity {
-			return Connection.GetAll<T>().AsQueryable();
+			// Dommel's GetAll isn't support passing transaction
+			// since this method is the common fallback of query, only patch this function for now
+			var tablename = DommelMapper.Resolvers.Table(typeof(T));
+			var sql = "select * from " + tablename;
+			return Connection.Query<T>(sql, transaction: Transaction, buffered: true).AsQueryable();
 		}
 
 		/// <summary>
