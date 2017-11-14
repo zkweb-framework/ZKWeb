@@ -29,8 +29,8 @@ namespace ZKWeb.ORM.EFCore {
 		/// 获取日志记录器<br/>
 		/// </summary>
 		public ILogger CreateLogger(string categoryName) {
-			if (categoryName == typeof(IRelationalCommandBuilderFactory).FullName) {
-				return new Logger(Context);
+			if (categoryName == "Microsoft.EntityFrameworkCore.Database.Command") {
+				return new Logger(Context, categoryName);
 			}
 			return NullLogger.Instance;
 		}
@@ -49,9 +49,11 @@ namespace ZKWeb.ORM.EFCore {
 		protected class Logger : ILogger {
 #pragma warning disable CS1591
 			protected EFCoreDatabaseContext Context { get; set; }
+			protected string CategoryName { get; set; }
 
-			public Logger(EFCoreDatabaseContext context) {
+			public Logger(EFCoreDatabaseContext context, string categoryName) {
 				Context = context;
+				CategoryName = categoryName;
 			}
 
 			public IDisposable BeginScope<TState>(TState state) {
@@ -66,7 +68,9 @@ namespace ZKWeb.ORM.EFCore {
 				TState state, Exception exception, Func<TState, Exception, string> formatter) {
 				var commandLogger = Context.CommandLogger;
 				if (commandLogger != null) {
-					commandLogger.LogCommand(Context, formatter(state, exception), new { state, exception });
+					commandLogger.LogCommand(Context,
+						formatter(state, exception),
+						new { state, exception, category = CategoryName });
 				}
 			}
 #pragma warning restore CS1591

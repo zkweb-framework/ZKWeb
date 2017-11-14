@@ -56,6 +56,8 @@ namespace ZKWeb.ORM.EFCore {
 			}
 			// EF 2.0 make some warnings as error, just ignore them
 			optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning));
+			// Allow logging sql parameters
+			optionsBuilder.EnableSensitiveDataLogging();
 		}
 
 		/// <summary>
