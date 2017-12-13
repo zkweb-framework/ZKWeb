@@ -2,6 +2,8 @@
 using System.FastReflection;
 using System.Linq;
 using System.Reflection;
+using ZKWeb.Server;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Ioc.Extensions;
 using ZKWebStandard.Web;
@@ -25,6 +27,11 @@ namespace ZKWeb.Web {
 		/// Action函数的集合<br/>
 		/// </summary>
 		public IActionCollection Actions { get; private set; }
+		/// <summary>
+		/// Disable case sensitive routing<br/>
+		/// 禁止大小写敏感的路由<br/>
+		/// </summary>
+		public bool DisableCaseSensitiveRouting { get; private set; }
 
 		/// <summary>
 		/// Initialize<br/>
@@ -32,6 +39,8 @@ namespace ZKWeb.Web {
 		/// </summary>
 		public ControllerManager() {
 			Actions = Application.Ioc.Resolve<IActionCollection>();
+			DisableCaseSensitiveRouting = Application.Ioc.Resolve<WebsiteConfigManager>()
+				.WebsiteConfig.Extra.GetOrDefault<bool>(ExtraConfigKeys.DisableCaseSensitiveRouting);
 		}
 
 		/// <summary>
@@ -135,6 +144,9 @@ namespace ZKWeb.Web {
 			}
 			if (!path.StartsWith("/")) {
 				path = "/" + path;
+			}
+			if (DisableCaseSensitiveRouting) {
+				path = path.ToLower();
 			}
 			return path;
 		}
