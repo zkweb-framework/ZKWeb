@@ -37,7 +37,7 @@
 	/// }
 	/// </code>
 	/// </example>
-	public interface IEntityOperationHandler<T>
+	public interface IEntityOperationHandler<in T>
 		where T : class, IEntity {
 		/// <summary>
 		/// Execute before save<br/>

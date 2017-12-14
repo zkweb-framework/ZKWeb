@@ -51,10 +51,10 @@ namespace ZKWebStandard.Collections {
 		/// Compare to the given object for equality<br/>
 		/// 检查是否与参数中对象相等<br/>
 		/// </summary>
-		/// <param name="obj">Other object</param>
+		/// <param name="other">Other object</param>
 		/// <returns></returns>
-		public bool Equals(Pair<TFirst, TSecond> obj) {
-			return First.EqualsSupportsNull(obj.First) && Second.EqualsSupportsNull(obj.Second);
+		public bool Equals(Pair<TFirst, TSecond> other) {
+			return First.EqualsSupportsNull(other.First) && Second.EqualsSupportsNull(other.Second);
 		}
 
 		/// <summary>

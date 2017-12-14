@@ -24,7 +24,7 @@ namespace ZKWebStandard.Web {
 			get {
 				var context = currentContext.Value;
 				if (context == null) {
-					throw new NullReferenceException("Context does not exists");
+					throw new ArgumentNullException("Context does not exists");
 				}
 				return context;
 			}

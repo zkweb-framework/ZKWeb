@@ -85,7 +85,7 @@ namespace ZKWebStandard.Web.Wrappers {
 			return OriginalRequest.GetPostedFiles();
 		}
 
-		public HttpRequestWrapper(IHttpRequest originalRequest) {
+		protected HttpRequestWrapper(IHttpRequest originalRequest) {
 			OriginalRequest = originalRequest;
 		}
 #pragma warning restore CS1591

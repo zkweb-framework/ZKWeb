@@ -32,8 +32,7 @@ namespace ZKWebStandard.Extensions {
 			var src = new Rectangle(0, 0, image.Width, image.Height);
 			var dst = new Rectangle(0, 0, width, height);
 			// Calculate destination rectangle by resize mode
-			if (mode == ImageResizeMode.Fixed) {
-			} else if (mode == ImageResizeMode.ByWidth) {
+			if (mode == ImageResizeMode.ByWidth) {
 				height = (int)((decimal)src.Height / src.Width * dst.Width);
 				dst.Height = height;
 			} else if (mode == ImageResizeMode.ByHeight) {

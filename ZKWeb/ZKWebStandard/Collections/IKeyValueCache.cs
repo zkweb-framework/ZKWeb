@@ -8,7 +8,7 @@ namespace ZKWebStandard.Collections {
 	/// 它应该是线程安全的<br/>
 	/// </summary>
 	/// <seealso cref="MemoryCache{TKey, TValue}"/>
-	public interface IKeyValueCache<TKey, TValue> {
+	public interface IKeyValueCache<in TKey, TValue> {
 		/// <summary>
 		/// Put value to cache<br/>
 		/// 插入值到缓存<br/>

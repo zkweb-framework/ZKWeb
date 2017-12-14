@@ -43,7 +43,7 @@ namespace ZKWebStandard.Web.Mock {
 		public virtual string QueryString { get { return queryString; } }
 		public virtual IPAddress RemoteIpAddress { get { return remoteIpAddress; } }
 		public virtual int RemotePort { get { return remotePort; } }
-		public virtual string Scheme { get { return Scheme; } }
+		public virtual string Scheme { get { return scheme; } }
 		public virtual IDictionary<string, object> CustomParameters { get { return customParameters; } }
 
 		public HttpRequestMock(IHttpContext context) {

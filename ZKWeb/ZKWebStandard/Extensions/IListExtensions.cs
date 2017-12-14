@@ -127,9 +127,6 @@ namespace ZKWebStandard.Extensions {
 		/// </example>
 		public static void AddBefore<T>(
 			this IList<T> items, Predicate<T> before, T obj) {
-			var a = new List<int>();
-			a.FindIndex(_ => true);
-
 			var index = items.FindIndex(x => before(x));
 			if (index < 0) {
 				index = 0;

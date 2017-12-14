@@ -8,8 +8,8 @@ namespace ZKWeb.Database.Wrappers {
 	/// </summary>
 	public class DbCommandWrapper : IDbCommand {
 #pragma warning disable CS1591
-		private IDbCommand Command;
-		private IDatabaseContext Context;
+		private readonly IDbCommand Command;
+		private readonly IDatabaseContext Context;
 
 		public DbCommandWrapper(IDbCommand command, IDatabaseContext context) {
 			Command = command;

@@ -26,9 +26,7 @@ namespace ZKWebStandard.Extensions {
 		public static bool EqualsSupportsNull(this object obj, object target) {
 			if (obj == null && target == null) {
 				return true;
-			} else if (obj == null && target != null) {
-				return false;
-			} else if (obj != null && target == null) {
+			} else if (obj == null || target == null) {
 				return false;
 			}
 			return object.ReferenceEquals(obj, target) || obj.Equals(target);
@@ -131,15 +129,21 @@ namespace ZKWebStandard.Extensions {
 				}
 				return Convert.ChangeType(obj, type);
 			} catch {
+				// fallback to JsonConvert
 			}
 			// Use JsonConvert, use obj as json string
 			if (obj is string) {
-				try { return JsonConvert.DeserializeObject(obj as string, type); } catch { }
+				try {
+					return JsonConvert.DeserializeObject(obj as string, type);
+				} catch {
+					// it's not json string
+				}
 			}
 			// Use JsonConvert, serialize then deserialize
 			try {
 				return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(obj), type);
 			} catch {
+				// fallback to defaultValue
 			}
 			return defaultValue;
 		}

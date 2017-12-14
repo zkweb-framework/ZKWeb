@@ -39,11 +39,11 @@ namespace ZKWeb.Cache {
 		/// Check whether the instances are equal<br/>
 		/// 检查实例是否相等<br/>
 		/// </summary>
-		/// <param name="obj">Object compare to</param>
+		/// <param name="other">Object compare to</param>
 		/// <returns></returns>
-		public bool Equals(IsolatedCacheKey<TKey> obj) {
-			return (Key.EqualsSupportsNull(obj.Key) &&
-				IsolationKeys.SequenceEqual(obj.IsolationKeys));
+		public bool Equals(IsolatedCacheKey<TKey> other) {
+			return (Key.EqualsSupportsNull(other.Key) &&
+				IsolationKeys.SequenceEqual(other.IsolationKeys));
 		}
 
 		/// <summary>

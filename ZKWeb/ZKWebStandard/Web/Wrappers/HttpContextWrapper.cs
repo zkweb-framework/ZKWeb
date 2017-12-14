@@ -19,7 +19,7 @@ namespace ZKWebStandard.Web.Wrappers {
 			get { return OriginalContext.Items; }
 		}
 
-		public HttpContextWrapper(IHttpContext originalContext) {
+		protected HttpContextWrapper(IHttpContext originalContext) {
 			OriginalContext = originalContext;
 		}
 #pragma warning restore CS1591

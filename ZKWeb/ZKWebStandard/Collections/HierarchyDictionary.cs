@@ -118,7 +118,9 @@ namespace ZKWebStandard.Collections {
 						childNode = new HierarchyDictionary<TKeyElement, TValue>(element, node);
 						node.Childs[element] = childNode;
 					} else {
+#pragma warning disable S1168
 						return null;
+#pragma warning restore S1168
 					}
 				}
 				node = childNode;

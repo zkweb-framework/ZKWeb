@@ -36,7 +36,7 @@ namespace ZKWebStandard.Web.Wrappers {
 			OriginalResponse.Redirect(url, permanent);
 		}
 
-		public HttpResponseWrapper(IHttpResponse originalResponse) {
+		protected HttpResponseWrapper(IHttpResponse originalResponse) {
 			OriginalResponse = originalResponse;
 		}
 #pragma warning restore CS1591
