@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 2.0.2
+dist: trusty
+script:
+  - cd ZKWeb
+  - dotnet restore
