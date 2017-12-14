@@ -134,7 +134,9 @@ namespace ZKWebStandard.Utils {
 			/// </summary>
 			public void AddChildNode(ITreeNode<T> node) {
 				if (node == null) {
+#pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 					throw new ArgumentNullException("node can't be null");
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 				} else if (this == node) {
 					throw new ArgumentException("can't add node to itself");
 				} else if (this.GetParents().Contains(node)) {

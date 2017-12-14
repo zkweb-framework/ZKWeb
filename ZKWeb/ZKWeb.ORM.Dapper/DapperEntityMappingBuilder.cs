@@ -131,13 +131,13 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			options = options ?? new EntityMappingOptions();
 			var memberMap = base.Map(Expression.Lambda<Func<T, object>>(
 				Expression.Convert(memberExpression.Body, typeof(object)),
 				memberExpression.Parameters));
 			if (!string.IsNullOrEmpty(options.Column)) {
-				memberMap = memberMap.ToColumn(options.Column);
+				memberMap.ToColumn(options.Column);
 			}
 			if (options.WithSerialization ?? false) {
 				TypeHandlerRegistrator.RegisterJsonSerializedType(typeof(TMember));
@@ -151,7 +151,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TOther : class {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();

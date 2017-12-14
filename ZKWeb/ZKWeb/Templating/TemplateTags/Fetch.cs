@@ -102,6 +102,7 @@ namespace ZKWeb.Templating.TemplateTags {
 						value = value.Substring(1);
 					}
 				} else if ((value = context[name].ConvertOrDefault<string>()) != null) {
+					// in context.Items
 				} else {
 					value = HttpManager.CurrentContext.Request.Get<string>(name);
 				}
@@ -126,10 +127,10 @@ namespace ZKWeb.Templating.TemplateTags {
 			var fetchContext = new FetchHttpContext(path, queryString, method);
 			using (HttpManager.OverrideContext(fetchContext)) {
 				var actionResult = action();
-				if (actionResult is PlainResult) {
-					context[Variable] = ((PlainResult)actionResult).Text;
-				} else if (actionResult is JsonResult) {
-					context[Variable] = ((JsonResult)actionResult).Object;
+				if (actionResult is PlainResult plainResult) {
+					context[Variable] = plainResult.Text;
+				} else if (actionResult is JsonResult jsonResult) {
+					context[Variable] = jsonResult.Object;
 				} else {
 					var response = fetchContext.FetchResponse;
 					actionResult.WriteResponse(response);

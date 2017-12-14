@@ -29,11 +29,13 @@ namespace ZKWebStandard.Ioc.Extensions {
 			return new ServiceScope(Container);
 		}
 
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Service scope<br/>
 		/// 服务范围<br/>
 		/// </summary>
 		private class ServiceScope : IServiceScope {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 			public IContainer Container { get; }
 			public IServiceProvider ServiceProvider { get; }
 

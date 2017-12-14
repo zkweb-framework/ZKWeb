@@ -139,7 +139,7 @@ namespace ZKWeb.ORM.EFCore {
 				var tempPath = Path.GetTempPath();
 				foreach (var file in Directory.EnumerateFiles(
 					tempPath, ModelSnapshotFilePrefix + "*").ToList()) {
-					try { File.Delete(file); } catch { }
+					try { File.Delete(file); } catch { /* Ignore error */ }
 				}
 				// Write snapshot code to temp directory and compile it to assembly
 				var assemblyName = ModelSnapshotFilePrefix + DateTime.UtcNow.Ticks;

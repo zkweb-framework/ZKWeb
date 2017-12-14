@@ -23,7 +23,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		public AssemblyLoaderBase() {
+		protected AssemblyLoaderBase() {
 			ReplacementAssemblies = new Dictionary<string, string>() {
 				{ "System.FastReflection", "FastReflection" },
 				{ "System.DrawingCore", "ZKWeb.System.Drawing" }

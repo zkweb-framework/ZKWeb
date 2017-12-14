@@ -84,6 +84,7 @@ namespace ZKWeb.Plugin.CompilerServices {
 						try {
 							assemblyLoader.Load(usingName);
 						} catch {
+							// Retry next name
 						}
 						LoadedNamespaces.Add(usingName);
 					}

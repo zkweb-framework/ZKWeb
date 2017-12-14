@@ -187,9 +187,11 @@ namespace ZKWeb.Plugin {
 				File.WriteAllText(compileInfoPath, compileInfo);
 				// Remove old files, maybe they are locking but that's not matter
 				Directory.EnumerateFiles(info.BinDirectory(), "*.old")
-					.ForEach(path => { try { File.Delete(path); } catch { } });
+					.ForEach(path => { try { File.Delete(path); } catch { /* ignore error */ } });
 				// Call gc collect to avoid OOM
+#pragma warning disable S1215 // "GC.Collect" should not be called
 				GC.Collect();
+#pragma warning restore S1215 // "GC.Collect" should not be called
 				GC.WaitForFullGCComplete(-1);
 				GC.WaitForPendingFinalizers();
 			}

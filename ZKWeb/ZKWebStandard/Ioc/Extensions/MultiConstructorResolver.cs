@@ -51,6 +51,7 @@ namespace ZKWebStandard.Ioc.Extensions {
 						// Finally, remember which factory is used
 						return innerFactory;
 					} catch {
+						// Retry next constructor
 					}
 				}
 				return null;

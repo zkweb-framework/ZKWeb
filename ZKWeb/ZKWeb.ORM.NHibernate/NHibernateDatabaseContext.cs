@@ -97,7 +97,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Begin a transaction<br/>
 		/// 开始一个事务<br/>
 		/// </summary>
-		public void BeginTransaction(IsolationLevel? isolationLevel) {
+		public void BeginTransaction(IsolationLevel? isolationLevel = null) {
 			var level = Interlocked.Increment(ref TransactionLevel);
 			if (level == 1) {
 				if (Transaction != null) {
@@ -234,7 +234,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// Batch delete entities<br/>
 		/// 批量删除实体<br/>
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete = null)
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			var callbacks = Application.Ioc.ResolveMany<IEntityOperationHandler<T>>().ToList();

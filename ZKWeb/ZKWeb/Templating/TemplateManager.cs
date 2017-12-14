@@ -40,8 +40,8 @@ namespace ZKWeb.Templating {
 		public virtual Hash CreateHash(object obj) {
 			if (obj == null) {
 				return new Hash();
-			} else if (obj is IDictionary<string, object>) {
-				return Hash.FromDictionary((IDictionary<string, object>)obj);
+			} else if (obj is IDictionary<string, object> dict) {
+				return Hash.FromDictionary(dict);
 			} else {
 				return Hash.FromAnonymousObject(obj);
 			}
@@ -99,8 +99,10 @@ namespace ZKWeb.Templating {
 			Template.RegisterSafeType(typeof(Pair<,>), new[] { "First", "Second" });
 			Template.RegisterSafeType(typeof(ITreeNode<>), new[] { "Value", "Parent", "Childs" });
 			// Call the static constructor here to add default tags and filters
+#pragma warning disable S2696 // Instance members should not write to "static" fields
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
 			Liquid.UseRubyDateFormat = !Liquid.UseRubyDateFormat;
+#pragma warning restore S2696 // Instance members should not write to "static" fields
 			// Use bigger regex cache size
 			Regex.CacheSize = RegexCacheSize;
 			// Set if display full exception is allowed

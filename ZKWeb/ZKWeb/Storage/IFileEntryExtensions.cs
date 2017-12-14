@@ -26,8 +26,7 @@ namespace ZKWeb.Storage {
 		/// <param name="entry">File entry</param>
 		/// <param name="value">String value</param>
 		public static void WriteAllText(this IFileEntry entry, string value) {
-			using (var stream = entry.OpenWrite())
-			using (var writer = new StreamWriter(stream)) {
+			using (var writer = new StreamWriter(entry.OpenWrite())) {
 				writer.Write(value);
 			}
 		}
@@ -39,8 +38,7 @@ namespace ZKWeb.Storage {
 		/// <param name="entry">File entry</param>
 		/// <param name="value">String value</param>
 		public static void AppendAllText(this IFileEntry entry, string value) {
-			using (var stream = entry.OpenAppend())
-			using (var writer = new StreamWriter(stream)) {
+			using (var writer = new StreamWriter(entry.OpenAppend())) {
 				writer.Write(value);
 			}
 		}

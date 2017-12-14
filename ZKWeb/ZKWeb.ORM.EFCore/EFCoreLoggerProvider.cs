@@ -4,12 +4,14 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ZKWeb.ORM.EFCore {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Logger provider for EFCore<br/>
 	/// EFCore日志记录器的提供器<br/>
 	/// see: https://docs.microsoft.com/en-us/ef/core/miscellaneous/logging <br/>
 	/// </summary>
 	public class EFCoreLoggerProvider : ILoggerProvider {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// The context<br/>
 		/// 数据库上下文<br/>
@@ -40,6 +42,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// 不做任何事情<br/>
 		/// </summary>
 		public void Dispose() {
+			// do nothing
 		}
 
 		/// <summary>

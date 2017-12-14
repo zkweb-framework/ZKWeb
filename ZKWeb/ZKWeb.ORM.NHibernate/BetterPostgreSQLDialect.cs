@@ -2,6 +2,7 @@
 using System.Data;
 
 namespace ZKWeb.ORM.NHibernate {
+#pragma warning disable S101 // Types should be named in camel case
 	/// <summary>
 	/// Better pgsql dialect<br/>
 	/// What's improved<br/>
@@ -11,6 +12,7 @@ namespace ZKWeb.ORM.NHibernate {
 	/// - 支持Guid类型<br/>
 	/// </summary>
 	public class BetterPostgreSQLDialect : PostgreSQLDialect {
+#pragma warning restore S101 // Types should be named in camel case
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>

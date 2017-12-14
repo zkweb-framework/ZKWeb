@@ -81,7 +81,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { }
+				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { /* do nothing */ }
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}

@@ -69,7 +69,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			// Unsupported options: Length, Unique, Nullable,
 			// Index, CustomSqlType, CascadeDelete, WithSerialization
 			options = options ?? new EntityMappingOptions();
@@ -77,7 +77,7 @@ namespace ZKWeb.ORM.EFCore {
 				Expression.Convert(memberExpression.Body, typeof(object)),
 				memberExpression.Parameters));
 			if (!string.IsNullOrEmpty(options.Column)) {
-				keyBuilder = keyBuilder.HasName(options.Column);
+				keyBuilder.HasName(options.Column);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			// Unsupported options: CascadeDelete
 			options = options ?? new EntityMappingOptions();
 			var propertyBuilder = Builder.Property(memberExpression);
@@ -150,7 +150,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TOther : class {
 			// Unsupported options: Length, Unique, Index,
 			// CustomSqlType, WithSerialization
@@ -180,7 +180,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TChild : class {
 			// Unsupported options: Column, Length, Unique,
 			// Nullable, Index, CustomSqlType, WithSerialization
@@ -189,9 +189,9 @@ namespace ZKWeb.ORM.EFCore {
 				.HasMany(memberExpression)
 				.WithOne(GetNavigationPropertyName<TChild, T>(options));
 			if (options.CascadeDelete == false) {
-				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Restrict);
+				collectionBuilder.OnDelete(DeleteBehavior.Restrict);
 			} else {
-				collectionBuilder = collectionBuilder.OnDelete(DeleteBehavior.Cascade); // true or default
+				collectionBuilder.OnDelete(DeleteBehavior.Cascade); // true or default
 			}
 		}
 
@@ -201,7 +201,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// </summary>
 		public void HasManyToMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TChild : class {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();

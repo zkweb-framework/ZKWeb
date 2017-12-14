@@ -190,7 +190,7 @@ namespace ZKWeb.Templating.DynamicContents {
 			var renderer = Application.Ioc.Resolve<ITemplateWidgetRenderer>();
 			renderResult = renderer.Render(context, widget);
 			// Store to cache
-			if (info.CacheTime > 0) {
+			if (info.CacheTime > 0 && renderCache != null) {
 				renderCache.Put(key, renderResult, TimeSpan.FromSeconds(info.CacheTime));
 			}
 			return renderResult;

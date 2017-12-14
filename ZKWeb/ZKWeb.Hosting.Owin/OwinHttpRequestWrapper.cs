@@ -121,7 +121,9 @@ namespace ZKWeb.Hosting.Owin {
 					return contents.Select(c => ReadHttpContentAsString(c)).ToList();
 				}
 			}
+#pragma warning disable S1168 // Empty arrays and collections should be returned instead of null
 			return null;
+#pragma warning restore S1168 // Empty arrays and collections should be returned instead of null
 		}
 		public IEnumerable<Pair<string, IList<string>>> GetFormValues() {
 			if (OwinFormCollection.Value != null) {

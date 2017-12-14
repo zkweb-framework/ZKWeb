@@ -3,12 +3,14 @@ using System;
 using System.Collections.Concurrent;
 
 namespace ZKWeb.ORM.EFCore {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Database context pool<br/>
 	/// 数据库上下文的缓存池<br/>
 	/// https://github.com/aspnet/EntityFrameworkCore/blob/master/src/EFCore/Internal/DbContextPool.cs
 	/// </summary>
 	public class EFCoreDatabaseContextPool : IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Cached contexts<br/>
 		/// 缓存的上下文列表<br/>

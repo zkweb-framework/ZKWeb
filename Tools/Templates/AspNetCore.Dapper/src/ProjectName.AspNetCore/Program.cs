@@ -7,7 +7,7 @@ namespace ${ProjectName}.AspNetCore {
 	/// <summary>
 	/// Asp.Net Core Main Program
 	/// </summary>
-	public class Program {
+	public static class Program {
 		/// <summary>
 		/// Entry Point
 		/// </summary>

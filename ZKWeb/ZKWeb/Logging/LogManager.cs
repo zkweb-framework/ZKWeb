@@ -27,7 +27,6 @@ namespace ZKWeb.Logging {
 			// Retry up to 100 times if inconsistency occurs between the threads
 			var fileStorage = Application.Ioc.Resolve<IFileStorage>();
 			var logFile = fileStorage.GetStorageFile("logs", filename);
-			var now = DateTime.UtcNow.ToLocalTime();
 			for (int n = 0; n < 100; ++n) {
 				try {
 					logFile.AppendAllText(message);
