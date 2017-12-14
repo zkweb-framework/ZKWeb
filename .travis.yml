@@ -3,11 +3,8 @@ mono: none
 dotnet: 2.0.2
 dist: trusty
 sudo: required
-addons:
-  apt:
-    packages:
-      - libgdiplus
 script:
+  - sudo apt-get install libgdiplus -y
   - sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
   - cd ZKWeb/ZKWeb.Console
   - dotnet restore
