@@ -1,6 +1,7 @@
 # ZKWeb
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/126ec40aaaf74afd8ee0445a687ebbd6)](https://www.codacy.com/app/303248153/ZKWeb?utm_source=github.com&utm_medium=referral&utm_content=zkweb-framework/ZKWeb&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/zkweb-framework/ZKWeb.svg?branch=master)](https://travis-ci.org/zkweb-framework/ZKWeb)
 [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
 [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.svg)](http://www.nuget.org/packages/ZKWeb)
 [![Member project of .NET China Foundation](https://img.shields.io/badge/member_project_of-.NET_CHINA-red.svg?style=flat&colorB=9E20C8)](https://github.com/dotnetcore)

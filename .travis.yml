@@ -3,5 +3,6 @@ mono: none
 dotnet: 2.0.2
 dist: trusty
 script:
-  - cd ZKWeb
+  - cd ZKWeb/ZKWeb.Console
   - dotnet restore
+  - dotnet run -c Release -f netcoreapp2.0
