@@ -6,7 +6,9 @@ using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class ITreeNodeExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		class TestData {
 			public long Id { get; set; }
 			public long ParentId { get; set; }

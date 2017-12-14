@@ -30,14 +30,14 @@ namespace ZKWebStandard.Tests.Utils {
 			Assert.IsTrueWith(array.Any(x => x != array.First()), array);
 		}
 
-		enum EmptyEnum { }
+		enum EmptyEnumType { }
 
-		enum TestEnum { A = 1, B = 2, C = 3 }
+		enum TestEnumType { A = 1, B = 2, C = 3 }
 
 		public void RandomEnum() {
-			Assert.Equals(RandomUtils.RandomEnum<EmptyEnum>(), (EmptyEnum)0);
-			var array = Enumerable.Range(0, 20).Select(_ => RandomUtils.RandomEnum<TestEnum>()).ToList();
-			Assert.IsTrueWith(array.All(x => x >= TestEnum.A && x <= TestEnum.C), array);
+			Assert.Equals(RandomUtils.RandomEnum<EmptyEnumType>(), (EmptyEnumType)0);
+			var array = Enumerable.Range(0, 20).Select(_ => RandomUtils.RandomEnum<TestEnumType>()).ToList();
+			Assert.IsTrueWith(array.All(x => x >= TestEnumType.A && x <= TestEnumType.C), array);
 			Assert.IsTrueWith(array.Any(x => x != array.First()), array);
 		}
 

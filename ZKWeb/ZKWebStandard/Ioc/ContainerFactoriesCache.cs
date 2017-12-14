@@ -15,7 +15,7 @@ namespace ZKWebStandard.Ioc {
 		/// Set to enable static factories cache<br/>
 		/// 是否启用静态工厂函数缓存<br/>
 		/// </summary>
-		public static bool Enabled = true;
+		public static bool Enabled { get; set; } = true;
 	}
 
 	/// <summary>
@@ -91,6 +91,6 @@ namespace ZKWebStandard.Ioc {
 		/// Cache data<br/>
 		/// 缓存数据<br/>
 		/// </summary>
-		internal static ContainerFactoriesCacheData<TService> Data = null;
+		internal static ContainerFactoriesCacheData<TService> Data { get; set; }
 	}
 }

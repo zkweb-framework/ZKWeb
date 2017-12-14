@@ -30,6 +30,8 @@ namespace ZKWebStandard.Extensions {
 							messageBuilder.Append(loaderException.ToDetailedString());
 						}
 						break;
+					default:
+						break;
 				}
 				ex = ex.InnerException;
 			}
@@ -48,10 +50,11 @@ namespace ZKWebStandard.Extensions {
 		/// </code>
 		/// </example>
 		public static string ToSummaryString(this Exception ex) {
-			while (ex.InnerException != null) {
-				ex = ex.InnerException;
+			var innerEx = ex;
+			while (innerEx.InnerException != null) {
+				innerEx = innerEx.InnerException;
 			}
-			return ex.Message;
+			return innerEx.Message;
 		}
 	}
 }

@@ -54,19 +54,19 @@ namespace ZKWeb.ORM.InMemory {
 		/// Do Nothing<br/>
 		/// 不做任何事情<br/>
 		/// </summary>
-		public void Dispose() { }
+		public void Dispose() { /* nothing to do */ }
 
 		/// <summary>
 		/// Do Nothing<br/>
 		/// 不做任何事情<br/>
 		/// </summary>
-		public void BeginTransaction(IsolationLevel? isolationLevel) { }
+		public void BeginTransaction(IsolationLevel? isolationLevel = null) { /* nothing to do */ }
 
 		/// <summary>
 		/// Do Nothing<br/>
 		/// 不做任何事情<br/>
 		/// </summary>
-		public void FinishTransaction() { }
+		public void FinishTransaction() { /* nothing to do */ }
 
 		/// <summary>
 		/// Get the query object for specific entity type<br/>
@@ -147,7 +147,7 @@ namespace ZKWeb.ORM.InMemory {
 			var entities = Query<T>().Where(predicate).ToList();
 			var entitiesIterator = entities.AsEnumerable();
 			BatchSave(ref entitiesIterator, update);
-			return entities.Count();
+			return entities.Count;
 		}
 
 		/// <summary>

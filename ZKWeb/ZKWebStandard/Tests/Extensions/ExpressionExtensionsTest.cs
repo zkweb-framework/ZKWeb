@@ -32,8 +32,8 @@ namespace ZKWebStandard.Tests.Extensions {
 					exprB.Body.ReplaceNode(exprB.Parameters[0], exprA.Parameters[0])),
 				exprA.Parameters[0]);
 			var method = exprMerged.Compile();
-			Assert.IsTrue(method(new TestClass() { TestMember = "abcasd" }));
-			Assert.IsTrue(!method(new TestClass() { TestMember = "abcasp" }));
+			Assert.IsTrue(method(new TestClass { TestMember = "abcasd" }));
+			Assert.IsTrue(!method(new TestClass { TestMember = "abcasp" }));
 		}
 
 		public class TestClass {

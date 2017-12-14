@@ -41,7 +41,7 @@ namespace ZKWebStandard.Tests.Utils {
 			var generic = typeof(TestData).FastGetMethod(nameof(TestData.Generic));
 			var multiGeneric = typeof(TestData).FastGetMethod(nameof(TestData.MultiGeneric));
 			var genericInvoker = ReflectionUtils.MakeInvoker(generic, typeof(TestData));
-			var multiGenericInvoker = ReflectionUtils.MakeInvoker(multiGeneric, new Type[] { typeof(TestData), typeof(Assert) });
+			var multiGenericInvoker = ReflectionUtils.MakeInvoker(multiGeneric, new [] { typeof(TestData), typeof(Assert) });
 			Assert.Equals(genericInvoker(data, null), "TestData");
 			Assert.Equals(multiGenericInvoker(data, null), "TestDataAssert");
 		}

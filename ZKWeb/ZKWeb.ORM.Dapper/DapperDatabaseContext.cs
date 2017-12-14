@@ -17,11 +17,13 @@ using ZKWebStandard.Ioc;
 using System.Data.Common;
 
 namespace ZKWeb.ORM.Dapper {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Dapper database context<br/>
 	/// Dapper的数据库上下文<br/>
 	/// </summary>
 	public class DapperDatabaseContext : IDatabaseContext {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Dapper entity mappings<br/>
 		/// Dapper的实体映射<br/>
@@ -185,16 +187,14 @@ namespace ZKWeb.ORM.Dapper {
 		public T Get<T>(Expression<Func<T, bool>> predicate)
 			where T : class, IEntity {
 			// If predicate is about compare primary key then we can use `Get` method
-			if (predicate.Body is BinaryExpression) {
-				var binaryExpr = (BinaryExpression)predicate.Body;
-				if (binaryExpr.NodeType == ExpressionType.Equal &&
-					binaryExpr.Left is MemberExpression &&
-					((MemberExpression)binaryExpr.Left).Member.Name ==
-					Mappings.GetMapping(typeof(T)).IdMember.Name &&
-					binaryExpr.Right is ConstantExpression) {
-					var primaryKey = ((ConstantExpression)binaryExpr.Right).Value;
-					return Connection.Get<T>(primaryKey);
-				}
+			if (predicate.Body is BinaryExpression binaryExpr &&
+				binaryExpr.NodeType == ExpressionType.Equal &&
+				binaryExpr.Left is MemberExpression &&
+				((MemberExpression)binaryExpr.Left).Member.Name ==
+				Mappings.GetMapping(typeof(T)).IdMember.Name &&
+				binaryExpr.Right is ConstantExpression) {
+				var primaryKey = ((ConstantExpression)binaryExpr.Right).Value;
+				return Connection.Get<T>(primaryKey);
 			}
 			try {
 				return Connection.Select(predicate).FirstOrDefault();
@@ -302,7 +302,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// Batch delete entities<br/>
 		/// 批量删除实体<br/>
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete = null)
 			where T : class, IEntity {
 			List<T> entities;
 			try {

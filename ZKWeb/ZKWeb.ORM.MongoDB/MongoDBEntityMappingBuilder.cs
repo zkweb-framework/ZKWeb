@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
@@ -74,7 +75,7 @@ namespace ZKWeb.ORM.MongoDB {
 			idMember = null;
 			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered provider
-			foreach (IEntityMappingProvider<T> provider in providers) {
+			foreach (var provider in providers.OfType<IEntityMappingProvider<T>>()) {
 				provider.Configure(this);
 			}
 			// Register mapping
@@ -117,7 +118,7 @@ namespace ZKWeb.ORM.MongoDB {
 			MapActions.Add(m => {
 				var memberMap = m.MapIdMember(memberExpression);
 				if (!string.IsNullOrEmpty(options.Column)) {
-					memberMap = memberMap.SetElementName(options.Column);
+					memberMap.SetElementName(options.Column);
 				}
 			});
 		}
@@ -128,7 +129,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public void Map<TMember>(
 			Expression<Func<T, TMember>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			// Unsupported options: Length, CustomSqlType, CascadeDelete, WithSerialization
 			options = options ?? new EntityMappingOptions();
 			ordinaryMembers.Add(((MemberExpression)memberExpression.Body).Member);
@@ -138,9 +139,9 @@ namespace ZKWeb.ORM.MongoDB {
 					memberMap = memberMap.SetElementName(options.Column);
 				}
 				if (options.Nullable == true) {
-					memberMap = memberMap.SetIsRequired(true);
+					memberMap.SetIsRequired(true);
 				} else if (options.Nullable == false) {
-					memberMap = memberMap.SetIsRequired(false);
+					memberMap.SetIsRequired(false);
 				}
 			});
 			if (options.Unique == true || !string.IsNullOrEmpty(options.Index)) {

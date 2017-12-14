@@ -146,13 +146,13 @@ namespace ZKWebStandard.Collections {
 
 		public ICollection<IEnumerable<TKeyElement>> Keys {
 			get {
-				return this.Select(pair => pair.Key).ToList();
+				return new List<IEnumerable<TKeyElement>>(this.Select(pair => pair.Key));
 			}
 		}
 
 		public ICollection<TValue> Values {
 			get {
-				return this.Select(pair => pair.Value).ToList();
+				return new List<TValue>(this.Select(pair => pair.Value));
 			}
 		}
 

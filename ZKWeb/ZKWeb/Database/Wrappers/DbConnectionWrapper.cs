@@ -7,8 +7,8 @@ namespace ZKWeb.Database.Wrappers {
 	/// </summary>
 	public class DbConnectionWrapper : IDbConnection {
 #pragma warning disable CS1591
-		private IDbConnection Connection;
-		private IDatabaseContext Context;
+		private readonly IDbConnection Connection;
+		private readonly IDatabaseContext Context;
 
 		public DbConnectionWrapper(IDbConnection connection, IDatabaseContext context) {
 			Connection = connection;

@@ -2,6 +2,7 @@
 using System.Threading;
 
 namespace ZKWebStandard.Collections {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Simple dispose object<br/>
 	/// Execute the given method when disposed,<br/>
@@ -18,6 +19,7 @@ namespace ZKWebStandard.Collections {
 	/// </code>
 	/// </example>
 	public class SimpleDisposable : IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// The function that is called when dispose<br/>
 		/// 在销毁时调用的函数<br/>

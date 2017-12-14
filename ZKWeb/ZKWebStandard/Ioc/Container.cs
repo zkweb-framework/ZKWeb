@@ -8,6 +8,7 @@ using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc.Extensions;
 
 namespace ZKWebStandard.Ioc {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// IoC container<br/>
 	/// Support constructor dependency injection<br/>
@@ -59,6 +60,7 @@ namespace ZKWebStandard.Ioc {
 	///	/// </code>
 	///	/// </example>
 	public class Container : IContainer {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Factories<br/>
 		/// 工厂函数的集合<br/>
@@ -193,7 +195,8 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册实现类型<br/>
 		/// </summary>
 		public void Register(
-			Type serviceType, Type implementationType, ReuseType reuseType, object serviceKey) {
+			Type serviceType, Type implementationType,
+			ReuseType reuseType = ReuseType.Transient, object serviceKey = null) {
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(implementationType, reuseType),
 				pair => {
@@ -208,7 +211,8 @@ namespace ZKWebStandard.Ioc {
 		/// Register implementation type with service type and service key<br/>
 		/// 根据服务类型和服务键注册实现类型<br/>
 		/// </summary>
-		public void Register<TService, TImplementation>(ReuseType reuseType, object serviceKey) {
+		public void Register<TService, TImplementation>(
+			ReuseType reuseType = ReuseType.Transient, object serviceKey = null) {
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(typeof(TImplementation), reuseType),
 				pair => {
@@ -224,7 +228,8 @@ namespace ZKWebStandard.Ioc {
 		/// 根据多个服务类型和服务键注册实现类型<br/>
 		/// </summary>
 		public void RegisterMany(
-			IList<Type> serviceTypes, Type implementationType, ReuseType reuseType, object serviceKey) {
+			IList<Type> serviceTypes, Type implementationType,
+			ReuseType reuseType = ReuseType.Transient, object serviceKey = null) {
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(implementationType, reuseType),
 				pair => {
@@ -242,7 +247,8 @@ namespace ZKWebStandard.Ioc {
 		/// 服务类型是实现类型的基类和接口<br/>
 		/// </summary>
 		public void RegisterMany(Type implementationType,
-			ReuseType reuseType, object serviceKey, bool nonPublicServiceTypes) {
+			ReuseType reuseType = ReuseType.Transient,
+			object serviceKey = null, bool nonPublicServiceTypes = false) {
 			var serviceTypes = GetImplementedServiceTypes(
 				implementationType, nonPublicServiceTypes).ToList();
 			RegisterMany(serviceTypes, implementationType, reuseType, serviceKey);
@@ -255,7 +261,8 @@ namespace ZKWebStandard.Ioc {
 		/// 服务类型是实现类型的基类和接口<br/>
 		/// </summary>
 		public void RegisterMany<TImplementation>(
-			ReuseType reuseType, object serviceKey, bool nonPublicServiceTypes) {
+			ReuseType reuseType = ReuseType.Transient,
+			object serviceKey = null, bool nonPublicServiceTypes = false) {
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(typeof(TImplementation), reuseType),
 				pair => {
@@ -273,7 +280,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册实例<br/>
 		/// 重用类型强制为单例<br/>
 		/// </summary>
-		public void RegisterInstance(Type serviceType, object instance, object serviceKey) {
+		public void RegisterInstance(Type serviceType, object instance, object serviceKey = null) {
 			var implementationType = instance.GetType();
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(implementationType, ReuseType.Singleton),
@@ -291,7 +298,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册实例<br/>
 		/// 重用类型强制为单例<br/>
 		/// </summary>
-		public void RegisterInstance<TService>(TService instance, object serviceKey) {
+		public void RegisterInstance<TService>(TService instance, object serviceKey = null) {
 			var implementationType = instance.GetType();
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(implementationType, ReuseType.Singleton),
@@ -308,7 +315,8 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册工厂函数<br/>
 		/// </summary>
 		public void RegisterDelegate(
-			Type serviceType, Func<object> factory, ReuseType reuseType, object serviceKey) {
+			Type serviceType, Func<object> factory,
+			ReuseType reuseType = ReuseType.Transient, object serviceKey = null) {
 			// We can't figure out what type will returned from factory, the hint type will be the service type
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(serviceType, reuseType),
@@ -325,7 +333,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键注册工厂函数<br/>
 		/// </summary>
 		public void RegisterDelegate<TService>(
-			Func<TService> factory, ReuseType reuseType, object serviceKey) {
+			Func<TService> factory, ReuseType reuseType = ReuseType.Transient, object serviceKey = null) {
 			// We can't figure out what type will returned from factory, the hint type will be the service type
 			var factoryData = FactoryDataCache.GetOrAdd(
 				Pair.Create(typeof(TService), reuseType),
@@ -361,7 +369,7 @@ namespace ZKWebStandard.Ioc {
 		/// Unregister all factories with specified service type and service key<br/>
 		/// 注销所有注册到指定服务类型和服务键的工厂函数<br/>
 		/// </summary>
-		public void Unregister(Type serviceType, object serviceKey) {
+		public void Unregister(Type serviceType, object serviceKey = null) {
 			var key = Pair.Create(serviceType, serviceKey);
 			FactoriesLock.EnterWriteLock();
 			try {
@@ -376,7 +384,7 @@ namespace ZKWebStandard.Ioc {
 		/// Unregister all factories with specified service type and service key<br/>
 		/// 注销所有注册到指定服务类型和服务键的工厂函数<br/>
 		/// </summary>
-		public void Unregister<TService>(object serviceKey) {
+		public void Unregister<TService>(object serviceKey = null) {
 			Unregister(typeof(TService), serviceKey);
 		}
 
@@ -384,7 +392,7 @@ namespace ZKWebStandard.Ioc {
 		/// Unregister factories with specified implementation type and service key<br/>
 		/// 按实现类型和服务键注销所有相关的工厂函数<br/>
 		/// </summary>
-		public void UnregisterImplementation(Type implementationType, object serviceKey) {
+		public void UnregisterImplementation(Type implementationType, object serviceKey = null) {
 			var serviceTypes = GetImplementedServiceTypes(implementationType, true).ToList();
 			var keys = serviceTypes.Select(t => Pair.Create(t, serviceKey)).ToList();
 			FactoriesLock.EnterWriteLock();
@@ -403,7 +411,7 @@ namespace ZKWebStandard.Ioc {
 		/// Unregister factories with specified implementation type and service key<br/>
 		/// 按实现类型和服务键注册所有相关的工厂函数<br/>
 		/// </summary>
-		public void UnregisterImplementation<TImplementation>(object serviceKey) {
+		public void UnregisterImplementation<TImplementation>(object serviceKey = null) {
 			UnregisterImplementation(typeof(TImplementation), serviceKey);
 		}
 
@@ -419,7 +427,9 @@ namespace ZKWebStandard.Ioc {
 				Interlocked.Increment(ref Revision);
 				FactoriesLock.ExitWriteLock();
 			}
+#pragma warning disable S1215
 			GC.Collect();
+#pragma warning restore S1215
 		}
 
 		/// <summary>
@@ -450,7 +460,8 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键获取实例<br/>
 		/// 找不到时根据ifUnresolved参数抛出例外或者返回默认值<br/>
 		/// </summary>
-		public object Resolve(Type serviceType, IfUnresolved ifUnresolved, object serviceKey) {
+		public object Resolve(
+			Type serviceType, IfUnresolved ifUnresolved = IfUnresolved.Throw, object serviceKey = null) {
 			var key = Pair.Create(serviceType, serviceKey);
 			Func<object> factory;
 			long factoriesCount;
@@ -465,7 +476,7 @@ namespace ZKWebStandard.Ioc {
 					factories = Factories.GetOrDefault(baseKey);
 					factoriesCount = factories?.Count ?? 0;
 					if (factoriesCount == 1) {
-						var factoryData = factories[0];
+						var factoryData = factories?[0];
 						factory = () => ((Func<Type, object>)factoryData.ObjectFactory.Invoke())(serviceType);
 					} else {
 						factory = null;
@@ -474,8 +485,8 @@ namespace ZKWebStandard.Ioc {
 					// Use normal factory
 					factoriesCount = factories?.Count ?? 0;
 					if (factoriesCount == 1) {
-						var factoryData = factories[0];
-						factory = factoryData.ObjectFactory;
+						var factoryData = factories?[0];
+						factory = factoryData?.ObjectFactory;
 					} else {
 						factory = null;
 					}
@@ -507,7 +518,8 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键获取实例<br/>
 		/// 找不到时根据ifUnresolved参数抛出例外或者返回默认值<br/>
 		/// </summary>
-		public TService Resolve<TService>(IfUnresolved ifUnresolved, object serviceKey) {
+		public TService Resolve<TService>(
+			IfUnresolved ifUnresolved = IfUnresolved.Throw, object serviceKey = null) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
 				// Use faster method
 				var data = ContainerFactoriesCache<TService>.Data;
@@ -528,7 +540,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键获取实例列表<br/>
 		/// 如果无注册的服务则返回空列表<br/>
 		/// </summary>
-		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey) {
+		public IEnumerable<object> ResolveMany(Type serviceType, object serviceKey = null) {
 			var key = Pair.Create(serviceType, serviceKey);
 			var factoriesCopy = new List<Func<object>>();
 			// Copy factories
@@ -564,7 +576,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键获取服务列表<br/>
 		/// 如果无注册的服务则返回空列表<br/>
 		/// </summary>
-		public IEnumerable<TService> ResolveMany<TService>(object serviceKey) {
+		public IEnumerable<TService> ResolveMany<TService>(object serviceKey = null) {
 			if (serviceKey == null && ContainerFactoriesCache.Enabled) {
 				// Use faster method
 				var data = ContainerFactoriesCache<TService>.Data;
@@ -589,7 +601,7 @@ namespace ZKWebStandard.Ioc {
 		/// 如果无注册的服务则返回空列表<br/>
 		/// </summary>
 		public IEnumerable<ContainerFactoryData> ResolveFactories(
-			Type serviceType, object serviceKey) {
+			Type serviceType, object serviceKey = null) {
 			var key = Pair.Create(serviceType, serviceKey);
 			var factoriesCopy = new List<ContainerFactoryData>();
 			// Copy factories
@@ -611,7 +623,7 @@ namespace ZKWebStandard.Ioc {
 		/// 根据服务类型和服务键获取工厂函数<br/>
 		/// 如果无注册的服务则返回空列表<br/>
 		/// </summary>
-		public IEnumerable<ContainerFactoryData> ResolveFactories<TService>(object serviceKey) {
+		public IEnumerable<ContainerFactoryData> ResolveFactories<TService>(object serviceKey = null) {
 			return ResolveFactories(typeof(TService), serviceKey);
 		}
 
@@ -671,7 +683,9 @@ namespace ZKWebStandard.Ioc {
 		/// 清理容器的资源<br/>
 		/// </summary>
 		public void Dispose() {
+#pragma warning disable S1215
 			GC.Collect();
+#pragma warning restore S1215
 		}
 	}
 }

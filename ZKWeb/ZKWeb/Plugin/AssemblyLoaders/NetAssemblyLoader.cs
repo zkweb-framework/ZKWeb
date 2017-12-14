@@ -52,6 +52,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 						assembly = Load(new AssemblyName(name + suffix));
 						break;
 					} catch {
+						// Retry next round
 					}
 				}
 				if (assembly == null) {
@@ -84,7 +85,9 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		/// 根据文件路径加载程序集<br/>
 		/// </summary>
 		public override Assembly LoadFile(string path) {
+#pragma warning disable S3885 // "Assembly.Load" should be used
 			var assembly = Assembly.LoadFile(path);
+#pragma warning restore S3885 // "Assembly.Load" should be used
 			return HandleLoadedAssembly(assembly);
 		}
 

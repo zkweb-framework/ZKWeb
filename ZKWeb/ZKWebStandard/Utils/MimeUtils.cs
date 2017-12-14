@@ -9,6 +9,8 @@ namespace ZKWebStandard.Utils {
 	/// Mime类型的工具函数<br/>
 	/// </summary>
 	public static class MimeUtils {
+#pragma warning disable S2386 // Mutable fields should not be "public static"
+#pragma warning disable S3887 // Mutable, non-private fields should not be "readonly"
 		/// <summary>
 		/// Mime mapping<br/>
 		/// Mime类型<br/>
@@ -576,6 +578,8 @@ namespace ZKWebStandard.Utils {
 				{".z", "application/x-compress"},
 				{".zip", "application/x-zip-compressed"},
 			};
+#pragma warning restore S3887 // Mutable, non-private fields should not be "readonly"
+#pragma warning restore S2386 // Mutable fields should not be "public static"
 
 		/// <summary>
 		/// Get mime type from file extension<br/>

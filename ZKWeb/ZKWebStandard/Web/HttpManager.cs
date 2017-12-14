@@ -24,7 +24,11 @@ namespace ZKWebStandard.Web {
 			get {
 				var context = currentContext.Value;
 				if (context == null) {
+#pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
+#pragma warning disable S2372 // Exceptions should not be thrown from property getters
 					throw new ArgumentNullException("Context does not exists");
+#pragma warning restore S2372 // Exceptions should not be thrown from property getters
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 				}
 				return context;
 			}
