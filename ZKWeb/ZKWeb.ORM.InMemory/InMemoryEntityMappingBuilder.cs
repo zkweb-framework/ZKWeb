@@ -63,7 +63,7 @@ namespace ZKWeb.ORM.InMemory {
 			OneToManyMembers = new List<MemberInfo>();
 			ManyToManyMembers = new List<MemberInfo>();
 			// Configure with registered providers
-			foreach (provider in providers.OfType<IEntityMappingProvider<T>>()) {
+			foreach (var provider in providers.OfType<IEntityMappingProvider<T>>()) {
 				provider.Configure(this);
 			}
 		}

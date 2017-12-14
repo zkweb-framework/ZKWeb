@@ -154,7 +154,7 @@ namespace ZKWeb.ORM.InMemory {
 		/// Batch delete entities<br/>
 		/// 批量删除实体<br/>
 		/// </summary>
-		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete)
+		public long BatchDelete<T>(Expression<Func<T, bool>> predicate, Action<T> beforeDelete = null)
 			where T : class, IEntity {
 			var entities = Query<T>().Where(predicate).ToList();
 			entities.ForEach(e => { beforeDelete?.Invoke(e); Delete(e); });
