@@ -2,7 +2,13 @@ language: csharp
 mono: none
 dotnet: 2.0.2
 dist: trusty
+sudo: required
+addons:
+  apt:
+    packages:
+      - libgdiplus
 script:
+  - sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
   - cd ZKWeb/ZKWeb.Console
   - dotnet restore
   - dotnet run -c Release -f netcoreapp2.0
