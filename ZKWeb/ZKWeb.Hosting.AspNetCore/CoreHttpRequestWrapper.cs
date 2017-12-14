@@ -91,7 +91,9 @@ namespace ZKWeb.Hosting.AspNetCore {
 		}
 		public IList<string> GetFormValue(string key) {
 			if (!ContainsFormValues.Value) {
+#pragma warning disable S1168 // Empty arrays and collections should be returned instead of null
 				return null;
+#pragma warning restore S1168 // Empty arrays and collections should be returned instead of null
 			}
 			return CoreRequest.Form[key];
 		}

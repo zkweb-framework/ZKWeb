@@ -61,7 +61,7 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			// Unsupported options: Unique, Nullable, Index, CascadeDelete
 			options = options ?? new EntityMappingOptions();
 			var idPart = base.Id(Expression.Lambda<Func<T, object>>(

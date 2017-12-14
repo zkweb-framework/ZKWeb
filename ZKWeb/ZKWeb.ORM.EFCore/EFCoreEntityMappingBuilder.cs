@@ -43,7 +43,7 @@ namespace ZKWeb.ORM.EFCore {
 			IEnumerable<IEntityMappingProvider> providers) {
 			Builder = builder.Entity<T>();
 			// Configure with registered providers
-			foreach (IEntityMappingProvider<T> provider in providers) {
+			foreach (var provider in providers.OfType<IEntityMappingProvider<T>>()) {
 				provider.Configure(this);
 			}
 			// Set table name with registered handlers
@@ -115,7 +115,7 @@ namespace ZKWeb.ORM.EFCore {
 					memberExpression.Parameters)).HasName(options.Index);
 			}
 			if (!string.IsNullOrEmpty(options.CustomSqlType)) {
-				propertyBuilder = propertyBuilder.HasColumnType(options.CustomSqlType);
+				propertyBuilder.HasColumnType(options.CustomSqlType);
 			}
 			if (options.WithSerialization == true) {
 				// log error only, some functions may not work

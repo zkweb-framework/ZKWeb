@@ -7,7 +7,9 @@
 	/// 内置IoC容器的性能测试<br/>
 	/// </summary>
 	public static class IocContainerBenchmark {
+#pragma warning disable S101 // Types should be named in camel case
 		public interface BenchmarkInterface { }
+#pragma warning restore S101 // Types should be named in camel case
 		public class BenchmarkClass : BenchmarkInterface { }
 
 		private static void BenchmarkRegisterTransient() {
@@ -67,7 +69,7 @@
 			}
 			var begin = DateTime.UtcNow;
 			for (var i = 0; i < 10000000; ++i) {
-				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { }
+				foreach (var instance in container.ResolveMany<BenchmarkInterface>()) { /* do nothing */ }
 			}
 			Console.WriteLine("Used {0}s", (DateTime.UtcNow - begin).TotalSeconds);
 		}

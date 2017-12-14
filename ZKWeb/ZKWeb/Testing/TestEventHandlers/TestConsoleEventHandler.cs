@@ -44,6 +44,7 @@ namespace ZKWeb.Testing.TestEventHandlers {
 		}
 
 		public void OnTestPassed(TestPassedInfo info) {
+			// do nothing
 		}
 
 		public void OnTestSkipped(TestSkippedInfo info) {

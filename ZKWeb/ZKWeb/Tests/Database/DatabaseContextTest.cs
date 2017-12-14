@@ -20,8 +20,8 @@ namespace ZKWeb.Tests.Database {
 					Application.Ioc.RegisterInstance<IEntityOperationHandler<TestTable>>(handler);
 					// Save
 					using (var context = databaseManager.CreateContext()) {
-						var obj = new TestTable() { Name = "TestName" };
-						var otherObj = new TestTable() { Name = "OtherName" };
+						var obj = new TestTable { Name = "TestName" };
+						var otherObj = new TestTable { Name = "OtherName" };
 						context.Save(ref obj);
 						context.Save(ref otherObj);
 						Assert.Equals(handler.BeforeSaveCount, 2);
@@ -101,9 +101,9 @@ namespace ZKWeb.Tests.Database {
 					// FastBatchSave
 					using (var context = databaseManager.CreateContext()) {
 						var objs = new[] {
-							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_1" },
-							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_2" },
-							new TestTable() { Id = Guid.NewGuid(), Name = "TestName_3" }
+							new TestTable { Id = Guid.NewGuid(), Name = "TestName_1" },
+							new TestTable { Id = Guid.NewGuid(), Name = "TestName_2" },
+							new TestTable { Id = Guid.NewGuid(), Name = "TestName_3" }
 						};
 						context.FastBatchSave<TestTable, Guid>(objs);
 					}
@@ -147,19 +147,19 @@ namespace ZKWeb.Tests.Database {
 			public int BeforeDeleteCount { get; set; }
 			public int AfterDeleteCount { get; set; }
 
-			public void BeforeSave(IDatabaseContext context, TestTable data) {
+			public void BeforeSave(IDatabaseContext context, TestTable entity) {
 				++BeforeSaveCount;
 			}
 
-			public void AfterSave(IDatabaseContext context, TestTable data) {
+			public void AfterSave(IDatabaseContext context, TestTable entity) {
 				++AfterSaveCount;
 			}
 
-			public void BeforeDelete(IDatabaseContext context, TestTable data) {
+			public void BeforeDelete(IDatabaseContext context, TestTable entity) {
 				++BeforeDeleteCount;
 			}
 
-			public void AfterDelete(IDatabaseContext context, TestTable data) {
+			public void AfterDelete(IDatabaseContext context, TestTable entity) {
 				++AfterDeleteCount;
 			}
 		}

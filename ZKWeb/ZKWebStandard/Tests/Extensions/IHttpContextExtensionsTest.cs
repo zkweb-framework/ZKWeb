@@ -7,7 +7,7 @@ namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
 	class IHttpContextExtensionsTest {
 		public void PutData() {
-			var list = new string[] { "a", "b", "c" };
+			var list = new [] { "a", "b", "c" };
 			HttpManager.CurrentContext.PutData("TestPutData", list);
 			Assert.Equals(HttpManager.CurrentContext.GetData<string[]>("TestPutData"), list);
 		}

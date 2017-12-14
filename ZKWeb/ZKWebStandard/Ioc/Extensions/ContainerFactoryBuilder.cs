@@ -111,6 +111,7 @@ namespace ZKWebStandard.Ioc.Extensions {
 				}
 				// Detect IList<T> and IEnumerable<T>
 				if (!parameterType.IsGenericType) {
+					// do nothing
 				} else if (parameterType.GetGenericTypeDefinition() == typeof(List<>) ||
 					parameterType.GetGenericTypeDefinition() == typeof(IList<>) ||
 					parameterType.GetGenericTypeDefinition() == typeof(ICollection<>)) {

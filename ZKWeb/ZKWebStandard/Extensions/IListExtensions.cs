@@ -26,10 +26,7 @@ namespace ZKWebStandard.Extensions {
 		/// </example>
 		public static int FindIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
-			if (startIndex < 0) {
-				startIndex = 0;
-			}
-			for (int i = startIndex; i < items.Count; ++i) {
+			for (int i = Math.Max(startIndex, 0); i < items.Count; ++i) {
 				if (match(items[i])) {
 					return i;
 				}
@@ -77,10 +74,7 @@ namespace ZKWebStandard.Extensions {
 		/// </example>
 		public static int FindLastIndex<T>(
 			this IList<T> items, int startIndex, Predicate<T> match) {
-			if (startIndex > items.Count - 1) {
-				startIndex = items.Count - 1;
-			}
-			for (int i = startIndex; i >= 0; --i) {
+			for (int i = Math.Min(startIndex, items.Count - 1); i >= 0; --i) {
 				if (match(items[i])) {
 					return i;
 				}

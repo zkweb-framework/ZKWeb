@@ -13,7 +13,7 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals("abc".EqualsSupportsNull("abc"), true);
 		}
 
-		enum TestEnum {
+		enum TestEnumType {
 			Zero = 0,
 			One = 1
 		}
@@ -24,12 +24,12 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals("abc".ConvertOrDefault<int?>(), null);
 			Assert.Equals("abc".ConvertOrDefault<int?>(100), 100);
 			Assert.Equals("1.0".ConvertOrDefault<decimal?>(), 1.0M);
-			Assert.Equals("1".ConvertOrDefault<TestEnum?>(), TestEnum.One);
-			Assert.Equals((1).ConvertOrDefault<TestEnum?>(), TestEnum.One);
-			Assert.Equals("One".ConvertOrDefault<TestEnum>(), TestEnum.One);
-			Assert.Equals("One".ConvertOrDefault<TestEnum?>(), TestEnum.One);
-			Assert.Equals(TestEnum.One.ConvertOrDefault<int>(), 1);
-			Assert.Equals(TestEnum.One.ConvertOrDefault<string>(), "One");
+			Assert.Equals("1".ConvertOrDefault<TestEnumType?>(), TestEnumType.One);
+			Assert.Equals((1).ConvertOrDefault<TestEnumType?>(), TestEnumType.One);
+			Assert.Equals("One".ConvertOrDefault<TestEnumType>(), TestEnumType.One);
+			Assert.Equals("One".ConvertOrDefault<TestEnumType?>(), TestEnumType.One);
+			Assert.Equals(TestEnumType.One.ConvertOrDefault<int>(), 1);
+			Assert.Equals(TestEnumType.One.ConvertOrDefault<string>(), "One");
 			Assert.Equals(new List<int>().ConvertOrDefault<int?>(), null);
 			Assert.Equals((100).ConvertOrDefault<string>(), "100");
 			Assert.Equals("test".ConvertOrDefault<string>(), "test");
@@ -43,12 +43,12 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals("abc".ConvertOrDefault(typeof(int?), null), null);
 			Assert.Equals("abc".ConvertOrDefault(typeof(int?), 100), 100);
 			Assert.Equals("1.0".ConvertOrDefault(typeof(decimal?), null), 1.0M);
-			Assert.Equals("1".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-			Assert.Equals((1).ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-			Assert.Equals("One".ConvertOrDefault(typeof(TestEnum), null), TestEnum.One);
-			Assert.Equals("One".ConvertOrDefault(typeof(TestEnum?), null), TestEnum.One);
-			Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(int), null), 1);
-			Assert.Equals(TestEnum.One.ConvertOrDefault(typeof(string), null), "One");
+			Assert.Equals("1".ConvertOrDefault(typeof(TestEnumType?), null), TestEnumType.One);
+			Assert.Equals((1).ConvertOrDefault(typeof(TestEnumType?), null), TestEnumType.One);
+			Assert.Equals("One".ConvertOrDefault(typeof(TestEnumType), null), TestEnumType.One);
+			Assert.Equals("One".ConvertOrDefault(typeof(TestEnumType?), null), TestEnumType.One);
+			Assert.Equals(TestEnumType.One.ConvertOrDefault(typeof(int), null), 1);
+			Assert.Equals(TestEnumType.One.ConvertOrDefault(typeof(string), null), "One");
 			Assert.Equals(new List<int>().ConvertOrDefault(typeof(int?), null), null);
 			Assert.Equals((100).ConvertOrDefault(typeof(string), null), "100");
 			Assert.Equals("test".ConvertOrDefault(typeof(string), null), "test");

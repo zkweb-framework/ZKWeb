@@ -144,7 +144,7 @@ namespace ZKWeb.Tests.Web {
 				// test get parameter from posted file
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				using (HttpManager.OverrideContext("__test_action_f", HttpMethods.POST)) {
-					var file = new HttpPostFileMock() { filename = "abc.txt" };
+					var file = new HttpPostFileMock { filename = "abc.txt" };
 					var request = (HttpRequestMock)HttpManager.CurrentContext.Request;
 					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
 					request.postedFiles["file"] = file;
@@ -174,7 +174,7 @@ namespace ZKWeb.Tests.Web {
 			using (Application.OverrideIoc()) {
 				// test global registered action filter
 				Application.Ioc.Unregister<IActionFilter>();
-				Application.Ioc.RegisterInstance<IActionFilter>(new TestActionFilter());
+				Application.Ioc.RegisterInstance<IActionFilter>(new TestActionFilterAttribute());
 				OnRequestTest(() => {
 					var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 					using (HttpManager.OverrideContext("__test_action_h", HttpMethods.GET)) {
@@ -254,7 +254,9 @@ namespace ZKWeb.Tests.Web {
 		public void NormalizePath() {
 			var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 			Assert.Equals(controllerManager.NormalizePath("abc"), "/abc");
+#pragma warning disable S1075 // URIs should not be hardcoded
 			Assert.Equals(controllerManager.NormalizePath("/abc/"), "/abc");
+#pragma warning restore S1075 // URIs should not be hardcoded
 			Assert.Equals(controllerManager.NormalizePath("/"), "/");
 		}
 
@@ -328,7 +330,7 @@ namespace ZKWeb.Tests.Web {
 		}
 
 		public class TestController : IController {
-			private static int _counter = 0;
+			private static int _counter;
 			public int Value { get; } = Interlocked.Increment(ref _counter);
 
 			[Action("__test_action_a")]
@@ -401,12 +403,12 @@ namespace ZKWeb.Tests.Web {
 			public int age { get; set; }
 		}
 
-		public class TestActionFilter : ActionFilterAttribute {
+		public class TestActionFilterAttribute : ActionFilterAttribute {
 			public override Func<IActionResult> Filter(Func<IActionResult> action) {
 				return () => {
 					var result = action();
-					if (result is PlainResult)
-						((PlainResult)result).Text += "Injected";
+					if (result is PlainResult plainResult)
+						plainResult.Text += "Injected";
 					return result;
 				};
 			}

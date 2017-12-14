@@ -13,11 +13,13 @@ using ZKWeb.Database;
 using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.NHibernate {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// NHibernate database context<br/>
 	/// Nhibernate的数据库上下文<br/>
 	/// </summary>
 	public class NHibernateDatabaseContext : IDatabaseContext {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// NHibernate session<br/>
 		/// NHibernate的会话<br/>
