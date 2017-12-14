@@ -2,11 +2,13 @@
 using System.Diagnostics;
 
 namespace ZKWeb.Database.Wrappers {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Wrapper for IDbCommand, use to log commands<br/>
 	/// IDbCommand的包装类, 用于记录命令<br/>
 	/// </summary>
 	public class DbCommandWrapper : IDbCommand {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 #pragma warning disable CS1591
 		private readonly IDbCommand Command;
 		private readonly IDatabaseContext Context;

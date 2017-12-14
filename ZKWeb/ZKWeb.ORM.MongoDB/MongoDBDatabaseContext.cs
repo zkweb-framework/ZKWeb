@@ -11,11 +11,13 @@ using MongoDB.Bson;
 using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.MongoDB {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// MongoDB database context<br/>
 	/// MongoDB的数据库上下文<br/>
 	/// </summary>
 	public class MongoDBDatabaseContext : IDatabaseContext {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// MongoDB entity mappings<br/>
 		/// MongoDB的实体映射集合<br/>
@@ -262,16 +264,14 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public IEnumerable<T> RawQuery<T>(object query, object parameters)
 			where T : class {
-			if (query is FilterDefinition<T>) {
+			if (query is FilterDefinition<T> filter) {
 				return GetCollection<T>().Find(
-					(FilterDefinition<T>)query,
-					parameters as FindOptions).ToEnumerable();
-			} else if (query is Command<T>) {
+					filter, parameters as FindOptions).ToEnumerable();
+			} else if (query is Command<T> command) {
 				return new[] { MongoDatabase.RunCommand(
-					(Command<T>)query, parameters as ReadPreference)
+					command, parameters as ReadPreference)
 				};
-			} else if (query is BsonJavaScript[]) {
-				var scripts = (BsonJavaScript[])query;
+			} else if (query is BsonJavaScript[] scripts) {
 				return GetCollection<T>().MapReduce(
 					scripts[0], scripts[1],
 					parameters as MapReduceOptions<T, T>).ToEnumerable();

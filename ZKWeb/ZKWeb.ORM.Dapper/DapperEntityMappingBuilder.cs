@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.FastReflection;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ZKWeb.Database;
@@ -62,7 +63,7 @@ namespace ZKWeb.ORM.Dapper {
 			idMember = null;
 			ordinaryMembers = new List<MemberInfo>();
 			// Configure with registered providers
-			foreach (IEntityMappingProvider<T> provider in providers) {
+			foreach (var provider in providers.OfType<IEntityMappingProvider<T>>()) {
 				provider.Configure(this);
 			}
 			// Ignore members that not mapped by this builder
@@ -101,7 +102,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			options = options ?? new EntityMappingOptions();
 			var idMap = base.Map(Expression.Lambda<Func<T, object>>(
 				Expression.Convert(memberExpression.Body, typeof(object)),
@@ -113,7 +114,7 @@ namespace ZKWeb.ORM.Dapper {
 				idMap = idMap.IsIdentity();
 			}
 			if (!string.IsNullOrEmpty(options.Column)) {
-				idMap = idMap.ToColumn(options.Column);
+				idMap.ToColumn(options.Column);
 			}
 			if (options.WithSerialization == true) {
 				TypeHandlerRegistrator.RegisterJsonSerializedType(typeof(TPrimaryKey));
@@ -163,7 +164,7 @@ namespace ZKWeb.ORM.Dapper {
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TChild : class {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();

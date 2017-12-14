@@ -49,7 +49,7 @@ namespace ZKWeb.Hosting.Owin {
 			// configure zkweb middleware
 			var websiteRootDirectory = app.Properties.GetOrDefault<string>("host.WebsiteRootDirectory");
 			websiteRootDirectory = websiteRootDirectory ?? GetWebsiteRootDirectory();
-			app.UseZKWeb<TApplication>(GetWebsiteRootDirectory());
+			app.UseZKWeb<TApplication>(websiteRootDirectory);
 		}
 	}
 }

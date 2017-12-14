@@ -110,7 +110,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public void Id<TPrimaryKey>(
 			Expression<Func<T, TPrimaryKey>> memberExpression,
-			EntityMappingOptions options) {
+			EntityMappingOptions options = null) {
 			// Unsupported options: Length, Unique, Nullable
 			// Index, CustomSqlType, CascadeDelete, WithSerialization
 			options = options ?? new EntityMappingOptions();
@@ -167,7 +167,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public void References<TOther>(
 			Expression<Func<T, TOther>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TOther : class {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();
@@ -180,7 +180,7 @@ namespace ZKWeb.ORM.MongoDB {
 		/// </summary>
 		public void HasMany<TChild>(
 			Expression<Func<T, IEnumerable<TChild>>> memberExpression,
-			EntityMappingOptions options)
+			EntityMappingOptions options = null)
 			where TChild : class {
 			// log error only, some functions may not work
 			var logManager = Application.Ioc.Resolve<LogManager>();

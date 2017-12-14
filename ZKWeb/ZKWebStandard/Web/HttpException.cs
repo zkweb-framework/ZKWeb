@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace ZKWebStandard.Web {
+#pragma warning disable S3925 // "ISerializable" should be implemented correctly
 	/// <summary>
 	/// Http exception<br/>
 	/// Please use this type instead of Asp.Net and Asp.Net Core's<br/>
@@ -14,6 +14,7 @@ namespace ZKWebStandard.Web {
 	/// </code>
 	/// </example>
 	public class HttpException : Exception {
+#pragma warning restore S3925 // "ISerializable" should be implemented correctly
 		/// <summary>
 		/// Status code<br/>
 		/// 状态码<br/>

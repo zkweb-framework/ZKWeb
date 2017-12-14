@@ -10,7 +10,7 @@
 	/// 控制台程序<br/>
 	/// 用于内部测试<br/>
 	/// </summary>
-	internal class Program {
+	internal static class Program {
 		/// <summary>
 		/// Get website root directory<br/>
 		/// 获取网站的根目录<br/>
@@ -40,7 +40,10 @@
 			var testEventHandler = new TestConsoleEventHandler();
 			testManager.RunAllAssemblyTest(testEventHandler);
 			if (testEventHandler.CompletedInfo.Counter.Failed > 0) {
-				throw new Exception("Some test failed");
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("Some test failed");
+				Console.ResetColor();
+				Environment.Exit(1);
 			} else {
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine("All tests passed");

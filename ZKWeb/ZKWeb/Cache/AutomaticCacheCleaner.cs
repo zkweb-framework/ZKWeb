@@ -41,7 +41,9 @@ namespace ZKWeb.Cache {
 							// Clear cache + collect garbage
 							var cleaners = Application.Ioc.ResolveMany<ICacheCleaner>();
 							cleaners.ForEach(c => c.ClearCache());
+#pragma warning disable S1215 // "GC.Collect" should not be called
 							GC.Collect();
+#pragma warning restore S1215 // "GC.Collect" should not be called
 						}
 					} catch (Exception e) {
 						var logManager = Application.Ioc.Resolve<LogManager>();

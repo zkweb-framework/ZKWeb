@@ -109,7 +109,9 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 			foreach (var plugin in pluginManager.Plugins) {
 				var path = plugin.ReferenceAssemblyPath(requireName.Name);
 				if (path != null) {
+#pragma warning disable S3885 // "Assembly.Load" should be used
 					return Assembly.LoadFrom(path);
+#pragma warning restore S3885 // "Assembly.Load" should be used
 				}
 			}
 			// It's not found, return null
