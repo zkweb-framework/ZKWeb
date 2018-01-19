@@ -17,9 +17,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentNHibernate" Version="2.0.3" />
-		<PackageReference Include="MySql.Data" Version="6.9.9" />
-		<PackageReference Include="NHibernate" Version="5.0.0" />
-		<PackageReference Include="Npgsql" Version="3.2.5" />
+		<PackageReference Include="MySql.Data" Version="6.10.5" />
+		<PackageReference Include="NHibernate" Version="5.0.3" />
+		<PackageReference Include="Npgsql" Version="3.2.6" />
 		<PackageReference Include="ZKWeb.Repack.SQLite" Version="1.0.104" />
 	</ItemGroup>
 
