@@ -57,8 +57,8 @@ namespace ZKWeb.Web {
 				// Write response
 				result.WriteResponse(context.Response);
 				// If result is disposable, dispose it
-				if (result is IDisposable) {
-					((IDisposable)result).Dispose();
+				if (result is IDisposable disposable) {
+					disposable.Dispose();
 				}
 				// End response
 				context.Response.End();

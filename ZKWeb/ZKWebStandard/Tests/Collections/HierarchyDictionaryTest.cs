@@ -16,6 +16,7 @@ namespace ZKWebStandard.Tests.Collections {
 			Assert.Equals(dict[new[] { 1, 8, 8, 0, 1 }], "18801");
 			Assert.Throws<KeyNotFoundException>(() => {
 				var _ = dict[new[] { 1, 0, 0 }];
+				
 			});
 		}
 

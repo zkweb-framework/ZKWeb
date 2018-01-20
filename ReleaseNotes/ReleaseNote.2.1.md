@@ -27,7 +27,7 @@
 	- Microsoft.AspNetCore.Http.Abstractions 2.0.1
 	- MySql.Data 6.10.5
 - Bug fixes
-	- Fix state didn't reset during EFCore dbcontext recycle
+	- Fix state didn't reset during EFCore dbcontext reusing
 - Improve plugin system
 	- Support disable automatic plugin relodaing
 	- Provide a method to decide which plugin to load

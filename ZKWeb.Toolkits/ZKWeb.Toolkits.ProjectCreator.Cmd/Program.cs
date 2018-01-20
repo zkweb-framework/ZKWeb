@@ -5,7 +5,7 @@ using ZKWeb.Toolkits.ProjectCreator.Cmd.Properties;
 using ZKWeb.Toolkits.ProjectCreator.Model;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Cmd {
-	public class Program {
+	internal static class Program {
 		public static void Main(string[] args) {
 			var parameters = new CreateProjectParameters();
 			var showHelp = false;

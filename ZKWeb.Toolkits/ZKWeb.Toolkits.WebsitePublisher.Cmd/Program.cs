@@ -5,7 +5,7 @@ using ZKWeb.Toolkits.WebsitePublisher.Cmd.Properties;
 using ZKWeb.Toolkits.WebsitePublisher.Model;
 
 namespace ZKWeb.Toolkits.WebsitePublisher.Cmd {
-	public class Program {
+	internal static class Program {
 		public static void Main(string[] args) {
 			var parameters = new PublishWebsiteParameters();
 			var showHelp = false;

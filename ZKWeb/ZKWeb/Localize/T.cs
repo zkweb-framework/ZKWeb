@@ -1,4 +1,6 @@
 ﻿using DotLiquid;
+using System;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Localize {
 	/// <summary>
@@ -16,7 +18,7 @@ namespace ZKWeb.Localize {
 	/// string translated = new T("Original");
 	/// </code>
 	/// </example>
-	public struct T : ILiquidizable {
+	public struct T : ILiquidizable, IEquatable<T> {
 		/// <summary>
 		/// Original text<br/>
 		/// 原文<br/>
@@ -76,6 +78,15 @@ namespace ZKWeb.Localize {
 				text = string.Format(text, Parameters);
 			}
 			return text;
+		}
+
+		/// <summary>
+		/// Compare two objects are equatable<br/>
+		/// 比较两个对象是否相等<br/>
+		/// </summary>
+		public bool Equals(T other) {
+			return Text == other.Text &&
+				Parameters.EqualsSupportsNull(other.Parameters);
 		}
 	}
 }
