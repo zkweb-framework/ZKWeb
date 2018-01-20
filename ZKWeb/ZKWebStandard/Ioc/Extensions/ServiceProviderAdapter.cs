@@ -86,7 +86,8 @@ namespace ZKWebStandard.Ioc.Extensions {
 			if (serviceType.IsGenericType &&
 				serviceType.GetGenericTypeDefinition() == typeof(Func<>)) {
 				isFunc = true;
-				serviceType = funcReturnType = serviceType.GetGenericArguments()[0];
+				funcReturnType = serviceType.GetGenericArguments()[0];
+				serviceType = funcReturnType;
 			}
 			// Detect Lazy<T>
 			if (serviceType.IsGenericType &&

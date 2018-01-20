@@ -30,6 +30,8 @@ namespace ZKWebStandard.Extensions {
 							messageBuilder.Append(loaderException.ToDetailedString());
 						}
 						break;
+					default:
+						break;
 				}
 				ex = ex.InnerException;
 			}

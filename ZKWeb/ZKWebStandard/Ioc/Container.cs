@@ -637,7 +637,8 @@ namespace ZKWebStandard.Ioc {
 				lock (ScopedDisposeQueue) {
 					queue = ScopedDisposeQueue.Value;
 					if (queue == null) {
-						ScopedDisposeQueue.Value = queue = new ConcurrentQueue<IDisposable>();
+						queue = new ConcurrentQueue<IDisposable>();
+						ScopedDisposeQueue.Value = queue;
 					}
 				}
 			}
