@@ -30,26 +30,26 @@ namespace ZKWebStandard.Ioc {
 		/// Matched container instance<br/>
 		/// 容器的实例<br/>
 		/// </summary>
-		internal IContainer Container = null;
+		internal IContainer Container;
 		/// <summary>
 		/// Matched container revision<br/>
 		/// 容器的版本<br/>
 		/// </summary>
-		internal int Revision = 0;
+		internal int Revision;
 		/// <summary>
 		/// Factories for given services<br/>
 		/// Service key should be null<br/>
 		/// 服务的工厂函数列表<br/>
 		/// 服务键应该为null<br/>
 		/// </summary>
-		internal List<Func<TService>> Factories = null;
+		internal List<Func<TService>> Factories;
 		/// <summary>
 		/// Single factory<br/>
 		/// Available when Factories only contains one element<br/>
 		/// 单个工厂函数<br/>
 		/// 只在工厂函数列表只包含一个元素时有值<br/>
 		/// </summary>
-		internal Func<TService> SingleFactory = null;
+		internal Func<TService> SingleFactory;
 
 		/// <summary>
 		/// Initialize<br/>

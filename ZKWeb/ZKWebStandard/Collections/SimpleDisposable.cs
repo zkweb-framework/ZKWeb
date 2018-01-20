@@ -29,7 +29,7 @@ namespace ZKWebStandard.Collections {
 		/// Is method executed<br/>
 		/// 函数是否已执行<br/>
 		/// </summary>
-		protected int Disposed = 0;
+		protected int Disposed;
 
 		/// <summary>
 		/// Initialized<br/>

@@ -23,14 +23,15 @@ namespace ZKWeb.Plugin {
 		/// Is website stopping<br/>
 		/// 是否正在停止网站<br/>
 		/// </summary>
-		internal protected static int Stopping = 0;
+		internal protected static int Stopping { get { return _stopping; } }
+		private static int _stopping;
 
 		/// <summary>
 		/// Stop website<br/>
 		/// 停止网站<br/>
 		/// </summary>
 		internal protected static void StopWebsite() {
-			if (Interlocked.Exchange(ref Stopping, 1) == 1) {
+			if (Interlocked.Exchange(ref _stopping, 1) == 1) {
 				return;
 			}
 			var thread = new Thread(() => {

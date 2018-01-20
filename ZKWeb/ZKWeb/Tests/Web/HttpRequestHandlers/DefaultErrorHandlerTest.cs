@@ -12,7 +12,7 @@ namespace ZKWeb.Tests.Web.HttpRequestHandlers {
 	[Tests]
 	class DefaultErrorHandlerTest {
 		private class TestLogManager : LogManager {
-			internal bool receivedLogError = false;
+			internal bool receivedLogError;
 
 			public override void LogError(
 				string message, string memberName = null, string filePath = null, int lineNumber = 0) {

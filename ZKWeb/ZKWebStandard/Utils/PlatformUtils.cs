@@ -11,7 +11,7 @@ namespace ZKWebStandard.Utils {
 		/// Running platform is linux or mac<br/>
 		/// 运行的系统是否Linux或Mac<br/>
 		/// </summary>
-		private static bool IsLinuxOrMac = false;
+		private static bool IsLinuxOrMac;
 
 		static PlatformUtils() {
 #if NETCORE

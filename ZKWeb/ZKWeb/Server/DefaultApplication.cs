@@ -65,12 +65,12 @@ namespace ZKWeb.Server {
 		/// In progress requests<br/>
 		/// 处理中的请求数量<br/>
 		/// </summary>
-		protected int inProgressRequests = 0;
+		protected int inProgressRequests;
 		/// <summary>
 		/// Initialize Flag<br/>
 		/// 初始化标记<br/>
 		/// </summary>
-		protected int initialized = 0;
+		protected int initialized;
 		/// <summary>
 		/// Website root directory<br/>
 		/// 网站根目录的路径<br/>

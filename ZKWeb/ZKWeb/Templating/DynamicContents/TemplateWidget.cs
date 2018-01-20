@@ -31,7 +31,7 @@ namespace ZKWeb.Templating.DynamicContents {
 		/// 模块参数的序列化结果<br/>
 		/// </summary>
 		[JsonIgnore]
-		protected string argsJson = null;
+		protected string argsJson;
 		/// <summary>
 		/// Serialize result of Args, cached<br/>
 		/// 模块参数的序列化结果, 带缓存处理<br/>
