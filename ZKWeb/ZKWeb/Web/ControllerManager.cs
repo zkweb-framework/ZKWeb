@@ -146,7 +146,7 @@ namespace ZKWeb.Web {
 				path = "/" + path;
 			}
 			if (DisableCaseSensitiveRouting) {
-				path = path.ToLower();
+				path = path.ToLowerInvariant();
 			}
 			return path;
 		}

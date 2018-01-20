@@ -15,6 +15,7 @@ using Dommel;
 using MySql.Data.MySqlClient;
 using ZKWebStandard.Ioc;
 using System.Data.Common;
+using System.Globalization;
 
 namespace ZKWeb.ORM.Dapper {
 #pragma warning disable S3881 // "IDisposable" should be implemented correctly
@@ -89,17 +90,17 @@ namespace ZKWeb.ORM.Dapper {
 			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 			// Create database connection
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
-			if (string.Compare(database, "MSSQL", true) == 0) {
+			if (string.Compare(database, "MSSQL", true, CultureInfo.InvariantCulture) == 0) {
 				Connection = new Wrappers.SqlConnection(
 					new SqlConnection(connectionString), this);
-			} else if (string.Compare(database, "SQLite", true) == 0) {
+			} else if (string.Compare(database, "SQLite", true, CultureInfo.InvariantCulture) == 0) {
 				connectionString = connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory);
 				Connection = new Wrappers.SqliteConnection(
 					new SqliteConnection(connectionString), this);
-			} else if (string.Compare(database, "MySQL", true) == 0) {
+			} else if (string.Compare(database, "MySQL", true, CultureInfo.InvariantCulture) == 0) {
 				Connection = new Wrappers.MySqlConnection(
 					new MySqlConnection(connectionString), this);
-			} else if (string.Compare(database, "PostgreSQL", true) == 0) {
+			} else if (string.Compare(database, "PostgreSQL", true, CultureInfo.InvariantCulture) == 0) {
 				Connection = new Wrappers.NpgsqlConnection(
 					new NpgsqlConnection(connectionString), this);
 			} else {

@@ -179,7 +179,7 @@ namespace ZKWebStandard.Extensions {
 		/// </example>
 		public static void SaveAuto(this Image image, string filename, long quality) {
 			PathUtils.EnsureParentDirectory(filename);
-			var extension = Path.GetExtension(filename).ToLower();
+			var extension = Path.GetExtension(filename).ToLowerInvariant();
 			using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write)) {
 				image.SaveAuto(stream, extension, quality);
 			}

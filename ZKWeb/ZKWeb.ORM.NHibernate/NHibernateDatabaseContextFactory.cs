@@ -13,6 +13,7 @@ using ZKWeb.Logging;
 using ZKWeb.Storage;
 using ZKWeb.Server;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ZKWeb.ORM.NHibernate {
 	/// <summary>
@@ -61,14 +62,14 @@ namespace ZKWeb.ORM.NHibernate {
 			// create database configuration
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			IPersistenceConfigurer db;
-			if (string.Compare(database, "PostgreSQL", true) == 0) {
+			if (string.Compare(database, "PostgreSQL", true, CultureInfo.InvariantCulture) == 0) {
 				db = BetterPostgreSQLConfiguration.Better.ConnectionString(connectionString);
-			} else if (string.Compare(database, "SQLite", true) == 0) {
+			} else if (string.Compare(database, "SQLite", true, CultureInfo.InvariantCulture) == 0) {
 				db = SQLiteConfiguration.Standard.ConnectionString(
 					connectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
-			} else if (string.Compare(database, "MySQL", true) == 0) {
+			} else if (string.Compare(database, "MySQL", true, CultureInfo.InvariantCulture) == 0) {
 				db = MySQLConfiguration.Standard.ConnectionString(connectionString);
-			} else if (string.Compare(database, "MSSQL", true) == 0) {
+			} else if (string.Compare(database, "MSSQL", true, CultureInfo.InvariantCulture) == 0) {
 				db = MsSqlConfiguration.MsSql2008.ConnectionString(connectionString);
 			} else {
 				throw new ArgumentException($"unsupported database type {database}");

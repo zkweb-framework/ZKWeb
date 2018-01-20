@@ -22,7 +22,7 @@ namespace ZKWebStandard.Extensions {
 			if (data == null) {
 				return "";
 			}
-			return BitConverter.ToString(data).Replace("-", "").ToLower();
+			return BitConverter.ToString(data).Replace("-", "").ToLowerInvariant();
 		}
 	}
 }

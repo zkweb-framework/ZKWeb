@@ -17,6 +17,17 @@ namespace ZKWeb.Logging {
 	/// </example>
 	public class LogManager {
 		/// <summary>
+		/// The format of date time part in filename<br/>
+		/// 文件名中的时间格式<br/>
+		/// </summary>
+		public static readonly string DateFormatInFilename = "yyyyMMdd";
+		/// <summary>
+		/// The format of date time part in log message<br/>
+		/// 日志中的时间格式<br/>
+		/// </summary>
+		public static readonly string DateFormatInLog = "yyyy/MM/dd HH:mm:ss";
+
+		/// <summary>
 		/// Log message to file<br/>
 		/// 记录日志到文件<br/>
 		/// </summary>
@@ -44,8 +55,8 @@ namespace ZKWeb.Logging {
 		public virtual void LogDebug(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
-			var filename = $"Debug.{now.ToString("yyyyMMdd")}.log";
-			Log(filename, $"{now.ToString()} ({memberName}) {message}\r\n");
+			var filename = $"Debug.{now.ToString(DateFormatInFilename)}.log";
+			Log(filename, $"{now.ToString(DateFormatInLog)} ({memberName}) {message}\r\n");
 		}
 
 		/// <summary>
@@ -55,8 +66,8 @@ namespace ZKWeb.Logging {
 		public virtual void LogInfo(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
-			var filename = $"Info.{now.ToString("yyyyMMdd")}.log";
-			Log(filename, $"{now.ToString()} ({memberName}) {message}\r\n");
+			var filename = $"Info.{now.ToString(DateFormatInFilename)}.log";
+			Log(filename, $"{now.ToString(DateFormatInLog)} ({memberName}) {message}\r\n");
 		}
 
 		/// <summary>
@@ -68,8 +79,8 @@ namespace ZKWeb.Logging {
 			[CallerFilePath] string filePath = null,
 			[CallerLineNumber] int lineNumber = 0) {
 			var now = DateTime.UtcNow.ToLocalTime();
-			var filename = $"Error.{now.ToString("yyyyMMdd")}.log";
-			Log(filename, $"{now.ToString()} ({filePath}:{lineNumber} {memberName}) {message}\r\n");
+			var filename = $"Error.{now.ToString(DateFormatInFilename)}.log";
+			Log(filename, $"{now.ToString(DateFormatInLog)} ({filePath}:{lineNumber} {memberName}) {message}\r\n");
 		}
 
 		/// <summary>
@@ -79,8 +90,8 @@ namespace ZKWeb.Logging {
 		public virtual void LogTransaction(string message,
 			[CallerMemberName] string memberName = null) {
 			var now = DateTime.UtcNow.ToLocalTime();
-			var filename = $"Transaction.{now.ToString("yyyyMMdd")}.log";
-			Log(filename, $"{now.ToString()} ({memberName}) {message}\r\n");
+			var filename = $"Transaction.{now.ToString(DateFormatInFilename)}.log";
+			Log(filename, $"{now.ToString(DateFormatInLog)} ({memberName}) {message}\r\n");
 		}
 	}
 }

@@ -113,7 +113,7 @@ namespace ZKWeb.Storage {
 			var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
 			var device = HttpManager.CurrentContext.GetClientDevice();
 			var deviceSpecializedTemplateDirectoryName = string.Format(
-				pathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLower());
+				pathConfig.DeviceSpecializedTemplateDirectoryNameFormat, device.ToString().ToLowerInvariant());
 			// Get plugin name if explicitly specified
 			var index = path.IndexOf(':');
 			string explicitPlugin = null;

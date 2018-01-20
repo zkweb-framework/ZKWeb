@@ -55,7 +55,7 @@ namespace ZKWeb.Plugin {
 		internal protected virtual void Start() {
 			// Function use to handle file changed
 			Action<string> onFileChanged = (path) => {
-				var ext = Path.GetExtension(path).ToLower();
+				var ext = Path.GetExtension(path).ToLowerInvariant();
 				if (ext == ".cs" || ext == ".json" || ext == ".dll") {
 					StopWebsite();
 				}
