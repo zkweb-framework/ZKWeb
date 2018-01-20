@@ -142,16 +142,16 @@ namespace ZKWebStandard.Ioc {
 		/// 注册自身到容器<br/>
 		/// </summary>
 		protected void RegisterSelf() {
-			Unregister<IContainer>(null);
-			Unregister<IRegistrator>(null);
-			Unregister<IGenericRegistrator>(null);
-			Unregister<IResolver>(null);
-			Unregister<IGenericResolver>(null);
-			RegisterInstance<IContainer>(this, null);
-			RegisterInstance<IRegistrator>(this, null);
-			RegisterInstance<IGenericRegistrator>(this, null);
-			RegisterInstance<IResolver>(this, null);
-			RegisterInstance<IGenericResolver>(this, null);
+			Unregister<IContainer>();
+			Unregister<IRegistrator>();
+			Unregister<IGenericRegistrator>();
+			Unregister<IResolver>();
+			Unregister<IGenericResolver>();
+			RegisterInstance<IContainer>(this);
+			RegisterInstance<IRegistrator>(this);
+			RegisterInstance<IGenericRegistrator>(this);
+			RegisterInstance<IResolver>(this);
+			RegisterInstance<IGenericResolver>(this);
 		}
 
 		/// <summary>

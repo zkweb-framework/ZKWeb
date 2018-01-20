@@ -60,7 +60,8 @@ namespace ZKWebStandard.Extensions {
 			if (dict.Count > 0 && dict.TryGetValue(key, out value)) {
 				return value;
 			}
-			dict[key] = (value = defaultValue());
+			value = defaultValue();
+			dict[key] = value;
 			return value;
 		}
 

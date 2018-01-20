@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace ZKWeb.Toolkits.ProjectCreator.Utils {
 	/// <summary>
@@ -15,10 +16,10 @@ namespace ZKWeb.Toolkits.ProjectCreator.Utils {
 			fromPath = Path.GetFullPath(fromPath);
 			toPath = Path.GetFullPath(toPath);
 			// Get parent paths of fromPath, until toPath starts with fromPath
-			var resultPath = "";
+			var resultPath = new StringBuilder();
 			while (!toPath.StartsWith(fromPath)) {
 				fromPath = Path.GetDirectoryName(fromPath);
-				resultPath += "../";
+				resultPath.Append("../");
 				if (string.IsNullOrEmpty(fromPath)) {
 					// No common prefix, maybe not on same driver
 					return toPath;
@@ -30,8 +31,8 @@ namespace ZKWeb.Toolkits.ProjectCreator.Utils {
 			if (subPart.StartsWith("/")) {
 				subPart = subPart.Substring(1);
 			}
-			resultPath += subPart;
-			return resultPath;
+			resultPath.Append(subPart);
+			return resultPath.ToString();
 		}
 	}
 }
