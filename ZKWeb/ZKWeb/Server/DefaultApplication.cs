@@ -26,11 +26,13 @@ using ZKWebStandard.Ioc;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Server {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Default application implementation<br/>
 	/// 默认应用类<br/>
 	/// </summary>
-	public class DefaultApplication : IApplication {
+	public class DefaultApplication : IApplication, IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// ZKWeb Version String<br/>
 		/// ZKWeb的版本字符串<br/>
@@ -152,7 +154,10 @@ namespace ZKWeb.Server {
 		/// 开启核心服务<br/>
 		/// </summary>
 		protected virtual void StartServices() {
-			Ioc.Resolve<PluginReloader>().Start();
+			var config = Ioc.Resolve<WebsiteConfigManager>().WebsiteConfig;
+			if (!config.Extra.GetOrDefault(ExtraConfigKeys.DisableAutomaticPluginReloading, false)) {
+				Ioc.Resolve<PluginReloader>().Start();
+			}
 			Ioc.Resolve<AutomaticCacheCleaner>().Start();
 		}
 
@@ -171,6 +176,7 @@ namespace ZKWeb.Server {
 				var logPath = Path.Combine(rootDirectory, "emergencyError.log");
 				File.AppendAllText(logPath, message + "\r\n");
 			} catch {
+				// ignore any error because it's emergency
 			}
 		}
 
@@ -191,10 +197,10 @@ namespace ZKWeb.Server {
 			} catch (Exception ex) {
 				var message = ex.ToDetailedString();
 				LogEmergencyError(message);
-				throw new Exception(message, ex);
+				throw new InvalidOperationException(message, ex);
 			}
 		}
-		
+
 		/// <summary>
 		/// Handle http error<br/>
 		/// 处理Http错误<br/>
@@ -272,6 +278,15 @@ namespace ZKWeb.Server {
 				overrideIoc.Value = previousOverride;
 				tmp?.Dispose();
 			});
+		}
+
+		/// <summary>
+		/// Dispose the resources used by the container<br/>
+		/// 释放容器使用的资源<br/>
+		/// </summary>
+		public void Dispose() {
+			defaultIoc.Dispose();
+			overrideIoc.Dispose();
 		}
 	}
 }

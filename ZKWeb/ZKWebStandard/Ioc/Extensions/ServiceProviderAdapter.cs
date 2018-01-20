@@ -96,6 +96,7 @@ namespace ZKWebStandard.Ioc.Extensions {
 			}
 			// Detect IList<T> and IEnumerable<T>
 			if (!serviceType.IsGenericType) {
+				// Ordinary service type
 			} else if (serviceType.GetGenericTypeDefinition() == typeof(List<>) ||
 				serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
 				serviceType.GetGenericTypeDefinition() == typeof(ICollection<>)) {

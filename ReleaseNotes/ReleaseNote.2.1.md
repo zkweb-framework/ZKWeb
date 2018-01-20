@@ -28,6 +28,9 @@
 	- MySql.Data 6.10.5
 - Bug fixes
 	- Fix state didn't reset during EFCore dbcontext recycle
+- Improve plugin system
+	- Support disable automatic plugin relodaing
+	- Provide a method to decide which plugin to load
 - Improve ORM
 	- Change dapper's mysql provider to MySqlConnector (previous is Pomelo.Data.MySql)
 	- Support command logger (see IDatabaseContext.CommandLogger)

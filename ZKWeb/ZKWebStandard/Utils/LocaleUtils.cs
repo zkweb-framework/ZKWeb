@@ -205,7 +205,9 @@ namespace ZKWebStandard.Utils {
 				if (timezoneInfo != null) {
 					return timezoneInfo;
 				}
-			} catch (Exception) { }
+			} catch (Exception) {
+				// Same as above
+			}
 			// Not found
 			return null;
 		}

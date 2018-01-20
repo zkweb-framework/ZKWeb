@@ -81,5 +81,10 @@
 		/// 禁止大小写敏感的路由<br/>
 		/// </summary>
 		public const string DisableCaseSensitiveRouting = "ZKWeb.DisableCaseSensitiveRouting";
+		/// <summary>
+		/// Disable automatic plugin reloading<br/>
+		/// 禁止自动重新加载插件<br/>
+		/// </summary>
+		public const string DisableAutomaticPluginReloading = "ZKWeb.DisableAutomaticPluginReloading";
 	}
 }

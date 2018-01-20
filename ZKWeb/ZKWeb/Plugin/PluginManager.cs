@@ -34,6 +34,14 @@ namespace ZKWeb.Plugin {
 		}
 
 		/// <summary>
+		/// Check whether to load this plugin or not<br/>
+		/// 检查是否要加载此插件<br/>
+		/// </summary>
+		protected virtual bool ShouldLoadPlugin(PluginInfo pluginInfo) {
+			return true;
+		}
+
+		/// <summary>
 		/// Load all plugins<br/>
 		/// Flow<br/>
 		/// - Get plugin names from website configuration<br/>
@@ -70,7 +78,9 @@ namespace ZKWeb.Plugin {
 					throw new DirectoryNotFoundException($"Plugin directory of {pluginName} not found");
 				}
 				var info = PluginInfo.FromDirectory(dir);
-				Plugins.Add(info);
+				if (ShouldLoadPlugin(info)) {
+					Plugins.Add(info);
+				}
 			}
 			// Load plugins
 			var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
