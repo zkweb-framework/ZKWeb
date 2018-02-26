@@ -39,3 +39,12 @@
 		- InMemory: No logging
 		- MongoDB: TBD
 		- NHibernate: TBD
+- Improve routing system
+	- Support register action by method and class name
+	- Rules:
+		- Class without `[ActionBase]`, method with `[Action("abc")]` => `/abc` (for backward compatibility)<br/>
+		- Class without `[ActionBase]`, method without `[Action]` => `/$controller/$action`<br/>
+		- Class without `[ActionBase]`, method Index without `[Action]` => `/$controller`, `/$controller/Index`<br/>
+		- Class with `[ActionBase("abc")]`, method with `[Action("index")]` => `/abc/index`<br/>
+		- Class with `[ActionBase("abc")]`, method without `[Action]` => `/abc/$action`<br/>
+		- Class with `[ActionBase("abc")]`, method Index without `[Action]` => `/abc`, `/abc/Index`<br/>

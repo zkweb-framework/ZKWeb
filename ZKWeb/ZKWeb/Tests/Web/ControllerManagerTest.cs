@@ -22,6 +22,7 @@ namespace ZKWeb.Tests.Web {
 				Application.Ioc.RegisterMany<ControllerManager>(ReuseType.Singleton);
 				Application.Ioc.Unregister<IController>();
 				Application.Ioc.Register<IController, TestController>(reuseType);
+				Application.Ioc.Register<IController, TestActionBaseController>(reuseType);
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
 				controllerManager.Initialize();
 				action();
@@ -235,6 +236,48 @@ namespace ZKWeb.Tests.Web {
 			});
 		}
 
+		public void OnRequestTest_K() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("Test/TestActionK", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "text/plain; charset=utf-8");
+					Assert.Equals(response.GetContentsFromBody(), "K");
+				}
+			});
+		}
+
+		public void OnRequestTest_ActionBase_Index() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_base", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "text/plain; charset=utf-8");
+					Assert.Equals(response.GetContentsFromBody(), "IndexOfTestActionBase");
+				}
+				using (HttpManager.OverrideContext("__test_action_base/Index", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "text/plain; charset=utf-8");
+					Assert.Equals(response.GetContentsFromBody(), "IndexOfTestActionBase");
+				}
+			});
+		}
+
+		public void OnRequestTest_ActionBase_A() {
+			OnRequestTest(() => {
+				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
+				using (HttpManager.OverrideContext("__test_action_base/a/123", HttpMethods.GET)) {
+					var response = (HttpResponseMock)HttpManager.CurrentContext.Response;
+					controllerManager.OnRequest();
+					Assert.Equals(response.ContentType, "text/plain; charset=utf-8");
+					Assert.Equals(response.GetContentsFromBody(), "TestActionA_123");
+				}
+			});
+		}
+
 		public void RegisterController() {
 			OnRequestTest(() => {
 				var controllerManager = Application.Ioc.Resolve<ControllerManager>();
@@ -395,6 +438,22 @@ namespace ZKWeb.Tests.Web {
 			[Action("__test_action_j/child/{id}", HttpMethods.GET)]
 			public string TestActionJ_Child_1Param(string id) {
 				return $"TestActionJ_Child_1Param_{id}";
+			}
+
+			public string TestActionK() {
+				return "K";
+			}
+		}
+
+		[ActionBase("__test_action_base")]
+		public class TestActionBaseController : IController {
+			public string Index() {
+				return "IndexOfTestActionBase";
+			}
+
+			[Action("a/{id}")]
+			public string TestActionA(string id) {
+				return $"TestActionA_{id}";
 			}
 		}
 

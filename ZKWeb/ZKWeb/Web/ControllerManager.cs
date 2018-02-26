@@ -23,6 +23,16 @@ namespace ZKWeb.Web {
 	/// </example>
 	public class ControllerManager : IHttpRequestHandler {
 		/// <summary>
+		/// The suffix of controller type name<br/>
+		/// 控制器类型名称的后缀<br/>
+		/// </summary>
+		public static readonly string ControllerSuffix = "Controller";
+		/// <summary>
+		/// The index method name<br/>
+		/// 首页函数名称<br/>
+		/// </summary>
+		public static readonly string IndexMethodName = "Index";
+		/// <summary>
 		/// Action Collection<br/>
 		/// Action函数的集合<br/>
 		/// </summary>
@@ -68,17 +78,42 @@ namespace ZKWeb.Web {
 		/// <summary>
 		/// Register controller factory data<br/>
 		/// 注册控制器工厂函数<br/>
+		/// Rules:<br/>
+		/// Class without [ActionBase], method with [Action("abc")] => /abc (for backward compatibility)<br/>
+		/// Class without [ActionBase], method without [Action] => /$controller/$action<br/>
+		/// Class without [ActionBase], method Index without [Action] => /$controller, /$controller/Index<br/>
+		/// Class with [ActionBase("abc")], method with [Action("index")] => /abc/index<br/>
+		/// Class with [ActionBase("abc")], method without [Action] => /abc/$action<br/>
+		/// Class with [ActionBase("abc")], method Index without [Action] => /abc, /abc/Index<br/>
 		/// </summary>
 		public virtual void RegisterController(ContainerFactoryData factoryData) {
-			// Get all public methods with ActionAttribute
 			var type = factoryData.ImplementationTypeHint;
 			var factory = (Func<IController>)factoryData.GenericFactory;
+			// Calculate path base from attribute or controller name - suffix
+			var actionBaseAttribute = type.GetCustomAttribute<ActionBaseAttribute>();
+			string pathBase;
+			if (actionBaseAttribute?.PathBase != null) {
+				pathBase = actionBaseAttribute.PathBase.TrimEnd('/');
+			} else {
+				pathBase = type.Name.EndsWith(ControllerSuffix) ?
+					type.Name.Substring(0, type.Name.Length - ControllerSuffix.Length) :
+					type.Name;
+			}
 			foreach (var method in type.FastGetMethods(
-				BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
+				BindingFlags.Instance | BindingFlags.Static |
+				BindingFlags.Public | BindingFlags.DeclaredOnly)) {
+				// Ignore special methods
+				if (method.IsSpecialName) {
+					continue;
+				}
 				// Get action attributes
 				var actionAttributes = method.GetCustomAttributes<ActionAttribute>();
 				if (!actionAttributes.Any()) {
-					continue;
+					if (method.Name == IndexMethodName) {
+						actionAttributes = new[] { new ActionAttribute(), new ActionAttribute("") };
+					} else {
+						actionAttributes = new[] { new ActionAttribute() };
+					}
 				}
 				// Build action
 				var action = factory.BuildActionDelegate(method);
@@ -89,7 +124,22 @@ namespace ZKWeb.Web {
 				}
 				// Register action
 				foreach (var attribute in actionAttributes) {
-					RegisterAction(attribute.Path, attribute.Method, action, attribute.OverrideExists);
+					string path;
+					if (actionBaseAttribute == null) {
+						if (attribute.Path != null) {
+							path = attribute.Path;
+						} else {
+							path = pathBase + "/" + method.Name;
+						}
+					} else {
+						if (attribute.Path != null) {
+							path = pathBase + "/" + attribute.Path.TrimStart('/');
+						} else {
+							path = pathBase + "/" + method.Name;
+						}
+					}
+					var httpMethod = attribute.Method ?? HttpMethods.GET;
+					RegisterAction(path, httpMethod, action, attribute.OverrideExists);
 				}
 			}
 		}

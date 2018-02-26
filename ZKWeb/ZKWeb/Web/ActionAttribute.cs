@@ -10,8 +10,8 @@ namespace ZKWeb.Web {
 	/// <example>
 	/// <code language="cs">
 	/// public ExampleController : IController {
-	///		[Action("example")]
-	///		public IActionResult Example() {
+	///		[Action("example/index")]
+	///		public IActionResult Index() {
 	///			return new PlainResult("abc");
 	///		}
 	///	}
@@ -20,8 +20,8 @@ namespace ZKWeb.Web {
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 	public class ActionAttribute : Attribute {
 		/// <summary>
-		/// Path<br/>
-		/// 路径<br/>
+		/// Path, use method name if empty<br/>
+		/// 路径, 为空则使用函数名<br/>
 		/// </summary>
 		public string Path { get; set; }
 		/// <summary>
@@ -39,8 +39,12 @@ namespace ZKWeb.Web {
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="path">Path</param>
-		/// <param name="method">Method, default is GET</param>
+		public ActionAttribute() { }
+
+		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
 		public ActionAttribute(string path, string method = HttpMethods.GET) {
 			Path = path;
 			Method = method;
