@@ -1,0 +1,175 @@
+<form #f="ngForm">
+
+    <div class="container">
+        <div class="row row-margin-top">
+            <div class="col-sm" i18n>
+                {{ 'projectType' | translate }}
+            </div>
+
+            <div class="col-sm" i18n>
+                <span>{{ 'projectTypeTip' | translate }} </span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ProjectType' name="frame" value="AspNet" />
+                <label for="ASP .NET">ASP .NET</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ProjectType' name="frame" value="AspNetCore" />
+                <label for="AspNetCore">ASP .NET Core</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ProjectType' name="frame" value="Owin" />
+                <label for="Owin">Owin</label>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm" i18n>
+                {{ 'projectName' | translate }}
+            </div>
+            <div class="col-sm" i18n>
+                <span> {{ 'projectNameTip' | translate }} </span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm inputItem">
+                <input [(ngModel)]='parameters.ProjectName' class="full" type="text" [ngModelOptions]="{standalone: true}" />
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                {{ 'projectDescription' | translate }}
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm inputItem">
+                <input [(ngModel)]='parameters.ProjectDescription' class="full" type="text" [ngModelOptions]="{standalone: true}" />
+            </div>
+        </div>
+
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                {{ 'orm' | translate }}
+            </div>
+            <div class="col-sm">
+                <span> {{ 'ormTip' | translate }} </span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="NHibernate"  (ngModelChange)="changeOrm('NHibernate')" />
+                <label for="NHibernate">NHibernate</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="EFCore" (ngModelChange)="changeOrm('EFCore')"/>
+                <label for="EFCore">EntityFramework Core</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="Dapper"  (ngModelChange)="changeOrm('Dapper')"/>
+                <label for="Dapper">Dapper</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="MongoDB"  (ngModelChange)="changeOrm('MongoDB')"/>
+                <label for="MongoDB">MongoDB</label>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                {{ 'dataBase' | translate }}
+            </div>
+            <div class="col-sm">
+                <span> {{ 'dataBaseTip' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MSSQL?'':null" name="Database" value="MSSQL" />
+                <label for="MSSQL">MSSQL</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MySQL?'':null" name="Database" value="MySQL" />
+                <label for="MySQL">MySQL</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database'  [attr.disabled]="!enableDatabase.SQLite?'':null" name="Database" value="SQLite" />
+                <label for="SQLite">SQLite</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.PostgreSQL?'':null" name="Database" value="PostgreSQL" />
+                <label for="PostgreSQL">PostgreSQL</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.InMemory?'':null" name="Database" value="InMemory" />
+                <label for="InMemory">InMemory</label>
+            </div>
+            <div class="col-sm">
+                <input type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MongoDB?'':null" name="Database" value="MongoDB" />
+                <label for="MongoDB">MongoDB</label>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                {{ 'connectionString' | translate }}
+            </div>
+            <div class="col-sm">
+                <span> {{ 'connectionStringTip' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm inputItem">
+                <input [(ngModel)]='parameters.ConnectionString' class="many" type="text" [ngModelOptions]="{standalone: true}" />
+                <input type="button" value="{{'testConnection' | translate}}" (click)="testConnection()" />
+            </div>
+        </div>
+
+
+        <div class="row row-margin-top">
+            <div class="col-sm ">
+                {{ 'useDefaultPlugin' | translate }}
+            </div>
+            <div class="col-sm">
+                <span> {{ 'useDefaultPluginTip' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm inputItem">
+                <input [(ngModel)]='parameters.UseDefaultPlugins' class="many" type="text" [ngModelOptions]="{standalone: true}" />
+                <input type="button" value="{{'browser' | translate}}" (click)="pluginSelect()" />
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm">
+                {{ 'outPutFolder' | translate }}
+            </div>
+            <div class="col-sm">
+                <span> {{ 'outPutFolderTip' | translate }}</span>
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <div class="col-sm inputItem">
+                <input [(ngModel)]='parameters.OutputDirectory' class="many" type="text" [ngModelOptions]="{standalone: true}" />
+                <input type="button" value="{{'browser' | translate}}" (click)="outPutSelect()" />
+            </div>
+        </div>
+
+        <div class="row row-margin-top">
+            <input class="createBtn" type="button" value="{{'create' | translate}}" (click)="createProject()" />
+        </div>
+    </div>
+
+</form>

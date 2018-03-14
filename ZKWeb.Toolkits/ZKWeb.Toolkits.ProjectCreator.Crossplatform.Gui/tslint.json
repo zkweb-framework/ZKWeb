@@ -1,0 +1,184 @@
+{
+    /*
+     * Possible values:
+     * - the name of a built-in config
+     * - the name of an NPM module which has a "main" file that exports a config object
+     * - a relative path to a JSON file
+     */
+    "extends": [
+        "tslint:latest",
+        "codelyzer"
+    ],
+    "rules": {
+        "class-name": true,
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "curly": true,
+        "eofline": true,
+        "forin": true,
+        "indent": [
+            true,
+            "spaces"
+        ],
+        "label-position": true,
+        "max-line-length": [
+            true,
+            140
+        ],
+        "member-access": false,
+        "member-ordering": [
+            true,
+            {
+                "order": "fields-first"
+            }
+        ],
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-console": [
+            false,  // should be true
+            "debug",
+            "info",
+            "time",
+            "timeEnd",
+            "trace"
+        ],
+        "no-construct": true,
+        "no-debugger": true,
+        "no-duplicate-variable": true,
+        "no-empty": false,
+        "no-eval": true,
+        "no-inferrable-types": true,
+        "no-shadowed-variable": true,
+        "no-string-literal": false,
+        "no-switch-case-fall-through": true,
+        "no-trailing-whitespace": false, // White space is automatically removed by vscode on save
+        "no-this-assignment": [
+            true,
+            {
+                "allowed-names": [
+                    "^self$"
+                ],
+                "allow-destructuring": true
+            }
+        ],
+        "no-unused-expression": true,
+        "no-unused-variable": false, // Is already been handled by Typescript
+        "no-use-before-declare": true,
+        "no-var-keyword": true,
+        "object-literal-sort-keys": false,
+        "one-line": [
+            true,
+            "check-open-brace",
+            "check-catch",
+            "check-else",
+            "check-whitespace"
+        ],
+        "space-before-function-paren": [
+            true,
+            {
+                "anonymous": "always",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "radix": true,
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "triple-equals": [
+            true,
+            "allow-undefined-check",
+            "allow-null-check"
+        ],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            }
+        ],
+        "variable-name": false,
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type"
+        ],
+        /*
+         * Any rules specified here will override those from the base config we are extending
+         */
+        "max-classes-per-file": [
+            false
+        ],
+        "prefer-conditional-expression": false,
+        "import-spacing": false,
+
+        /*
+         * Rules for Codelyzer
+         */
+        // The rule have the following arguments:
+        // [ENABLED, "attribute" | "element", "selectorPrefix" | ["listOfPrefixes"], "camelCase" | "kebab-case"]
+        "directive-selector": [
+            false,
+            "attribute",
+            [
+                "fin",
+                "dir-prefix2"
+            ],
+            "camelCase"
+        ],
+        "component-selector": [
+            false,
+            "element",
+            [
+                "fin",
+                "cmp-prefix2"
+            ],
+            "kebab-case"
+        ],
+        "use-input-property-decorator": true,
+        "use-output-property-decorator": true,
+        "use-host-property-decorator": true,
+        "no-attribute-parameter-decorator": true,
+        "no-input-rename": true,
+        "no-output-rename": true,
+        "no-output-on-prefix-name": true,
+        "no-forward-ref": true,
+        "use-life-cycle-interface": true,
+        "use-pipe-transform-interface": true,
+        // [ENABLED, "SUFFIX"]
+        // Where "SUFFIX" is your custom suffix, for instance "Page" for Ionic 2 components.
+        "component-class-suffix": [
+            true,
+            "Component"
+        ],
+        "directive-class-suffix": [
+            true,
+            "Directive"
+        ],
+        "templates-use-public": true,
+        "invoke-injectable": true
+    },
+    "rulesDirectory": [
+        /*
+         * A list of relative or absolute paths to directories that contain custom rules.
+         * See the Custom Rules documentation below for more details.
+         */
+        "node_modules/codelyzer"
+    ],
+    "exclude": [
+        "**/*.js"
+    ]
+}

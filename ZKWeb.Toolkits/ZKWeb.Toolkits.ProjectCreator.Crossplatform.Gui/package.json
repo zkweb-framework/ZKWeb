@@ -1,0 +1,103 @@
+{
+  "name": "angular5-electron-sqlite3-bootstrap4-webpack",
+  "productName": "Angular5-Electron-Sqlite3-Bootstrap4-Webpack",
+  "version": "1.0.0",
+  "description": "An Electron application using Angular 5+, Sqlite3, Bootstrap 4 and WebPack",
+  "author": "pamtbaau",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "i18n": "ng-xi18n  --outFile=src/assets/i18n/messages.xlf",
+    "newTest": "webpack --config config/webpack.dev.js & electron .",
+    "test": "karma start ./config/karma.conf.js",
+    "build": "webpack --config config/webpack.dev.js --watch",
+    "build:once": "webpack --config config/webpack.dev.js",
+    "build:prod": "webpack --config config/webpack.prod.js",
+    "postinstall": "electron-builder install-app-deps",
+    "package": "electron-builder ."
+  },
+  "license": "MIT",
+  "build": {
+    "appId": "com.pamtbaau.angular5-electron-sqlite3-bootstrap4-webpack",
+    "productName": "Angular5-Electron-Sqlite3-Bootstrap4-Webpack",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "oneClick": false
+    },
+    "files": [
+      "!**/.vscode",
+      "!**/build",
+      "!**/config",
+      "!**/assets/data",
+      "!**/src"
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets/data",
+        "to": "dist/assets/data",
+        "filter": "database*"
+      }
+    ]
+  },
+  "dependencies": {
+    "@angular/animations": "^5.2.8",
+    "@angular/common": "^5.2.3",
+    "@angular/compiler": "^5.2.3",
+    "@angular/compiler-cli": "^5.2.6",
+    "@angular/core": "^5.2.3",
+    "@angular/forms": "^5.2.3",
+    "@angular/http": "^5.2.3",
+    "@angular/platform-browser": "^5.2.3",
+    "@angular/platform-browser-dynamic": "^5.2.3",
+    "@angular/platform-server": "^5.2.6",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^2.0.1",
+    "bootstrap": "^4.0.0",
+    "core-js": "^2.5.3",
+    "jquery": "^3.3.1",
+    "mongodb": "^3.0.3",
+    "mssql": "^4.1.0",
+    "mysql": "^2.15.0",
+    "pg": "^7.4.1",
+    "popper.js": "^1.13.0",
+    "rxjs": "^5.5.6",
+    "zone.js": "^0.8.20"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.46",
+    "@types/jasmine": "^2.8.6",
+    "@types/node": "^9.4.0",
+    "angular2-template-loader": "^0.6.2",
+    "autoprefixer": "^7.2.5",
+    "awesome-typescript-loader": "^3.4.1",
+    "copy-webpack-plugin": "^4.3.1",
+    "css-loader": "^0.28.9",
+    "electron": "^1.8.1",
+    "electron-builder": "^19.55.3",
+    "electron-reload": "^1.2.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
+    "jasmine-core": "^2.9.1",
+    "karma": "2.0.0",
+    "karma-electron": "^5.2.2",
+    "karma-jasmine": "^1.1.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-webpack": "^2.0.9",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.1.0",
+    "precss": "^3.1.0",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "ts-loader": "^3.4.0",
+    "typescript": "^2.7.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
+  }
+}
