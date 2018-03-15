@@ -13,7 +13,6 @@ import { mongoConnection } from './dataBaseConnection/mongoConnection';
 const child_process = require('child_process');
 const app = require('electron').remote.app;
 const EventEmitter = require('events');
-const path=require('path');  
 class MessageEmitter extends EventEmitter { }
 
 @Component({

@@ -5,7 +5,7 @@ var mysql = require('mysql');
 export class mySqlConnection implements baseConnection {
 
   ip: string;
-  port: string;
+  port: number;
   public user: string;
   public password: string;
   connectionString: string;
@@ -27,7 +27,7 @@ export class mySqlConnection implements baseConnection {
       }
     }
     this.ip = config["server"];
-    this.port = config["port"];
+    this.port = config["port"]?parseInt(config["port"]):3306;
     this.user = config["user"];
     this.password = config["password"];
   }
@@ -36,7 +36,7 @@ export class mySqlConnection implements baseConnection {
     try {
       var connection = mysql.createConnection({
         host: this.ip,
-        port: this.port,
+        port: this.port.toString(),
         user: this.user,
         password: this.password
       });

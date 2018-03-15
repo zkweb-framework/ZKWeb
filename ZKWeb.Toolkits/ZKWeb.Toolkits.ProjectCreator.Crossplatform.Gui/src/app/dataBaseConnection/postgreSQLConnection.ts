@@ -1,21 +1,22 @@
 import { baseConnection } from './baseConnection';
 import { TranslateService } from '@ngx-translate/core';
-var pg = require('pg');
+var Client = require('pg2')
 
 export class postgreSQLConnection implements baseConnection {
 
-  ip: string;
-  port: string;
+
   public user: string;
   public password: string;
-  connectionString:string;
-  
+  public connectionString:string;
+  public ip: string;
+  public port: number;
+  public db: string;
   constructor(public translateService: TranslateService,connectonString: string){
       this.connectionString = connectonString;
   }
   /**
    * 
-   * @param connectonString Server=192.168.1.100;Port=5432;UserId=mike;Password=secret;Database=mikedb;
+   * @param connectonString PORT=5432;DATABASE=Demo;HOST=localhost;PASSWORD=root;USER ID=postgres
    */
   parser(): void {
     var phrases = this.connectionString.toLowerCase().split(';');
@@ -26,16 +27,30 @@ export class postgreSQLConnection implements baseConnection {
       config[kv[0].trim()] = kv[1].trim();
       }
     }
-    this.ip = config["server"];
-    this.port = config["port"];
-    this.user = config["userid"];
+    this.ip = config["host"];
+    this.port = config["port"]?parseInt(config["port"]):5432;
+    this.user = config["user id"];
     this.password = config["password"];
+    this.db = config["database"];
   }
 
 
   testConnect(messageEvent: any): void {
     try{
-      pg.connect(this.connectionString, (err:any) =>{
+      var c = new Client({
+        host:  this.ip,
+        port:this.port,
+        user: this.user,
+        password:this.password,
+        db: "postgres"
+      });
+      c.on("ready",(a:any)=>{
+
+      })
+      c.on("error",(a:any)=>{
+
+      })
+      c.connect((err:any)=> {
         if(err) {
           this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
             messageEvent.emit("error", res)
@@ -43,12 +58,13 @@ export class postgreSQLConnection implements baseConnection {
         }else{
           messageEvent.emit("info", "success");
         }
-        pg.close();
+        c.destroy();
       });
     }catch{
       this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
         messageEvent.emit("error", res)
       });
+      c.destroy();
     }
   }
 

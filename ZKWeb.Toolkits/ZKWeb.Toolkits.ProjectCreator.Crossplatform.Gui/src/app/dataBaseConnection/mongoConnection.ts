@@ -4,7 +4,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 export class mongoConnection implements baseConnection {
     ip: string;
-    port: string;
+    port: number;
     user: string;
     password: string;
     connectionString:string;

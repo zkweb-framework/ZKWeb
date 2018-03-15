@@ -1,15 +1,8 @@
-.inputItem>.full{
- width: 100%
-}
-.inputItem>.many{
-    width: 80%
-   }
-.createBtn{
-    width: 100%
-}
-
-.col-sm>span{
-    color:red
+.btnCenter{
+    display: table;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .row-margin-top { margin-top: 10px; } 

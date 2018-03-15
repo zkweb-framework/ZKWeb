@@ -5,7 +5,7 @@ const sql = require('mssql'); //声明插件
 export class msSqlConnection implements baseConnection {
 
   ip: string;
-  port: string;
+  port: number;
   public user: string;
   public password: string;
   connectionString: string;
@@ -27,7 +27,7 @@ export class msSqlConnection implements baseConnection {
       }
     }
     this.ip = config["data source"];
-    this.port = config["port"];
+    this.port = config["port"]?parseInt(config["port"]):1433;
     this.user = config["user id"];
     this.password = config["password"];
   }
@@ -38,7 +38,7 @@ export class msSqlConnection implements baseConnection {
         user: this.user,
         password: this.password,
         server: this.ip,
-        port: this.port
+        port: this.port.toString()
       }, (err: any) => {
         if (err) {
           this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {

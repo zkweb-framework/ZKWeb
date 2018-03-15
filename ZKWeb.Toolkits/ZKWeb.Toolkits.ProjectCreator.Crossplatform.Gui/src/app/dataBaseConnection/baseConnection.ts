@@ -2,7 +2,7 @@
 export interface baseConnection {
 
     ip: string;
-    port: string;
+    port: number;
     user: string;
     password: string;
     connectionString:string;

@@ -5,7 +5,7 @@ var fs = require('fs');
 export class sqlLiteConnection implements baseConnection {
 
   ip: string;
-  port: string;
+  port: number;
   public user: string;
   public password: string;
   connectionString:string;

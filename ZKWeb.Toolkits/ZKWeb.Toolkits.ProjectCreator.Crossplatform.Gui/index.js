@@ -9,7 +9,11 @@ let mainWindow;
 
 let createWindow = () => {
 	// Create the browser window.
-	mainWindow = new BrowserWindow({show: false});
+	mainWindow = new BrowserWindow({
+		width:800,
+		height:600,
+		show: false
+	});
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	});
