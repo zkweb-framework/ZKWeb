@@ -7,6 +7,8 @@ import { TranslateService } from "@ngx-translate/core";
 const child_process = require('child_process');
 const app = require('electron').remote.app;
 const EventEmitter = require('events');
+const path=require('path');
+
 class MessageEmitter extends EventEmitter { }
 
 @Component({
@@ -16,7 +18,6 @@ class MessageEmitter extends EventEmitter { }
 })
 export class AppComponent {
 
-
     @Input()
     public parameters: CreateProjectParameters;
     @Input()
@@ -25,6 +26,7 @@ export class AppComponent {
     private eventEmitter: MessageEmitter;
     private rootPath: string;
     private isDataBaseChecking: boolean;
+
     constructor(public translateService: TranslateService) {
         this.language = app.getLocale();
         this.rootPath = app.getAppPath();
@@ -45,7 +47,6 @@ export class AppComponent {
     }
 
     ngOnInit() {
-       
         this.translateService.addLangs(["zh-CN", "en-US"]);
         this.translateService.setDefaultLang("zh-CN");
         this.translateService.use(this.language);
@@ -65,15 +66,15 @@ export class AppComponent {
         var toolPath = this.findTools();
         if (!toolPath) {
             this.translateService.get("ToolsFoderFail", {}).subscribe((res: string) => {
-                remote.dialog.showErrorBox("error", res)
+                this.eventEmitter.emit("error", res);
             });
             return;
         }
         var result = this.parameters.Check();
-        if (result) {
-            this.translateService.get(result, {}).subscribe((res: string) => {
+        if (!result.isSuccess) {
+            this.translateService.get(result.msgPrefix, {}).subscribe((res: string) => {
                 console.log(res);
-                remote.dialog.showErrorBox("error", res)
+                this.eventEmitter.emit("error", res+(result.args?result.args:""));
             });
             return;
         } else {
@@ -91,8 +92,8 @@ export class AppComponent {
             if (this.parameters.ProjectDescription) {
                 parameStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
             }
-
-            var commnad = 'dotnet ' + toolPath + '/Template/ProjectCreator.Cmd.NetCore/ZKWeb.Toolkits.ProjectCreator.Cmd.dll ' + parameStr;
+            toolPath=path.join(toolPath,"ProjectCreator.Cmd.NetCore","ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
+            var commnad = 'dotnet ' + toolPath + ' ' + parameStr;
             console.log(commnad);
             child_process.exec(commnad,
                 (error: any, stdout: any) => {
@@ -102,7 +103,6 @@ export class AppComponent {
                         this.eventEmitter.emit("info", stdout);
                     }
                 });
-
         }
     }
 
@@ -110,7 +110,7 @@ export class AppComponent {
         var folders = this.rootPath.split('\\');
         var index = folders.indexOf('Tools');
         if (index != -1) {
-            return folders.slice(0, index).join('\\');
+            return folders.slice(0, index+1).join('\\');
         }
         return "";
     }
@@ -119,12 +119,14 @@ export class AppComponent {
         if(!this.isDataBaseChecking){
             this.isDataBaseChecking=true;
             try{
-                var commnad = 'dotnet  .\\dist\\assets\\DatabaseUtils.dll ' + this.parameters.Database + ' "' + this.parameters.ConnectionString+'"';
+                var utilPath=path.join(this.rootPath, 'dist\\assets\\DatabaseUtils.dll');
+                var commnad = 'dotnet  '+utilPath+' ' + this.parameters.Database + ' "' + this.parameters.ConnectionString+'"';
                 child_process.exec(commnad,
                     (error: any, stdout: any,stderr:any) => {
                         if (error) {
                             console.error(error);
                             console.error(stderr);
+                            //this.eventEmitter.emit("info", commnad);
                             this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
                                 this.eventEmitter.emit("error", res);
                             });
@@ -138,10 +140,7 @@ export class AppComponent {
                 this.isDataBaseChecking=false;
             }
         }
-
-   
     }
-
 
     public changeOrm(orm: string): void {
         var invalidDatabases = this.parameters.AvailableDatabases[orm];

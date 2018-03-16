@@ -3,15 +3,17 @@
   "productName": "Zkweb",
   "version": "1.0.0",
   "description": "Zkweb Project Creator",
-  "author": "魂机芯",
+  "author": "魂祭心",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "prebuild":"node ./prebuild.js",
+    "prebuild": "node ./prebuild.js",
     "dev": "webpack --config config/webpack.dev.js & electron .",
     "test": "karma start ./config/karma.conf.js",
     "build:prod": "webpack --config config/webpack.prod.js",
-    "package": "electron-builder ."
+    "packagewin": "electron-packager ./  --out=./build  --platform=win32 --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\"",
+    "packagelinux": "electron-packager ./  --out=./build  --platform=linux  --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\"",
+    "packagemac": "electron-packager ./  --out=./build  --platform=darwin  --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\""
   },
   "license": "MIT",
   "build": {
@@ -52,6 +54,7 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "bootstrap": "^4.0.0",
     "core-js": "^2.5.3",
+    "electron-packager": "^11.1.0",
     "jquery": "^3.3.1",
     "mongodb": "^3.0.3",
     "mssql": "^4.1.0",
@@ -72,7 +75,6 @@
     "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.9",
     "electron": "^1.8.1",
-    "electron-builder": "^19.55.3",
     "electron-reload": "^1.2.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",

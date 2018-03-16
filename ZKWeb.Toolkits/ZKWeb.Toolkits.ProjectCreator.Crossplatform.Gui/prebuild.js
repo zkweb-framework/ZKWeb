@@ -6,6 +6,7 @@ var commnad = 'dotnet build .\\DatabaseUtils\\DatabaseUtils.csproj ';
 var from ='.\\DatabaseUtils\\bin\\Release\\netcoreapp2.0';
 var to='.\\src\\assets';
 
+
 child_process.exec(commnad,
     (error, stdout) => {
         if (!error) {

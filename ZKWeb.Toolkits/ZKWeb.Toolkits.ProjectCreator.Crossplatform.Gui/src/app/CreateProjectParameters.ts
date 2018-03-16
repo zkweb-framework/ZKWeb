@@ -70,19 +70,40 @@ export class CreateProjectParameters {
     /// <summary>
     /// Check parameters
     /// </summary>
-    public Check(): string {
+    public Check(): any {
         if (-1 == this.AvailableProductTypes.indexOf(this.ProjectType)) {
-            return "ProjectTypeMustBeOneOf"+this.AvailableProductTypes.join(",");
+            return {
+                isSuccess: false,
+                msgPrefix: "ProjectTypeMustBeOneOf",
+                args: this.AvailableProductTypes.join(",")
+            };
         } else if (!this.ProjectName) {
-            return "ProjectNameCantBeEmpty";
+            return {
+                isSuccess: false,
+                msgPrefix: "ProjectNameCantBeEmpty"
+            };
         } else if (-1 == this.AvailableORM.indexOf(this.ORM)) {
-            return "ORMMustBeOneOf"+this.AvailableORM.join(",");
+            return {
+                isSuccess: false,
+                msgPrefix: "ORMMustBeOneOf",
+                args: this.AvailableORM.join(",")
+            };
         } else if (-1 == this.AvailableDatabases[this.ORM].indexOf(this.Database)) {
-            return "DatabaseMustBeOneOf"+this.AvailableDatabases[this.ORM].join(",");
-        } else if (!this.ConnectionString) {
-           return "ConnectionStringCantBeEmpty";
+            return {
+                isSuccess: false,
+                msgPrefix: "DatabaseMustBeOneOf",
+                args: this.AvailableDatabases[this.ORM].join(",")
+            };
+        } else if (this.Database=="InMemory"&&!this.ConnectionString) {
+            return {
+                isSuccess: false,
+                msgPrefix: "ConnectionStringCantBeEmpty"
+            };
         } else if (!this.OutputDirectory) {
-            return "OutputDirectoryCantBeEmpty";
+            return {
+                isSuccess: false,
+                msgPrefix: "OutputDirectoryCantBeEmpty"
+            };
         }
         if (this.UseDefaultPlugins) {
             var pluginCollection = PluginCollection.FromFile(this.UseDefaultPlugins);
@@ -94,8 +115,14 @@ export class CreateProjectParameters {
                 }
             }
             if (!isOrmExit)
-            return "ORMMustBeOneOf"+pluginCollection.SupportedORM.join(",");
+                return {
+                    isSuccess: false,
+                    msgPrefix: "ORMMustBeOneOf",
+                    args: pluginCollection.SupportedORM.join(",")
+                };
         }
-        return "";
+        return {
+            isSuccess: true
+        };
     }
 }

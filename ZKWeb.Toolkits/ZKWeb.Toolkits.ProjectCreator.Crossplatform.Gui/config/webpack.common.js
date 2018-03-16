@@ -105,6 +105,8 @@ module.exports = {
         ),
     ],
 
-    target:'electron-renderer'
-
+    target:'electron-renderer',
+    node: {
+           __dirname: true
+        },
 };

@@ -29,6 +29,6 @@ export class PluginCollection{
 		/// <returns></returns>
 		public static  FromFile(path:string) :PluginCollection {
 		    var json =  fs.readFileSync(path, 'utf8');
-            return json;
+            return JSON.parse(json);
 		}
 }
