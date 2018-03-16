@@ -1,25 +1,22 @@
 {
-  "name": "angular5-electron-sqlite3-bootstrap4-webpack",
-  "productName": "Angular5-Electron-Sqlite3-Bootstrap4-Webpack",
+  "name": "Zkweb",
+  "productName": "Zkweb",
   "version": "1.0.0",
-  "description": "An Electron application using Angular 5+, Sqlite3, Bootstrap 4 and WebPack",
-  "author": "pamtbaau",
+  "description": "Zkweb Project Creator",
+  "author": "魂机芯",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "i18n": "ng-xi18n  --outFile=src/assets/i18n/messages.xlf",
-    "newTest": "webpack --config config/webpack.dev.js & electron .",
+    "prebuild":"node ./prebuild.js",
+    "dev": "webpack --config config/webpack.dev.js & electron .",
     "test": "karma start ./config/karma.conf.js",
-    "build": "webpack --config config/webpack.dev.js --watch",
-    "build:once": "webpack --config config/webpack.dev.js",
     "build:prod": "webpack --config config/webpack.prod.js",
-    "postinstall": "electron-builder install-app-deps",
     "package": "electron-builder ."
   },
   "license": "MIT",
   "build": {
-    "appId": "com.pamtbaau.angular5-electron-sqlite3-bootstrap4-webpack",
-    "productName": "Angular5-Electron-Sqlite3-Bootstrap4-Webpack",
+    "appId": "Zkweb",
+    "productName": "Zkweb",
     "directories": {
       "output": "build"
     },
@@ -30,14 +27,13 @@
       "!**/.vscode",
       "!**/build",
       "!**/config",
-      "!**/assets/data",
       "!**/src"
     ],
     "extraResources": [
       {
-        "from": "src/assets/data",
-        "to": "dist/assets/data",
-        "filter": "database*"
+        "from": "src/assets",
+        "to": "dist/assets",
+        "filter": "Database*"
       }
     ]
   },
@@ -60,6 +56,7 @@
     "mongodb": "^3.0.3",
     "mssql": "^4.1.0",
     "mysql": "^2.15.0",
+    "pg-core": "^0.1.15",
     "pg2": "0.0.1",
     "popper.js": "^1.13.0",
     "rxjs": "^5.5.6",

@@ -93,7 +93,11 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({name: ['app', 'vendor', 'polyfills']}),
         new HtmlWebpackPlugin({template: 'src/index.html'}),
 		new CopyWebpackPlugin([
-            { from: 'src/assets/data/database\.*', to: 'assets/data/[name].[ext]' },
+            { 
+                from: 'src/assets', 
+                to: 'assets',
+                toType: 'dir' 
+            },
         ]),
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)(@angular|esm5)/,

@@ -4,3 +4,6 @@ build
 dist
 *.db-journal
 package-lock.json
+DatabaseUtils\bin
+DatabaseUtils\obj
+.vs

@@ -10,21 +10,22 @@ let mainWindow;
 let createWindow = () => {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		width:800,
-		height:600,
+		width: 900,
+		height: 800,
+	//	resizable:false,
+		icon:'./dist/assets/icon.ico',
 		show: false
 	});
-	mainWindow.once('ready-to-show', () => {
-		mainWindow.show()
-	});
 
-	mainWindow.maximize();
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show();
+	});
 
 	// and load the index.html of the app.
 	mainWindow.loadURL('file://' + __dirname + '/dist/index.html');
 
-	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
+    mainWindow.setMenu(null);
+	//mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {

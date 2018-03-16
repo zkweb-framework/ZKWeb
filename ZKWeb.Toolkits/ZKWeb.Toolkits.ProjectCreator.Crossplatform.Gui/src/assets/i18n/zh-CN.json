@@ -2,7 +2,7 @@
     "projectType":"项目类型(必填)：",
     "projectTypeTip": "推荐新项目使用Asp.Net Core",
     "projectName":" 项目名称(必填)：",
-    "proectNameTip":"同时会作为命名空间, 请勿使用特殊字符",
+    "projectNameTip":"同时会作为命名空间, 请勿使用特殊字符",
     "projectDescription":" 项目描述：",
     "orm":"Orm(必填)",
     "ormTip":"NHibernate功能最强大, 但您可能需要选EFCore以更好的支持.Net Core",

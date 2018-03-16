@@ -4,12 +4,6 @@ import '../assets/sass/style.scss';
 import { Input } from '@angular/core';
 import { remote } from 'electron';
 import { TranslateService } from "@ngx-translate/core";
-import { baseConnection } from './dataBaseConnection/baseConnection';
-import { mySqlConnection } from './dataBaseConnection/mysqlConnection';
-import { sqlLiteConnection } from './dataBaseConnection/sqlLiteConnection';
-import { msSqlConnection } from './dataBaseConnection/msSqlConnection';
-import { postgreSQLConnection } from './dataBaseConnection/postgreSQLConnection';
-import { mongoConnection } from './dataBaseConnection/mongoConnection';
 const child_process = require('child_process');
 const app = require('electron').remote.app;
 const EventEmitter = require('events');
@@ -21,56 +15,59 @@ class MessageEmitter extends EventEmitter { }
     styleUrls: ['app.component.css']
 })
 export class AppComponent {
-  
+
 
     @Input()
     public parameters: CreateProjectParameters;
     @Input()
-    public enableDatabase:any;
+    public enableDatabase: any;
     private language: string;
     private eventEmitter: MessageEmitter;
     private rootPath: string;
+    private isDataBaseChecking: boolean;
     constructor(public translateService: TranslateService) {
         this.language = app.getLocale();
-        this.rootPath=app.getAppPath();
+        this.rootPath = app.getAppPath();
         this.parameters = new CreateProjectParameters();
         this.parameters.ProjectType = 'AspNetCore';
         this.parameters.ORM = 'NHibernate';
         this.parameters.Database = "MSSQL";
+        this.isDataBaseChecking=false;
         this.eventEmitter = new MessageEmitter();
-        this.enableDatabase={
-            MSSQL:true, 
-            MySQL:true, 
-            SQLite:true, 
-            PostgreSQL:true, 
-            InMemory:true, 
-            MongoDB:true,
+        this.enableDatabase = {
+            MSSQL: true,
+            MySQL: true,
+            SQLite: true,
+            PostgreSQL: true,
+            InMemory: true,
+            MongoDB: true,
         };
     }
 
     ngOnInit() {
+       
         this.translateService.addLangs(["zh-CN", "en-US"]);
         this.translateService.setDefaultLang("zh-CN");
         this.translateService.use(this.language);
-         
-        this.eventEmitter.on("error", (msg: string,) => {
+
+        this.eventEmitter.on("error", (msg: string, ) => {
             remote.dialog.showErrorBox("error", msg)
         });
         this.eventEmitter.on("info", (msg: string) => {
             remote.dialog.showMessageBox({
-                type:"info",
-                title:"info",
-                message :msg
+                type: "info",
+                title: "info",
+                message: msg
             });
         });
     }
     public createProject(): void {
-        var toolPath=this.findTools();
-        if(!toolPath) {
+        var toolPath = this.findTools();
+        if (!toolPath) {
             this.translateService.get("ToolsFoderFail", {}).subscribe((res: string) => {
                 remote.dialog.showErrorBox("error", res)
             });
-            return ;
+            return;
         }
         var result = this.parameters.Check();
         if (result) {
@@ -78,7 +75,7 @@ export class AppComponent {
                 console.log(res);
                 remote.dialog.showErrorBox("error", res)
             });
-            return ;
+            return;
         } else {
             var parameStr = [
                 "--t=" + this.parameters.ProjectType,
@@ -95,13 +92,13 @@ export class AppComponent {
                 parameStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
             }
 
-            var commnad = 'dotnet '+toolPath+'/Template/ProjectCreator.Cmd.NetCore/ZKWeb.Toolkits.ProjectCreator.Cmd.dll ' + parameStr;
+            var commnad = 'dotnet ' + toolPath + '/Template/ProjectCreator.Cmd.NetCore/ZKWeb.Toolkits.ProjectCreator.Cmd.dll ' + parameStr;
             console.log(commnad);
             child_process.exec(commnad,
                 (error: any, stdout: any) => {
                     if (error) {
                         this.eventEmitter.emit("error", "fail");
-                    }else{
+                    } else {
                         this.eventEmitter.emit("info", stdout);
                     }
                 });
@@ -109,67 +106,59 @@ export class AppComponent {
         }
     }
 
-    public  findTools():string {
-        var folders=this.rootPath.split('\\');
-        var index=folders.indexOf('Tools');
-        if(index!=-1){
-          return  folders.slice(0,index).join('\\');
+    public findTools(): string {
+        var folders = this.rootPath.split('\\');
+        var index = folders.indexOf('Tools');
+        if (index != -1) {
+            return folders.slice(0, index).join('\\');
         }
         return "";
     }
+
     public testConnection(): void {
-        var connection: baseConnection;
-        switch (this.parameters.Database) {
-            case "MSSQL":
-                connection = new msSqlConnection(this.translateService, this.parameters.ConnectionString);
-                break;
-            case "SQLite":
-                connection = new sqlLiteConnection(this.translateService, this.parameters.ConnectionString);
-                break;
-            case "MySQL":
-                connection = new mySqlConnection(this.translateService, this.parameters.ConnectionString);
-                break;
-            case "PostgreSQL":
-                connection = new postgreSQLConnection(this.translateService, this.parameters.ConnectionString);
-                break;
-            case "MongoDB":
-                connection = new mongoConnection(this.translateService, this.parameters.ConnectionString);
-                break;
-            case "InMemory":
-                return;
-            default:
-                remote.dialog.showErrorBox("error", "database not support")
-                return;
-        }
-        if (connection) {
-            try {
-                connection.parser();
-            } catch{
-                this.translateService.get('notValidConnectionString', {}).subscribe((res: string) => {
-                    remote.dialog.showErrorBox("error", res)
-                });
+        if(!this.isDataBaseChecking){
+            this.isDataBaseChecking=true;
+            try{
+                var commnad = 'dotnet  .\\dist\\assets\\DatabaseUtils.dll ' + this.parameters.Database + ' "' + this.parameters.ConnectionString+'"';
+                child_process.exec(commnad,
+                    (error: any, stdout: any,stderr:any) => {
+                        if (error) {
+                            console.error(error);
+                            console.error(stderr);
+                            this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
+                                this.eventEmitter.emit("error", res);
+                            });
+                        } else {
+                            console.log(stdout);
+                            this.eventEmitter.emit("info", "success");
+                        }
+                        this.isDataBaseChecking=false;
+                    });
+            }catch{
+                this.isDataBaseChecking=false;
             }
-            connection.testConnect(this.eventEmitter);
         }
+
+   
     }
 
 
-    public changeOrm(orm: string):void {
+    public changeOrm(orm: string): void {
         var invalidDatabases = this.parameters.AvailableDatabases[orm];
         if (-1 == invalidDatabases.indexOf(this.parameters.Database)) {
-            this.parameters.Database="";
+            this.parameters.Database = "";
         }
-        var keys:Array<string>=[];
-        for(var m in this.enableDatabase){
+        var keys: Array<string> = [];
+        for (var m in this.enableDatabase) {
             keys.push(m)
         }
 
-        keys.forEach((item)=>{
-            this.enableDatabase[item]=false;
+        keys.forEach((item) => {
+            this.enableDatabase[item] = false;
         });
-        
-        invalidDatabases.forEach((item:any)=>{
-            this.enableDatabase[item]=true;
+
+        invalidDatabases.forEach((item: any) => {
+            this.enableDatabase[item] = true;
         });
 
         console.log(this.enableDatabase)

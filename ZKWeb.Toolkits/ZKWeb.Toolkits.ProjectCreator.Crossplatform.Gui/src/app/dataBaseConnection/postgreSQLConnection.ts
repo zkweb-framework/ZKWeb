@@ -1,7 +1,5 @@
 import { baseConnection } from './baseConnection';
 import { TranslateService } from '@ngx-translate/core';
-var Client = require('pg2')
-
 export class postgreSQLConnection implements baseConnection {
 
 
@@ -36,36 +34,6 @@ export class postgreSQLConnection implements baseConnection {
 
 
   testConnect(messageEvent: any): void {
-    try{
-      var c = new Client({
-        host:  this.ip,
-        port:this.port,
-        user: this.user,
-        password:this.password,
-        db: "postgres"
-      });
-      c.on("ready",(a:any)=>{
-
-      })
-      c.on("error",(a:any)=>{
-
-      })
-      c.connect((err:any)=> {
-        if(err) {
-          this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
-            messageEvent.emit("error", res)
-          });
-        }else{
-          messageEvent.emit("info", "success");
-        }
-        c.destroy();
-      });
-    }catch{
-      this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
-        messageEvent.emit("error", res)
-      });
-      c.destroy();
-    }
   }
 
 }
