@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 const util = require('util');
 const child_process = require('child_process');
 
-var commnad = 'dotnet build .\\DatabaseUtils\\DatabaseUtils.csproj ';
+var commnad = 'dotnet build -c Release .\\DatabaseUtils\\DatabaseUtils.csproj ';
 var from ='.\\DatabaseUtils\\bin\\Release\\netcoreapp2.0';
 var to='.\\src\\assets';
 
