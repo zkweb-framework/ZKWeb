@@ -107,10 +107,10 @@ export class AppComponent {
     }
 
     public findTools(): string {
-        var folders = this.rootPath.split('\\');
+        var folders = this.rootPath.split(path.sep);
         var index = folders.indexOf('Tools');
         if (index != -1) {
-            return folders.slice(0, index+1).join('\\');
+            return folders.slice(0, index+1).join(path.sep);
         }
         return "";
     }
@@ -119,7 +119,7 @@ export class AppComponent {
         if(!this.isDataBaseChecking){
             this.isDataBaseChecking=true;
             try{
-                var utilPath=path.join(this.rootPath, 'dist\\assets\\DatabaseUtils.dll');
+                var utilPath=path.join(this.rootPath, 'dist','assets','DatabaseUtils.dll');
                 var commnad = 'dotnet  '+utilPath+' ' + this.parameters.Database + ' "' + this.parameters.ConnectionString+'"';
                 child_process.exec(commnad,
                     (error: any, stdout: any,stderr:any) => {
