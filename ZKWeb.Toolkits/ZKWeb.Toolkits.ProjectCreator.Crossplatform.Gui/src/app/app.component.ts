@@ -7,7 +7,7 @@ import { TranslateService } from "@ngx-translate/core";
 const child_process = require('child_process');
 const app = require('electron').remote.app;
 const EventEmitter = require('events');
-const path=require('path');
+const path = require('path');
 
 class MessageEmitter extends EventEmitter { }
 
@@ -22,6 +22,7 @@ export class AppComponent {
     public parameters: CreateProjectParameters;
     @Input()
     public enableDatabase: any;
+    
     private language: string;
     private eventEmitter: MessageEmitter;
     private rootPath: string;
@@ -34,7 +35,7 @@ export class AppComponent {
         this.parameters.ProjectType = 'AspNetCore';
         this.parameters.ORM = 'NHibernate';
         this.parameters.Database = "MSSQL";
-        this.isDataBaseChecking=false;
+        this.isDataBaseChecking = false;
         this.eventEmitter = new MessageEmitter();
         this.enableDatabase = {
             MSSQL: true,
@@ -62,6 +63,7 @@ export class AppComponent {
             });
         });
     }
+
     public createProject(): void {
         var toolPath = this.findTools();
         if (!toolPath) {
@@ -74,55 +76,33 @@ export class AppComponent {
         if (!result.isSuccess) {
             this.translateService.get(result.msgPrefix, {}).subscribe((res: string) => {
                 console.log(res);
-                this.eventEmitter.emit("error", res+(result.args?result.args:""));
+                this.eventEmitter.emit("error", res + (result.args ? result.args : ""));
             });
             return;
-        } else {
-            var parameStr = [
-                "--t=" + this.parameters.ProjectType,
-                "--n=" + this.parameters.ProjectName,
-                "--m=" + this.parameters.ORM,
-                "--b=" + this.parameters.Database,
-                "--c=" + "\"this.parameters.ConnectionString" + "\"",
-                "--o=" + this.parameters.OutputDirectory
-            ].join(' ');
-            if (this.parameters.ProjectDescription) {
-                parameStr += " " + "--d=" + this.parameters.ProjectDescription;
-            }
-            if (this.parameters.ProjectDescription) {
-                parameStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
-            }
-            toolPath=path.join(toolPath,"ProjectCreator.Cmd.NetCore","ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
-            var commnad = 'dotnet ' + toolPath + ' ' + parameStr;
-            console.log(commnad);
-            child_process.exec(commnad,
-                (error: any, stdout: any) => {
-                    if (error) {
-                        this.eventEmitter.emit("error", "fail");
-                    } else {
-                        this.eventEmitter.emit("info", stdout);
-                    }
-                });
         }
-    }
 
-    public findTools(): string {
-        var folders = this.rootPath.split(path.sep);
-        var index = folders.indexOf('Tools');
-        if (index != -1) {
-            return folders.slice(0, index+1).join(path.sep);
-        }
-        return "";
+        var commnad=this.createCommand(toolPath);
+        console.log(commnad);
+
+        child_process.exec(commnad,
+            (error: any, stdout: any) => {
+                if (error) {
+                    this.eventEmitter.emit("error", "fail");
+                } else {
+                    this.eventEmitter.emit("info", stdout);
+                }
+            });
+
     }
 
     public testConnection(): void {
-        if(!this.isDataBaseChecking){
-            this.isDataBaseChecking=true;
-            try{
-                var utilPath=path.join(this.rootPath, 'dist','assets','DatabaseUtils.dll');
-                var commnad = 'dotnet  '+utilPath+' ' + this.parameters.Database + ' "' + this.parameters.ConnectionString+'"';
+        if (!this.isDataBaseChecking) {
+            this.isDataBaseChecking = true;
+            try {
+                var utilPath = path.join(this.rootPath, 'dist', 'assets', 'DatabaseUtils.dll');
+                var commnad = 'dotnet  ' + utilPath + ' ' + this.parameters.Database + ' "' + this.parameters.ConnectionString + '"';
                 child_process.exec(commnad,
-                    (error: any, stdout: any,stderr:any) => {
+                    (error: any, stdout: any, stderr: any) => {
                         if (error) {
                             console.error(error);
                             console.error(stderr);
@@ -134,10 +114,10 @@ export class AppComponent {
                             console.log(stdout);
                             this.eventEmitter.emit("info", "success");
                         }
-                        this.isDataBaseChecking=false;
+                        this.isDataBaseChecking = false;
                     });
-            }catch{
-                this.isDataBaseChecking=false;
+            } catch{
+                this.isDataBaseChecking = false;
             }
         }
     }
@@ -159,8 +139,6 @@ export class AppComponent {
         invalidDatabases.forEach((item: any) => {
             this.enableDatabase[item] = true;
         });
-
-        console.log(this.enableDatabase)
     }
 
     public pluginSelect(): void {
@@ -175,6 +153,36 @@ export class AppComponent {
         if (selectFile && selectFile.length > 0) {
             this.parameters.OutputDirectory = selectFile[0];
         }
+    }
+
+    private createCommand(toolPath:string):string{
+        var parametersStr = [
+            "--t=" + this.parameters.ProjectType,
+            "--n=" + this.parameters.ProjectName,
+            "--m=" + this.parameters.ORM,
+            "--b=" + this.parameters.Database,
+            "--c=" + "\"this.parameters.ConnectionString" + "\"",
+            "--o=" + this.parameters.OutputDirectory
+        ].join(' ');
+        if (this.parameters.ProjectDescription) {
+            parametersStr += " " + "--d=" + this.parameters.ProjectDescription;
+        }
+        if (this.parameters.ProjectDescription) {
+            parametersStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
+        }
+
+        toolPath = path.join(toolPath, "ProjectCreator.Cmd.NetCore", "ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
+        return 'dotnet ' + toolPath + ' ' + parametersStr;
+
+    }
+    
+    private findTools(): string {
+        var folders = this.rootPath.split(path.sep);
+        var index = folders.indexOf('Tools');
+        if (index != -1) {
+            return folders.slice(0, index + 1).join(path.sep);
+        }
+        return "";
     }
 
 }
