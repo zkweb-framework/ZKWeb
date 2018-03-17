@@ -50,79 +50,82 @@ export class CreateProjectParameters {
     /// <summary>
     /// Available product types
     /// </summary>
-    public AvailableProductTypes: Array<string> = ["AspNetCore", "AspNet", "Owin"];
+    public AvailableProductTypes: string[] = ["AspNetCore", "AspNet", "Owin"];
 
     /// <summary>
     /// Available ORM
     /// InMemory should only use for test, so it's not here
     /// </summary>
-    public AvailableORM: Array<string> = ["Dapper", "EFCore", "MongoDB", "NHibernate"];
+    public AvailableORM: string[] = ["Dapper", "EFCore", "MongoDB", "NHibernate"];
     /// <summary>
     /// Available databases for specified ORM
     /// </summary>
     public AvailableDatabases: any = {
-        "Dapper": ["MSSQL", "SQLite", "MySQL", "PostgreSQL"],
-        "EFCore": ["MSSQL", "SQLite", "MySQL", "PostgreSQL", "InMemory"],
-        "MongoDB": ["MongoDB"],
-        "NHibernate": ["PostgreSQL", "SQLite", "MySQL", "MSSQL"]
+        Dapper: ["MSSQL", "SQLite", "MySQL", "PostgreSQL"],
+        EFCore: ["MSSQL", "SQLite", "MySQL", "PostgreSQL", "InMemory"],
+        MongoDB: ["MongoDB"],
+        NHibernate: ["PostgreSQL", "SQLite", "MySQL", "MSSQL"],
     };
 
     /// <summary>
     /// Check parameters
     /// </summary>
     public Check(): any {
-        if (-1 == this.AvailableProductTypes.indexOf(this.ProjectType)) {
+        if (-1 === this.AvailableProductTypes.indexOf(this.ProjectType)) {
             return {
                 isSuccess: false,
                 msgPrefix: "ProjectTypeMustBeOneOf",
-                args: this.AvailableProductTypes.join(",")
+                args: this.AvailableProductTypes.join(","),
             };
         } else if (!this.ProjectName) {
             return {
                 isSuccess: false,
-                msgPrefix: "ProjectNameCantBeEmpty"
+                msgPrefix: "ProjectNameCantBeEmpty",
             };
-        } else if (-1 == this.AvailableORM.indexOf(this.ORM)) {
+        } else if (-1 === this.AvailableORM.indexOf(this.ORM)) {
             return {
                 isSuccess: false,
                 msgPrefix: "ORMMustBeOneOf",
-                args: this.AvailableORM.join(",")
+                args: this.AvailableORM.join(","),
             };
-        } else if (-1 == this.AvailableDatabases[this.ORM].indexOf(this.Database)) {
+        } else if (-1 === this.AvailableDatabases[this.ORM].indexOf(this.Database)) {
             return {
                 isSuccess: false,
                 msgPrefix: "DatabaseMustBeOneOf",
-                args: this.AvailableDatabases[this.ORM].join(",")
+                args: this.AvailableDatabases[this.ORM].join(","),
             };
-        } else if (this.Database=="InMemory"&&!this.ConnectionString) {
+        } else if (this.Database === "InMemory" && !this.ConnectionString) {
             return {
                 isSuccess: false,
-                msgPrefix: "ConnectionStringCantBeEmpty"
+                msgPrefix: "ConnectionStringCantBeEmpty",
             };
         } else if (!this.OutputDirectory) {
             return {
                 isSuccess: false,
-                msgPrefix: "OutputDirectoryCantBeEmpty"
+                msgPrefix: "OutputDirectoryCantBeEmpty",
             };
         }
         if (this.UseDefaultPlugins) {
-            var pluginCollection = PluginCollection.FromFile(this.UseDefaultPlugins);
+            const pluginCollection = PluginCollection.FromFile(this.UseDefaultPlugins);
 
-            var isOrmExit: boolean = false;
-            for (var i = 0; i < pluginCollection.SupportedORM.length; i++) {
-                if (pluginCollection.SupportedORM[i] == this.ORM) {
+            let isOrmExit = false;
+
+            for (const orm of pluginCollection.SupportedORM) {
+                if (orm === this.ORM) {
                     isOrmExit = true;
                 }
             }
-            if (!isOrmExit)
+
+            if (!isOrmExit) {
                 return {
                     isSuccess: false,
                     msgPrefix: "ORMMustBeOneOf",
-                    args: pluginCollection.SupportedORM.join(",")
+                    args: pluginCollection.SupportedORM.join(","),
                 };
+            }
         }
         return {
-            isSuccess: true
+            isSuccess: true,
         };
     }
 }

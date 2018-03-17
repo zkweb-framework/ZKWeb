@@ -1,14 +1,14 @@
-import { baseConnection } from './baseConnection';
-import { TranslateService } from '@ngx-translate/core';
-var MongoClient = require('mongodb').MongoClient;
+import { TranslateService } from "@ngx-translate/core";
+import { IBaseConnection } from "./baseConnection";
+const MongoClient = require("mongodb").MongoClient;
 
-export class mongoConnection implements baseConnection {
+export class MongoConnection implements IBaseConnection {
     ip: string;
     port: number;
     user: string;
     password: string;
-    connectionString:string;
-    constructor(public translateService: TranslateService,connectonString: string){
+    connectionString: string;
+    constructor(public translateService: TranslateService, connectonString: string) { 
         this.connectionString = connectonString;
     }
     parser(): void {
@@ -16,10 +16,10 @@ export class mongoConnection implements baseConnection {
     testConnect(messageEvent: any): void {
         MongoClient.connect(this.connectionString, (err: any) => {
             if (err) {
-                this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
-                    messageEvent.emit("error", res)
+                this.translateService.get("dataBaseTestFail", {}).subscribe((res: string) => {
+                    messageEvent.emit("error", res);
                 });
-            }else{
+            } else {
                 messageEvent.emit("info", "success");
             }
         });

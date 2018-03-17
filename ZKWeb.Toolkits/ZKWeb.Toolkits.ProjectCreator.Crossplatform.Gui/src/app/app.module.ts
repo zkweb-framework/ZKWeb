@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
-import { HttpModule} from '@angular/http';
-import {HttpClientModule, HttpClient} from '@angular/common/http'
-import { BrowserModule  } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
-
-import { TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { HttpModule} from "@angular/http";
+import { BrowserModule  } from "@angular/platform-browser";
+import { TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { AppComponent } from "./app.component";
 
 export function createTranslateHttpLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
 @NgModule({
     imports: [
@@ -21,9 +20,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
             loader: {
                 provide: TranslateLoader,
                 useFactory: (createTranslateHttpLoader),
-                deps: [HttpClient]
-             }
-         })
+                deps: [HttpClient],
+             },
+         }) ,
     ],
     declarations: [
         AppComponent,

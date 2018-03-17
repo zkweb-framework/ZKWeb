@@ -1,33 +1,33 @@
-var webpackConfig = require('./webpack.test');
+var webpackConfig = require("./webpack.test");
 
 module.exports = function (config) {
     var _config = {
-        basePath: '',
+        basePath: "",
 
-        frameworks: ['jasmine'],
+        frameworks: ["jasmine"],
         browserNoActivityTimeout: 0,
 
         files: [
-            { pattern: './karma-dummy.js', watched: false }, // For some reason an empty file is required
-            { pattern: './karma-test-shim.js', watched: false },
+            { pattern: "./karma-dummy.js", watched: false }, // For some reason an empty file is required
+            { pattern: "./karma-test-shim.js", watched: false },
         ],
 
         preprocessors: {
-            './karma-dummy.js': ['electron'],  // And dummy file must be preprocessed too
-            './karma-test-shim.js': ['electron', 'webpack', 'sourcemap'],
+            "./karma-dummy.js": ["electron"],  // And dummy file must be preprocessed too
+            "./karma-test-shim.js": ["electron", "webpack", "sourcemap"],
         },
 
         webpack: webpackConfig,
 
         webpackMiddleware: {
-            stats: 'errors-only'
+            stats: "errors-only"
         },
 
         webpackServer: {
             noInfo: true
         },
 
-        reporters: ['spec'],
+        reporters: ["spec"],
         specReporter: {
             maxLogLines: 3,         // limit number of lines logged per test
             suppressErrorSummary: true,  // do not print error summary
@@ -41,7 +41,7 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,
-        browsers: ['Electron'],
+        browsers: ["Electron"],
         singleRun: true,
         client: {
             useIframe: false,
