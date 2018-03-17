@@ -1,16 +1,16 @@
-import { baseConnection } from './baseConnection';
-import { TranslateService } from '@ngx-translate/core';
-var fs = require('fs');
+import { TranslateService } from "@ngx-translate/core";
+import { IBaseConnection } from "./baseConnection";
+const fs = require("fs");
 
-export class sqlLiteConnection implements baseConnection {
+export class SqlLiteConnection implements IBaseConnection {
 
-  ip: string;
-  port: number;
+  public ip: string;
+  public port: number;
   public user: string;
   public password: string;
-  connectionString:string;
-  
-  constructor(public translateService: TranslateService,connectonString: string){
+  public connectionString: string;
+
+  constructor(public translateService: TranslateService, connectonString: string) {
       this.connectionString = connectonString;
   }
   /**
@@ -18,24 +18,23 @@ export class sqlLiteConnection implements baseConnection {
    * @param connectonString Data Source=server;Initial Catalog=db;User ID=test;Password=test;
    */
   parser(): void {
-    var phrases = this.connectionString.toLowerCase().split(';');
-    var config = {};
-    for (var i = 0; i < phrases.length; i++) {
-      if(phrases[i]){
-        var kv = phrases[i].split('=');
+    const phrases = this.connectionString.toLowerCase().split(";");
+    const config = {};
+    for (const phrase of phrases) {
+      if (phrase) {
+        const kv = phrase.split("=");
         config[kv[0].trim()] = kv[1].trim();
       }
     }
     this.ip = config["data source"];
   }
 
-
   testConnect(messageEvent: any): void {
     if (fs.existsSync(this.ip)) {
-      this.translateService.get('dataBaseTestFail', {}).subscribe((res: string) => {
-        messageEvent.emit("error", res)
+      this.translateService.get("dataBaseTestFail", {}).subscribe((res: string) => {
+        messageEvent.emit("error", res);
       });
-    }else{
+    } else {
       messageEvent.emit("info", "success");
     }
   }

@@ -6,8 +6,7 @@
      * - a relative path to a JSON file
      */
     "extends": [
-        "tslint:latest",
-        "codelyzer"
+        "tslint:latest"
     ],
     "rules": {
         "class-name": true,
@@ -67,6 +66,7 @@
         "no-unused-variable": false, // Is already been handled by Typescript
         "no-use-before-declare": true,
         "no-var-keyword": true,
+        "no-var-requires": false,
         "object-literal-sort-keys": false,
         "one-line": [
             true,
@@ -85,7 +85,7 @@
         ],
         "quotemark": [
             true,
-            "single"
+            "double"
         ],
         "radix": true,
         "semicolon": [
@@ -156,6 +156,8 @@
         "no-output-rename": true,
         "no-output-on-prefix-name": true,
         "no-forward-ref": true,
+        "no-submodule-imports": false,
+
         "use-life-cycle-interface": true,
         "use-pipe-transform-interface": true,
         // [ENABLED, "SUFFIX"]
@@ -176,7 +178,7 @@
          * A list of relative or absolute paths to directories that contain custom rules.
          * See the Custom Rules documentation below for more details.
          */
-        "node_modules/codelyzer"
+
     ],
     "exclude": [
         "**/*.js"
