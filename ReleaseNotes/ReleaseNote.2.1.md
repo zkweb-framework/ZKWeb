@@ -3,7 +3,7 @@
 ### Changes
 
 - Update packages
-	- NHibernate 5.0.3
+	- NHibernate 5.1.0
 	- Npgsql 3.2.6
 	- MySqlConnector 0.34.2
 	- Dapper 1.50.4
