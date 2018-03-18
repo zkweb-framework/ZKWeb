@@ -9,7 +9,7 @@ export class SqlLiteConnection implements IBaseConnection {
   public user: string;
   public password: string;
   public connectionString: string;
-  
+
   constructor(public translateService: TranslateService, connectonString: string) {
       this.connectionString = connectonString;
   }

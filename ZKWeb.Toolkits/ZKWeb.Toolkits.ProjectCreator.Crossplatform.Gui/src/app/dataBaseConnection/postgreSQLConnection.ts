@@ -10,7 +10,7 @@ export class PostgreSQLConnection implements IBaseConnection {
   public ip: string;
   public port: number;
   public db: string;
-  
+
   constructor(public translateService: TranslateService, connectonString: string) {
       this.connectionString = connectonString;
   }

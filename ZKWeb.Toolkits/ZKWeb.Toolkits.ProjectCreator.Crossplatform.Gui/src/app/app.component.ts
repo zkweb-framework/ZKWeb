@@ -177,7 +177,7 @@ export class AppComponent {
         return "dotnet " + toolPath + " " + parametersStr;
 
     }
-    
+
     private findTools(): string {
         const folders = this.rootPath.split(path.sep);
         const index = folders.indexOf("Tools");

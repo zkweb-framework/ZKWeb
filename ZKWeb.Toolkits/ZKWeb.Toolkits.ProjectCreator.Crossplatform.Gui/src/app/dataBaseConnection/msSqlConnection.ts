@@ -1,6 +1,6 @@
 import { TranslateService } from "@ngx-translate/core";
 import { IBaseConnection } from "./baseConnection";
-const sql = require("mssql"); 
+const sql = require("mssql");
 
 export class MsSqlConnection implements IBaseConnection {
 
