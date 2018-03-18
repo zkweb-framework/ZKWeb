@@ -1,0 +1,102 @@
+{
+  "name": "zkweb",
+  "productName": "Zkweb",
+  "version": "1.0.0",
+  "description": "Zkweb Project Creator",
+  "author": "魂祭心",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "prebuild": "node ./prebuild.js",
+    "dev": "webpack --config config/webpack.dev.js || electron .",
+    "test": "karma start ./config/karma.conf.js",
+    "build:prod": "webpack --config config/webpack.prod.js",
+    "packagewin": "electron-packager ./  \"ProjectCreator.Gui\" --out=./build  --platform=win32 --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\"",
+    "packagelinux": "electron-packager ./ \"ProjectCreator.Gui\" --out=./build  --platform=linux  --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\"",
+    "packagemac": "electron-packager ./  \"ProjectCreator.Gui\" --out=./build  --platform=darwin  --arch=x64 --icon=./src/assets/icon.ico --overwrite --ignore=\"(src|config|.gitignore|build|DatabaseUtils|node_modules|prebuild.json|readme.md|tsconfig.json|tslint.json|package-lock.json)\""
+  },
+  "license": "MIT",
+  "build": {
+    "appId": "Zkweb",
+    "productName": "Zkweb",
+    "directories": {
+      "output": "build"
+    },
+    "nsis": {
+      "oneClick": false
+    },
+    "files": [
+      "!**/.vscode",
+      "!**/build",
+      "!**/config",
+      "!**/src"
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets",
+        "to": "dist/assets",
+        "filter": "Database*"
+      }
+    ]
+  },
+  "dependencies": {
+    "@angular/animations": "^5.2.8",
+    "@angular/common": "^5.2.3",
+    "@angular/compiler": "^5.2.3",
+    "@angular/compiler-cli": "^5.2.6",
+    "@angular/core": "^5.2.3",
+    "@angular/forms": "^5.2.3",
+    "@angular/http": "^5.2.3",
+    "@angular/platform-browser": "^5.2.3",
+    "@angular/platform-browser-dynamic": "^5.2.3",
+    "@angular/platform-server": "^5.2.6",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^2.0.1",
+    "bootstrap": "^4.0.0",
+    "core-js": "^2.5.3",
+    "electron": "^1.8.1",
+    "electron-packager": "^11.1.0",
+    "jquery": "^3.3.1",
+    "mongodb": "^3.0.3",
+    "mssql": "^4.1.0",
+    "mysql": "^2.15.0",
+    "pg-core": "^0.1.15",
+    "pg2": "0.0.1",
+    "popper.js": "^1.13.0",
+    "rxjs": "^5.5.6",
+    "zone.js": "^0.8.20"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.46",
+    "@types/jasmine": "^2.8.6",
+    "@types/node": "^9.4.0",
+    "angular2-template-loader": "^0.6.2",
+    "autoprefixer": "^7.2.5",
+    "awesome-typescript-loader": "^3.4.1",
+    "copy-webpack-plugin": "^4.3.1",
+    "css-loader": "^0.28.9",
+    "electron-reload": "^1.2.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
+    "jasmine-core": "^2.9.1",
+    "karma": "2.0.0",
+    "karma-electron": "^5.2.2",
+    "karma-jasmine": "^1.1.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.32",
+    "karma-webpack": "^2.0.9",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.1.0",
+    "precss": "^3.1.0",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
+    "ts-loader": "^3.4.0",
+    "typescript": "^2.7.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
+  }
+}

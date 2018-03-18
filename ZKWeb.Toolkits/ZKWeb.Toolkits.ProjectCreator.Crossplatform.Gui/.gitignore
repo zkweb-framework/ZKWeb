@@ -1,0 +1,8 @@
+.vscode
+node_modules
+dist
+*.db-journal
+package-lock.json
+DatabaseUtils\bin
+DatabaseUtils\obj
+.vs
