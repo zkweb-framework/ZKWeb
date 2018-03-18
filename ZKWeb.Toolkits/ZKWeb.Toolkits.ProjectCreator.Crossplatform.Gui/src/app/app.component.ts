@@ -84,7 +84,7 @@ export class AppComponent {
         const commnad = this.createCommand(toolPath);
         debuglog(commnad);
 
-        childProcess.exec("\"" + commnad + "\"",
+        childProcess.exec(commnad,
             (error: any, stdout: any) => {
                 if (error) {
                     this.eventEmitter.emit("error", "fail");
@@ -101,7 +101,7 @@ export class AppComponent {
             try {
                 const utilPath = path.join(this.rootPath, "dist", "assets", "DatabaseUtils.dll");
                 const commnad = "dotnet  " + utilPath + " " + this.parameters.Database + " \"" + this.parameters.ConnectionString + "\"";
-                childProcess.exec("\"" + commnad + "\"",
+                childProcess.exec(commnad,
                     (error: any, stdout: any, stderr: any) => {
                         if (error) {
                             debuglog(error);

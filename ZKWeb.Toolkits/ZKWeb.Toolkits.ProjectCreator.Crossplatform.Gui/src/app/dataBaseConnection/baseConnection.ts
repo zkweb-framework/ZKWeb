@@ -6,7 +6,7 @@ export interface IBaseConnection {
     user: string;
     password: string;
     connectionString: string;
-  
+
     parser(): void;
     testConnect(messageEvent: any): void;
 
