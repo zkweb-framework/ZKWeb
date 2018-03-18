@@ -4,11 +4,11 @@ const sql = require("mssql");
 
 export class MsSqlConnection implements IBaseConnection {
 
-  ip: string;
-  port: number;
+  public ip: string;
+  public port: number;
   public user: string;
   public password: string;
-  connectionString: string;
+  public connectionString: string;
 
   constructor(public translateService: TranslateService, connectonString: string) {
     this.connectionString = connectonString;
@@ -54,8 +54,6 @@ export class MsSqlConnection implements IBaseConnection {
         messageEvent.emit("error", res);
       });
       sql.close();
-    } finally {
-   
     }
   }
 

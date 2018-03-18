@@ -1,5 +1,7 @@
 import { TranslateService } from "@ngx-translate/core";
 import { IBaseConnection } from "./baseConnection";
+const util = require("util");
+const debuglog = util.debuglog("postgreSQL");
 export class PostgreSQLConnection implements IBaseConnection {
 
   public user: string;
@@ -8,6 +10,7 @@ export class PostgreSQLConnection implements IBaseConnection {
   public ip: string;
   public port: number;
   public db: string;
+  
   constructor(public translateService: TranslateService, connectonString: string) {
       this.connectionString = connectonString;
   }
@@ -32,7 +35,7 @@ export class PostgreSQLConnection implements IBaseConnection {
   }
 
   testConnect(messageEvent: any): void {
-    console.log(messageEvent);
+    debuglog(messageEvent);
   }
 
 }

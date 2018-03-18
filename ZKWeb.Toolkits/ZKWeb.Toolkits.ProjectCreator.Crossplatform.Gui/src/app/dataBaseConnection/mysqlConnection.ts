@@ -4,11 +4,11 @@ const mysql = require("mysql");
 
 export class MySqlConnection implements IBaseConnection {
 
-  ip: string;
-  port: number;
+  public ip: string;
+  public port: number;
   public user: string;
   public password: string;
-  connectionString: string;
+  public connectionString: string;
 
   constructor(public translateService: TranslateService, connectonString: string) {
     this.connectionString = connectonString;

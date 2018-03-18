@@ -18,7 +18,7 @@
         "eofline": true,
         "forin": true,
         "indent": [
-            false,
+            true,
             "spaces"
         ],
         "label-position": true,

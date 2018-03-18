@@ -1,9 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-const child_process = require("child_process");
+const childProcess = require("child_process");
 const EventEmitter = require("events");
 const path = require("path");
 const app = require("electron").remote.app;
+const util = require("util");
+const debuglog = util.debuglog("app");
 import { remote } from "electron";
 import "../assets/sass/style.scss";
 import { CreateProjectParameters } from "./CreateProjectParameters";
@@ -21,7 +23,6 @@ export class AppComponent {
     public parameters: CreateProjectParameters;
     @Input()
     public enableDatabase: any;
-    
     private language: string;
     private eventEmitter: MessageEmitter;
     private rootPath: string;
@@ -74,16 +75,16 @@ export class AppComponent {
         const result = this.parameters.Check();
         if (!result.isSuccess) {
             this.translateService.get(result.msgPrefix, {}).subscribe((res: string) => {
-                console.log(res);
+                debuglog(res);
                 this.eventEmitter.emit("error", res + (result.args ? result.args : ""));
             });
             return;
         }
 
         const commnad = this.createCommand(toolPath);
-        console.log(commnad);
+        debuglog(commnad);
 
-        child_process.exec(commnad,
+        childProcess.exec("\"" + commnad + "\"",
             (error: any, stdout: any) => {
                 if (error) {
                     this.eventEmitter.emit("error", "fail");
@@ -100,17 +101,17 @@ export class AppComponent {
             try {
                 const utilPath = path.join(this.rootPath, "dist", "assets", "DatabaseUtils.dll");
                 const commnad = "dotnet  " + utilPath + " " + this.parameters.Database + " \"" + this.parameters.ConnectionString + "\"";
-                child_process.exec(commnad,
+                childProcess.exec("\"" + commnad + "\"",
                     (error: any, stdout: any, stderr: any) => {
                         if (error) {
-                            console.log(error);
-                            console.log(stderr);
+                            debuglog(error);
+                            debuglog(stderr);
                             // this.eventEmitter.emit("info", commnad);
                             this.translateService.get("dataBaseTestFail", {}).subscribe((res: string) => {
                                 this.eventEmitter.emit("error", res);
                             });
                         } else {
-                            console.log(stdout);
+                            debuglog(stdout);
                             this.eventEmitter.emit("info", "success");
                         }
                         this.isDataBaseChecking = false;

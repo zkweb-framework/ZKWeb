@@ -3,11 +3,13 @@ import { IBaseConnection } from "./baseConnection";
 const MongoClient = require("mongodb").MongoClient;
 
 export class MongoConnection implements IBaseConnection {
-    ip: string;
-    port: number;
-    user: string;
-    password: string;
-    connectionString: string;
+    
+    public ip: string;
+    public port: number;
+    public user: string;
+    public password: string;
+    public connectionString: string;
+
     constructor(public translateService: TranslateService, connectonString: string) { 
         this.connectionString = connectonString;
     }
