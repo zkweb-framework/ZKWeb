@@ -153,9 +153,15 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		/// <returns></returns>
 		public IDatabaseContext CreateContext() {
-			var session = SessionFactory.OpenSession();
+			var interceptor = new NHibernateLogInterceptor();
+			var session = SessionFactory
+				.WithOptions()
+				.Interceptor(interceptor)
+				.OpenSession();
 			try { session.SetBatchSize(BatchSize); } catch (NotSupportedException) { /* just not supported */ }
-			return new NHibernateDatabaseContext(session, Database);
+			var context = new NHibernateDatabaseContext(session, Database, interceptor);
+			interceptor.Context = context;
+			return context;
 		}
 	}
 }
