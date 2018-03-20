@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWebStandard</AssemblyName>
@@ -29,6 +28,7 @@
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<PackageReference Include="System.Threading.Thread" Version="4.3.0" />
 		<PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+		<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
 	</ItemGroup>
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

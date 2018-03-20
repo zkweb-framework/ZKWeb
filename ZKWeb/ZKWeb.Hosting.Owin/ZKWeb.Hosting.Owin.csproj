@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFramework>net461</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.Hosting.Owin</AssemblyName>
@@ -25,4 +24,6 @@
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
 	</ItemGroup>
+	
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

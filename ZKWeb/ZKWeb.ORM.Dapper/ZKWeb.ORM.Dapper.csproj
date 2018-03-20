@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.Dapper</AssemblyName>
@@ -33,4 +32,6 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
+
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

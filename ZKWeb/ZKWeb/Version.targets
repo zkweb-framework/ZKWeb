@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="WriteVersion" BeforeTargets="BeforeBuild">
+		<ReadLinesFromFile File="..\..\VERSION.txt">
+			<Output TaskParameter="Lines" ItemName="ExternalVersionFull" />
+		</ReadLinesFromFile>
+		<PropertyGroup>
+			<ExternalVersionStr>@(ExternalVersionFull)</ExternalVersionStr>
+			<ExternalVersion>$(ExternalVersionStr.Split('-')[0])</ExternalVersion>
+		</PropertyGroup>
+		<!--<Message Text="full version: @(ExternalVersionFull)" Importance="High" />-->
+		<!--<Message Text="version: $(ExternalVersion)" Importance="High" />-->
+		<PropertyGroup>
+			<Version>$(ExternalVersionStr)</Version>
+			<InformationalVersion>$(ExternalVersionStr)</InformationalVersion>
+		</PropertyGroup>
+	</Target>
+</Project>
