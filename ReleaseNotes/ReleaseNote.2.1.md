@@ -8,6 +8,7 @@
 	- MySqlConnector 0.34.2
 	- Dapper 1.50.4
 	- ZKWeb.System.Drawing 4.0.1
+	- ZKWeb.Fork.FluentNHibernate 2.1.1
 	- MongoDB.Driver 2.5.0
 	- Microsoft.EntityFrameworkCore 2.0.1
 	- Microsoft.EntityFrameworkCore.Design 2.0.1
@@ -33,6 +34,7 @@
 	- Provide a method to decide which plugin to load
 - Improve ORM
 	- Change dapper's mysql provider to MySqlConnector (previous is Pomelo.Data.MySql)
+	- ZKWeb.ORM.NHibernate now supports .net standard 2.0 (except with sqlite)
 	- Support command logger (see IDatabaseContext.CommandLogger)
 		- Dapper: Log insert, update, delete and select
 		- EFCore: Log insert, update, delete and select
