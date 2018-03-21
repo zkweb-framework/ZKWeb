@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "suppressImplicitAnyIndexErrors": true,
+
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "importHelpers": true,
+        "noEmitHelpers": true,
+        "pretty": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src/app/**/*.ts"
+    ],
+    "exclude": [
+        "**/node_modules/*",
+        "dist",
+        "build",
+        "src/app/**/*.spec.ts"
+    ]
+}

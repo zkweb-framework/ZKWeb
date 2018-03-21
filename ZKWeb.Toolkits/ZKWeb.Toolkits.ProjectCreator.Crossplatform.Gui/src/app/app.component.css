@@ -1,0 +1,11 @@
+.btnCenter{
+    display: table;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-group{
+    margin-bottom: 0.3rem;
+}
+
+.row-margin-top { margin-top: 10px; } 
