@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using ZKWebStandard.Utils;
 using MongoDB.Bson;
 using ZKWebStandard.Ioc;
+using MongoDB.Driver.Core.Events;
 
 namespace ZKWeb.ORM.MongoDB {
 #pragma warning disable S3881 // "IDisposable" should be implemented correctly
@@ -64,6 +65,12 @@ namespace ZKWeb.ORM.MongoDB {
 			MongoUrl connectionUrl,
 			MongoDBEntityMappings mappings) {
 			Mappings = mappings;
+			var mongoClientSettings = MongoClientSettings.FromUrl(connectionUrl);
+			mongoClientSettings.ClusterConfigurator = cb => {
+				cb.Subscribe<CommandStartedEvent>(e => {
+					CommandLogger?.LogCommand(this, $"{e.CommandName}: {e.Command.ToJson()}", e.Command);
+				});
+			};
 			MongoDatabase = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
 			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
