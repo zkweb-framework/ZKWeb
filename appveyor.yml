@@ -25,11 +25,11 @@ after_build:
     cd ..\nuget
 
     pack.bat
-artifact:
-  path: ZKWeb\nuget\*.nupkg
 deploy:
   provider: NuGet
   server: https://www.myget.org/F/zkweb/api/v2/package
   api_key:
     secure: 08Ei1ipRHb6QMmYdkzwneGgXQMl5CtYYrJ0sQR/hFWPhC92OEwQooo114gc7SB2D
   skip_symbols: false
+  artifact:
+    path: ZKWeb\nuget\*.nupkg
