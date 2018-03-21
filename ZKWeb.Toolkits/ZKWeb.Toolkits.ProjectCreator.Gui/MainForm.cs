@@ -35,7 +35,7 @@ namespace ZKWeb.Toolkits.ProjectCreator.Gui {
 			} else if (rbSQLite.Checked) {
 				tbConnectionString.Text = "Data Source={{App_Data}}/test.db;";
 			} else if (rbMongoDB.Checked) {
-				tbConnectionString.Text = "mongodb://test_user:123456@127.0.0.1:27017/test_db";
+				tbConnectionString.Text = "mongodb://test_user:123456@127.0.0.1:27017/test_db?authSource=admin";
 			}
 		}
 

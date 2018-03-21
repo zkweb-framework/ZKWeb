@@ -160,7 +160,7 @@
     <value>同时会作为命名空间, 请勿使用特殊字符</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>NHibernate功能最强大, 但您可能需要选EFCore以更好的支持.Net Core</value>
+    <value>NHibernate功能最强大</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>选一个你觉得最好的</value>

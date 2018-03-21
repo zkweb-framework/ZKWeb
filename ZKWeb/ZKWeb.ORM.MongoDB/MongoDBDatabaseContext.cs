@@ -71,7 +71,7 @@ namespace ZKWeb.ORM.MongoDB {
 					CommandLogger?.LogCommand(this, $"{e.CommandName}: {e.Command.ToJson()}", e.Command);
 				});
 			};
-			MongoDatabase = new MongoClient(connectionUrl).GetDatabase(connectionUrl.DatabaseName);
+			MongoDatabase = new MongoClient(mongoClientSettings).GetDatabase(connectionUrl.DatabaseName);
 			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
 		}
 

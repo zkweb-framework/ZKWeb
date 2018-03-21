@@ -326,44 +326,44 @@
 			// 
 			// label1
 			// 
-			resources.ApplyResources(this.label1, "label1");
 			this.label1.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
 			// 
 			// label2
 			// 
-			resources.ApplyResources(this.label2, "label2");
 			this.label2.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label2, "label2");
 			this.label2.Name = "label2";
 			// 
 			// label3
 			// 
-			resources.ApplyResources(this.label3, "label3");
 			this.label3.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label3, "label3");
 			this.label3.Name = "label3";
 			// 
 			// label4
 			// 
-			resources.ApplyResources(this.label4, "label4");
 			this.label4.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label4, "label4");
 			this.label4.Name = "label4";
 			// 
 			// label5
 			// 
-			resources.ApplyResources(this.label5, "label5");
 			this.label5.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label5, "label5");
 			this.label5.Name = "label5";
 			// 
 			// label6
 			// 
-			resources.ApplyResources(this.label6, "label6");
 			this.label6.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label6, "label6");
 			this.label6.Name = "label6";
 			// 
 			// label7
 			// 
-			resources.ApplyResources(this.label7, "label7");
 			this.label7.ForeColor = System.Drawing.Color.Red;
+			resources.ApplyResources(this.label7, "label7");
 			this.label7.Name = "label7";
 			// 
 			// MainForm

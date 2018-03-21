@@ -43,8 +43,8 @@
 		- Dapper: Log insert, update, delete and select
 		- EFCore: Log insert, update, delete and select
 		- InMemory: No logging
-		- MongoDB: TBD
-		- NHibernate: TBD
+		- MongoDB: Log commands in json format
+		- NHibernate: Log insert, update, delete and select
 - Improve routing system
 	- Support register action by method and class name
 	- Rules:
