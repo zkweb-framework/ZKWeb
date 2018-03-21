@@ -32,4 +32,4 @@ deploy:
     secure: 08Ei1ipRHb6QMmYdkzwneGgXQMl5CtYYrJ0sQR/hFWPhC92OEwQooo114gc7SB2D
   skip_symbols: false
   artifact:
-    path: ZKWeb\nuget\*.nupkg
+    path: ZKWeb/nuget/*.nupkg
