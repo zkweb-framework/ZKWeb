@@ -102,8 +102,8 @@ namespace ZKWeb.Web {
 			foreach (var method in type.FastGetMethods(
 				BindingFlags.Instance | BindingFlags.Static |
 				BindingFlags.Public | BindingFlags.DeclaredOnly)) {
-				// Ignore special methods
-				if (method.IsSpecialName) {
+				// Ignore special and void methods
+				if (method.IsSpecialName || method.ReturnType == typeof(void)) {
 					continue;
 				}
 				// Get action attributes

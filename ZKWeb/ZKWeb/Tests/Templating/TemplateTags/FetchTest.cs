@@ -22,7 +22,9 @@ namespace ZKWeb.Tests.Templating.TemplateTags {
 					var age = request.Get<long>("age");
 					return new JsonResult(new { id, name, age });
 				});
+#pragma warning disable S1075 // URIs should not be hardcoded
 				using (HttpManager.OverrideContext("/test?age=108", "GET")) {
+#pragma warning restore S1075 // URIs should not be hardcoded
 					var templateManager = Application.Ioc.Resolve<TemplateManager>();
 					var result = Template.Parse(
 						"{% fetch /__test_path?id=123&name={name}&age={age} > info %}" +

@@ -18,7 +18,9 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals(TestEnum.C.GetAttribute<DescriptionAttribute>(), null);
 		}
 
+#pragma warning disable S2344 // Enumeration type names should not have "Flags" or "Enum" suffixes
 		enum TestEnum {
+#pragma warning restore S2344 // Enumeration type names should not have "Flags" or "Enum" suffixes
 			[Description("TestEnum_A")]
 			A,
 			[Description("TestEnum_B")]

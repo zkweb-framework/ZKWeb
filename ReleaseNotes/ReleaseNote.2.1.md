@@ -4,29 +4,33 @@
 
 - Update packages
 	- NHibernate 5.1.0
-	- Npgsql 3.2.6
-	- MySqlConnector 0.34.2
+	- Npgsql 3.2.7
+	- MySqlConnector 0.37.0
 	- Dapper 1.50.4
+	- Dommel 1.10.1
 	- ZKWeb.System.Drawing 4.0.1
 	- ZKWeb.Fork.FluentNHibernate 2.1.1
 	- MongoDB.Driver 2.5.0
-	- Microsoft.EntityFrameworkCore 2.0.1
-	- Microsoft.EntityFrameworkCore.Design 2.0.1
-	- Microsoft.EntityFrameworkCore.InMemory 2.0.1
-	- Microsoft.EntityFrameworkCore.Sqlite 2.0.1
-	- Microsoft.EntityFrameworkCore.SqlServer 2.0.1
+	- Microsoft.EntityFrameworkCore 2.0.2
+	- Microsoft.EntityFrameworkCore.Design 2.0.2
+	- Microsoft.EntityFrameworkCore.InMemory 2.0.2
+	- Microsoft.EntityFrameworkCore.Sqlite 2.0.2
+	- Microsoft.EntityFrameworkCore.SqlServer 2.0.2
 	- Npgsql.EntityFrameworkCore.PostgreSQL 2.0.1
 	- Pomelo.EntityFrameworkCore.MySql 2.0.1
 	- System.Security.Cryptography.Algorithms 4.3.1
-	- Microsoft.CodeAnalysis.CSharp 2.4.0
+	- Microsoft.CodeAnalysis.CSharp 2.7.0
 	- Microsoft.DiaSymReader.Native 1.7.0
 	- Microsoft.DiaSymReader.PortablePdb 1.4.0
 	- Microsoft.CSharp 4.4.1
 	- Microsoft.Extensions.DependencyModel 2.0.4
 	- Microsoft.CodeAnalysis.CSharp 2.6.1
-	- Microsoft.AspNetCore.Hosting.Abstractions 2.0.1
-	- Microsoft.AspNetCore.Http.Abstractions 2.0.1
-	- MySql.Data 6.10.5
+	- Microsoft.AspNetCore.Hosting.Abstractions 2.0.2
+	- Microsoft.AspNetCore.Http.Abstractions 2.0.2
+	- MySql.Data 6.10.6
+	- Microsoft.Data.Sqlite 2.0.1
+	- Microsoft.Owin 4.0.0
+	- Newtonsoft.Json 11.0.1
 - Bug fixes
 	- Fix state didn't reset during EFCore dbcontext reusing
 - Improve plugin system

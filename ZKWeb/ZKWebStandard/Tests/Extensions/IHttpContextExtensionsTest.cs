@@ -5,7 +5,9 @@ using ZKWebStandard.Web.Mock;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class IHttpContextExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void PutData() {
 			var list = new [] { "a", "b", "c" };
 			HttpManager.CurrentContext.PutData("TestPutData", list);

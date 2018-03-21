@@ -35,10 +35,14 @@ namespace ZKWeb.Tests.Cache {
 
 		public void ByUrl() {
 			var policy = Application.Ioc.Resolve<ICacheIsolationPolicy>(serviceKey: "Url");
+#pragma warning disable S1075 // URIs should not be hardcoded
 			using (HttpManager.OverrideContext("/test?a=1", "GET")) {
+#pragma warning restore S1075 // URIs should not be hardcoded
 				Assert.Equals(policy.GetIsolationKey(), "/test?a=1");
 			}
+#pragma warning disable S1075 // URIs should not be hardcoded
 			using (HttpManager.OverrideContext("/test?a=2", "GET")) {
+#pragma warning restore S1075 // URIs should not be hardcoded
 				Assert.Equals(policy.GetIsolationKey(), "/test?a=2");
 			}
 		}

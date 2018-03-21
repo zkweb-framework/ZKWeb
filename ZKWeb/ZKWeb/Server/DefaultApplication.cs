@@ -39,7 +39,7 @@ namespace ZKWeb.Server {
 		/// ZKWeb的版本字符串<br/>
 		/// </summary>
 		public virtual string FullVersion { get { return _fullVersion; } }
-		private string _fullVersion = "";
+		private readonly string _fullVersion = "";
 		/// <summary>
 		/// ZKWeb Version Object<br/>
 		/// ZKWeb的版本对象<br/>

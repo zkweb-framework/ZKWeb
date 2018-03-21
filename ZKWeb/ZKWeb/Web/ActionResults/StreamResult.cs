@@ -5,6 +5,7 @@ using ZKWebStandard.Extensions;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Write contents from stream to response<br/>
 	/// 从数据流读取内容并写入到回应<br/>
@@ -23,6 +24,7 @@ namespace ZKWeb.Web.ActionResults {
 	/// </code>
 	/// </example>
 	public class StreamResult : IActionResult, IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Stream object, auto dispose after wrote to response<br/>
 		/// 数据流对象, 自动销毁<br/>

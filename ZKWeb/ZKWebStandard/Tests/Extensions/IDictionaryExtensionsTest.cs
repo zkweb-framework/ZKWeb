@@ -4,7 +4,9 @@ using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class IDictionaryExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void GetOrDefault() {
 			var dict = new Dictionary<string, string>() { { "exist", "1" } };
 			Assert.Equals(dict.GetOrDefault("exist"), "1");
@@ -21,7 +23,9 @@ namespace ZKWebStandard.Tests.Extensions {
 			Assert.Equals(dict["notexist"], "create");
 		}
 
+#pragma warning disable S2344 // Enumeration type names should not have "Flags" or "Enum" suffixes
 		enum TestEnum {
+#pragma warning restore S2344 // Enumeration type names should not have "Flags" or "Enum" suffixes
 			Zero = 0,
 			One = 1
 		}

@@ -15,8 +15,9 @@ namespace ZKWebStandard.Tests.Collections {
 			Assert.Equals(dict[new[] { 1, 8, 8 }], "188");
 			Assert.Equals(dict[new[] { 1, 8, 8, 0, 1 }], "18801");
 			Assert.Throws<KeyNotFoundException>(() => {
+#pragma warning disable S1481 // Unused local variables should be removed
 				var _ = dict[new[] { 1, 0, 0 }];
-				
+#pragma warning restore S1481 // Unused local variables should be removed
 			});
 		}
 

@@ -16,9 +16,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="ZKWeb.Fork.FluentNHibernate" Version="2.1.1" />
-		<PackageReference Include="MySql.Data" Version="6.10.5" />
+		<PackageReference Include="MySql.Data" Version="6.10.6" />
 		<PackageReference Include="NHibernate" Version="5.1.0" />
-		<PackageReference Include="Npgsql" Version="3.2.6" />
+		<PackageReference Include="Npgsql" Version="3.2.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

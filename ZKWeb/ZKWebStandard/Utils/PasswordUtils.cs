@@ -113,7 +113,7 @@ namespace ZKWebStandard.Utils {
 		public static PasswordInfo FromPassword(string password,
 			byte[] slat = null, PasswordHashType type = PasswordHashType.PBKDF2) {
 			if (string.IsNullOrEmpty(password)) {
-				throw new ArgumentNullException("password can't be empty");
+				throw new ArgumentNullException("password");
 			}
 			var info = new PasswordInfo() { Type = type };
 			var passwordBytes = Encoding.UTF8.GetBytes(password);
