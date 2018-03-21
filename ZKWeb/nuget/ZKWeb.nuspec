@@ -15,33 +15,33 @@
 		<tags></tags>
 		<dependencies>
 			<group targetFramework="net461">
-				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.4.0" />
-				<dependency id="Microsoft.CSharp" version="4.4.0" />
-				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0" />
+				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.7.0" />
+				<dependency id="Microsoft.CSharp" version="4.4.1" />
+				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.4" />
 				<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
-				<dependency id="Newtonsoft.Json" version="10.0.3" />
+				<dependency id="Newtonsoft.Json" version="11.0.1" />
 				<dependency id="System.Data.Common" version="4.3.0" />
 				<dependency id="ZKWeb.Fork.DotLiquid" version="2.3.0" />
 				<dependency id="ZKWeb.Fork.FastReflection" version="2.3.0" />
-				<dependency id="ZKWeb.System.Drawing" version="4.0.0" />
+				<dependency id="ZKWeb.System.Drawing" version="4.0.1" />
 			</group>
 			<group targetFramework="netstandard2.0">
-				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.4.0" />
-				<dependency id="Microsoft.CSharp" version="4.4.0" />
-				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.0" />
+				<dependency id="Microsoft.CodeAnalysis.CSharp" version="2.7.0" />
+				<dependency id="Microsoft.CSharp" version="4.4.1" />
+				<dependency id="Microsoft.Extensions.DependencyModel" version="2.0.4" />
 				<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.0.0" />
-				<dependency id="Newtonsoft.Json" version="10.0.3" />
+				<dependency id="Newtonsoft.Json" version="11.0.1" />
 				<dependency id="System.Data.Common" version="4.3.0" />
 				<dependency id="ZKWeb.Fork.DotLiquid" version="2.3.0" />
 				<dependency id="ZKWeb.Fork.FastReflection" version="2.3.0" />
-				<dependency id="ZKWeb.System.Drawing" version="4.0.0" />
+				<dependency id="ZKWeb.System.Drawing" version="4.0.1" />
 				<dependency id="System.IO.FileSystem.Watcher" version="4.3.0" />
 				<dependency id="System.Runtime.Loader" version="4.3.0" />
-				<dependency id="Microsoft.DiaSymReader.Native" version="1.5.0" />
-				<dependency id="Microsoft.DiaSymReader.PortablePdb" version="1.2.0" />
+				<dependency id="Microsoft.DiaSymReader.Native" version="1.7.0" />
+				<dependency id="Microsoft.DiaSymReader.PortablePdb" version="1.4.0" />
 				<dependency id="System.Threading.Thread" version="4.3.0" />
 				<dependency id="System.Diagnostics.Process" version="4.3.0" />
-				<dependency id="System.Security.Cryptography.Algorithms" version="4.3.0" />
+				<dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
 			</group>
 		</dependencies>
 	</metadata>
