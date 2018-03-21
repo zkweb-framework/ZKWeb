@@ -2,8 +2,8 @@ version: 1.0.{build}
 image: Visual Studio 2017
 before_build:
 - cmd: >-
+    echo "-%APPVEYOR_BUILD_NUMBER%" >> VERSION.txt
     cd ZKWeb
-
     dotnet restore
 build:
   project: ZKWeb/ZKWeb.sln
@@ -11,9 +11,8 @@ build:
 after_build:
 - cmd: >-
     dir
-
     cd ZKWeb.Console
-
     dotnet run -f net461
-
     dotnet run -f netcoreapp2.0
+    cd ..\..\nuget
+    pack.bat
