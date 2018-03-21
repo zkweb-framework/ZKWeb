@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/zkweb-framework/ZKWeb.svg?branch=master)](https://travis-ci.org/zkweb-framework/ZKWeb)
 [![Build status](https://ci.appveyor.com/api/projects/status/9teo6nnlodxonc3t?svg=true)](https://ci.appveyor.com/project/303248153/zkweb)
 [![NuGet](https://img.shields.io/nuget/vpre/ZKWeb.svg)](http://www.nuget.org/packages/ZKWeb)
+[![MyGet Pre Release](https://img.shields.io/myget/zkweb/vpre/ZKWeb.svg)](https://www.myget.org/gallery/zkweb)
 [![Member project of .NET China Foundation](https://img.shields.io/badge/member_project_of-.NET_CHINA-red.svg?style=flat&colorB=9E20C8)](https://github.com/dotnetcore)
 
 ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
