@@ -20,6 +20,6 @@ after_build:
 
     dotnet run -f netcoreapp2.0
 
-    cd ..\..\nuget
+    cd ..\nuget
 
     pack.bat
