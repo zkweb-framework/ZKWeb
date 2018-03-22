@@ -182,22 +182,22 @@ export class AppComponent {
     private createCommand(toolPath: string): string {
         let parametersStr = [
             "--t=" + this.parameters.ProjectType,
-            "--n=" + this.parameters.ProjectName,
+            "--n=\"" + this.parameters.ProjectName + "\"",
             "--m=" + this.parameters.ORM,
             "--b=" + this.parameters.Database,
-            "--c=" + "\"this.parameters.ConnectionString" + "\"",
-            "--o=" + this.parameters.OutputDirectory,
+            "--c=\"" + this.parameters.ConnectionString + "\"",
+            "--o=\"" + this.parameters.OutputDirectory+ "\"",
         ].join(" ");
         if (this.parameters.ProjectDescription) {
-            parametersStr += " " + "--d=" + this.parameters.ProjectDescription;
+            parametersStr += " " + "--d=\"" + this.parameters.ProjectDescription + "\"";
         }
-        if (this.parameters.ProjectDescription) {
-            parametersStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
+        if (this.parameters.UseDefaultPlugins) {
+            parametersStr += " " + "--u=\"" + this.parameters.UseDefaultPlugins + "\"";
         }
 
         toolPath = path.join(toolPath, "ProjectCreator.Cmd.NetCore", "ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
+  
         return "dotnet " + toolPath + " " + parametersStr;
-
     }
 
     private findTools(): string {
@@ -208,5 +208,4 @@ export class AppComponent {
         }
         return "";
     }
-
 }

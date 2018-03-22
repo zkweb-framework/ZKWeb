@@ -1,5 +1,4 @@
-import { PluginCollection } from "./PluginCollection";
-
+const fs = require("fs");
 export class CreateProjectParameters {
 
     public TemplatesDirectory: string;
@@ -44,7 +43,7 @@ export class CreateProjectParameters {
                 msgPrefix: "DatabaseMustBeOneOf",
                 args: this.AvailableDatabases[this.ORM].join(","),
             };
-        } else if (this.Database === "InMemory" && !this.ConnectionString) {
+        } else if (this.Database !== "InMemory" && !this.ConnectionString) {
             return {
                 isSuccess: false,
                 msgPrefix: "ConnectionStringCantBeEmpty",
@@ -56,8 +55,15 @@ export class CreateProjectParameters {
             };
         }
         if (this.UseDefaultPlugins) {
-            const pluginCollection = PluginCollection.FromFile(this.UseDefaultPlugins);
+            if(!fs.existsSync(this.UseDefaultPlugins)){
+                return {
+                    isSuccess: false,
+                    msgPrefix: "DefaultPluginsFileNotFound",
+                };
+            }
 
+            const json = fs.readFileSync(this.UseDefaultPlugins, "utf8");
+            const pluginCollection =  JSON.parse(json);
             let isOrmExit = false;
 
             for (const orm of pluginCollection.SupportedORM) {
