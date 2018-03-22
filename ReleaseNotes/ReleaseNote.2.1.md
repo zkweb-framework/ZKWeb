@@ -54,3 +54,4 @@
 		- Class with `[ActionBase("abc")]`, method with `[Action("index")]` => `/abc/index`<br/>
 		- Class with `[ActionBase("abc")]`, method without `[Action]` => `/abc/$action`<br/>
 		- Class with `[ActionBase("abc")]`, method Index without `[Action]` => `/abc`, `/abc/Index`<br/>
+- Add electron based project creator (thanks to @hunjixin)
