@@ -102,11 +102,7 @@ namespace ZKWeb.Server {
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
-#if NETCORE
-			Ioc.RegisterMany<CoreAssemblyLoader>(ReuseType.Singleton);
-#else
 			Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
-#endif
 			Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginReloader>(ReuseType.Singleton);
