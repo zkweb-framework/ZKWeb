@@ -62,24 +62,24 @@
 
         <div class="row form-group">
             <div class="col-sm">
-                <input class="form-check-input" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="NHibernate" (ngModelChange)="changeOrm('NHibernate')"
+                <input class="form-check-input" Id="NHibernateOrm" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="NHibernate" (ngModelChange)="changeOrm('NHibernate')"
                 />
-                <label for="NHibernate">NHibernate</label>
+                <label for="NHibernateOrm">NHibernate</label>
             </div>
             <div class="col-sm">
-                <input class="form-check-input" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="EFCore" (ngModelChange)="changeOrm('EFCore')"
+                <input class="form-check-input" Id="EFCoreOrm" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="EFCore" (ngModelChange)="changeOrm('EFCore')"
                 />
-                <label for="EFCore">EntityFramework Core</label>
+                <label for="EFCoreOrm">EntityFramework Core</label>
             </div>
             <div class="col-sm">
-                <input class="form-check-input" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="Dapper" (ngModelChange)="changeOrm('Dapper')"
+                <input class="form-check-input" Id="DapperOrm" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="Dapper" (ngModelChange)="changeOrm('Dapper')"
                 />
-                <label for="Dapper">Dapper</label>
+                <label for="DapperOrm">Dapper</label>
             </div>
             <div class="col-sm">
-                <input class="form-check-input" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="MongoDB" (ngModelChange)="changeOrm('MongoDB')"
+                <input class="form-check-input" Id="MongoDBOrm" type="radio" [(ngModel)]='parameters.ORM' name="ORM" value="MongoDB" (ngModelChange)="changeOrm('MongoDB')"
                 />
-                <label for="MongoDB">MongoDB</label>
+                <label for="MongoDBOrm">MongoDB</label>
             </div>
         </div>
 
@@ -96,32 +96,32 @@
         <div class="row form-group">
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MSSQL?'':null"
-                    name="Database" value="MSSQL" />
+                    name="Database" value="MSSQL"  Id="MSSQL"  (ngModelChange)="changeDataBase('MSSQL')"/>
                 <label for="MSSQL">MSSQL</label>
             </div>
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MySQL?'':null"
-                    name="Database" value="MySQL" />
+                    name="Database" value="MySQL"  Id="MySQL"  (ngModelChange)="changeDataBase('MySQL')"/>
                 <label for="MySQL">MySQL</label>
             </div>
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.SQLite?'':null"
-                    name="Database" value="SQLite" />
+                    name="Database" value="SQLite" Id="SQLite"  (ngModelChange)="changeDataBase('SQLite')"/>
                 <label for="SQLite">SQLite</label>
             </div>
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.PostgreSQL?'':null"
-                    name="Database" value="PostgreSQL" />
+                    name="Database" value="PostgreSQL"  Id="PostgreSQL" (ngModelChange)="changeDataBase('PostgreSQL')"/>
                 <label for="PostgreSQL">PostgreSQL</label>
             </div>
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.InMemory?'':null"
-                    name="Database" value="InMemory" />
+                    name="Database" value="InMemory"  Id="InMemory" (ngModelChange)="changeDataBase('InMemory')"/>
                 <label for="InMemory">InMemory</label>
             </div>
             <div class="col-sm">
                 <input class="form-check-input" type="radio" [(ngModel)]='parameters.Database' [attr.disabled]="!enableDatabase.MongoDB?'':null"
-                    name="Database" value="MongoDB" />
+                    name="Database" value="MongoDB" Id="MongoDB" (ngModelChange)="changeDataBase('MongoDB')" />
                 <label for="MongoDB">MongoDB</label>
             </div>
         </div>

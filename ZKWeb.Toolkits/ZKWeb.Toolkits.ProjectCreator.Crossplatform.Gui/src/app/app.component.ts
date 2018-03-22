@@ -23,6 +23,7 @@ export class AppComponent {
     public parameters: CreateProjectParameters;
     @Input()
     public enableDatabase: any;
+    public defaultConnetionstring: any;
     private language: string;
     private eventEmitter: MessageEmitter;
     private rootPath: string;
@@ -31,20 +32,33 @@ export class AppComponent {
     constructor(public translateService: TranslateService) {
         this.language = app.getLocale();
         this.rootPath = app.getAppPath();
-        this.parameters = new CreateProjectParameters();
-        this.parameters.ProjectType = "AspNetCore";
-        this.parameters.ORM = "NHibernate";
-        this.parameters.Database = "MSSQL";
-        this.isDataBaseChecking = false;
-        this.eventEmitter = new MessageEmitter();
+
         this.enableDatabase = {
             MSSQL: true,
             MySQL: true,
             SQLite: true,
             PostgreSQL: true,
-            InMemory: true,
-            MongoDB: true,
+            InMemory: false,
+            MongoDB: false
         };
+
+        this.defaultConnetionstring = {
+            MSSQL: "Server=127.0.0.1;Database=test_db;User Id=test_user;Password=123456;",
+            MySQL: "Server=127.0.0.1;Port=3306;Database=test_db;User Id=test_user;Password=123456;",
+            SQLite: "Data Source={{App_Data}}/test.db;",
+            PostgreSQL: "Server=127.0.0.1;Port=5432;Database=test_db;User Id=test_user;Password=123456;",
+            InMemory: "",
+            MongoDB: "mongodb://test_user:123456@127.0.0.1:27017/test_db",
+        };
+
+        this.parameters = new CreateProjectParameters();
+        this.parameters.ProjectName = "Hello.World";
+        this.parameters.ProjectType = "AspNetCore";
+        this.parameters.ORM = "NHibernate";
+        this.parameters.Database = "MSSQL";
+        this.parameters.ConnectionString=this.defaultConnetionstring[this.parameters.Database];
+        this.isDataBaseChecking = false;
+        this.eventEmitter = new MessageEmitter();
     }
 
     ngOnInit() {
@@ -141,6 +155,14 @@ export class AppComponent {
         invalidDatabases.forEach((item: any) => {
             this.enableDatabase[item] = true;
         });
+    }
+
+    public changeDataBase(dataBase:string):void{
+        if(this.defaultConnetionstring[dataBase]){
+            this.parameters.ConnectionString=this.defaultConnetionstring[dataBase];
+        } else {
+            this.parameters.ConnectionString="";
+        }
     }
 
     public pluginSelect(): void {
