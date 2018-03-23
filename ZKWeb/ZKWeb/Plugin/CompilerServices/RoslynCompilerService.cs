@@ -58,13 +58,11 @@ namespace ZKWeb.Plugin.CompilerServices {
 						// eg: System
 						// The type is "QualifiedNameSyntax" if it's contains more than one identifier
 						// eg: System.Threading
-						if (name is QualifiedNameSyntax) {
-							var qualifiedName = (QualifiedNameSyntax)name;
+						if (name is QualifiedNameSyntax qualifiedName) {
 							var identifierName = (IdentifierNameSyntax)qualifiedName.Right;
 							names.Add(identifierName.Identifier.Text);
 							name = qualifiedName.Left;
-						} else if (name is IdentifierNameSyntax) {
-							var identifierName = (IdentifierNameSyntax)name;
+						} else if (name is IdentifierNameSyntax identifierName) {
 							names.Add(identifierName.Identifier.Text);
 							name = null;
 						}
@@ -97,7 +95,7 @@ namespace ZKWeb.Plugin.CompilerServices {
 		/// 编译源代码到程序集<br/>
 		/// </summary>
 		public void Compile(IList<string> sourceFiles,
-			string assemblyName, string assemblyPath, CompilationOptions options) {
+			string assemblyName, string assemblyPath, CompilationOptions options = null) {
 			// Use default options if `options` is null
 			options = options ?? new CompilationOptions();
 			// Parse source files into syntax trees

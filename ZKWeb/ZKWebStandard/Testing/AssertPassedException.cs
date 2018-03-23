@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace ZKWebStandard.Testing {
+#pragma warning disable S3925 // "ISerializable" should be implemented correctly
 	/// <summary>
 	/// Assert passed exception<br/>
 	/// Will make the test passed<br/>
@@ -9,5 +10,6 @@ namespace ZKWebStandard.Testing {
 	/// </summary>
 	/// <seealso cref="Assert"/>
 	public class AssertPassedException : Exception {
+#pragma warning restore S3925 // "ISerializable" should be implemented correctly
 	}
 }

@@ -2,12 +2,16 @@ version: 1.0.{build}
 image: Visual Studio 2017
 before_build:
 - cmd: >-
+    echo -%APPVEYOR_BUILD_NUMBER% >> VERSION.txt
+
     cd ZKWeb
 
     dotnet restore
 build:
   project: ZKWeb/ZKWeb.sln
   verbosity: minimal
+configuration:
+  - Release
 after_build:
 - cmd: >-
     dir
@@ -17,3 +21,15 @@ after_build:
     dotnet run -f net461
 
     dotnet run -f netcoreapp2.0
+
+    cd ..\nuget
+
+    pack.bat
+artifacts:
+- path: ZKWeb/nuget/*.nupkg
+deploy:
+  provider: NuGet
+  server: https://www.myget.org/F/zkweb/api/v2/package
+  api_key:
+    secure: 08Ei1ipRHb6QMmYdkzwneGgXQMl5CtYYrJ0sQR/hFWPhC92OEwQooo114gc7SB2D
+  skip_symbols: false

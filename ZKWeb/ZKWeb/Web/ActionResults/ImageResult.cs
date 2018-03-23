@@ -4,6 +4,7 @@ using System.DrawingCore.Imaging;
 using ZKWebStandard.Web;
 
 namespace ZKWeb.Web.ActionResults {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	/// <summary>
 	/// Write image data to response<br/>
 	/// 写入图片数据到回应<br/>
@@ -22,6 +23,7 @@ namespace ZKWeb.Web.ActionResults {
 	/// </code>
 	/// </example>
 	public class ImageResult : IActionResult, IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		/// <summary>
 		/// Image object<br/>
 		/// 图片对象<br/>

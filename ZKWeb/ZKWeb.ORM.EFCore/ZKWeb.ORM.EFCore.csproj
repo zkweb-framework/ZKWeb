@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.EFCore</AssemblyName>
@@ -16,11 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
 	</ItemGroup>
@@ -33,4 +32,6 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
+
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

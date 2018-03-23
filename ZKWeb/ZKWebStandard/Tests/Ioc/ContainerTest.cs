@@ -402,7 +402,9 @@ namespace ZKWebStandard.Tests.IocContainer {
 
 		[Export(ServiceType = typeof(InterfaceService))]
 		[ScopedReuse]
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 		public class ScopedImplementation : InterfaceService, IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 			public string Name { get { return "Scoped"; } }
 			public int DisposeCount;
 

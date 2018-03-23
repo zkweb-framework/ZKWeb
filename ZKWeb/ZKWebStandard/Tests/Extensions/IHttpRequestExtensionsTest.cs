@@ -11,7 +11,9 @@ using ZKWebStandard.Web.Mock;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class IHttpRequestExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void IsAjaxRequest() {
 			using (HttpManager.OverrideContext("", "POST")) {
 				var request = (HttpRequestMock)HttpManager.CurrentContext.Request;

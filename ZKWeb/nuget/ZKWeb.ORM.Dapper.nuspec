@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.Dapper</id>
-		<version>2.1.0-beta-4</version>
+		<version>$version$</version>
 		<title>ZKWeb.ORM.Dapper</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,14 +14,14 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="2.1.0-beta-4" />
-			<dependency id="Dapper" version="1.50.2" />
-			<dependency id="Dommel" version="1.9.0" />
+			<dependency id="ZKWeb" version="$version$" />
+			<dependency id="Dapper" version="1.50.4" />
+			<dependency id="Dommel" version="1.10.1" />
 			<dependency id="Dapper.FluentMap" version="1.6.0" />
 			<dependency id="Dapper.FluentMap.Dommel" version="1.5.0" />
-			<dependency id="Microsoft.Data.Sqlite" version="2.0.0" />
-			<dependency id="Npgsql" version="3.2.5" />
-			<dependency id="MySqlConnector" version="0.30.0" />
+			<dependency id="Microsoft.Data.Sqlite" version="2.0.1" />
+			<dependency id="Npgsql" version="3.2.7" />
+			<dependency id="MySqlConnector" version="0.37.0" />
 		</dependencies>
 	</metadata>
 	<files>

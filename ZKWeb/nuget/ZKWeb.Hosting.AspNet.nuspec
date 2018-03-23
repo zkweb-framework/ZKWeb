@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.Hosting.AspNet</id>
-		<version>2.1.0-beta-4</version>
+		<version>$version$</version>
 		<title>ZKWeb.Hosting.AspNet</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,7 +14,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="2.1.0-beta-4" />
+			<dependency id="ZKWeb" version="$version$" />
 		</dependencies>
 	</metadata>
 	<files>

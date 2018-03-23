@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
-		<TargetFramework>net461</TargetFramework>
+		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.NHibernate</AssemblyName>
 		<PackageId>ZKWeb.ORM.NHibernate</PackageId>
@@ -16,15 +15,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentNHibernate" Version="2.0.3" />
-		<PackageReference Include="MySql.Data" Version="6.10.5" />
 		<PackageReference Include="NHibernate" Version="5.1.0" />
-		<PackageReference Include="Npgsql" Version="3.2.6" />
-		<PackageReference Include="ZKWeb.Repack.SQLite" Version="1.0.104" />
+		<PackageReference Include="ZKWeb.Fork.FluentNHibernate" Version="2.1.1" />
+		<PackageReference Include="MySql.Data" Version="6.10.6" />
+		<PackageReference Include="Npgsql" Version="3.2.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
+		<PackageReference Include="ZKWeb.Repack.SQLite" Version="1.0.104" />
 	</ItemGroup>
+
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

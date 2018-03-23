@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFramework>net461</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.Hosting.Owin</AssemblyName>
@@ -16,7 +15,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Owin" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Owin" Version="4.0.0" />
+		<PackageReference Include="System.Net.Http" Version="4.3.3" />
 		<PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
 	</ItemGroup>
 
@@ -25,4 +25,6 @@
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
 	</ItemGroup>
+	
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

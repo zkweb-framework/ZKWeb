@@ -7,7 +7,9 @@ using ZKWebStandard.Web.Mock;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class IHttpResponseExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void RedirectByScript() {
 			var contextMock = new HttpContextMock();
 			contextMock.response.RedirectByScript("testurl");

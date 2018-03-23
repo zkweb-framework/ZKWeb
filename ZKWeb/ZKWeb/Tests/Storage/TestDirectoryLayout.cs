@@ -10,7 +10,9 @@ using ZKWebStandard.Ioc;
 using ZKWebStandard.Utils;
 
 namespace ZKWeb.Tests.Storage {
+#pragma warning disable S3881 // "IDisposable" should be implemented correctly
 	class TestDirectoryLayout : IDisposable {
+#pragma warning restore S3881 // "IDisposable" should be implemented correctly
 		private IDisposable OverrideIoc { get; set; }
 		private WebsiteConfig WebsiteConfig { get; set; }
 		public IList<string> CleanupPaths { get; private set; }

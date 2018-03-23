@@ -1,13 +1,12 @@
-﻿#if !NETCORE
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin.AssemblyLoaders {
 	/// <summary>
-	/// Assembly loader for .Net Framework<br/>
-	/// .Net Framework使用的程序集加载器<br/>
+	/// Assembly loader for both .Net Core and .Net Framework<br/>
+	/// .Net Core和.Net Framework使用的程序集加载器<br/>
 	/// </summary>
 	internal class NetAssemblyLoader : AssemblyLoaderBase {
 		/// <summary>
@@ -119,4 +118,3 @@ namespace ZKWeb.Plugin.AssemblyLoaders {
 		}
 	}
 }
-#endif

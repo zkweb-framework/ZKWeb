@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using ZKWeb.Cache;
 using ZKWeb.Cache.Policies;
@@ -37,12 +38,13 @@ namespace ZKWeb.Server {
 		/// ZKWeb Version String<br/>
 		/// ZKWeb的版本字符串<br/>
 		/// </summary>
-		public virtual string FullVersion { get { return "2.1.0"; } }
+		public virtual string FullVersion { get { return _fullVersion; } }
+		private readonly string _fullVersion = "";
 		/// <summary>
 		/// ZKWeb Version Object<br/>
 		/// ZKWeb的版本对象<br/>
 		/// </summary>
-		public virtual Version Version { get { return Version.Parse(FullVersion.Split(' ')[0]); } }
+		public virtual Version Version { get { return Version.Parse(FullVersion.Split('-')[0]); } }
 		/// <summary>
 		/// The IoC Container Instance<br/>
 		/// IoC容器的实例<br/>
@@ -80,6 +82,16 @@ namespace ZKWeb.Server {
 		protected string WebsiteRootDirectory { get; set; }
 
 		/// <summary>
+		/// Initialize<br/>
+		/// 初始化<br/>
+		/// </summary>
+		public DefaultApplication() {
+			_fullVersion = typeof(DefaultApplication).Assembly
+				.GetCustomAttributes(true)
+				.OfType<AssemblyInformationalVersionAttribute>().FirstOrDefault()?.InformationalVersion;
+		}
+
+		/// <summary>
 		/// Register components to the default container<br/>
 		/// 注册组件到默认的容器<br/>
 		/// </summary>
@@ -90,11 +102,7 @@ namespace ZKWeb.Server {
 			Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
 			Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
-#if NETCORE
-			Ioc.RegisterMany<CoreAssemblyLoader>(ReuseType.Singleton);
-#else
 			Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
-#endif
 			Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
 			Ioc.RegisterMany<PluginReloader>(ReuseType.Singleton);

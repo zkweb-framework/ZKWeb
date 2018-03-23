@@ -10,7 +10,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using ZKWeb.Database;
-using ZKWebStandard.Ioc;
 
 namespace ZKWeb.ORM.NHibernate {
 #pragma warning disable S3881 // "IDisposable" should be implemented correctly
@@ -57,10 +56,18 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		public object DbConnection { get { return Session.Connection; } }
 		/// <summary>
+		/// The interceptor used to log sql statements<br/>
+		/// 用于记录sql语句的拦截器<br/>
+		/// </summary>
+		public NHibernateLogInterceptor LogInterceptor { get; set; }
+		/// <summary>
 		/// Database command logger<br/>
 		/// 数据库命令记录器<br/>
 		/// </summary>
-		public IDatabaseCommandLogger CommandLogger { get; set; }
+		public IDatabaseCommandLogger CommandLogger {
+			get => LogInterceptor.CommandLogger;
+			set => LogInterceptor.CommandLogger = value;
+		}
 
 		/// <summary>
 		/// Initialize<br/>
@@ -68,16 +75,17 @@ namespace ZKWeb.ORM.NHibernate {
 		/// </summary>
 		/// <param name="session">NHibernate session</param>
 		/// <param name="database">Database type</param>
-		public NHibernateDatabaseContext(ISession session, string database) {
+		/// <param name="logInterceptor">Log interceptor</param>
+		public NHibernateDatabaseContext(ISession session, string database, NHibernateLogInterceptor logInterceptor) {
 			Session = session;
 			Transaction = null;
 			TransactionLevel = 0;
 			databaseType = database;
-			CommandLogger = Application.Ioc.Resolve<IDatabaseCommandLogger>(IfUnresolved.ReturnDefault);
+			LogInterceptor = logInterceptor;
 		}
 
 		/// <summary>
-		/// Finalize<br/>
+		/// Finalizer<br/>
 		/// 析构函数<br/>
 		/// </summary>
 		~NHibernateDatabaseContext() {

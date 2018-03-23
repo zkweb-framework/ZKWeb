@@ -35,14 +35,18 @@ namespace ZKWeb.Tests.Templating.DynamicContents {
 				areaManager.SetCustomWidgets("__test_area", null);
 				Assert.Equals(areaManager.GetCustomWidgets("__test_area"), null);
 
+#pragma warning disable S1075 // URIs should not be hardcoded
 				using (HttpManager.OverrideContext("/a", "GET")) {
+#pragma warning restore S1075 // URIs should not be hardcoded
 					var context = new Context();
 					context["name"] = "a";
 					var contents = areaManager.RenderWidget(context, new TemplateWidget("__test"));
 					Assert.IsTrueWith(contents.Contains("test contents a"), contents);
 				}
 
+#pragma warning disable S1075 // URIs should not be hardcoded
 				using (HttpManager.OverrideContext("/b", "GET")) {
+#pragma warning restore S1075 // URIs should not be hardcoded
 					var context = new Context();
 					context["name"] = "b";
 					var contents = areaManager.RenderWidget(context, new TemplateWidget("__test"));

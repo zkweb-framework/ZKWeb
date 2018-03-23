@@ -2,7 +2,7 @@
 <package>
 	<metadata>
 		<id>ZKWeb.ORM.NHibernate</id>
-		<version>2.1.0-beta-4</version>
+		<version>$version$</version>
 		<title>ZKWeb.ORM.NHibernate</title>
 		<authors>303248153</authors>
 		<owners>303248153</owners>
@@ -14,12 +14,21 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
-			<dependency id="ZKWeb" version="2.1.0-beta-4" />
-			<dependency id="FluentNHibernate" version="2.0.3" />
-			<dependency id="MySql.Data" version="6.9.9" />
-			<dependency id="NHibernate" version="5.0.0" />
-			<dependency id="Npgsql" version="3.2.5" />
-			<dependency id="ZKWeb.Repack.SQLite" version="1.0.104" />
+			<group targetFramework="net461">
+				<dependency id="ZKWeb" version="$version$" />
+				<dependency id="NHibernate" version="5.1.0" />
+				<dependency id="ZKWeb.Fork.FluentNHibernate" version="2.1.1" />
+				<dependency id="Npgsql" version="3.2.7" />
+				<dependency id="MySql.Data" version="6.10.6" />
+				<dependency id="ZKWeb.Repack.SQLite" version="1.0.104" />
+			</group>
+			<group targetFramework="netstandard2.0">
+				<dependency id="ZKWeb" version="$version$" />
+				<dependency id="NHibernate" version="5.1.0" />
+				<dependency id="ZKWeb.Fork.FluentNHibernate" version="2.1.1" />
+				<dependency id="Npgsql" version="3.2.7" />
+				<dependency id="MySql.Data" version="6.10.6" />
+			</group>
 		</dependencies>
 	</metadata>
 	<files>
@@ -27,5 +36,8 @@
 		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.dll" target="lib\net461" />
 		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.xml" target="lib\net461" />
 		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\net461\ZKWeb.ORM.NHibernate.pdb" target="lib\net461" />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\netstandard2.0\ZKWeb.ORM.NHibernate.dll" target="lib\netstandard2.0" />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\netstandard2.0\ZKWeb.ORM.NHibernate.xml" target="lib\netstandard2.0" />
+		<file src="..\ZKWeb.ORM.NHibernate\bin\Release\netstandard2.0\ZKWeb.ORM.NHibernate.pdb" target="lib\netstandard2.0" />
 	</files>
 </package>

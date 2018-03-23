@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>2.1.0</Version>
 		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.ORM.InMemory</AssemblyName>
@@ -15,10 +14,6 @@
 		<ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.3.0" />
-	</ItemGroup>
-
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
 		<Reference Include="System" />
 		<Reference Include="Microsoft.CSharp" />
@@ -27,4 +22,6 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
+
+	<Import Project="..\ZKWeb\Version.targets" />
 </Project>

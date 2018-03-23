@@ -113,7 +113,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				ProjectName = Parameters.ProjectName,
 				ProjectNameLower = Parameters.ProjectName.ToLower(),
 				ProjectDescription = Parameters.ProjectDescription,
-				IISPort = random.Next(50000, 64999),
+				IISPort = random.Next(50000, 59999),
 				SelfHostPort = random.Next(40000, 49999),
 				WebProjectGuid = Guid.NewGuid(),
 				ConsoleProjectGuid = Guid.NewGuid(),

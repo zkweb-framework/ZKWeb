@@ -5,7 +5,9 @@ using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
+#pragma warning disable S101 // Types should be named in camel case
 	class IEnumerableExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void ConcatIfNotNull() {
 			var a = new[] { "a", "b", "c" };
 			var b = a.ConcatIfNotNull("d");

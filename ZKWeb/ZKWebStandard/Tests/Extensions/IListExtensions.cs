@@ -5,7 +5,9 @@ using ZKWebStandard.Testing;
 
 namespace ZKWebStandard.Tests.Extensions {
 	[Tests]
-	class IListExtensions {
+#pragma warning disable S101 // Types should be named in camel case
+	class IListExtensionsTest {
+#pragma warning restore S101 // Types should be named in camel case
 		public void FindIndex() {
 			IList<int> list = new List<int>() { 1, 2, 4 };
 			Assert.Equals(list.FindIndex(x => x % 2 == 0), 1);

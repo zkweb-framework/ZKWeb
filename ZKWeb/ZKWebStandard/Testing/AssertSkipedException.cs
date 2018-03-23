@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace ZKWebStandard.Testing {
+#pragma warning disable S3925 // "ISerializable" should be implemented correctly
 	/// <summary>
 	/// Assert skipped exception<br/>
 	/// Will make the test skipped<br/>
@@ -9,6 +10,7 @@ namespace ZKWebStandard.Testing {
 	/// </summary>
 	/// <seealso cref="Assert"/>
 	public class AssertSkipedException : Exception {
+#pragma warning restore S3925 // "ISerializable" should be implemented correctly
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
