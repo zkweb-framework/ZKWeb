@@ -56,7 +56,7 @@ export class AppComponent {
         this.parameters.ProjectType = "AspNetCore";
         this.parameters.ORM = "NHibernate";
         this.parameters.Database = "MSSQL";
-        this.parameters.ConnectionString=this.defaultConnetionstring[this.parameters.Database];
+        this.parameters.ConnectionString = this.defaultConnetionstring[this.parameters.Database];
         this.isDataBaseChecking = false;
         this.eventEmitter = new MessageEmitter();
     }
@@ -157,11 +157,11 @@ export class AppComponent {
         });
     }
 
-    public changeDataBase(dataBase:string):void{
-        if(this.defaultConnetionstring[dataBase]){
-            this.parameters.ConnectionString=this.defaultConnetionstring[dataBase];
+    public changeDataBase(dataBase: string): void {
+        if (this.defaultConnetionstring[dataBase]) {
+            this.parameters.ConnectionString = this.defaultConnetionstring[dataBase];
         } else {
-            this.parameters.ConnectionString="";
+            this.parameters.ConnectionString = "";
         }
     }
 
@@ -186,7 +186,7 @@ export class AppComponent {
             "--m=" + this.parameters.ORM,
             "--b=" + this.parameters.Database,
             "--c=\"" + this.parameters.ConnectionString + "\"",
-            "--o=\"" + this.parameters.OutputDirectory+ "\"",
+            "--o=\"" + this.parameters.OutputDirectory + "\"",
         ].join(" ");
         if (this.parameters.ProjectDescription) {
             parametersStr += " " + "--d=\"" + this.parameters.ProjectDescription + "\"";

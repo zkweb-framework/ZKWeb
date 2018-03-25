@@ -55,7 +55,7 @@ export class CreateProjectParameters {
             };
         }
         if (this.UseDefaultPlugins) {
-            if(!fs.existsSync(this.UseDefaultPlugins)){
+            if (!fs.existsSync(this.UseDefaultPlugins)) {
                 return {
                     isSuccess: false,
                     msgPrefix: "DefaultPluginsFileNotFound",
