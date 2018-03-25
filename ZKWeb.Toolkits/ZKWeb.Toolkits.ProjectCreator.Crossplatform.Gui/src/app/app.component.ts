@@ -196,7 +196,7 @@ export class AppComponent {
         }
 
         toolPath = path.join(toolPath, "ProjectCreator.Cmd.NetCore", "ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
-  
+
         return "dotnet " + toolPath + " " + parametersStr;
     }
 
