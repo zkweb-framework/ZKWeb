@@ -23,6 +23,7 @@ export class AppComponent {
     public parameters: CreateProjectParameters;
     @Input()
     public enableDatabase: any;
+    public defaultConnetionstring: any;
     private language: string;
     private eventEmitter: MessageEmitter;
     private rootPath: string;
@@ -31,20 +32,33 @@ export class AppComponent {
     constructor(public translateService: TranslateService) {
         this.language = app.getLocale();
         this.rootPath = app.getAppPath();
-        this.parameters = new CreateProjectParameters();
-        this.parameters.ProjectType = "AspNetCore";
-        this.parameters.ORM = "NHibernate";
-        this.parameters.Database = "MSSQL";
-        this.isDataBaseChecking = false;
-        this.eventEmitter = new MessageEmitter();
+
         this.enableDatabase = {
             MSSQL: true,
             MySQL: true,
             SQLite: true,
             PostgreSQL: true,
-            InMemory: true,
-            MongoDB: true,
+            InMemory: false,
+            MongoDB: false
         };
+
+        this.defaultConnetionstring = {
+            MSSQL: "Server=127.0.0.1;Database=test_db;User Id=test_user;Password=123456;",
+            MySQL: "Server=127.0.0.1;Port=3306;Database=test_db;User Id=test_user;Password=123456;",
+            SQLite: "Data Source={{App_Data}}/test.db;",
+            PostgreSQL: "Server=127.0.0.1;Port=5432;Database=test_db;User Id=test_user;Password=123456;",
+            InMemory: "",
+            MongoDB: "mongodb://test_user:123456@127.0.0.1:27017/test_db",
+        };
+
+        this.parameters = new CreateProjectParameters();
+        this.parameters.ProjectName = "Hello.World";
+        this.parameters.ProjectType = "AspNetCore";
+        this.parameters.ORM = "NHibernate";
+        this.parameters.Database = "MSSQL";
+        this.parameters.ConnectionString = this.defaultConnetionstring[this.parameters.Database];
+        this.isDataBaseChecking = false;
+        this.eventEmitter = new MessageEmitter();
     }
 
     ngOnInit() {
@@ -143,6 +157,14 @@ export class AppComponent {
         });
     }
 
+    public changeDataBase(dataBase: string): void {
+        if (this.defaultConnetionstring[dataBase]) {
+            this.parameters.ConnectionString = this.defaultConnetionstring[dataBase];
+        } else {
+            this.parameters.ConnectionString = "";
+        }
+    }
+
     public pluginSelect(): void {
         const selectFile = remote.dialog.showOpenDialog({ properties: ["openFile"] });
         if (selectFile && selectFile.length > 0) {
@@ -160,22 +182,22 @@ export class AppComponent {
     private createCommand(toolPath: string): string {
         let parametersStr = [
             "--t=" + this.parameters.ProjectType,
-            "--n=" + this.parameters.ProjectName,
+            "--n=\"" + this.parameters.ProjectName + "\"",
             "--m=" + this.parameters.ORM,
             "--b=" + this.parameters.Database,
-            "--c=" + "\"this.parameters.ConnectionString" + "\"",
-            "--o=" + this.parameters.OutputDirectory,
+            "--c=\"" + this.parameters.ConnectionString + "\"",
+            "--o=\"" + this.parameters.OutputDirectory + "\"",
         ].join(" ");
         if (this.parameters.ProjectDescription) {
-            parametersStr += " " + "--d=" + this.parameters.ProjectDescription;
+            parametersStr += " " + "--d=\"" + this.parameters.ProjectDescription + "\"";
         }
-        if (this.parameters.ProjectDescription) {
-            parametersStr += " " + "--u=" + this.parameters.UseDefaultPlugins;
+        if (this.parameters.UseDefaultPlugins) {
+            parametersStr += " " + "--u=\"" + this.parameters.UseDefaultPlugins + "\"";
         }
 
         toolPath = path.join(toolPath, "ProjectCreator.Cmd.NetCore", "ZKWeb.Toolkits.ProjectCreator.Cmd.dll");
-        return "dotnet " + toolPath + " " + parametersStr;
 
+        return "dotnet " + toolPath + " " + parametersStr;
     }
 
     private findTools(): string {
@@ -186,5 +208,4 @@ export class AppComponent {
         }
         return "";
     }
-
 }

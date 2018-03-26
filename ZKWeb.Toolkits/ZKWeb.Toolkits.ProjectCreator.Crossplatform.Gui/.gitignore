@@ -1,10 +1,11 @@
 .vscode
 node_modules
 dist
+build
 *.db-journal
 package-lock.json
-DatabaseUtils\bin
-DatabaseUtils\obj
+DatabaseUtils/bin
+DatabaseUtils/obj
 build
 ./src/assets/dbUtil
 .vs
