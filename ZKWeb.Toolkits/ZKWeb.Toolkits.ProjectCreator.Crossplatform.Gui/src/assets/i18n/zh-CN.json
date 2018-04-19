@@ -27,5 +27,6 @@
     "ThisPluginCollectionOnlySupportTheseORM":	"这个插件集只支持这些ORM:" ,
     "dataBaseTestFail":"数据库连接失败",
     "ToolsFoderFail":"无法探测到Tools文件夹",
-    "notValidConnectionString":"连接字符串错误"
+    "notValidConnectionString":"连接字符串错误",
+    "DefaultPluginsFileNotFound":"插件文件不存在"
 }

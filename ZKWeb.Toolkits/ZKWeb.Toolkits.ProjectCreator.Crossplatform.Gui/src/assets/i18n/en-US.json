@@ -27,5 +27,6 @@
     "ThisPluginCollectionOnlySupportTheseORM": "This plugin collection only support these ORM:",
     "dataBaseTestFail":"fail to connect dataBase",
     "ToolsFoderFail":"unable to find Tools foder",
-    "notValidConnectionString":"Invalid ConnectionString"
+    "notValidConnectionString":"Invalid ConnectionString",
+    "DefaultPluginsFileNotFound":"Plugin file not found"
 }
