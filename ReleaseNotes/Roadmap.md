@@ -8,6 +8,7 @@
 - Find a solution to let vs ignore response exception
 - Switch to official [system.drawing.common](https://www.nuget.org/packages?q=system.drawing.common) if stable version is released
 - Switch to official [fluentnhibernate](https://www.nuget.org/packages/FluentNHibernate)
+- Update dapper context since query transaction is supported in dommel
 
 Misc
 
