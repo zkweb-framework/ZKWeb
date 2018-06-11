@@ -1,4 +1,4 @@
-﻿using System.DrawingCore;
+﻿using System.Drawing;
 using System.IO;
 using ZKWeb.Web.ActionResults;
 using ZKWebStandard.Testing;

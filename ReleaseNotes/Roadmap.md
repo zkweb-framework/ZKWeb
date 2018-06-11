@@ -1,3 +1,7 @@
+2.1.1
+
+- Update dapper context since query transaction is supported in dommel
+
 2.2
 
 - Performance moniting support
@@ -6,9 +10,6 @@
 - More execution performance improvement
 - More database performance improvement
 - Find a solution to let vs ignore response exception
-- Switch to official [system.drawing.common](https://www.nuget.org/packages?q=system.drawing.common) if stable version is released
-- Switch to official [fluentnhibernate](https://www.nuget.org/packages/FluentNHibernate)
-- Update dapper context since query transaction is supported in dommel
 
 Misc
 

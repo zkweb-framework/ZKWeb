@@ -165,7 +165,7 @@ namespace ZKWeb.ORM.EFCore {
 		/// Get the query object for specific entity type<br/>
 		/// 获取指定实体类型的查询对象<br/>
 		/// </summary>
-		public IQueryable<T> Query<T>()
+		public new IQueryable<T> Query<T>()
 			where T : class, IEntity {
 			return Set<T>();
 		}
