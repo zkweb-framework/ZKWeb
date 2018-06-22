@@ -16,18 +16,18 @@
 		<dependencies>
 			<group targetFramework="net461">
 				<dependency id="ZKWeb" version="$version$" />
-				<dependency id="NHibernate" version="5.1.0" />
-				<dependency id="ZKWeb.Fork.FluentNHibernate" version="2.1.1" />
-				<dependency id="Npgsql" version="3.2.7" />
-				<dependency id="MySql.Data" version="6.10.6" />
+				<dependency id="NHibernate" version="5.1.3" />
+				<dependency id="FluentNHibernate" version="2.1.2" />
+				<dependency id="MySql.Data" version="6.10.7" />
+				<dependency id="Npgsql" version="4.0.0" />
 				<dependency id="ZKWeb.Repack.SQLite" version="1.0.104" />
 			</group>
 			<group targetFramework="netstandard2.0">
 				<dependency id="ZKWeb" version="$version$" />
-				<dependency id="NHibernate" version="5.1.0" />
-				<dependency id="ZKWeb.Fork.FluentNHibernate" version="2.1.1" />
-				<dependency id="Npgsql" version="3.2.7" />
-				<dependency id="MySql.Data" version="6.10.6" />
+				<dependency id="NHibernate" version="5.1.3" />
+				<dependency id="FluentNHibernate" version="2.1.2" />
+				<dependency id="MySql.Data" version="6.10.7" />
+				<dependency id="Npgsql" version="4.0.0" />
 			</group>
 		</dependencies>
 	</metadata>
