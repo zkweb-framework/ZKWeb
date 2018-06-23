@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Plugin.CompilerServices;
 using ZKWeb.Server;
@@ -157,13 +158,17 @@ namespace ZKWeb.Plugin {
 			if (File.Exists(compileInfoPath)) {
 				existCompileInfo = File.ReadAllText(compileInfoPath);
 			}
-			var compileInfo = string.Join("\r\n", sourceFiles
+			var compileInfoBuilder = new StringBuilder();
+			compileInfoBuilder.AppendLine(Application.FullVersion);
+			sourceFiles
 				.Select(s => new {
 					path = s.Substring(sourceDirectory.Length + 1),
 					time = File.GetLastWriteTime(s)
 				}) // Relative path and modify time
 				.OrderBy(s => s.path) // Order by path
-				.Select(s => $"{s.path} {s.time}")); // Generate line
+				.Select(s => $"{s.path} {s.time}")
+				.ForEach(s => compileInfoBuilder.AppendLine(s));
+			var compileInfo = compileInfoBuilder.ToString();
 			if (sourceFiles.Length > 0 && compileInfo != existCompileInfo) {
 				// Rename old files
 				if (File.Exists(assemblyPath)) {

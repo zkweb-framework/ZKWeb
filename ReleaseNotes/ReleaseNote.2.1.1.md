@@ -23,6 +23,7 @@
 	- Microsoft.AspNetCore.Hosting.Abstractions 2.1.0
 	- Newtonsoft.Json 11.0.2
 	- Microsoft.CodeAnalysis.CSharp 2.8.2
+- Recompile all plugins when zkweb version changed
 
 ### Break Changes
 
