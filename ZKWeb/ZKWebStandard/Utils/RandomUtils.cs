@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace ZKWebStandard.Utils {
 	/// <summary>
@@ -13,7 +14,15 @@ namespace ZKWebStandard.Utils {
 		/// Random generator<br/>
 		/// 全局使用的随机数生成器<br/>
 		/// </summary>
-		public static Random Generator { get; } = new Random(SystemRandomInt());
+		public static Random Generator {
+			get {
+				if (_generator.Value == null) {
+					_generator.Value = new Random(SystemRandomInt());
+				}
+				return _generator.Value;
+			}
+		}
+		private readonly static ThreadLocal<Random> _generator = new ThreadLocal<Random>();
 
 		/// <summary>
 		/// Create secure random bytes in given length<br/>

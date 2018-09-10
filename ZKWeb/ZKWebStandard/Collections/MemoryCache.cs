@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 
@@ -32,12 +33,7 @@ namespace ZKWebStandard.Collections {
 		/// 缓存词典<br/>
 		/// { Key: (Value, ExpireTime) }
 		/// </summary>
-		protected IDictionary<TKey, Pair<TValue, DateTime>> Cache { get; set; }
-		/// <summary>
-		/// Reader writer lock<br/>
-		/// 读写锁<br/>
-		/// </summary>
-		protected ReaderWriterLockSlim CacheLock { get; set; }
+		protected ConcurrentDictionary<TKey, Pair<TValue, DateTime>> Cache { get; set; }
 		/// <summary>
 		/// Last check time<br/>
 		/// 上次检查的时间<br/>
@@ -50,8 +46,7 @@ namespace ZKWebStandard.Collections {
 		/// </summary>
 		public MemoryCache() {
 			RevokeExpiresInterval = TimeSpan.FromSeconds(180);
-			Cache = new Dictionary<TKey, Pair<TValue, DateTime>>();
-			CacheLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+			Cache = new ConcurrentDictionary<TKey, Pair<TValue, DateTime>>();
 			LastRevokeExpires = DateTime.UtcNow;
 		}
 
@@ -64,18 +59,15 @@ namespace ZKWebStandard.Collections {
 			if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
 				return;
 			}
-			CacheLock.EnterWriteLock();
-			try {
-				if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
-					return; // double check
-				}
-				LastRevokeExpires = now;
-				var expireKeys = Cache.Where(c => c.Value.Second < now).Select(c => c.Key).ToList();
-				foreach (var key in expireKeys) {
-					Cache.Remove(key);
-				}
-			} finally {
-				CacheLock.ExitWriteLock();
+			if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
+				return; // double check
+			}
+			LastRevokeExpires = now;
+			var expireKeys = Cache
+				.Where(c => c.Value.Second < now).Select(c => c.Key)
+				.ToList();
+			foreach (var key in expireKeys) {
+				Cache.TryRemove(key, out var _);
 			}
 		}
 
@@ -92,12 +84,7 @@ namespace ZKWebStandard.Collections {
 				return;
 			}
 			var now = DateTime.UtcNow;
-			CacheLock.EnterWriteLock();
-			try {
-				Cache[key] = Pair.Create(value, now + keepTime);
-			} finally {
-				CacheLock.ExitWriteLock();
-			}
+			Cache[key] = Pair.Create(value, now + keepTime);
 		}
 
 		/// <summary>
@@ -112,18 +99,13 @@ namespace ZKWebStandard.Collections {
 		public bool TryGetValue(TKey key, out TValue value) {
 			RevokeExpires();
 			var now = DateTime.UtcNow;
-			CacheLock.EnterReadLock();
-			try {
-				Pair<TValue, DateTime> pair;
-				if (Cache.TryGetValue(key, out pair) && pair.Second > now) {
-					value = pair.First;
-					return true;
-				} else {
-					value = default(TValue);
-					return false;
-				}
-			} finally {
-				CacheLock.ExitReadLock();
+			Pair<TValue, DateTime> pair;
+			if (Cache.TryGetValue(key, out pair) && pair.Second > now) {
+				value = pair.First;
+				return true;
+			} else {
+				value = default(TValue);
+				return false;
 			}
 		}
 
@@ -134,12 +116,7 @@ namespace ZKWebStandard.Collections {
 		/// <param name="key">Cache key</param>
 		public void Remove(TKey key) {
 			RevokeExpires();
-			CacheLock.EnterWriteLock();
-			try {
-				Cache.Remove(key);
-			} finally {
-				CacheLock.ExitWriteLock();
-			}
+			Cache.TryRemove(key, out var _);
 		}
 
 		/// <summary>
@@ -148,12 +125,7 @@ namespace ZKWebStandard.Collections {
 		/// </summary>
 		/// <returns></returns>
 		public int Count() {
-			CacheLock.EnterReadLock();
-			try {
-				return Cache.Count;
-			} finally {
-				CacheLock.ExitReadLock();
-			}
+			return Cache.Count;
 		}
 
 		/// <summary>
@@ -161,12 +133,7 @@ namespace ZKWebStandard.Collections {
 		/// 删除所有已缓存的值<br/>
 		/// </summary>
 		public void Clear() {
-			CacheLock.EnterWriteLock();
-			try {
-				Cache.Clear();
-			} finally {
-				CacheLock.ExitWriteLock();
-			}
+			Cache.Clear();
 		}
 	}
 }

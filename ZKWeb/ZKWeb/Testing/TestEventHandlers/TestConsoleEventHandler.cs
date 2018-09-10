@@ -1,5 +1,6 @@
 ﻿using System;
 using ZKWebStandard.Extensions;
+using ZKWebStandard.Testing;
 using ZKWebStandard.Testing.Events;
 
 namespace ZKWeb.Testing.TestEventHandlers {
@@ -19,10 +20,16 @@ namespace ZKWeb.Testing.TestEventHandlers {
 		public void OnAllTestCompleted(AllTestCompletedInfo info) {
 			Console.ForegroundColor = (info.Counter.Failed > 0) ? ConsoleColor.Red : ConsoleColor.Green;
 			Console.WriteLine($"complete {info.Runner.Assembly.GetName().Name} tests: " +
-				$"{info.Counter.Passed} passed, {info.Counter.Failed} failed, {info.Counter.Skipped} skiped.");
+				$"{info.Counter.Passed} passed, {info.Counter.Failed} failed, {info.Counter.Skipped} skipped.");
 			Console.WriteLine();
 			Console.ResetColor();
-			CompletedInfo = info;
+			if (CompletedInfo == null) {
+				CompletedInfo = info;
+			} else {
+				CompletedInfo.Counter.Passed += info.Counter.Passed;
+				CompletedInfo.Counter.Failed += info.Counter.Failed;
+				CompletedInfo.Counter.Skipped += info.Counter.Skipped;
+			}
 		}
 
 		public void OnDebugMessage(DebugMessageInfo info) {
@@ -39,7 +46,12 @@ namespace ZKWeb.Testing.TestEventHandlers {
 
 		public void OnTestFailed(TestFailedInfo info) {
 			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine($"failed: {info.Exception}");
+			if (info.Exception is AssertException ||
+				info.Exception is ScenarioException) {
+				Console.WriteLine($"failed: {info.Exception.Message}");
+			} else {
+				Console.WriteLine($"failed: {info.Exception}");
+			}
 			Console.ResetColor();
 		}
 

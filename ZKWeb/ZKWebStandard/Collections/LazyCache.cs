@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace ZKWebStandard.Collections {
 	/// <summary>
@@ -59,13 +60,16 @@ namespace ZKWebStandard.Collections {
 		/// </summary>
 		public T Value {
 			get {
-				// Copy to local object
-				// It will not affect by other threads that may call `Reset`
+				// Copy to local variable
+				// If other thread calls Reset, it will keep the old value
 				var inst = Instance;
 				if (inst == null) {
+					// Reset requires locking, so here wouldn't return null
 					lock (Lock) {
 						if (Instance == null) {
-							Instance = Factory();
+							var newInst = Factory();
+							Thread.MemoryBarrier();
+							Instance = newInst;
 						}
 						inst = Instance;
 					}

@@ -16,6 +16,13 @@ namespace ZKWeb.Testing {
 	/// </summary>
 	public class TestManager {
 		/// <summary>
+		/// Extra test assemblies<br/>
+		/// 额外的测试程序集列表<br/>
+		/// </summary>
+		public virtual IList<Assembly> ExtraTestAssemblies { get { return _extraTestAssemblies; } }
+		private IList<Assembly> _extraTestAssemblies = new List<Assembly>();
+
+		/// <summary>
 		/// Get assemblies for testing<br/>
 		/// 获取测试使用的所有程序集<br/>
 		/// </summary>
@@ -26,6 +33,7 @@ namespace ZKWeb.Testing {
 			result.Add(typeof(TestRunner).Assembly); // ZKWebStandard
 			var pluginManager = Application.Ioc.Resolve<PluginManager>();
 			result.AddRange(pluginManager.PluginAssemblies);
+			result.AddRange(ExtraTestAssemblies);
 			return result;
 		}
 

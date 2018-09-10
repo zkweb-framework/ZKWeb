@@ -32,7 +32,7 @@ namespace ZKWebStandard.Collections {
 		protected int Disposed;
 
 		/// <summary>
-		/// Initialized<br/>
+		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
 		public SimpleDisposable(Action onDispose) {
@@ -47,14 +47,6 @@ namespace ZKWebStandard.Collections {
 			if (Interlocked.Exchange(ref Disposed, 1) == 0) {
 				OnDispose();
 			}
-		}
-
-		/// <summary>
-		/// Finalizer<br/>
-		/// 析构函数<br/>
-		/// </summary>
-		~SimpleDisposable() {
-			Dispose();
 		}
 	}
 }
