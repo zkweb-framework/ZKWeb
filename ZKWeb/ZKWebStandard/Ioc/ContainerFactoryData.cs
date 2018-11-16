@@ -1,45 +1,166 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
 
 namespace ZKWebStandard.Ioc {
 	/// <summary>
 	/// Factory data<br/>
-	/// Include function object and implementation type<br/>
 	/// 工厂函数数据<br/>
-	/// 包括函数对象和实现类型<br/>
 	/// </summary>
 	/// <seealso cref="Container"/>
 	public class ContainerFactoryData {
 		/// <summary>
-		/// Function returns implementation type<br/>
-		/// 返回实现类型的函数<br/>
+		/// Factory function<br/>
+		/// 工厂函数<br/>
 		/// </summary>
-		public object GenericFactory { get; internal set; }
+		private ContainerFactoryDelegate _factoryFunc { get; set; }
 		/// <summary>
-		/// Function returns object type<br/>
-		/// 返回object类型的函数<br/>
+		/// Is implementation type belong generic definition<br/>
+		/// 实现类型是否属于泛型定义<br/>
 		/// </summary>
-		public Func<object> ObjectFactory { get; internal set; }
+		private bool _isGenericTypeDefinition { get; set; }
+		/// <summary>
+		/// The instance object for singleton reuse<br/>
+		/// 单例重用时使用的实例对象<br/>
+		/// </summary>
+		private object _singletonInstance { get; set; }
+		/// <summary>
+		/// The instance object for scoped reuse<br/>
+		/// 区域重用时使用的实例对象<br/>
+		/// </summary>
+		private AsyncLocal<object> _scopedInstance { get; set; }
+		/// <summary>
+		/// Reuse type<br/>
+		/// 重用类型<br/>
+		/// </summary>
+		public ReuseType ReuseType { get; private set; }
 		/// <summary>
 		/// Implementation type hint<br/>
 		/// Usually it's the type factory function will return<br/>
-		/// Except user use "RegisterDelegate", that we can't known what type will be returned<br/>
 		/// 实现类型<br/>
 		/// 通常它会是工厂函数返回的对象的类型<br/>
-		/// 除非用户使用"RegisterDelegate", 我们不知道什么类型会被返回<br/>
 		/// </summary>
-		public Type ImplementationTypeHint { get; internal set; }
+		public Type ImplementationTypeHint { get; private set; }
 
 		/// <summary>
 		/// Initialize<br/>
 		/// 初始化<br/>
 		/// </summary>
-		/// <param name="genericFactory">Function returns implementation type</param>
-		/// <param name="objectFactory">Function returns object type</param>
-		/// <param name="implementationTypeHint">Implementation type hint</param>
-		public ContainerFactoryData(object genericFactory, Func<object> objectFactory, Type implementationTypeHint) {
-			GenericFactory = genericFactory;
-			ObjectFactory = objectFactory;
+		public ContainerFactoryData(
+			ContainerFactoryDelegate factoryFunc,
+			ReuseType reuseType,
+			Type implementationTypeHint) {
+			_factoryFunc = factoryFunc;
+			_isGenericTypeDefinition = implementationTypeHint.IsGenericTypeDefinition;
+			if (reuseType == ReuseType.Singleton) {
+				if (_isGenericTypeDefinition) {
+					_singletonInstance = new ConcurrentDictionary<string, object>();
+				}
+			} else if (reuseType == ReuseType.Scoped) {
+				_scopedInstance = new AsyncLocal<object>();
+			} else if (reuseType != ReuseType.Transient) {
+				throw new NotSupportedException(string.Format(
+					"Unsupported reuse type {0}", ReuseType));
+			}
+			ReuseType = reuseType;
 			ImplementationTypeHint = implementationTypeHint;
+		}
+
+		/// <summary>
+		/// Get instance<br/>
+		/// 获取实例<br/>
+		/// </summary>
+		public object GetInstance(IContainer container, Type serviceType) {
+			if (ReuseType == ReuseType.Transient) {
+				// Transient reuse
+				return _factoryFunc(container, serviceType);
+			} else if (ReuseType == ReuseType.Singleton) {
+				if (!_isGenericTypeDefinition) {
+					// Singleton reuse, non generic
+					if (_singletonInstance != null) {
+						return _singletonInstance;
+					}
+					lock (this) {
+						if (_singletonInstance != null) {
+							return _singletonInstance;
+						}
+						var instance = _factoryFunc(container, serviceType);
+						Interlocked.MemoryBarrier();
+						_singletonInstance = instance;
+						return instance;
+					}
+				} else {
+					// Singleton reuse, generic
+					var dict = (ConcurrentDictionary<string, object>)_singletonInstance;
+					var key = string.Join("\r\n", serviceType.GetGenericArguments().Select(t => t.FullName));
+					if (dict.TryGetValue(key, out var instance)) {
+						return instance;
+					}
+					lock (this) {
+						if (dict.TryGetValue(key, out instance)) {
+							return instance;
+						}
+						instance = _factoryFunc(container, serviceType);
+						Interlocked.MemoryBarrier();
+						dict[key] = instance;
+						return instance;
+					}
+				}
+			} else if (ReuseType == ReuseType.Scoped) {
+				if (!_isGenericTypeDefinition) {
+					// Scoped reuse, non generic
+					var instance = _scopedInstance.Value;
+					if (instance != null) {
+						return instance;
+					}
+					lock (this) {
+						instance = _scopedInstance.Value;
+						if (instance != null) {
+							return instance;
+						}
+						instance = _factoryFunc(container, serviceType);
+						Interlocked.MemoryBarrier();
+						_scopedInstance.Value = instance;
+						if (instance is IDisposable disposable) {
+							container.DisposeWhenScopeFinished(disposable);
+						}
+						return instance;
+					}
+				} else {
+					// Scoped reuse, generic
+					var dict = (ConcurrentDictionary<string, object>)_scopedInstance.Value;
+					if (dict == null) {
+						lock (this) {
+							dict = (ConcurrentDictionary<string, object>)_scopedInstance.Value;
+							if (dict == null) {
+								dict = new ConcurrentDictionary<string, object>();
+								Interlocked.MemoryBarrier();
+								_scopedInstance.Value = dict;
+							}
+						}
+					}
+					var key = string.Join("\r\n", serviceType.GetGenericArguments().Select(t => t.FullName));
+					if (dict.TryGetValue(key, out var instance)) {
+						return instance;
+					}
+					lock (this) {
+						if (dict.TryGetValue(key, out instance)) {
+							return instance;
+						}
+						instance = _factoryFunc(container, serviceType);
+						Interlocked.MemoryBarrier();
+						dict[key] = instance;
+						if (instance is IDisposable disposable) {
+							container.DisposeWhenScopeFinished(disposable);
+						}
+						return instance;
+					}
+				}
+			} else {
+				throw new NotSupportedException(string.Format(
+					"Unsupported reuse type {0}", ReuseType));
+			}
 		}
 	}
 }

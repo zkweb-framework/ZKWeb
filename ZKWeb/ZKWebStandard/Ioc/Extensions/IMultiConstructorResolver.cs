@@ -1,4 +1,6 @@
-﻿namespace ZKWebStandard.Ioc.Extensions {
+﻿using System;
+
+namespace ZKWebStandard.Ioc.Extensions {
 	/// <summary>
 	/// Interface used to resolve type have multi constructors<br/>
 	/// 用于解决拥有多个构造函数的类型的接口<br/>
@@ -8,7 +10,7 @@
 		/// Resolve type have multi constructors<br/>
 		/// 解决拥有多个构造函数的类型<br/>
 		/// </summary>
-		T Resolve<T>();
+		object Resolve(Type type);
 
 		/// <summary>
 		/// Clear factory cache, please run it after alter container<br/>

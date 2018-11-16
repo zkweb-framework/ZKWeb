@@ -6,14 +6,14 @@ using ZKWebStandard.Extensions;
 using ZKWebStandard.Utils;
 using ZKWebStandard.Web;
 
-namespace ${ProjectName}.Plugins.${ProjectName}.src.Controllers {
+namespace __ProjectName__.Plugins.__ProjectName__.src.Controllers {
 	/// <summary>
 	/// Example controller only for learning, delete it if you don't need
 	/// </summary>
 	public class HelloController : IController {
 		[Action("/")]
 		public IActionResult Index() {
-			return new TemplateResult("${ProjectNameLower}/hello.html", new { text = "World" });
+			return new TemplateResult("__ProjectName__/hello.html", new { text = "World" });
 		}
 
 		[Action("/hello")]

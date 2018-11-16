@@ -82,13 +82,12 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 		/// </summary>
 		/// <param name="path">Template path</param>
 		/// <param name="outputPath">Project output path</param>
-		/// <param name="parameters">Render parameters</param>
+		/// <param name="parameters">Replace parameters</param>
 		protected virtual void WriteTemplateContents(
-			string path, string outputPath, object parameters) {
+			string path, string outputPath, IDictionary<string, string> parameters) {
 			var contents = File.ReadAllText(path);
-			foreach (var property in parameters.GetType().GetTypeInfo().GetProperties()) {
-				var expr = "${" + property.Name + "}";
-				contents = contents.Replace(expr, property.GetValue(parameters)?.ToString());
+			foreach (var pair in parameters) {
+				contents = contents.Replace(pair.Key, pair.Value);
 			}
 			Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 			File.WriteAllText(outputPath, contents, Encoding.UTF8);
@@ -101,23 +100,36 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 			// Get templates directory
 			var templatesDirectory = Parameters.TemplatesDirectory ?? AutoDetectTemplatesDirectory();
 			// Get project template path and plugin template path
-			var projectNameInPath = "ProjectName";
+			var projectNameInPath = "__ProjectName__";
 			var projectTemplateName = $"{Parameters.ProjectType}.{Parameters.ORM}";
 			var pluginTemplateName = "BootstrapPlugin";
 			var projectTemplateRoot = Path.Combine(templatesDirectory, projectTemplateName);
 			var pluginTemplateRoot = Path.Combine(templatesDirectory, pluginTemplateName);
 			var outputRoot = Path.Combine(Parameters.OutputDirectory, Parameters.ProjectName);
-			// Create render parameters
+			// Create replace parameters
 			var random = new Random();
-			var templateParameters = new {
-				ProjectName = Parameters.ProjectName,
-				ProjectNameLower = Parameters.ProjectName.ToLower(),
-				ProjectDescription = Parameters.ProjectDescription,
-				IISPort = random.Next(50000, 59999),
-				SelfHostPort = random.Next(40000, 49999),
-				WebProjectGuid = Guid.NewGuid(),
-				ConsoleProjectGuid = Guid.NewGuid(),
-				PluginProjectGuid = Guid.NewGuid()
+			var iisPort = random.Next(50000, 59999);
+			var selfHostPort = random.Next(40000, 49999);
+			var webProjectGuid = Guid.NewGuid();
+			var consoleProjectGuid = Guid.NewGuid();
+			var pluginProjectGuid = Guid.NewGuid();
+			var templateParameters = new Dictionary<string, string>() {
+				{ "__ProjectName__", Parameters.ProjectName },
+				{ "__ProjectDescription__" , Parameters.ProjectDescription },
+				{ "<DevelopmentServerPort>50000</DevelopmentServerPort>",
+					$"<DevelopmentServerPort>{iisPort}</DevelopmentServerPort>" },
+				{ "<IISUrl>http://localhost:50000/</IISUrl>",
+					$"<IISUrl>http://localhost:{iisPort}/</IISUrl>" },
+				{ "\"applicationUrl\": \"http://localhost:50000/\"",
+					$"\"applicationUrl\": \"http://localhost:{iisPort}/\"" },
+				{ "\"launchUrl\": \"http://localhost:40000\"",
+					$"\"launchUrl\": \"http://localhost:{selfHostPort}\"" },
+				{ "fc8611cf-a950-4fc1-bf0e-cbe87b820900",
+					webProjectGuid.ToString() },
+				{ "fc8611cf-a950-4fc1-bf0e-cbe87b820901",
+					consoleProjectGuid.ToString() },
+				{ "fc8611cf-a950-4fc1-bf0e-cbe87b820902",
+					pluginProjectGuid.ToString() },
 			};
 			// Write project files
 			foreach (var path in Directory.EnumerateFiles(

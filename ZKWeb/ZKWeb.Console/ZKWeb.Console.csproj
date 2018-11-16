@@ -14,14 +14,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\ZKMod\ZKMod.csproj" />
 		<ProjectReference Include="..\ZKWeb\ZKWeb.csproj" />
 		<ProjectReference Include="..\ZKWebStandard\ZKWebStandard.csproj" />
 		<ProjectReference Include="..\ZKWeb.ORM.Dapper\ZKWeb.ORM.Dapper.csproj" />
 		<ProjectReference Include="..\ZKWeb.ORM.EFCore\ZKWeb.ORM.EFCore.csproj" />
 		<ProjectReference Include="..\ZKWeb.ORM.InMemory\ZKWeb.ORM.InMemory.csproj" />
 		<ProjectReference Include="..\ZKWeb.ORM.MongoDB\ZKWeb.ORM.MongoDB.csproj" />
-		<ProjectReference Include="..\Tests.ZKMod\Tests.ZKMod.csproj" />
 		<ProjectReference Include="..\Tests.ZKWeb\Tests.ZKWeb.csproj" />
 		<ProjectReference Include="..\Tests.ZKWebStandard\Tests.ZKWebStandard.csproj" />
 	</ItemGroup>

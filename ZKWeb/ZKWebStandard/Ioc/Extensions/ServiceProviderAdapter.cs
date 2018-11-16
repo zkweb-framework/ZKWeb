@@ -31,6 +31,11 @@ namespace ZKWebStandard.Ioc.Extensions {
 		/// LazyFactory的MethodInfo<br/>
 		/// </summary>
 		protected MethodInfo LazyFactoryMethod { get; set; }
+		/// <summary>
+		/// MethodInfo of FuncFactory<br/>
+		/// FuncFactory的MethodInfo<br/>
+		/// </summary>
+		protected MethodInfo FuncFactoryMethod { get; set; }
 
 		/// <summary>
 		/// Initliaze<br/>
@@ -41,6 +46,7 @@ namespace ZKWebStandard.Ioc.Extensions {
 			ListFactoryMethod = GetType().FastGetMethod(nameof(ListFactory));
 			IEnumerableFactoryMethod = GetType().FastGetMethod(nameof(IEnumerableFactory));
 			LazyFactoryMethod = GetType().FastGetMethod(nameof(LazyFactory));
+			FuncFactoryMethod = GetType().FastGetMethod(nameof(FuncFactory));
 		}
 
 		/// <summary>
@@ -55,8 +61,6 @@ namespace ZKWebStandard.Ioc.Extensions {
 		/// Resolve IEnumerable&lt;T&gt;<br/>
 		/// 解决List&lt;T&gt;<br/>
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
 		public IEnumerable<T> IEnumerableFactory<T>() {
 			return Container.ResolveMany<T>();
 		}
@@ -65,11 +69,16 @@ namespace ZKWebStandard.Ioc.Extensions {
 		/// Resolve Lazy&lt;T&gt;<br/>
 		/// 解决Lazy&lt;T&gt;<br/>
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="resolve"></param>
-		/// <returns></returns>
 		public Lazy<T> LazyFactory<T>(Func<object> resolve) {
 			return new Lazy<T>(() => (T)resolve());
+		}
+
+		/// <summary>
+		/// Resolve Func&lt;T&gt;<br/>
+		/// 解决Func&lt;T&gt;<br/>
+		/// </summary>
+		public Func<T> FuncFactory<T>(Func<object> resolve) {
+			return new Func<T>(() =>(T)resolve());
 		}
 
 		/// <summary>
@@ -123,9 +132,8 @@ namespace ZKWebStandard.Ioc.Extensions {
 			}
 			if (isFunc) {
 				var originalResolve = resolve;
-				var invoker = ReflectionUtils.MakeInvoker(
-					ContainerFactoryBuilder.ToGenericFactoryMethod, funcReturnType);
-				resolve = () => invoker(null, new object[] { originalResolve });
+				var invoker = ReflectionUtils.MakeInvoker(FuncFactoryMethod, serviceType);
+				resolve = () => invoker(this, new object[] { originalResolve });
 			}
 			return resolve();
 		}

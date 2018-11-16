@@ -64,6 +64,17 @@ namespace ZKWebStandard.Ioc {
 		/// <param name="factory">Service factory</param>
 		/// <param name="reuseType">Reuse type</param>
 		/// <param name="serviceKey">Service key</param>
+		void RegisterDelegate(Type serviceType, ContainerFactoryDelegate factory,
+			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
+
+		/// <summary>
+		/// Register delegate with service type and service key<br/>
+		/// 根据服务类型和服务键注册工厂函数<br/>
+		/// </summary>
+		/// <param name="serviceType">Implementation type</param>
+		/// <param name="factory">Service factory</param>
+		/// <param name="reuseType">Reuse type</param>
+		/// <param name="serviceKey">Service key</param>
 		void RegisterDelegate(Type serviceType, Func<object> factory,
 			ReuseType reuseType = ReuseType.Transient, object serviceKey = null);
 

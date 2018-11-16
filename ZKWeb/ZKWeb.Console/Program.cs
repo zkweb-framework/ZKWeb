@@ -38,7 +38,6 @@
 
 			var testManager = Application.Ioc.Resolve<TestManager>();
 			var testEventHandler = new TestConsoleEventHandler();
-			testManager.ExtraTestAssemblies.Add(Assembly.Load("Tests.ZKMod"));
 			testManager.ExtraTestAssemblies.Add(Assembly.Load("Tests.ZKWeb"));
 			testManager.ExtraTestAssemblies.Add(Assembly.Load("Tests.ZKWebStandard"));
 			testManager.RunAllAssemblyTest(testEventHandler);

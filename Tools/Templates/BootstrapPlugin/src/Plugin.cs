@@ -1,11 +1,11 @@
-﻿using ${ProjectName}.Plugins.${ProjectName}.src.Controllers;
+﻿using __ProjectName__.Plugins.__ProjectName__.src.Controllers;
 using System.Linq;
 using ZKWeb;
 using ZKWeb.Plugin;
 using ZKWeb.Web;
 using ZKWebStandard.Ioc;
 
-namespace ${ProjectName}.Plugins.${ProjectName}.src {
+namespace __ProjectName__.Plugins.__ProjectName__.src {
 	/// <summary>
 	/// Plugin Entry Point
 	/// </summary>
