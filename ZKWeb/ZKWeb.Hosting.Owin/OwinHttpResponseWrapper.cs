@@ -34,6 +34,10 @@ namespace ZKWeb.Hosting.Owin {
 			get { return OwinResponse.StatusCode; }
 			set { OwinResponse.StatusCode = value; }
 		}
+		private bool _isEnded;
+		public bool IsEnded {
+			get { return _isEnded; }
+		}
 
 		public void SetCookie(string key, string value, HttpCookieOptions options) {
 			options = options ?? new HttpCookieOptions();
@@ -68,7 +72,8 @@ namespace ZKWeb.Hosting.Owin {
 		[DebuggerNonUserCode]
 		public void End() {
 			Body.Flush();
-			throw new OwinHttpResponseEndException();
+			// see the comment in ZKWeb.Hosting.AspNetCore.CoreHttpResponseWrapper
+			_isEnded = true;
 		}
 
 		/// <summary>

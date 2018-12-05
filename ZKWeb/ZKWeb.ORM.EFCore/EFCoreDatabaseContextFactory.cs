@@ -168,8 +168,9 @@ namespace ZKWeb.ORM.EFCore {
 			// There some difference, we need perform the migration
 			var commands = sqlGenerator.Generate(operations, context.Model);
 			var connection = serviceProvider.GetService<IRelationalConnection>();
+			var typeMappingSource = serviceProvider.GetService<IRelationalTypeMappingSource>();
 			// Take a snapshot to the newest model
-			var codeHelper = new CSharpHelper();
+			var codeHelper = new CSharpHelper(typeMappingSource);
 			var generator = new CSharpMigrationsGenerator(
 				new MigrationsCodeGeneratorDependencies(),
 				new CSharpMigrationsGeneratorDependencies(

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.2</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>__ProjectName__.AspNetCore</AssemblyName>
@@ -16,15 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.1.1" />
-    <PackageReference Include="ZKWeb" Version="2.1.1" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="2.1.1" />
-    <PackageReference Include="ZKWeb.ORM.NHibernate" Version="2.1.1" />
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
+    <PackageReference Include="ZKWeb" Version="2.2.0-beta1" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="2.2.0-beta1" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="2.2.0-beta1" />
+    <PackageReference Include="ZKWeb.ORM.NHibernate" Version="2.2.0-beta1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

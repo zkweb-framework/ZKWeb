@@ -35,6 +35,10 @@ namespace ZKWeb.Hosting.AspNetCore {
 			get { return CoreResponse.StatusCode; }
 			set { CoreResponse.StatusCode = value; }
 		}
+		private bool _isEnded;
+		public bool IsEnded {
+			get { return _isEnded; }
+		}
 
 		public void SetCookie(string key, string value, HttpCookieOptions options) {
 			options = options ?? new HttpCookieOptions();
@@ -74,7 +78,11 @@ namespace ZKWeb.Hosting.AspNetCore {
 			} else if (!CoreResponse.HasStarted) {
 				try { CoreResponse.ContentLength = 0; } catch (InvalidProgramException) { }
 			}
-			throw new CoreHttpResponseEndException();
+			// Throws CoreHttpResponseEndException would make visual studio crazy, 
+			// since many people ask why visual studio pop a exception window
+			// and there is no solution can solve it,
+			// I just take off the exceptional way and use a boolean instead.
+			_isEnded = true;
 		}
 
 		/// <summary>

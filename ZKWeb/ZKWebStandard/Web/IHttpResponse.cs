@@ -26,6 +26,11 @@ namespace ZKWebStandard.Web {
 		/// 状态代码<br/>
 		/// </summary>
 		int StatusCode { get; set; }
+		/// <summary>
+		/// Is ended (the response already set)<br/>
+		/// 是否已结束 (回应内容已设置)<br/>
+		/// </summary>
+		bool IsEnded { get; }
 
 		/// <summary>
 		/// Set cookie value<br/>

@@ -16,7 +16,7 @@
 		<dependencies>
 			<dependency id="ZKWeb" version="$version$" />
 			<dependency id="Microsoft.Owin" version="4.0.0" />
-			<dependency id="System.Net.Http" version="4.3.3" />
+			<dependency id="System.Net.Http" version="4.3.4" />
 			<dependency id="System.Net.Http.Formatting.Extension" version="5.2.3" />
 		</dependencies>
 	</metadata>

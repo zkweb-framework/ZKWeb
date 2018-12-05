@@ -244,12 +244,18 @@ namespace ZKWeb.Server {
 					// Call pre request handlers, in register order
 					foreach (var handler in Ioc.ResolveMany<IHttpRequestPreHandler>()) {
 						handler.OnRequest();
+						if (context.Response.IsEnded) {
+							return;
+						}
 					}
 					// Wrap handler action by wrappers
 					var handlerAction = new Action(() => {
 						// Call request handlers, in reverse register order
 						foreach (var handler in Ioc.ResolveMany<IHttpRequestHandler>().Reverse()) {
 							handler.OnRequest();
+							if (context.Response.IsEnded) {
+								return;
+							}
 						}
 						// If request not get handled, throw an 404 exception
 						throw new HttpException(404, "Not Found");

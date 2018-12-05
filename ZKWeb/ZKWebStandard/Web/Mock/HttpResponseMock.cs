@@ -16,11 +16,13 @@ namespace ZKWebStandard.Web.Mock {
 		public IDictionary<string, IList<string>> headers { get; set; }
 		public string lastRedirect { get; set; }
 		public bool lastRedirectIsPermanent { get; set; }
+		public bool isEnded { get; set; }
 
 		public virtual Stream Body { get { return body; } }
 		public virtual string ContentType { get; set; }
 		public virtual IHttpContext HttpContext { get { return httpContext; } }
 		public virtual int StatusCode { get; set; }
+		public virtual bool IsEnded { get { return isEnded; } }
 
 		public HttpResponseMock(IHttpContext context) {
 			body = new MemoryStream();

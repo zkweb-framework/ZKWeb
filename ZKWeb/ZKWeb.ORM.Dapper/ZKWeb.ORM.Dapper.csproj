@@ -17,11 +17,11 @@
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="1.50.5" />
 		<PackageReference Include="Dommel" Version="1.10.1" />
-		<PackageReference Include="Dapper.FluentMap" Version="1.6.0" />
-		<PackageReference Include="Dapper.FluentMap.Dommel" Version="1.5.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="2.1.0" />
-		<PackageReference Include="Npgsql" Version="4.0.0" />
-		<PackageReference Include="MySqlConnector" Version="0.42.0" />
+		<PackageReference Include="Dapper.FluentMap" Version="1.7.0" />
+		<PackageReference Include="Dapper.FluentMap.Dommel" Version="1.6.0" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.0" />
+		<PackageReference Include="Npgsql" Version="4.0.3" />
+		<PackageReference Include="MySqlConnector" Version="0.47.1" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

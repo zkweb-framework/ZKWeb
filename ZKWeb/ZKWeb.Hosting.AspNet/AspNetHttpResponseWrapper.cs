@@ -34,6 +34,10 @@ namespace ZKWeb.Hosting.AspNet {
 			get { return OriginalResponse.StatusCode; }
 			set { OriginalResponse.StatusCode = value; }
 		}
+		private bool _isEnded;
+		public bool IsEnded {
+			get { return _isEnded; }
+		}
 
 		public void SetCookie(string key, string value, HttpCookieOptions options) {
 			var cookie = new HttpCookie(key, value);
@@ -64,6 +68,7 @@ namespace ZKWeb.Hosting.AspNet {
 		[DebuggerNonUserCode]
 		public void End() {
 			Body.Flush();
+			_isEnded = true;
 			OriginalResponse.End();
 		}
 

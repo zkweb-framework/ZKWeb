@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
+		<TargetFrameworks>net461;netcoreapp2.2</TargetFrameworks>
 		<AssemblyName>ZKWeb.Console</AssemblyName>
 		<OutputType>Exe</OutputType>
 		<PackageId>ZKWeb.Console</PackageId>
@@ -29,11 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-		<PackageReference Update="Microsoft.NETCore.App" Version="2.1.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
 	</ItemGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
 	</PropertyGroup>
 

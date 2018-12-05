@@ -1,10 +1,6 @@
-2.2
-
-- Avoid use exception to indicates response end
-- More code refactory
-
 2.3
 
+- More code refactory
 - Add EFCore support of WithSerialization
 - Performance moniting interface
 	- Report http request time to interface

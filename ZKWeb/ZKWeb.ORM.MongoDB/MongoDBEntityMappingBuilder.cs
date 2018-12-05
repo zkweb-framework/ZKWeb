@@ -151,12 +151,13 @@ namespace ZKWeb.ORM.MongoDB {
 						Expression.Lambda<Func<T, object>>(
 							Expression.Convert(memberExpression.Body, typeof(object)),
 							memberExpression.Parameters));
-					var indxOptions = new CreateIndexOptions() {
+					var indexOptions = new CreateIndexOptions() {
 						Background = true,
 						Unique = options.Unique,
 						Sparse = !options.Unique // ignore null member on indexing
 					};
-					c.Indexes.CreateOne(keys, indxOptions);
+					var model = new CreateIndexModel<T>(keys, indexOptions);
+					c.Indexes.CreateOne(model);
 				});
 			}
 		}

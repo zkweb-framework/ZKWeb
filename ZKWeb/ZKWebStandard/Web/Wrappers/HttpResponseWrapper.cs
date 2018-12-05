@@ -23,6 +23,9 @@ namespace ZKWebStandard.Web.Wrappers {
 			get { return OriginalResponse.StatusCode; }
 			set { OriginalResponse.StatusCode = value; }
 		}
+		public virtual bool IsEnded {
+			get { return OriginalResponse.IsEnded; }
+		}
 		public virtual void End() {
 			OriginalResponse.End();
 		}
