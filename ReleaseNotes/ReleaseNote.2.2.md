@@ -26,6 +26,8 @@
 - Update Project Templates
 	- Make project templates support inplace upgrade
 	- Make ASP.NET Core startup projects require .NET Core 2.2
+- Update ORM
+	- Use offical System.Data.SQLite again for NHibernate because the new version supports netstandard
 - Update Packages
 	- Microsoft.CodeAnalysis.CSharp 2.10.0
 	- Newtonsoft.Json 12.0.1
@@ -51,3 +53,4 @@
 	- MongoDB.Driver 2.7.2
 	- NHibernate 5.2.0
 	- MySql.Data 6.10.8
+	- System.Data.SQLite 1.0.109.2
