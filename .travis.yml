@@ -1,13 +1,13 @@
 language: csharp
 mono: none
-dotnet: 2.2.100
+dotnet: 2.1.301
 dist: trusty
 sudo: required
-before_install:
-  - sudo apt-get update 
-  - sudo apt-get install -y dpkg # fix control.tar.xz issue
 script:
-  - sudo apt-get install libgdiplus -y
+  - sudo apt-get update 
+  - sudo apt-get install -y dpkg # fix control.tar.xz issue since .net core 2.2
+  - sudo apt-get install -y dotnet-sdk-2.2 # manually install .net core 2.2
+  - sudo apt-get install -y libgdiplus
   - sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
   - cd ZKWeb/ZKWeb.Console
   - dotnet restore
