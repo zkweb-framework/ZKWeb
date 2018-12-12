@@ -64,14 +64,18 @@ namespace ZKWeb.Web {
 			var action = GetAction(context.Request.Path, context.Request.Method);
 			if (action != null) {
 				var result = action();
-				// Write response
-				result.WriteResponse(context.Response);
-				// If result is disposable, dispose it
+				if (!context.Response.IsEnded) {
+					// Write response
+					result.WriteResponse(context.Response);
+				}
 				if (result is IDisposable disposable) {
+					// If result is disposable, dispose it
 					disposable.Dispose();
 				}
-				// End response
-				context.Response.End();
+				if (!context.Response.IsEnded) {
+					// End response
+					context.Response.End();
+				}
 			}
 		}
 
