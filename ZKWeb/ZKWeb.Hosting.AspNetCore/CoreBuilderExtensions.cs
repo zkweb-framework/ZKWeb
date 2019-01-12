@@ -31,9 +31,9 @@ namespace Microsoft.AspNetCore.Builder {
 		public static IServiceProvider AddZKWeb<TApplication>(
 			this IServiceCollection services, string websiteRootDirectory)
 			where TApplication : IApplication, new() {
-			Application.Initialize<TApplication>(websiteRootDirectory);
 			Application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
 			Application.Ioc.RegisterFromServiceCollection(services);
+			Application.Initialize<TApplication>(websiteRootDirectory);
 			return Application.Ioc.AsServiceProvider();
 		}
 
