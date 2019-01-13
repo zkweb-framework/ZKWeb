@@ -63,7 +63,15 @@ namespace ZKWeb {
 		/// </summary>
 		public static void Initialize<TApplication>(string websiteRootDirectory)
 			where TApplication : IApplication, new() {
-			Instance = new TApplication();
+			Initialize(new TApplication(), websiteRootDirectory);
+		}
+
+		/// <summary>
+		/// Intialize application with specificed application type<br/>
+		/// 初始化指定应用<br/>
+		/// </summary>
+		public static void Initialize(IApplication application, string websiteRootDirectory) {
+			Instance = application;
 			Instance.Initialize(websiteRootDirectory);
 		}
 
