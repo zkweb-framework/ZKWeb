@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Owin", "__ProjectName__.Owin\__ProjectName__.Owin.csproj", "{fc8611cf-a950-4fc1-bf0e-cbe87b820900}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Owin", "__ProjectName__.Owin\__ProjectName__.Owin.csproj", "{FC8611CF-A950-4FC1-BF0E-CBE87B820900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Console", "__ProjectName__.Console\__ProjectName__.Console.csproj", "{fc8611cf-a950-4fc1-bf0e-cbe87b820901}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Console", "__ProjectName__.Console\__ProjectName__.Console.csproj", "{FC8611CF-A950-4FC1-BF0E-CBE87B820901}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Plugins", "__ProjectName__.Plugins\__ProjectName__.Plugins.csproj", "{fc8611cf-a950-4fc1-bf0e-cbe87b820902}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "__ProjectName__.Plugins", "__ProjectName__.Plugins\__ProjectName__.Plugins.csproj", "{FC8611CF-A950-4FC1-BF0E-CBE87B820902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,20 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820900}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820900}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820900}.Release|Any CPU.Build.0 = Release|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820901}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820901}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820901}.Release|Any CPU.Build.0 = Release|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820902}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820902}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{fc8611cf-a950-4fc1-bf0e-cbe87b820902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8611CF-A950-4FC1-BF0E-CBE87B820902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D0098C2-8E80-47E6-93AC-B3960C124F3F}
 	EndGlobalSection
 EndGlobal

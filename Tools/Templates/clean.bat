@@ -21,10 +21,12 @@ rmdir /s /q %~1\.vs
 rmdir /s /q %~1\packages
 rmdir /s /q %~1\__ProjectName__.AspNet\bin
 rmdir /s /q %~1\__ProjectName__.AspNet\obj
-rmdir /s /q %~1\src\__ProjectName__.Console\bin
-rmdir /s /q %~1\src\__ProjectName__.Console\obj
-rmdir /s /q %~1\src\__ProjectName__.Plugins\bin
-rmdir /s /q %~1\src\__ProjectName__.Plugins\obj
+rmdir /s /q %~1\__ProjectName__.Owin\bin
+rmdir /s /q %~1\__ProjectName__.Owin\obj
+rmdir /s /q %~1\__ProjectName__.Console\bin
+rmdir /s /q %~1\__ProjectName__.Console\obj
+rmdir /s /q %~1\__ProjectName__.Plugins\bin
+rmdir /s /q %~1\__ProjectName__.Plugins\obj
 exit /b 0
 
 :CleanNETCore
