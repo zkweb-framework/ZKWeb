@@ -20,7 +20,7 @@ namespace ZKWebStandard.Testing {
 			}  catch (Exception ex) {
 				throw new ScenarioException(string.Format(
 					"Given [{0}] error:\r\n  {1}",
-					description, ex.ToString()));
+					description, ex));
 			}
 		}
 

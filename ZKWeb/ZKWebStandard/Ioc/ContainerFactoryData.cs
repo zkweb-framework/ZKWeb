@@ -16,6 +16,11 @@ namespace ZKWebStandard.Ioc {
 		/// </summary>
 		private ContainerFactoryDelegate _factoryFunc { get; set; }
 		/// <summary>
+		/// Lock for singleton or scoped factory<br/>
+		/// 用于创建单例或区域实例的线程锁<br/>
+		/// </summary>
+		private object _factoryLock { get; set; }
+		/// <summary>
 		/// Is implementation type belong generic definition<br/>
 		/// 实现类型是否属于泛型定义<br/>
 		/// </summary>
@@ -52,6 +57,7 @@ namespace ZKWebStandard.Ioc {
 			ReuseType reuseType,
 			Type implementationTypeHint) {
 			_factoryFunc = factoryFunc;
+			_factoryLock = new object();
 			_isGenericTypeDefinition = implementationTypeHint.IsGenericTypeDefinition;
 			if (reuseType == ReuseType.Singleton) {
 				if (_isGenericTypeDefinition) {
@@ -81,7 +87,7 @@ namespace ZKWebStandard.Ioc {
 					if (_singletonInstance != null) {
 						return _singletonInstance;
 					}
-					lock (this) {
+					lock (_factoryLock) {
 						if (_singletonInstance != null) {
 							return _singletonInstance;
 						}
@@ -97,7 +103,7 @@ namespace ZKWebStandard.Ioc {
 					if (dict.TryGetValue(key, out var instance)) {
 						return instance;
 					}
-					lock (this) {
+					lock (_factoryLock) {
 						if (dict.TryGetValue(key, out instance)) {
 							return instance;
 						}
@@ -114,7 +120,7 @@ namespace ZKWebStandard.Ioc {
 					if (instance != null) {
 						return instance;
 					}
-					lock (this) {
+					lock (_factoryLock) {
 						instance = _scopedInstance.Value;
 						if (instance != null) {
 							return instance;
@@ -131,7 +137,7 @@ namespace ZKWebStandard.Ioc {
 					// Scoped reuse, generic
 					var dict = (ConcurrentDictionary<string, object>)_scopedInstance.Value;
 					if (dict == null) {
-						lock (this) {
+						lock (_factoryLock) {
 							dict = (ConcurrentDictionary<string, object>)_scopedInstance.Value;
 							if (dict == null) {
 								dict = new ConcurrentDictionary<string, object>();
@@ -144,7 +150,7 @@ namespace ZKWebStandard.Ioc {
 					if (dict.TryGetValue(key, out var instance)) {
 						return instance;
 					}
-					lock (this) {
+					lock (_factoryLock) {
 						if (dict.TryGetValue(key, out instance)) {
 							return instance;
 						}

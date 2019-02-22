@@ -59,9 +59,6 @@ namespace ZKWebStandard.Collections {
 			if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
 				return;
 			}
-			if ((now - LastRevokeExpires) < RevokeExpiresInterval) {
-				return; // double check
-			}
 			LastRevokeExpires = now;
 			var expireKeys = Cache
 				.Where(c => c.Value.Second < now).Select(c => c.Key)

@@ -20,7 +20,7 @@ namespace ZKWeb.Testing {
 		/// 额外的测试程序集列表<br/>
 		/// </summary>
 		public virtual IList<Assembly> ExtraTestAssemblies { get { return _extraTestAssemblies; } }
-		private IList<Assembly> _extraTestAssemblies = new List<Assembly>();
+		private readonly IList<Assembly> _extraTestAssemblies = new List<Assembly>();
 
 		/// <summary>
 		/// Get assemblies for testing<br/>
