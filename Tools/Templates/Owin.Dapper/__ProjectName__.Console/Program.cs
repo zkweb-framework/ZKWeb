@@ -28,13 +28,16 @@
 			var testManager = Application.Ioc.Resolve<TestManager>();
 			var testEventHandler = new TestConsoleEventHandler();
 			testManager.RunAllAssemblyTest(testEventHandler);
-			if (testEventHandler.CompletedInfo.Counter.Failed > 0) {
-				throw new Exception("Some test failed");
-			} else {
-				Console.ForegroundColor = ConsoleColor.Green;
-				Console.WriteLine("All tests passed");
-				Console.ResetColor();
-			}
+
+			var hasFailedCases = testEventHandler.CompletedInfo.Counter.Failed > 0;
+			Console.ForegroundColor = hasFailedCases ? ConsoleColor.Red : ConsoleColor.Green;
+			Console.WriteLine(string.Format(
+				"complete all tests: {0} passed, {1} failed, {2} skipped",
+				testEventHandler.CompletedInfo.Counter.Passed,
+				testEventHandler.CompletedInfo.Counter.Failed,
+				testEventHandler.CompletedInfo.Counter.Skipped));
+			Console.ResetColor();
+			Environment.Exit(hasFailedCases ? 1 : 0);
 		}
 	}
 
