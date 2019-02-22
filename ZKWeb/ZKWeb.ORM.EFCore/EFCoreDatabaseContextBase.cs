@@ -59,6 +59,8 @@ namespace ZKWeb.ORM.EFCore {
 			optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning));
 			// Allow logging sql parameters
 			optionsBuilder.EnableSensitiveDataLogging();
+			// Enable lazy loading
+			optionsBuilder.UseLazyLoadingProxies();
 		}
 
 		/// <summary>

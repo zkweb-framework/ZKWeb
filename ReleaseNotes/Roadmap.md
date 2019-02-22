@@ -1,8 +1,6 @@
 2.3
 
 - More code refactory
-- Add EFCore support of WithSerialization
-- Add EFCore support of lazy load
 - Test EFCore with default plugins
 - Performance moniting interface
 	- Report http request time to interface

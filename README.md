@@ -1,4 +1,4 @@
-# ZKWeb
+﻿# ZKWeb
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/126ec40aaaf74afd8ee0445a687ebbd6)](https://www.codacy.com/app/303248153/ZKWeb?utm_source=github.com&utm_medium=referral&utm_content=zkweb-framework/ZKWeb&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/zkweb-framework/ZKWeb.svg?branch=master)](https://travis-ci.org/zkweb-framework/ZKWeb)
@@ -7,22 +7,22 @@
 [![MyGet Pre Release](https://img.shields.io/myget/zkweb/vpre/ZKWeb.svg)](https://www.myget.org/gallery/zkweb)
 [![Member project of .NET China Foundation](https://img.shields.io/badge/member_project_of-.NET_CHINA-red.svg?style=flat&colorB=9E20C8)](https://github.com/dotnetcore)
 
-ZKWeb is a flexible web framework support .Net Framework and .Net Core.<br/>
+ZKWeb is a flexible web framework for .NET Framework and .NET Core.<br/>
 
-Why create this framework?
+Why created this framework?
 
 - I want a better plugin system, one folder one plugin just like django
-- I want a independent mvc framework, because MS change their architecture too often
+- I want an independent mvc framework, because MS change their architecture too often
 - I want a powerful template system enough to implemente a visual page editor
 
 ## Features
 
-- .Net Core Support
-	- Support both .Net Framework and .Net Core
+- .NET Core Support
+	- Support both .NET Framework and .NET Core
 - Plugin System
 	- One folder one plugin, each contains everything it needs
 	- Automatic compile and reload after source code has changed
-	- Based on Roslyn
+	- Based on Roslyn compiler
 - Template System
 	- Django style overlapping template file system
 		- One plugin can just override other plugin's template
@@ -37,8 +37,8 @@ Why create this framework?
 	- Provide IServiceProvider integration
 	- ZKWeb own implementation
 - Multiple Host Environment
-	- Support Asp.Net
-	- Support Asp.Net Core
+	- Support Asp.NET
+	- Support Asp.NET Core
 	- Support Owin
 	- Use the common abstraction layer can make a plugin support all of this without different code
 - Multiple ORM
@@ -112,5 +112,5 @@ Documents: http://zkweb-framework.github.io (Chinese)<br/>
 References: http://zkweb-framework.github.io/cn_v2.0/references/zkweb/ZKWebReferences.chm<br/>
 
 MIT License<br/>
-Copyright © 2016~2018 303248153@github<br/>
+Copyright © 2016~2019 303248153@github<br/>
 If you have any license issue please contact 303248153@qq.com.<br/>

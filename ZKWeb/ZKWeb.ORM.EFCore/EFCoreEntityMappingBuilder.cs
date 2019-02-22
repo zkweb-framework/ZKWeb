@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.FastReflection;
@@ -118,12 +119,11 @@ namespace ZKWeb.ORM.EFCore {
 				propertyBuilder.HasColumnType(options.CustomSqlType);
 			}
 			if (options.WithSerialization == true) {
-				// log error only, some functions may not work
-				var logManager = Application.Ioc.Resolve<LogManager>();
-				logManager.LogError(
-					"Entity framework core not support custom type mapping yet, " +
-					"see https://github.com/aspnet/EntityFramework/issues/242 " +
-					$"expression: {memberExpression}");
+				propertyBuilder = propertyBuilder.HasConversion(
+					v => JsonConvert.SerializeObject(v),
+					v => string.IsNullOrEmpty(v) ?
+						(TMember)Activator.CreateInstance(typeof(TMember)) :
+						JsonConvert.DeserializeObject<TMember>(v));
 			}
 		}
 

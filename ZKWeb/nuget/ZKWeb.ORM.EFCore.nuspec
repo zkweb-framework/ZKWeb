@@ -20,6 +20,7 @@
 			<dependency id="Microsoft.EntityFrameworkCore.InMemory" version="2.2.0" />
 			<dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="2.2.0" />
 			<dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="2.2.0" />
+			<dependency id="Microsoft.EntityFrameworkCore.Proxies" version="2.2.0" />
 			<dependency id="Npgsql.EntityFrameworkCore.PostgreSQL" version="2.1.2" />
 			<dependency id="Pomelo.EntityFrameworkCore.MySql" version="2.1.4" />
 		</dependencies>
