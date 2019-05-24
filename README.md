@@ -107,9 +107,13 @@ For those chinese software engineers, is recommended to join QQ group 522083886 
 
 ## Links and License
 
-Plugins: http://github.com/zkweb-framework/ZKWeb.Plugins<br/>
-Documents: http://zkweb-framework.github.io (Chinese)<br/>
-References: http://zkweb-framework.github.io/cn_v2.0/references/zkweb/ZKWebReferences.chm<br/>
+Homepage: https://zkweb.app.compiv.com<br/>
+Demo: https://zkweb-demo.app.compiv.com (Login: demo 123456)<br/>
+MVVM Demo: https://zkweb-mvvm-demo.app.compiv.com (Login: admin 123456)<br/>
+
+Plugins: https://github.com/zkweb-framework/ZKWeb.Plugins<br/>
+Documents: https://zkweb-framework.github.io (Chinese)<br/>
+References: https://zkweb-framework.github.io/cn_v2.0/references/zkweb/ZKWebReferences.chm<br/>
 
 MIT License<br/>
 Copyright © 2016~2019 303248153@github<br/>
