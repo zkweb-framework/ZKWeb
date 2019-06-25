@@ -150,7 +150,7 @@ namespace ZKWeb.Toolkits.ProjectCreator {
 				pluginTemplateRoot, "*", SearchOption.AllDirectories)) {
 				var relPath = path.Substring(pluginTemplateRoot.Length + 1);
 				var outputPath = Path.Combine(pluginRoot, Parameters.ProjectName,
-					relPath.Replace(projectNameInPath, Parameters.ProjectName.ToLower()));
+					relPath.Replace(projectNameInPath, Parameters.ProjectName));
 				WriteTemplateContents(path, outputPath, templateParameters);
 			}
 		}

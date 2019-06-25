@@ -27,6 +27,9 @@ namespace ZKWeb.Toolkits.ProjectCreator.Cmd {
 					optionSet.WriteOptionDescriptions(optionDescriptions);
 					Console.WriteLine("ProjectCreator 2.0:");
 					Console.WriteLine(optionDescriptions.ToString());
+					Console.WriteLine();
+					Console.WriteLine("Example:");
+					Console.WriteLine("dotnet ZKWeb.Toolkits.ProjectCreator.Cmd.dll --type=AspNetCore --name=Hello.World --orm=NHibernate --database=SQLite --connectionString=\"Data Source={{App_Data}}/test.db;\" --output=/home/ubuntu");
 					return;
 				}
 				var creator = new ProjectCreator(parameters);
