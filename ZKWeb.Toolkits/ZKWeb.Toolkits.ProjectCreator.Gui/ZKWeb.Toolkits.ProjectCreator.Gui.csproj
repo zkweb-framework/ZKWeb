@@ -84,7 +84,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="ZKWeb.Toolkits.ProjectCreator">
-      <HintPath>..\ZKWeb.Toolkits.ProjectCreator\bin\Debug\net461\ZKWeb.Toolkits.ProjectCreator.dll</HintPath>
+      <HintPath>..\ZKWeb.Toolkits.ProjectCreator\bin\Release\net461\ZKWeb.Toolkits.ProjectCreator.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
