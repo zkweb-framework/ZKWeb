@@ -15,11 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NHibernate" Version="5.2.0" />
+		<PackageReference Include="NHibernate" Version="5.2.6" />
 		<PackageReference Include="FluentNHibernate" Version="2.1.2" />
-		<PackageReference Include="MySql.Data" Version="6.10.8" />
- 		<PackageReference Include="Npgsql" Version="4.0.3" />
-		<PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />		
+		<PackageReference Include="MySql.Data" Version="6.10.9" />
+ 		<PackageReference Include="Npgsql" Version="4.1.0" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.111" />
 	</ItemGroup>
 
 	<Import Project="..\ZKWeb\Version.targets" />

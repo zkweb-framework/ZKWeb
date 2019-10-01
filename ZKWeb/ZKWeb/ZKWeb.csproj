@@ -14,14 +14,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
 		<PackageReference Include="System.Data.Common" Version="4.3.0" />
 		<PackageReference Include="ZKWeb.Fork.DotLiquid" Version="2.3.0" />
 		<PackageReference Include="ZKWeb.Fork.FastReflection" Version="2.3.0" />
-		<PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+		<PackageReference Include="System.Drawing.Common" Version="4.6.0" />
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
