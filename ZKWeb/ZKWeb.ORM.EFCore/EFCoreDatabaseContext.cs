@@ -371,7 +371,11 @@ namespace ZKWeb.ORM.EFCore
         /// </summary>
         public long RawUpdate(object query, object parameters)
         {
+#if NETCORE_3
+            return Database.ExecuteSqlRaw((string)query, (object[])parameters);
+#else
             return Database.ExecuteSqlCommand((string)query, (object[])parameters);
+#endif
         }
 
         /// <summary>
@@ -381,7 +385,11 @@ namespace ZKWeb.ORM.EFCore
         public IEnumerable<T> RawQuery<T>(object query, object parameters)
             where T : class
         {
+#if NETCORE_3
+            return Set<T>().FromSqlRaw((string)query, (object[])parameters);
+#else
             return Set<T>().FromSql((string)query, (object[])parameters);
+#endif
         }
     }
 }

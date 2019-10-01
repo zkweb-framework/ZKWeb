@@ -71,7 +71,10 @@ namespace ZKWeb.ORM.EFCore
                 throw new ArgumentException($"unsupported database type {Database}");
             }
             // EF 2.0 make some warnings as error, just ignore them
+            // EF 3.0 obsolete IncludeIgnoredWarning without any comment and description, wtf?
+            #pragma warning disable CS0612
             optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning));
+            #pragma warning restore CS0612
             // Allow logging sql parameters
             optionsBuilder.EnableSensitiveDataLogging();
             // Enable lazy loading

@@ -49,8 +49,10 @@ namespace ZKWeb.ORM.EFCore
             if (Contexts.TryDequeue(out var context))
             {
                 // set _leased.Value = true
+                #pragma warning disable EF1001
                 var configuration = ((IDbContextPoolable)context).SnapshotConfiguration();
                 ((IDbContextPoolable)context).Resurrect(configuration);
+                #pragma warning restore EF1001
                 return context;
             }
             context = Factory();

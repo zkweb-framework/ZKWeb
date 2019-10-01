@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+#if NETCORE_3
+using Microsoft.EntityFrameworkCore.Infrastructure;
+#else
 using Microsoft.EntityFrameworkCore.Internal;
+#endif
 
 namespace ZKWeb.ORM.EFCore
 {

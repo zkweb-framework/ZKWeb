@@ -185,7 +185,17 @@ namespace ZKWeb.ORM.EFCore
             var connection = serviceProvider.GetService<IRelationalConnection>();
             var typeMappingSource = serviceProvider.GetService<IRelationalTypeMappingSource>();
             // Take a snapshot to the newest model
+            #pragma warning disable EF1001
             var codeHelper = new CSharpHelper(typeMappingSource);
+#if NETCORE_3
+            var generator = new CSharpMigrationsGenerator(
+                new MigrationsCodeGeneratorDependencies(typeMappingSource),
+                new CSharpMigrationsGeneratorDependencies(
+                    codeHelper,
+                    new CSharpMigrationOperationGenerator(
+                        new CSharpMigrationOperationGeneratorDependencies(codeHelper)),
+                        new CSharpSnapshotGenerator(new CSharpSnapshotGeneratorDependencies(codeHelper, typeMappingSource))));
+#else
             var generator = new CSharpMigrationsGenerator(
                 new MigrationsCodeGeneratorDependencies(),
                 new CSharpMigrationsGeneratorDependencies(
@@ -193,6 +203,8 @@ namespace ZKWeb.ORM.EFCore
                     new CSharpMigrationOperationGenerator(
                         new CSharpMigrationOperationGeneratorDependencies(codeHelper)),
                         new CSharpSnapshotGenerator(new CSharpSnapshotGeneratorDependencies(codeHelper))));
+#endif
+            #pragma warning restore EF1001
             var modelSnapshot = generator.GenerateSnapshot(
                 ModelSnapshotNamespace, context.GetType(),
                 ModelSnapshotClassPrefix + DateTime.UtcNow.Ticks, context.Model);
