@@ -239,6 +239,7 @@ namespace ZKWeb.Server
                 InitializePlugins();
                 StartServices();
                 _readyFlag = true;
+                Ioc.Resolve<LogManager>().LogInfo("Application Initialized");
             }
             catch (Exception ex)
             {
@@ -399,8 +400,8 @@ namespace ZKWeb.Server
         /// </summary>
         public void Unload()
         {
-            var pluginManager = Ioc.Resolve<PluginManager>();
-            pluginManager.Unload();
+            Ioc.Resolve<LogManager>().LogInfo("Unloading Application");
+            Ioc.Resolve<PluginManager>().Unload();
             Dispose();
         }
     }
