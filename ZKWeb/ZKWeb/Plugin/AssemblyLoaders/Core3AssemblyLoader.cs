@@ -45,13 +45,16 @@ namespace ZKWeb.Plugin.AssemblyLoaders
                 ", Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
             };
             // copy assembly from default context
+            var corelibAssembly = typeof(int).Assembly;
             foreach (var assembly in AssemblyLoadContext.Default.Assemblies)
             {
+                if (assembly == corelibAssembly)
+                    continue;
+                if (assembly.IsDynamic)
+                    continue;
                 var path = assembly.Location;
                 if (File.Exists(path))
-                {
-                    Context.LoadFromAssemblyPath(path);
-                }
+                    LoadFile(path);
             }
         }
 
