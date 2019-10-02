@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -98,5 +99,23 @@ namespace ZKWeb.Plugin.AssemblyLoaders
         /// 根据文件路径加载程序集<br/>
         /// </summary>
         public abstract Assembly LoadFile(string path);
+
+        /// <summary>
+        /// Return whether this loader is unloadable.<br/>
+        /// 返回此加载器是否支持卸载<br/>
+        /// </summary>
+        public virtual bool Unloadable { get { return false; } }
+
+        /// <summary>
+        /// Unload assemblies from this loader, only supported on some platforms<br/>
+        /// 卸载从此加载器加载的程序集，只支持部分平台<br/>
+        /// </summary>
+        public virtual void Unload()
+        {
+            // use AppDomain could implement unloading in .NET Framework,
+            // but microsoft already decide .NET Framework to die :O
+            // maybe someday .NET Core will die too and replaced by some sh*t like .NET Freak
+            throw new NotSupportedException("Unloading assemblies is unsupported on this platform");
+        }
     }
 }

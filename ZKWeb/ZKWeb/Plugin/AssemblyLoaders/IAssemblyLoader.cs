@@ -55,5 +55,17 @@ namespace ZKWeb.Plugin.AssemblyLoaders
         /// <param name="path">Assembly file path</param>
         /// <returns></returns>
         Assembly LoadFile(string path);
+
+        /// <summary>
+        /// Return whether this loader is unloadable.<br/>
+        /// 返回此加载器是否支持卸载<br/>
+        /// </summary>
+        bool Unloadable { get; }
+
+        /// <summary>
+        /// Unload assemblies from this loader, only supported on some platforms<br/>
+        /// 卸载从此加载器加载的程序集，只支持部分平台<br/>
+        /// </summary>
+        void Unload();
     }
 }

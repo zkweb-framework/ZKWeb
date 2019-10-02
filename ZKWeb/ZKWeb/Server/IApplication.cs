@@ -66,5 +66,17 @@ namespace ZKWeb.Server
         /// </summary>
         /// <returns></returns>
         IDisposable OverrideIoc();
+
+        /// <summary>
+        /// Return whether this application is unloadable on this platform<br/>
+        /// 返回应用在当前平台上是否支持卸载<br/>
+        /// </summary>
+        bool Unloadable { get; }
+
+        /// <summary>
+        /// Unload application, only supported on some platforms<br/>
+        /// 卸载应用，仅支持部分平台<br/>
+        /// </summary>
+        void Unload();
     }
 }

@@ -35,11 +35,15 @@ namespace Microsoft.AspNetCore.Builder
             this IServiceCollection services, string websiteRootDirectory)
             where TApplication : IApplication, new()
         {
-            var application = new TApplication();
-            application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
-            application.Ioc.RegisterFromServiceCollection(services);
-            Application.Initialize(application, websiteRootDirectory);
-            return Application.Ioc.AsServiceProvider();
+            Application.Initialize(() =>
+            {
+                var application = new TApplication();
+                application.Ioc.RegisterMany<CoreWebsiteStopper>(ReuseType.Singleton);
+                application.Ioc.RegisterFromServiceCollection(services);
+                return application;
+            },
+            websiteRootDirectory);
+            return new ServiceProviderProxy();
         }
 
         /// <summary>

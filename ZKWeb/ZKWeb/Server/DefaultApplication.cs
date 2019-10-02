@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using ZKWeb.Cache;
 using ZKWeb.Cache.Policies;
@@ -51,32 +52,47 @@ namespace ZKWeb.Server
         /// The IoC Container Instance<br/>
         /// IoC容器的实例<br/>
         /// </summary>
-        public virtual IContainer Ioc { get { return overrideIoc.Value ?? defaultIoc; } }
+        public virtual IContainer Ioc { get { return _overrideIoc.Value ?? _defaultIoc; } }
         /// <summary>
         /// Default IoC Container
         /// 默认的IoC容器<br/>
         /// </summary>
-        protected IContainer defaultIoc = new Container();
+        protected IContainer _defaultIoc = new Container();
         /// <summary>
         /// Overrided IoC Container
         /// 在当前线程中重载的IoC容器<br/>
         /// </summary>
-        protected ThreadLocal<IContainer> overrideIoc = new ThreadLocal<IContainer>();
+        protected ThreadLocal<IContainer> _overrideIoc = new ThreadLocal<IContainer>();
         /// <summary>
         /// In progress requests<br/>
         /// 处理中的请求数量<br/>
         /// </summary>
-        public virtual int InProgressRequests { get { return inProgressRequests; } }
+        public virtual int InProgressRequests { get { return _inProgressRequests; } }
         /// <summary>
         /// In progress requests<br/>
         /// 处理中的请求数量<br/>
         /// </summary>
-        protected int inProgressRequests;
+        protected int _inProgressRequests;
         /// <summary>
         /// Initialize Flag<br/>
         /// 初始化标记<br/>
         /// </summary>
-        protected int initialized;
+        protected int _initializeFlag;
+        /// <summary>
+        /// Ready Flag<br/>
+        /// 可用标记<br/>
+        /// </summary>
+        protected volatile bool _readyFlag;
+        /// <summary>
+        /// The timeout for waiting application become ready<br/>
+        /// 等待可用的超时<br/>
+        /// </summary>
+        protected TimeSpan _waitReadyTimeout = TimeSpan.FromSeconds(60);
+        /// <summary>
+        /// Exception occurs during initializing application<br/>
+        /// 初始化过程中发生的异常<br/>
+        /// </summary>
+        protected volatile Exception _initializeException;
         /// <summary>
         /// Website root directory<br/>
         /// 网站根目录的路径<br/>
@@ -106,7 +122,11 @@ namespace ZKWeb.Server
             Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
             Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
             Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
+#if NETCORE_3
+            Ioc.RegisterMany<Core3AssemblyLoader>(ReuseType.Singleton);
+#else
             Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
+#endif
             Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
             Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
             Ioc.RegisterMany<PluginReloader>(ReuseType.Singleton);
@@ -207,9 +227,9 @@ namespace ZKWeb.Server
         /// </summary>
         public virtual void Initialize(string websiteRootDirectory)
         {
-            if (Interlocked.Exchange(ref initialized, 1) != 0)
+            if (Interlocked.Exchange(ref _initializeFlag, 1) != 0)
             {
-                throw new InvalidOperationException("Application already initialized");
+                throw new InvalidOperationException("Don't call Initialize twice");
             }
             try
             {
@@ -218,12 +238,14 @@ namespace ZKWeb.Server
                 InitializeCoreComponents();
                 InitializePlugins();
                 StartServices();
+                _readyFlag = true;
             }
             catch (Exception ex)
             {
-                var message = ex.ToDetailedString();
+                var message = $"Initialize application error: {ex.ToDetailedString()}";
                 LogEmergencyError(message);
-                throw new InvalidOperationException(message, ex);
+                _initializeException = new InvalidOperationException(message, ex);
+                throw _initializeException;
             }
         }
 
@@ -255,6 +277,20 @@ namespace ZKWeb.Server
         /// </summary>
         public virtual void OnRequest(IHttpContext context)
         {
+            // Detect whether Initialize is running
+            if (!_readyFlag)
+            {
+                var begin = DateTime.UtcNow;
+                while (!_readyFlag)
+                {
+                    if (_initializeException != null)
+                        throw _initializeException;
+                    if (DateTime.UtcNow - begin > _waitReadyTimeout)
+                        throw new InvalidOperationException(
+                            $"Application is not ready (hang at Initialize more than {_waitReadyTimeout.TotalSeconds} seconds)");
+                    Thread.Sleep(100);
+                }
+            }
             // Detect nested call
             if (HttpManager.CurrentContextExists)
             {
@@ -264,7 +300,7 @@ namespace ZKWeb.Server
             using (HttpManager.OverrideContext(context))
             {
                 // Increase requests count
-                Interlocked.Increment(ref inProgressRequests);
+                Interlocked.Increment(ref _inProgressRequests);
                 try
                 {
                     // Call pre request handlers, in register order
@@ -310,7 +346,7 @@ namespace ZKWeb.Server
                     finally
                     {
                         // Decrease requests count
-                        Interlocked.Decrement(ref inProgressRequests);
+                        Interlocked.Decrement(ref _inProgressRequests);
                         // Notify scope finished
                         Ioc.ScopeFinished();
                     }
@@ -324,24 +360,48 @@ namespace ZKWeb.Server
         /// </summary>
         public virtual IDisposable OverrideIoc()
         {
-            var previousOverride = overrideIoc.Value;
-            overrideIoc.Value = (IContainer)Ioc.Clone();
+            var previousOverride = _overrideIoc.Value;
+            _overrideIoc.Value = (IContainer)Ioc.Clone();
             return new SimpleDisposable(() =>
             {
-                var tmp = overrideIoc.Value;
-                overrideIoc.Value = previousOverride;
+                var tmp = _overrideIoc.Value;
+                _overrideIoc.Value = previousOverride;
                 tmp?.Dispose();
             });
         }
 
         /// <summary>
-        /// Dispose the resources used by the container<br/>
-        /// 释放容器使用的资源<br/>
+        /// Dispose the resources used by the application<br/>
+        /// 释放应用使用的资源<br/>
         /// </summary>
         public void Dispose()
         {
-            defaultIoc.Dispose();
-            overrideIoc.Dispose();
+            _defaultIoc.Dispose();
+            _overrideIoc.Dispose();
+        }
+
+        /// <summary>
+        /// Return whether this application is unloadable on this platform<br/>
+        /// 返回应用在当前平台上是否支持卸载<br/>
+        /// </summary>
+        public bool Unloadable
+        {
+            get
+            {
+                var pluginManager = Ioc.Resolve<PluginManager>();
+                return pluginManager.Unloadable;
+            }
+        }
+
+        /// <summary>
+        /// Unload application, only supported on some platforms<br/>
+        /// 卸载应用，仅支持部分平台<br/>
+        /// </summary>
+        public void Unload()
+        {
+            var pluginManager = Ioc.Resolve<PluginManager>();
+            pluginManager.Unload();
+            Dispose();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net461;netstandard2.0;netcoreapp3.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyName>ZKWeb.Hosting.AspNetCore</AssemblyName>
 		<PackageId>ZKWeb.Hosting.AspNetCore</PackageId>
@@ -28,6 +28,10 @@
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
 		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
+		<DefineConstants>$(DefineConstants);NETCORE_3</DefineConstants>
 	</PropertyGroup>
 
 	<Import Project="..\ZKWeb\Version.targets" />

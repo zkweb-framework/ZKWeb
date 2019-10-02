@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using ZKWeb.Web;
 using ZKWebStandard.Ioc;
 
@@ -16,8 +17,15 @@ namespace ZKWeb.Hosting.AspNetCore
         /// </summary>
         public void StopWebsite()
         {
-            var lifetime = Application.Ioc.Resolve<IApplicationLifetime>(IfUnresolved.ReturnDefault);
-            lifetime?.StopApplication();
+            if (Application.Unloadable)
+            {
+                Application.Unload();
+            }
+            else
+            {
+                var lifetime = Application.Ioc.Resolve<IApplicationLifetime>(IfUnresolved.ReturnDefault);
+                lifetime?.StopApplication();
+            }
         }
     }
 }

@@ -19,20 +19,45 @@ namespace ZKWeb
         {
             get
             {
-                if (instance == null)
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+                if (_instanceFactory == null)
                 {
 #pragma warning disable S2372 // Exceptions should not be thrown from property getters
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
                     throw new ArgumentNullException("Please set Application.Instance first");
 #pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 #pragma warning restore S2372 // Exceptions should not be thrown from property getters
-
                 }
-                return instance;
+                lock (_instanceInitializeLock)
+                {
+                    if (_instance != null)
+                    {
+                        return _instance;
+                    }
+                    // intializing process will access Instance property, so assign it first
+                    try
+                    {
+                        _instance = _instanceFactory();
+                        _instance.Initialize(_websiteRootDirectory);
+                        return _instance;
+                    }
+                    catch
+                    {
+                        // retry on next request
+                        _instance = null;
+                        throw;
+                    }
+                }
             }
-            set { instance = value; }
+            set { _instance = value; }
         }
-        private static IApplication instance;
+        private static volatile IApplication _instance;
+        private static Func<IApplication> _instanceFactory;
+        private static object _instanceInitializeLock = new object();
+        private static string _websiteRootDirectory;
         /// <summary>
         /// ZKWeb Version String<br/>
         /// ZKWeb的版本字符串<br/>
@@ -74,12 +99,24 @@ namespace ZKWeb
         }
 
         /// <summary>
-        /// Intialize application with specificed application type<br/>
+        /// Intialize application with specificed application instance<br/>
         /// 初始化指定应用<br/>
         /// </summary>
         public static void Initialize(IApplication application, string websiteRootDirectory)
         {
             Instance = application;
+            Instance.Initialize(websiteRootDirectory);
+        }
+
+        /// <summary>
+        /// Intialize application with specificed application factory, support automatic reloading<br/>
+        /// 初始化指定应用，支持自动重启<br/>
+        /// </summary>
+        public static void Initialize(Func<IApplication> applicationFactory, string websiteRootDirectory)
+        {
+            _instanceFactory = applicationFactory;
+            _websiteRootDirectory = websiteRootDirectory;
+            Instance = applicationFactory();
             Instance.Initialize(websiteRootDirectory);
         }
 
@@ -115,6 +152,21 @@ namespace ZKWeb
         public static IDisposable OverrideIoc()
         {
             return Instance.OverrideIoc();
+        }
+
+        /// <summary>
+        /// Return whether this application is unloadable on this platform<br/>
+        /// 返回应用在当前平台上是否支持卸载<br/>
+        /// </summary>
+        public static bool Unloadable { get { return Instance.Unloadable; } }
+
+        /// <summary>
+        /// Unload application, only supported on some platforms<br/>
+        /// 卸载应用，仅支持部分平台<br/>
+        /// </summary>
+        public static void Unload()
+        {
+            Instance.Unload();
         }
     }
 }

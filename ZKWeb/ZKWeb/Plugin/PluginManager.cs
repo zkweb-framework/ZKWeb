@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -112,6 +113,36 @@ namespace ZKWeb.Plugin
                 var types = assembly.GetTypes().Where(t => t.IsPublic);
                 Application.Ioc.RegisterExports(types);
             }
+        }
+
+        /// <summary>
+        /// Return whether unloading all plugins is supported on this platform<br/>
+        /// 返回当前平台是否支持卸载插件<br/>
+        /// </summary>
+        internal protected virtual bool Unloadable
+        {
+            get
+            {
+                var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
+                return assemblyLoader.Unloadable;
+            }
+        }
+
+        /// <summary>
+        /// Unload all plugins, only supported on some platforms<br/>
+        /// 卸载所有插件，只支持部分平台<br/>
+        /// </summary>
+        internal protected virtual void Unload()
+        {
+            foreach (var plugin in Plugins)
+            {
+                if (plugin is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
+            assemblyLoader.Unload();
         }
     }
 }
