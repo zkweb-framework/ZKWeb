@@ -20,7 +20,7 @@ after_build:
 
     dotnet run -f net461
 
-    dotnet run -f netcoreapp2.2
+    dotnet run -f netcoreapp3.0
 
     cd ..\nuget
 
