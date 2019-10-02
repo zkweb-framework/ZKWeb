@@ -10,7 +10,7 @@
 		<summary>ZKWeb is a flexible web framework support .Net Framework and .Net Core.</summary>
 		<language>en-US</language>
 		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
-		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<license type="expression">MIT</license>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>

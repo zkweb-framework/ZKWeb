@@ -10,7 +10,7 @@
 		<summary>Support use Dapper in ZKWeb. For more information please visit project site.</summary>
 		<language>en-US</language>
 		<projectUrl>https://github.com/zkweb-framework/ZKWeb</projectUrl>
-		<licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+		<license type="expression">MIT</license>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<tags></tags>
 		<dependencies>
