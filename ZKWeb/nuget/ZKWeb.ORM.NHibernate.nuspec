@@ -15,11 +15,11 @@
 		<tags></tags>
 		<dependencies>
 			<dependency id="ZKWeb" version="$version$" />
-			<dependency id="NHibernate" version="5.2.0" />
+			<dependency id="NHibernate" version="5.2.6" />
 			<dependency id="FluentNHibernate" version="2.1.2" />
-			<dependency id="MySql.Data" version="6.10.8" />
-			<dependency id="Npgsql" version="4.0.3" />
-			<dependency id="System.Data.SQLite" version="1.0.109.2" />
+			<dependency id="MySql.Data" version="6.10.9" />
+			<dependency id="Npgsql" version="4.1.0" />
+			<dependency id="System.Data.SQLite" version="1.0.111" />
 		</dependencies>
 	</metadata>
 	<files>
