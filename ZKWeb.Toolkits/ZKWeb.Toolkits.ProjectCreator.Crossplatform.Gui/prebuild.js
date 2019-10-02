@@ -5,7 +5,7 @@ const util = require("util");
 const debuglog = util.debuglog("prebuild");
 
 var commnad = "dotnet publish -c Release " + path.join(".", "DatabaseUtils", "DatabaseUtils.csproj");
-var from = path.join(".", "DatabaseUtils", "bin", "Release", "netcoreapp2.0","publish");
+var from = path.join(".", "DatabaseUtils", "bin", "Release", "netcoreapp3.0","publish");
 var to = path.join(".", "src", "assets","dbUtil");
 
 childProcess.exec(commnad,

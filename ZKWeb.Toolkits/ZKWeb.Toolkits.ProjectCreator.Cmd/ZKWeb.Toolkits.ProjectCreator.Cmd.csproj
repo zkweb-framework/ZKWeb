@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
     <AssemblyName>ZKWeb.Toolkits.ProjectCreator.Cmd</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>ZKWeb.Toolkits.ProjectCreator.Cmd</PackageId>

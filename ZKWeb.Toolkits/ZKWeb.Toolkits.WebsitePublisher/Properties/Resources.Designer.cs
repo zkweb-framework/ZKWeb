@@ -75,7 +75,7 @@ namespace ZKWeb.Toolkits.WebsitePublisher.Properties {
         ///for example &apos;Hello.World\src\Hello.World.AspNetCore`
         ///Second, if your project type is Asp.Net or Owin, please compile it with `Release` configuration
         ///and if your project type is Asp.Net Core, you need to run the folowing command:
-        ///dotnet publish -f netcoreapp2.0 -c Release -r win10-x64 的本地化字符串。
+        ///dotnet publish -f netcoreapp3.0 -c Release -r win10-x64 的本地化字符串。
         /// </summary>
         internal static string BinDirectoryNotFound {
             get {

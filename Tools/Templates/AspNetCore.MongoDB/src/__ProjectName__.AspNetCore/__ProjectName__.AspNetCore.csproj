@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>__ProjectName__.AspNetCore</AssemblyName>
@@ -31,7 +31,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
   </PropertyGroup>
 

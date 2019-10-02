@@ -126,7 +126,7 @@ First, please choose directory contains `web.config` as the `website root`
 for example 'Hello.World\src\Hello.World.AspNetCore`
 Second, if your project type is Asp.Net or Owin, please compile it with `Release` configuration
 and if your project type is Asp.Net Core, you need to run the folowing command:
-dotnet publish -f netcoreapp2.0 -c Release -r win10-x64</value>
+dotnet publish -f netcoreapp3.0 -c Release -r win10-x64</value>
   </data>
   <data name="ConfigurationCantBeEmpty" xml:space="preserve">
     <value>Configuration can't be empty</value>

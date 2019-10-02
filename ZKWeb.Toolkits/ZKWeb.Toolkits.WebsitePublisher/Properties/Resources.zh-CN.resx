@@ -126,13 +126,13 @@
 例如'Hello.World\src\Hello.World.AspNetCore`
 然后, 如果你的项目类型是Asp.Net或者Owin, 请使用`Release`配置编译项目,
 如果你的项目类型是Asp.Net Core, 你需要运行以下命令发布:
-dotnet publish -f netcoreapp2.0 -c Release -r win10-x64</value>
+dotnet publish -f netcoreapp3.0 -c Release -r win10-x64</value>
   </data>
   <data name="ConfigurationCantBeEmpty" xml:space="preserve">
     <value>配置不能为空, 可以填写`release`或`debug`</value>
   </data>
   <data name="FrameworkCantBeEmpty" xml:space="preserve">
-    <value>框架不能为空, 可以填写`net461`或`netcoreapp2.0`</value>
+    <value>框架不能为空, 可以填写`net461`或`netcoreapp3.0`</value>
   </data>
   <data name="OutputDirectoryCantBeEmpty" xml:space="preserve">
     <value>输出文件夹不能为空</value>

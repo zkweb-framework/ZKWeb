@@ -463,7 +463,7 @@
     <value>Output Directory(Required):</value>
   </data>
   <data name="cbFramework.Items1" xml:space="preserve">
-    <value>netcoreapp2.0</value>
+    <value>netcoreapp3.0</value>
   </data>
   <data name="btnBrowseOutputDirectory.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 20</value>
@@ -577,7 +577,7 @@
     <value>Output Name(Required):</value>
   </data>
   <data name="cbFramework.AutoCompleteCustomSource1" xml:space="preserve">
-    <value>netcoreapp2.0</value>
+    <value>netcoreapp3.0</value>
   </data>
   <data name="&gt;&gt;lbWebRoot.Parent" xml:space="preserve">
     <value>$this</value>
