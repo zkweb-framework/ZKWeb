@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<Target Name="WriteVersion" BeforeTargets="BeforeBuild">
 		<PropertyGroup>
-			<ExternalVersionStr>$([System.IO.File]::ReadAllText("..\..\VERSION.txt").Replace("\r", "").Replace("\n", ""))</ExternalVersionStr>
+			<ExternalVersionStr>$([System.IO.File]::ReadAllText("..\..\VERSION.txt").Trim())</ExternalVersionStr>
 			<ExternalVersion>$(ExternalVersionStr.Split('-')[0])</ExternalVersion>
 		</PropertyGroup>
 		<!--<Message Text="full version: $(ExternalVersionStr)" Importance="High" />-->

@@ -107,7 +107,9 @@ namespace ZKWeb.Server
         {
             _fullVersion = typeof(DefaultApplication).Assembly
                 .GetCustomAttributes(true)
-                .OfType<AssemblyInformationalVersionAttribute>().FirstOrDefault()?.InformationalVersion;
+                .OfType<AssemblyInformationalVersionAttribute>().FirstOrDefault()
+                ?.InformationalVersion
+                ?.Trim() ?? "Unknown";
         }
 
         /// <summary>
