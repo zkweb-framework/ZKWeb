@@ -22,7 +22,7 @@ namespace ZKWeb.Hosting.AspNetCore
             var container = Application.Ioc;
             if (container != _container)
             {
-                _upstream = _container.AsServiceProvider();
+                _upstream = container.AsServiceProvider();
                 _container = container;
             }
             return _upstream.GetService(serviceType);

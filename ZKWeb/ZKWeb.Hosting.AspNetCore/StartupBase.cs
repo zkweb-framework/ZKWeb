@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -39,17 +40,22 @@ namespace ZKWeb.Hosting.AspNetCore
         /// <returns></returns>
         protected virtual string GetWebsiteRootDirectory()
         {
-            var path = PlatformServices.Default.Application.ApplicationBasePath;
-            while (!(File.Exists(Path.Combine(path, "Web.config")) ||
-                File.Exists(Path.Combine(path, "web.config"))))
+            var path = PlatformServices.Default.Application.ApplicationBasePath.TrimEnd('\\', '/');
+            var pathCandidates = new List<string>();
+            while (!string.IsNullOrEmpty(path))
             {
+                if (File.Exists(Path.Combine(path, "Web.config")) ||
+                    File.Exists(Path.Combine(path, "web.config")))
+                    pathCandidates.Add(path);
                 path = Path.GetDirectoryName(path);
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new DirectoryNotFoundException("Website root directory not found");
-                }
             }
-            return path;
+            if (pathCandidates.Count == 0)
+                throw new DirectoryNotFoundException("Website root directory not found");
+            if (pathCandidates.Count == 1)
+                return pathCandidates[0];
+            if (pathCandidates[0].Replace("\\", "/").Contains("/bin/"))
+                return pathCandidates[1]; // netcore 3.0 puts everything inside bin directory like publish
+            return pathCandidates[0];
         }
 
         /// <summary>
