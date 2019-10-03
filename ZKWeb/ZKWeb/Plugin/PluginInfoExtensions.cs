@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Plugin.CompilerServices;
+using ZKWeb.Logging;
 using ZKWeb.Server;
 using ZKWebStandard.Extensions;
 
@@ -190,6 +191,8 @@ namespace ZKWeb.Plugin
             var compileInfo = compileInfoBuilder.ToString();
             if (sourceFiles.Length > 0 && compileInfo != existCompileInfo)
             {
+                var logManager = Application.Ioc.Resolve<LogManager>();
+                logManager.LogInfo($"Compile plugin {assemblyName}");
                 // Rename old files
                 if (File.Exists(assemblyPath))
                 {
