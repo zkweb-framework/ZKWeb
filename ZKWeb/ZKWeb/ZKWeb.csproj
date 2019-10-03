@@ -29,7 +29,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
-		<DefineConstants>$(DefineConstants);NETCORE_3</DefineConstants>
+		<DefineConstants>$(DefineConstants);NETCORE;NETCORE_3</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netcoreapp3.0' ">
