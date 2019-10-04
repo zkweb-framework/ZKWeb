@@ -7,6 +7,7 @@ using ZKWeb.Plugin.AssemblyLoaders;
 using ZKWeb.Server;
 using ZKWeb.Storage;
 using ZKWebStandard.Utils;
+using ZKWebStandard.Extensions;
 
 namespace ZKWeb.Plugin
 {
@@ -26,6 +27,11 @@ namespace ZKWeb.Plugin
         /// 插件程序集列表<br/>
         /// </summary>
         public virtual IList<Assembly> PluginAssemblies { get; protected set; }
+        /// <summary>
+        /// Plugin assembly pathes<br/>
+        /// 插件程序集路径列表<br/>
+        /// </summary>
+        public virtual IList<string> PluginAssemblyPathes { get; protected set; }
 
         /// <summary>
         /// Initialize<br/>
@@ -35,6 +41,7 @@ namespace ZKWeb.Plugin
         {
             Plugins = new List<PluginInfo>();
             PluginAssemblies = new List<Assembly>();
+            PluginAssemblyPathes = new List<string>();
         }
 
         /// <summary>
@@ -101,9 +108,13 @@ namespace ZKWeb.Plugin
                 var assemblyPath = plugin.AssemblyPath();
                 if (File.Exists(assemblyPath))
                 {
-                    var assembly = assemblyLoader.LoadFile(assemblyPath);
+                    // .NET will cache assembly by path, so if assembly contents changed
+                    // after plugin recompile, LoadFile will still use the old assembly,
+                    // we should load bytes instead of path to avoid caching.
+                    var assembly = assemblyLoader.Load(File.ReadAllBytes(assemblyPath));
                     plugin.Assembly = assembly;
                     PluginAssemblies.Add(assembly);
+                    PluginAssemblyPathes.Add(assemblyPath);
                 }
             }
             // Register types in assembly to IoC container

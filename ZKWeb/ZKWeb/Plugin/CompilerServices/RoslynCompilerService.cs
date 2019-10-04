@@ -132,8 +132,15 @@ namespace ZKWeb.Plugin.CompilerServices
             var assemblyLoader = Application.Ioc.Resolve<IAssemblyLoader>();
             var references = assemblyLoader.GetLoadedAssemblies()
                 .Select(assembly => assembly.Location)
+                .Where(path => !string.IsNullOrEmpty(path))
                 .Select(path => MetadataReference.CreateFromFile(path))
                 .ToList();
+            // Add plugin assemblies to compile references (plugins are load from bytes)
+            var pluginManager = Application.Ioc.Resolve<PluginManager>();
+            foreach (var path in pluginManager.PluginAssemblyPathes)
+            {
+                references.Add(MetadataReference.CreateFromFile(path));
+            }
             // Set roslyn compilation options
             // Generate pdb file only supported on windows,
             // because Microsoft.DiaSymReader.Native only have windows runtimes
