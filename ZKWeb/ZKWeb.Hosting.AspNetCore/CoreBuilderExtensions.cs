@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,14 +74,17 @@ namespace Microsoft.AspNetCore.Builder
                     // Initialize application failed
                     coreContext.Response.StatusCode = 500;
                     coreContext.Response.ContentType = "text/plain;charset=utf-8";
-                    if (isDevelopment)
-                        coreContext.Response.Body.Write(Encoding.UTF8.GetBytes(ex.ToDetailedString()));
-                    else
-                        coreContext.Response.Body.Write(Encoding.UTF8.GetBytes(
-                            "Internal error occurs during application initialization, " +
-                            "please set ASPNETCORE_ENVIRONMENT to Development to view the error message, " +
-                            "or check the logs on server.\r\n"));
-                    coreContext.Response.Body.Flush();
+                    using (var writer = new StreamWriter(coreContext.Response.Body))
+                    {
+                        if (isDevelopment)
+                            writer.Write(ex.ToDetailedString());
+                        else
+                            writer.Write(
+                                "Internal error occurs during application initialization, " +
+                                "please set ASPNETCORE_ENVIRONMENT to Development to view the error message, " +
+                                "or check the logs on server.\r\n");
+                        writer.Flush();
+                    }
                     return;
                 }
                 try
