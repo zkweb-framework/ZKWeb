@@ -145,7 +145,7 @@ namespace ZKWeb.Plugin
         /// </summary>
         internal protected virtual void Unload()
         {
-            foreach (var plugin in Plugins)
+            foreach (var plugin in Application.Ioc.ResolveMany<IPlugin>())
             {
                 if (plugin is IDisposable disposable)
                 {

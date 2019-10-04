@@ -46,8 +46,8 @@ namespace ZKWeb
                     }
                     catch
                     {
-                        // retry on next request
-                        _instance = null;
+                        // unload instance (it must be unloadable), it will up again on next request
+                        Unload();
                         throw;
                     }
                 }
@@ -166,8 +166,10 @@ namespace ZKWeb
         /// </summary>
         public static void Unload()
         {
-            Instance.Unload();
-            Instance = null;
+            var instance = _instance;
+            if (instance != null)
+                instance.Unload();
+            _instance = null;
         }
     }
 }

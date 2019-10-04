@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using ZKWeb;
 using ZKWeb.Hosting.AspNetCore;
 using ZKWeb.Server;
+using ZKWebStandard.Extensions;
 using ZKWebStandard.Ioc;
 using ZKWebStandard.Ioc.Extensions;
 using ZKWebStandard.Web;
@@ -54,13 +57,36 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseZKWeb(this IApplicationBuilder app)
         {
             // It can't throw any exception otherwise application will get killed
+            var hostingEnvironment = app.ApplicationServices.GetService<IHostingEnvironment>();
+            var isDevelopment = hostingEnvironment.IsDevelopment();
             return app.Use((coreContext, next) => Task.Run(() =>
             {
                 var context = new CoreHttpContextWrapper(coreContext);
+                // Get application instance at first for reloading support
+                IApplication instance;
+                try
+                {
+                    instance = Application.Instance;
+                }
+                catch (Exception ex)
+                {
+                    // Initialize application failed
+                    coreContext.Response.StatusCode = 500;
+                    coreContext.Response.ContentType = "text/plain;charset=utf-8";
+                    if (isDevelopment)
+                        coreContext.Response.Body.Write(Encoding.UTF8.GetBytes(ex.ToDetailedString()));
+                    else
+                        coreContext.Response.Body.Write(Encoding.UTF8.GetBytes(
+                            "Internal error occurs during application initialization, " +
+                            "please set ASPNETCORE_ENVIRONMENT to Development to view the error message, " +
+                            "or check the logs on server.\r\n"));
+                    coreContext.Response.Body.Flush();
+                    return;
+                }
                 try
                 {
                     // Handle request
-                    Application.OnRequest(context);
+                    instance.OnRequest(context);
                 }
                 catch (CoreHttpResponseEndException)
                 {
@@ -84,7 +110,7 @@ namespace Microsoft.AspNetCore.Builder
                     }
                     try
                     {
-                        Application.OnError(context, ex);
+                        instance.OnError(context, ex);
                     }
                     catch (CoreHttpResponseEndException)
                     {
