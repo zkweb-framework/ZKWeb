@@ -167,6 +167,7 @@ namespace ZKWeb
         public static void Unload()
         {
             Instance.Unload();
+            Instance = null;
         }
     }
 }

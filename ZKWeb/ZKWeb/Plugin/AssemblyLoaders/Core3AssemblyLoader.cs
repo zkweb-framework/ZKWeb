@@ -52,9 +52,7 @@ namespace ZKWeb.Plugin.AssemblyLoaders
                     continue;
                 if (assembly.IsDynamic)
                     continue;
-                var path = assembly.Location;
-                if (File.Exists(path))
-                    LoadFile(path);
+                Load(assembly.GetName());
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using ZKWeb.Logging;
 using ZKWeb.Storage;
 using ZKWeb.Web;
 using ZKWebStandard.Extensions;
@@ -27,6 +29,7 @@ namespace ZKWeb.Plugin
         /// </summary>
         internal protected static int Stopping { get { return _stopping; } }
         private static int _stopping;
+        private static IList<FileSystemWatcher> _watchers = new List<FileSystemWatcher>();
 
         /// <summary>
         /// Stop website<br/>
@@ -38,6 +41,16 @@ namespace ZKWeb.Plugin
             {
                 return;
             }
+            var logManager = Application.Ioc.Resolve<LogManager>();
+            logManager.LogInfo("Stop application because plugin or configuration files changed");
+            // Remove watchers
+            foreach (var watcher in _watchers)
+            {
+                watcher.EnableRaisingEvents = false;
+                watcher.Dispose();
+            }
+            _watchers.Clear();
+            // Start stopping thread
             var thread = new Thread(() =>
             {
                 // Wait requests finished, up to 3 seconds	
@@ -50,6 +63,8 @@ namespace ZKWeb.Plugin
                 // Call stoppers
                 var stoppers = Application.Ioc.ResolveMany<IWebsiteStopper>();
                 stoppers.ForEach(s => s.StopWebsite());
+                // Reset stopping flag (for .NET Core 3.0 unloading support)
+                _stopping = 0;
             });
             thread.IsBackground = true;
             thread.Start();
@@ -79,6 +94,7 @@ namespace ZKWeb.Plugin
                 watcher.Deleted += (sender, e) => onFileChanged(e.FullPath);
                 watcher.Renamed += (sender, e) => { onFileChanged(e.FullPath); onFileChanged(e.OldFullPath); };
                 watcher.EnableRaisingEvents = true;
+                _watchers.Add(watcher);
             };
             // Monitor plugin directory
             var pathManager = Application.Ioc.Resolve<LocalPathManager>();

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.FastReflection;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using ZKWeb.Cache;
@@ -380,7 +381,7 @@ namespace ZKWeb.Server
         public void Dispose()
         {
             _defaultIoc.Dispose();
-            _overrideIoc.Dispose();
+            _overrideIoc.Value?.Dispose();
         }
 
         /// <summary>
@@ -402,9 +403,11 @@ namespace ZKWeb.Server
         /// </summary>
         public void Unload()
         {
-            Ioc.Resolve<LogManager>().LogInfo("Unloading Application");
+            Ioc.Resolve<LogManager>().LogInfo("Unload application");
             Ioc.Resolve<PluginManager>().Unload();
             Dispose();
+            // clear cache for fast reflection
+            ReflectionExtensions.ClearCache();
         }
     }
 }
