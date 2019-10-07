@@ -24,7 +24,7 @@ namespace __ProjectName__.AspNetCore
                     .Build();
                 var host = new WebHostBuilder()
                     .UseConfiguration(config)
-                    .UseKestrel()
+                    .UseKestrel(options => options.AllowSynchronousIO = true)
                     .UseIISIntegration()
                     .UseStartup<Startup>()
                     .Build();
