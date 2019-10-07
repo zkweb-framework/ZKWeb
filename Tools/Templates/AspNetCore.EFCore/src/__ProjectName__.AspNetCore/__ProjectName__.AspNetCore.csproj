@@ -16,14 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
-    <PackageReference Include="ZKWeb" Version="2.2.1" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="2.2.1" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="2.2.1" />
-    <PackageReference Include="ZKWeb.ORM.EFCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
+    <PackageReference Include="ZKWeb" Version="3.0.0-beta1" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="3.0.0-beta1" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="3.0.0-beta1" />
+    <PackageReference Include="ZKWeb.ORM.EFCore" version="3.0.0-beta1" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
@@ -33,6 +33,7 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETCORE_3</DefineConstants>
   </PropertyGroup>
 
 </Project>

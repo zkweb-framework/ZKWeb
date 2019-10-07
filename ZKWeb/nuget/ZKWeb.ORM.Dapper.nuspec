@@ -19,7 +19,7 @@
 			<dependency id="Dommel" version="1.11.0" />
 			<dependency id="Dapper.FluentMap" version="1.8.0" />
 			<dependency id="Dapper.FluentMap.Dommel" version="1.7.0" />
-			<dependency id="Microsoft.Data.SqlClient" version="4.7.0" />
+			<dependency id="System.Data.SqlClient" version="4.7.0" />
 			<dependency id="Microsoft.Data.Sqlite" version="3.0.0" />
 			<dependency id="Npgsql" version="4.1.0" />
 			<dependency id="MySqlConnector" version="0.59.1" />
