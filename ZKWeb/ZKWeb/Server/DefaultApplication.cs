@@ -125,11 +125,6 @@ namespace ZKWeb.Server
             Ioc.RegisterMany<TJsonConverter>(ReuseType.Singleton);
             Ioc.RegisterMany<TranslateManager>(ReuseType.Singleton);
             Ioc.RegisterMany<LogManager>(ReuseType.Singleton);
-#if NETCORE_3
-            Ioc.RegisterMany<Core3AssemblyLoader>(ReuseType.Singleton);
-#else
-            Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
-#endif
             Ioc.RegisterMany<RoslynCompilerService>(ReuseType.Singleton);
             Ioc.RegisterMany<PluginManager>(ReuseType.Singleton);
             Ioc.RegisterMany<PluginReloader>(ReuseType.Singleton);
@@ -168,6 +163,15 @@ namespace ZKWeb.Server
         {
             Ioc.Resolve<LocalPathConfig>().Initialize(WebsiteRootDirectory);
             Ioc.Resolve<WebsiteConfigManager>().Initialize();
+#if NETCORE_3
+            var config = Ioc.Resolve<WebsiteConfigManager>().WebsiteConfig;
+            if (!config.Extra.GetOrDefault(ExtraConfigKeys.DisableAutomaticPluginReloading, false))
+                Ioc.RegisterMany<Core3AssemblyLoader>(ReuseType.Singleton);
+            else
+                Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
+#else
+            Ioc.RegisterMany<NetAssemblyLoader>(ReuseType.Singleton);
+#endif
             Ioc.Resolve<PluginManager>().Initialize();
             Ioc.Resolve<JsonNetInitializer>().Initialize();
             Ioc.Resolve<TemplateManager>().Initialize();
