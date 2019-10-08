@@ -80,6 +80,8 @@ namespace ZKWeb.ORM.EFCore
             // Enable lazy loading (exclude .NET Core 3.0)
             // On .NET Core 3.0 you will see this error:
             // A non-collectible assembly may not reference a collectible assembly
+            // See this issue:
+            // https://github.com/aspnet/EntityFrameworkCore/issues/18272
             if (!Application.Unloadable)
                 optionsBuilder.UseLazyLoadingProxies();
         }
