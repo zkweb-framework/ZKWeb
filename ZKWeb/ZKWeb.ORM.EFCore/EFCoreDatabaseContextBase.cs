@@ -77,8 +77,11 @@ namespace ZKWeb.ORM.EFCore
             #pragma warning restore CS0612
             // Allow logging sql parameters
             optionsBuilder.EnableSensitiveDataLogging();
-            // Enable lazy loading
-            optionsBuilder.UseLazyLoadingProxies();
+            // Enable lazy loading (exclude .NET Core 3.0)
+            // On .NET Core 3.0 you will see this error:
+            // A non-collectible assembly may not reference a collectible assembly
+            if (!Application.Unloadable)
+                optionsBuilder.UseLazyLoadingProxies();
         }
 
         /// <summary>
