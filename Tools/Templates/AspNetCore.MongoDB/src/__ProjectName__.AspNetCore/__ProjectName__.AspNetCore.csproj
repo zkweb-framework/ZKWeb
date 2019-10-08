@@ -20,10 +20,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0" />
-    <PackageReference Include="ZKWeb" Version="3.0.0-beta1" />
-    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="3.0.0-beta1" />
-    <PackageReference Include="ZKWeb.ORM.InMemory" Version="3.0.0-beta1" />
-    <PackageReference Include="ZKWeb.ORM.MongoDB" version="3.0.0-beta1" />
+    <PackageReference Include="ZKWeb" Version="3.0.0-beta2" />
+    <PackageReference Include="ZKWeb.Hosting.AspNetCore" Version="3.0.0-beta2" />
+    <PackageReference Include="ZKWeb.ORM.InMemory" Version="3.0.0-beta2" />
+    <PackageReference Include="ZKWeb.ORM.MongoDB" version="3.0.0-beta2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
