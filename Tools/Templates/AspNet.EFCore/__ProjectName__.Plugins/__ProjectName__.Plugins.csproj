@@ -174,10 +174,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ZKWeb, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.3.0.0-beta2\lib\net461\ZKWeb.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.3.0.0\lib\net461\ZKWeb.dll</HintPath>
     </Reference>
     <Reference Include="ZKWebStandard, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZKWeb.3.0.0-beta2\lib\net461\ZKWebStandard.dll</HintPath>
+      <HintPath>..\packages\ZKWeb.3.0.0\lib\net461\ZKWebStandard.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
